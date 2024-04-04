@@ -1,4 +1,4 @@
-import scss from "./Welcome.module.scss";
+import scss from './Welcome.module.scss';
 const Welcome = () => {
 	return (
 		<div className={scss.Welcome}>

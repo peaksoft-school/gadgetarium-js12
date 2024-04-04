@@ -1,6 +1,6 @@
-import { Route, Routes } from "react-router-dom";
-import LayoutUser from "./pagesUser/components/layout/LayoutUser";
-import LayoutAdmin from "./pagesAdmin/components/layout/LayoutAdmin";
+import { Route, Routes } from 'react-router-dom';
+import LayoutUser from './pagesUser/components/layout/LayoutUser';
+import LayoutAdmin from './pagesAdmin/components/layout/LayoutAdmin';
 
 const App = () => {
 	return (
