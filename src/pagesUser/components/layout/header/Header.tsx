@@ -1,5 +1,15 @@
+import scss from './Header.module.scss';
+
 const Header = () => {
-	return <div>Header</div>;
+	return (
+		<header className={scss.Header}>
+			<div className="container">
+				<div className={scss.content}>
+					<p>Header</p>
+				</div>
+			</div>
+		</header>
+	);
 };
 
 export default Header;

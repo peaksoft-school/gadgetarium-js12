@@ -1,0 +1,28 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+}
+ul,
+ol {
+	padding: 0;
+}
+li {
+	list-style: none;
+}
+a {
+	text-decoration: none;
+}
+html {
+	color-scheme: dark;
+}
+body {
+	font-family: 'Inter', sans-serif;
+	background: white !important;
+	color: black !important;
+}
+.container {
+	width: 100%;
+	max-width: 1280px;
+	margin-inline: auto;
+	padding-inline: 20px;
+}
