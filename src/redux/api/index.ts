@@ -18,6 +18,6 @@ export const api = createApi({
 	baseQuery: baseQueryExtended,
 	refetchOnReconnect: true,
 	refetchOnFocus: false,
-	tagTypes: ['user', 'admin'],
+	tagTypes: ['user', 'auth', 'admin'],
 	endpoints: () => ({})
 });
