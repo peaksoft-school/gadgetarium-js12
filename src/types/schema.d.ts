@@ -1,0 +1,1 @@
+type UserAdmin = 'ADMIN' | 'USER';
