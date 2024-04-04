@@ -1,7 +1,7 @@
 import { BaseQueryFn, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query';
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: `http/`,
+	baseUrl: `${import.meta.env.VITE_PUBLIC_BACKEND_URL}`,
 	prepareHeaders: (headers) => {
 		return headers;
 	},
