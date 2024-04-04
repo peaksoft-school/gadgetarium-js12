@@ -4,14 +4,14 @@ import Footer from "./footer/Footer";
 import scss from "./LayoutUser.module.scss";
 import HomePage from "../pages/HomePage";
 
-const Layout = () => {
+const LayoutUser = () => {
 	return (
 		<>
 			<div className={scss.Layout}>
 				<Header />
 				<main>
 					<Routes>
-						<Route path="/*" element={<HomePage />} />
+						<Route path="/" element={<HomePage />} />
 					</Routes>
 				</main>
 				<Footer />
@@ -20,4 +20,4 @@ const Layout = () => {
 	);
 };
 
-export default Layout;
+export default LayoutUser;
