@@ -1,0 +1,18 @@
+.CustomSelect {
+	.selects {
+		background: transparent;
+		border: none;
+		outline: none;
+
+		&:focus {
+			box-shadow: none; 
+		}
+
+		option {
+			margin: 20px 0;
+			background: #ff000000;
+			border: none;
+			outline: none;
+		}
+	}
+}
