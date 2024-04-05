@@ -1,0 +1,35 @@
+.AddBusButton {
+	cursor: pointer;
+	border: 1px solid #cb11ab;
+	border-radius: 4px;
+	padding: 12px 19px 12px 19px;
+	background: rgb(203, 17, 171);
+	color: rgb(255, 255, 255);
+	font-family: Inter;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 17px;
+	letter-spacing: 0%;
+	text-align: center;
+	text-transform: uppercase;
+	&:hover {
+		padding: 12px 19px 12px 19px;
+		background: #cb11ab;
+		color: white;
+		border: none;
+		border: 1px dashed rgb(151, 71, 255);
+		transition: all 0.5s ease-in;
+	}
+	&:focus {
+		padding: 12px 19px 12px 19px;
+		background: rgb(47, 197, 9);
+		color: white;
+		border: none;
+	}
+	.svgPlusChild {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 8px;
+	}
+}

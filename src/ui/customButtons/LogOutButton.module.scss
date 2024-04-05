@@ -1,0 +1,27 @@
+.LogOutButton {
+	cursor: pointer;
+	border: 1px solid #cb11ab;
+	border-radius: 4px;
+	padding: 10px 24px 10px 24px;
+	background: rgb(203, 17, 171);
+	color: white;
+	font-family: Inter;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 19px;
+	letter-spacing: 0px;
+	text-align: left;
+	&:hover {
+		padding: 10px 24px 10px 24px;
+		background: rgb(227, 19, 191);
+		color: white;
+		border: none;
+		border: 1px dashed rgb(151, 71, 255);
+		transition: all 0.5s ease-in;
+	}
+	&:focus {
+		padding: 10px 24px 10px 24px;
+		background: rgb(201, 14, 169);
+		color: white;
+	}
+}
