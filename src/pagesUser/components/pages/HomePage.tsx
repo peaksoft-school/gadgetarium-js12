@@ -1,8 +1,8 @@
-import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
-import CancelButton from '@/src/ui/customButtons/CancelButton';
-import ContinueShoppingButton from '@/src/ui/customButtons/ContinueShoppingButton';
-import LogOutButton from '@/src/ui/customButtons/LogOutButton';
-import ShowMoreButton from '@/src/ui/customButtons/ShowMoreButton';
+import AddBasketButton from '@/src/UI/customButtons/AddBasketButton';
+import CancelButton from '@/src/UI/customButtons/CancelButton';
+import ContinueShoppingButton from '@/src/UI/customButtons/ContinueShoppingButton';
+import LogOutButton from '@/src/UI/customButtons/LogOutButton';
+import ShowMoreButton from '@/src/UI/customButtons/ShowMoreButton';
 
 const HomePage = () => {
 	return (
