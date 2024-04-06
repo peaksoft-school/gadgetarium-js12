@@ -1,0 +1,27 @@
+.CancelButton {
+	cursor: pointer;
+	border: 1px solid #cb11ab;
+	border-radius: 4px;
+	padding: 10px 24px 10px 24px;
+	background-color: #ffffff;
+	color: #cb11ab;
+	font-family: Inter;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 19px;
+	letter-spacing: 0px;
+	text-align: left;
+	&:hover {
+		padding: 10px 24px 10px 24px;
+		background: #cb11ab;
+		color: white;
+		border: none;
+		border: 1px dashed rgb(151, 71, 255);
+		transition: all 0.5s ease-in;
+	}
+	&:focus {
+		padding: 10px 24px 10px 24px;
+		background: #e313bf;
+		color: white;
+	}
+}
