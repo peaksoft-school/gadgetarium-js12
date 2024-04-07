@@ -1,18 +1,27 @@
-.CustomSelect {
-	.selects {
-		background: transparent;
-		border: none;
-		outline: none;
+.dropdown_select {
+	.selected_option {
+		margin-left: 6px;
+	}
+	.selected_option_icon {
+		margin-top: 5px;
+		display: flex;
+		gap: 5px;
+		cursor: pointer;
+		transition: 1s;
+	}
 
-		&:focus {
-			box-shadow: none; 
-		}
+	.dropdown {
+		width: 173px;
 
-		option {
-			margin: 20px 0;
-			background: #ff000000;
+		display: flex;
+		flex-direction: column;
+
+		button {
+			background: transparent;
 			border: none;
-			outline: none;
+			display: flex;
+			justify-content: start;
+			cursor: pointer;
 		}
 	}
 }

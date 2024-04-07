@@ -1,6 +1,8 @@
 export { default as IconArrowRight } from './arrow-right';
 export { default as IconArrowLeft } from './arrow-left';
 export { Profile } from "./Profile";
+export { default as IconGadgetarium } from './gadgetarium';
+export { default as IconDown } from './down';
 export { BankCardIcon } from "./BankCardIcon";
 export { BigDeleteIcon } from "./BigDeleteIcon";
 export { Buttoncolorfelt } from "./Buttoncolorfelt";
