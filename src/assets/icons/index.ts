@@ -1,5 +1,6 @@
 export { default as IconArrowRight } from './arrow-right';
 export { default as IconArrowLeft } from './arrow-left';
+export { default as IconDown } from './down';
 export { Profile } from "./Profile";
 export { BankCardIcon } from "./BankCardIcon";
 export { BigDeleteIcon } from "./BigDeleteIcon";
