@@ -1,14 +1,14 @@
 //!
 import { FC, useState } from 'react';
 import { IconDown } from '@/src/assets/icons';
-import scss from './SecondSelect.module.scss';
+import scss from './CustomSelect.module.scss';
 
 interface handleChangeProps {
 	value: string;
 	color: string;
 }
 
-const SecondSelect: FC = () => {
+const CustomSelect: FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [select, setSelect] = useState('В ожидании');
 	const [selectColor, setSelectColor] = useState('#2C68F5');
@@ -81,4 +81,4 @@ const SecondSelect: FC = () => {
 	);
 };
 
-export default SecondSelect;
+export default CustomSelect;
