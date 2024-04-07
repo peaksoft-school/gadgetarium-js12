@@ -5,7 +5,7 @@ import {
 } from '@reduxjs/toolkit/query/react';
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: import.meta.env.VITE_BACKEND_URL,
+	baseUrl: import.meta.env.VITE_ACCESSORIES_URL,
 	// prepareHeaders: (headers) => {
 	// 	return headers;
 	// },
@@ -22,6 +22,6 @@ export const api = createApi({
 	baseQuery: baseQueryExtended,
 	refetchOnReconnect: true,
 	refetchOnFocus: false,
-	tagTypes: ['user', 'auth', 'admin', 'basket'],
+	tagTypes: ['user', 'auth', 'admin', 'basket', 'products', 'accessories'],
 	endpoints: () => ({})
 });

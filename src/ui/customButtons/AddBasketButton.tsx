@@ -3,7 +3,7 @@ import scss from './AddBasketButton.module.scss';
 
 interface AddBasketButtonProps {
 	children: ReactNode;
-	onClick: MouseEventHandler<HTMLButtonElement>;
+	onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 const AddBasketButton: FC<AddBasketButtonProps> = ({ children, onClick }) => {
