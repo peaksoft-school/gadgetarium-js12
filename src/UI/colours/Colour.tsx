@@ -1,9 +1,19 @@
-import React from 'react'
+import scss from "./ColourButton.module.scss"
 
-const Colour = () => {
+type ColorButtonProps = {
+  width?: string,
+  height?: string,
+  backgroundColor?: string
+}
+
+const ColorButton = ({width, height, backgroundColor}: ColorButtonProps) => {
   return (
-    <div>Colour</div>
+      <button 
+      className={scss.color_button}
+      style={{width, height, backgroundColor}}
+      >
+      </button>
   )
 }
 
-export default Colour
+export default ColorButton

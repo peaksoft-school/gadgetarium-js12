@@ -1,0 +1,13 @@
+.color_button {
+  background-color: #000000;
+  border: none;
+  height: 36px;
+  width: 36px;
+  border-radius: 100%;
+  box-shadow: 0 0 0 3px transparent;
+  cursor: pointer;
+
+  &:focus {
+    box-shadow: inset 0 0 0 2px #F6F6F6, 0 0 0 2px #CA11CB;
+  }
+}
