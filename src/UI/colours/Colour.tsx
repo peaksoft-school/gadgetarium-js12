@@ -1,4 +1,4 @@
-import scss from "./ColourButton.module.scss"
+import scss from "./Colour.module.scss"
 
 type ColorButtonProps = {
   width?: string,

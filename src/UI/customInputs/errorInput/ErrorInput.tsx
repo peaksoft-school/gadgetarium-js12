@@ -1,4 +1,4 @@
-import scss from "./CustomErrorInput.module.scss"
+import scss from "./ErrorInput.module.scss"
 
 type CustomErrorInputProps = {
   placeholder?: string;
