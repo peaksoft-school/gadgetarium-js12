@@ -1,0 +1,104 @@
+.ContainerStore {
+	display: flex;
+	gap: 1.8rem;
+	align-items: center;
+	flex-wrap: wrap;
+	.divProductMap {
+		box-shadow: 0px 0px 3.5px black;
+		background-color: #ffffff;
+		border-radius: 4px;
+		width: 17.7rem;
+		height: 30rem;
+		display: flex;
+		flex-direction: column;
+
+		padding-block: 0.8rem;
+		padding-inline: 0.8rem;
+		gap: 11px;
+    @media (max-width: 600px) {
+      height: auto;
+      width: 14rem;
+    }
+		.divIcons {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			.divIcons2 {
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+				.imgIcon {
+					width: 1.3rem;
+					height: auto;
+				}
+			}
+		}
+		.divImg {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			.imgProduct {
+				width: 11.2rem;
+				height: 14.7rem;
+        @media (max-width: 600px) {
+          width: 82%;
+          height: auto;
+        }
+			}
+		}
+		.divProductContents {
+			margin-top: 10px;
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+			gap: 0.5rem;
+      @media (max-width: 600px) {
+        gap: 7px;
+        margin-top: 0;
+      }
+			.tagColorGreen {
+				color: #2fc509;
+				font-size: clamp(0.5rem, 5vw, 0.7rem);
+			}
+			h3 {
+				color: #292929;
+				font-size: clamp(0.8rem, 6vw, 1rem);
+			}
+			p {
+				display: flex;
+				align-items: center;
+				gap: 4.5px;
+				color: #909cb5;
+				font-size: clamp(0.5rem, 5vw, 0.7rem);
+			}
+			.divButtonsAndPrice {
+				display: flex;
+				align-items: center;
+				gap: 1.8rem;
+        @media (max-width: 600px) {
+          display: flex;
+          flex-direction: column;
+          gap: 7px;
+          align-items: start;
+        }
+				.productPrice {
+					display: flex;
+					flex-direction: column;
+          @media (max-width: 600px) {
+            display: flex;
+            align-items: center;
+          }
+					h2 {
+						color: #292929;
+						font-size: clamp(0.8rem, 7vw, 1.1rem);
+					}
+					p {
+						text-decoration: line-through;
+						color: #909cb5;
+            font-size: clamp(0.7rem, 3.7vw, 1rem);
+					}
+				}
+			}
+		}
+	}
+}
