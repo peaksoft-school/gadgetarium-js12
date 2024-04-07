@@ -1,4 +1,4 @@
-export const BankCardIcon = () => {
+const bankcard = () => {
 	return (
 		<>
 			<svg
@@ -30,3 +30,5 @@ export const BankCardIcon = () => {
 		</>
 	);
 };
+
+export default bankcard

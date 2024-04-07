@@ -1,4 +1,4 @@
-export  const ScalesGrey = () => {
+const scalesgrey = () => {
 	return (
 		<>
 			<svg
@@ -22,3 +22,4 @@ export  const ScalesGrey = () => {
 	);
 };
 
+export default scalesgrey

@@ -1,6 +1,4 @@
-
-
-export const PropertyClick = () => {
+const propertyclick = () => {
 	return (
 		<svg
 			width="20"
@@ -13,3 +11,4 @@ export const PropertyClick = () => {
 		</svg>
 	);
 };
+export default propertyclick

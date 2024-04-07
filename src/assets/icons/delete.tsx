@@ -1,4 +1,4 @@
-export  const DeleteIcon = () => {
+const iconDelete = () => {
 	return (
 		<>
 			<svg
@@ -16,3 +16,4 @@ export  const DeleteIcon = () => {
 	);
 };
 
+export default iconDelete

@@ -1,6 +1,4 @@
-
-
-export const ProfileColorwhite = () => {
+const profileColorwhite = () => {
 	return (
 		<>
 			<svg
@@ -17,3 +15,5 @@ export const ProfileColorwhite = () => {
 		</>
 	);
 };
+
+export default profileColorwhite

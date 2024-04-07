@@ -1,6 +1,6 @@
 
 
-export const IconBottom = () => {
+const IconBottom = () => {
 	return (
 		<>
 			<svg
@@ -22,3 +22,4 @@ export const IconBottom = () => {
 		</>
 	);
 };
+export default IconBottom

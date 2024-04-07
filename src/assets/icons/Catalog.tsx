@@ -1,4 +1,4 @@
-export const Catalog = () => {
+const catalog = () => {
 	return (
 		<>
 			<svg
@@ -59,3 +59,5 @@ export const Catalog = () => {
 		</>
 	);
 };
+
+export default catalog

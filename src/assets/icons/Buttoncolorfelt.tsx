@@ -1,6 +1,6 @@
-import React from "react";
 
-export const Buttoncolorfelt = () => {
+
+const buttoncolorfelt = () => {
 	return (
 		<>
 			<svg
@@ -20,3 +20,5 @@ export const Buttoncolorfelt = () => {
 		</>
 	);
 };
+
+export default buttoncolorfelt

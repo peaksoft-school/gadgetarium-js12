@@ -1,4 +1,4 @@
-export const CameraIcon = () => {
+const camera = () => {
 	return (
 		<>
 			<svg
@@ -32,3 +32,5 @@ export const CameraIcon = () => {
 		</>
 	);
 };
+
+export default camera

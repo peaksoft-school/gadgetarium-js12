@@ -1,5 +1,4 @@
-
-export const Mobile = () => {
+const mobile = () => {
 	return (
 		<>
 			<svg
@@ -18,3 +17,4 @@ export const Mobile = () => {
 		</>
 	);
 };
+export default mobile

@@ -1,4 +1,4 @@
-export const LocationIcon = () => {
+const location = () => {
 	return (
 		<>
 			<svg
@@ -26,3 +26,4 @@ export const LocationIcon = () => {
 		</>
 	);
 };
+export default location

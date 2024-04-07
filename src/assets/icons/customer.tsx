@@ -1,6 +1,4 @@
-
-
-export const Customer = () => {
+const customer = () => {
 	return (
 		<>
 			<svg
@@ -19,3 +17,4 @@ export const Customer = () => {
 		</>
 	);
 };
+export default customer

@@ -1,5 +1,4 @@
-
-export const Desktop = () => {
+const desktop = () => {
 	return (
 		<>
 			<svg
@@ -18,3 +17,4 @@ export const Desktop = () => {
 		</>
 	);
 };
+export default desktop

@@ -1,4 +1,4 @@
-export  const Menu = () => {
+const menu = () => {
 	return (
 		<>
 			<svg
@@ -63,3 +63,4 @@ export  const Menu = () => {
 	);
 };
 
+export default menu

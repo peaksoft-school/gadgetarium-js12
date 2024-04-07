@@ -1,4 +1,4 @@
-export const PropertyDefault7 = () => {
+const propertydefault7 = () => {
 	return (
 		<>
 			<svg
@@ -19,3 +19,4 @@ export const PropertyDefault7 = () => {
 		</>
 	);
 };
+export default propertydefault7

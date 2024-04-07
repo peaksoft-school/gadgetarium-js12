@@ -1,5 +1,5 @@
 
-export const BigDeleteIcon = () => {
+const bigdelete = () => {
 	return (
 		<>
 			<svg
@@ -16,3 +16,5 @@ export const BigDeleteIcon = () => {
 		</>
 	);
 };
+
+export default bigdelete

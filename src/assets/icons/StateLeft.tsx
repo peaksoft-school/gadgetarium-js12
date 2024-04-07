@@ -1,6 +1,4 @@
-import React from "react";
-
-export const StateLeft = () => {
+export const stateleft = () => {
 	return (
 		<>
 			<svg
@@ -23,3 +21,4 @@ export const StateLeft = () => {
 		</>
 	);
 };
+export default stateleft

@@ -1,4 +1,4 @@
-export const PropertyFrame2 = () => {
+const propertyframe2 = () => {
 	return (
 		<>
 			<svg
@@ -26,3 +26,6 @@ export const PropertyFrame2 = () => {
 		</>
 	);
 };
+
+
+export default propertyframe2

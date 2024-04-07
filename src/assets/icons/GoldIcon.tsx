@@ -1,4 +1,4 @@
-export  const GoldIcon = () => {
+const goldIcon = () => {
 	return (
 		<>
 			<svg
@@ -28,3 +28,4 @@ export  const GoldIcon = () => {
 	);
 };
 
+export default goldIcon

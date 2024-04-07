@@ -1,4 +1,4 @@
-export  const WalletIcon = () => {
+const wallet = () => {
 	return (
 		<>
 			<svg
@@ -21,3 +21,4 @@ export  const WalletIcon = () => {
 };
 
 
+export default wallet

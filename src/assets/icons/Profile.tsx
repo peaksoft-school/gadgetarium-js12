@@ -9,7 +9,7 @@
 //   // clip-path: string;
 
 // }
-export const Profile = () => {
+const profile = () => {
 	return (
 		<>
 			<svg
@@ -33,3 +33,4 @@ export const Profile = () => {
 		</>
 	);
 };
+export default profile

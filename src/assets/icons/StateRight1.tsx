@@ -1,4 +1,4 @@
-export const StateRight1 = () => {
+const stateright1 = () => {
 	return (
 		<>
 			<svg
@@ -21,3 +21,5 @@ export const StateRight1 = () => {
 		</>
 	);
 };
+
+export default stateright1

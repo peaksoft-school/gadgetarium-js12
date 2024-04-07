@@ -1,4 +1,4 @@
-export  const EditIcon = () => {
+const edit = () => {
 	return (
 		<>
 			<svg
@@ -16,3 +16,4 @@ export  const EditIcon = () => {
 	);
 };
 
+export default edit

@@ -1,4 +1,4 @@
-export  const Microphone = () => {
+const microphone = () => {
 	return (
 		<>
 			<svg
@@ -29,5 +29,5 @@ export  const Microphone = () => {
 		</>
 	);
 };
-
+export default microphone
 

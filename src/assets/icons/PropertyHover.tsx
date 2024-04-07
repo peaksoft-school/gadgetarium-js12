@@ -1,4 +1,4 @@
-export const PropertyHover = () => {
+const propertyhover = () => {
 	return (
 		<>
 			<svg
@@ -12,3 +12,5 @@ export const PropertyHover = () => {
 		</>
 	);
 };
+
+export default propertyhover

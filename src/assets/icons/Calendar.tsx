@@ -1,6 +1,6 @@
 
 
-export const Calendar = () => {
+ const calendar = () => {
 	return (
 		<>
 			<svg
@@ -24,3 +24,5 @@ export const Calendar = () => {
 		</>
 	);
 };
+
+export default calendar

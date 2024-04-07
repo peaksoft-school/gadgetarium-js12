@@ -1,5 +1,4 @@
-
-export const Frame = () => {
+const frame = () => {
 	return (
 		<>
 			<svg
@@ -20,3 +19,4 @@ export const Frame = () => {
 		</>
 	);
 };
+export default frame

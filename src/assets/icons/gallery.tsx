@@ -1,5 +1,4 @@
-
-export const IconGallery = () => {
+const gallery = () => {
 	return (
 		<>
 			<svg
@@ -23,3 +22,4 @@ export const IconGallery = () => {
 		</>
 	);
 };
+export default gallery

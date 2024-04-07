@@ -1,6 +1,4 @@
-
-
-export const IconPurple = () => {
+const purple = () => {
 	return (
 		<>
 			<svg
@@ -26,3 +24,4 @@ export const IconPurple = () => {
 		</>
 	);
 };
+export default purple

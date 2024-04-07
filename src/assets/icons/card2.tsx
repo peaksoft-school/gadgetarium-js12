@@ -1,4 +1,4 @@
-export const CardIcon2 = () => {
+const card2 = () => {
 	return (
 		<>
 			<svg
@@ -23,3 +23,5 @@ export const CardIcon2 = () => {
 		</>
 	);
 };
+
+export default card2

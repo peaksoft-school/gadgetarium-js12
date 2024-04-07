@@ -1,4 +1,4 @@
-export const KamazCarIcon = () => {
+const kamazcar = () => {
 	return (
 		<>
 			<svg
@@ -47,3 +47,5 @@ export const KamazCarIcon = () => {
 		</>
 	);
 };
+
+export default kamazcar

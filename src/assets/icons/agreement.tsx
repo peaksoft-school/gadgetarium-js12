@@ -1,4 +1,4 @@
-export const AgreementIcon = () => {
+const agreement = () => {
 	return (
 		<>
 			<svg
@@ -19,3 +19,4 @@ export const AgreementIcon = () => {
 		</>
 	);
 };
+export default agreement

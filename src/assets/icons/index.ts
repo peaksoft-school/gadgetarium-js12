@@ -1,70 +1,70 @@
 export { default as IconArrowRight } from './arrow-right';
 export { default as IconArrowLeft } from './arrow-left';
-export { Profile } from "./Profile";
+export { default as IconProfile } from "./profile";
 export { default as IconGadgetarium } from './gadgetarium';
 export { default as IconDown } from './down';
-export { BankCardIcon } from "./BankCardIcon";
-export { BigDeleteIcon } from "./BigDeleteIcon";
-export { Buttoncolorfelt } from "./Buttoncolorfelt";
-export { Calendar } from "./Calendar";
-export { CameraIcon } from "./CameraIcon";
-export { CardIcon } from "./CardIcon";
-export { CardIcon2 } from "./CardIcon2";
-export { CarIcon } from "./CarIcon";
-export { Catalog } from "./Catalog";
-export { CertificateIcon } from "./CertificateIcon";
-export { DeleteIcon } from "./DeleteIcon";
-export { Downloads } from "./Downloads";
-export { EditIcon } from "./EditIcon";
-export { GoldIcon } from "./GoldIcon";
-export { IconBottom } from "./IconBottom";
-export { IconGallery } from "./IconGallery";
-export { KamazCarIcon } from "./KamazCarIcon";
-export { LocationIcon } from "./LocationIcon";
-export { Menu } from "./Menu";
-export { Microphone } from "./Microphone";
-export { ProfileColorwhite } from "./ProfileColorwhite";
-export { ScalesActive } from "./ScalesActive";
-export { ScalesGrey } from "./ScalesGrey";
-export { SmallDeleteIcon } from "./SmallDeleteIcon";
-export { ToolIcon } from "./ToolIcon";
-export { WalletIcon } from "./WalletIcon";
-export { AgreementIcon } from "./AgreementIcon";
-export { IconPurple } from "./IconPurple";
-export { Customer } from "./CustomerIcon";
-export { Desktop } from "./Desktop";
-export { Mobile } from "./Mobile";
-export { PropertyActive } from "./PropertyActive";
-export { PropertyClick } from "./PropertyClick";
-export {Frame} from './Frame'
-export {PropertyComponent} from './PropertyComponent'
-export {PropertyDefault} from './PropertyDefault'
-export {PropertyDefault2} from './PropertyDefault2'
-export {PropertyDefault3} from './PropertyDefault3'
-export {PropertyDefault4} from './PropertyDefault4'
-export {PropertyDefault5} from './PropertyDefault5'
-export {PropertyDefault7} from './PropertyDefault7'
-export {PropertyDefault8} from './PropertyDefault8'
-export {PropertyDefault9} from './PropertyDefault9'
-export {PropertyDefault11} from './PropertyDefault11'
-export {PropertyDefault12} from './PropertyDefault12'
-export {PropertyDefault13} from './PropertyDefault13'
-export {PropertyDefault14} from './PropertyDefault14'
-export {PropertyDefault15} from './PropertyDefault15'
-export {PropertyDefault16} from './PropertyDefault16'
-export {PropertyDefault17} from './PropertyDefault17'
-export {PropertyDefault19} from './PropertyDefault19'
-export {PropertyDefault20} from './PropertyDefault20'
-export {PropertyDefault22} from './PropertyDefault22'
-export {PropertyDefault24} from './PropertyDefault24'
-export {PropertyDefault25} from './PropertyDefault25'
-export {PropertyDefault26} from './PropertyDefault26'
-export {PropertyDefault_} from './PropertyDefault_'
-export {PropertyFrame2} from './PropertyFrame2'
-export {PropertyHover} from './PropertyHover'
-export {Property_Active} from './Property_Active'
-export {StateDown} from './StateDown'
-export {StateLeft} from './StateLeft'
-export {StateRight1} from './StateRight1'
-export {StateUp} from './StateUp'
-export {Watchalt} from './watchalt'
+export { default as IconBankCard } from "./bankcard";
+export { default as IconBigDelete } from "./bigdelete";
+export { default as IconButtonColorFelt } from "./buttoncolorfelt";
+export { default as IconCalendar } from "./calendar";
+export { default as IconCamera } from "./camera";
+export { default as IconCard } from "./card";
+export { default as IconCard2 } from "./card2";
+export { default as car } from "./car";
+export { default as IconCatalog } from "./catalog";
+export { default as IconCertificate } from "./certificate";
+export { default as IconDelete } from "./delete";
+export { default as IconDownloads } from "./downloads";
+export { default as IconEdit } from "./edit";
+export { default as IconGoldIcon } from "./goldIcon";
+export { default as IconBottom } from "./iconbutton";
+export { default as IconGallery } from "./gallery";
+export { default as IconKamazCar } from "./kamazcar";
+export { default as IconLocation } from "./location";
+export { default as IconMenu } from "./menu";
+export { default as IconMicrophone } from "./microphone";
+export { default as IconProfileColorwhite } from "./profileColorwhite";
+export { default as IconScalesActive } from "./scalesactive";
+export { default as IconScalesGrey } from "./scalesgrey";
+export { default as IconSmallDelete } from "./smalldelete";
+export { default as IconTool } from "./tool";
+export { default as IconWallet } from "./wallet";
+export { default as IconAgreement } from "./agreement";
+export { default as IconPurple } from "./purple";
+export { default as IconCustomer } from "./customer";
+export { default as IconDesktop } from "./desktop";
+export { default as IconMobile } from "./mobile";
+export { default as IconPropertyActive } from "./propertyactive";
+export { default as IconPropertyClick } from "./propertyclick";
+export {default as IconFrame} from './frame'
+export {default as IconPropertyComponent} from './propertycomponent'
+export {default as IconPropertyDefault} from './propertydefault'
+export {default as IconPropertyDefault2} from './propertydefault2'
+export {default as IconPropertyDefault3} from './propertydefault3'
+export {default as IconPropertyDefault4} from './propertydefault4'
+export {default as IconPropertyDefault5} from './propertydefault5'
+export {default as IconPropertyDefault7} from './propertydefault7'
+export {default as IconPropertyDefault8} from './propertydefault8'
+export {default as IconPropertyDefault9} from './propertydefault9'
+export {default as IconPropertyDefault11} from './propertydefault11'
+export {default as IconPropertyDefault12} from './propertydefault12'
+export {default as IconPropertyDefault13} from './propertydefault13'
+export {default as IconPropertyDefault14} from './propertydefault14'
+export {default as IconPropertyDefault15} from './propertydefault15'
+export {default as IconPropertyDefault16} from './propertydefault16'
+export {default as IconPropertyDefault17} from './propertydefault17'
+export {default as IconPropertyDefault19} from './propertydefault19'
+export {default as IconPropertyDefault20} from './propertydefault20'
+export {default as IconPropertyDefault22} from './propertydefault22'
+export {default as IconPropertyDefault24} from './propertydefault24'
+export {default as IconPropertyDefault25} from './propertydefault25'
+export {default as IconPropertyDefault26} from './propertydefault26'
+export {default as IconPropertyDefault_} from './propertydefault_'
+export {default as IconPropertyFrame2} from './propertyframe2'
+export {default as IconPropertyHover} from './propertyhover'
+export {default as IconProperty_Active} from './property_active'
+export {default as IconStateDown} from './statedown'
+export {default as IconStateLeft} from './stateleft'
+export {default as IconStateRight1} from './stateright1'
+export {default as IconStateUp} from './stateup'
+export {default as IconWatchalt} from './watchalt'

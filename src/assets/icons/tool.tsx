@@ -1,4 +1,4 @@
-export  const ToolIcon = () => {
+const tool = () => {
 	return (
 		<>
 			<svg
@@ -23,3 +23,4 @@ export  const ToolIcon = () => {
 		</>
 	);
 };
+export default tool

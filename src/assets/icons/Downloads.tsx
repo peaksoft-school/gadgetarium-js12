@@ -1,4 +1,4 @@
-export  const Downloads = () => {
+const downloads = () => {
 	return (
 		<>
 			<svg
@@ -23,4 +23,4 @@ export  const Downloads = () => {
 	);
 };
 
-
+export default downloads
