@@ -6,7 +6,8 @@ const eyesactive = () => {
 				height="24"
 				viewBox="0 0 24 24"
 				fill="none"
-				xmlns="http://www.w3.org/2000/svg">
+				xmlns="http://www.w3.org/2000/svg"
+			>
 				<g opacity="0.5">
 					<path
 						d="M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12ZM10.1746 12C10.1746 13.0082 10.9918 13.8254 12 13.8254C13.0082 13.8254 13.8254 13.0082 13.8254 12C13.8254 10.9918 13.0082 10.1746 12 10.1746C10.9918 10.1746 10.1746 10.9918 10.1746 12Z"
@@ -22,4 +23,4 @@ const eyesactive = () => {
 		</>
 	);
 };
-export default eyesactive
+export default eyesactive;
