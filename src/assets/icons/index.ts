@@ -34,7 +34,7 @@ export { default as IconPurple } from "./-profile";
 export { default as IconCustomer } from "./customer";
 export { default as IconDesktop } from "./-desktop";
 export { default as IconMobile } from "./-mobile";
-export { default as IconPropertyActive } from "./property_active";
+export { default as IconPropertyActive } from "./property-active";
 export { default as IconPropertyClick } from "./whatsappactive";
 export {default as IconFrame} from './-frame'
 export {default as IconPropertyComponent} from './property-component'
@@ -69,3 +69,4 @@ export {default as IconStateRight1} from './state-right1'
 export {default as IconStateUp} from './state-up'
 export {default as IconWatchalt} from './watchalt'
 export {default as Iconpurple} from './purple'
+export {default as IconCheckmarkColorPink} from './checkmark-color-pink'
