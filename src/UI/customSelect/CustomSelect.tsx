@@ -1,6 +1,6 @@
 //!
 import { FC, useState } from 'react';
-import { IconDown } from '@/src/assets/icons';
+import { IconDown } from '@/src/assets/icons-2';
 import scss from './CustomSelect.module.scss';
 
 interface handleChangeProps {

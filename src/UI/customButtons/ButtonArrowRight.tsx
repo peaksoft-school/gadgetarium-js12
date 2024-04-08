@@ -1,4 +1,4 @@
-import { IconArrowRight } from '@/src/assets/icons';
+import { IconArrowRight } from '@/src/assets/icons-2';
 import scss from './ButtonArrowRight.module.scss';
 
 const ButtonArrowRight = () => {

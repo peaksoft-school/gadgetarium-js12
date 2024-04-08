@@ -1,4 +1,4 @@
-export const Watchalt = () => {
+const watchalt = () => {
 	return (
 		<>
 			<svg
@@ -17,3 +17,4 @@ export const Watchalt = () => {
 		</>
 	);
 };
+export default watchalt

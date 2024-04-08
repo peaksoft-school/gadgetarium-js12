@@ -3,7 +3,7 @@ import scss from './ProductsStore.module.scss';
 import photoIsIphone from '@/src/assets/image 53 (1).png';
 import logo from '@/src/assets/Group 1534.png';
 import icon from '@/src/assets/Vector (11).png';
-import { ScalesGrey } from '@/src/assets/icons';
+import { IconScalesGrey } from '@/src/assets/icons';
 import logo2 from '@/src/assets/Frame 153.png';
 import AddBasketButton from '../customButtons/AddBasketButton';
 export const ProductsStore = () => {
@@ -20,7 +20,7 @@ export const ProductsStore = () => {
 								<div className={scss.divIcons}>
 									<img src={logo} alt={item.newProduct} />
 									<div className={scss.divIcons2}>
-										<ScalesGrey />
+										<IconScalesGrey />
 										<img className={scss.imgIcon} src={icon} alt="icon" />
 									</div>
 								</div>
@@ -32,7 +32,9 @@ export const ProductsStore = () => {
 									/>
 								</div>
 								<div className={scss.divProductContents}>
-									<p className={scss.tagColorGreen}>В наличии {item.buyProduc}</p>
+									<p className={scss.tagColorGreen}>
+										В наличии {item.buyProduc}
+									</p>
 									<h3>{item.producName}</h3>
 									<p>
 										Рейтинг <img src={logo2} alt="logo" /> {item.Rating}
