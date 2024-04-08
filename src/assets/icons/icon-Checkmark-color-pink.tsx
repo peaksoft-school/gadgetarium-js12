@@ -19,8 +19,8 @@ const checkmarkcolorpink = () => {
 			<path
 				d="M10.1523 12.5207L13.6688 16.3077L19.3831 10.1538"
 				stroke="white"
-				stroke-width="1.3"
-				stroke-linecap="round"
+				strokeWidth="1.3"
+				strokeLinecap="round"
 			/>
 		</svg>
 	);

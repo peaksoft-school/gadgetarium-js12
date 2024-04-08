@@ -1,4 +1,4 @@
-const сheckmarkactive = () => {
+const checkmarkactive = () => {
 	return (
 		<>
 			<svg
@@ -19,13 +19,12 @@ const сheckmarkactive = () => {
 				<path
 					d="M8.92188 10.8166L11.7351 13.8462L16.3065 8.9231"
 					stroke="white"
-					stroke-width="1.3"
-					stroke-linecap="round"
+					strokeWidth="1.3"
+					strokeLinecap="round"
 				/>
 			</svg>
 		</>
 	);
 };
 
-
-export default сheckmarkactive
+export default checkmarkactive;

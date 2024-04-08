@@ -11,9 +11,9 @@ const arrowleft = () => {
 				<path
 					d="M14 6.5H1M1 6.5L6.42466 1M1 6.5L6.42466 12"
 					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
+					strokeWidth="2" // Здесь исправлено на "strokeWidth"
+					strokeLinecap="round" // Здесь исправлено на "strokeLinecap"
+					strokeLinejoin="round" // Здесь исправлено на "strokeLinejoin"
 				/>
 			</svg>
 		</div>

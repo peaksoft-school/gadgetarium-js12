@@ -15,4 +15,4 @@ const scalesactive = () => {
 		</>
 	);
 };
-export default scalesactive
+export default scalesactive;

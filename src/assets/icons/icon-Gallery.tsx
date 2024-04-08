@@ -22,4 +22,4 @@ const gallery = () => {
 		</>
 	);
 };
-export default gallery
+export default gallery;

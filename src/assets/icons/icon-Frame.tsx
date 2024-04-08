@@ -14,9 +14,10 @@ const frame = () => {
 					height="19"
 					rx="1.5"
 					stroke="#858FA4"
+					fill="none"
 				/>
 			</svg>
 		</>
 	);
 };
-export default frame
+export default frame;

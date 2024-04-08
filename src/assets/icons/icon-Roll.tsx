@@ -12,4 +12,5 @@ const roll = () => {
 		</>
 	);
 };
-export default roll
+
+export default roll;

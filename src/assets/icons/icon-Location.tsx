@@ -18,7 +18,7 @@ const location = () => {
 					d="M31.9999 32.8956C36.2225 32.8956 39.6456 29.4725 39.6456 25.2499C39.6456 21.0273 36.2225 17.6042 31.9999 17.6042C27.7773 17.6042 24.3542 21.0273 24.3542 25.2499C24.3542 29.4725 27.7773 32.8956 31.9999 32.8956Z"
 					fill="white"
 					stroke="white"
-					stroke-width="1.5"
+					strokeWidth="1.5"
 					stroke-linecap="round"
 					stroke-linejoin="round"
 				/>
@@ -26,4 +26,4 @@ const location = () => {
 		</>
 	);
 };
-export default location
+export default location;

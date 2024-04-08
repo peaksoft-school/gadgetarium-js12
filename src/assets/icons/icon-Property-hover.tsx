@@ -13,4 +13,4 @@ const propertyhover = () => {
 	);
 };
 
-export default propertyhover
+export default propertyhover;

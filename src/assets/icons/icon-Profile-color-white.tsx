@@ -1,5 +1,3 @@
-
-
 const profilecolorwhite = () => {
 	return (
 		<>
@@ -18,4 +16,4 @@ const profilecolorwhite = () => {
 	);
 };
 
-export default profilecolorwhite
+export default profilecolorwhite;

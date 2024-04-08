@@ -19,4 +19,5 @@ const propertycomponent = () => {
 		</>
 	);
 };
-export default propertycomponent
+
+export default propertycomponent;
