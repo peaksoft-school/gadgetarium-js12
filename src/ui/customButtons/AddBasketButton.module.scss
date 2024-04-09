@@ -12,6 +12,9 @@
 	letter-spacing: 0%;
 	text-align: center;
 	text-transform: uppercase;
+	@media (max-width: 600px) {
+		padding: 8px 15px 8px 15px;
+	}
 	&:hover {
 		padding: 12px 19px 12px 19px;
 		background: #cb11ab;

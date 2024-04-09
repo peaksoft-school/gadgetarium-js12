@@ -1,13 +1,9 @@
-import scss from './Welcome.module.scss';
+import CategoryProduct from './CategoryProduct';
 const Welcome = () => {
 	return (
-		<div className={scss.Welcome}>
-			<div className="container">
-				<div className={scss.content}>
-					<h1>Welcome User!</h1>
-				</div>
-			</div>
-		</div>
+		<>
+			<CategoryProduct />
+		</>
 	);
 };
 
