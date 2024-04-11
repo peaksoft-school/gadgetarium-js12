@@ -17,13 +17,12 @@ import { useEffect, useState } from 'react';
 const Header = () => {
 	const [activePage, setActivePage] = useState('');
 	const [isMenu, setIsMenu] = useState(false);
-	const [isFixed, ,] = useState(false);
 
 	const [isScrolled, setIsScrolled] = useState(false);
 
 	useEffect(() => {
 		const handleScroll = () => {
-			setIsScrolled(window.scrollY > 100);
+			setIsScrolled(window.scrollY > 87);
 		};
 
 		window.addEventListener('scroll', handleScroll);
@@ -109,18 +108,18 @@ const Header = () => {
 					<div className={scss.test}></div>
 					{/* //!HEADER FIXED */}
 					<div
-						className={`${scss.headerSecond} ${isScrolled ? scss.scrolled : ''}`}
-						style={{ position: scrollY > 100 ? 'fixed' : 'static' }}
+						className={
+							isScrolled
+								? `${scss.headerSecond} ${scss.active}`
+								: `${scss.headerSecond}`
+						}
 					>
 						<div className={scss.catalogSearch}>
-							<div
-								// className={`${scss.isfixedIcon} ${isFixed ? scss.fixed : ''}`}
-								className={`${scss.titleFixed} ${isFixed ? 'fixed' : ''}`}
-							>
+							{isScrolled && (
 								<Link to="/">
 									<IconGadgetarium />
 								</Link>
-							</div>
+							)}
 							<button className={scss.buttonCatalog}>
 								<EightPoints />
 								Каталог
@@ -130,12 +129,14 @@ const Header = () => {
 								<CustomSearch />
 							</div>
 						</div>
-						<div className={scss.iconsSocialNetwork}>
-							<IconFacebook />
-							<IconInstagram />
-							<IconWhatsapp />
-							{/* <span>0</span> */}
-						</div>
+						{!isScrolled && (
+							<div className={scss.iconsSocialNetwork}>
+								<IconFacebook />
+								<IconInstagram />
+								<IconWhatsapp />
+								{/* <span>0</span> */}
+							</div>
+						)}
 						<div className={scss.iconFavoriteBas}>
 							<IconComparison />
 							{/* <span>8</span>	 */}
