@@ -5,7 +5,8 @@ const card2 = () => {
 			height="50"
 			viewBox="0 0 50 50"
 			fill="none"
-			xmlns="http://www.w3.org/2000/svg">
+			xmlns="http://www.w3.org/2000/svg"
+		>
 			<g clipPath="url(#clip0_3_1786)">
 				<circle cx="25" cy="25" r="25" fill="white" />
 				<path

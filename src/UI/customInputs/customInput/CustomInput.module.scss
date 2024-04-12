@@ -1,16 +1,16 @@
 .custom_input {
-  border-radius: 6px;
-  padding: 8px 18px;
-  border: 1px solid rgba(144, 156, 181, 0.3);
-  color: #000000;
-  background-color: #F6F6F6;
+	border-radius: 6px;
+	padding: 8px 18px;
+	border: 1px solid rgba(144, 156, 181, 0.3);
+	color: #000000;
+	background-color: #f6f6f6;
 
-  &:focus {
-    outline: none;
-    border: 1px solid rgba(203, 17, 171, 1);
-  }
+	&:focus {
+		outline: none;
+		border: 1px solid rgba(203, 17, 171, 1);
+	}
 
-  &::placeholder {
-    color: #909CB5;
-  }
+	&::placeholder {
+		color: #909cb5;
+	}
 }

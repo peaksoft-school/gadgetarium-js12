@@ -6,7 +6,8 @@ const propertycomponent = () => {
 				height="28"
 				viewBox="0 0 28 28"
 				fill="none"
-				xmlns="http://www.w3.org/2000/svg">
+				xmlns="http://www.w3.org/2000/svg"
+			>
 				<rect
 					x="4.5"
 					y="4.5"
