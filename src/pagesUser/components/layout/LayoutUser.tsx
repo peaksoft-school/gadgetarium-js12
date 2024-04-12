@@ -4,6 +4,7 @@ import Header from './header/Header';
 import Footer from './footer/Footer';
 import NotFound from '../pages/notFound/NotFound';
 import HomePage from '../pages/HomePage';
+import Welcome from '../pages/homeSections/Welcome';
 
 const LayoutUser = () => {
 	return (
@@ -15,6 +16,7 @@ const LayoutUser = () => {
 						<Route path="/" element={<HomePage />} />
 						<Route path="*" element={<NotFound />} />
 					</Routes>
+					<Welcome />
 				</main>
 				<Footer />
 			</div>
