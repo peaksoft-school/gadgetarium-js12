@@ -1,5 +1,9 @@
 export { default as IconArrowRight } from './arrow-right';
 export { default as IconArrowLeft } from './arrow-left';
+export { default as IconCall } from './callIcon';
+export { default as IconEmail } from './emailIcon';
+export { default as IconGeolocation } from './geolocation';
+export { default as IconClock } from './clock';
 export { Profile } from "./Profile";
 export { default as IconGadgetarium } from './gadgetarium';
 export { default as IconDown } from './down';
