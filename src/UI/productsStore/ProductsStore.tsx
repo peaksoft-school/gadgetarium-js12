@@ -4,14 +4,32 @@ import scss from './ProductsStore.module.scss';
 import photoIsIphone from '@/src/assets/image 53 (1).png';
 import logo from '@/src/assets/Group 1534.png';
 import icon from '@/src/assets/Vector (11).png';
-import { ScalesGrey } from '@/src/assets/icons';
+import { IconScalesGrey } from '@/src/assets/icons';
 import logo2 from '@/src/assets/Frame 153.png';
 import AddBasketButton from '../customButtons/AddBasketButton';
 import './styles.css';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
-import React, { useEffect, useState } from 'react';
-export const ProductsStore = () => {
+import React, { FC, useEffect, useState } from 'react';
+interface FiltredTypesProducts {
+	_id: number;
+	price: number;
+	image: string;
+	producName: string;
+	isFavorite: boolean;
+	isInBasket: boolean;
+	previousPrice: number;
+	Rating: string;
+	buyProduc: string;
+	newProduct: string;
+	isResult: string;
+}
+[];
+export const ProductsStore: FC<{
+	arrayProducts: FiltredTypesProducts[];
+}> = ({ arrayProducts }) => {
+	console.log(arrayProducts);
+
 	const [currentSlide, setCurrentSlide] = React.useState(0);
 	const [loaded, setLoaded] = useState(false);
 	const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
@@ -25,6 +43,7 @@ export const ProductsStore = () => {
 	});
 	const { data: productData = [], isLoading } = useGetProductsQuery();
 	const [sliderResult, setSliderResult] = useState<string | boolean>(false);
+	console.log(productData);
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -56,7 +75,7 @@ export const ProductsStore = () => {
 										<>
 											<div ref={sliderRef} className="keen-slider">
 												<>
-													{productData.map((item) => (
+													{arrayProducts.map((item) => (
 														<div
 															className="keen-slider__slide number-slide1"
 															key={item._id}
@@ -71,7 +90,7 @@ export const ProductsStore = () => {
 																	<div className={scss.divMobile1}>
 																		<img src={logo} alt={item.newProduct} />
 																		<div className={scss.divIcons2}>
-																			<ScalesGrey />
+																			<IconScalesGrey />
 																			<img
 																				className={scss.imgIcon}
 																				src={icon}
@@ -82,6 +101,14 @@ export const ProductsStore = () => {
 																	<div className={scss.divMobile2}>
 																		<p className={scss.tagColorGreen2}>
 																			В наличии {item.buyProduc}
+																		</p>
+																		<p
+																			style={{
+																				color: 'black',
+																				fontSize: '2rem'
+																			}}
+																		>
+																			{item.isResult}
 																		</p>
 																		<h3>{item.producName}</h3>
 																		<p>
@@ -150,12 +177,12 @@ export const ProductsStore = () => {
 								)}
 							</>
 						) : (
-							productData.map((item) => (
+							arrayProducts.map((item) => (
 								<div className={scss.divProductMap} key={item._id}>
 									<div className={scss.divIcons}>
 										<img src={logo} alt={item.newProduct} />
 										<div className={scss.divIcons2}>
-											<ScalesGrey />
+											<IconScalesGrey />
 											<img className={scss.imgIcon} src={icon} alt="icon" />
 										</div>
 									</div>
@@ -167,6 +194,9 @@ export const ProductsStore = () => {
 										/>
 									</div>
 									<div className={scss.divProductContents}>
+										<p style={{ color: 'black', fontSize: '2rem' }}>
+											{item.isResult}
+										</p>
 										<p className={scss.tagColorGreen}>
 											В наличии {item.buyProduc}
 										</p>
