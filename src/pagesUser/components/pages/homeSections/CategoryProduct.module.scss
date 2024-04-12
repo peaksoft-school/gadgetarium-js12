@@ -1,6 +1,6 @@
 .CategoryProduct {
 	// visibility: hidden;
-	background: rgba(240, 255, 181, 0.641);
+	background: rgb(244, 244, 244);
 	width: 100%;
 	height: auto;
 	@media (max-width: 650px) {
@@ -103,7 +103,7 @@
 			display: flex;
 			align-items: start;
 			justify-content: space-between;
-			gap: 1rem;
+			gap: 2.4rem;
 			padding-block: 2.3rem;
 			@media (max-width: 965px) {
 			}

@@ -11,19 +11,7 @@ import './styles.css';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
 import React, { FC, useEffect, useState } from 'react';
-interface FiltredTypesProducts {
-	_id: number;
-	price: number;
-	image: string;
-	producName: string;
-	isFavorite: boolean;
-	isInBasket: boolean;
-	previousPrice: number;
-	Rating: string;
-	buyProduc: string;
-	newProduct: string;
-	isResult: string;
-}
+import { FiltredTypesProducts } from '@/src/types/typesProducts';
 [];
 export const ProductsStore: FC<{
 	arrayProducts: FiltredTypesProducts[];
