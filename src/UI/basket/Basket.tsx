@@ -37,7 +37,8 @@ const Basket = () => {
 											</div>
 											<div className={scss.ProductResult}>
 												<p>
-													<img className={scss.img} src={logo3} alt="logo3" />  В избранное
+													<img className={scss.img} src={logo3} alt="logo3" /> В
+													избранное
 												</p>
 												<p>
 													<SmallDeleteIcon /> Удалить

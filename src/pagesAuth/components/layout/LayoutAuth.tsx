@@ -1,20 +1,17 @@
+import LoginPages from '../pages/LoginPages';
+import { RegisterPages } from '../pages/RegisterPages';
 import scss from './LayoutAuth.module.scss';
 import { Route, Routes } from 'react-router-dom';
-import Header from './header/Header';
-import Footer from './footer/Footer';
-import HomePage from '../pages/HomePage';
-
 const LayoutAuth = () => {
 	return (
 		<>
-			<div className={scss.Layout}>
-				<Header />
+			<div className={scss.LayoutForAuth}>
 				<main>
 					<Routes>
-						<Route path="/" element={<HomePage />} />
+						<Route path="/auth/loginPages" element={<LoginPages />} />
+						<Route path="/auth/registerPages" element={<RegisterPages />} />
 					</Routes>
 				</main>
-				<Footer />
 			</div>
 		</>
 	);
