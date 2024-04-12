@@ -1,9 +1,9 @@
-import Slider from "@/src/UI/keen-slider/Slider";
 
 const HomePage = () => {
 	return <div>
-		<Slider/>
+		Welcome user!
 	</div>;
+
 };
 
 export default HomePage;

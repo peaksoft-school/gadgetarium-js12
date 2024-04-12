@@ -1,15 +1,18 @@
-import {api as index} from '../index';
+import { api as index } from '../index';
 
 const api = index.injectEndpoints({
-  endpoints: (build) => ({
-    GetAccessories: build.query<AccessoriesProducts.GetAccessoriesProductsResponse, AccessoriesProducts.GetAccessoriesProductsRequest>({
-      query: () => ({
-        url: "",
-        method: "GET",
-      }),
-      providesTags: ['accessories'],
-    })
-  })
-})
+	endpoints: (build) => ({
+		GetAccessories: build.query<
+			AccessoriesProducts.GetAccessoriesProductsResponse,
+			AccessoriesProducts.GetAccessoriesProductsRequest
+		>({
+			query: () => ({
+				url: '',
+				method: 'GET'
+			}),
+			providesTags: ['accessories']
+		})
+	})
+});
 
-export const {useGetAccessoriesQuery} = api
+export const { useGetAccessoriesQuery } = api;

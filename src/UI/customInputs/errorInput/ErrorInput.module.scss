@@ -1,16 +1,16 @@
 .custom_input_error {
-  border-radius: 6px;
-  padding: 8px 18px;
-  border: 1px solid rgba(241, 0, 0, 1);
-  color: #000000;
-  background-color: #F6F6F6;
+	border-radius: 6px;
+	padding: 8px 18px;
+	border: 1px solid rgba(241, 0, 0, 1);
+	color: #000000;
+	background-color: #f6f6f6;
 
-  &:focus {
-    outline: none;
-    border: 1px solid rgba(241, 0, 0, 1);
-  }
+	&:focus {
+		outline: none;
+		border: 1px solid rgba(241, 0, 0, 1);
+	}
 
-  &::placeholder {
-    color: #909CB5;
-  }
+	&::placeholder {
+		color: #909cb5;
+	}
 }
