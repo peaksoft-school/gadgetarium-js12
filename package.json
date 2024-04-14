@@ -14,6 +14,8 @@
 		"@emotion/react": "^11.11.4",
 		"@emotion/styled": "^11.11.5",
 		"@hookform/resolvers": "^3.3.4",
+		"@mantine/core": "^7.8.0",
+		"@mantine/hooks": "^7.8.0",
 		"@mui/material": "^5.15.15",
 		"@reduxjs/toolkit": "^2.2.3",
 		"antd": "^5.16.1",
