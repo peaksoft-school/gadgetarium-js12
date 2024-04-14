@@ -15,10 +15,10 @@
 		padding-block: 0.8rem;
 		padding-inline: 0.8rem;
 		gap: 11px;
-    @media (max-width: 600px) {
-      height: auto;
-      width: 14rem;
-    }
+		@media (max-width: 600px) {
+			height: auto;
+			width: 14rem;
+		}
 		.divIcons {
 			display: flex;
 			justify-content: space-between;
@@ -40,10 +40,10 @@
 			.imgProduct {
 				width: 11.2rem;
 				height: 14.7rem;
-        @media (max-width: 600px) {
-          width: 82%;
-          height: auto;
-        }
+				@media (max-width: 600px) {
+					width: 82%;
+					height: auto;
+				}
 			}
 		}
 		.divProductContents {
@@ -52,10 +52,10 @@
 			flex-direction: column;
 			align-items: start;
 			gap: 0.5rem;
-      @media (max-width: 600px) {
-        gap: 7px;
-        margin-top: 0;
-      }
+			@media (max-width: 600px) {
+				gap: 7px;
+				margin-top: 0;
+			}
 			.tagColorGreen {
 				color: #2fc509;
 				font-size: clamp(0.5rem, 5vw, 0.7rem);
@@ -75,19 +75,19 @@
 				display: flex;
 				align-items: center;
 				gap: 1.8rem;
-        @media (max-width: 600px) {
-          display: flex;
-          flex-direction: column;
-          gap: 7px;
-          align-items: start;
-        }
+				@media (max-width: 600px) {
+					display: flex;
+					flex-direction: column;
+					gap: 7px;
+					align-items: start;
+				}
 				.productPrice {
 					display: flex;
 					flex-direction: column;
-          @media (max-width: 600px) {
-            display: flex;
-            align-items: center;
-          }
+					@media (max-width: 600px) {
+						display: flex;
+						align-items: center;
+					}
 					h2 {
 						color: #292929;
 						font-size: clamp(0.8rem, 7vw, 1.1rem);
@@ -95,7 +95,7 @@
 					p {
 						text-decoration: line-through;
 						color: #909cb5;
-            font-size: clamp(0.7rem, 3.7vw, 1rem);
+						font-size: clamp(0.7rem, 3.7vw, 1rem);
 					}
 				}
 			}

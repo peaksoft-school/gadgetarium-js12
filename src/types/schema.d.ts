@@ -17,3 +17,23 @@ type Login = {
   token: string;
   authority: boolean;
 }
+
+type LoginForms = {
+	email: string;
+	password: string;
+}
+
+type RegisterForms = {
+  email: string;
+  password: string;
+  lastName: string;
+  firsName: string;
+  phoneNumber: string;
+  confirmThePassword: string
+}
+
+type ForgotPasswordForms = {
+  code: string | number;
+  password: string;
+  confirmThePassword: string;
+}

@@ -32,7 +32,9 @@ export const ProductsStore = () => {
 									/>
 								</div>
 								<div className={scss.divProductContents}>
-									<p className={scss.tagColorGreen}>В наличии {item.buyProduc}</p>
+									<p className={scss.tagColorGreen}>
+										В наличии {item.buyProduc}
+									</p>
 									<h3>{item.producName}</h3>
 									<p>
 										Рейтинг <img src={logo2} alt="logo" /> {item.Rating}

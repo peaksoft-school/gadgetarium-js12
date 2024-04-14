@@ -5,7 +5,8 @@ const catalog = () => {
 			height="24"
 			viewBox="0 0 24 24"
 			fill="none"
-			xmlns="http://www.w3.org/2000/svg">
+			xmlns="http://www.w3.org/2000/svg"
+		>
 			<g clipPath="url(#clip0_3_1723)">
 				<path
 					d="M7.33333 4H4.66667C4.29867 4 4 4.29867 4 4.66667V7.33333C4 7.70133 4.29867 8 4.66667 8H7.33333C7.70133 8 8 7.70133 8 7.33333V4.66667C8 4.29867 7.70133 4 7.33333 4Z"
