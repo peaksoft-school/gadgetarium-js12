@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Register } from './RegisterPages/Register';
 
 export const RegisterPages = () => {
@@ -7,3 +8,17 @@ export const RegisterPages = () => {
 		</>
 	);
 };
+=======
+
+import { Register } from './RegisterPages/Register'
+
+const RegisterPages = () => {
+  return (
+    <>
+      <Register/>
+    </>
+  )
+}
+
+export default RegisterPages
+>>>>>>> dev

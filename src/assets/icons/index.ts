@@ -79,3 +79,4 @@ export { default as IconStateUp } from './icon-State-up';
 export { default as IconWatchalt } from './icon-Watchalt';
 export { default as Iconpurple } from './icon-Purple';
 export { default as IconCheckmarkColorPink } from './icon-Checkmark-color-pink';
+export {default as IconCodNaPravacVetWhite} from './icon-cod-na-pravac-vet-white'

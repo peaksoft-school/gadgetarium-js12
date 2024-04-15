@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Login from './loginPages/Login';
 
 const LoginPages = () => {
@@ -9,3 +10,15 @@ const LoginPages = () => {
 };
 
 export default LoginPages;
+=======
+
+import Login from './LoginPages/Login'
+
+export const LoginPages = () => {
+  return (
+    <>
+      <Login/>
+    </>
+  )
+}
+>>>>>>> dev
