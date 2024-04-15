@@ -5,7 +5,7 @@ import {
 } from '@reduxjs/toolkit/query/react';
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: import.meta.env.VITE_ACCESSORIES_URL
+	baseUrl: import.meta.env.VITE_BASKET_URL
 	// prepareHeaders: (headers) => {
 	// 	return headers;
 	// },
