@@ -1,5 +1,5 @@
+import { IconSearch } from '@tabler/icons-react';
 import scss from './CustomSearch.module.scss';
-import { SearchIcon } from '@/src/assets/icons';
 import { useState } from 'react';
 
 const CustomSearch = () => {
@@ -22,7 +22,7 @@ const CustomSearch = () => {
 			<div
 				className={`${scss.searchIcon} ${searchInput ? scss.searchFocus : ''}`}
 			>
-				<SearchIcon />
+				<IconSearch />
 			</div>
 		</div>
 	);

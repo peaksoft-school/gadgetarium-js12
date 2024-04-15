@@ -1,9 +1,31 @@
-
 const HomePage = () => {
-	return <div>
-		Welcome user!
-	</div>;
-
+	return (
+		<div>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+			<h1>Welcome user!</h1>
+		</div>
+	);
 };
 
 export default HomePage;
