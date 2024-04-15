@@ -1,9 +1,9 @@
 .SearchInputs {
 	display: flex;
 	border-radius: 10px 10px 10px 10px;
-	max-width: 100%;
+	max-width: 560px;
 	// !hjbbb
-	width: 650px;
+	width: 100%;
 	height: 40px;
 	border: 1px solid rgb(255, 255, 255);
 	background-color: transparent;
@@ -17,7 +17,8 @@
 		justify-content: center;
 		align-items: center;
 		border-radius: 0 10px 10px 0;
-		width: 40px;
+		max-width: 40px;
+		width: 100%;
 		height: 40px;
 		// !itygjv
 		color: white;
@@ -42,6 +43,7 @@
 		border: 1px solid rgb(255, 255, 255);
 		background-color: transparent;
 		border-right: transparent;
+		padding: 18px;
 		&:focus {
 			color: black;
 			background-color: white;
