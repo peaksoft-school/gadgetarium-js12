@@ -13,7 +13,6 @@ const DesktopHeaderMenu = () => {
 				<Menu.Dropdown>
 					<Menu.Item>Войти</Menu.Item>
 					<Menu.Item>Регистрация</Menu.Item>
-					<Menu.Divider />
 				</Menu.Dropdown>
 			</Menu>
 		</div>

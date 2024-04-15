@@ -46,7 +46,7 @@ const Header = () => {
 
 	useEffect(() => {
 		const handleScroll = () => {
-			setIsScrolled(window.scrollY > 87);
+			setIsScrolled(window.scrollY > 75);
 		};
 
 		window.addEventListener('scroll', handleScroll);
@@ -58,9 +58,9 @@ const Header = () => {
 
 	return (
 		<header className={scss.Header}>
-			<div className="container">
-				<div className={scss.content}>
-					<div className={scss.sup_header}>
+			<div className={scss.sup_header}>
+				<div className="container">
+					<div className={scss.content}>
 						<Link className={scss.logo} to="/">
 							<IconGadgetarium />
 						</Link>
@@ -87,8 +87,16 @@ const Header = () => {
 							<DesktopHeaderMenu />
 						</div>
 					</div>
-					<div className={scss.hr}></div>
-					<div className={scss.sub_header}>
+				</div>
+			</div>
+
+			<div
+				className={
+					isScrolled ? `${scss.sub_header} ${scss.fixed}` : `${scss.sub_header}`
+				}
+			>
+				<div className="container">
+					<div className={scss.content}>
 						<div className={scss.button_catalog_search}>
 							<button>
 								<IconCatalog />
