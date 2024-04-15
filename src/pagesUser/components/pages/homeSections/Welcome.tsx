@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+import CategoryProduct from './CategoryProduct';
+const Welcome = () => {
+	return (
+		<>
+			<CategoryProduct />
+		</>
+=======
 import AboutService from '../aboutService/AboutService';
 import scss from './Welcome.module.scss';
 const Welcome = () => {
@@ -9,6 +17,7 @@ const Welcome = () => {
 				</div>
 			</div>
 		</div>
+>>>>>>> dev
 	);
 };
 

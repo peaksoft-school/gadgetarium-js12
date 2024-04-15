@@ -1,4 +1,18 @@
 import scss from './Register.module.scss';
+<<<<<<< HEAD
+
+export const Register = () => {
+  return (
+    <div>
+      <div className="container">
+        <div className={scss.content}>
+          
+        </div>
+      </div>
+    </div>
+  )
+}
+=======
 import logo from '@/src/assets/Group 337504.png';
 import { Button, Input, PasswordInput } from '@mantine/core';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
@@ -207,3 +221,4 @@ export const Register = () => {
 		</div>
 	);
 };
+>>>>>>> dev

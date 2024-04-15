@@ -4,8 +4,8 @@ const api = index.injectEndpoints({
   endpoints: (build) => ({
     postRegister: build.mutation<REGISTER.PostRegisterResponse, REGISTER.PostRegisterRequest>({
       query: (newData) => ({
-        url: '',
-        method: 'POST',
+        url: "",
+        method: "POST",
         body: newData,
       }),
       invalidatesTags: ['auth'],
