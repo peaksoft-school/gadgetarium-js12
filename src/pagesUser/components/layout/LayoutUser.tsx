@@ -5,7 +5,6 @@ import Footer from './footer/Footer';
 import NotFound from '../pages/notFound/NotFound';
 import HomePage from '../pages/HomePage';
 import Welcome from '../pages/homeSections/Welcome';
-
 const LayoutUser = () => {
 	const { pathname } = useLocation();
 	if (pathname === '/*') {
