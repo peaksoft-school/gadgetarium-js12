@@ -1,6 +1,5 @@
 import scss from './BurgerMenu.module.scss';
-import { Link } from 'react-router-dom';
-import { IconG } from '@/src/assets/icons';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu } from '@mantine/core';
 import { IconChevronDown } from '@tabler/icons-react';
 import { FC } from 'react';
@@ -25,6 +24,7 @@ const links = [
 ];
 
 const BurgerMenu: FC<BurgerMenuProps> = ({ isOpenMobileMenu }) => {
+	const { pathname } = useLocation();
 	return (
 		<>
 			<div
@@ -38,18 +38,23 @@ const BurgerMenu: FC<BurgerMenuProps> = ({ isOpenMobileMenu }) => {
 					<ul>
 						{links.map((item, index) => (
 							<li key={index}>
-								<Link to={item.link}>{item.name}</Link>
+								<Link
+									className={
+										pathname === item.link
+											? `${scss.link} ${scss.active}`
+											: `${scss.link}`
+									}
+									to={item.link}
+								>
+									{item.name}
+								</Link>
 							</li>
 						))}
 					</ul>
 				</nav>
 
-				{/* <div className={scss.alone_div}>
+				<div className={scss.alone_div}>
 					<button className={scss.create_button}>Создать рассылку</button>
-					<hr />
-					<div className={scss.profile}>
-						<IconG />
-					</div>
 					<div className={scss.selected_option_icon}>
 						<Menu shadow="md" width={100}>
 							<Menu.Target>
@@ -65,7 +70,7 @@ const BurgerMenu: FC<BurgerMenuProps> = ({ isOpenMobileMenu }) => {
 							</Menu.Dropdown>
 						</Menu>
 					</div>
-				</div> */}
+				</div>
 			</div>
 		</>
 	);

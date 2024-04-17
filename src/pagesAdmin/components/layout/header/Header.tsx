@@ -6,7 +6,6 @@ import { IconChevronDown } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import BurgerButton from '@/src/UI/burgerButton/BurgerButton';
 import BurgerMenu from '@/src/UI/burgerMenu/BurgerMenu';
-// import { useDisclosure } from '@mantine/hooks';
 
 const links = [
 	{
@@ -26,7 +25,6 @@ const links = [
 const Header: FC = () => {
 	const [isMobile, setIsMobile] = useState(true);
 	const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
-	// const [opened, { toggle }] = useDisclosure();
 
 	useEffect(() => {
 		const changeIsMobile = () => {
@@ -50,7 +48,7 @@ const Header: FC = () => {
 			<div className="container">
 				<div className={scss.content}>
 					<div className={scss.logo}>
-						<IconGadgetarium />
+						<IconGadgetarium classname={scss.gadgetarium_icon} />
 					</div>
 					{!isMobile ? (
 						<>
@@ -75,7 +73,7 @@ const Header: FC = () => {
 											<button className={scss.selected_option}>
 												Администратор
 												<span className={scss.icon}>
-													<IconChevronDown stroke={2} />
+													<IconChevronDown  />
 												</span>
 											</button>
 										</Menu.Target>
@@ -88,8 +86,8 @@ const Header: FC = () => {
 						</>
 					) : (
 						<>
-							<BurgerButton
-								checked={!isOpenMobileMenu}
+								<BurgerButton
+									checked={!isOpenMobileMenu}
 								onChange={() => setIsOpenMobileMenu(!isOpenMobileMenu)}
 							/>
 							<BurgerMenu isOpenMobileMenu={isOpenMobileMenu} />

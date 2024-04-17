@@ -16,6 +16,9 @@
 			align-items: center;
 			margin-right: 200px;
 			transition: 0.2s;
+			.gadgetarium_icon {
+				width: 100%;
+			}
 
 			@media (max-width: 1300px) {
 				margin: 0;
