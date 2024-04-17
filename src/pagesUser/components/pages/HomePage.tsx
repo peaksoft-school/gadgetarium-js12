@@ -1,7 +1,6 @@
-
 const HomePage = () => {
 	return <div>
-		Welcome user!
+		Welcome User!
 	</div>;
 
 };

@@ -1,10 +1,11 @@
-import { ForgotPasswordPages } from "./forgotPasswordPages/forgotPassword";
+import { ForgotPasswordPages } from "./forgotPasswordPages/ForgotPassword";
+
 
 
 const ForgotPassword = () => {
 	return (
 		<>
-			<ForgotPasswordPages />
+			<ForgotPasswordPages/>
 		</>
 	);
 };
