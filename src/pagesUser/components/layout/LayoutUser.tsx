@@ -5,6 +5,7 @@ import Footer from './footer/Footer';
 import NotFound from '../pages/notFound/NotFound';
 import HomePage from '../pages/HomePage';
 import Welcome from '../pages/homeSections/Welcome';
+import { Delivery } from '../pages/Delivery';
 const LayoutUser = () => {
 	const { pathname } = useLocation();
 	if (pathname === '/*') {
@@ -21,6 +22,7 @@ const LayoutUser = () => {
 				<main>
 					<Routes>
 						<Route path="/" element={<HomePage />} />
+						<Route path="/DeliveryPage" element={<Delivery />} />
 					</Routes>
 					<Welcome />
 				</main>
