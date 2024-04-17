@@ -6,6 +6,7 @@ export { default as IconArrowRight } from './icon-Arrow-right';
 export { default as IconArrowLeft } from './icon-Arrow-left';
 export { default as IconProfile } from './icon-Profile';
 export { default as IconGadgetarium } from './icon-Gadgetarium';
+export { default as IconG } from './iconG';
 export { default as IconTodoList } from './todoList';
 export { default as IconTools } from './tools';
 export { default as IconCreditCard } from './creditcard';
@@ -79,4 +80,4 @@ export { default as IconStateUp } from './icon-State-up';
 export { default as IconWatchalt } from './icon-Watchalt';
 export { default as Iconpurple } from './icon-Purple';
 export { default as IconCheckmarkColorPink } from './icon-Checkmark-color-pink';
-export {default as IconCodNaPravacVetWhite} from './icon-cod-na-pravac-vet-white'
+export { default as IconCodNaPravacVetWhite } from './icon-cod-na-pravac-vet-white';
