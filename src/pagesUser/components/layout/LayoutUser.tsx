@@ -4,8 +4,8 @@ import Header from './header/Header';
 import Footer from './footer/Footer';
 import NotFound from '../pages/notFound/NotFound';
 import HomePage from '../pages/HomePage';
-import Welcome from '../pages/homeSections/Welcome';
 import { CardProductPage } from '@/src/UI/CardProductPage/CardProductPage';
+import CategoryProduct from '../pages/homeSections/CategoryProduct';
 const LayoutUser = () => {
 	const { pathname } = useLocation();
 	if (pathname === '/*') {
@@ -21,10 +21,10 @@ const LayoutUser = () => {
 				<Header />
 				<main>
 					<Routes>
-						<Route path="/" element={<HomePage />} />
-						<Route path="/:productId" element={<CardProductPage />} />
+						<Route path="/result" element={<HomePage />} />
+						<Route path="/products/:productId" element={<CardProductPage />} />
+						<Route path="/products" element={<CategoryProduct />} />
 					</Routes>
-					<Welcome />
 				</main>
 				<Footer />
 			</div>

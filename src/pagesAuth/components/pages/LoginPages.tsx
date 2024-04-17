@@ -1,5 +1,5 @@
+import Login from "./loginPages/Login"
 
-import Login from './LoginPages/Login'
 
 export const LoginPages = () => {
   return (
@@ -8,3 +8,4 @@ export const LoginPages = () => {
     </>
   )
 }
+

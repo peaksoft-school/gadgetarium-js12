@@ -4,11 +4,18 @@ type ColorButtonProps = {
 	width?: string;
 	height?: string;
 	backgroundColor?: string;
+	onClick?: () => void;
 };
 
-const ColorButton = ({ width, height, backgroundColor }: ColorButtonProps) => {
+const ColorButton = ({
+	width,
+	height,
+	backgroundColor,
+	onClick
+}: ColorButtonProps) => {
 	return (
 		<button
+			onClick={onClick}
 			className={scss.color_button}
 			style={{ width, height, backgroundColor }}
 		></button>

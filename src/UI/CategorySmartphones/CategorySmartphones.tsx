@@ -2,7 +2,7 @@ import { useGetProductsQuery } from '@/src/redux/api/products/Products';
 import scss from './CategorySmartphones.module.scss';
 import photoIsIphone from '@/src/assets/image 53 (1).png';
 import AddBasketButton from '../customButtons/AddBasketButton';
-import { PropertyDefault8 } from '@/src/assets/icons';
+// import { PropertyDefault8 } from '@/src/assets/icons';
 
 const CategorySmartphones = () => {
 	const { data: product = [], isLoading } = useGetProductsQuery();
@@ -16,7 +16,7 @@ const CategorySmartphones = () => {
 						<div className={scss.ProduntDiv} key={item._id}>
 							<div className={scss.contents1}>
 								<div>
-									<PropertyDefault8 />
+									{/* <PropertyDefault8 /> */}
 								</div>
 								<div className={scss.divImage}>
 									<img

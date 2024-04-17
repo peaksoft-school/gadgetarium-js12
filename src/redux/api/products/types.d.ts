@@ -75,6 +75,7 @@ namespace ProductsStore {
 		price: number;
 		image: string;
 		producName: string;
+		isResult: string;
 		isFavorite: boolean;
 		isInBasket: boolean;
 		previousPrice: number;
@@ -95,10 +96,10 @@ namespace ProductsStore {
 		image4?: string;
 		image5?: string;
 		image6?: string;
-		description: Description
-		characteristics: Characteristics
-		memoryAndProcessor: MemoryAndProcessor
-		additionalFeatures: AdditionalFeatures
+		Description: Description
+		Characteristics: Characteristics
+		MemoryAndProcessor: MemoryAndProcessor
+		AdditionalFeatures: AdditionalFeatures
 		reviews: Reviews
 		deliveryAndPayment: DeliveryAndPayment
 	}[];
@@ -113,6 +114,7 @@ namespace ProductsStore {
 		previousPrice: number;
 		Rating: string;
 		buyProduc: string;
+		isResult?: string;
 		newProduct: string;
 		Screen?: string;
 		colorProduct?: string;
@@ -128,10 +130,10 @@ namespace ProductsStore {
 		image4?: string;
 		image5?: string;
 		image6?: string;
-		description: Description
-		characteristics: Characteristics
-		memoryAndProcessor: MemoryAndProcessor
-		additionalFeatures: AdditionalFeatures
+		Description: Description
+		Characteristics: Characteristics
+		MemoryAndProcessor: MemoryAndProcessor
+		AdditionalFeatures: AdditionalFeatures
 		reviews: Reviews
 		deliveryAndPayment: DeliveryAndPayment
 	};

@@ -1,4 +1,3 @@
-
 import { Register } from './RegisterPages/Register'
 
 const RegisterPages = () => {
