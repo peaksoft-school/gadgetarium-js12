@@ -1,6 +1,13 @@
-const basketproducts = () => {
+import { FC } from 'react';
+
+interface basketProps {
+	className: string;
+}
+
+const basketproducts: FC<basketProps> = ({ className }) => {
 	return (
 		<svg
+			className={className}
 			width="24"
 			height="24"
 			viewBox="0 0 24 24"

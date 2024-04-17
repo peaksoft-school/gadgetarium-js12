@@ -12,17 +12,19 @@ const CustomSearch = () => {
 	};
 	return (
 		<div className={scss.SearchInputs}>
-			<input
-				className={scss.inputSearch}
-				type="text"
-				placeholder="Поиск по каталогу магазина"
-				onFocus={handleFocus}
-				onBlur={handleBlur}
-			/>
-			<div
-				className={`${scss.searchIcon} ${searchInput ? scss.searchFocus : ''}`}
-			>
-				<IconSearch />
+			<div className={scss.main_search}>
+				<input
+					className={scss.input_search}
+					type="text"
+					placeholder="Поиск по каталогу магазина"
+					onFocus={handleFocus}
+					onBlur={handleBlur}
+				/>
+				<div
+					className={`${scss.search_icon} ${searchInput ? scss.search_focus : ''}`}
+				>
+					<IconSearch />
+				</div>
 			</div>
 		</div>
 	);

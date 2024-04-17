@@ -79,4 +79,6 @@ export { default as IconStateUp } from './icon-State-up';
 export { default as IconWatchalt } from './icon-Watchalt';
 export { default as Iconpurple } from './icon-Purple';
 export { default as IconCheckmarkColorPink } from './icon-Checkmark-color-pink';
-export {default as IconCodNaPravacVetWhite} from './icon-cod-na-pravac-vet-white'
+export { default as IconCodNaPravacVetWhite } from './icon-cod-na-pravac-vet-white';
+export { default as IconAdgetarium } from './icon-adgetarium';
+export { default as IconGadgetariumMobile } from './icon-g-adgetarium';

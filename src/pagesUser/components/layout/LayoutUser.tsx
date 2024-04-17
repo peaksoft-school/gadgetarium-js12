@@ -27,7 +27,7 @@ const LayoutUser = () => {
 						<Route path="/" element={<HomePage />} />
 						<Route path="/aboutstore" element={<AboutStore />} />
 						<Route path="/delivery" element={<Delivery />} />
-						<Route path="/fag" element={<Fag />} />
+						<Route path="/faq" element={<Fag />} />
 						<Route path="/contacts" element={<Contacts />} />
 					</Routes>
 					<Welcome />

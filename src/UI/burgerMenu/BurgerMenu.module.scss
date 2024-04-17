@@ -1,0 +1,186 @@
+.burger_menu {
+	margin-top: -5px;
+	background: #cb11ace3;
+	border-radius: 10px 0px 0px 10px;
+	color: white;
+	overflow: hidden;
+	height: 0;
+	transition: all 0.5s;
+	position: fixed;
+	right: 0;
+	top: 76px;
+	z-index: 99;
+	&:active {
+		padding: 10px;
+		height: 300px;
+	}
+	.mobile_logo_menu {
+		overflow: hidden;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 20px 15px;
+		gap: 10px;
+
+		.logo {
+			.icon_gadgetarium_mobile {
+				width: 200px;
+				height: 40px;
+			}
+		}
+		.profile {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 17px;
+			a {
+				color: white;
+				@media (max-width: 1000px) {
+					// display: none;
+				}
+			}
+			button {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background: transparent;
+				border: none;
+			}
+		}
+	}
+	li {
+		.link {
+			display: flex;
+			color: white;
+			padding: 10px 15px;
+			gap: 15px;
+			font-size: 20px;
+			transition: all 0.5s;
+			&:active {
+				background: #1a1a25;
+				color: #cb11ab;
+			}
+			&:hover {
+				background: white;
+				color: #cb11ab;
+				transition: all 0.5s;
+			}
+		}
+	}
+	.icons_mobile {
+		margin-top: 15px;
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+		.icon_networks {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 55px;
+			@media (max-width: 1000px) {
+				// display: none;
+			}
+			.networkNone {
+				display: none;
+			}
+			.icon_facebook {
+				cursor: pointer;
+				color: white;
+				&:hover {
+					color: #1a1a25;
+				}
+			}
+			.icon_instagram {
+				cursor: pointer;
+				color: white;
+
+				&:hover {
+					color: #1a1a25;
+				}
+			}
+			.icon_whatsapp {
+				cursor: pointer;
+				color: white;
+				&:hover {
+					color: #1a1a25;
+				}
+			}
+		}
+		.icon_basket_heart {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 60px;
+			position: relative;
+			.icon_weight {
+				cursor: pointer;
+				.weight {
+					color: white;
+					&:hover {
+						color: #1a1a25;
+					}
+				}
+				span {
+					position: absolute;
+					top: -5px;
+					left: 56px;
+					width: 20px;
+					height: 20px;
+					border: 2px solid #cb11ab;
+					border-radius: 50%;
+					background: gray;
+					font-size: 10px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+			.icon_heart {
+				cursor: pointer;
+				.heart {
+					color: white;
+					&:hover {
+						color: #1a1a25;
+					}
+				}
+				span {
+					position: absolute;
+					top: -5px;
+					left: 139px;
+					width: 20px;
+					height: 20px;
+					border: 2px solid #cb11ab;
+					border-radius: 50%;
+					background: gray;
+					font-size: 10px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+			.icon_basket {
+				cursor: pointer;
+				.basket {
+					color: white;
+					&:hover {
+						color: #1a1a25;
+					}
+				}
+				span {
+					position: absolute;
+					top: -5px;
+					left: 222px;
+					width: 20px;
+					height: 20px;
+					border: 2px solid #cb11ab;
+					border-radius: 50%;
+					background: gray;
+					font-size: 10px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+		}
+	}
+}

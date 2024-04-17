@@ -1,7 +1,14 @@
-const gadgetarium = () => {
+import { FC } from 'react';
+
+interface classNameProps {
+	className: string;
+}
+
+const gadgetarium: FC<classNameProps> = ({ className }) => {
 	return (
 		<div>
 			<svg
+				className={className}
 				width="222.000000"
 				height="39.000000"
 				viewBox="0 0 222 39"

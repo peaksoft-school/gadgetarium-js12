@@ -1,7 +1,14 @@
-const heart = () => {
+import { FC } from 'react';
+
+interface heartProps {
+	className: string;
+}
+
+const heart: FC<heartProps> = ({ className }) => {
 	return (
 		<>
 			<svg
+			className={className}
 				width="24"
 				height="24"
 				viewBox="0 0 24 24"

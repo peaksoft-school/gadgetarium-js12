@@ -60,6 +60,9 @@
 				gap: 17px;
 				a {
 					color: white;
+					@media (max-width: 1000px) {
+						// display: none;
+					}
 				}
 				button {
 					display: flex;
@@ -80,6 +83,7 @@
 			position: fixed;
 			top: 0;
 			left: 0;
+			z-index: 99;
 		}
 		.content {
 			padding: 28px 0;
@@ -91,8 +95,30 @@
 				justify-content: center;
 				align-items: center;
 				gap: 35px;
+				@media (max-width: 1170px) {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					gap: 15px;
+				}
+				.logo {
+					transition: all 3s ease-in-out;
+					.icon_gadgetarium_fixed {
+						// width: 100px;
+						@media (max-width: 1170px) {
+							width: 200px;
+						}
+						@media (max-width: 1140px) {
+							width: 140px;
+						}
+						// @media (max-width: 1140px) {
+						// 	width: 120px;
+						// }
+					}
+				}
 				button {
 					cursor: pointer;
+					width: 100%;
 					padding: 14px 20px 15px 20px;
 					display: flex;
 					justify-content: center;
@@ -108,7 +134,7 @@
 					border-radius: 4px;
 				}
 				.hr_line {
-					width: 0.2px;
+					width: 0.9px;
 					height: 40px;
 					background: rgba(133, 143, 164, 0.15);
 					transform: rotate(900deg);
@@ -119,21 +145,28 @@
 				justify-content: center;
 				align-items: center;
 				gap: 20px;
-				.icon_facebook {
+				@media (max-width: 1000px) {
+					// display: none;
+				}
+				.networkNone {
+					display: none;
+				}
+				a {
 					cursor: pointer;
 					color: white;
 					&:hover {
 						color: #cb11ab;
 					}
 				}
-				.icon_instagram {
+				a {
 					cursor: pointer;
 					color: white;
+
 					&:hover {
 						color: #cb11ab;
 					}
 				}
-				.icon_whatsapp {
+				a {
 					cursor: pointer;
 					color: white;
 					&:hover {
@@ -146,25 +179,118 @@
 				justify-content: center;
 				align-items: center;
 				gap: 25px;
+				position: relative;
 				.icon_weight {
 					cursor: pointer;
-					color: white;
-					&:hover {
-						color: #cb11ab;
+					.weight {
+						color: white;
+						&:hover {
+							color: #cb11ab;
+						}
+					}
+					span {
+						position: absolute;
+						top: -5px;
+						left: 15px;
+						width: 20px;
+						height: 20px;
+						border: 2px solid #1a1a25;
+						border-radius: 50%;
+						background: gray;
+						font-size: 10px;
+						display: flex;
+						justify-content: center;
+						align-items: center;
 					}
 				}
 				.icon_heart {
 					cursor: pointer;
-					color: white;
-					&:hover {
-						color: #cb11ab;
+					.heart {
+						color: white;
+						&:hover {
+							color: #cb11ab;
+						}
+					}
+					span {
+						position: absolute;
+						top: -5px;
+						left: 64px;
+						width: 20px;
+						height: 20px;
+						border: 2px solid #1a1a25;
+						border-radius: 50%;
+						background: gray;
+						font-size: 10px;
+						display: flex;
+						justify-content: center;
+						align-items: center;
 					}
 				}
 				.icon_basket {
 					cursor: pointer;
-					color: white;
-					&:hover {
-						color: #cb11ab;
+					.basket {
+						color: white;
+						&:hover {
+							color: #cb11ab;
+						}
+					}
+					span {
+						position: absolute;
+						top: -5px;
+						left: 113px;
+						width: 20px;
+						height: 20px;
+						border: 2px solid #1a1a25;
+						border-radius: 50%;
+						background: gray;
+						font-size: 10px;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+					}
+				}
+			}
+		}
+	}
+	// !HEADER MOBILE
+	.sup_mobile {
+		width: 100%;
+		position: fixed;
+		z-index: 99;
+		background: #1a1a25;
+		&.blur {
+			background: #1a1a255e;
+			backdrop-filter: blur(5px);
+		}
+		.content_mobile {
+			padding: 14px 0;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			// @media (max-width: 330px) {
+			// 	display: flex;
+			// 	justify-content: center;
+			// 	align-items: center;
+			// 	gap: 6px;
+			// }
+			.logo {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap: 5px;
+				.icon_g_adget {
+					padding: 5px 5px;
+					background: #cb11ab;
+					.icon_g {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+					}
+				}
+				.icon_adgetarium {
+					margin-top: 15px;
+					@media (max-width: 720px) {
+						display: none;
 					}
 				}
 			}

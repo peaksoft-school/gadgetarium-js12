@@ -14,6 +14,7 @@ const DesktopHeaderMenu = () => {
 					<Menu.Item>Войти</Menu.Item>
 					<Menu.Item>Регистрация</Menu.Item>
 				</Menu.Dropdown>
+				{/* <div className={scss.menu_logout}></div> */}
 			</Menu>
 		</div>
 	);
