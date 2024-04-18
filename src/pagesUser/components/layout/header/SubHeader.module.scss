@@ -1,0 +1,208 @@
+.Header {
+	position: sticky;
+	top: 0;
+	z-index: 999;
+	padding-block: 22px;
+	background: #1a1a25;
+	transition: 0.2s;
+	&.active {
+		padding-block: 16px;
+	}
+	.content {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 100px;
+		.button_catalog_search {
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 35px;
+			@media (max-width: 1170px) {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap: 15px;
+			}
+			.logo {
+				transition: all 3s ease-in-out;
+				.icon_gadgetarium_fixed {
+					@media (max-width: 1170px) {
+						width: 200px;
+					}
+					@media (max-width: 1140px) {
+						width: 140px;
+					}
+				}
+			}
+			.catalog {
+				cursor: pointer;
+				padding: 14px 20px 15px 20px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap: 8px;
+				background: #cb11ab;
+				color: white;
+				border: none;
+				font-size: 16px;
+				font-weight: 700;
+				line-height: 19px;
+				border-radius: 4px;
+			}
+			.hr_line {
+				width: 0.9px;
+				height: 40px;
+				background: rgba(133, 143, 164, 0.15);
+				transform: rotate(900deg);
+			}
+			.search {
+				width: 100%;
+			}
+		}
+		.icon_networks {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 20px;
+			@media (max-width: 1000px) {
+				// display: none;
+			}
+			.networkNone {
+				display: none;
+			}
+			a {
+				cursor: pointer;
+				color: white;
+				&:hover {
+					color: #cb11ab;
+				}
+			}
+			a {
+				cursor: pointer;
+				color: white;
+
+				&:hover {
+					color: #cb11ab;
+				}
+			}
+			a {
+				cursor: pointer;
+				color: white;
+				&:hover {
+					color: #cb11ab;
+				}
+			}
+		}
+		.icon_basket_heart {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 25px;
+			position: relative;
+			.icon_weight {
+				cursor: pointer;
+				.weight {
+					color: white;
+					&:hover {
+						color: #cb11ab;
+					}
+				}
+				span {
+					position: absolute;
+					top: -5px;
+					left: 15px;
+					width: 20px;
+					height: 20px;
+					border: 2px solid #1a1a25;
+					border-radius: 50%;
+					background: gray;
+					font-size: 10px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+			.icon_heart {
+				cursor: pointer;
+				.heart {
+					color: white;
+					&:hover {
+						color: #cb11ab;
+					}
+				}
+				span {
+					position: absolute;
+					top: -5px;
+					left: 64px;
+					width: 20px;
+					height: 20px;
+					border: 2px solid #1a1a25;
+					border-radius: 50%;
+					background: gray;
+					font-size: 10px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+			.icon_basket {
+				cursor: pointer;
+				.basket {
+					color: white;
+					&:hover {
+						color: #cb11ab;
+					}
+				}
+				span {
+					position: absolute;
+					top: -5px;
+					left: 113px;
+					width: 20px;
+					height: 20px;
+					border: 2px solid #1a1a25;
+					border-radius: 50%;
+					background: gray;
+					font-size: 10px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+		}
+	}
+
+	// !HEADER MOBILE
+	.content_mobile {
+		position: absolute;
+		top: 0;
+		right: -20px;
+		padding: 14px 0;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		.logo {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 5px;
+			.icon_g_adget {
+				padding: 5px 5px;
+				background: #cb11ab;
+				.icon_g {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+			.icon_adgetarium {
+				margin-top: 15px;
+				@media (max-width: 720px) {
+					display: none;
+				}
+			}
+		}
+	}
+}

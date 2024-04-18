@@ -1,4 +1,4 @@
-import { ProductsStore } from '@/src/UI/productsStore/ProductsStore';
+import { ProductsStore } from '@/src/ui/productsStore/ProductsStore';
 import scss from './CategoryProduct.module.scss';
 import { useState } from 'react';
 import { NavbarProducts } from './NavbarProducts';
@@ -56,7 +56,7 @@ const CategoryProduct = () => {
 							) : null}
 							{buttonBrand5 ? (
 								<button onClick={() => setButtonBrand5(false)}>
-									<span>Xiaomi</span>  <IconXX />
+									<span>Xiaomi</span> <IconXX />
 								</button>
 							) : null}
 						</div>

@@ -10,4 +10,5 @@ export interface FiltredTypesProducts {
 	buyProduc: string;
 	newProduct: string;
 	isResult: string;
-}[];
+}
+[];
