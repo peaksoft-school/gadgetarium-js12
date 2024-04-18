@@ -1,0 +1,21 @@
+.divresult {
+	position: absolute;
+	top: 50%;
+	right: 20rem;
+	transform: translateY(-50%);
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	z-index: 0;
+}
+
+.divResult2 {
+	position: absolute;
+	top: 50%;
+	left: 20rem;
+	transform: translateY(-50%) rotate(180deg);
+	display: flex;
+	align-items: center;
+	z-index: 5;
+	cursor: pointer;
+}

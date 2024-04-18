@@ -1,0 +1,119 @@
+.FAQPage {
+  width: 100%;
+  background: rgb(244, 244, 244);
+  height: auto;
+	.content {
+		display: flex;
+		flex-direction: column;
+		padding-top: 3.1rem;
+		padding-bottom: 6.5rem;
+		gap: 6.7rem;
+		.pageContent1 {
+			display: flex;
+			flex-direction: column;
+			gap: 1.8rem;
+			p {
+				display: flex;
+				align-items: center;
+				gap: 5px;
+				color: rgb(145, 150, 158);
+				font-size: clamp(0.5rem, 4vw, 0.8rem);
+				h3 {
+					color: rgba(56, 66, 85, 0.6);
+					font-size: clamp(0.5rem, 4vw, 0.8rem);
+				}
+			}
+			.divTextAndBorderDiv {
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+				h3 {
+					color: rgb(41, 41, 41);
+					font-size: clamp(1.4rem, 5vw, 1.7rem);
+				}
+				div {
+					width: 100%;
+					height: 1px;
+					border: 1px solid rgb(205, 205, 205);
+				}
+			}
+		}
+		.pageContent2 {
+			display: flex;
+			flex-direction: column;
+			gap: 2.4rem;
+			h3 {
+				text-align: center;
+				color: rgb(41, 41, 41);
+				font-size: clamp(1.3rem, 7vw, 1.6rem);
+			}
+			.openMenuDiv {
+				display: flex;
+				flex-direction: column;
+				gap: 1.1rem;
+				align-items: center;
+				.containerMenu {
+					border-radius: 2px;
+					box-shadow: 0px 2px 10px 0px rgba(48, 60, 51, 0.05);
+					background: rgb(255, 255, 255);
+					display: flex;
+					flex-direction: column;
+					gap: 1rem;
+					// overflow: auto;
+					width: 61.5rem;
+					height: auto;
+          padding-inline: 20px;
+          padding-block: 23px;
+          border-radius: 7px;
+					.MainContent {
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						.content1 {
+							display: flex;
+							align-items: center;
+							gap: 1.1rem;
+							.nooActiveDiv {
+								padding-inline: 12px;
+								padding-block: 11px;
+								border-radius: 50%;
+								background: rgb(203, 17, 171) !important;
+								opacity: 0.1;
+								p {
+									color: purple !important;
+									font-size: clamp(0.9rem, 7vw, 1.2rem);
+								}
+								&.activeDiv {
+									transition: all 0.3s ease;
+									/* Pink */
+									background: purple !important;
+									opacity: 0.1;
+
+									p {
+										color: #ffffff !important;
+									}
+								}
+							}
+							h3 {
+								color: rgb(41, 41, 41);
+								font-size: clamp(0.8rem, 6vw, 1.2rem);
+							}
+						}
+            .iconNooActive {
+              transform:rotate(180deg);
+              &.iconActive {
+                transform:rotate(90deg)
+              }
+            }
+					}
+					.divOpenMenuTexts {
+						p {
+							color: rgb(41, 41, 41);
+							font-size: clamp(0.7rem, 4vw, 1rem);
+						}
+					}
+				}
+			}
+		}
+	}
+}

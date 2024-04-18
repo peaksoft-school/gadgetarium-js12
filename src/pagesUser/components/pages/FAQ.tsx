@@ -1,10 +1,9 @@
-import FAQPage from "./FAQPage/FAQPage"
-
+import FAQPage from './FAQPage/FAQPage';
 
 export const FAQ = () => {
-  return (
-    <>
-    <FAQPage/>
-    </>
-  )
-}
+	return (
+		<>
+			<FAQPage />
+		</>
+	);
+};

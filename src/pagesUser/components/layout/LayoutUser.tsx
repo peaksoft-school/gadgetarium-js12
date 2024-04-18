@@ -6,6 +6,9 @@ import NotFound from '../pages/notFound/NotFound';
 import HomePage from '../pages/HomePage';
 import Welcome from '../pages/homeSections/Welcome';
 import { Delivery } from '../pages/Delivery';
+import AboutStore from '../pages/AboutStore';
+import { FAQ } from '../pages/FAQ';
+import Contacts from '../pages/Contacts';
 const LayoutUser = () => {
 	const { pathname } = useLocation();
 	if (pathname === '/*') {
@@ -23,6 +26,9 @@ const LayoutUser = () => {
 					<Routes>
 						<Route path="/" element={<HomePage />} />
 						<Route path="/DeliveryPage" element={<Delivery />} />
+						<Route path="/AboutStorePage" element={<AboutStore />} />
+						<Route path="/FAQPage" element={<FAQ />} />
+						<Route path="/ContactsPage" element={<Contacts />} />
 					</Routes>
 					<Welcome />
 				</main>
