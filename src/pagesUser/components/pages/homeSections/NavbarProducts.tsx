@@ -5,7 +5,7 @@ import { Slider } from 'antd';
 import { useGetProductsQuery } from '@/src/redux/api/products/Products';
 import { FiltredTypesProducts } from '@/src/types/typesProducts';
 
-import { Checkbox } from '@mantine/core';
+import { Checkbox } from 'antd';
 function getGradientColor(percentage: number) {
 	const startColor = [203, 17, 171];
 	const endColor = [203, 17, 171];
@@ -124,13 +124,10 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 												width: '20px',
 												height: '20px',
 												background: 'pink',
-												color: 'pink',
-												
+												color: 'pink'
 											}}
 											defaultChecked
 											type="checkbox"
-											color="pink"
-											
 										/>
 
 										<label htmlFor="checkbox_1" className={scss.checkbox_label}>
@@ -150,10 +147,9 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 											}}
 											defaultChecked
 											type="checkbox"
-											color="pink"
 										/>
 										<label htmlFor="checkbox_2" className={scss.checkbox_label}>
-										Samsung  
+											Samsung
 										</label>
 									</div>
 									<div
@@ -169,10 +165,9 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 											}}
 											defaultChecked
 											type="checkbox"
-											color="pink"
 										/>
 										<label htmlFor="checkbox_3" className={scss.checkbox_label}>
-										Huawei
+											Huawei
 										</label>
 									</div>
 									<div
@@ -188,10 +183,9 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 											}}
 											defaultChecked
 											type="checkbox"
-											color="pink"
 										/>
 										<label htmlFor="checkbox_4" className={scss.checkbox_label}>
-										Honor
+											Honor
 										</label>
 									</div>
 									<div
@@ -207,13 +201,12 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 											}}
 											defaultChecked
 											type="checkbox"
-											color="pink"
 										/>
 										<label
 											htmlFor="checkbox_45"
 											className={scss.checkbox_label}
 										>
-											Xiaomi 
+											Xiaomi
 										</label>
 									</div>
 									<div
@@ -229,7 +222,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 											}}
 											defaultChecked
 											type="checkbox"
-											color="pink"
 										/>
 										<label
 											htmlFor="checkbox_46"
@@ -314,7 +306,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_5" className={scss.checkbox_label}>
 										Black <span>(14840)</span>
@@ -330,7 +321,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_6" className={scss.checkbox_label}>
 										Blue <span>(22544)</span>
@@ -346,7 +336,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_7" className={scss.checkbox_label}>
 										Gold <span>(3044)</span>
@@ -362,7 +351,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_8" className={scss.checkbox_label}>
 										Graphite <span>(2544)</span>
@@ -378,7 +366,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_9" className={scss.checkbox_label}>
 										Green <span>(7005)</span>
@@ -394,7 +381,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_10" className={scss.checkbox_label}>
 										Rose Gold <span>(2500)</span>
@@ -410,7 +396,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_11" className={scss.checkbox_label}>
 										Red <span>(2444)</span>
@@ -426,7 +411,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_12" className={scss.checkbox_label}>
 										Silver <span>(14000)</span>
@@ -442,7 +426,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_13" className={scss.checkbox_label}>
 										White <span>(5000)</span>
@@ -477,7 +460,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_14" className={scss.checkbox_label}>
 										8
@@ -493,7 +475,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_15" className={scss.checkbox_label}>
 										16
@@ -509,7 +490,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_16" className={scss.checkbox_label}>
 										32
@@ -525,7 +505,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_17" className={scss.checkbox_label}>
 										64
@@ -541,7 +520,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_18" className={scss.checkbox_label}>
 										128
@@ -557,7 +535,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_19" className={scss.checkbox_label}>
 										256
@@ -565,13 +542,19 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 								</div>
 								{memoryMore ? (
 									<>
-										<p   onClick={() => setMemoryMore(false)}>
-											<img className={scss.photoActive} src={icon} alt="icon" /> Закрыт!
+										<p onClick={() => setMemoryMore(false)}>
+											<img className={scss.photoActive} src={icon} alt="icon" />{' '}
+											Закрыт!
 										</p>
 									</>
 								) : (
 									<p onClick={() => setMemoryMore(true)}>
-										<img className={scss.photoNooAvtive} src={icon} alt="icon" /> Еще 2
+										<img
+											className={scss.photoNooAvtive}
+											src={icon}
+											alt="icon"
+										/>{' '}
+										Еще 2
 									</p>
 								)}
 								{memoryMore ? (
@@ -586,7 +569,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 												}}
 												defaultChecked
 												type="checkbox"
-												color="pink"
 											/>
 											<label
 												htmlFor="checkbox_20"
@@ -605,7 +587,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 												}}
 												defaultChecked
 												type="checkbox"
-												color="pink"
 											/>
 											<label
 												htmlFor="checkbox_21"
@@ -645,7 +626,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_22" className={scss.checkbox_label}>
 										3
@@ -661,7 +641,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_23" className={scss.checkbox_label}>
 										4
@@ -677,7 +656,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_24" className={scss.checkbox_label}>
 										6
@@ -693,7 +671,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_25" className={scss.checkbox_label}>
 										8
@@ -709,7 +686,6 @@ export const NavbarProducts: React.FC<NavbarProductsProps> = ({
 										}}
 										defaultChecked
 										type="checkbox"
-										color="pink"
 									/>
 									<label htmlFor="checkbox_26" className={scss.checkbox_label}>
 										12

@@ -1,6 +1,6 @@
 const AboutPage = () => {
 	return (
-		<section>
+		<>
 			<h1>AboutStore</h1>
 			<h1>AboutStore</h1>
 			<h1>AboutStore</h1>
@@ -27,7 +27,7 @@ const AboutPage = () => {
 			<h1>AboutStore</h1>
 			<h1>AboutStore</h1>
 			<h1>AboutStore</h1>
-		</section>
+		</>
 	);
 };
 
