@@ -1,4 +1,4 @@
-const tools = () => {
+const iconTools = () => {
 	return (
 		<div>
 			<svg
@@ -55,4 +55,4 @@ const tools = () => {
 	);
 };
 
-export default tools;
+export default iconTools;

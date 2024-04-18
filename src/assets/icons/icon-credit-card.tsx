@@ -1,4 +1,4 @@
-const creditcard = () => {
+const iconCreditCard = () => {
 	return (
 		<div>
 			<svg
@@ -62,4 +62,4 @@ const creditcard = () => {
 	);
 };
 
-export default creditcard;
+export default iconCreditCard;

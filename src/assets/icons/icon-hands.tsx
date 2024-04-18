@@ -1,4 +1,4 @@
-const hands = () => {
+const iconHands = () => {
 	return (
 		<div>
 			<svg
@@ -48,4 +48,4 @@ const hands = () => {
 	);
 };
 
-export default hands;
+export default iconHands;

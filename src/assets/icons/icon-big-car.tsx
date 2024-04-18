@@ -1,4 +1,4 @@
-const bigcar = () => {
+const iconBigCar = () => {
 	return (
 		<div>
 			<svg
@@ -55,4 +55,4 @@ const bigcar = () => {
 	);
 };
 
-export default bigcar;
+export default iconBigCar;

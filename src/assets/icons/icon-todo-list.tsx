@@ -1,4 +1,4 @@
-const todoList = () => {
+const iconTodoList = () => {
 	return (
 		<div>
 			<svg
@@ -55,4 +55,4 @@ const todoList = () => {
 	);
 };
 
-export default todoList;
+export default iconTodoList;
