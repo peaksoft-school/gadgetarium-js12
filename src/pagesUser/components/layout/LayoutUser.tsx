@@ -20,7 +20,7 @@ const LayoutUser = () => {
 
 	useEffect(() => {
 		const changeIsMobile = () => {
-			if (window.innerWidth < 960) {
+			if (window.innerWidth < 1100) {
 				setIsMobile(true);
 			} else {
 				setIsMobile(false);
