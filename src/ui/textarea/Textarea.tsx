@@ -3,10 +3,8 @@ import { useState } from "react"
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'
 
-
 const Textarea = () => {
   const [text, setText] = useState('');
-
 
   const modules = {
     toolbar: [
@@ -36,6 +34,5 @@ const Textarea = () => {
     </div>
   )
 }
-
 
 export default Textarea
