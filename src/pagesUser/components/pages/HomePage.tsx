@@ -1,30 +1,12 @@
+import Welcome from './homeSections/Welcome.tsx';
+import AboutService from './homeSections/AboutService.tsx';
+
 const HomePage = () => {
 	return (
-		<div>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-			<h1>Welcome user!</h1>
-		</div>
+		<>
+			<Welcome />
+			<AboutService />
+		</>
 	);
 };
 
