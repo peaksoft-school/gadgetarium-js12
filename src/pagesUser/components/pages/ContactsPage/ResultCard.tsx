@@ -1,14 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { styled } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
+import { YMaps, Map, Placemark, MouseEvent } from '@pbe/react-yandex-maps';
+import scss from './CardMapConponent.module.scss';
+
+type Coordinates = [number, number];
 
 export const MapComponent = () => {
-	const [clickedCoordinates, setClickedCoordinates] = useState([
-		42.875903, 74.628396
-	]);
-	const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
+	const [clickedCoordinates, setClickedCoordinates] =
+		useState<Coordinates | null>(null);
+	const [_, setIsMouseDown] = useState<boolean>(false);
 
 	const handleMouseDown = () => {
 		setIsMouseDown(true);
@@ -17,14 +17,15 @@ export const MapComponent = () => {
 	const handleMouseUp = () => {
 		setIsMouseDown(false);
 	};
-	const handleMapClick = (e: any) => {
-		const clickedCoords = e.get('coords');
+
+	const handleMapClick = (event: React.PropsWithChildren<MouseEvent>) => {
+		const clickedCoords: Coordinates = event.get('coords') as Coordinates;
 		setClickedCoordinates(clickedCoords);
 	};
 
 	useEffect(() => {
 		if (!navigator.geolocation) {
-			setError('Геолокация не поддерживается вашим браузером.');
+			throw new Error('Геолокация не поддерживается вашим браузером.');
 		} else {
 			navigator.geolocation.getCurrentPosition(
 				(position) => {
@@ -32,7 +33,7 @@ export const MapComponent = () => {
 					setClickedCoordinates([latitude, longitude]);
 				},
 				(error) => {
-					setError(error.message);
+					throw new Error(error.message);
 				},
 				{
 					enableHighAccuracy: true,
@@ -44,8 +45,8 @@ export const MapComponent = () => {
 	}, []);
 
 	return (
-		<Container
-			onMouseDown={isMouseDown}
+		<div
+			className={scss.Container}
 			onMouseDown={handleMouseDown}
 			onMouseUp={handleMouseUp}
 		>
@@ -63,35 +64,19 @@ export const MapComponent = () => {
 						<Placemark
 							geometry={clickedCoordinates}
 							properties={{
-								hintContent: 'Ваше местоположение', // Подсказка при наведении на маркер
-								balloonContent: 'Вы находитесь здесь' // Содержимое балуна (всплывающей подсказки)
+								hintContent: 'Ваше местоположение',
+								balloonContent: 'Вы находитесь здесь'
 							}}
 							options={{
-								preset: 'islands#redIcon' // Стиль маркера (синий флажок)
+								preset: 'islands#redIcon'
 							}}
 						/>
 					)}
 				</Map>
 			</YMaps>
-		</Container>
+		</div>
 	);
 };
 
-const Container = styled('div')`
-	/* margin-bottom: 7.5rem; */
-	outline: 1px solid #c4c5c6;
 
-	.ymaps-2-1-79-gototech {
-		display: none;
-	}
-	.ymaps-2-1-79-map-copyrights-promo {
-		display: none;
-	}
-	.ymaps-2-1-79-copyright__wrap {
-		display: none;
-	}
-`;
-function setError(message: string) {
-  throw new Error('Function not implemented.');
-}
 

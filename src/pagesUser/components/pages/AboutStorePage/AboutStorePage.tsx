@@ -18,6 +18,7 @@ import {
 	OshIsRegionPhoto,
 	TalasIsRegionPhoto
 } from '@/src/utils/ArrayIsRegionPhoto';
+import {  PhotoSlider } from './PhotoSlider';
 // import Result from '../result/Result';
 const AboutStorePage = () => {
 	const [oshInfo, setOsnInfo] = useState<boolean>(false);
@@ -28,6 +29,8 @@ const AboutStorePage = () => {
 	const [jalalAbatInfo, setJalalAbatInfo] = useState<boolean>(false);
 	const [issykKulInfo, setIssykKulInfo] = useState<boolean>(false);
 	const { data, isLoading } = useGetPhotoStoreQuery();
+console.log(data);
+
 	const navigate = useNavigate();
 	return (
 		<section className={scss.AboutStorePage}>
@@ -44,7 +47,9 @@ const AboutStorePage = () => {
 								<h3>О магазине</h3>
 								<div></div>
 							</div>
-
+							<>
+								<PhotoSlider />
+							</>
 							<div className={scss.contemtsDivForStorePage}>
 								<h2>Магазин Gadgetarium </h2>
 								<ul>

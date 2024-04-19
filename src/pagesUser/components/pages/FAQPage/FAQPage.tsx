@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import scss from './FAQPage.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { IconStateLeft } from '@/src/assets/icons';
-import { FAQPageTexts } from '@/src/utils/ArrayIsFAQPageTexts';
+import { IconLeft } from '@/src/assets/icons';
 
 const FAQPage = () => {
 	const [openMenu1, setOpenMenu1] = useState<boolean>(false);
@@ -11,6 +10,15 @@ const FAQPage = () => {
 	const [openMenu4, setOpenMenu4] = useState<boolean>(false);
 	const [openMenu5, setOpenMenu5] = useState<boolean>(false);
 	const navigate = useNavigate();
+	const handleOpenMenu = (
+		valueBoolean: React.Dispatch<React.SetStateAction<boolean>>,
+		value: boolean
+	): void => {
+		setTimeout(() => {
+			valueBoolean(!value);
+		}, 355);
+	};
+
 	return (
 		<section className={scss.FAQPage}>
 			<div className="container">
@@ -29,7 +37,7 @@ const FAQPage = () => {
 						<div className={scss.openMenuDiv}>
 							<div className={scss.containerMenu}>
 								<div
-									onClick={() => setOpenMenu1(!openMenu1)}
+									onClick={() => handleOpenMenu(setOpenMenu1, openMenu1)}
 									className={scss.MainContent}
 								>
 									<div className={scss.content1}>
@@ -51,24 +59,51 @@ const FAQPage = () => {
 												: `${scss.iconNooActive}`
 										}
 									>
-										<IconStateLeft />
+										<IconLeft />
 									</div>
 								</div>
-								{openMenu1 && (
-									<div className={scss.divOpenMenuTexts}>
-										<p key={FAQPageTexts.id}>{FAQPageTexts.text}</p>
-									</div>
-								)}
+								<div
+									className={
+										openMenu1
+											? `${scss.divOpenMenuTexts} ${scss.divActive}`
+											: `${scss.divOpenMenuTexts}`
+									}
+								>
+									<p>
+										Urna aliquet dignissim pharetra consectetur commodo
+										pellentesque at tellus. Odio eget scelerisque faucibus ut.
+										Cras amet, diam vel, sollicitudin gravida quis augue.
+									</p>
+									<p>
+										{' '}
+										Bibendum et nulla accumsan sollicitudin aliquet velit
+										viverra risus. Eget molestie enim quisque sodales habitant
+										nulla tincidunt. Ullamcorper tincidunt purus sed facilisis.
+									</p>
+									<p>
+										{' '}
+										Ullamcorper aliquam gravida aliquet felis iaculis urna diam
+										dui id. Consectetur in sagittis, sagittis, diam fames ac
+										morbi convallis. Convallis vitae vel luctus erat tempus.
+										Proin feugiat nisl egestas neque facilisi porta ipsum. At
+									</p>
+									<p>
+										{' '}
+										diam ut diam euismod sit fames tellus amet. In tortor
+										placerat dictum faucibus id. Amet facilisis blandit
+										dignissim sed nisl fermentum molestie pretium non.
+									</p>
+								</div>
 							</div>
 							<div className={scss.containerMenu}>
 								<div
-									onClick={() => setOpenMenu2(!openMenu2)}
+									onClick={() => handleOpenMenu(setOpenMenu2, openMenu2)}
 									className={scss.MainContent}
 								>
 									<div className={scss.content1}>
 										<div
 											className={
-												openMenu1
+												openMenu2
 													? `${scss.nooActiveDiv} ${scss.activeDiv}`
 													: `${scss.nooActiveDiv}`
 											}
@@ -84,18 +119,46 @@ const FAQPage = () => {
 												: `${scss.iconNooActive}`
 										}
 									>
-										<IconStateLeft />
+										<IconLeft />
 									</div>
 								</div>
-								{openMenu2 && (
-									<div>
-										<p key={FAQPageTexts.id}>{FAQPageTexts.text}</p>
-									</div>
-								)}
+
+								<div
+									className={
+										openMenu2
+											? `${scss.divOpenMenuTexts} ${scss.divActive}`
+											: `${scss.divOpenMenuTexts}`
+									}
+								>
+									<p>
+										Urna aliquet dignissim pharetra consectetur commodo
+										pellentesque at tellus. Odio eget scelerisque faucibus ut.
+										Cras amet, diam vel, sollicitudin gravida quis augue.
+									</p>
+									<p>
+										{' '}
+										Bibendum et nulla accumsan sollicitudin aliquet velit
+										viverra risus. Eget molestie enim quisque sodales habitant
+										nulla tincidunt. Ullamcorper tincidunt purus sed facilisis.
+									</p>
+									<p>
+										{' '}
+										Ullamcorper aliquam gravida aliquet felis iaculis urna diam
+										dui id. Consectetur in sagittis, sagittis, diam fames ac
+										morbi convallis. Convallis vitae vel luctus erat tempus.
+										Proin feugiat nisl egestas neque facilisi porta ipsum. At
+									</p>
+									<p>
+										{' '}
+										diam ut diam euismod sit fames tellus amet. In tortor
+										placerat dictum faucibus id. Amet facilisis blandit
+										dignissim sed nisl fermentum molestie pretium non.
+									</p>
+								</div>
 							</div>
 							<div className={scss.containerMenu}>
 								<div
-									onClick={() => setOpenMenu3(!openMenu3)}
+									onClick={() => handleOpenMenu(setOpenMenu3, openMenu3)}
 									className={scss.MainContent}
 								>
 									<div className={scss.content1}>
@@ -119,18 +182,46 @@ const FAQPage = () => {
 												: `${scss.iconNooActive}`
 										}
 									>
-										<IconStateLeft />
+										<IconLeft />
 									</div>
 								</div>
-								{openMenu3 && (
-									<div>
-										<p key={FAQPageTexts.id}>{FAQPageTexts.text}</p>
-									</div>
-								)}
+
+								<div
+									className={
+										openMenu3
+											? `${scss.divOpenMenuTexts} ${scss.divActive}`
+											: `${scss.divOpenMenuTexts}`
+									}
+								>
+									<p>
+										Urna aliquet dignissim pharetra consectetur commodo
+										pellentesque at tellus. Odio eget scelerisque faucibus ut.
+										Cras amet, diam vel, sollicitudin gravida quis augue.
+									</p>
+									<p>
+										{' '}
+										Bibendum et nulla accumsan sollicitudin aliquet velit
+										viverra risus. Eget molestie enim quisque sodales habitant
+										nulla tincidunt. Ullamcorper tincidunt purus sed facilisis.
+									</p>
+									<p>
+										{' '}
+										Ullamcorper aliquam gravida aliquet felis iaculis urna diam
+										dui id. Consectetur in sagittis, sagittis, diam fames ac
+										morbi convallis. Convallis vitae vel luctus erat tempus.
+										Proin feugiat nisl egestas neque facilisi porta ipsum. At
+									</p>
+									<p>
+										{' '}
+										diam ut diam euismod sit fames tellus amet. In tortor
+										placerat dictum faucibus id. Amet facilisis blandit
+										dignissim sed nisl fermentum molestie pretium non.
+									</p>
+								</div>
 							</div>
 							<div className={scss.containerMenu}>
 								<div
-									onClick={() => setOpenMenu4(!openMenu4)}
+									onClick={() => handleOpenMenu(setOpenMenu4, openMenu4)}
 									className={scss.MainContent}
 								>
 									<div className={scss.content1}>
@@ -154,18 +245,46 @@ const FAQPage = () => {
 												: `${scss.iconNooActive}`
 										}
 									>
-										<IconStateLeft />
+										<IconLeft />
 									</div>
 								</div>
-								{openMenu4 && (
-									<div>
-										<p key={FAQPageTexts.id}>{FAQPageTexts.text}</p>
-									</div>
-								)}
+
+								<div
+									className={
+										openMenu4
+											? `${scss.divOpenMenuTexts} ${scss.divActive}`
+											: `${scss.divOpenMenuTexts}`
+									}
+								>
+									<p>
+										Urna aliquet dignissim pharetra consectetur commodo
+										pellentesque at tellus. Odio eget scelerisque faucibus ut.
+										Cras amet, diam vel, sollicitudin gravida quis augue.
+									</p>
+									<p>
+										{' '}
+										Bibendum et nulla accumsan sollicitudin aliquet velit
+										viverra risus. Eget molestie enim quisque sodales habitant
+										nulla tincidunt. Ullamcorper tincidunt purus sed facilisis.
+									</p>
+									<p>
+										{' '}
+										Ullamcorper aliquam gravida aliquet felis iaculis urna diam
+										dui id. Consectetur in sagittis, sagittis, diam fames ac
+										morbi convallis. Convallis vitae vel luctus erat tempus.
+										Proin feugiat nisl egestas neque facilisi porta ipsum. At
+									</p>
+									<p>
+										{' '}
+										diam ut diam euismod sit fames tellus amet. In tortor
+										placerat dictum faucibus id. Amet facilisis blandit
+										dignissim sed nisl fermentum molestie pretium non.
+									</p>
+								</div>
 							</div>
 							<div className={scss.containerMenu}>
 								<div
-									onClick={() => setOpenMenu5(!openMenu5)}
+									onClick={() => handleOpenMenu(setOpenMenu5, openMenu5)}
 									className={scss.MainContent}
 								>
 									<div className={scss.content1}>
@@ -189,12 +308,43 @@ const FAQPage = () => {
 												: `${scss.iconNooActive}`
 										}
 									>
-										<IconStateLeft />
+										<IconLeft />
 									</div>
 								</div>
 								{openMenu5 && (
-									<div>
-										<p key={FAQPageTexts.id}>{FAQPageTexts.text}</p>
+									<div
+										className={
+											openMenu5
+												? `${scss.divOpenMenuTexts} ${scss.divActive}`
+												: `${scss.divOpenMenuTexts}`
+										}
+									>
+										<p>
+											Urna aliquet dignissim pharetra consectetur commodo
+											pellentesque at tellus. Odio eget scelerisque faucibus ut.
+											Cras amet, diam vel, sollicitudin gravida quis augue.
+										</p>
+										<p>
+											{' '}
+											Bibendum et nulla accumsan sollicitudin aliquet velit
+											viverra risus. Eget molestie enim quisque sodales habitant
+											nulla tincidunt. Ullamcorper tincidunt purus sed
+											facilisis.
+										</p>
+										<p>
+											{' '}
+											Ullamcorper aliquam gravida aliquet felis iaculis urna
+											diam dui id. Consectetur in sagittis, sagittis, diam fames
+											ac morbi convallis. Convallis vitae vel luctus erat
+											tempus. Proin feugiat nisl egestas neque facilisi porta
+											ipsum. At
+										</p>
+										<p>
+											{' '}
+											diam ut diam euismod sit fames tellus amet. In tortor
+											placerat dictum faucibus id. Amet facilisis blandit
+											dignissim sed nisl fermentum molestie pretium non.
+										</p>
 									</div>
 								)}
 							</div>

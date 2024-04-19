@@ -100,6 +100,11 @@
 							.input {
 								width: 20.4rem;
 								height: 2.5rem;
+								color: black;
+								background-color: #fff;
+							}
+							.input::placeholder {
+								color: black;
 							}
 						}
 					}
@@ -114,13 +119,17 @@
 						.input_for_message {
 							width: 100%;
 							height: 8.6rem;
+							background-color: #fff;
+							color: black;
+						}
+						.input_for_message::placeholder {
+							color: black;
 						}
 					}
-          p {
-            color: rgb(243, 14, 14);
-            font-size: clamp(0.8rem, 5vw, 1.1rem);
-            
-          }
+					p {
+						color: rgb(243, 14, 14);
+						font-size: clamp(0.8rem, 5vw, 1.1rem);
+					}
 					.buttonSubmit {
 						height: 2.7rem;
 						color: rgb(255, 255, 255);

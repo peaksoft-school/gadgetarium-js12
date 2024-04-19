@@ -1,15 +1,8 @@
-<<<<<<< HEAD:src/pagesAuth/components/pages/RegisterPages/Register.tsx
-=======
 import scss from './Register.module.scss';
->>>>>>> dev:src/pagesAuth/components/pages/RegisterSections/Register.tsx
 import logo from '@/src/assets/Group 337504.png';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
-<<<<<<< HEAD:src/pagesAuth/components/pages/RegisterPages/Register.tsx
-import scss from './Register.module.scss';
-=======
 import { Button, Input } from 'antd';
->>>>>>> dev:src/pagesAuth/components/pages/RegisterSections/Register.tsx
 export const Register = () => {
 	const navigate = useNavigate();
 	const {

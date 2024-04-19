@@ -1,11 +1,11 @@
-import { Register } from './RegisterPages/Register'
+import { Register } from './RegisterSections/Register';
 
 const RegisterPages = () => {
-  return (
-    <>
-      <Register/>
-    </>
-  )
-}
+	return (
+		<>
+			<Register />
+		</>
+	);
+};
 
-export default RegisterPages
+export default RegisterPages;

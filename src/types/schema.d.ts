@@ -52,7 +52,6 @@ type RegisterForms = {
 };
 
 type ForgotPasswordForms = {
-<<<<<<< HEAD
   code: string | number;
   password: string;
   confirmThePassword: string;
@@ -64,10 +63,10 @@ type ContactsPagesFormTypes = {
   email: string;
   phoneNumber: number | string;
   message: string;
+	status? : string | undefined
 }
-=======
-	code: string | number;
-	password: string;
-	confirmThePassword: string;
-};
->>>>>>> dev
+// =======
+// 	code: string | number;
+// 	password: string;
+// 	confirmThePassword: string;
+// };

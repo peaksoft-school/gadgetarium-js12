@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-const Welcome = () => {
-	return (
-		<div>
-
-=======
 import scss from './Welcome.module.scss';
 const Welcome = () => {
 	return (
@@ -50,7 +44,6 @@ const Welcome = () => {
 					<h1>Welcome user!</h1>
 				</div>
 			</div>
->>>>>>> dev
 		</div>
 	);
 };

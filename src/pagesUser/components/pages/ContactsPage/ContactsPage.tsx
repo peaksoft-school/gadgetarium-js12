@@ -79,7 +79,7 @@ export const ContactsPage = () => {
 													{...field}
 													className={scss.input}
 													placeholder="Напишите ваше имя"
-													status={!!errors.firstName && 'error'}
+													status={errors.firstName ? 'error' : undefined}
 												/>
 											)}
 										/>
@@ -104,7 +104,8 @@ export const ContactsPage = () => {
 													id="lastName"
 													className={scss.input}
 													placeholder="Напишите вашу фамилию"
-													status={!!errors.lastName && 'error'}
+													status={errors.lastName ? 'error' : undefined}
+													style={{ color: 'black' }}
 												/>
 											)}
 										/>
@@ -131,7 +132,7 @@ export const ContactsPage = () => {
 													{...field}
 													className={scss.input}
 													placeholder="Напишите ваш email"
-													status={!!errors.email && 'error'}
+													status={errors.email ? 'error' : undefined}
 												/>
 											)}
 										/>
@@ -154,7 +155,7 @@ export const ContactsPage = () => {
 												<Input
 													id="phoneNumber"
 													{...field}
-													status={!!errors.phoneNumber && 'error'}
+													status={errors.phoneNumber ? 'error' : undefined}
 													className={scss.input}
 													placeholder="+996 (_ _ _) _ _  _ _  _ _"
 												/>
@@ -180,7 +181,7 @@ export const ContactsPage = () => {
 											<TextArea
 												id="message"
 												{...field}
-												status={!!errors.message && 'error'}
+												status={errors.message ? 'error' : undefined}
 												className={scss.input_for_message}
 												placeholder="Напишите сообщение"
 											/>

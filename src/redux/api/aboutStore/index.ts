@@ -6,7 +6,6 @@ const api = index.injectEndpoints({
       query: () => ({
         url: "",
         method: "GET",
-
       }),
       providesTags: ['storePhotos'],
     })
