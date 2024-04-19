@@ -1,6 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import scss from './ContactsPage.module.scss';
+import { Input, Button } from 'antd';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { MapComponent } from './ResultCard';
+
+const { TextArea } = Input;
+
 export const ContactsPage = () => {
 	const navigate = useNavigate();
 	const {
@@ -8,9 +13,13 @@ export const ContactsPage = () => {
 		reset,
 		handleSubmit,
 		formState: { errors }
-	} = useForm({
+	} = useForm<ContactsPagesFormTypes>({
 		mode: 'onBlur'
 	});
+	const onSubmit: SubmitHandler<ContactsPagesFormTypes> = (data) => {
+		console.log(data);
+		reset();
+	};
 	return (
 		<section className={scss.ContactsPage}>
 			<div className="container">
@@ -46,7 +55,150 @@ export const ContactsPage = () => {
 								</div>
 							</div>
 						</div>
+						<form onSubmit={handleSubmit(onSubmit)} className={scss.forms}>
+							<h2>Напишите нам</h2>
+							<div className={scss.div_form}>
+								<div className={scss.div_form_and_label}>
+									<div className={scss.input_and_label_div}>
+										<label>Имя *</label>
+										<Controller
+											name="firstName"
+											control={control}
+											defaultValue=""
+											rules={{
+												required: 'firstName обязателен для заполнения',
+												minLength: {
+													value: 3,
+													message:
+														'firstName должен содержать минимум 3 символов'
+												}
+											}}
+											render={({ field }) => (
+												<Input
+													id="firstName"
+													{...field}
+													className={scss.input}
+													placeholder="Напишите ваше имя"
+													status={!!errors.firstName && 'error'}
+												/>
+											)}
+										/>
+									</div>
+									<div className={scss.input_and_label_div}>
+										<label>Фамилия *</label>
+										<Controller
+											name="lastName"
+											control={control}
+											defaultValue=""
+											rules={{
+												required: 'lastName обязателен для заполнения',
+												minLength: {
+													value: 4,
+													message:
+														'lastName должен содержать минимум 4 символов'
+												}
+											}}
+											render={({ field }) => (
+												<Input
+													{...field}
+													id="lastName"
+													className={scss.input}
+													placeholder="Напишите вашу фамилию"
+													status={!!errors.lastName && 'error'}
+												/>
+											)}
+										/>
+									</div>
+								</div>
+								<div className={scss.div_form_and_label}>
+									<div className={scss.input_and_label_div}>
+										<label>E-mail *</label>
+										<Controller
+											name="email"
+											control={control}
+											defaultValue=""
+											rules={{
+												required: 'Email обязателен для заполнения',
+												pattern: {
+													value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+													message:
+														'Введите действительный email адрес с доменом @gmail.com'
+												}
+											}}
+											render={({ field }) => (
+												<Input
+													id="email"
+													{...field}
+													className={scss.input}
+													placeholder="Напишите ваш email"
+													status={!!errors.email && 'error'}
+												/>
+											)}
+										/>
+									</div>
+									<div className={scss.input_and_label_div}>
+										<label>Телефон *</label>
+										<Controller
+											name="phoneNumber"
+											control={control}
+											defaultValue=""
+											rules={{
+												required: 'Телефон номер обязателен для заполнения',
+												minLength: {
+													value: 13,
+													message:
+														'Телефон номер должен содержать минимум 13 символов'
+												}
+											}}
+											render={({ field }) => (
+												<Input
+													id="phoneNumber"
+													{...field}
+													status={!!errors.phoneNumber && 'error'}
+													className={scss.input}
+													placeholder="+996 (_ _ _) _ _  _ _  _ _"
+												/>
+											)}
+										/>
+									</div>
+								</div>
+								<div className={scss.message_and_label_div}>
+									<label>Сообщение</label>
+									<Controller
+										name="message"
+										control={control}
+										defaultValue=""
+										rules={{
+											required: 'Сообщение обязателен для заполнения',
+											maxLength: {
+												value: 100,
+												message:
+													'Сообщение должен содержать максимус 100 символов'
+											}
+										}}
+										render={({ field }) => (
+											<TextArea
+												id="message"
+												{...field}
+												status={!!errors.message && 'error'}
+												className={scss.input_for_message}
+												placeholder="Напишите сообщение"
+											/>
+										)}
+									/>
+								</div>
+								{(errors.firstName && <p>{errors.firstName.message}</p>) ||
+									(errors.lastName && <p>{errors.lastName.message}</p>) ||
+									(errors.email && <p>{errors.email.message}</p>) ||
+									(errors.phoneNumber && <p>{errors.phoneNumber.message}</p>) ||
+									(errors.message && <p>{errors.message.message}</p>)}
+								<Button className={scss.buttonSubmit} type="primary">
+									Отправить
+								</Button>
+							</div>
+						</form>
 					</div>
+					<MapComponent />
 				</div>
 			</div>
 		</section>

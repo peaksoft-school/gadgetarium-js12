@@ -57,3 +57,11 @@ type ForgotPasswordForms = {
   password: string;
   confirmThePassword: string;
 }
+
+type ContactsPagesFormTypes = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: number | string;
+  message: string;
+}
