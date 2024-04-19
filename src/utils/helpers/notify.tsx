@@ -1,4 +1,8 @@
-export const notify = (message, linkText, link) => {
+import { IconG } from '@/src/assets/icons';
+import { Link } from 'react-router-dom';
+import { Zoom, toast } from 'react-toastify';
+
+export const notify = (message: string, linkText: string, link: string) => {
 	toast(
 		<div>
 			<IconG />
