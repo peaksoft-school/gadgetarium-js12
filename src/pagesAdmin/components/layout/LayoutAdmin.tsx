@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
 import Header from './header/Header';
 import Footer from './footer/Footer';
+import Notification from '@/src/ui/notification/Notification';
 
 const LayoutAdmin = () => {
 	return (
@@ -13,6 +14,7 @@ const LayoutAdmin = () => {
 					<Routes>
 						<Route path="/" element={<HomePage />} />
 					</Routes>
+					<Notification />
 				</main>
 				<Footer />
 			</div>
