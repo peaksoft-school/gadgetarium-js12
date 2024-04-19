@@ -4,13 +4,22 @@
   align-items: center;
   width: 100%;
   height: 31.8rem;
+  border-radius: 5px;
+
   .photos_slider {
-      
+      @media (max-width: 751px) {
+        width: 100%;
+        height: auto;
+      }
     img {
       // width: 100%;
       // height: 31.8rem;
-      // object-fit: cover;
-      // object-position: center;
+      object-fit: cover;
+      object-position: center;
+      @media (max-width: 751px) {
+        width: 100%;
+        height: 29rem;
+      }
     }
   }
 }

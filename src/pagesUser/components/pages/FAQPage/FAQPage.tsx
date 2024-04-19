@@ -295,7 +295,7 @@ const FAQPage = () => {
 													: `${scss.nooActiveDiv}`
 											}
 										>
-											<p>4</p>
+											<p>5</p>
 										</div>
 										<h3>
 											Lorem ipsum dolor sit amet, consectetur adipiscing elit?

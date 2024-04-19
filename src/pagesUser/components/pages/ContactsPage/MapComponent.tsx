@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react';
-import { YMaps, Map, Placemark, MouseEvent } from '@pbe/react-yandex-maps';
-import scss from './CardMapConponent.module.scss';
+import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
+import scss from './MapComponent.module.scss';
 
 type Coordinates = [number, number];
 
@@ -18,7 +19,12 @@ export const MapComponent = () => {
 		setIsMouseDown(false);
 	};
 
-	const handleMapClick = (event: React.PropsWithChildren<MouseEvent>) => {
+	// const handleMapClick = (event: React.PropsWithChildren<MouseEvent>) => {
+	// 	const clickedCoords: Coordinates = event.get('coords') as Coordinates;
+	// 	setClickedCoordinates(clickedCoords);
+	// };
+
+	const handleMapClick = (event: any) => {
 		const clickedCoords: Coordinates = event.get('coords') as Coordinates;
 		setClickedCoordinates(clickedCoords);
 	};
@@ -77,6 +83,3 @@ export const MapComponent = () => {
 		</div>
 	);
 };
-
-
-

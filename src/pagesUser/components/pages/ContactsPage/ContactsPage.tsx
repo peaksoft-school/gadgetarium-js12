@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import scss from './ContactsPage.module.scss';
 import { Input, Button } from 'antd';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { MapComponent } from './ResultCard';
+import { MapComponent } from './MapComponent';
 
 const { TextArea } = Input;
 

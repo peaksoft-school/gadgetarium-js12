@@ -17,6 +17,10 @@ export const ProductsStore: FC<{
 	arrayProducts: FiltredTypesProducts[];
 }> = ({ arrayProducts }) => {
 	console.log(arrayProducts);
+	// useEffect(() => {
+	// 	const handleProducts = arrayProducts.length === 5;
+		
+	// }, [])
 
 	const [currentSlide, setCurrentSlide] = React.useState(0);
 	const [loaded, setLoaded] = useState(false);
