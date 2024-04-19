@@ -73,7 +73,7 @@ const Header: FC = () => {
 											<button className={scss.selected_option}>
 												Администратор
 												<span className={scss.icon}>
-													<IconChevronDown  />
+													<IconChevronDown />
 												</span>
 											</button>
 										</Menu.Target>
@@ -86,8 +86,8 @@ const Header: FC = () => {
 						</>
 					) : (
 						<>
-								<BurgerButton
-									checked={!isOpenMobileMenu}
+							<BurgerButton
+								checked={!isOpenMobileMenu}
 								onChange={() => setIsOpenMobileMenu(!isOpenMobileMenu)}
 							/>
 							<BurgerMenu isOpenMobileMenu={isOpenMobileMenu} />
