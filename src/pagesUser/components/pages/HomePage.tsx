@@ -1,12 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import Welcome from './homeSections/Welcome';
-// import { ProductsStore } from '@/src/UI/productsStore/ProductsStore';
+import Welcome from './homeSections/Welcome.tsx';
+import AboutService from './homeSections/AboutService.tsx';
 
-// import Welcome from './homeSections/Welcome';
 const HomePage = () => {
-	return <>
-	<Welcome/>
-	</>;
+	return (
+		<>
+			<Welcome />
+			<AboutService />
+		</>
+	);
 };
 
 export default HomePage;

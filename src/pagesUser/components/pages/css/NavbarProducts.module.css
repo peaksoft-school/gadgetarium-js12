@@ -1,1 +1,0 @@
-.divNavBar{display:flex;flex-direction:column;align-items:start;gap:1.7rem}.divNavBar p{color:#2c68f5;font-size:clamp(.7rem,5vw,.9rem);cursor:pointer}.divNavBar div{border:1px solid #e8e8e8;width:100%}.divNavBar .divResult{display:flex;justify-content:space-between;align-items:center}.divNavBar .form{display:flex;flex-direction:column}
