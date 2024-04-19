@@ -12,5 +12,6 @@ namespace ProductsStore {
 		Rating: string;
 		buyProduc: string;
 		newProduct: string;
+		isResult: string;
 	}[];
 }

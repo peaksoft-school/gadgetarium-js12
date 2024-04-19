@@ -1,0 +1,117 @@
+.CategoryProduct {
+	// visibility: hidden;
+	background: rgb(244, 244, 244);
+	width: 100%;
+	height: auto;
+	@media (max-width: 650px) {
+		height: 100%;
+	}
+	.content {
+		display: flex;
+		padding-block: 3.1rem;
+		flex-direction: column;
+		@media (max-width: 965px) {
+			padding-block: 2rem;
+		}
+		@media (max-width: 650px) {
+			padding-block: 1rem;
+		}
+		.divTexts {
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+			gap: 2.1rem;
+			border-bottom: 1px solid rgb(205, 205, 205);
+			@media (max-width: 650px) {
+				gap: 1rem;
+			}
+			.divContents {
+				display: flex;
+				align-items: center;
+				gap: 5px;
+				@media (max-width: 650px) {
+					gap: 3px;
+				}
+				.tagP {
+					color: rgb(145, 150, 158);
+					font-size: clamp(0.6rem, 4vw, 0.9rem);
+				}
+				p {
+					color: rgb(41, 41, 41);
+					font-size: clamp(0.6rem, 4vw, 0.9rem);
+				}
+			}
+			h2 {
+				color: rgb(41, 41, 41);
+				font-size: clamp(1.5rem, 5.5vw, 1.7rem);
+				padding-bottom: 1.1rem;
+				@media (max-width: 650px) {
+					padding-bottom: 0.8rem;
+				}
+			}
+		}
+		.productInto {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 12px;
+			padding-top: 2.9rem;
+			@media (max-width: 965px) {
+				padding-top: 1.5rem;
+			}
+			@media (max-width: 650px) {
+				display: flex;
+				flex-direction: column;
+				align-items: start;
+				gap: 0.8rem;
+			}
+			p {
+				color: rgb(145, 150, 158);
+				font-size: clamp(0.5rem, 4vw, 0.8rem);
+			}
+			.buttonsDiv {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				position: absolute;
+				right: 915px;
+				@media (max-width: 650px) {
+					gap: 5px;
+				}
+				button {
+					display: flex;
+					align-items: center;
+					gap: 25px;
+					padding: 10px;
+					border: 1px solid rgb(205, 205, 205);
+					border-radius: 4px;
+					background-color: rgb(232, 232, 232);
+					@media (max-width: 650px) {
+						gap: 10px;
+						padding: 5px;
+					}
+					span {
+						color: rgb(41, 41, 41);
+						font-size: clamp(0.6rem, 4vw, 0.8rem);
+					}
+				}
+			}
+		}
+		.result {
+			display: flex;
+			align-items: start;
+			justify-content: space-between;
+			gap: 2.4rem;
+			padding-block: 2.3rem;
+			@media (max-width: 965px) {
+			}
+			nav {
+				@media (max-width: 650px) {
+					// position: absolute;
+					// left: 0;
+					// top: 100px;
+				}
+			}
+		}
+	}
+}

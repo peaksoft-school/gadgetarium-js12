@@ -1,9 +1,13 @@
+import Welcome from './homeSections/Welcome.tsx';
+import AboutService from './homeSections/AboutService.tsx';
 
 const HomePage = () => {
-	return <div>
-		Welcome user!
-	</div>;
-
+	return (
+		<>
+			<Welcome />
+			<AboutService />
+		</>
+	);
 };
 
 export default HomePage;

@@ -1,8 +1,8 @@
 import scss from './BurgerMenu.module.scss';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu } from '@mantine/core';
 import { IconChevronDown } from '@tabler/icons-react';
 import { FC } from 'react';
+import { Dropdown, MenuProps } from 'antd/es';
 
 interface BurgerMenuProps {
 	isOpenMobileMenu: boolean;
@@ -20,6 +20,16 @@ const links = [
 	{
 		name: 'Отзывы и рейтинг',
 		link: '/admin'
+	}
+];
+const items: MenuProps['items'] = [
+	{
+		key: '1',
+		label: (
+			<Link rel="noopener noreferrer" to="#">
+				Выйти
+			</Link>
+		)
 	}
 ];
 
@@ -56,19 +66,15 @@ const BurgerMenu: FC<BurgerMenuProps> = ({ isOpenMobileMenu }) => {
 				<div className={scss.alone_div}>
 					<button className={scss.create_button}>Создать рассылку</button>
 					<div className={scss.selected_option_icon}>
-						<Menu shadow="md" width={100}>
-							<Menu.Target>
-								<button className={scss.selected_option}>
-									Администратор
-									<span className={scss.icon}>
-										<IconChevronDown stroke={2} />
-									</span>
-								</button>
-							</Menu.Target>
-							<Menu.Dropdown>
-								<Menu.Item>Выйти</Menu.Item>
-							</Menu.Dropdown>
-						</Menu>
+						<Dropdown menu={{ items }} placement="bottomRight">
+							<button className={scss.button}>
+								Администратор
+								<span className={scss.icon}>
+									{' '}
+									<IconChevronDown />
+								</span>
+							</button>
+						</Dropdown>
 					</div>
 				</div>
 			</div>

@@ -1,0 +1,56 @@
+.Header {
+	background: #1a1a25;
+	border-bottom: 1px solid #858fa426;
+	.content {
+		padding: 14px 0;
+		display: flex;
+		justify-content: space-between;
+		.logo {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.nav {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			ul {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap: 20px;
+				li {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					.link {
+						padding: 10px;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						color: white;
+						transition: 0.2s;
+						&:hover {
+							border-radius: 4px;
+							background: rgba(133, 143, 164, 0.05);
+						}
+						&.active {
+							border-radius: 4px;
+							background: rgba(133, 143, 164, 0.15);
+						}
+					}
+				}
+			}
+		}
+
+		.profile {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 17px;
+			a {
+				color: white;
+			}
+		}
+	}
+}

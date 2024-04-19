@@ -1,11 +1,11 @@
 import { IconG, IconGadgetarium } from '@/src/assets/icons';
 import scss from './Header.module.scss';
 import { FC, useEffect, useState } from 'react';
-import { Menu } from '@mantine/core';
 import { IconChevronDown } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
-import BurgerButton from '@/src/UI/burgerButton/BurgerButton';
-import BurgerMenu from '@/src/UI/burgerMenu/BurgerMenu';
+import BurgerButton from '@/src/ui/burgerButton/BurgerButton';
+import BurgerMenu from '@/src/ui/burgerMenu/BurgerMenu';
+import { Dropdown, MenuProps } from 'antd/es';
 
 const links = [
 	{
@@ -19,6 +19,17 @@ const links = [
 	{
 		name: 'Отзывы и рейтинг',
 		link: '/admin'
+	}
+];
+
+const items: MenuProps['items'] = [
+	{
+		key: '1',
+		label: (
+			<Link rel="noopener noreferrer" to="#">
+				Выйти
+			</Link>
+		)
 	}
 ];
 
@@ -48,7 +59,7 @@ const Header: FC = () => {
 			<div className="container">
 				<div className={scss.content}>
 					<div className={scss.logo}>
-						<IconGadgetarium classname={scss.gadgetarium_icon} />
+						<IconGadgetarium className={scss.gadgetarium_icon} />
 					</div>
 					{!isMobile ? (
 						<>
@@ -68,19 +79,14 @@ const Header: FC = () => {
 									<IconG />
 								</div>
 								<div className={scss.selected_option_icon}>
-									<Menu shadow="md" width={100}>
-										<Menu.Target>
-											<button className={scss.selected_option}>
-												Администратор
-												<span className={scss.icon}>
-													<IconChevronDown />
-												</span>
-											</button>
-										</Menu.Target>
-										<Menu.Dropdown>
-											<Menu.Item>Выйти</Menu.Item>
-										</Menu.Dropdown>
-									</Menu>
+									<Dropdown menu={{ items }} placement="bottomRight">
+										<button className={scss.button}>
+											Администратор
+											<span className={scss.icon}>
+												<IconChevronDown />
+											</span>
+										</button>
+									</Dropdown>
 								</div>
 							</div>
 						</>
