@@ -1,0 +1,614 @@
+.containerInfoProducts {
+	// width: 100%;
+	// height: 50vh;
+	// background: rgb(255, 255, 255);
+	.content {
+		display: flex;
+		flex-direction: column;
+		gap: 3.9rem;
+		padding-inline: 5.6rem;
+		padding-block: 4.3rem;
+		@media (max-width: 1300px) {
+			padding-inline: 2rem;
+		}
+		@media (max-width: 1100px) {
+			padding-inline: 1rem;
+		}
+		@media (max-width: 900px) {
+			padding-inline: 0.3rem;
+		}
+		.divProductButtons {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			border-bottom: 1px solid rgb(205, 205, 205);
+			@media (max-width: 900px) {
+				display: flex;
+				justify-content: space-evenly;
+			}
+			@media (max-width: 800px) {
+				display: flex;
+				justify-content: space-between;
+			}
+			@media (max-width: 745px) {
+				display: flex;
+				flex-direction: column;
+				align-items: start;
+			}
+			.navbar {
+				display: flex;
+				align-items: center;
+				gap: 2.9rem;
+				@media (max-width: 1100px) {
+					gap: 1rem;
+				}
+				@media (max-width: 900px) {
+					gap: 0.3rem;
+				}
+				@media (max-width: 650px) {
+					display: flex;
+					// flex-wrap: wrap;
+					flex-direction: column;
+					align-items: start;
+					gap: 0;
+				}
+				.ulResultStule {
+					display: flex;
+					align-items: center;
+					padding-inline: 4px;
+					padding-bottom: 7.5px;
+					&.active {
+						transition: all 0.5s ease;
+						border-bottom: 2ps solid rgb(203, 17, 171);
+					}
+					.li {
+						color: rgb(41, 41, 41);
+						font-size: clamp(0.8rem, 5vw, 1.1rem);
+						// padding-inline: 4px;
+						// padding-bottom: 7.5px;
+						&.activeLi {
+							transition: all 0.5s ease;
+							color: rgb(203, 17, 171);
+						}
+					}
+				}
+			}
+			.div2 {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+			}
+		}
+		.ProductContentDescription {
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+			gap: 3rem;
+			@media (max-width: 900px) {
+				gap: 0.9rem;
+			}
+			img {
+				height: 34.8rem;
+				width: 100%;
+				@media (max-width: 900px) {
+					width: 100%;
+					height: auto;
+				}
+			}
+			.infoProductTexts1 {
+				display: flex;
+				flex-direction: column;
+				align-items: start;
+				gap: 0.8rem;
+				@media (max-width: 900px) {
+					gap: 0.9rem;
+				}
+				h2 {
+					color: rgb(56, 66, 85);
+					font-size: clamp(0.9rem, 8vw, 1.1rem);
+					border-radius: 8px 0px 0px 8px;
+				}
+				.productsInfoText {
+					display: flex;
+					flex-direction: column;
+					align-items: start;
+					gap: 38px;
+					@media (max-width: 900px) {
+						gap: 0.9rem;
+					}
+					p {
+						color: rgb(56, 66, 85);
+						font-size: clamp(0.8rem, 4vw, 1.1rem);
+					}
+				}
+			}
+			.infoProductTexts2 {
+				display: flex;
+				flex-direction: column;
+				align-items: start;
+				gap: 38px;
+				p {
+					color: rgb(56, 66, 85);
+					font-size: clamp(0.8rem, 4vw, 1.1rem);
+				}
+			}
+		}
+		.characteristicsContents {
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+			// padding-block: 2.1rem;
+			overflow: auto;
+			width: 53.5rem;
+			height: 31.1rem;
+			@media (max-width: 925px) {
+				width: 100%;
+				height: 27rem;
+			}
+			.productContents1 {
+				display: flex;
+				flex-direction: column;
+				gap: 1.1rem;
+				@media (max-width: 925px) {
+					gap: 0.6rem;
+				}
+				.contentCharacteristics {
+					display: flex;
+					// justify-content: space-between;
+					align-items: center;
+					gap: 34.5rem;
+					@media (max-width: 925px) {
+						display: flex;
+						justify-content: space-between;
+						padding-right: 20px;
+						align-items: center;
+						gap: 0;
+					}
+					h3 {
+						color: rgb(56, 66, 85);
+						font-size: clamp(0.9rem, 8vw, 1.2rem);
+					}
+					.icon {
+						transform: rotate(90deg);
+						transition: all 0.6s ease;
+						&.iconActive {
+							transform: rotate(270deg);
+							transition: all 0.6s ease;
+						}
+					}
+					.icon2 {
+						transform: rotate(90deg);
+						transition: all 0.6s ease;
+						margin-left: 3.5rem;
+						@media (max-width: 925px) {
+							margin-left: 0;
+						}
+						&.iconActive2 {
+							transform: rotate(270deg);
+							transition: all 0.6s ease;
+						}
+					}
+				}
+				.render1 {
+					display: flex;
+					flex-direction: column;
+					align-items: start;
+					// overflow: auto;
+					width: 51.5rem;
+					height: 24.1rem;
+					@media (max-width: 925px) {
+						width: 97.5%;
+						height: 21rem;
+						margin-block: 25px;
+						// display: flex;
+						// flex-direction: column;
+						// align-items: center;
+					}
+					@media (max-width: 425px) {
+						height: auto;
+					}
+					@media (max-width: 650px) {
+						height: auto;
+					}
+					.productInfo1 {
+						padding-block: 5px;
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+						border-top: 0.5px solid rgb(194, 199, 209);
+						border-bottom: 0.5px solid rgb(194, 199, 209);
+						// gap: 5rem;
+						width: 100%;
+						@media (max-width: 925px) {
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							gap: 2rem;
+						}
+						@media (max-width: 425px) {
+							display: flex;
+							flex-direction: column;
+							align-items: start;
+							gap: 0;
+						}
+						p {
+							color: rgb(56, 66, 85);
+							font-size: clamp(0.7rem, 4vw, 1rem);
+						}
+						.textTagP {
+							color: rgb(41, 41, 41);
+							font-size: clamp(0.7rem, 4vw, 1rem);
+							padding-right: 11rem;
+							@media (max-width: 925px) {
+								padding-right: 0;
+							}
+						}
+					}
+				}
+			}
+		}
+		.reviewsContents {
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+			gap: 3rem;
+
+			.ratingDiv {
+				display: flex;
+				// justify-content: space-between;
+				align-items: start;
+				gap: 49.2rem;
+				@media (max-width: 1400px) {
+					gap: 44rem;
+				}
+				@media (max-width: 1288px) {
+					gap: 40rem;
+				}
+				@media (max-width: 1222px) {
+					gap: 35rem;
+				}
+				@media (max-width: 1143px) {
+					gap: 30rem;
+				}
+				@media (max-width: 1043px) {
+					gap: 25rem;
+				}
+				@media (max-width: 973px) {
+					gap: 20rem;
+				}
+				@media (max-width: 876px) {
+					gap: 15rem;
+				}
+				@media (max-width: 800px) {
+					gap: 10rem;
+				}
+				@media (max-width: 713px) {
+					gap: 5rem;
+				}
+				@media (max-width: 632px) {
+					gap: 2rem;
+				}
+				@media (max-width: 580px) {
+					display: flex;
+					flex-direction: column;
+					align-items: start;
+				}
+				h2 {
+					color: rgb(41, 41, 41);
+					font-size: clamp(1.4rem, 5vw, 1.7rem);
+				}
+				.divRatingResults {
+					border-radius: 6px;
+					background: rgb(244, 244, 244);
+					width: 24.8rem;
+					height: 13.2rem;
+					@media (max-width: 450px) {
+						width: 100%;
+						height: 11rem;
+					}
+					@media (max-width: 375px) {
+						height: auto;
+					}
+					.ratingContents {
+						padding-block: 1.4rem;
+						padding-inline: 2rem;
+						display: flex;
+						flex-direction: column;
+						gap: 20px;
+						@media (max-width: 450px) {
+							padding-block: 0.8rem;
+							padding-inline: 1.3rem;
+							gap: 15px;
+						}
+						.divDisplayResults {
+							display: flex;
+							align-items: start;
+							gap: 2.6rem;
+							@media (max-width: 450px) {
+								gap: 1rem;
+							}
+							@media (max-width: 375px) {
+								display: flex;
+								flex-direction: column;
+								align-items: start;
+							}
+							.divAllResultRating {
+								display: flex;
+								flex-direction: column;
+								align-items: start;
+								gap: 15px;
+								@media (max-width: 450px) {
+									gap: 7px;
+								}
+								.contentRating1 {
+									display: flex;
+									align-items: center;
+									gap: 11px;
+									@media (max-width: 430px) {
+										gap: 3px;
+										display: flex;
+										flex-direction: column;
+										align-items: start;
+									}
+									h3 {
+										color: rgb(41, 41, 41);
+										font-size: clamp(0.5rem, 7vw, 0.8rem);
+									}
+								}
+								p {
+									color: rgb(145, 150, 158);
+									font-size: clamp(0.5rem, 4vw, 0.8rem);
+								}
+							}
+							.divAllResultRating2 {
+								display: flex;
+								flex-direction: column;
+								align-items: start;
+								.userReviews {
+									display: flex;
+									align-items: center;
+									gap: 10px;
+									@media (max-width: 430px) {
+										gap: 5px;
+									}
+									p {
+										color: rgb(41, 41, 41);
+										font-size: clamp(0.5rem, 4vw, 0.8rem);
+									}
+								}
+							}
+						}
+						.buttonRating {
+							border-radius: 4px;
+							background: rgb(203, 17, 171);
+						}
+					}
+				}
+			}
+			.divUserCommits {
+				display: flex;
+				align-items: start;
+				gap: 10px;
+				img {
+					width: 32px;
+					height: 32px;
+					border-radius: 50%;
+				}
+				.commitsForUsersDiv {
+					display: flex;
+					flex-direction: column;
+					align-items: start;
+					gap: 12px;
+					.userInfo {
+						display: flex;
+						flex-direction: column;
+						align-items: start;
+						h2 {
+							color: rgb(41, 41, 41);
+							font-size: clamp(0.7rem, 7vw, 1rem);
+						}
+						p {
+							color: rgba(0, 0, 0, 0.5);
+							font-size: 0.5rem, 4vw, 0.8rem;
+						}
+					}
+					.GradeDiv {
+						display: flex;
+						align-items: center;
+						gap: 4px;
+						p {
+							color: rgb(41, 41, 41);
+							font-size: 0.5rem, 7vw, 0.8rem;
+						}
+					}
+					.commitUser {
+						color: rgb(56, 66, 85);
+						font-size: clamp(0.7rem, 4vw, 1rem);
+					}
+				}
+			}
+		}
+		.DivShippingAndPaymentContainer {
+			padding-top: 5.3rem;
+			padding-bottom: 3.9rem;
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+			gap: 4.4rem;
+
+			@media (max-width: 1000px) {
+				padding-top: 3.5rem;
+				padding-bottom: 2rem;
+				gap: 3rem;
+			}
+			@media (max-width: 710px) {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+			@media (max-width: 600px) {
+				padding-top: 10px;
+				padding-bottom: 10px;
+				gap: 2rem;
+			}
+			.DeliveryAndPaymentContents1 {
+				display: flex;
+				flex-direction: column;
+				align-items: start;
+				gap: 28px;
+				@media (max-width: 925px) {
+					gap: 18px;
+				}
+				h2 {
+					color: rgb(41, 41, 41);
+					font-size: clamp(1.4rem, 5vw, 1.7rem);
+				}
+				p {
+					color: rgb(41, 41, 41);
+					font-size: clamp(0.8rem, 7vw, 1.1rem);
+					h3 {
+						color: rgb(41, 41, 41);
+						font-size: clamp(0.8rem, 7vw, 1.1rem);
+					}
+				}
+				.shippingAndPaymentContent1 {
+					display: flex;
+					flex-direction: column;
+					gap: 12px;
+					// justify-content: start;
+					@media (max-width: 925px) {
+						gap: 8px;
+					}
+					.contentAndPhoto {
+						display: flex;
+						align-items: start;
+						// justify-content: space-between;
+						gap: 3rem;
+						flex-wrap: wrap;
+						@media (max-width: 925px) {
+							gap: 1.5rem;
+							flex-wrap: wrap;
+						}
+						@media (max-width: 750px) {
+							flex-wrap: wrap;
+						}
+						@media (max-width: 500px) {
+							display: flex;
+							flex-direction: column;
+							align-items: start;
+						}
+						.contentDiv1 {
+							display: flex;
+							align-items: start;
+							gap: 10px;
+							@media (max-width: 600px) {
+								display: flex;
+								flex-direction: column;
+								align-items: start;
+							}
+							.text1 {
+								display: flex;
+								flex-direction: column;
+								align-items: start;
+								@media (max-width: 600px) {
+								}
+								h3 {
+									color: rgb(41, 41, 41);
+									font-size: clamp(0.7rem, 4vw, 1rem);
+								}
+								p {
+									color: rgb(41, 41, 41);
+									font-size: clamp(0.7rem, 4vw, 1rem);
+									width: 12rem;
+								}
+							}
+						}
+
+						h2 {
+							color: rgb(26, 26, 37);
+							font-size: clamp(0.9rem, 7vw, 1.2rem);
+						}
+					}
+					.contentAndPhoto2 {
+						display: flex;
+						align-items: center;
+						// justify-content: space-around;
+						gap: 7rem;
+						@media (max-width: 710px) {
+							gap: 14px;
+							display: flex;
+							flex-direction: column;
+							align-items: start;
+						}
+						.contentDiv2 {
+							display: flex;
+							align-items: center;
+							gap: 10px;
+							@media (max-width: 600px) {
+								gap: 5px;
+							}
+							p {
+								color: rgb(41, 41, 41);
+								font-size: clamp(0.7rem, 4vw, 1rem);
+							}
+						}
+					}
+				}
+				.shippingAndPaymentContent2 {
+					display: flex;
+					flex-direction: column;
+					align-items: start;
+					gap: 2rem;
+					@media (max-width: 500px) {
+						align-items: center;
+					}
+					@media (max-width: 750px) {
+						gap: 1rem;
+					}
+					h2 {
+						color: rgb(41, 41, 41);
+						font-size: clamp(0.9rem, 8vw, 1.2rem);
+					}
+					.contentAndPhoto2 {
+						display: flex;
+						align-items: center;
+						// justify-content: space-evenly;
+						gap: 3.3rem;
+						@media (max-width: 750px) {
+							gap: 3.5rem;
+						}
+						@media (max-width: 500px) {
+							display: flex;
+							flex-direction: column;
+							align-items: start;
+							gap: 10px;
+						}
+						.contentDiv2 {
+							display: flex;
+							align-items: center;
+							gap: 11px;
+							@media (max-width: 600px) {
+								// display: flex;
+								// flex-direction: column;
+								// align-items: start;
+								gap: 7px;
+							}
+							@media (max-width: 500px) {
+								gap: 3px;
+							}
+							.divTexts {
+								display: flex;
+								flex-direction: column;
+								align-items: start;
+								p {
+									color: rgb(41, 41, 41);
+									font-size: clamp(0.7rem, 4vw, 1rem);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

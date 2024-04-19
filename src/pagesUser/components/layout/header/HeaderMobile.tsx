@@ -11,11 +11,11 @@ import {
 	IconWhatsapp
 } from '@/src/assets/icons';
 import mini_logo from '@/src/assets/mini-logo.png';
-import AuthDropdown from '@/src/ui/authDropdown/AuthDropdown.tsx';
+import AuthDropdown from '@/src/UI/authDropdown/AuthDropdown.tsx';
 import { userLinks } from '@/src/routes';
 import { Input } from 'antd';
 import { SearchProps } from 'antd/es/input';
-import BurgerButton from '@/src/ui/burgerButton/BurgerButton.tsx';
+import BurgerButton from '@/src/UI/burgerButton/BurgerButton.tsx';
 
 interface HeaderMobileProps {
 	isOpenMobileMenu: boolean;

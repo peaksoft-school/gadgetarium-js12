@@ -3,9 +3,9 @@ import scss from './Header.module.scss';
 import { FC, useEffect, useState } from 'react';
 import { IconChevronDown } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
-import BurgerButton from '@/src/ui/burgerButton/BurgerButton';
-import BurgerMenu from '@/src/ui/burgerMenu/BurgerMenu';
+import BurgerMenu from '@/src/UI/burgerMenu/BurgerMenu';
 import { Dropdown, MenuProps } from 'antd/es';
+import BurgerButton from '@/src/UI/burgerButton/BurgerButton';
 
 const links = [
 	{

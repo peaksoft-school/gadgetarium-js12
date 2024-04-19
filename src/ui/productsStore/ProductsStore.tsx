@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useGetProductsQuery } from '@/src/redux/api/products/Products';
 import scss from './ProductsStore.module.scss';
-import photoIsIphone from '@/src/assets/image 53 (1).png';
+// import photoIsIphone from '@/src/assets/image 53 (1).png';
 import logo from '@/src/assets/Group 1534.png';
 import icon from '@/src/assets/Vector (11).png';
 import { IconScalesGrey } from '@/src/assets/icons';
@@ -12,6 +12,7 @@ import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
 import React, { FC, useEffect, useState } from 'react';
 import { FiltredTypesProducts } from '@/src/types/typesProducts';
+import { Link } from 'react-router-dom';
 [];
 export const ProductsStore: FC<{
 	arrayProducts: FiltredTypesProducts[];
@@ -69,11 +70,13 @@ export const ProductsStore: FC<{
 															key={item._id}
 														>
 															<div className={scss.divProductMap2}>
-																<img
-																	className={scss.imgProduct}
-																	src={photoIsIphone}
-																	alt={item.producName}
-																/>
+																<Link to={`/result/${item._id}`}>
+																	<img
+																		className={scss.imgProduct}
+																		src={item.image}
+																		alt={item.producName}
+																	/>
+																</Link>
 																<div className={scss.divIcons22}>
 																	<div className={scss.divMobile1}>
 																		<img src={logo} alt={item.newProduct} />
@@ -175,11 +178,13 @@ export const ProductsStore: FC<{
 										</div>
 									</div>
 									<div className={scss.divImg}>
-										<img
-											className={scss.imgProduct}
-											src={photoIsIphone}
-											alt={item.producName}
-										/>
+										<Link to={`/products/${item._id}`} className={scss.divImg}>
+											<img
+												className={scss.imgProduct}
+												src={item.image}
+												alt={item.producName}
+											/>
+										</Link>
 									</div>
 									<div className={scss.divProductContents}>
 										<p style={{ color: 'black', fontSize: '2rem' }}>
