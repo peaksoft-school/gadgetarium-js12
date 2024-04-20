@@ -1,4 +1,4 @@
-import { Register } from '@/src/pagesAuth/components/pages/RegisterSections/Register';
+import { Register } from '@/src/pagesAuth/components/pages/registerSections/Register';
 
 const RegisterPage = () => {
 	return (

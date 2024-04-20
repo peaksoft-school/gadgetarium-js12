@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useGetProductsQuery } from '@/src/redux/api/products/Products';
+import { useGetProductsQuery } from '@/src/redux/api/product';
 import scss from './ProductsStore.module.scss';
 import photoIsIphone from '@/src/assets/image 53 (1).png';
 import logo from '@/src/assets/Group 1534.png';

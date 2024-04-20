@@ -1,4 +1,4 @@
-import { useGetBasketQuery } from '@/src/redux/api/basket/Basket';
+import { useGetBasketQuery } from '@/src/redux/api/basket';
 import scss from './Basket.module.scss';
 import logo from '@/src/assets/image 53.png';
 import { SmallDeleteIcon } from '@/src/assets/icons';

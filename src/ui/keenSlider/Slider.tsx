@@ -1,11 +1,11 @@
 import 'keen-slider/keen-slider.min.css';
 import { useKeenSlider } from 'keen-slider/react';
 import scss from './Slider.module.scss';
-import { useGetAllSlidersQuery } from '@/src/redux/api/sliders/slider';
+import { useGetSlidersQuery } from 'src/redux/api/slider';
 import { useState } from 'react';
 
 const Slider = () => {
-	const { data: sliders, isLoading } = useGetAllSlidersQuery();
+	const { data: sliders, isLoading } = useGetSlidersQuery();
 	const [currentSlide, setCurrentSlide] = useState(0);
 	const [loaded, setLoaded] = useState(false);
 	const [sliderRef, instanceRef] = useKeenSlider({

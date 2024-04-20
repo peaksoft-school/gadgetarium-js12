@@ -1,19 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-type RegisterId = string | number;
+namespace AUTH {
+	type PostLoginRequest = {
+		email: string;
+		password: string;
+	};
+	type PostLoginResponse = {
+		isAuth: Login;
+	};
 
-namespace REGISTER {
 	type PostRegisterRequest = {
 		email: string;
 		password: string;
-		// role: UserAdmin;
 		lastName: string;
 		firsName: string;
 		phoneNumber: number | string;
 		confirmThePassword: string;
 	};
-
 	type PostRegisterResponse = {
-		id: RegisterId;
+		id: string | number;
 		register: Register;
 	};
 }

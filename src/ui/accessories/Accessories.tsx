@@ -1,4 +1,4 @@
-import { useGetAccessoriesQuery } from '@/src/redux/api/AccessoriesProducts/AccessoriesProducts';
+import { useGetAccessoriesQuery } from '@/src/redux/api/accessories';
 import scss from './Accessories.module.scss';
 import logo from '@/src/assets/Group 1619.png';
 import logo2 from '@/src/assets/Frame 153.png';
