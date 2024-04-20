@@ -82,4 +82,5 @@ export { default as IconCheckmarkColorPink } from './icon-Checkmark-color-pink';
 export { default as IconCodNaPravacVetWhite } from './icon-cod-na-pravac-vet-white';
 export { default as IconAdgetarium } from './icon-adgetarium';
 export { default as IconGadgetariumMobile } from './icon-g-adgetarium';
+export { default as IconG } from './iconG';
 export {default as IconLeft} from './icon-left.tsx'
