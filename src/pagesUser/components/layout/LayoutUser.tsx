@@ -7,13 +7,10 @@ import HeaderMobile from './header/HeaderMobile.tsx';
 import Footer from './footer/Footer';
 import NotFound from '../pages/notFound/NotFound';
 import HomePage from '../pages/HomePage';
-// import AboutPage from '../pages/AboutPage.tsx';
-// import DeliveryPage from '../pages/DeliveryPage.tsx';
-// import FagPage from '../pages/FagPage.tsx';
-import { ContactsPage } from '../pages/ContactsPage/ContactsPage.tsx';
-import AboutStorePage from '../pages/AboutStorePage/AboutStorePage.tsx';
-import FAQPage from '../pages/FAQPage/FAQPage.tsx';
-import DeliveryPage from '../pages/DeliveryPage/DeliveryPage.tsx';
+import AboutPage from '../pages/AboutPage.tsx';
+import DeliveryPage from '../pages/DeliveryPage.tsx';
+import FagPage from '../pages/FagPage.tsx';
+import ContactsPage from '../pages/ContactsPage.tsx';
 
 const LayoutUser = () => {
 	const { pathname } = useLocation();
@@ -75,10 +72,10 @@ const LayoutUser = () => {
 				<main>
 					<Routes>
 						<Route path="/" element={<HomePage />} />
-						<Route path="/aboutstore" element={<AboutStorePage />} />
+						<Route path="/aboutstore" element={<AboutPage />} />
 						<Route path="/delivery" element={<DeliveryPage />} />
-						<Route path="/faq" element={<FAQPage />} />
-						<Route path="/contacts" element={< ContactsPage/>} />
+						<Route path="/faq" element={<FagPage />} />
+						<Route path="/contacts" element={<ContactsPage />} />
 					</Routes>
 				</main>
 				<Footer />
