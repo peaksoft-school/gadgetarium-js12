@@ -1,8 +1,9 @@
 import scss from './SupHeader.module.scss';
 import { Link, useLocation } from 'react-router-dom';
 import { IconGadgetarium } from '@/src/assets/icons';
-import AuthDropdown from '@/src/ui/authDropdown/AuthDropdown.tsx';
+
 import { userLinks } from '@/src/routes';
+import AuthDropdown from '@/src/UI/authDropdown/AuthDropdown';
 
 const SupHeader = () => {
 	const { pathname } = useLocation();
