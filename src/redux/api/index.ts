@@ -29,7 +29,9 @@ export const api = createApi({
 		'basket',
 		'products',
 		'accessories',
-		'sliders'
+		'sliders',
+		'storePhotos'
 	],
+
 	endpoints: () => ({})
 });

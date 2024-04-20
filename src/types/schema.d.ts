@@ -52,7 +52,21 @@ type RegisterForms = {
 };
 
 type ForgotPasswordForms = {
-	code: string | number;
-	password: string;
-	confirmThePassword: string;
-};
+  code: string | number;
+  password: string;
+  confirmThePassword: string;
+}
+
+type ContactsPagesFormTypes = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: number | string;
+  message: string;
+	status? : string | undefined
+}
+// =======
+// 	code: string | number;
+// 	password: string;
+// 	confirmThePassword: string;
+// };

@@ -7,17 +7,21 @@ import icon from '@/src/assets/Vector (11).png';
 import { IconScalesGrey } from '@/src/assets/icons';
 import logo2 from '@/src/assets/Frame 153.png';
 import AddBasketButton from '../customButtons/AddBasketButton';
-import './styles.css';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
 import React, { FC, useEffect, useState } from 'react';
 import { FiltredTypesProducts } from '@/src/types/typesProducts';
 import { Link } from 'react-router-dom';
+// import { FiltredTypesProducts } from '@/src/types/typesProducts';
 [];
 export const ProductsStore: FC<{
 	arrayProducts: FiltredTypesProducts[];
-}> = ({ arrayProducts }) => {
-	console.log(arrayProducts);
+}> = () => {
+	// console.log(arrayProducts);
+	// useEffect(() => {
+	// 	const handleProducts = arrayProducts.length === 5;
+
+	// }, [])
 
 	const [currentSlide, setCurrentSlide] = React.useState(0);
 	const [loaded, setLoaded] = useState(false);
@@ -32,7 +36,12 @@ export const ProductsStore: FC<{
 	});
 	const { data: productData = [], isLoading } = useGetProductsQuery();
 	const [sliderResult, setSliderResult] = useState<string | boolean>(false);
+	const [displayIndexCount, setDisplayIndexCount] = useState<number>(12);
 	console.log(productData);
+
+	const handleShowMore = () => {
+		setDisplayIndexCount((prev) => prev + 12);
+	};
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -64,60 +73,65 @@ export const ProductsStore: FC<{
 										<>
 											<div ref={sliderRef} className="keen-slider">
 												<>
-													{arrayProducts.map((item) => (
-														<div
-															className="keen-slider__slide number-slide1"
-															key={item._id}
-														>
-															<div className={scss.divProductMap2}>
-																<Link to={`/result/${item._id}`}>
-																	<img
-																		className={scss.imgProduct}
-																		src={item.image}
-																		alt={item.producName}
-																	/>
-																</Link>
-																<div className={scss.divIcons22}>
-																	<div className={scss.divMobile1}>
-																		<img src={logo} alt={item.newProduct} />
-																		<div className={scss.divIcons2}>
-																			<IconScalesGrey />
-																			<img
-																				className={scss.imgIcon}
-																				src={icon}
-																				alt="icon"
-																			/>
+													{productData
+														.slice(0, displayIndexCount)
+														.map((item) => (
+															<div
+																className="keen-slider__slide number-slide1"
+																key={item._id}
+															>
+																<div className={scss.divProductMap2}>
+																	<Link to={`/products/${item._id}`}>
+																		<img
+																			className={scss.imgProduct}
+																			src={item.image}
+																			alt={item.producName}
+																		/>
+																	</Link>
+																	<div className={scss.divIcons22}>
+																		<div className={scss.divMobile1}>
+																			<img src={logo} alt={item.newProduct} />
+																			<div className={scss.divIcons2}>
+																				<IconScalesGrey />
+																				<img
+																					className={scss.imgIcon}
+																					src={icon}
+																					alt="icon"
+																				/>
+																			</div>
 																		</div>
-																	</div>
-																	<div className={scss.divMobile2}>
-																		<p className={scss.tagColorGreen2}>
-																			В наличии {item.buyProduc}
-																		</p>
-																		<p
-																			style={{
-																				color: 'black',
-																				fontSize: '2rem'
-																			}}
-																		>
-																			{item.isResult}
-																		</p>
-																		<h3>{item.producName}</h3>
-																		<p>
-																			Рейтинг <img src={logo2} alt="logo" />{' '}
-																			{item.Rating}
-																		</p>
-																	</div>
-																	<div className={scss.divMobile3}>
-																		<div className={scss.product}>
-																			<h2>{item.price} с</h2>
-																			<p>{item.previousPrice}</p>
+																		<div className={scss.divMobile2}>
+																			<p className={scss.tagColorGreen2}>
+																				В наличии {item.buyProduc}
+																			</p>
+																			<p
+																				style={{
+																					color: 'black',
+																					fontSize: '2rem'
+																				}}
+																			>
+																				{item.isResult}
+																			</p>
+																			<h3>{item.producName}</h3>
+																			<p>
+																				Рейтинг <img src={logo2} alt="logo" />{' '}
+																				{item.Rating}
+																			</p>
 																		</div>
-																		<AddBasketButton>В корзину</AddBasketButton>
+																		<div className={scss.divMobile3}>
+																			<div className={scss.product}>
+																				<h2>{item.price} с</h2>
+																				<p>{item.previousPrice}</p>
+																			</div>
+																			<AddBasketButton>
+																				В корзину
+																			</AddBasketButton>
+																		</div>
 																	</div>
 																</div>
 															</div>
-														</div>
-													))}
+														))}
+													<button onClick={handleShowMore}>Показать ещё</button>
 												</>
 											</div>
 											{loaded && instanceRef.current && (
@@ -168,45 +182,48 @@ export const ProductsStore: FC<{
 								)}
 							</>
 						) : (
-							arrayProducts.map((item) => (
-								<div className={scss.divProductMap} key={item._id}>
-									<div className={scss.divIcons}>
-										<img src={logo} alt={item.newProduct} />
-										<div className={scss.divIcons2}>
-											<IconScalesGrey />
-											<img className={scss.imgIcon} src={icon} alt="icon" />
-										</div>
-									</div>
-									<div className={scss.divImg}>
-										<Link to={`/products/${item._id}`} className={scss.divImg}>
-											<img
-												className={scss.imgProduct}
-												src={item.image}
-												alt={item.producName}
-											/>
-										</Link>
-									</div>
-									<div className={scss.divProductContents}>
-										<p style={{ color: 'black', fontSize: '2rem' }}>
-											{item.isResult}
-										</p>
-										<p className={scss.tagColorGreen}>
-											В наличии {item.buyProduc}
-										</p>
-										<h3>{item.producName}</h3>
-										<p>
-											Рейтинг <img src={logo2} alt="logo" /> {item.Rating}
-										</p>
-										<div className={scss.divButtonsAndPrice}>
-											<div className={scss.productPrice}>
-												<h2>{item.price} с</h2>
-												<p>{item.previousPrice}</p>
+							<>
+								{productData.slice(0, displayIndexCount).map((item) => (
+									<div className={scss.divProductMap} key={item._id}>
+										<div className={scss.divIcons}>
+											<img src={logo} alt={item.newProduct} />
+											<div className={scss.divIcons2}>
+												<IconScalesGrey />
+												<img className={scss.imgIcon} src={icon} alt="icon" />
 											</div>
-											<AddBasketButton>В корзину</AddBasketButton>
+										</div>
+										<div className={scss.divImg}>
+											<Link to={`/products/${item._id}`}>
+												<img
+													className={scss.imgProduct}
+													src={item.image}
+													alt={item.producName}
+												/>
+											</Link>
+										</div>
+										<div className={scss.divProductContents}>
+											<p style={{ color: 'black', fontSize: '2rem' }}>
+												{item.isResult}
+											</p>
+											<p className={scss.tagColorGreen}>
+												В наличии {item.buyProduc}
+											</p>
+											<h3>{item.producName}</h3>
+											<p>
+												Рейтинг <img src={logo2} alt="logo" /> {item.Rating}
+											</p>
+											<div className={scss.divButtonsAndPrice}>
+												<div className={scss.productPrice}>
+													<h2>{item.price} с</h2>
+													<p>{item.previousPrice}</p>
+												</div>
+												<AddBasketButton>В корзину</AddBasketButton>
+											</div>
 										</div>
 									</div>
-								</div>
-							))
+								))}
+								<button onClick={handleShowMore}>Показать ещё</button>
+							</>
 						)}
 					</>
 				)}

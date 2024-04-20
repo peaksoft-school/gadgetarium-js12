@@ -1,4 +1,4 @@
-import { ProductsStore } from '@/src/ui/productsStore/ProductsStore';
+import { ProductsStore } from '@/src/UI/productsStore/ProductsStore';
 import scss from './CategoryProduct.module.scss';
 import { useState } from 'react';
 import { NavbarProducts } from './NavbarProducts';

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { useGetAccessoriesQuery } from '@/src/redux/api/AccessoriesProducts/AccessoriesProducts';
 import scss from './Accessories.module.scss';
 import logo from '@/src/assets/Group 1619.png';
@@ -6,6 +7,12 @@ import logo2 from '@/src/assets/Frame 153.png';
 const Accessories = () => {
 	const { data: accessoriesProducts = [], isLoading } =
 		useGetAccessoriesQuery();
+	const [displayIndexCount, setDisplayIndexCount] = useState(5);
+
+	const handleShowMore = () => {
+		setDisplayIndexCount((prevCount) => prevCount + 5);
+	};
+
 	return (
 		<div className={scss.divAccessories}>
 			<>
@@ -14,7 +21,7 @@ const Accessories = () => {
 						<h1>IsLoading...</h1>
 					</>
 				) : (
-					accessoriesProducts.map((item) => (
+					accessoriesProducts.slice(0, displayIndexCount).map((item) => (
 						<div className={scss.divAccessoriesProduct} key={item._id}>
 							<img className={scss.img} src={logo} alt={item.producName} />
 							<div className={scss.productsDiv}>
@@ -29,6 +36,9 @@ const Accessories = () => {
 					))
 				)}
 			</>
+			{accessoriesProducts.length > displayIndexCount && (
+				<button onClick={handleShowMore}>Показать ещё</button>
+			)}
 		</div>
 	);
 };
