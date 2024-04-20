@@ -1,0 +1,176 @@
+.DeliveryPage {
+	width: 100%;
+	height: auto;
+	background: rgb(244, 244, 244);
+	.content {
+		padding-top: 3.1rem;
+		padding-bottom: 7.1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 2.3rem;
+		@media (max-width: 1100px) {
+			padding-top: 2rem;
+			padding-bottom: 4rem;
+			gap: 1.9rem;
+		}
+		p {
+			display: flex;
+			align-items: center;
+			gap: 5px;
+			color: rgb(145, 150, 158);
+			font-size: clamp(0.5rem, 4vw, 0.8rem);
+			@media (max-width: 850px) {
+				gap: 3px;
+			}
+			h3 {
+				color: rgba(56, 66, 85, 0.6);
+				font-size: clamp(0.5rem, 4vw, 0.8rem);
+			}
+		}
+		.delivery_text_div {
+			display: flex;
+			flex-direction: column;
+			gap: 1.1rem;
+			@media (max-width: 850px) {
+				gap: 0.8rem;
+			}
+			h3 {
+				color: rgb(41, 41, 41);
+				font-size: clamp(1.5rem, 5vw, 1.8rem);
+			}
+			div {
+				width: 100%;
+				height: 1px;
+				border: 1px solid rgb(205, 205, 205);
+				@media (max-width: 955px) {
+					height: 0.5px;
+					border: 0.5px solid rgb(205, 205, 205);
+				}
+			}
+		}
+		.city_text_and_delivery {
+			display: flex;
+			align-items: center;
+			color: rgb(41, 41, 41);
+			font-size: clamp(0.8rem, 7vw, 1.1rem);
+			h4 {
+				color: rgb(41, 41, 41);
+				font-size: clamp(0.8rem, 7vw, 1.1rem);
+			}
+		}
+		.cards_and_texts_content_div {
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+			@media (max-width: 810px) {
+				gap: 15px;
+			}
+			.div_cards_1 {
+				display: flex;
+				align-items: start;
+				gap: 6.1rem;
+				@media (max-width: 1100px) {
+					gap: 4rem;
+				}
+				@media (max-width: 1044px) {
+					gap: 3rem;
+				}
+				@media (max-width: 870px) {
+					gap: 2rem;
+				}
+				@media (max-width: 810px) {
+					display: flex;
+					flex-direction: column;
+					align-items: start;
+					gap: 1rem;
+				}
+				.card_content {
+					display: flex;
+					align-items: start;
+					gap: 10px;
+					@media (max-width: 767px) {
+						gap: 7px;
+					}
+					@media (max-width: 500px) {
+						gap: 8px;
+					}
+					.cards_texts {
+						display: flex;
+						flex-direction: column;
+						align-items: start;
+						
+						h3 {
+							color: rgb(41, 41, 41);
+							font-size: clamp(0.6rem, 4vw, 1rem);
+						}
+						p {
+							color: rgb(41, 41, 41);
+							font-size: clamp(0.6rem, 4vw, 1rem);
+						}
+					}
+				}
+			}
+			.div_cards_2 {
+				display: flex;
+				align-items: center;
+				gap: 6.1rem;
+				@media (max-width: 900px) {
+					gap: 4rem;
+				}
+				@media (max-width: 810px) {
+					display: flex;
+					flex-direction: column;
+					align-items: start;
+					gap: 1rem;
+				}
+				.card_content2 {
+					display: flex;
+					align-items: center;
+					gap: 11px;
+					p {
+						color: rgb(41, 41, 41);
+						font-size: clamp(0.6rem, 4vw, 1rem);
+					}
+				}
+			}
+		}
+		h2 {
+			color: rgb(41, 41, 41);
+			font-size: clamp(0.9rem, 6vw, 1.2rem);
+		}
+		.cards_and_texts_content_div_2 {
+			display: flex;
+			align-items: center;
+			gap: 5rem;
+			@media (max-width: 780px) {
+				gap: 3rem;
+			}
+			@media (max-width: 696px) {
+				gap: 2rem;
+			}
+			@media (max-width: 660px) {
+				display: flex;
+				flex-direction: column;
+				align-items: start;
+				gap: 1rem;
+			}
+			.card_content_2 {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				@media (max-width: 555px) {
+					gap: 5px;
+				}
+				.card_texts_div {
+					display: flex;
+					flex-direction: column;
+					align-items: start;
+					p {
+						color: rgb(41, 41, 41);
+						font-size: clamp(0.7rem, 4vw, 1rem);
+					}
+				}
+			}
+		}
+	}
+}

@@ -8,6 +8,7 @@ namespace SLIDER {
 		image: string;
 		vector: string;
 		className: string;
-	};
+		subdescription: string;
+	}[]
 	type GetRequest = void;
 }

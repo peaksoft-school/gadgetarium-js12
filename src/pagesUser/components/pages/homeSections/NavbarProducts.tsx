@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import icon from '@/src/assets/Vector.svg';
 import { Slider } from 'antd';
 import { useGetProductsQuery } from '@/src/redux/api/product';
-import { FiltredTypesProducts } from '@/src/types/typesProducts';
 
 import { Checkbox } from 'antd';
 function getGradientColor(percentage: number) {

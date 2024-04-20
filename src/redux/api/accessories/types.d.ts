@@ -4,7 +4,7 @@ namespace ACCESSORIES {
 	type GetResponse = {
 		_id: number;
 		price: number;
-		productName: string;
+		producName: string;
 		image: string;
 		Rating: string;
 	}[];

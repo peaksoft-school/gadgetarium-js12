@@ -1,5 +1,11 @@
+import Fag from './fagSections/Fag';
+
 const FagPage = () => {
-	return <div>Fag</div>;
+	return (
+		<>
+			<Fag />
+		</>
+	);
 };
 
 export default FagPage;
