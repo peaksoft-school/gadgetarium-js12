@@ -1,5 +1,11 @@
+import Delivery from './deliverySections/Delivery';
+
 const DeliveryPage = () => {
-	return <div>Delivery</div>;
+	return (
+		<>
+			<Delivery />
+		</>
+	);
 };
 
 export default DeliveryPage;

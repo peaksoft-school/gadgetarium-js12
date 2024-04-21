@@ -2,7 +2,7 @@ import { ProductsStore } from '@/src/ui/productsStore/ProductsStore';
 import scss from './CategoryProduct.module.scss';
 import { useState } from 'react';
 import { NavbarProducts } from './NavbarProducts';
-import { FiltredTypesProducts } from '@/src/types/typesProducts';
+
 import { useNavigate } from 'react-router-dom';
 import { IconXX } from '@/src/assets/icons';
 

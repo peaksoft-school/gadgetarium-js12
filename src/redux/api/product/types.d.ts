@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-namespace ProductsStore {
+namespace PRODUCTSSTORE {
 	type GetProductsRequest = void;
 	type GetProductsResponse = {
 		_id: number;

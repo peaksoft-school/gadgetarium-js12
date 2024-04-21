@@ -56,3 +56,28 @@ type ForgotPasswordForms = {
 	password: string;
 	confirmThePassword: string;
 };
+
+
+type ContactsPagesFormTypes = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: number | string;
+  message: string;
+	status? : string | undefined
+}
+
+type FiltredTypesProducts = {
+	_id: number;
+	price: number;
+	image: string;
+	producName: string;
+	isFavorite: boolean;
+	isInBasket: boolean;
+	previousPrice: number;
+	Rating: string;
+	buyProduc: string;
+	newProduct: string;
+	isResult: string;
+}
+[];

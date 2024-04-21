@@ -1,7 +1,7 @@
 import { useGetBasketQuery } from '@/src/redux/api/basket';
 import scss from './Basket.module.scss';
 import logo from '@/src/assets/image 53.png';
-import { SmallDeleteIcon } from '@/src/assets/icons';
+import { IconDelete } from '@/src/assets/icons';
 import logo2 from '@/src/assets/Frame 153.png';
 import logo3 from '@/src/assets/Vector (11).png';
 const Basket = () => {
@@ -41,7 +41,7 @@ const Basket = () => {
 													избранное
 												</p>
 												<p>
-													<SmallDeleteIcon /> Удалить
+													<IconDelete /> Удалить
 												</p>
 											</div>
 										</div>

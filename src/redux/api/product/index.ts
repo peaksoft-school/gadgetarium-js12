@@ -3,8 +3,8 @@ import { api as index } from '../index';
 const api = index.injectEndpoints({
 	endpoints: (build) => ({
 		getProducts: build.query<
-			ProductsStore.GetProductsResponse,
-			ProductsStore.GetProductsRequest
+			PRODUCTSSTORE.GetProductsResponse,
+			PRODUCTSSTORE.GetProductsRequest
 		>({
 			query: () => ({
 				url: '',

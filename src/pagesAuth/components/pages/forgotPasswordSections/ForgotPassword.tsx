@@ -2,9 +2,10 @@ import scss from './ForgotPasswordPages.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { Button, Input } from 'antd';
-import logo from '@/src/assets/Group 337504.png';
+import logo from '@/src/assets/images/Group 337504 (1).png';
+import { ForgotPasswordForms } from '@/src/types/schema';
 
-export const ForgotPasswordPages = () => {
+export const ForgotPassword = () => {
 	const navigate = useNavigate();
 	const {
 		reset,

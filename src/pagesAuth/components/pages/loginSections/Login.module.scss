@@ -69,6 +69,7 @@
 							height: 2.5rem;
 							border-radius: 6px;
 							background: rgb(247, 247, 247);
+							color: #292929;
 							@media (max-width: 600px) {
 								width: 28rem;
 							}
@@ -81,6 +82,9 @@
 							@media (max-width: 431px) {
 								width: 19rem;
 							}
+						}
+						.inputs::placeholder {
+							color: #292929;
 						}
 						.errors {
 							color: rgb(241, 0, 0);
@@ -114,6 +118,7 @@
 							border: none;
 							cursor: pointer;
 							box-shadow: 0px 0px 2px black;
+							background-color: transparent;
 							img {
 								width: 20px;
 								height: 20px;
