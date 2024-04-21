@@ -11,6 +11,10 @@
 
 	cursor: pointer;
 
+	@media (max-width: 500px) {
+		cursor: default;
+	}
+
 	svg {
 		color: #1a1a25;
 	}

@@ -64,10 +64,8 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 						<Link className={scss.logo} to="/">
 							<IconGadgetarium />
 						</Link>
-						<div>
-							<div className={scss.profile}>
-								<AuthDropdown />
-							</div>
+						<div className={scss.profile}>
+							<AuthDropdown />
 						</div>
 					</div>
 					{userLinks.map((item, index) => (
