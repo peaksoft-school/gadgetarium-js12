@@ -1,4 +1,4 @@
-import { IconG, IconGadgetarium } from '@/src/assets/icons';
+import { IconGadgetarium } from '@/src/assets/icons';
 import scss from './Header.module.scss';
 import { FC, useEffect, useState } from 'react';
 import { IconChevronDown } from '@tabler/icons-react';
@@ -59,7 +59,7 @@ const Header: FC = () => {
 			<div className="container">
 				<div className={scss.content}>
 					<div className={scss.logo}>
-						<IconGadgetarium className={scss.gadgetarium_icon} />
+						<IconGadgetarium />
 					</div>
 					{!isMobile ? (
 						<>
@@ -76,7 +76,7 @@ const Header: FC = () => {
 								<button className={scss.create_button}>Создать рассылку</button>
 								<hr />
 								<div className={scss.profile}>
-									<IconG />
+									<h1>G</h1>
 								</div>
 								<div className={scss.selected_option_icon}>
 									<Dropdown menu={{ items }} placement="bottomRight">

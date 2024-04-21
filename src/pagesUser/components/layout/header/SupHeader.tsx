@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { IconGadgetarium } from '@/src/assets/icons';
 import AuthDropdown from '@/src/ui/authDropdown/AuthDropdown.tsx';
 import { userLinks } from '@/src/routes';
-
 const SupHeader = () => {
 	const { pathname } = useLocation();
 
@@ -12,7 +11,7 @@ const SupHeader = () => {
 			<div className="container">
 				<div className={scss.content}>
 					<Link className={scss.logo} to="/">
-						<IconGadgetarium className={scss.icon_gadgetarium} />
+						<IconGadgetarium />
 					</Link>
 					<nav className={scss.nav}>
 						<ul>

@@ -1,11 +1,10 @@
-.nav {
+.BurgerButton {
 	--color: #fff;
 	background: none;
 	width: 50px;
 	height: 40px;
 	position: relative;
-	//right: -15px;
-	transform: scale(0.8) translateX(15px);
+	transform: scale(1) translateX(15px);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -15,10 +14,7 @@
 	}
 	svg {
 		fill: none;
-		stroke: var(--color);
-		strokewidth: 6px;
-		strokelinecap: round;
-		strokelinejoin: round;
+		stroke: white;
 		use {
 			&:nth-of-type(1) {
 				opacity: 1;

@@ -1,17 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from 'react';
+import scss from './AboutService.module.scss';
+import { useKeenSlider } from 'keen-slider/react';
 import {
-	IconBigCar,
+	IconCertificate,
+	IconTools,
 	IconCreditCard,
 	IconHands,
-	IconTodoList,
-	IconTools
+	IconBigCar
 } from '@/src/assets/icons';
-import scss from './AboutService.module.scss';
-
-import { useKeenSlider } from 'keen-slider/react';
-import 'keen-slider/keen-slider.min.css';
-import { useEffect, useState } from 'react';
-const animation = { duration: 10000, easing: (t: any) => t };
+const animation = { duration: 10000, easing: (t: number) => t };
 
 const AboutService = () => {
 	const [openSlider, setOpenSlider] = useState<boolean>(false);
@@ -63,7 +60,7 @@ const AboutService = () => {
 								{' '}
 								<div className={scss.first_square}>
 									<div className={scss.icon_todollist_and_text}>
-										<IconTodoList />
+										<IconCertificate />
 										<p>Официальный дистрибьютер</p>
 									</div>
 								</div>
@@ -108,16 +105,14 @@ const AboutService = () => {
 					) : (
 						<>
 							<>
-								{' '}
 								<div className={scss.first_square}>
 									<div className={scss.icon_todollist_and_text}>
-										<IconTodoList />
+										<IconCertificate />
 										<p>Официальный дистрибьютер</p>
 									</div>
 								</div>
 							</>
 							<>
-								{' '}
 								<div className={scss.second_square}>
 									<div className={scss.icon_tools_and_text}>
 										<IconTools />
@@ -126,7 +121,6 @@ const AboutService = () => {
 								</div>
 							</>
 							<>
-								{' '}
 								<div className={scss.third_square}>
 									<div className={scss.icon_creditcard_and_text}>
 										<IconCreditCard />
@@ -135,7 +129,6 @@ const AboutService = () => {
 								</div>
 							</>
 							<>
-								{' '}
 								<div className={scss.fourth_square}>
 									<div className={scss.icon_hands_and_text}>
 										<IconHands />
@@ -144,7 +137,6 @@ const AboutService = () => {
 								</div>
 							</>
 							<>
-								{' '}
 								<div className={scss.fifth_square}>
 									<div className={scss.icon_bigcar_and_text}>
 										<IconBigCar />

@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom';
 import scss from './Delivery.module.scss';
-import {  IconCard2, IconKamazCar } from '@/src/assets/icons';
-// IconCard
+import { useNavigate } from 'react-router-dom';
+import { IconWallet, IconKamazCar } from '@/src/assets/icons';
+
 const Delivery = () => {
 	const navigate = useNavigate();
 	return (
@@ -47,11 +47,11 @@ const Delivery = () => {
 						</div>
 						<div className={scss.div_cards_2}>
 							<div className={scss.card_content2}>
-								<IconCard2 />
+								<IconWallet />
 								<p>Предоплата не требуется</p>
 							</div>
 							<div className={scss.card_content2}>
-								<IconCard2 />
+								<IconWallet />
 								<p>Предоплата не требуется</p>
 							</div>
 							<div className={scss.card_content2}>
@@ -63,21 +63,21 @@ const Delivery = () => {
 					<h2>Способы оплаты</h2>
 					<div className={scss.cards_and_texts_content_div_2}>
 						<div className={scss.card_content_2}>
-							<IconCard2 />
+							<IconWallet />
 							<div className={scss.card_texts_div}>
 								<p>Оплата картой </p>
 								<p>онлайн</p>
 							</div>
 						</div>
 						<div className={scss.card_content_2}>
-							<IconCard2 />
+							<IconWallet />
 							<div className={scss.card_texts_div}>
 								<p>Наличными при</p>
 								<p>получении</p>
 							</div>
 						</div>
 						<div className={scss.card_content_2}>
-							<IconCard2 />
+							<IconWallet />
 							<div className={scss.card_texts_div}>
 								<p>Картой </p>
 								<p>при получении</p>

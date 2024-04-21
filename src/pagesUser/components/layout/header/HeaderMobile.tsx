@@ -1,15 +1,15 @@
 import { FC } from 'react';
 import scss from './HeaderMobile.module.scss';
 import { Link, useLocation } from 'react-router-dom';
+import { IconGadgetarium } from '@/src/assets/icons';
 import {
-	IconBasketProducts,
-	IconFacebook,
-	IconGadgetarium,
+	IconBrandFacebook,
+	IconBrandInstagram,
+	IconBrandWhatsapp,
 	IconHeart,
-	IconInstagram,
-	IconWeight,
-	IconWhatsapp
-} from '@/src/assets/icons';
+	IconScale,
+	IconShoppingCart
+} from '@tabler/icons-react';
 import mini_logo from '@/src/assets/mini-logo.png';
 import AuthDropdown from '@/src/ui/authDropdown/AuthDropdown.tsx';
 import { userLinks } from '@/src/routes';
@@ -62,7 +62,7 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 				>
 					<div className={scss.mobile_logo_menu}>
 						<Link className={scss.logo} to="/">
-							<IconGadgetarium className={scss.icon_gadgetarium_mobile} />
+							<IconGadgetarium />
 						</Link>
 						<div>
 							<div className={scss.profile}>
@@ -91,43 +91,43 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 					<div className={scss.icons_mobile}>
 						<div className={scss.icon_networks}>
 							<a
-								className={scss.icon_facebook}
+								className={scss.icon_site}
 								href="https://www.facebook.com/?locale=ru_RU"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								<IconFacebook />
+								<IconBrandFacebook />
 							</a>
 							<a
-								className={scss.icon_instagram}
+								className={scss.icon_site}
 								href="https://www.instagram.com/taa1ai.bekovna?igsh=MTh5a3VrZjgza2hxNA=="
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								<IconInstagram />
+								<IconBrandInstagram />
 							</a>
 							<a
-								className={scss.icon_whatsapp}
+								className={scss.icon_site}
 								href="https://wa.me/qr/TU2DHKCN5KLKC1"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								<IconWhatsapp />
+								<IconBrandWhatsapp />
 							</a>
 						</div>
 						<hr />
 						<div className={scss.icon_basket_heart}>
-							<div className={scss.icon_weight}>
-								<span className={scss.icon_zero}>0</span>
-								<IconWeight className={scss.weight} />
-							</div>
-							<div className={scss.icon_heart}>
+							<div className={scss.icon}>
 								<span>0</span>
-								<IconHeart className={scss.heart} />
+								<IconScale />
 							</div>
-							<div className={scss.icon_basket}>
+							<div className={scss.icon}>
 								<span>0</span>
-								<IconBasketProducts className={scss.basket} />
+								<IconHeart />
+							</div>
+							<div className={scss.icon}>
+								<span>0</span>
+								<IconShoppingCart />
 							</div>
 						</div>
 					</div>

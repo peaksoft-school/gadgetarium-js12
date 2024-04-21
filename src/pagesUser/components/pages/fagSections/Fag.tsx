@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import scss from './Fag.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { IconLeft } from '@/src/assets/icons';
+import { IconArrowRight } from '@tabler/icons-react';
 
 const Fag = () => {
 	const [openMenu1, setOpenMenu1] = useState<boolean>(false);
@@ -59,7 +59,7 @@ const Fag = () => {
 												: `${scss.iconNooActive}`
 										}
 									>
-										<IconLeft />
+										<IconArrowRight />
 									</div>
 								</div>
 								<div
@@ -119,7 +119,7 @@ const Fag = () => {
 												: `${scss.iconNooActive}`
 										}
 									>
-										<IconLeft />
+										<IconArrowRight />
 									</div>
 								</div>
 
@@ -182,7 +182,7 @@ const Fag = () => {
 												: `${scss.iconNooActive}`
 										}
 									>
-										<IconLeft />
+										<IconArrowRight />
 									</div>
 								</div>
 
@@ -245,7 +245,7 @@ const Fag = () => {
 												: `${scss.iconNooActive}`
 										}
 									>
-										<IconLeft />
+										<IconArrowRight />
 									</div>
 								</div>
 
@@ -308,7 +308,7 @@ const Fag = () => {
 												: `${scss.iconNooActive}`
 										}
 									>
-										<IconLeft />
+										<IconArrowRight />
 									</div>
 								</div>
 								{openMenu5 && (

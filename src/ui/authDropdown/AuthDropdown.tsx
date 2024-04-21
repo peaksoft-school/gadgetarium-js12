@@ -1,7 +1,7 @@
 import scss from './AuthDropdown.module.scss';
 import { Link } from 'react-router-dom';
 import { Dropdown, MenuProps } from 'antd';
-import { IconUserProfile } from '@/src/assets/icons';
+import { IconUser } from '@tabler/icons-react';
 
 const items: MenuProps['items'] = [
 	{
@@ -26,7 +26,7 @@ const AuthDropdown = () => {
 	return (
 		<Dropdown menu={{ items }} placement="bottomRight">
 			<button className={scss.button}>
-				<IconUserProfile />
+				<IconUser stroke={2} />
 			</button>
 		</Dropdown>
 	);

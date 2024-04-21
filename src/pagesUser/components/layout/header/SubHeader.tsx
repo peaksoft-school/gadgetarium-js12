@@ -1,16 +1,16 @@
 import scss from './SubHeader.module.scss';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
+import { IconGadgetarium } from '@/src/assets/icons';
 import {
-	IconBasketProducts,
-	IconCatalog,
-	IconFacebook,
-	IconGadgetarium,
+	IconBrandFacebook,
+	IconBrandInstagram,
+	IconBrandWhatsapp,
+	IconGridDots,
 	IconHeart,
-	IconInstagram,
-	IconWeight,
-	IconWhatsapp
-} from '@/src/assets/icons';
+	IconScale,
+	IconShoppingCart
+} from '@tabler/icons-react';
 import { Input } from 'antd';
 import { SearchProps } from 'antd/es/input';
 
@@ -34,12 +34,12 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 						{isScrolled && (
 							<>
 								<Link className={scss.logo} to="/">
-									<IconGadgetarium className={scss.icon_gadgetarium_fixed} />
+									<IconGadgetarium />
 								</Link>
 							</>
 						)}
 						<button className={scss.catalog}>
-							<IconCatalog />
+							<IconGridDots />
 							Каталог
 						</button>
 						<span className={scss.hr_line}></span>
@@ -59,37 +59,37 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 									target="_blank"
 									href="	https://www.facebook.com/?locale=ru_RU"
 								>
-									<IconFacebook />
+									<IconBrandFacebook />
 								</a>
 								<a
 									className={scss.icon_instagram}
 									target="_blank"
 									href="https://www.instagram.com/taa1ai.bekovna?igsh=MTh5a3VrZjgza2hxNA=="
 								>
-									<IconInstagram />
+									<IconBrandInstagram />
 								</a>
 								<a
 									className={scss.icon_whatsapp}
 									target="_blank"
 									href="https://wa.me/qr/TU2DHKCN5KLKC1"
 								>
-									<IconWhatsapp />
+									<IconBrandWhatsapp />
 								</a>
 							</>
 						)}
 					</div>
 					<div className={scss.icon_basket_heart}>
-						<div className={scss.icon_weight}>
-							<span className={scss.icon_zero}>0</span>
-							<IconWeight className={scss.weight} />
-						</div>
-						<div className={scss.icon_heart}>
+						<div className={scss.icon}>
 							<span>0</span>
-							<IconHeart className={scss.heart} />
+							<IconScale />
 						</div>
-						<div className={scss.icon_basket}>
+						<div className={scss.icon}>
 							<span>0</span>
-							<IconBasketProducts className={scss.basket} />
+							<IconHeart />
+						</div>
+						<div className={scss.icon}>
+							<span>0</span>
+							<IconShoppingCart />
 						</div>
 					</div>
 				</div>

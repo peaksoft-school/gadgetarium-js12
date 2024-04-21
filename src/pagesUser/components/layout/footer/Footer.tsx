@@ -1,15 +1,15 @@
+import { useState } from 'react';
 import scss from './Footer.module.scss';
-import {
-	IconCall,
-	IconClock,
-	IconEmail,
-	IconGadgetarium,
-	IconGeolocation
-} from '@/src/assets/icons';
+import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { useState } from 'react';
+import { IconGadgetarium } from '@/src/assets/icons';
+import {
+	IconClock,
+	IconMail,
+	IconMapPin,
+	IconPhone
+} from '@tabler/icons-react';
 
 interface InputType {
 	email: string;
@@ -108,17 +108,17 @@ const Footer = () => {
 						</div>
 						<div className={scss.fifth_footer_div}>
 							<div className={scss.icon_call}>
-								<IconCall />
+								<IconPhone />
 								<a href="https://wa.me/996706215289">+996 (706) 21 52 89</a>
 							</div>
 							<div className={scss.icon_email}>
-								<IconEmail />
+								<IconMail />
 								<a href="https://mail.google.com/mail/u/0/#inbox">
 									Gadgetarium.kg
 								</a>
 							</div>
 							<div className={scss.icon_geolocation}>
-								<IconGeolocation />
+								<IconMapPin />
 								<a href="https://maps.app.goo.gl/2kKxda66CbUbMZU79">
 									г.Бишкек, ул. Гражданская 119
 								</a>

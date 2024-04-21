@@ -9,7 +9,7 @@ interface burgerButtonProps {
 const BurgerButton: FC<burgerButtonProps> = ({ checked, onChange }) => {
 	return (
 		<>
-			<div className={scss.nav}>
+			<div className={scss.BurgerButton}>
 				<input type="checkbox" checked={checked} onChange={onChange} />
 				<svg>
 					<use xlinkHref="#menu" />

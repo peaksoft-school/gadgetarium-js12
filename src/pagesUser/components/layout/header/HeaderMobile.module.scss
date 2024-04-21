@@ -65,7 +65,7 @@
 			gap: 10px;
 
 			.logo {
-				.icon_gadgetarium_mobile {
+				svg {
 					width: 200px;
 					height: 40px;
 				}
@@ -77,9 +77,6 @@
 				gap: 17px;
 				a {
 					color: white;
-					@media (max-width: 1000px) {
-						// display: none;
-					}
 				}
 				button {
 					display: flex;
@@ -120,33 +117,9 @@
 				justify-content: center;
 				align-items: center;
 				gap: 55px;
-				@media (max-width: 1000px) {
-					// display: none;
-				}
-				.networkNone {
-					display: none;
-				}
-				.icon_facebook {
-					cursor: pointer;
-					color: white;
-					&:hover {
-						color: #1a1a25;
-					}
-				}
-				.icon_instagram {
-					cursor: pointer;
-					color: white;
 
-					&:hover {
-						color: #1a1a25;
-					}
-				}
-				.icon_whatsapp {
-					cursor: pointer;
+				.icon_site {
 					color: white;
-					&:hover {
-						color: #1a1a25;
-					}
 				}
 			}
 			.icon_basket_heart {
@@ -155,67 +128,22 @@
 				align-items: center;
 				gap: 60px;
 				position: relative;
-				.icon_weight {
+				.icon {
+					position: relative;
 					cursor: pointer;
-					.weight {
+					transition: 0.2s;
+					svg {
 						color: white;
 						&:hover {
-							color: #1a1a25;
+							color: #cb11ab;
 						}
 					}
 					span {
 						position: absolute;
 						top: -5px;
-						left: 56px;
+						left: 15px;
 						width: 20px;
 						height: 20px;
-						border: 2px solid #cb11ab;
-						border-radius: 50%;
-						background: gray;
-						font-size: 10px;
-						display: flex;
-						justify-content: center;
-						align-items: center;
-					}
-				}
-				.icon_heart {
-					cursor: pointer;
-					.heart {
-						color: white;
-						&:hover {
-							color: #1a1a25;
-						}
-					}
-					span {
-						position: absolute;
-						top: -5px;
-						left: 139px;
-						width: 20px;
-						height: 20px;
-						border: 2px solid #cb11ab;
-						border-radius: 50%;
-						background: gray;
-						font-size: 10px;
-						display: flex;
-						justify-content: center;
-						align-items: center;
-					}
-				}
-				.icon_basket {
-					cursor: pointer;
-					.basket {
-						color: white;
-						&:hover {
-							color: #1a1a25;
-						}
-					}
-					span {
-						position: absolute;
-						top: -5px;
-						left: 222px;
-						width: 20px;
-						height: 20px;
-						border: 2px solid #cb11ab;
 						border-radius: 50%;
 						background: gray;
 						font-size: 10px;
