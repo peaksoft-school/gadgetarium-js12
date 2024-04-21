@@ -3,7 +3,7 @@ import logo from '@/src/assets/logo.png';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, Input } from 'antd';
-import { RegisterForms } from '@/src/types/schema';
+
 export const Register = () => {
 	const navigate = useNavigate();
 	const {

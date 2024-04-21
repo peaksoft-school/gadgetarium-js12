@@ -1,5 +1,5 @@
-import { IconArrowLeft } from '@/src/assets/icons';
 import scss from './ButtonArrowLeft.module.scss';
+import { IconArrowLeft } from '@tabler/icons-react';
 
 const ButtonArrowLeft = () => {
 	return (

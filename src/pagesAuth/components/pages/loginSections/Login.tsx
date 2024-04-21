@@ -3,7 +3,6 @@ import scss from './Login.module.scss';
 import logo from '@/src/assets/logo.png';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Button, Input } from 'antd';
-import { LoginForms } from '@/src/types/schema';
 
 const Login = () => {
 	const navigate = useNavigate();

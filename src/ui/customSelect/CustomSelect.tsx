@@ -1,7 +1,6 @@
-//!
 import { FC, useState } from 'react';
-import { IconDown } from '@/src/assets/icons';
 import scss from './CustomSelect.module.scss';
+import { IconChevronDown } from '@tabler/icons-react';
 
 interface handleChangeProps {
 	value: string;
@@ -30,7 +29,7 @@ const CustomSelect: FC = () => {
 					<span style={{ color: selectColor }} className={scss.selected_option}>
 						{select}
 					</span>
-					<IconDown />
+					<IconChevronDown />
 				</div>
 				{isOpen && (
 					<div className={scss.dropdown}>

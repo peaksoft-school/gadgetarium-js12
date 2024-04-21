@@ -31,7 +31,7 @@ const Slider = () => {
 									<h2>{item.title}</h2>
 									<h1>
 										{item.description}
-										<span>{item.subdescription}</span>
+										<span>{item.subDescription}</span>
 									</h1>
 								</div>
 								<img

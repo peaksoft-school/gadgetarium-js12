@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { Button, Input } from 'antd';
 import logo from '@/src/assets/logo.png';
-import { ForgotPasswordForms } from '@/src/types/schema';
 
 export const ForgotPassword = () => {
 	const navigate = useNavigate();
