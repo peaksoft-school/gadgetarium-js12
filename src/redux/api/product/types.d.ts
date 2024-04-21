@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-namespace PRODUCTSSTORE {
+namespace PRODUCTSTORE {
 	type GetProductsRequest = void;
 	type GetProductsResponse = {
 		_id: number;
 		price: number;
 		image: string;
-		producName: string;
+		productName: string;
 		isFavorite: boolean;
 		isInBasket: boolean;
 		previousPrice: number;

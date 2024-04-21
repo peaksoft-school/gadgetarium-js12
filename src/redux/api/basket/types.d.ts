@@ -4,7 +4,7 @@ namespace BASKETPRODUCTS {
 	type GetBasketProductsResponse = {
 		_id: number;
 		image: string;
-		producName: string;
+		productName: string;
 		price: number;
 		quantity: number | string;
 		isFavorite: boolean;

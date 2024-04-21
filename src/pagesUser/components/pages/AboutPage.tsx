@@ -1,9 +1,7 @@
-import About from "./aboutSections/About";
-
 const AboutPage = () => {
 	return (
 		<>
-			<About/>
+			<h1>AboutPage</h1>
 		</>
 	);
 };

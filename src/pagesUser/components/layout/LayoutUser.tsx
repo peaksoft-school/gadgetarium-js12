@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import SupHeader from './header/SupHeader.tsx';
 import SubHeader from './header/SubHeader.tsx';
+``;
 import HeaderMobile from './header/HeaderMobile.tsx';
 import Footer from './footer/Footer';
 import NotFound from '../pages/notFound/NotFound';

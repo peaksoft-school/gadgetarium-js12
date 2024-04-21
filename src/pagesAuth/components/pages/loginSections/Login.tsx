@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import scss from './Login.module.scss';
-import logo from '@/src/assets/images/Group 337504 (1).png';
+import logo from '@/src/assets/logo.png';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Button, Input } from 'antd';
 import { LoginForms } from '@/src/types/schema';

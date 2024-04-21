@@ -1,12 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import scss from './Contacts.module.scss';
-import { Input, Button } from 'antd';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { Input, Button } from 'antd';
 import { MapComponent } from './MapComponent';
-import { ContactsPagesFormTypes } from '@/src/types/schema';
 
 const { TextArea } = Input;
-
 export const Contacts = () => {
 	const navigate = useNavigate();
 	const {

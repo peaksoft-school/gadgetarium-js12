@@ -1,5 +1,5 @@
 import scss from './Register.module.scss';
-import logo from '@/src/assets/images/Group 337504 (1).png';
+import logo from '@/src/assets/logo.png';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, Input } from 'antd';
