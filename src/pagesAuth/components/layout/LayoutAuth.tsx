@@ -10,9 +10,9 @@ const LayoutAuth = () => {
 			<div className={scss.Layout}>
 				<main>
 					<Routes>
-						<Route path="/loginPages" element={<LoginPage />} />
+						<Route path="/login" element={<LoginPage />} />
 						<Route path="/register" element={<RegisterPage />} />
-						<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+						<Route path="/forgot" element={<ForgotPasswordPage />} />
 					</Routes>
 				</main>
 			</div>

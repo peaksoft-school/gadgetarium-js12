@@ -7,7 +7,7 @@ const items: MenuProps['items'] = [
 	{
 		key: '1',
 		label: (
-			<Link rel="noopener noreferrer" to="#">
+			<Link rel="noopener noreferrer" to="/auth/login">
 				Вход
 			</Link>
 		)
@@ -15,7 +15,7 @@ const items: MenuProps['items'] = [
 	{
 		key: '2',
 		label: (
-			<Link rel="noopener noreferrer" to="#">
+			<Link rel="noopener noreferrer" to="/auth/register">
 				Регистрация
 			</Link>
 		)
@@ -26,7 +26,7 @@ const AuthDropdown = () => {
 	return (
 		<Dropdown menu={{ items }} placement="bottomRight">
 			<button className={scss.button}>
-				<IconUser stroke={2} />
+				<IconUser />
 			</button>
 		</Dropdown>
 	);

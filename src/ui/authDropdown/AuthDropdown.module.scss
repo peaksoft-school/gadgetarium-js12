@@ -1,7 +1,17 @@
 .button {
+	width: 30px;
+	height: 30px;
+
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: transparent;
+	background: #fff;
+	border-radius: 50%;
 	border: none;
+
+	cursor: pointer;
+
+	svg {
+		color: #1a1a25;
+	}
 }
