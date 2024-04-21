@@ -1,10 +1,9 @@
-import { ForgotPassword } from "./forgotPasswordSections/ForgotPassword";
-
+import { ForgotPassword } from './forgotPasswordSections/ForgotPassword';
 
 const ForgotPasswordPage = () => {
 	return (
 		<>
-			< ForgotPassword/>
+			<ForgotPassword />
 		</>
 	);
 };

@@ -9,14 +9,13 @@ const Delivery = () => {
 			<div className="container">
 				<div className={scss.content}>
 					<p onClick={() => navigate('/')}>
-						Главная » <h3>Контакты</h3>
+						Главная » <span>Контакты</span>
 					</p>
 					<div className={scss.delivery_text_div}>
 						<h3>Доставка</h3>
-						<div></div>
 					</div>
 					<p className={scss.city_text_and_delivery}>
-						Город доставки <h4>Бишкек</h4>
+						Город доставки <span>Бишкек</span>
 					</p>
 					<div className={scss.cards_and_texts_content_div}>
 						<div className={scss.div_cards_1}>

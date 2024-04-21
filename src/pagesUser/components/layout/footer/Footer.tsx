@@ -107,26 +107,24 @@ const Footer = () => {
 							</form>
 						</div>
 						<div className={scss.fifth_footer_div}>
-							<div className={scss.icon_call}>
-								<IconPhone />
-								<a href="https://wa.me/996706215289">+996 (706) 21 52 89</a>
-							</div>
-							<div className={scss.icon_email}>
-								<IconMail />
-								<a href="https://mail.google.com/mail/u/0/#inbox">
-									Gadgetarium.kg
-								</a>
-							</div>
-							<div className={scss.icon_geolocation}>
-								<IconMapPin />
-								<a href="https://maps.app.goo.gl/2kKxda66CbUbMZU79">
-									г.Бишкек, ул. Гражданская 119
-								</a>
-							</div>
-							<div className={scss.icon_clock}>
-								<IconClock />
-								<a href="#">С 10:00 до 21:00 (без выходных)</a>
-							</div>
+							<a className={scss.icon} href="https://wa.me/996706215289">
+								<IconPhone /> +996 (706) 21 52 89
+							</a>
+							<a
+								className={scss.icon}
+								href="https://mail.google.com/mail/u/0/#inbox"
+							>
+								<IconMail /> boss.armsport@gmail.com
+							</a>
+							<a
+								className={scss.icon}
+								href="https://maps.app.goo.gl/2kKxda66CbUbMZU79"
+							>
+								<IconMapPin /> г.Бишкек, ул. Гражданская 119
+							</a>
+							<a className={scss.icon} href="#">
+								<IconClock /> С 10:00 до 21:00 (без выходных)
+							</a>
 						</div>
 					</div>
 				</div>
@@ -135,7 +133,7 @@ const Footer = () => {
 					<div className={scss.gadgetIcon}>
 						<IconGadgetarium />
 						<div className={scss.div}>
-							<p>© 2022 Gadgetarium. Интернет магазин </p>
+							<p>© 2024 Gadgetarium. Интернет магазин </p>
 							<p>Все права защищены.</p>
 						</div>
 					</div>

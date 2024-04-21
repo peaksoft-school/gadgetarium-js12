@@ -57,15 +57,14 @@ type ForgotPasswordForms = {
 	confirmThePassword: string;
 };
 
-
 type ContactsPagesFormTypes = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: number | string;
-  message: string;
-	status? : string | undefined
-}
+	firstName: string;
+	lastName: string;
+	email: string;
+	phoneNumber: number | string;
+	message: string;
+	status?: string | undefined;
+};
 
 type FiltredTypesProducts = {
 	_id: number;
@@ -79,5 +78,5 @@ type FiltredTypesProducts = {
 	buyProduc: string;
 	newProduct: string;
 	isResult: string;
-}
+};
 [];
