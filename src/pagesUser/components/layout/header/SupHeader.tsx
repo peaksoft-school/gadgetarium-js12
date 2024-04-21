@@ -16,8 +16,8 @@ const SupHeader = () => {
 					</Link>
 					<nav className={scss.nav}>
 						<ul>
-							{userLinks.map((item) => (
-								<li>
+							{userLinks.map((item, index) => (
+								<li key={index + 1}>
 									<Link
 										className={
 											pathname === item.link
