@@ -57,93 +57,60 @@ const AboutService = () => {
 					{openSlider === false ? (
 						<div ref={sliderRef} className="keen-slider">
 							<div className="keen-slider__slide number-slide1">
-								{' '}
-								<div className={scss.first_square}>
-									<div className={scss.icon_todollist_and_text}>
-										<IconCertificate />
-										<p>Официальный дистрибьютер</p>
-									</div>
+								<div className={scss.card}>
+									<IconCertificate />
+									<p>Официальный дистрибьютер</p>
 								</div>
 							</div>
 							<div className="keen-slider__slide number-slide2">
-								{' '}
-								<div className={scss.second_square}>
-									<div className={scss.icon_tools_and_text}>
-										<IconTools />
-										<p>Гарантийное обслуживание</p>
-									</div>
+								<div className={scss.card}>
+									<IconTools />
+									<p>Гарантийное обслуживание</p>
 								</div>
 							</div>
 							<div className="keen-slider__slide number-slide3">
-								{' '}
-								<div className={scss.third_square}>
-									<div className={scss.icon_creditcard_and_text}>
-										<IconCreditCard />
-										<p>Оплата любым удобным способом</p>
-									</div>
+								<div className={scss.card}>
+									<IconCreditCard />
+									<p>Оплата любым удобным способом</p>
 								</div>
 							</div>
 							<div className="keen-slider__slide number-slide4">
-								{' '}
-								<div className={scss.fourth_square}>
-									<div className={scss.icon_hands_and_text}>
-										<IconHands />
-										<p>Оптовые продажи</p>
-									</div>
+								<div className={scss.card}>
+									<IconHands />
+									<p>Оптовые продажи</p>
 								</div>
 							</div>
 							<div className="keen-slider__slide number-slide5">
-								{' '}
-								<div className={scss.fifth_square}>
-									<div className={scss.icon_bigcar_and_text}>
-										<IconBigCar />
-										<p>Доставка в любой регион Кыргызстана</p>
-									</div>
+								<div className={scss.card}>
+									<IconBigCar />
+									<p>Доставка в любой регион Кыргызстана</p>
 								</div>
 							</div>
 						</div>
 					) : (
 						<>
-							<>
-								<div className={scss.first_square}>
-									<div className={scss.icon_todollist_and_text}>
-										<IconCertificate />
-										<p>Официальный дистрибьютер</p>
-									</div>
-								</div>
-							</>
-							<>
-								<div className={scss.second_square}>
-									<div className={scss.icon_tools_and_text}>
-										<IconTools />
-										<p>Гарантийное обслуживание</p>
-									</div>
-								</div>
-							</>
-							<>
-								<div className={scss.third_square}>
-									<div className={scss.icon_creditcard_and_text}>
-										<IconCreditCard />
-										<p>Оплата любым удобным способом</p>
-									</div>
-								</div>
-							</>
-							<>
-								<div className={scss.fourth_square}>
-									<div className={scss.icon_hands_and_text}>
-										<IconHands />
-										<p>Оптовые продажи</p>
-									</div>
-								</div>
-							</>
-							<>
-								<div className={scss.fifth_square}>
-									<div className={scss.icon_bigcar_and_text}>
-										<IconBigCar />
-										<p>Доставка в любой регион Кыргызстана</p>
-									</div>
-								</div>
-							</>
+							<div className={scss.card}>
+								<IconCertificate />
+								<p>Официальный дистрибьютер</p>
+							</div>
+							<div className={scss.card}>
+								<IconTools />
+								<p>Гарантийное обслуживание</p>
+							</div>
+							<div className={scss.card}>
+								<IconCreditCard />
+								<p>Оплата любым удобным способом</p>
+							</div>
+							<div className={scss.card}>
+								<IconHands />
+								<p>
+									Оптовые <br /> продажи
+								</p>
+							</div>
+							<div className={scss.card}>
+								<IconBigCar />
+								<p>Доставка в любой регион Кыргызстана</p>
+							</div>
 						</>
 					)}
 				</div>
