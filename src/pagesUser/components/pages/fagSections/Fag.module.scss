@@ -173,83 +173,10 @@
 							}
 						}
 						.iconNooActive {
-							// transform:rotate(180deg);
 							transition: all 0.5s ease;
-							// @media (max-width: 685px) {
-							// 	position: relative;
-							// 	left: 35rem;
-							// }
-							// @media (max-width: 660px) {
-							// 	position: relative;
-							// 	left: 33.5rem;
-							// }
-							// @media (max-width: 642px) {
-							// 	position: relative;
-							// 	left: 31.8rem;
-							// }
-							// @media (max-width: 600px) {
-							// 	position: relative;
-							// 	left: 28rem;
-							// }
-							// @media (max-width: 542px) {
-							// 	position: relative;
-							// 	left: 25rem;
-							// }
-							// @dia (max-width: 464px) {
-							// 	position: relative;
-							// 	left: 21rem;
-							// }
-							// @media (max-width: 430px) {
-							// 	position: relative;
-							// 	left: 19rem;
-							// }
-							// @media (max-width: 390px) {
-							// 	position: relative;
-							// 	left: 17rem;
-							// }media (max-width: 500px) {
-							// 	position: relative;
-							// 	left: 23rem;
-							// }
-							// @me
 							&.iconActive {
 								transition: all 0.5s ease;
 								transform: rotate(-90deg);
-								// @media (max-width: 685px) {
-								// 	position: relative;
-								// 	left: 35rem;
-								// }
-								// @media (max-width: 660px) {
-								// 	position: relative;
-								// 	left: 33.5rem;
-								// }
-								// @media (max-width: 642px) {
-								// 	position: relative;
-								// 	left: 31.8rem;
-								// }
-								// @media (max-width: 600px) {
-								// 	position: relative;
-								// 	left: 28rem;
-								// }
-								// @media (max-width: 542px) {
-								// 	position: relative;
-								// 	left: 25rem;
-								// }
-								// @media (max-width: 500px) {
-								// 	position: relative;
-								// 	left: 23rem;
-								// }
-								// @media (max-width: 464px) {
-								// 	position: relative;
-								// 	left: 21rem;
-								// }
-								// @media (max-width: 430px) {
-								// 	position: relative;
-								// 	left: 19rem;
-								// }
-								// @media (max-width: 390px) {
-								// 	position: relative;
-								// 	left: 17rem;
-								// }
 							}
 						}
 					}
