@@ -1,0 +1,27 @@
+.dropdown_select {
+	.selected_option {
+		margin-left: 6px;
+	}
+	.selected_option_icon {
+		margin-top: 5px;
+		display: flex;
+		gap: 5px;
+		cursor: pointer;
+		transition: 1s;
+	}
+
+	.dropdown {
+		width: 173px;
+
+		display: flex;
+		flex-direction: column;
+
+		button {
+			background: transparent;
+			border: none;
+			display: flex;
+			justify-content: start;
+			cursor: pointer;
+		}
+	}
+}

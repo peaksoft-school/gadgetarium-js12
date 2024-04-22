@@ -1,0 +1,59 @@
+.Preloader {
+	width: 100%;
+	min-height: 100vh;
+	background: #1a1a25;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	.ring {
+		position: absolute;
+		border-radius: 50%;
+	}
+	.ring:nth-child(1) {
+		width: 250px;
+		height: 250px;
+		border-top: 4px solid #cb11ace3;
+		animation: rotate-forward 2.8s infinite;
+	}
+	.ring:nth-child(2) {
+		width: 230px;
+		height: 230px;
+		border-top: 4px solid #cb11ace3;
+		transform: rotate(85deg);
+		animation: rotate-baskward 2.5s infinite;
+	}
+	.ring:nth-child(3) {
+		width: 210px;
+		height: 210px;
+		border-top: 4px solid #cb11ace3;
+		transform: rotate(225deg);
+		animation: rotate-forward 2.2s infinite;
+	}
+	@keyframes rotate-forward {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+
+	@keyframes rotate-baskward {
+		0% {
+			transform: rotate(360deg);
+		}
+		100% {
+			transform: rotate(0deg);
+		}
+	}
+
+	.icon {
+		position: absolute;
+		z-index: 10;
+		svg {
+			width: 170px;
+			color: black;
+		}
+	}
+}
