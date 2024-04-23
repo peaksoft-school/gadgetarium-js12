@@ -1,0 +1,125 @@
+.Container_store {
+	display: flex;
+	gap: 20px;
+	align-items: center;
+	flex-wrap: wrap;
+	.div_product_map {
+		box-shadow: 0px 0px 3.5px black;
+		background-color: #ffffff;
+		border-radius: 4px;
+		width: 290px;
+		height: 480px;
+		display: flex;
+		flex-direction: column;
+		padding-block: 12px;
+		padding-inline: 12px;
+		gap: 11px;
+		@media (max-width: 600px) {
+			height: auto;
+			width: 224px;
+		}
+		.div_icons {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			.minus_promotion {
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				background: rgba(241, 0, 0, 0.8);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				color: rgb(255, 255, 255);
+				font-family: Inter;
+				font-size: 12px;
+				font-weight: 900;
+				line-height: 15px;
+				letter-spacing: 0%;
+				text-align: left;
+				text-transform: uppercase;
+			}
+			.div_two_icons {
+				display: flex;
+				align-items: center;
+				gap: 16px;
+				.scale {
+					cursor: pointer;
+					&.active {
+						color: #cb11ab;
+					}
+				}
+				.heart {
+					cursor: pointer;
+				}
+			}
+		}
+		.div_img {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			.img_product {
+				width: 180px;
+				height: 235px;
+				@media (max-width: 600px) {
+					width: 184px;
+					height: auto;
+				}
+			}
+		}
+		.div_product_contents {
+			margin-top: 10px;
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+			gap: 4px;
+			@media (max-width: 600px) {
+				gap: 28px;
+				margin-top: 0;
+			}
+			.tagColorGreen {
+				color: #2fc509;
+				font-size: 12px;
+			}
+			h3 {
+				color: #292929;
+				font-size: 16px;
+			}
+			p {
+				display: flex;
+				align-items: center;
+				gap: 9px;
+				color: #909cb5;
+				font-size: 12px;
+			}
+			.div_buttons_and_price {
+				display: flex;
+				align-items: center;
+				gap: 36px;
+				@media (max-width: 600px) {
+					display: flex;
+					flex-direction: column;
+					gap: 28px;
+					align-items: start;
+				}
+				.product_price {
+					display: flex;
+					flex-direction: column;
+					@media (max-width: 600px) {
+						display: flex;
+						align-items: center;
+					}
+					h2 {
+						color: #292929;
+						font-size: 18px;
+					}
+					p {
+						text-decoration: line-through;
+						color: #909cb5;
+						font-size: 14px;
+					}
+				}
+			}
+		}
+	}
+}

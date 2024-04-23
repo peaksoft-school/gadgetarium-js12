@@ -1,4 +1,9 @@
 .slider {
+	.skeleton {
+		width: 1350px;
+		height: 450px;
+		color: gray;
+	}
 	.background {
 		background-color: #e7e8ee;
 		height: 500px;
@@ -26,7 +31,7 @@
 				gap: 20px;
 
 				h2 {
-					color: rgba(203, 17, 171, 1);
+					color: #cb11ab;
 					font-weight: 900;
 					font-size: 25px;
 					text-transform: uppercase;

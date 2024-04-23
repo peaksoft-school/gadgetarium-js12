@@ -14,4 +14,14 @@ namespace PRODUCTSTORE {
 		newProduct: string;
 		isResult: string;
 	}[];
+	type PutProductRequest = {
+		_id: number;
+		isInBasket: boolean;
+		isFavorite: boolean;
+	};
+	type PutProductResponse = {
+		_id: number;
+		isInBasket: boolean;
+		isFavorite: boolean;
+	};
 }
