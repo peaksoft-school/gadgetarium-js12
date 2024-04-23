@@ -11,8 +11,18 @@ const api = index.injectEndpoints({
 				method: 'GET'
 			}),
 			providesTags: ['product']
+		}),
+		getProductsItemId: build.query<
+			PRODUCTSTORE.GetProductsItemIdResponse,
+			PRODUCTSTORE.GetProductsItemIdRequest
+		>({
+			query: (_id) => ({
+				url: `/${_id}`,
+				method: 'GET'
+			}),
+			providesTags: ['product']
 		})
 	})
 });
 
-export const { useGetProductsQuery } = api;
+export const { useGetProductsQuery, useGetProductsItemIdQuery } = api;
