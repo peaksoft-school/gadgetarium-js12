@@ -34,6 +34,7 @@
 				gap: 5px;
 				color: rgb(145, 150, 158);
 				font-size: clamp(0.5rem, 4vw, 0.8rem);
+				cursor: pointer;
 				@media (max-width: 650px) {
 					gap: 3px;
 				}

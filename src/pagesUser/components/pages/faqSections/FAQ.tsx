@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import scss from './Fag.module.scss';
+import scss from './FAQ.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { IconArrowRight } from '@tabler/icons-react';
 
@@ -51,7 +51,7 @@ const faqData = [
 	}
 ];
 
-const Fag = () => {
+const FAQ = () => {
 	const [openMenu, setOpenMenu] = useState<number | null>(null);
 	const navigate = useNavigate();
 
@@ -125,4 +125,4 @@ const Fag = () => {
 	);
 };
 
-export default Fag;
+export default FAQ;
