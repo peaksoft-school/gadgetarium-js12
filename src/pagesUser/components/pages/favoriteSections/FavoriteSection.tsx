@@ -1,9 +1,9 @@
-import { useGetBasketQuery } from '@/src/redux/api/basket';
+import { useGetFavoriteQuery } from '@/src/redux/api/favorite';
 import favorite from '../../../../assets/sammy_order_completed_by_a_delivery_girl_1.png';
 import scss from './FavoriteSection.module.scss';
 import { Link } from 'react-router-dom';
 const FavoriteSection = () => {
-	const { data } = useGetBasketQuery();
+	const { data } = useGetFavoriteQuery();
 	return (
 		<div className={scss.FavoriteSection}>
 			<div className="container">
