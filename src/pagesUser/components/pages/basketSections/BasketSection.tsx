@@ -1,6 +1,7 @@
 import { useGetBasketQuery } from '@/src/redux/api/basket';
 import png from '../../../../assets/sammy_shopping_1_1.png';
 import scss from './BasketSection.module.scss';
+import { Link } from 'react-router-dom';
 const BasketSection = () => {
 	const { data } = useGetBasketQuery();
 	return (
@@ -15,7 +16,9 @@ const BasketSection = () => {
 							<div className={scss.text_after_img}>
 								<h2>Ваша корзина пуста</h2>
 								<p>Но вы всегда можете ее наполнить </p>
-								<button>К покупкам</button>
+								<Link to="/">
+									<button>К покупкам</button>
+								</Link>
 							</div>
 						</>
 					) : (
