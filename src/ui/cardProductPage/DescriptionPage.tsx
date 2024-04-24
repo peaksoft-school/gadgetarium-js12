@@ -14,7 +14,7 @@ const DescriptionPage = () => {
 					<p>{data?.Description.intoText1}</p>
 					<p>{data?.Description.intoText2}</p>
 				</div>
-			</div>
+			</div>	
 			<div className={scss.info_texts}>
 				<p>{data?.Description.intoText3}</p>
 				<p>{data?.Description.intoText4}</p>

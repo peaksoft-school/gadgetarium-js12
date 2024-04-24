@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import scss from './InfoProduct.module.scss';
-import React, { ReactNode, useState } from 'react';
-import { Tabs } from 'antd';
-import type { TabsProps } from 'antd';
+import  { ReactNode, useState } from 'react';
+// import { Tabs } from 'antd';
+// import type { TabsProps } from 'antd';
 import { CharacteristicsPage } from './CharacteristicsPage';
 import DescriptionPage from './DescriptionPage';
 import ReviewsPage from './ReviewsPage';
