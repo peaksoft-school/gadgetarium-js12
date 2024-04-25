@@ -1,15 +1,14 @@
-import scss from './Slider.module.scss';
+import scss from './SliderDiscount.module.scss';
 import { useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import { useGetSlidersQuery } from '@/src/redux/api/slider';
 import { Skeleton } from 'antd';
 
-const Slider = () => {
-	const { data: sliders, isLoading } = useGetSlidersQuery();
+const SliderDiscount = () => {
+	const { data: sliders = [], isLoading } = useGetSlidersQuery();
 	const [currentSlide, setCurrentSlide] = useState(0);
 	const [loaded, setLoaded] = useState(false);
 	const [sliderRef, instanceRef] = useKeenSlider({
-		initial: 2,
 		slideChanged(slider) {
 			setCurrentSlide(slider.track.details.rel);
 		},
@@ -27,21 +26,19 @@ const Slider = () => {
 			) : (
 				<>
 					<div ref={sliderRef} className="keen-slider">
-						<div className={scss.background}>
-							{sliders?.map((item, index) => (
-								<div key={index}>
-									<div className={scss.background}>
-										<div className={scss.content}>
-											<img
-												className={scss.iphoneImg}
-												src={item.image}
-												alt="iPhoneImage"
-											/>
-										</div>
+						{sliders?.map((item, index) => (
+							<div key={index} className="keen-slider__slide">
+								<div className={scss.background}>
+									<div className={scss.content}>
+										<img
+											className={scss.iphoneImg}
+											src={item.image}
+											alt="iPhoneImage"
+										/>
 									</div>
 								</div>
-							))}
-						</div>
+							</div>
+						))}
 					</div>
 				</>
 			)}
@@ -70,4 +67,4 @@ const Slider = () => {
 	);
 };
 
-export default Slider;
+export default SliderDiscount;
