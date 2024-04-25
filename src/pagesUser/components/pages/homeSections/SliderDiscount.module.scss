@@ -5,19 +5,17 @@
 		color: gray;
 	}
 	.background {
-		height: 540px;
-
+		
 		.content {
 			display: flex;
 			justify-content: space-around;
 			align-items: center;
-
+			
 			.iphoneImg {
 				width: 100%;
+				height: auto;
 				object-fit: cover;
-				// max-width: 2480px;
-				// position: relative;
-				// top: 20px;
+				object-position: center;
 			}
 		}
 	}

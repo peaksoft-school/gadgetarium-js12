@@ -59,111 +59,115 @@ const ProductsPromotion = () => {
 			<div className="container">
 				<div className={scss.content}>
 					<h2 className={scss.promotion}>Акции</h2>
-					<div className={scss.product_cards}>
-						{isLoading ? (
-							<Skeleton />
-						) : (
-							<>
-								{productData?.slice(0, isVisible).map((item) => (
-									<div className={scss.div_product_map} key={item._id}>
-										<div className={scss.div_icons}>
-											<div className={scss.minus_promotion}> -10%</div>
-											<div className={scss.div_two_icons}>
-												<button
-													onMouseEnter={() => setActiveScaleId(item._id)}
-													onMouseLeave={() => setActiveScaleId(null)}
-													onClick={() =>
-														handleScaleClick(item._id, item.isComparison)
-													}
-												>
+					<div className={scss.title}>
+						<div className={scss.product_cards}>
+							{isLoading ? (
+								<Skeleton />
+							) : (
+								<>
+									{productData?.slice(0, isVisible).map((item) => (
+										<div className={scss.div_product_map} key={item._id}>
+											<div className={scss.div_icons}>
+												<div className={scss.minus_promotion}> -10%</div>
+												<div className={scss.div_two_icons}>
+													<button
+														onMouseEnter={() => setActiveScaleId(item._id)}
+														onMouseLeave={() => setActiveScaleId(null)}
+														onClick={() =>
+															handleScaleClick(item._id, item.isComparison)
+														}
+													>
+														<Tooltip
+															title={
+																item.isComparison === false
+																	? 'Добавить к сравнению'
+																	: 'Удалить из сравнения'
+															}
+														>
+															<IconScale
+																className={
+																	item.isComparison === true
+																		? `${scss.scale} ${scss.active}`
+																		: scss.scale
+																}
+															/>
+														</Tooltip>
+													</button>
 													<Tooltip
 														title={
-															item.isComparison === false
-																? 'Добавить к сравнению'
-																: 'Удалить из сравнения'
+															item.isFavorite === false
+																? 'Добавить в избранное'
+																: 'Удалить из избранного'
 														}
 													>
-														<IconScale
-															className={
-																item.isComparison === true
-																	? `${scss.scale} ${scss.active}`
-																	: scss.scale
+														<button
+															className={scss.heart}
+															onClick={() =>
+																handleHeartClick(item._id, item.isFavorite)
 															}
-														/>
+															onMouseEnter={() => setActiveHeartId(item._id)}
+															onMouseLeave={() => setActiveHeartId(null)}
+														>
+															{item.isFavorite === true ? (
+																<IconRedHeart />
+															) : (
+																<IconHeart />
+															)}
+														</button>
 													</Tooltip>
-												</button>
-												<Tooltip
-													title={
-														item.isFavorite === false
-															? 'Добавить в избранное'
-															: 'Удалить из избранного'
-													}
-												>
-													<button
-														className={scss.heart}
-														onClick={() =>
-															handleHeartClick(item._id, item.isFavorite)
-														}
-														onMouseEnter={() => setActiveHeartId(item._id)}
-														onMouseLeave={() => setActiveHeartId(null)}
-													>
-														{item.isFavorite === true ? (
-															<IconRedHeart />
-														) : (
-															<IconHeart />
-														)}
-													</button>
-												</Tooltip>
-											</div>
-										</div>
-										<div className={scss.div_img}>
-											<img
-												className={scss.img_product}
-												src={photoIsIphone}
-												alt={item.productName}
-											/>
-										</div>
-										<div className={scss.div_product_contents}>
-											<p className={scss.tag_color_green}>
-												В наличии {item.buyProduc}
-											</p>
-											<h3>{item.productName}</h3>
-											<p>
-												Рейтинг <Rate allowHalf defaultValue={3.5} />{' '}
-												{item.Rating}
-											</p>
-											<div className={scss.div_buttons_and_price}>
-												<div className={scss.product_price}>
-													<h2>{item.price} c</h2>
-													<p>{item.previousPrice} c</p>
 												</div>
-												<AddBasketButton
-													onClick={() =>
-														handleBasket(item._id, item.isInBasket)
-													}
-													children={
-														item.isInBasket === true ? `В корзине` : `В корзину`
-													}
-													className={
-														item.isInBasket === true
-															? `${scss.add_bas_button} ${scss.active}`
-															: `${scss.add_bas_button}`
-													}
+											</div>
+											<div className={scss.div_img}>
+												<img
+													className={scss.img_product}
+													src={photoIsIphone}
+													alt={item.productName}
 												/>
 											</div>
+											<div className={scss.div_product_contents}>
+												<p className={scss.tag_color_green}>
+													В наличии {item.buyProduc}
+												</p>
+												<h3>{item.productName}</h3>
+												<p>
+													Рейтинг <Rate allowHalf defaultValue={3.5} />
+													{item.Rating}
+												</p>
+												<div className={scss.div_buttons_and_price}>
+													<div className={scss.product_price}>
+														<h2>{item.price} c</h2>
+														<p>{item.previousPrice} c</p>
+													</div>
+													<AddBasketButton
+														onClick={() =>
+															handleBasket(item._id, item.isInBasket)
+														}
+														children={
+															item.isInBasket === true
+																? `В корзине`
+																: `В корзину`
+														}
+														className={
+															item.isInBasket === true
+																? `${scss.add_bas_button} ${scss.active}`
+																: `${scss.add_bas_button}`
+														}
+													/>
+												</div>
+											</div>
 										</div>
-									</div>
-								))}
-							</>
-						)}
+									))}
+								</>
+							)}
+						</div>
+						<div className={scss.show_more_button}>
+							<ShowMoreButton
+								onClick={!showMore ? handleVisible : handleShowMore}
+								children={showMore ? 'Скрыть' : 'Показать ещё'}
+							/>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div className={scss.show_more_button}>
-				<ShowMoreButton
-					onClick={!showMore ? handleVisible : handleShowMore}
-					children={showMore ? 'Скрыть' : 'Показать ещё'}
-				/>
 			</div>
 		</div>
 	);
