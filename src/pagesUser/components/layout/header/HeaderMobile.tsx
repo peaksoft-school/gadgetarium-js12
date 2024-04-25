@@ -115,18 +115,18 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 						</div>
 						<hr />
 						<div className={scss.icon_basket_heart}>
-							<div className={scss.icon}>
+							<Link to="/comparison" className={scss.icon}>
 								<span>0</span>
 								<IconScale />
-							</div>
-							<div className={scss.icon}>
+							</Link>
+							<Link to="/favorite" className={scss.icon}>
 								<span>0</span>
 								<IconHeart />
-							</div>
-							<div className={scss.icon}>
+							</Link>
+							<Link to="/basket" className={scss.icon}>
 								<span>0</span>
 								<IconShoppingCart />
-							</div>
+							</Link>
 						</div>
 					</div>
 				</div>

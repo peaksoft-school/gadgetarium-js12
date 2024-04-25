@@ -1,4 +1,4 @@
-import Fag from './fagSections/Fag';
+import Fag from './faqSections/FAQ';
 
 const FagPage = () => {
 	return (
