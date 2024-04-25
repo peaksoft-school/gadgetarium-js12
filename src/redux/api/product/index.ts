@@ -11,19 +11,8 @@ const api = index.injectEndpoints({
 				method: 'GET'
 			}),
 			providesTags: ['product']
-		}),
-		basketPutProduct: build.mutation<
-			PRODUCTSTORE.PutProductResponse,
-			PRODUCTSTORE.PutProductRequest
-		>({
-			query: ({ _id, isInBasket, isFavorite }) => ({
-				url: `${_id}`,
-				method: 'PATCH',
-				body: { isInBasket, isFavorite }
-			}),
-			invalidatesTags: ['product']
 		})
 	})
 });
 
-export const { useGetProductsQuery, useBasketPutProductMutation } = api;
+export const { useGetProductsQuery } = api;

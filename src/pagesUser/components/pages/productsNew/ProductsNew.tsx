@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import scss from './ProductsPromotion.module.scss';
+import scss from './ProductsNew.module.scss';
 import { useGetProductsQuery } from '@/src/redux/api/product';
 import { Rate, Skeleton, Tooltip } from 'antd';
 import AddBasketButton from '../../../../ui/customButtons/AddBasketButton';
@@ -11,7 +11,7 @@ import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { useComparisonPutProductMutation } from '@/src/redux/api/comparison';
 
-const ProductsPromotion = () => {
+const ProductsNew = () => {
 	const { data: productData = [], isLoading, refetch } = useGetProductsQuery();
 	const [comparisonPutProduct] = useComparisonPutProductMutation();
 	const [basketPutProduct] = useBasketPutProductMutation();
@@ -55,10 +55,10 @@ const ProductsPromotion = () => {
 	};
 
 	return (
-		<div className={scss.ProductsPromotion}>
+		<div className={scss.ProductsNew}>
 			<div className="container">
 				<div className={scss.content}>
-					<h2 className={scss.promotion}>Акции</h2>
+					<h2 className={scss.new}>Новинки</h2>
 					<div className={scss.product_cards}>
 						{isLoading ? (
 							<Skeleton />
@@ -67,7 +67,7 @@ const ProductsPromotion = () => {
 								{productData?.slice(0, isVisible).map((item) => (
 									<div className={scss.div_product_map} key={item._id}>
 										<div className={scss.div_icons}>
-											<div className={scss.minus_promotion}> -10%</div>
+											<div className={scss.minus_promotion}>New</div>
 											<div className={scss.div_two_icons}>
 												<button
 													onMouseEnter={() => setActiveScaleId(item._id)}
@@ -169,4 +169,4 @@ const ProductsPromotion = () => {
 	);
 };
 
-export default ProductsPromotion;
+export default ProductsNew;

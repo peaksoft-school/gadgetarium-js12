@@ -1,43 +1,6 @@
-.AddBusButton {
-	cursor: pointer;
-	border: 1px solid #cb11ab;
-	border-radius: 4px;
-	padding: 10px 17px 10px 17px;
-	background: rgb(203, 17, 171);
-	color: rgb(255, 255, 255);
-	font-family: Inter;
-	font-size: 12px;
-	font-weight: 500;
-	line-height: 17px;
-	letter-spacing: 0%;
-	text-align: center;
-	text-transform: uppercase;
-	@media (max-width: 600px) {
-		padding: 8px 15px 8px 15px;
-	}
-	@media (max-width: 550px) {
-		padding: 5px 10px 5px 10px;
-		font-size: 10px;
-		font-weight: 400;
-	}
-	&:hover {
-		padding: 12px 19px 12px 19px;
-		background: #cb11ab;
-		color: white;
-		border: none;
-		border: 1px dashed rgb(151, 71, 255);
-		transition: all 0.5s ease-in;
-	}
-	&:focus {
-		padding: 12px 19px 12px 19px;
-		background: rgb(47, 197, 9);
-		color: white;
-		border: none;
-	}
-	.svgPlusChild {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 8px;
-	}
+.svg_plus_child {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
 }

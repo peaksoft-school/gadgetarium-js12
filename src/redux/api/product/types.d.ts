@@ -8,20 +8,11 @@ namespace PRODUCTSTORE {
 		productName: string;
 		isFavorite: boolean;
 		isInBasket: boolean;
+		isComparison: boolean;
 		previousPrice: number;
 		Rating: string;
 		buyProduc: string;
 		newProduct: string;
 		isResult: string;
 	}[];
-	type PutProductRequest = {
-		_id: number;
-		isInBasket: boolean;
-		isFavorite: boolean;
-	};
-	type PutProductResponse = {
-		_id: number;
-		isInBasket: boolean;
-		isFavorite: boolean;
-	};
 }

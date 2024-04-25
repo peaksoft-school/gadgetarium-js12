@@ -11,8 +11,19 @@ const api = index.injectEndpoints({
 				method: 'GET'
 			}),
 			providesTags: ['basket']
+		}),
+		basketPutProduct: build.mutation<
+			BASKETPRODUCTS.PutProductResponse,
+			BASKETPRODUCTS.PutProductRequest
+		>({
+			query: ({ _id, isInBasket }) => ({
+				url: `/${_id}`,
+				method: 'PATCH',
+				body: { isInBasket }
+			}),
+			invalidatesTags: ['basket']
 		})
 	})
 });
 
-export const { useGetBasketQuery } = api;
+export const { useGetBasketQuery, useBasketPutProductMutation } = api;

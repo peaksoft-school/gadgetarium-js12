@@ -38,7 +38,7 @@ const LayoutUser = () => {
 
 	useEffect(() => {
 		const handleScroll = () => {
-			setIsScrolled(window.scrollY >=	 75);
+			setIsScrolled(window.scrollY >= 75);
 		};
 
 		window.addEventListener('scroll', handleScroll);
