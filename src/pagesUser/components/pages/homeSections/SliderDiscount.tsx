@@ -1,14 +1,14 @@
+import scss from './SliderDiscount.module.scss';
 import { useState } from 'react';
-import scss from './Slider.module.scss';
 import { useKeenSlider } from 'keen-slider/react';
 import { useGetSlidersQuery } from '@/src/redux/api/slider';
+import { Skeleton } from 'antd';
 
-const Slider = () => {
-	const { data: sliders, isLoading } = useGetSlidersQuery();
+const SliderDiscount = () => {
+	const { data: sliders = [], isLoading } = useGetSlidersQuery();
 	const [currentSlide, setCurrentSlide] = useState(0);
 	const [loaded, setLoaded] = useState(false);
 	const [sliderRef, instanceRef] = useKeenSlider({
-		initial: 2,
 		slideChanged(slider) {
 			setCurrentSlide(slider.track.details.rel);
 		},
@@ -16,39 +16,32 @@ const Slider = () => {
 			setLoaded(true);
 		}
 	});
-	if (isLoading) {
-		return <div>Loading...</div>;
-	}
 
 	return (
 		<div className={scss.slider}>
-			<div ref={sliderRef} className="keen-slider">
-				{sliders?.map((item) => (
-					<div className={item.className}>
-						<div className={scss.background}>
-							<div className={scss.content}>
-								<div className={scss.description}>
-									<h2>{item.title}</h2>
-									<h1>
-										{item.description}
-										<span>{item.subDescription}</span>
-									</h1>
+			{isLoading ? (
+				<>
+					<Skeleton className={scss.skeleton} />
+				</>
+			) : (
+				<>
+					<div ref={sliderRef} className="keen-slider">
+						{sliders?.map((item, index) => (
+							<div key={index} className="keen-slider__slide">
+								<div className={scss.background}>
+									<div className={scss.content}>
+										<img
+											className={scss.iphoneImg}
+											src={item.image}
+											alt="iPhoneImage"
+										/>
+									</div>
 								</div>
-								<img
-									className={scss.pink_vector}
-									src={item.vector}
-									alt="pinkVectorSvg"
-								/>
-								<img
-									className={scss.iphoneImg}
-									src={item.image}
-									alt="iPhoneImage"
-								/>
 							</div>
-						</div>
+						))}
 					</div>
-				))}
-			</div>
+				</>
+			)}
 
 			{loaded &&
 				instanceRef.current &&
@@ -74,4 +67,4 @@ const Slider = () => {
 	);
 };
 
-export default Slider;
+export default SliderDiscount;

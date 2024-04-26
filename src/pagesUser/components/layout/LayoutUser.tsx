@@ -23,7 +23,7 @@ const LayoutUser = () => {
 
 	useEffect(() => {
 		const changeIsMobile = () => {
-			if (window.innerWidth < 1100) {
+			if (window.innerWidth <= 1100) {
 				setIsMobile(true);
 			} else {
 				setIsMobile(false);
@@ -38,7 +38,7 @@ const LayoutUser = () => {
 
 	useEffect(() => {
 		const handleScroll = () => {
-			setIsScrolled(window.scrollY > 75);
+			setIsScrolled(window.scrollY >= 75);
 		};
 
 		window.addEventListener('scroll', handleScroll);
