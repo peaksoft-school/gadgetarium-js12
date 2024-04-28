@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-namespace BASKETPRODUCTS {
-	type GetBasketProductsRequest = void;
-	type GetBasketProductsResponse = {
+namespace COMPARISONPRODUCTS {
+	type GetComparisonProductsRequest = void;
+	type GetComparisonProductsResponse = {
 		_id: number;
 		image: string;
 		productName: string;
@@ -15,12 +15,12 @@ namespace BASKETPRODUCTS {
 		productCode: string;
 		buyProduc: string;
 	}[];
-	type PutProductRequest = {
+	type PutComparisonProductRequest = {
 		_id: number;
-		isInBasket: boolean;
+		isComparison: boolean;
 	};
-	type PutProductResponse = {
+	type PutComparisonProductResponse = {
 		_id: number;
-		isInBasket: boolean;
+		isComparison: boolean;
 	};
 }

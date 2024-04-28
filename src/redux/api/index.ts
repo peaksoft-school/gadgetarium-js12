@@ -23,5 +23,6 @@ export const api = createApi({
 	refetchOnReconnect: true,
 	refetchOnFocus: false,
 	tagTypes: ['auth', 'basket', 'product', 'slider', "phones"],
+	tagTypes: ['auth', 'basket', 'product', 'slider','favorite', 'comparison'],
 	endpoints: () => ({})
 });

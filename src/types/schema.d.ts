@@ -51,11 +51,7 @@ type RegisterForms = {
 	confirmThePassword: string;
 };
 
-type ForgotPasswordForms = {
-	code: string | number;
-	password: string;
-	confirmThePassword: string;
-};
+
 
 type ContactsPagesFormTypes = {
 	firstName: string;

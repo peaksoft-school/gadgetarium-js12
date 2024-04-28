@@ -12,6 +12,9 @@ import DeliveryPage from '../pages/DeliveryPage.tsx';
 import FagPage from '../pages/FagPage.tsx';
 import ContactsPage from '../pages/ContactsPage.tsx';
 import CatalogPage from '../pages/CatalogPage.tsx';
+import BasketPage from '../pages/BasketPage.tsx';
+import ComparisonPage from '../pages/ComparisonPage.tsx';
+import FavoritePage from '../pages/FavoritePage.tsx';
 
 const LayoutUser = () => {
 	const { pathname } = useLocation();
@@ -21,7 +24,7 @@ const LayoutUser = () => {
 
 	useEffect(() => {
 		const changeIsMobile = () => {
-			if (window.innerWidth < 1100) {
+			if (window.innerWidth <= 1100) {
 				setIsMobile(true);
 			} else {
 				setIsMobile(false);
@@ -36,7 +39,7 @@ const LayoutUser = () => {
 
 	useEffect(() => {
 		const handleScroll = () => {
-			setIsScrolled(window.scrollY > 75);
+			setIsScrolled(window.scrollY >= 75);
 		};
 
 		window.addEventListener('scroll', handleScroll);
@@ -77,7 +80,11 @@ const LayoutUser = () => {
 						<Route path="/delivery" element={<DeliveryPage />} />
 						<Route path="/faq" element={<FagPage />} />
 						<Route path="/contacts" element={<ContactsPage />} />
+
 						<Route path='/catalog/phones' element={<CatalogPage/>}/>
+						<Route path="/comparison" element={<ComparisonPage />} />
+						<Route path="/favorite" element={<FavoritePage />} />
+						<Route path="/basket" element={<BasketPage />} />
 					</Routes>
 				</main>
 				<Footer />

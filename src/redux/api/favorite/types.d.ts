@@ -1,26 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-namespace BASKETPRODUCTS {
-	type GetBasketProductsRequest = void;
-	type GetBasketProductsResponse = {
+namespace FAVORITEPRODUCTS {
+	type GetFavoriteProductsRequest = void;
+	type GetFavoriteProductsResponse = {
 		_id: number;
 		image: string;
 		productName: string;
 		price: number;
 		quantity: number | string;
 		isFavorite: boolean;
-		isInBasket: boolean;
-		isComparison: boolean;
 		token: string;
 		Rating: string;
 		productCode: string;
 		buyProduc: string;
 	}[];
-	type PutProductRequest = {
+	type PutFavoriteProductRequest = {
 		_id: number;
-		isInBasket: boolean;
+		isFavorite: boolean;
 	};
-	type PutProductResponse = {
+	type PutFavoriteProductResponse = {
 		_id: number;
-		isInBasket: boolean;
+		isFavorite: boolean;
 	};
 }
