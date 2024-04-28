@@ -1,0 +1,173 @@
+.Payment {
+	margin-top: 100px;
+	margin-bottom: 200px;
+	.content {
+		.card_payment {
+			display: flex;
+			justify-content: center;
+			gap: 10px;
+			width: 280px;
+			height: 120px;
+			border-radius: 6px;
+			background: white;
+			padding: 26px 12px 30px 12px;
+			.text_payment {
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+				.images_payment {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					gap: 10px;
+					img {
+						width: 40px;
+					}
+				}
+			}
+		}
+		.card_number {
+			margin-top: 60px;
+			display: flex;
+			flex-direction: column;
+			// justify-content: center;
+			gap: 10px;
+			width: 446px;
+			height: 268px;
+			border-radius: 6px;
+			background: white;
+			padding: 26px 17px 30px 17px;
+			.images_card_number {
+				// display: flex;
+				// justify-content: center;
+				// align-items: center;
+				gap: 10px;
+				img {
+					width: 40px;
+				}
+			}
+			.inputs_number {
+				.number_card_input {
+					display: flex;
+					position: relative;
+					flex-direction: column;
+					.input {
+						font-size: 16px;
+						padding: 10px 10px 10px 5px;
+						display: block;
+						width: 200px;
+						border: none;
+						border-bottom: 1px solid #515151;
+						background: transparent;
+
+						&:focus {
+							outline: none;
+						}
+
+						&:focus ~ label,
+						&:valid ~ label {
+							top: -20px;
+							font-size: 14px;
+							color: #5264ae;
+						}
+					}
+
+					label {
+						color: #999;
+						font-size: 18px;
+						font-weight: normal;
+						position: absolute;
+						pointer-events: none;
+						left: 5px;
+						top: 10px;
+						transition: 0.2s ease all;
+						-moz-transition: 0.2s ease all;
+						-webkit-transition: 0.2s ease all;
+					}
+
+					.bar {
+						position: relative;
+						display: block;
+						width: 200px;
+
+						&:before,
+						&:after {
+							content: '';
+							height: 2px;
+							width: 0;
+							bottom: 1px;
+							position: absolute;
+							background: #5264ae;
+							transition: 0.2s ease all;
+							-moz-transition: 0.2s ease all;
+							-webkit-transition: 0.2s ease all;
+						}
+
+						&:before {
+							left: 50%;
+						}
+
+						&:after {
+							right: 50%;
+						}
+					}
+
+					.input:focus ~ .bar:before,
+					.input:focus ~ .bar:after {
+						width: 50%;
+					}
+
+					.highlight {
+						position: absolute;
+						height: 60%;
+						width: 100px;
+						top: 25%;
+						left: 0;
+						pointer-events: none;
+						opacity: 0.5;
+					}
+
+					.input:focus ~ .highlight {
+						animation: inputHighlighter 0.3s ease;
+					}
+
+					@keyframes inputHighlighter {
+						from {
+							background: #5264ae;
+						}
+
+						to {
+							width: 0;
+							background: transparent;
+						}
+					}
+
+					// label {
+					// 	font-size: 10px;
+					// 	color: rgb(145, 150, 158);
+					// }
+					// input {
+					// 	width: 410px;
+					// 	border: none;
+					// 	border-bottom: 1px solid rgb(205, 205, 205);
+					// 	background: transparent;
+					// 	outline: none;
+					// 	color: black;
+					// }
+				}
+				.year_card_input {
+					display: flex;
+					gap: 20px;
+					input {
+						width: 40px;
+						border: none;
+						border-bottom: 1px solid rgb(205, 205, 205);
+						background: transparent;
+						outline: none;
+						color: black;
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,29 @@
+.PlacingAnOrder {
+	position: sticky;
+	top: 0;
+	left: 0;
+	.content {
+		h2 {
+			color: rgb(24, 23, 23);
+			font-size: 28px;
+			font-weight: 600;
+			line-height: 110%;
+			letter-spacing: 0%;
+			text-align: left;
+		}
+		.transition_numbers {
+			display: flex;
+			gap: 20px;
+			.number_one {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 35px;
+				height: 35px;
+				background: #c6c6c6;
+				color: white;
+				border-radius: 50%;
+			}
+		}
+	}
+}

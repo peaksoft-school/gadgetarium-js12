@@ -14,6 +14,9 @@ import ContactsPage from '../pages/ContactsPage.tsx';
 import BasketPage from '../pages/BasketPage.tsx';
 import ComparisonPage from '../pages/ComparisonPage.tsx';
 import FavoritePage from '../pages/FavoritePage.tsx';
+import DeliveryOptions from '../pages/placingAnOrder/DeliveryOptions.tsx';
+import Payment from '../pages/placingAnOrder/Payment.tsx';
+import OrderOverview from '../pages/placingAnOrder/OrderOverview.tsx';
 
 const LayoutUser = () => {
 	const { pathname } = useLocation();
@@ -82,6 +85,10 @@ const LayoutUser = () => {
 						<Route path="/comparison" element={<ComparisonPage />} />
 						<Route path="/favorite" element={<FavoritePage />} />
 						<Route path="/basket" element={<BasketPage />} />
+						{/* //! */}
+						<Route path="/deliveryoptions" element={<DeliveryOptions />} />
+						<Route path="/payment" element={<Payment />} />
+						<Route path="/orderoverview" element={<OrderOverview />} />
 					</Routes>
 				</main>
 				<Footer />

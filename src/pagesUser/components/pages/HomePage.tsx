@@ -1,12 +1,11 @@
-import Welcome from './homeSections/Welcome.tsx';
 import AboutService from './homeSections/AboutService.tsx';
+import PlacingAnOrder from './placingAnOrder/PlacingAnOrder.tsx';
 
 const HomePage = () => {
 	return (
 		<>
-			<Welcome />
+			<PlacingAnOrder />
 			<AboutService />
-
 		</>
 	);
 };
