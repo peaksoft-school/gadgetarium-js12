@@ -11,6 +11,7 @@ import AboutPage from '../pages/AboutPage.tsx';
 import DeliveryPage from '../pages/DeliveryPage.tsx';
 import FagPage from '../pages/FagPage.tsx';
 import ContactsPage from '../pages/ContactsPage.tsx';
+import CatalogPage from '../pages/CatalogPage.tsx';
 
 const LayoutUser = () => {
 	const { pathname } = useLocation();
@@ -76,6 +77,7 @@ const LayoutUser = () => {
 						<Route path="/delivery" element={<DeliveryPage />} />
 						<Route path="/faq" element={<FagPage />} />
 						<Route path="/contacts" element={<ContactsPage />} />
+						<Route path='/catalog/phones' element={<CatalogPage/>}/>
 					</Routes>
 				</main>
 				<Footer />
