@@ -2,5 +2,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+}
+@media (max-width: 827.20px) {
+  .sortDiv {
+    margin-right: 65px;
+
+    @media (max-width: 672px) {
+      margin-right: 280px;
+    }
+  }
+ p {
+  font-size: 13px;
+ }
 }
 

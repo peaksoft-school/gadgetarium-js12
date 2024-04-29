@@ -77,28 +77,29 @@ const Catalog = () => {
 
                 {reduceOne ? (
                   <div>
-                    <div className={scss.category}>
+                    <div className={scss.category} onClick={() => setReduceOne(false)}>
                       <p>Категория</p>
-                      <img src={arrowDown} alt="ArrowDown" onClick={() => setReduceOne(false)} />
+                      <img src={arrowDown} alt="ArrowDown" />
                     </div>
 
                   </div>
                 ) : (
                   <div>
-                    <div className={scss.category}>
+                    <div className={scss.category} onClick={() => setReduceOne(true)}>
                       <p>Категория</p>
-                      <img src={arrow} alt="ArrowTop" onClick={() => setReduceOne(true)} />
+                      <img src={arrow} alt="ArrowTop" />
                     </div>
 
                     <div className={scss.categoriesDiv}>
                       {phoneCatalog.map((e, index) => (
                         <div className={scss.categories} key={index}>
                           <input
+                            id={e.phone}
                             type="checkbox"
                             checked={selectedCategories.includes(e.phone) && categoryArray.push(e.phone) ? true : false}
                             onChange={() => handleSelectedCategory(e.phone)}
                             onClick={() => handleSelectedCategory(e.phone)} />
-                          <label><p>{e.phone}</p></label>
+                          <label htmlFor={e.phone}><p>{e.phone}</p></label>
                         </div>
                       ))}
                     </div>
@@ -109,17 +110,17 @@ const Catalog = () => {
 
                 {reduceTwo ? (
                   <div>
-                    <div className={scss.costDiv}>
+                    <div className={scss.costDiv} onClick={() => setReduceTwo(false)}>
                       <p>Стоимость</p>
-                      <img src={arrowDown} alt="ArrowDown" onClick={() => setReduceTwo(false)} />
+                      <img src={arrowDown} alt="ArrowDown" />
                     </div>
                     <div className={scss.anotherCostDiv}></div>
                   </div>
                 ) : (
                   <div>
-                    <div className={scss.costDiv}>
+                    <div className={scss.costDiv} onClick={() => setReduceTwo(true)}>
                       <p>Стоимость</p>
-                      <img src={arrow} alt="ArrowTop" onClick={() => setReduceTwo(true)} />
+                      <img src={arrow} alt="ArrowTop" />
                     </div>
 
                     <div className={scss.priceDiv}>
@@ -167,9 +168,9 @@ const Catalog = () => {
                   <div>
                     {hideColours ? (
                       <div>
-                        <div className={scss.colourDiv}>
+                        <div className={scss.colourDiv} onClick={() => setReduceThree(true)}>
                           <p>Цвет</p>
-                          <img src={arrow} alt="ArrowTop" onClick={() => setReduceThree(true)} />
+                          <img src={arrow} alt="ArrowTop"  />
                         </div>
                         <div className={scss.clapDiv} onClick={() => setHideColours(false)}>
                           <img src={arrowBlueBottom} alt="ArrowTop" />
@@ -178,19 +179,20 @@ const Catalog = () => {
                       </div>
                     ) : (
                       <div>
-                        <div className={scss.colourDiv}>
+                        <div className={scss.colourDiv} onClick={() => setReduceThree(true)}>
                           <p>Цвет</p>
-                          <img src={arrow} alt="ArrowTop" onClick={() => setReduceThree(true)} />
+                          <img src={arrow} alt="ArrowTop" />
                         </div>
 
                         {coloursCatalog.map((e) => (
                           <div className={scss.colours} key={e.colour}>
                             <input
+                              id={e.colour}
                               type="checkbox"
-                              checked={selectedCategories.includes(e.colour) && categoryArray.push(e.colour) ? true : false }
+                              checked={selectedCategories.includes(e.colour) && categoryArray.push(e.colour) ? true : false}
                               onChange={() => handleSelectedCategory(e.colour)}
                             />
-                            <label>
+                            <label htmlFor={e.colour}>
                               <p>{e.colour}</p>
                               <span>({e.quantity})</span>
                             </label>
@@ -211,27 +213,28 @@ const Catalog = () => {
 
                 {reduceFour ? (
                   <div>
-                    <div className={scss.gbDiv}>
+                    <div className={scss.gbDiv} onClick={() => setReduceFour(false)}>
                       <p>Объем памяти (GB)</p>
-                      <img src={arrowDown} alt="ArrowDown" onClick={() => setReduceFour(false)} />
+                      <img src={arrowDown} alt="ArrowDown" />
                     </div>
                   </div>
                 ) : (
                   <div>
-                    <div className={scss.gbDiv}>
+                    <div className={scss.gbDiv} onClick={() => setReduceFour(true)}>
                       <p>Объем памяти (GB)</p>
-                      <img src={arrow} alt="ArrowTop" onClick={() => setReduceFour(true)} />
+                      <img src={arrow} alt="ArrowTop" />
                     </div>
 
                     {gBiteCatalog.map((e) => (
                       <div className={scss.gigabytes}>
                         <input
+                          id={e.gb}
                           type="checkbox"
                           checked={selectedCategories.includes(e.gb)}
                           onChange={() => handleSelectedCategory(e.gb)}
                           onClick={() => handleSelectedCategory(e.gb)}
                         />
-                        <label><p>{e.gb}</p></label>
+                        <label htmlFor={e.gb}><p>{e.gb}</p></label>
                       </div>
                     ))}
 
@@ -246,27 +249,28 @@ const Catalog = () => {
 
                 {reduceFive ? (
                   <div>
-                    <div className={scss.moreGbDiv}>
+                    <div className={scss.moreGbDiv} onClick={() => setReduceFive(false)}>
                       <p>Объем оперативной памяти (GB)</p>
-                      <img src={arrowDown} alt="ArrowDown" onClick={() => setReduceFive(false)} />
+                      <img src={arrowDown} alt="ArrowDown" />
                     </div>
                   </div>
                 ) : (
                   <div>
-                    <div className={scss.moreGbDiv}>
+                    <div className={scss.moreGbDiv} onClick={() => setReduceFive(true)}>
                       <p>Объем оперативной памяти (GB)</p>
-                      <img src={arrow} alt="ArrowTop" onClick={() => setReduceFive(true)} />
+                      <img src={arrow} alt="ArrowTop" />
                     </div>
 
                     {moreGBiteCatalog.map((e) => (
                       <div className={scss.moreGb}>
                         <input
+                          id={e.gb}
                           type="checkbox"
                           checked={selectedCategories.includes(e.gb)}
                           onChange={() => handleSelectedCategory(e.gb)}
                           onClick={() => handleSelectedCategory(e.gb)}
                         />
-                        <label><p>{e.gb}</p></label>
+                        <label htmlFor={e.gb}><p>{e.gb}</p></label>
                       </div>
                     ))}
                   </div>
@@ -284,9 +288,9 @@ const Catalog = () => {
                     </div>
                   ))}
                 </div>
-                  <div className={scss.sortDiv}>
-                    <PhonesDropdown/>
-                  </div>
+                <div className={scss.sortDiv}>
+                  <PhonesDropdown />
+                </div>
               </div>
               <div className={scss.cardss}>
                 {posts && posts

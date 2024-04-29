@@ -68,6 +68,10 @@
           transition: box-shadow 0.3s ease;
           cursor: pointer;
 
+          @media (max-width: 827.20px) {
+            width: 200px;
+          }
+
           &:hover {
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1)
           }
@@ -116,6 +120,10 @@
               p {
                 color: #8E9AB3;
                 font-size: 11px;
+
+                @media (max-width: 827.20px) {
+                  font-size: clamp(0.5rem, 4vw, 0.7rem);
+                }
               }
             }
           }
@@ -130,6 +138,10 @@
             .phone_price {
               font-size: 17px;
               font-weight: 700;
+
+              @media (max-width: 827.20px) {
+                font-size: clamp(0.5rem, 4vw, 0.9rem);
+              }
             }
           }
         }
@@ -152,12 +164,22 @@
           background-color: #fff;
           padding: 25px 22px 5px 22px;
 
+          @media (max-width: 827.20px) {
+            width: 100%;
+            max-width: 200px;
+          }
+
+
           h4 {
             color: #5786F7;
             font-weight: 500;
             font-size: clamp(0.5rem, 4vw, 0.9rem);
             cursor: pointer;
             margin-bottom: 20px;
+
+            @media (max-width: 827.20px) {
+              font-size: clamp(0.5rem, 4vw, 0.7rem);
+            }
           }
 
           .divLine {
@@ -172,11 +194,21 @@
             justify-content: flex-start;
             align-items: flex-start;
             gap: 64%;
+            cursor: pointer;
+
+            @media (max-width: 827.20px) {
+              display: flex;
+              gap: 52%;
+            }
 
             p {
               font-size: clamp(0.5rem, 4vw, 0.8rem);
               font-weight: 600;
               color: rgba(56, 66, 85, 1);
+
+              @media (max-width: 827.20px) {
+                font-size: clamp(0.5rem, 4vw, 0.7rem);
+              }
             }
 
             svg {
@@ -200,6 +232,11 @@
               p {
                 color: rgba(41, 41, 41, 1);
                 margin-top: 1px;
+
+                @media (max-width: 827.20px) {
+                  font-size: clamp(0.5rem, 4vw, 0.7rem);
+                  margin-top: 2px;
+                }
               }
 
               input[type="checkbox"] {
@@ -210,6 +247,7 @@
 
               label {
                 display: flex;
+                cursor: pointer;
               }
 
               label::before {
@@ -247,11 +285,21 @@
             justify-content: flex-start;
             align-items: flex-start;
             gap: 61%;
+            cursor: pointer;
+
+            @media (max-width: 827.20px) {
+              display: flex;
+              gap: 50%;
+            }
 
             p {
               font-size: clamp(0.5rem, 4vw, 0.8rem);
               font-weight: 600;
               color: rgba(56, 66, 85, 1);
+
+              @media (max-width: 827.20px) {
+                font-size: clamp(0.5rem, 4vw, 0.7rem);
+              }
             }
 
             img {
@@ -267,9 +315,14 @@
           .priceDiv {
             display: flex;
             justify-content: flex-start;
-            gap: 20px;
             align-items: center;
             margin-bottom: 30px;
+            gap: 15px;
+
+            @media (max-width: 827.20px) {
+              display: flex;
+              gap: 10px;
+            }
 
             input[type="number"]::-webkit-inner-spin-button {
               -webkit-appearance: none;
@@ -288,6 +341,10 @@
             .pTwo {
               margin-top: 17px;
               margin-left: 135px;
+
+              @media (max-width: 827.20px) {
+                margin-left: 100px;
+              }
             }
 
             input {
@@ -300,12 +357,18 @@
               color: #000;
               appearance: none;
               -moz-appearance: textfield;
+
+              @media (max-width: 827.20px) {
+                width: 80px;
+                height: 25px;
+                padding-left: 28px;
+                margin-top: 2px;
+              }
             }
           }
 
           .priceChangerDiv {
             display: flex;
-            gap: 1px;
             margin-bottom: 20px;
 
 
@@ -313,36 +376,49 @@
               height: 2px;
               background-color: #CA11AA;
               width: 74%;
-              margin-top: 1px;
+
+              @media (max-width: 827.20px) {
+                width: 55%;
+              }
             }
 
             .progressTwo {
-              margin-right: -103px;
+              margin-right: -102px;
               height: 2px;
               background-color: #CA11AA;
               width: 80%;
-              margin-top: 4px;
+
+              @media (max-width: 827.20px) {
+                width: 55%;
+              }
             }
 
             .price {
-              margin-left: -104px;
-              width: 80%;
+              margin-left: -110px;
+              width: 82%;
               height: 1px;
               background: none;
               appearance: none;
               -webkit-appearance: none;
+
+              @media (max-width: 827.20px) {
+                width: 55%;
+                margin-left: -100px;
+              }
             }
 
 
 
             .priceTwo {
-              margin-left: -10px;
-              margin-top: 3px;
               width: 90%;
               height: 1px;
               background: none;
               appearance: none;
               -webkit-appearance: none;
+
+              @media (max-width: 827.20px) {
+                width: 55%;
+              }
             }
 
             .price::-webkit-slider-thumb {
@@ -351,6 +427,7 @@
               background-color: #CA11AA;
               height: 13px;
               width: 13px;
+              margin-left: 8px;
               cursor: pointer;
             }
 
@@ -360,7 +437,12 @@
               background-color: #CA11AA;
               height: 13px;
               width: 13px;
+              margin-left: -10px;
               cursor: pointer;
+
+              @media (max-width: 827.20px) {
+                margin-left: 22px;
+              }
             }
           }
 
@@ -369,11 +451,21 @@
             justify-content: flex-start;
             align-items: flex-start;
             gap: 78%;
+            cursor: pointer;
+
+            @media (max-width: 827.20px) {
+              display: flex;
+              gap: 72%;
+            }
 
             p {
               font-size: clamp(0.5rem, 4vw, 0.8rem);
               font-weight: 600;
               color: rgba(56, 66, 85, 1);
+
+              @media (max-width: 827.20px) {
+                font-size: clamp(0.5rem, 4vw, 0.7rem);
+              }
             }
 
             svg {
@@ -396,12 +488,22 @@
               color: rgba(41, 41, 41, 1);
               margin-top: 1px;
               margin-right: 6px;
+
+              @media (max-width: 827.20px) {
+                font-size: clamp(0.5rem, 4vw, 0.7rem);
+                margin-top: 1px;
+              }
             }
 
             span {
               color: #A7ABB1;
               font-weight: 300;
               font-size: clamp(0.5rem, 4vw, 0.8rem);
+
+              @media (max-width: 827.20px) {
+                font-size: clamp(0.5rem, 4vw, 0.7rem);
+                margin-top: 1px;
+              }
             }
 
             input[type="checkbox"] {
@@ -412,6 +514,7 @@
 
             label {
               display: flex;
+              cursor: pointer;
             }
 
             label::before {
@@ -448,6 +551,10 @@
 
             p {
               color: #2C68F5;
+
+              @media (max-width: 827.20px) {
+                font-size: clamp(0.5rem, 4vw, 0.8rem);
+              }
             }
           }
 
@@ -456,11 +563,16 @@
             justify-content: flex-start;
             align-items: flex-start;
             gap: 38%;
+            cursor: pointer;
 
             p {
               font-size: clamp(0.5rem, 4vw, 0.8rem);
               font-weight: 600;
               color: rgba(56, 66, 85, 1);
+
+              @media (max-width: 827.20px) {
+                font-size: clamp(0.5rem, 4vw, 0.7rem);
+              }
             }
 
             svg {
@@ -483,6 +595,11 @@
               color: rgba(41, 41, 41, 1);
               margin-top: 1px;
               margin-right: 6px;
+
+              @media (max-width: 827.20px) {
+                font-size: clamp(0.5rem, 4vw, 0.7rem);
+                margin-top: 2px;
+              }
             }
 
             span {
@@ -499,6 +616,7 @@
 
             label {
               display: flex;
+              cursor: pointer;
             }
 
             label::before {
@@ -535,6 +653,10 @@
             p {
               color: #2C68F5;
               cursor: pointer;
+
+              @media (max-width: 827.20px) {
+                font-size: clamp(0.5rem, 4vw, 0.8rem);
+              }
             }
 
             img {
@@ -548,11 +670,16 @@
             justify-content: flex-start;
             align-items: flex-start;
             gap: 1%;
+            cursor: pointer;
 
             p {
               font-size: clamp(0.5rem, 4vw, 0.8rem);
               font-weight: 600;
               color: rgba(56, 66, 85, 1);
+
+              @media (max-width: 827.20px) {
+                font-size: clamp(0.5rem, 4vw, 0.7rem);
+              }
             }
 
             svg {
@@ -575,6 +702,11 @@
               color: rgba(41, 41, 41, 1);
               margin-top: 1px;
               margin-right: 6px;
+
+              @media (max-width: 827.20px) {
+                font-size: clamp(0.5rem, 4vw, 0.7rem);
+                margin-top: 3px;
+              }
             }
 
             span {
@@ -591,6 +723,7 @@
 
             label {
               display: flex;
+              cursor: pointer;
             }
 
             label::before {
@@ -623,6 +756,12 @@
       .divRight {
         margin-left: 23px;
 
+        @media (max-width: 905.60px) {
+          .showButtons {
+            margin-right: 270px;
+          }
+        }
+
         .showButtons {
           display: flex;
           justify-content: center;
@@ -648,7 +787,7 @@
           align-items: center;
           margin-top: -12px;
           margin-bottom: 11px;
-          
+
           .categoriesRight {
             display: flex;
             flex-wrap: wrap;
@@ -673,151 +812,217 @@
             display: flex;
             gap: 10px;
             margin-bottom: 11px;
-            margin-right: 10px;           
+            margin-right: 10px;
           }
         }
 
-        .cardss {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
+        @media (max-width: 672px) {
+          .cardss {
+            display: flex;
+            flex-direction: column;
+          }
+        }
 
-          .cards {
-            .card {
-              display: flex;
-              flex-direction: column;
-              background-color: #ffffff;
-              padding: 10px 10px 25px 10px;
-              width: 275px;
-              border-radius: 8px;
-              transition: box-shadow 0.3s ease;
-              cursor: pointer;
+        @media (max-width: 827.20px) {
+          .cardss {
+            .cards {
+              .card {
+                width: 200px;
 
-              &:hover {
-                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1)
-              }
-
-              .top_card {
-                display: flex;
-                justify-content: space-between;
-                height: 32px;
-
-                p {
-                  font-size: 12px;
-                  font-weight: 700;
-                  color: #fff;
-                  background-color: #F53B49;
-                  border-radius: 100%;
-                  display: flex;
-                  align-items: center;
-                  padding: 9px 0 9px 0;
+                .middle_card {
+                  h3 {
+                    font-size: 13px;
+                  }
                 }
 
-                .top_icons {
-                  display: flex;
-                  gap: 10px;
+                .bottom_card {
+                  .phone_prices {
+                    margin-left: 4px;
 
-                  svg {
-                    color: #AAB1BF;
-                    transition: 0.3s;
-                    &:hover {
-                    
-                      color: #CA11AA;
+                    .phone_price {
+                      font-size: 13px;
+                      font-weight: 700;
+                    }
+
+                    .phone_old_price {
+                      margin-top: 2px;
+                      font-size: 11px;
+                      color: #909CB5;
+                      text-decoration: line-through;
+                    }
+                  }
+
+                  .bottom_cart {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 4px;
+                    background-color: #CB11AB;
+                    padding: 7px;
+                    border-radius: 6px;
+                    cursor: pointer;
+
+                    p {
+                      color: #fff;
+                      font-size: 10px;
+                      text-transform: uppercase;
+                      letter-spacing: 1px;
+                    }
+
+                    svg {
+                      color: #fff;
                     }
                   }
                 }
+              }
+            }
+          }
+        }
+      }
 
+
+      .cardss {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+
+
+        .cards {
+          .card {
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            padding: 10px 10px 25px 10px;
+            width: 275px;
+            border-radius: 8px;
+            transition: box-shadow 0.3s ease;
+            cursor: pointer;
+
+            &:hover {
+              box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1)
+            }
+
+            .top_card {
+              display: flex;
+              justify-content: space-between;
+              height: 32px;
+
+              p {
+                font-size: 12px;
+                font-weight: 700;
+                color: #fff;
+                background-color: #F53B49;
+                border-radius: 100%;
+                display: flex;
+                align-items: center;
+                padding: 9px 0 9px 0;
               }
 
-              .middle_image_card {
+              .top_icons {
                 display: flex;
-                justify-content: center;
+                gap: 10px;
 
-                img {
-                  width: 80%;
+                svg {
+                  color: #AAB1BF;
+                  transition: 0.3s;
+
+                  &:hover {
+
+                    color: #CA11AA;
+                  }
                 }
               }
 
-              .middle_card {
+            }
+
+            .middle_image_card {
+              display: flex;
+              justify-content: center;
+
+              img {
+                width: 80%;
+              }
+            }
+
+            .middle_card {
+              display: flex;
+              flex-direction: column;
+
+              .phone_quantity {
+                color: #2FC409;
+                font-weight: 500;
+                font-size: 11px;
+                margin-top: 20px;
+              }
+
+              h3 {
+                margin-top: 8px;
+                font-weight: 600;
+                font-size: 16px;
+              }
+
+              .phone_rating {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 5px;
+                margin-top: 9px;
+
+                .rating_stars {
+                  display: flex;
+                  gap: 1px;
+                }
+
+                p {
+                  color: #8E9AB3;
+                  font-size: 11px;
+                }
+              }
+            }
+
+            .bottom_card {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-top: 18px;
+
+              .phone_prices {
                 display: flex;
                 flex-direction: column;
+                margin-left: 10px;
 
-                .phone_quantity {
-                  color: #2FC409;
-                  font-weight: 500;
-                  font-size: 11px;
-                  margin-top: 20px;
+                .phone_price {
+                  font-size: 17px;
+                  font-weight: 700;
                 }
 
-                h3 {
-                  margin-top: 8px;
-                  font-weight: 600;
-                  font-size: 16px;
-                }
-
-                .phone_rating {
-                  display: flex;
-                  justify-content: flex-start;
-                  align-items: center;
-                  gap: 5px;
-                  margin-top: 9px;
-
-                  .rating_stars {
-                    display: flex;
-                    gap: 1px;
-                  }
-
-                  p {
-                    color: #8E9AB3;
-                    font-size: 11px;
-                  }
+                .phone_old_price {
+                  margin-top: 2px;
+                  font-size: 14px;
+                  color: #909CB5;
+                  text-decoration: line-through;
                 }
               }
 
-              .bottom_card {
+              .bottom_cart {
                 display: flex;
-                justify-content: space-between;
+                justify-content: center;
                 align-items: center;
-                margin-top: 18px;
+                gap: 3px;
+                background-color: #CB11AB;
+                padding: 12px;
+                border-radius: 6px;
+                cursor: pointer;
 
-                .phone_prices {
-                  display: flex;
-                  flex-direction: column;
-                  margin-left: 10px;
-
-                  .phone_price {
-                    font-size: 17px;
-                    font-weight: 700;
-                  }
-
-                  .phone_old_price {
-                    margin-top: 2px;
-                    font-size: 14px;
-                    color: #909CB5;
-                    text-decoration: line-through;
-                  }
+                p {
+                  color: #fff;
+                  font-size: 14px;
+                  text-transform: uppercase;
+                  letter-spacing: 1px;
                 }
 
-                .bottom_cart {
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  gap: 3px;
-                  background-color: #CB11AB;
-                  padding: 12px;
-                  border-radius: 6px;
-                  cursor: pointer;
-
-                  p {
-                    color: #fff;
-                    font-size: 14px;
-                    text-transform: uppercase;
-                    letter-spacing: 1px;
-                  }
-
-                  svg {
-                    color: #fff;
-                  }
+                svg {
+                  color: #fff;
                 }
               }
             }
@@ -827,14 +1032,3 @@
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
