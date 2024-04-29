@@ -24,7 +24,7 @@ import { Checkbox } from 'antd';
 // ];
 
 const DeliveryOptions = () => {
-	const [isCheckedPickup, setIsCheckedPickup] = useState(false);
+	const [isCheckedPickup, setIsCheckedPickup] = useState(true);
 	const [isCheckedCourier, setIsCheckedPickupCourier] = useState(false);
 
 	const handleCheckboxPickup = () => {

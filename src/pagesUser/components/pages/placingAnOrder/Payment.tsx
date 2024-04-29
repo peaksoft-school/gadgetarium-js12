@@ -21,7 +21,7 @@ const images = [
 ];
 
 const Payment = () => {
-	const [isPaymentOnline, setIsPaymentOnline] = useState(false);
+	const [isPaymentOnline, setIsPaymentOnline] = useState(true);
 	const [isReceipt, setIsReceipt] = useState(false);
 	const [isCash, setIsCash] = useState(false);
 
