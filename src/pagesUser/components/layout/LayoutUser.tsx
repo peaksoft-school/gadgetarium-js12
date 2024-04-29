@@ -11,6 +11,7 @@ import AboutPage from '../pages/AboutPage.tsx';
 import DeliveryPage from '../pages/DeliveryPage.tsx';
 import FagPage from '../pages/FagPage.tsx';
 import ContactsPage from '../pages/ContactsPage.tsx';
+import CatalogPage from '../pages/CatalogPage.tsx';
 import BasketPage from '../pages/BasketPage.tsx';
 import ComparisonPage from '../pages/ComparisonPage.tsx';
 import FavoritePage from '../pages/FavoritePage.tsx';
@@ -79,6 +80,8 @@ const LayoutUser = () => {
 						<Route path="/delivery" element={<DeliveryPage />} />
 						<Route path="/faq" element={<FagPage />} />
 						<Route path="/contacts" element={<ContactsPage />} />
+
+						<Route path='/catalog/phones' element={<CatalogPage/>}/>
 						<Route path="/comparison" element={<ComparisonPage />} />
 						<Route path="/favorite" element={<FavoritePage />} />
 						<Route path="/basket" element={<BasketPage />} />
