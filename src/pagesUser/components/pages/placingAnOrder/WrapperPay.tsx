@@ -11,14 +11,13 @@ const WrapperPay: FC = () => {
 			<section className={scss.WrapperPay}>
 				<div className="container">
 					<div className={scss.content}>
-						<h1>awd</h1>
+						<h1>Оформление заказа</h1>
 						{/*!left_block*/}
 						<div className={scss.left_block}>
-							<h2>Оформление заказа</h2>
 							<hr />
 							<div>
 								<div className={scss.transition_numbers}>
-									<Link to="/pay/deliveryoptions" className={scss.number_one}>
+									<Link to="/pay/delivery" className={scss.number_one}>
 										1
 									</Link>
 									<p>Варианты доставки</p>
@@ -26,7 +25,7 @@ const WrapperPay: FC = () => {
 										2
 									</Link>
 									<p>Оплата</p>
-									<Link to="/pay/orderoverview" className={scss.number_one}>
+									<Link to="/pay/review" className={scss.number_one}>
 										3
 									</Link>
 									<p>Обзор заказа</p>
