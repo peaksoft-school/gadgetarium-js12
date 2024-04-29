@@ -2,26 +2,26 @@ import { useState } from 'react';
 import scss from './DeliveryOptions.module.scss';
 import { Checkbox } from 'antd';
 
-const iphones = [
-	{
-		image:
-			'https://www.pngmart.com/files/15/Apple-iPhone-12-Transparent-Images-PNG.png',
-		name: 'IPhone 15 pro Max 256gb blue 9(MLP3RU)',
-		articul: 393478,
-		quantity: '3 шт',
-		size: 44,
-		color: 'Blue'
-	},
-	{
-		image:
-			'https://www.pngmart.com/files/15/Apple-iPhone-12-Transparent-Images-PNG.png',
-		name: 'IPhone 15 pro Max 256gb yellow 9(MLP3RU)',
-		articul: 393478,
-		quantity: '3 шт',
-		size: 44,
-		color: 'Yellow'
-	}
-];
+// const iphones = [
+// 	{
+// 		image:
+// 			'https://www.pngmart.com/files/15/Apple-iPhone-12-Transparent-Images-PNG.png',
+// 		name: 'IPhone 15 pro Max 256gb blue 9(MLP3RU)',
+// 		articul: 393478,
+// 		quantity: '3 шт',
+// 		size: 44,
+// 		color: 'Blue'
+// 	},
+// 	{
+// 		image:
+// 			'https://www.pngmart.com/files/15/Apple-iPhone-12-Transparent-Images-PNG.png',
+// 		name: 'IPhone 15 pro Max 256gb yellow 9(MLP3RU)',
+// 		articul: 393478,
+// 		quantity: '3 шт',
+// 		size: 44,
+// 		color: 'Yellow'
+// 	}
+// ];
 
 const DeliveryOptions = () => {
 	const [isCheckedPickup, setIsCheckedPickup] = useState(false);
@@ -158,7 +158,7 @@ const DeliveryOptions = () => {
 							<button>Продолжить</button>
 						</div>
 					</div>
-					<div className={scss.order_price}>
+					{/* <div className={scss.order_price}>
 						<div className={scss.card_order_price}>
 							<div className={scss.title}>
 								<p>Сумма заказа</p>
@@ -194,7 +194,7 @@ const DeliveryOptions = () => {
 								</div>
 							))}
 						</div>
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</div>

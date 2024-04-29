@@ -3,6 +3,8 @@
 	top: 0;
 	left: 0;
 	.content {
+		display: flex;
+		flex-direction: column;
 		h2 {
 			color: rgb(24, 23, 23);
 			font-size: 28px;
@@ -11,6 +13,9 @@
 			letter-spacing: 0%;
 			text-align: left;
 		}
+		// .maines {
+		// display: flex;
+		// gap: 500px;
 		.transition_numbers {
 			display: flex;
 			gap: 20px;
@@ -25,5 +30,99 @@
 				border-radius: 50%;
 			}
 		}
+		.maines {
+			display: flex;
+			justify-content: space-between;
+			.order_price {
+				display: flex;
+				flex-direction: column;
+				.card_order_price {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					gap: 17px;
+					width: 400px;
+					height: 180px;
+					background: white;
+					padding: 20px 30px 20px 30px;
+					.title {
+						display: flex;
+						gap: 150px;
+						p {
+							font-size: 17px;
+						}
+						h5 {
+							color: rgb(75, 126, 232);
+						}
+					}
+					.line {
+						background: gray;
+						width: 330px;
+						height: 1px;
+						color: white;
+					}
+					.quantity_order {
+						display: flex;
+						gap: 130px;
+					}
+					.your_seil {
+						display: flex;
+						gap: 145px;
+						span {
+							color: red;
+						}
+					}
+					.sum {
+						display: flex;
+						gap: 195px;
+					}
+					.total {
+						display: flex;
+						gap: 198px;
+					}
+				}
+				.cards_phones {
+					display: flex;
+					flex-direction: column;
+					.phone_card {
+						display: flex;
+						align-items: center;
+						img {
+							width: 120px;
+							height: 170px;
+							object-fit: cover;
+							object-position: center;
+						}
+						.phone_texts {
+							margin-top: 36px;
+							display: flex;
+							flex-direction: column;
+							gap: 2px;
+							.name {
+								width: 340px;
+								color: rgb(41, 41, 41);
+								font-family: Inter;
+								font-size: 18px;
+								font-weight: 400;
+								line-height: 150%;
+								letter-spacing: 0%;
+								text-align: left;
+							}
+							p {
+								color: rgb(56, 66, 85);
+								font-family: Inter;
+								font-size: 14px;
+								font-weight: 400;
+								line-height: 140%;
+								letter-spacing: 0%;
+								text-align: left;
+							}
+						}
+					}
+				}
+			}
+		}
+		// }
 	}
 }
