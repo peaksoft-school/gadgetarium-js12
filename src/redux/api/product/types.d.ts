@@ -8,6 +8,7 @@ namespace PRODUCTSTORE {
 		productName: string;
 		isFavorite: boolean;
 		isInBasket: boolean;
+		isComparison: boolean;
 		previousPrice: number;
 		Rating: string;
 		buyProduc: string;
