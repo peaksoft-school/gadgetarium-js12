@@ -1,6 +1,6 @@
-import scss from './OrderOverview.module.scss';
+import scss from './Review.module.scss';
 
-const OrderOverview = () => {
+const Review = () => {
 	return (
 		<div className={scss.OrderOverview}>
 			<div className="container">
@@ -32,4 +32,4 @@ const OrderOverview = () => {
 	);
 };
 
-export default OrderOverview;
+export default Review;

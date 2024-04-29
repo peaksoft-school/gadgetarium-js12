@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import scss from './DeliveryOptions.module.scss';
+import scss from './Delivery.module.scss';
 import { Checkbox } from 'antd';
 
 // const iphones = [
@@ -23,7 +23,7 @@ import { Checkbox } from 'antd';
 // 	}
 // ];
 
-const DeliveryOptions = () => {
+const Delivery = () => {
 	const [isCheckedPickup, setIsCheckedPickup] = useState(true);
 	const [isCheckedCourier, setIsCheckedPickupCourier] = useState(false);
 
@@ -201,4 +201,4 @@ const DeliveryOptions = () => {
 	);
 };
 
-export default DeliveryOptions;
+export default Delivery;
