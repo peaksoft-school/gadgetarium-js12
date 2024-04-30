@@ -3,7 +3,6 @@ import scss from './Review.module.scss';
 const Review = () => {
 	return (
 		<div className={scss.OrderOverview}>
-			<div className="container">
 				<div className={scss.content}>
 					<h2>Обзор заказа</h2>
 					<div className={scss.texts}>
@@ -27,7 +26,6 @@ const Review = () => {
 					</div>
 					<button>Оформить заказ</button>
 				</div>
-			</div>
 		</div>
 	);
 };

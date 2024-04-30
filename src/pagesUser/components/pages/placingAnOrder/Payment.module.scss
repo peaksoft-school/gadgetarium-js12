@@ -8,6 +8,10 @@
 		.cards_payments {
 			display: flex;
 			gap: 30px;
+			@media (max-width: 771px) {
+				display: flex;
+				flex-direction: column;
+			}
 			.card_payment_onLine {
 				display: flex;
 				justify-content: center;
@@ -91,6 +95,10 @@
 			border-radius: 6px;
 			background: white;
 			padding: 26px 17px 30px 17px;
+			@media (max-width: 511px) {
+				width: 270px;
+				padding: 20px 13px 26px 13px;
+			}
 			.images_card_number {
 				display: flex;
 				justify-content: flex-end;
@@ -99,6 +107,23 @@
 				img {
 					width: 40px;
 				}
+			}
+		}
+		button {
+			margin-top: 10px;
+			cursor: pointer;
+			width: 445px;
+			height: 45px;
+			background: rgb(203, 17, 171);
+			border-radius: 6px;
+			border: none;
+			color: rgb(255, 255, 255);
+			font-size: 16px;
+			font-weight: 600;
+			text-align: center;
+			text-transform: capitalize;
+			@media (max-width: 511px) {
+				width: 270px;
 			}
 		}
 	}

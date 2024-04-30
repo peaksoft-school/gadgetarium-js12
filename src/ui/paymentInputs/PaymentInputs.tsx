@@ -23,7 +23,7 @@ const PaymentInputs = () => {
 				/>
 				<label>Номер карты</label>
 			</div>
-			<div className={scss.year_card_input}>
+			<form className={scss.year_card_input}>
 				<div className={scss.inputs_cvc_mm_yy}>
 					<div className={scss.inputs_mm_yy}>
 						<div className={scss.input_month}>
@@ -65,8 +65,7 @@ const PaymentInputs = () => {
 					/>
 					<label>Имя владельца</label>
 				</div>
-			<button>Продолжить</button>
-			</div>
+			</form>
 		</div>
 	);
 };
