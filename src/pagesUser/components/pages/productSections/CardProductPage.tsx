@@ -1,0 +1,235 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import scss from './CardProductPage.module.scss';
+import { useNavigate, useParams } from 'react-router-dom';
+import InfoPageForProduct from './InfoPageForProduct';
+import {
+	useGetProductsItemIdQuery,
+	useGetProductsQuery
+} from '@/src/redux/api/product';
+import { useState } from 'react';
+import { IconArrowLeft, IconArrowRight, IconHeart } from '@tabler/icons-react';
+import { Modal, Rate } from 'antd';
+import ColorButton from '@/src/ui/colours/Colour';
+import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
+
+const CardProductPage = () => {
+	const { productId } = useParams();
+	const [isSlider, setIsSlider] = useState<number>(1);
+	const [sliderResult, setSliderresult] = useState<number>(0);
+	const [contentIsModal, setContentIsModal] = useState<string>('');
+	const [modal2Open, setModal2Open] = useState(false);
+	const navigate = useNavigate();
+	const { data } = useGetProductsItemIdQuery(productId!);
+	const { data: products = [] } = useGetProductsQuery();
+	console.log(data);
+	console.log(products);
+	const handleIndexSlider = (index: number) => {
+		if (index === 0) {
+			setIsSlider(1);
+			setSliderresult(0);
+		} else if (index === 1) {
+			setIsSlider(2);
+			setSliderresult(1);
+		} else if (index === 2) {
+			setIsSlider(3);
+			setSliderresult(2);
+		} else if (index === 3) {
+			setIsSlider(4);
+			setSliderresult(3);
+		} else if (index === 4) {
+			setIsSlider(5);
+			setSliderresult(4);
+		} else if (index === 5) {
+			setIsSlider(6);
+			setSliderresult(5);
+		}
+	};
+	console.log(isSlider, sliderResult);
+
+	return (
+		<>
+			<section className={scss.CardProductPage}>
+				<div className="container">
+					<div className={scss.content}>
+						<div className={scss.content_main_text_page}>
+							<div className={scss.div_content_product_and_pages}>
+								<p onClick={() => navigate('/')}>Главная »</p>
+								<p onClick={() => navigate('')}> Смартфоны »</p>
+								<p>{data?.producName}</p>
+							</div>
+							<div className={scss.div_brad_product}>
+								<h2>APPLE</h2>
+								<div></div>
+							</div>
+						</div>
+						<div className={scss.display_keen_slider}>
+							<div className={scss.slider_div_contents}>
+								<div className={scss.slider_div}>
+									{data?.photos
+										.slice(sliderResult, isSlider)
+										.map((item, index) => (
+											<img
+												onClick={() => {
+													setContentIsModal(item);
+													setModal2Open(!modal2Open);
+												}}
+												src={item}
+												key={index}
+												alt={data.producName}
+											/>
+										))}
+								</div>
+								<div className={scss.photosProduct}>
+									<IconArrowLeft
+										style={
+											sliderResult === 0
+												? { color: 'black' }
+												: { color: 'rgb(203, 17, 171)' }
+										}
+										onClick={() => {
+											if (isSlider === 1 && sliderResult === 0) {
+												null;
+											} else {
+												setIsSlider((prevValue) => prevValue - 1);
+												setSliderresult((prevValue) => prevValue - 1);
+											}
+										}}
+									/>
+									{data?.photos.map((item, index) => (
+										<>
+											<div
+												className={
+													index === sliderResult
+														? `${scss.slider_photos_div} ${scss.activeBorder}`
+														: `${scss.slider_photos_div}`
+												}
+												key={index}
+											>
+												<img
+													onClick={() => handleIndexSlider(index)}
+													src={item}
+													alt={data.producName}
+												/>
+											</div>
+										</>
+									))}
+									<IconArrowRight
+										style={
+											sliderResult === 4
+												? { color: 'black' }
+												: { color: 'rgb(203, 17, 171)' }
+										}
+										onClick={() => {
+											if (isSlider === 5 && sliderResult === 4) {
+												null;
+											} else {
+												setIsSlider((prevValue) => prevValue + 1);
+												setSliderresult((prevValue) => prevValue + 1);
+											}
+										}}
+									/>
+								</div>
+							</div>
+
+							<div className={scss.product_info}>
+								<h3>Galaxy S21 5G</h3>
+								<div className={scss.product_content}>
+									<div className={scss.border_and_contents}>
+										<div className={scss.product_rating_and_numbers}>
+											<p className={scss.text_buy_product}>{data?.buyProduc}</p>
+											<p>
+												Артикул: <span>030696</span>
+											</p>
+											<div>
+												<Rate defaultValue={5} />
+												<p>{data?.Rating}</p>
+											</div>
+										</div>
+										<div></div>
+									</div>
+									<div className={scss.colors_and_price_info_div_product}>
+										<div className={scss.title_texts_and_price}>
+											<h3>Цвет товара:</h3>
+											<h3>Количество:</h3>
+											<div className={scss.prices_div}>
+												<div>-16%</div>
+												<h2>{data?.price}</h2>
+												<h3 className={scss.previous_price}>
+													{data?.previousPrice}
+												</h3>
+											</div>
+										</div>
+										<div className={scss.product_colors_and_content}>
+											<div className={scss.product_colors}>
+												<ColorButton
+													width="26px"
+													height="26px"
+													backgroundColor="rgb(0, 0, 0)"
+												/>
+												<ColorButton
+													width="26px"
+													height="26px"
+													backgroundColor="rgb(128, 128, 160)"
+												/>
+												<ColorButton
+													width="26px"
+													height="26px"
+													backgroundColor="rgb(121, 89, 116)"
+												/>
+												<ColorButton
+													width="26px"
+													height="26px"
+													backgroundColor="rgb(211, 32, 46)"
+												/>
+												<ColorButton
+													width="26px"
+													height="26px"
+													backgroundColor="rgb(57, 117, 242)"
+												/>
+											</div>
+											<div className={scss.div_buttons_counts}>
+												<button>-</button>
+												{/* <span>{data?.quantity}</span> */}
+												<span>1</span>
+												<button>+</button>
+											</div>
+											<div className={scss.border_div}></div>
+										</div>
+										<div className={scss.product_info_container}>
+											<div className={scss.product_info_main_text_and_buttons}>
+												<h3>Коротко о товаре:</h3>
+												<div className={scss.div_buttons_favorite_and_basket}>
+													<button>
+														<IconHeart />
+													</button>
+													<AddBasketButton>В корзину</AddBasketButton>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<InfoPageForProduct />
+			</section>
+			<Modal
+				title="Iphones"
+				centered
+				open={modal2Open}
+				onOk={() => setModal2Open(false)}
+				onCancel={() => setModal2Open(false)}
+			>
+				<img
+					style={{ width: '470px', height: '264px' }}
+					src={contentIsModal}
+					alt={data?.producName}
+				/>
+			</Modal>
+		</>
+	);
+};
+
+export default CardProductPage;

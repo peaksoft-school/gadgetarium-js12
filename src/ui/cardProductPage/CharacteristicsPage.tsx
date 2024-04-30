@@ -3,7 +3,7 @@ import { useGetProductsItemIdQuery } from '@/src/redux/api/product';
 import scss from './CharacteristicsPage.module.scss';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-
+import { IconArrowRight } from '@tabler/icons-react';
 export const CharacteristicsPage = () => {
 	const { productId } = useParams();
 	const { data } = useGetProductsItemIdQuery(productId!);
@@ -29,7 +29,7 @@ export const CharacteristicsPage = () => {
 								: `${scss.icon}`
 						}
 					>
-						
+						<IconArrowRight style={{ color: ' rgb(203, 17, 171)' }} />
 					</div>
 				</div>
 				{characteristicsProduct && (
@@ -102,7 +102,7 @@ export const CharacteristicsPage = () => {
 								: `${scss.icon}`
 						}
 					>
-						<p>icon</p>
+						<IconArrowRight style={{ color: ' rgb(203, 17, 171)' }} />
 					</div>
 				</div>
 				{memoryAndProcessor && (
@@ -175,7 +175,7 @@ export const CharacteristicsPage = () => {
 								: `${scss.icon2}`
 						}
 					>
-						<p>Icon</p>
+						<IconArrowRight style={{ color: ' rgb(203, 17, 171)' }} />
 					</div>
 				</div>
 				{additionalFeatures && (

@@ -65,12 +65,15 @@ interface DeliveryAndPayment {
 	sun2: number;
 	sum3: number;
 }
+
+type PhotosProducts = string;
 namespace PRODUCTSTORE {
 	type GetProductsRequest = void;
 	type GetProductsResponse = {
 		_id: ProductsId;
 		price: number;
 		image: string;
+		quantity: number;
 		producName: string;
 		isResult: string;
 		isFavorite: boolean;
@@ -93,6 +96,7 @@ namespace PRODUCTSTORE {
 		image4?: string;
 		image5?: string;
 		image6?: string;
+		photos: PhotosProducts[];
 		Description: Description;
 		Characteristics: Characteristics;
 		MemoryAndProcessor: MemoryAndProcessor;
@@ -101,7 +105,6 @@ namespace PRODUCTSTORE {
 		deliveryAndPayment: DeliveryAndPayment;
 	}[];
 
-	
 	type GetProductsItemIdRequest = string;
 	type GetProductsItemIdResponse = {
 		_id: ProductsId;
@@ -111,6 +114,7 @@ namespace PRODUCTSTORE {
 		isFavorite: boolean;
 		isInBasket: boolean;
 		previousPrice: number;
+		quantity: number;
 		Rating: string;
 		buyProduc: string;
 		isResult?: string;
@@ -129,6 +133,8 @@ namespace PRODUCTSTORE {
 		image4?: string;
 		image5?: string;
 		image6?: string;
+		photos: PhotosProducts[];
+
 		Description: Description;
 		Characteristics: Characteristics;
 		MemoryAndProcessor: MemoryAndProcessor;
