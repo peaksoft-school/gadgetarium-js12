@@ -12,4 +12,4 @@ const api = index.injectEndpoints({
 	})
 });
 
-export const { useGetSlidersQuery: useGetSlidersQuery } = api;
+export const { useGetSlidersQuery } = api;

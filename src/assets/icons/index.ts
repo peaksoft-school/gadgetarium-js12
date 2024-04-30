@@ -6,4 +6,5 @@ export { default as IconHands } from './icon-hands.tsx';
 export { default as IconBigCar } from './icon-big-car.tsx';
 export { default as IconWallet } from './icon-wallet.tsx';
 export { default as IconKamazCar } from './icon-kamaz-car.tsx';
+export { default as IconRedHeart } from './icon-heart-red.tsx';
 export {default as IconBurgerMenu} from './icon-burger-menu.tsx'

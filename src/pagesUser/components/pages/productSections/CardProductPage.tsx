@@ -2,27 +2,27 @@
 import scss from './CardProductPage.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import InfoPageForProduct from './InfoPageForProduct';
-import {
-	useGetProductsItemIdQuery,
-	useGetProductsQuery
-} from '@/src/redux/api/product';
+import { useGetProductsItemIdQuery } from '@/src/redux/api/product';
 import { useState } from 'react';
 import { IconArrowLeft, IconArrowRight, IconHeart } from '@tabler/icons-react';
 import { Modal, Rate } from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
+import { useBasketPutProductMutation } from '@/src/redux/api/basket';
+import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
+import { IconRedHeart } from '@/src/assets/icons';
 
 const CardProductPage = () => {
+	const [basketAddProduct] = useBasketPutProductMutation();
+	const [favoriteAddProduct] = useFavoritePutProductMutation();
 	const { productId } = useParams();
 	const [isSlider, setIsSlider] = useState<number>(1);
 	const [sliderResult, setSliderresult] = useState<number>(0);
 	const [contentIsModal, setContentIsModal] = useState<string>('');
 	const [modal2Open, setModal2Open] = useState(false);
 	const navigate = useNavigate();
-	const { data } = useGetProductsItemIdQuery(productId!);
-	const { data: products = [] } = useGetProductsQuery();
+	const { data, refetch } = useGetProductsItemIdQuery(productId!);
 	console.log(data);
-	console.log(products);
 	const handleIndexSlider = (index: number) => {
 		if (index === 0) {
 			setIsSlider(1);
@@ -42,10 +42,22 @@ const CardProductPage = () => {
 		} else if (index === 5) {
 			setIsSlider(6);
 			setSliderresult(5);
+		} else if (index === 6) {
+			setIsSlider(7);
+			setSliderresult(6);
 		}
 	};
 	console.log(isSlider, sliderResult);
-
+	const addBasketProduct = async (_id: number, isInBasket: boolean) => {
+		console.log(isInBasket);
+		await basketAddProduct({ _id, isInBasket: !isInBasket });
+		refetch();
+	};
+	const addFavoriteProduct = async (_id: number, isFavorite: boolean) => {
+		console.log(isFavorite);
+		await favoriteAddProduct({ _id, isFavorite: !isFavorite });
+		refetch();
+	};
 	return (
 		<>
 			<section className={scss.CardProductPage}>
@@ -55,7 +67,7 @@ const CardProductPage = () => {
 							<div className={scss.div_content_product_and_pages}>
 								<p onClick={() => navigate('/')}>Главная »</p>
 								<p onClick={() => navigate('')}> Смартфоны »</p>
-								<p>{data?.producName}</p>
+								<p>{data?.productName}</p>
 							</div>
 							<div className={scss.div_brad_product}>
 								<h2>APPLE</h2>
@@ -75,7 +87,7 @@ const CardProductPage = () => {
 												}}
 												src={item}
 												key={index}
-												alt={data.producName}
+												alt={data.productName}
 											/>
 										))}
 								</div>
@@ -108,19 +120,19 @@ const CardProductPage = () => {
 												<img
 													onClick={() => handleIndexSlider(index)}
 													src={item}
-													alt={data.producName}
+													alt={data.productName}
 												/>
 											</div>
 										</>
 									))}
 									<IconArrowRight
 										style={
-											sliderResult === 4
+											sliderResult === 5
 												? { color: 'black' }
 												: { color: 'rgb(203, 17, 171)' }
 										}
 										onClick={() => {
-											if (isSlider === 5 && sliderResult === 4) {
+											if (isSlider === 6 && sliderResult === 5) {
 												null;
 											} else {
 												setIsSlider((prevValue) => prevValue + 1);
@@ -132,7 +144,7 @@ const CardProductPage = () => {
 							</div>
 
 							<div className={scss.product_info}>
-								<h3>Galaxy S21 5G</h3>
+								<h3>{data?.productName}</h3>
 								<div className={scss.product_content}>
 									<div className={scss.border_and_contents}>
 										<div className={scss.product_rating_and_numbers}>
@@ -199,10 +211,83 @@ const CardProductPage = () => {
 											<div className={scss.product_info_main_text_and_buttons}>
 												<h3>Коротко о товаре:</h3>
 												<div className={scss.div_buttons_favorite_and_basket}>
-													<button>
-														<IconHeart />
+													<button
+														className={
+															data?.isFavorite === true
+																? `${scss.nooActiveButton} ${scss.activeButton}`
+																: `${scss.nooActiveButton}`
+														}
+														onClick={() =>
+															data &&
+															addFavoriteProduct(data._id, data.isFavorite)
+														}
+													>
+														{data?.isFavorite === true ? (
+															<IconRedHeart />
+														) : (
+															<IconHeart color="rgb(144, 156, 181)" />
+														)}
 													</button>
-													<AddBasketButton>В корзину</AddBasketButton>
+													<AddBasketButton
+														onClick={() =>
+															data &&
+															addBasketProduct(data._id, data.isInBasket)
+														}
+														children={
+															data?.isInBasket === true
+																? 'В корзине'
+																: 'В корзину'
+														}
+														className={
+															data?.isInBasket === true
+																? `${scss.add_bas_button} ${scss.active}`
+																: `${scss.add_bas_button}`
+														}
+													/>
+												</div>
+											</div>
+											<div className={scss.info_product}>
+												<div className={scss.div_screen}>
+													<p>
+														Экран............................................
+													</p>
+													<h4>{data?.Screen}</h4>
+												</div>
+												<div className={scss.div_screen}>
+													<p>
+														Цвет..............................................
+													</p>
+													<h4>{data?.colorProduct}</h4>
+												</div>
+												<div className={scss.div_screen}>
+													<p>Дата выпуска..............................</p>
+													<h4>{data?.DateOfIssue}</h4>
+												</div>
+												<div className={scss.div_screen}>
+													<p>Операционная система............</p>
+													<h4>{data?.operatingSystem}</h4>
+												</div>
+												<div className={scss.div_screen}>
+													<p>Память.........................................</p>
+													<h4>{data?.Memory}</h4>
+												</div>
+												<div className={scss.div_screen}>
+													<p>SIM-карты...................................</p>
+													<h4>{data?.SIMCards}</h4>
+												</div>
+												<div className={scss.div_screen}>
+													<p>Гарантия (месяцев)...................</p>
+													<h4>{data?.WarrantyMonths}</h4>
+												</div>
+												<div className={scss.div_screen}>
+													<p>Процессор..................................</p>
+													<h4>{data?.CPU}</h4>
+												</div>
+												<div className={scss.div_screen}>
+													<p>
+														Вес...............................................
+													</p>
+													<h4>{data?.Weight}</h4>
 												</div>
 											</div>
 										</div>
@@ -223,9 +308,9 @@ const CardProductPage = () => {
 				onCancel={() => setModal2Open(false)}
 			>
 				<img
-					style={{ width: '470px', height: '264px' }}
+					className={scss.modal_img}
 					src={contentIsModal}
-					alt={data?.producName}
+					alt={data?.productName}
 				/>
 			</Modal>
 		</>

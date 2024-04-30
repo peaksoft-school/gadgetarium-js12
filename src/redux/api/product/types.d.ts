@@ -74,10 +74,12 @@ namespace PRODUCTSTORE {
 		price: number;
 		image: string;
 		quantity: number;
-		producName: string;
+		productName: string;
+		
 		isResult: string;
 		isFavorite: boolean;
 		isInBasket: boolean;
+		isComparison: boolean;
 		previousPrice: number;
 		Rating: string;
 		buyProduc: string;
@@ -110,7 +112,7 @@ namespace PRODUCTSTORE {
 		_id: ProductsId;
 		price: number;
 		image: string;
-		producName: string;
+		productName: string;
 		isFavorite: boolean;
 		isInBasket: boolean;
 		previousPrice: number;

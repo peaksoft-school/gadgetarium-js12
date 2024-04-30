@@ -4,12 +4,17 @@ import scss from './AddBasketButton.module.scss';
 interface AddBasketButtonProps {
 	children: ReactNode;
 	onClick?: MouseEventHandler<HTMLButtonElement>;
+	className?: string;
 }
 
-const AddBasketButton: FC<AddBasketButtonProps> = ({ children, onClick }) => {
+const AddBasketButton: FC<AddBasketButtonProps> = ({
+	children,
+	onClick,
+	className
+}) => {
 	return (
-		<button onClick={onClick} className={scss.AddBusButton}>
-			<div className={scss.svgPlusChild}>
+		<button onClick={onClick} className={className}>
+			<div className={scss.svg_plus_child}>
 				<svg
 					width="21.000000"
 					height="21.000000"

@@ -11,8 +11,19 @@ const api = index.injectEndpoints({
 				method: 'GET'
 			}),
 			providesTags: ['favorite']
+		}),
+		favoritePutProduct: build.mutation<
+			FAVORITEPRODUCTS.PutFavoriteProductResponse,
+			FAVORITEPRODUCTS.PutFavoriteProductRequest
+		>({
+			query: ({ _id, isFavorite }) => ({
+				url: `/${_id}`,
+				method: 'PATCH',
+				body: { isFavorite }
+			}),
+			invalidatesTags: ['favorite']
 		})
 	})
 });
 
-export const { useGetFavoriteQuery } = api;
+export const { useGetFavoriteQuery, useFavoritePutProductMutation } = api;
