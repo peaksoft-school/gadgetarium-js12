@@ -96,7 +96,7 @@ const CardProductPage = () => {
 										style={
 											sliderResult === 0
 												? { color: 'black' }
-												: { color: 'rgb(203, 17, 171)' }
+												: { color: 'rgb(203, 17, 171)' , cursor: 'pointer'}
 										}
 										onClick={() => {
 											if (isSlider === 1 && sliderResult === 0) {
@@ -129,7 +129,7 @@ const CardProductPage = () => {
 										style={
 											sliderResult === 5
 												? { color: 'black' }
-												: { color: 'rgb(203, 17, 171)' }
+												: { color: 'rgb(203, 17, 171)' , cursor: 'pointer'}
 										}
 										onClick={() => {
 											if (isSlider === 6 && sliderResult === 5) {
