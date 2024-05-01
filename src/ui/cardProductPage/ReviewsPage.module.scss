@@ -49,13 +49,17 @@
 		.div_rating_results_content {
 			border-radius: 6px;
 			background: rgb(244, 244, 244);
-			width: 396.8px;
+			width: 485.8px;
 			height: 211.2px;
 			@media (max-width: 450px) {
 				width: 100%;
 				height: 176px;
 			}
 			@media (max-width: 375px) {
+				height: auto;
+			}
+			@media (max-width: 1424px) {
+				width: 100%;
 				height: auto;
 			}
 			.rating_div_content {
@@ -69,10 +73,20 @@
 					padding-inline: 20.8px;
 					gap: 15px;
 				}
+				@media (max-width: 650px) {
+					padding-block: 17px;
+					padding-inline: 24px;
+				}
 				.div_displey_rating_content {
 					display: flex;
 					align-items: start;
 					gap: 41.6px;
+					@media (max-width: 750px) {
+						justify-content: space-around;
+					}
+					@media (max-width: 650px) {
+						// flex-wrap: wrap;
+					}
 					@media (max-width: 450px) {
 						gap: 16px;
 					}
@@ -89,6 +103,9 @@
 						@media (max-width: 450px) {
 							gap: 7px;
 						}
+						@media (max-width: 650px) {
+							width: 100%;
+						}
 						.text_result_rating {
 							display: flex;
 							align-items: center;
@@ -98,6 +115,10 @@
 								display: flex;
 								flex-direction: column;
 								align-items: start;
+							}
+							@media (max-width: 1000px) {
+								width: 100%;
+								gap: 3px;
 							}
 							h3 {
 								color: rgb(41, 41, 41);
@@ -113,10 +134,16 @@
 						display: flex;
 						flex-direction: column;
 						align-items: start;
+						@media (max-width: 650px) {
+							width: 100%;
+						}
 						.userReviews {
 							display: flex;
 							align-items: center;
 							gap: 10px;
+							@media (max-width: 650px) {
+								width: 100%;
+							}
 							@media (max-width: 430px) {
 								gap: 5px;
 							}
@@ -130,11 +157,11 @@
 				.button_rating {
 					border-radius: 4px;
 					background: rgb(203, 17, 171);
-          color: rgb(255, 255, 255);
-          font-size: clamp(10px, 6vw, 16px);
-          display: flex;
-          align-items: center;
-          justify-content: center;
+					color: rgb(255, 255, 255);
+					font-size: clamp(10px, 6vw, 16px);
+					display: flex;
+					align-items: center;
+					justify-content: center;
 				}
 			}
 		}
@@ -178,6 +205,109 @@
 			.commit_user {
 				color: rgb(56, 66, 85);
 				font-size: clamp(10px, 7vw, 16px);
+			}
+		}
+	}
+}
+
+.content_modal {
+	display: flex;
+	flex-direction: column;
+	gap: 38px;
+	@media (max-width: 768px) {
+		gap: 20px;
+	}
+	@media (max-width: 555px) {
+		gap: 15px;
+	}
+	h3 {
+		color: rgb(41, 41, 41);
+		font-size: clamp(15px, 5vw, 30px);
+	}
+	.modal_content_for_reviews {
+		display: flex;
+		align-items: center;
+		gap: 5px;
+		color: rgb(41, 41, 41);
+		font-size: clamp(10px, 4vw, 16px);
+		@media (max-width: 555px) {
+			gap: 3px;
+		}
+	}
+	.modal_form_div {
+		display: flex;
+		flex-direction: column;
+		gap: 7px;
+		@media (max-width: 555px) {
+			gap: 4px;
+		}
+		p {
+			color: rgb(56, 66, 85);
+			font-size: clamp(10px, 4vw, 16px);
+		}
+		.commit_input {
+			box-sizing: border-box;
+			border: 1px solid rgb(205, 205, 205);
+			border-radius: 6px;
+			background: rgb(255, 255, 255);
+			width: 100%;
+			height: 150px;
+			color: rgb(145, 150, 158);
+			font-size: clamp(10px, 4vw, 16px);
+			@media (max-width: 555px) {
+				height: 115px;
+			}
+		}
+		.commit_input::placeholder {
+			color: rgb(145, 150, 158);
+			font-size: clamp(10px, 4vw, 16px);
+		}
+		.input_for_file {
+			margin-top: 5px;
+			width: 100%;
+			height: 118px;
+			box-sizing: border-box;
+			border: 1px solid rgb(205, 205, 205);
+			border-radius: 4px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: rgb(255, 255, 255);
+			@media (max-width: 555px) {
+				height: 85px;
+				margin-top: 3px;
+			}
+			.input_file_content_div {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				p {
+					color: rgb(150, 150, 150);
+					font-size: clamp(10px, 4vw, 16px);
+					span {
+						cursor: pointer;
+						color: rgb(44, 104, 245);
+						font-size: clamp(10px, 4vw, 16px);
+					}
+				}
+			}
+		}
+		.button_modal {
+			margin-top: 8px;
+			width: 100%;
+			height: 47px;
+			border-radius: 4px;
+			background: rgb(203, 17, 171);
+			color: rgb(255, 255, 255);
+			font-size: clamp(10px, 6vw, 16px);
+			@media (max-width: 555px) {
+				height: 42px;
+				margin-top: 5.5px;
+			}
+			&:hover {
+				background: rgb(203, 17, 171);
+				color: rgb(255, 255, 255);
 			}
 		}
 	}

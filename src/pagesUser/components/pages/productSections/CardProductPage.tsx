@@ -219,7 +219,7 @@ const CardProductPage = () => {
 														}
 														onClick={() =>
 															data &&
-															addFavoriteProduct(data._id, data.isFavorite)
+															addFavoriteProduct(data.id, data.isFavorite)
 														}
 													>
 														{data?.isFavorite === true ? (
@@ -231,7 +231,7 @@ const CardProductPage = () => {
 													<AddBasketButton
 														onClick={() =>
 															data &&
-															addBasketProduct(data._id, data.isInBasket)
+															addBasketProduct(data.id, data.isInBasket)
 														}
 														children={
 															data?.isInBasket === true

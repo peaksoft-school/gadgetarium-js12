@@ -70,7 +70,7 @@ type PhotosProducts = string;
 namespace PRODUCTSTORE {
 	type GetProductsRequest = void;
 	type GetProductsResponse = {
-		_id: ProductsId;
+		id: ProductsId;
 		price: number;
 		image: string;
 		quantity: number;
@@ -109,7 +109,7 @@ namespace PRODUCTSTORE {
 
 	type GetProductsItemIdRequest = string;
 	type GetProductsItemIdResponse = {
-		_id: ProductsId;
+		id: ProductsId;
 		price: number;
 		image: string;
 		productName: string;

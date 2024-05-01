@@ -331,7 +331,10 @@
 							display: flex;
 							align-items: center;
 							gap: 100px;
-
+							@media (max-width: 390px) {
+								gap: 0;
+								justify-content: space-between;
+							}
 							// justify-content: space-between;
 							.product_colors {
 								display: flex;
@@ -473,6 +476,10 @@
 									@media (max-width: 800px) {
 										width: 100%;
 									}
+									@media (max-width: 390px) {
+										gap: 2px;
+										flex-wrap: wrap;
+									}
 									p {
 										color: rgb(145, 150, 158);
 										font-size: clamp(10px, 4vw, 16px);
@@ -495,6 +502,6 @@
 	height: 264px;
 	@media (max-width: 600px) {
 		width: 100%;
-		height: auto;
+		height: 245px;
 	}
 }

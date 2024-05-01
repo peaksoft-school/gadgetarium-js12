@@ -86,7 +86,7 @@ const LayoutUser = () => {
 						<Route path="/comparison" element={<ComparisonPage />} />
 						<Route path="/favorite" element={<FavoritePage />} />
 						<Route path="/basket" element={<BasketPage />} />
-						<Route path="/home/:productId" element={<ProductPage />} />
+						<Route path="/catalog/phones/:productId" element={<ProductPage />} />
 					</Routes>
 				</main>
 				<Footer />
