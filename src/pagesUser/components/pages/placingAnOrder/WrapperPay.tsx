@@ -69,7 +69,9 @@ const WrapperPay: FC = () => {
 											<Link
 												to="/pay/delivery"
 												className={
-													pathname === '/pay/delivery'
+													pathname === '/pay/delivery' ||
+													pathname === '/pay/payment' ||
+													pathname === '/pay/review'
 														? `${scss.delivery_link} ${scss.active}`
 														: `${scss.delivery_link}`
 												}
@@ -78,7 +80,9 @@ const WrapperPay: FC = () => {
 											</Link>
 											<div
 												className={
-													pathname === '/pay/delivery'
+													pathname === '/pay/delivery' ||
+													pathname === '/pay/payment' ||
+													pathname === '/pay/review'
 														? `${scss.line} ${scss.active}`
 														: `${scss.line}`
 												}
@@ -89,7 +93,8 @@ const WrapperPay: FC = () => {
 											<Link
 												to="/pay/payment"
 												className={
-													pathname === '/pay/payment'
+													pathname === '/pay/payment' ||
+													pathname === '/pay/review'
 														? `${scss.payment_link} ${scss.active}`
 														: `${scss.payment_link}`
 												}
