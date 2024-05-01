@@ -11,9 +11,16 @@
     @media (max-width: 672px) {
       margin-right: 280px;
     }
+    @media (max-width: 494.40px) {
+      margin-top: 10px;       
+      margin-left: 10px;
+    }
   }
  p {
   font-size: 13px;
+  @media (max-width: 494.40px) {
+    font-size: 11px;        
+  }
  }
 }
 

@@ -33,10 +33,132 @@
         font-size: clamp(1.4rem, 5vw, 1.7rem);
       }
 
-      div {
-        width: 860%;
-        height: 1px;
-        border: 1px solid rgb(205, 205, 205);
+      .borderDiv {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        div {
+          max-width: 100%;
+          width: 1400px;
+          height: 1px;
+          border: 1px solid rgb(205, 205, 205);
+
+          @media (max-width: 1231.20px) {
+            width: 1175px;
+          }
+
+          @media (max-width: 1208px) {
+            width: 1145px;
+          }
+
+          @media (max-width: 1179.20px) {
+            width: 1115px;
+          }
+
+          @media (max-width: 1150.20px) {
+            width: 1085px;
+          }
+
+          @media (max-width: 1119.20px) {
+            width: 1055px;
+          }
+
+          @media (max-width: 1089.60px) {
+            width: 1025px;
+          }
+
+          @media (max-width: 1058.40px) {
+            width: 995px;
+          }
+
+          @media (max-width: 1029.60px) {
+            width: 965px;
+          }
+
+          @media (max-width: 998.40px) {
+            width: 935px;
+          }
+
+          @media (max-width: 970.40px) {
+            width: 905px;
+          }
+
+          @media (max-width: 938.40px) {
+            width: 875px;
+          }
+
+          @media (max-width: 912px) {
+            width: 845px;
+          }
+
+          @media (max-width: 880px) {
+            width: 815px;
+          }
+
+          @media (max-width: 852px) {
+            width: 785px;
+          }
+
+          @media (max-width: 823.20px) {
+            width: 755px;
+          }
+          @media (max-width: 793.60px) {
+            width: 725px;
+          }
+          @media (max-width: 761.60px) {
+            width: 695px;
+          }
+          @media (max-width: 731.20px) {
+            width: 665px;
+          }
+          @media (max-width: 701.60px) {
+            width: 635px;
+          }
+          @media (max-width: 672px) {
+            width: 605px;
+          }
+          @media (max-width: 642.20px) {
+            width: 575px;
+          }
+          @media (max-width: 613.60px) {
+            width: 545px;
+          }
+          @media (max-width: 583.20px) {
+            width: 515px;
+          }
+          @media (max-width: 553.60px) {
+            width: 485px;
+          }
+          @media (max-width: 523.20px) {
+            width: 455px;
+          }
+          @media (max-width: 494.40px) {
+            width: 425px;
+          }
+     
+          @media (max-width: 464px) {
+            width: 395px;
+          }
+          @media (max-width: 432px) {
+            width: 365px;
+          }
+          @media (max-width: 402.40px) {
+            width: 335px;
+          }
+          @media (max-width: 372px) {
+            width: 305px;
+          }
+          @media (max-width: 343.20px) {
+            width: 275px;
+          }
+     
+          @media (max-width: 316px) {
+            width: 245px;
+          }
+     
+
+        }
       }
     }
 
@@ -777,6 +899,10 @@
             font-size: clamp(0.5rem, 4vw, 0.9rem);
             padding: 10px 80px;
             cursor: pointer;
+
+            @media (max-width: 494.40px) {
+              padding: 5px 40px;            
+            }
           }
         }
 
