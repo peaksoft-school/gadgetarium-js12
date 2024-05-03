@@ -1,7 +1,12 @@
 import { useParams } from 'react-router-dom';
 import scss from './ShippingAndPaymentPage.module.scss';
 import { useGetProductsItemIdQuery } from '@/src/redux/api/product';
-import { IconKamazCar } from '@/src/assets/icons';
+import {
+	IconCashUponReceipt,
+	IconKamazCar,
+	IconUponReceipt
+} from '@/src/assets/icons';
+import { IconCreditCard, IconWallet } from '@tabler/icons-react';
 
 export const ShippingAndPaymentPage = () => {
 	const { productId } = useParams();
@@ -22,7 +27,7 @@ export const ShippingAndPaymentPage = () => {
 								<p>Забрать в течение 14 дней</p>
 							</div>
 						</div>
-						<h2>{data?.deliveryAndPayment.sum}</h2>
+						<h2>{data?.deliveryAndPayment.sum} с</h2>
 						<div className={scss.cards_contents}>
 							<IconKamazCar />
 							<div className={scss.texts}>
@@ -42,19 +47,20 @@ export const ShippingAndPaymentPage = () => {
 					</div>
 					<div className={scss.content_and_photo_content}>
 						<div className={scss.content_Div}>
-							<IconKamazCar />
+							{/* <IconCreditCard color="rgb(203, 17, 171)" /> */}
+							<IconWallet color="rgb(203, 17, 171)" />
 							<>
 								<p>Предоплата не требуется</p>
 							</>
 						</div>
 						<div className={scss.content_Div}>
-							<IconKamazCar />
+							<IconWallet color="rgb(203, 17, 171)" />
 							<>
 								<p>Предоплата не требуется</p>
 							</>
 						</div>
 						<div className={scss.content_Div}>
-							<IconKamazCar />
+							<IconWallet color="rgb(203, 17, 171)" />
 							<>
 								<p>Предоплата не требуется</p>
 							</>
@@ -65,24 +71,24 @@ export const ShippingAndPaymentPage = () => {
 					<h2>Способы оплаты</h2>
 					<div className={scss.content_and_photo_content}>
 						<div className={scss.content_Div}>
-							<IconKamazCar />
+							<IconCreditCard color="rgb(203, 17, 171)" />{' '}
 							<div className={scss.div_texts}>
 								<p>Оплата картой</p>
 								<p>онлайн</p>
 							</div>
 						</div>
 						<div className={scss.content_Div}>
-							<IconKamazCar />
+							<IconCashUponReceipt />
 							<div className={scss.div_texts}>
-								<p>Оплата картой</p>
-								<p>онлайн</p>
+								<p>Наличными при</p>
+								<p>получении</p>
 							</div>
 						</div>
 						<div className={scss.content_Div}>
-							<IconKamazCar />
+							<IconUponReceipt />
 							<div className={scss.div_texts}>
-								<p>Оплата картой</p>
-								<p>онлайн</p>
+								<p>Картой</p>
+								<p>при получении</p>
 							</div>
 						</div>
 					</div>

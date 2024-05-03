@@ -9,3 +9,5 @@ export { default as IconKamazCar } from './icon-kamaz-car.tsx';
 export { default as IconRedHeart } from './icon-heart-red.tsx';
 export {default as IconBurgerMenu} from './icon-burger-menu.tsx'
 export {default as IconKamore} from './icon-kamera.tsx'
+export {default as IconCashUponReceipt} from './icon-cash-upon-receipt.tsx'
+export {default as IconUponReceipt} from './icon-upon-receipt.tsx'

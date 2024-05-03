@@ -36,18 +36,36 @@ const ReviewsPage = () => {
 		<>
 			<section className={scss.ReviewsPage}>
 				<div className={scss.reviews_contents_div}>
-					<h2>Отзывы</h2>
+					<div className={scss.contents_and_commits_users}>
+						<h2>Отзывы</h2>
+						{data?.reviews.user &&
+							Array.isArray(data.reviews.user) &&
+							data.reviews.user.map((item, index) => (
+								<div key={index} className={scss.div_users_commits}>
+									<img src={item.userProfile} alt="photo is user profile" />
+									<div className={scss.commits_for_users_div}>
+										<div className={scss.user_info}>
+											<h2>{item.userName}</h2>
+											<p>{item.Time}</p>
+										</div>
+										<div className={scss.grade_div}>
+											<p>Оценка</p>
+											<Rate allowHalf defaultValue={5} />
+										</div>
+										<p className={scss.commit_user}>{item.userCommit}</p>
+									</div>
+								</div>
+							))}
+					</div>
 					<div className={scss.div_rating_results_content}>
 						<div className={scss.rating_div_content}>
 							<div className={scss.div_displey_rating_content}>
 								<div className={scss.div_all_reting_contents}>
 									<div className={scss.text_result_rating}>
 										<h3>4,5</h3>
-										<Rate
-											// style={{ width: '140px', height: '31px' }}
-											allowHalf
-											defaultValue={5}
-										/>
+										<>
+											<Rate className={scss.rate} allowHalf defaultValue={5} />{' '}
+										</>
 									</div>
 									<p>789 отзывов</p>
 								</div>
@@ -81,23 +99,6 @@ const ReviewsPage = () => {
 								Оставить отзыв
 							</Button>
 						</div>
-					</div>
-				</div>
-				<div className={scss.div_users_commits}>
-					<img
-						src={data?.reviews.user.userProfile}
-						alt="photo is user profile"
-					/>
-					<div className={scss.commits_for_users_div}>
-						<div className={scss.user_info}>
-							<h2>{data?.reviews.user.userName}</h2>
-							<p>{data?.reviews.user.Time}</p>
-						</div>
-						<div className={scss.grade_div}>
-							<p>Оценка</p>
-							<Rate allowHalf defaultValue={5} />
-						</div>
-						<p className={scss.commit_user}>{data?.reviews.user.userCommit}</p>
 					</div>
 				</div>
 			</section>

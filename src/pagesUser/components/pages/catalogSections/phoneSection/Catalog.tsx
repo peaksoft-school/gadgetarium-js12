@@ -46,7 +46,7 @@ const Catalog = () => {
   }
 
   const handleRemoveCategories = () => {
-    setSelectedCategories([])
+    setSelectedCategories([...selectedCategories])
     setPriceHigh("")
     setPriceLow("")
   }

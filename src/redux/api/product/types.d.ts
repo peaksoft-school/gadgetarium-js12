@@ -57,7 +57,7 @@ interface User {
 }
 
 type Reviews = {
-	user: User;
+	user: User[];
 };
 
 interface DeliveryAndPayment {
