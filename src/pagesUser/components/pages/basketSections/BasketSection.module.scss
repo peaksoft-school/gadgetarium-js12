@@ -77,14 +77,15 @@
 				display: flex;
 				align-items: center;
 				justify-content: start;
-				gap: 38px;
+				gap: 30px;
 				.button_is_basket_results_div {
 					display: flex;
 					align-items: center;
-					gap: 13px;
+					gap: 10px;
+
 					p {
 						color: rgb(41, 41, 41);
-						font-size: clamp(10px, 4vw, 20px);
+						font-size: clamp(10px, 4vw, 18px);
 						cursor: pointer;
 					}
 				}
@@ -92,7 +93,8 @@
 			.basket_products {
 				display: flex;
 				align-items: start;
-				justify-content: space-between;
+				// justify-content: space-between;
+				gap: 98px;
 				.container_basket_product {
 					display: flex;
 					flex-direction: column;
@@ -226,6 +228,36 @@
 						div {
 							width: 100%;
 							border: 1px solid rgb(205, 205, 205);
+						}
+						.div_contents_and_results_price {
+							display: flex;
+							flex-direction: column;
+							border: none;
+							gap: 6px;
+							.price_result_product_div {
+								border: none;
+								display: flex;
+								align-items: center;
+								justify-content: space-between;
+								p {
+									color: rgb(41, 41, 41);
+									font-size: clamp(10px, 4vw, 16px);
+								}
+								.color_red_p {
+									color: rgb(241, 0, 0);
+									font-size: clamp(10px, 4vw, 16px);
+								}
+								h3 {
+									color: rgb(41, 41, 41);
+									font-size: clamp(10px, 6vw, 16px);
+								}
+							}
+						}
+						.button {
+							border-radius: 4px;
+							background: rgb(203, 17, 171);
+							color: rgb(255, 255, 255);
+							font-size: clamp(7px, 7vw, 14px);
 						}
 					}
 				}

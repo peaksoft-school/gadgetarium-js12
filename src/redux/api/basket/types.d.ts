@@ -1,4 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
+type OrderPrice = {
+	NumberOfGoods: number | string;
+	YourDiscount: number | string;
+	Sum: number | string;
+	Total: number;
+}
 namespace BASKETPRODUCTS {
 	type GetBasketProductsRequest = void;
 	type GetBasketProductsResponse = {
@@ -15,7 +22,18 @@ namespace BASKETPRODUCTS {
 		productCode: number;
 		buyProduct: string;
 		buyProductQuantity: number
+		orderPrice: OrderPrice
+		isChecked: boolean;
 	}[];
+
+	type BasketProductsDeleteRequest = {
+		isInBasket:boolean;
+		// id: number
+	}
+	type BasketProductsDeleteResponse = {
+		isInBasket:boolean;
+		// id: number
+	}
 	type PutProductRequest = {
 		id: number;
 		isInBasket: boolean;
