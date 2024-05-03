@@ -1,0 +1,130 @@
+.Payment {
+	margin-top: 100px;
+	margin-bottom: 200px;
+	.content {
+		h2 {
+			margin-bottom: 20px;
+		}
+		.cards_payments {
+			display: flex;
+			gap: 30px;
+			@media (max-width: 771px) {
+				display: flex;
+				flex-direction: column;
+			}
+			.card_payment_onLine {
+				display: flex;
+				justify-content: center;
+				gap: 10px;
+				width: 280px;
+				height: 123px;
+				border-radius: 6px;
+				background: white;
+				padding: 26px 12px 30px 12px;
+				.text_payment {
+					display: flex;
+					flex-direction: column;
+					gap: 10px;
+					.images_payment {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						gap: 10px;
+						img {
+							width: 40px;
+						}
+					}
+				}
+			}
+			.card_upon_receipt {
+				display: flex;
+				justify-content: center;
+				gap: 10px;
+				width: 280px;
+				height: 123px;
+				border-radius: 6px;
+				background: white;
+				padding: 26px 12px 30px 12px;
+				.text_receipt {
+					display: flex;
+					flex-direction: column;
+					gap: 6px;
+					p {
+						font-size: 13px;
+					}
+					.images_receipt {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						gap: 10px;
+						img {
+							width: 40px;
+						}
+					}
+				}
+			}
+			.card_cash {
+				display: flex;
+				justify-content: center;
+				gap: 15px;
+				width: 280px;
+				height: 123px;
+				border-radius: 6px;
+				background: white;
+				padding: 26px 12px 30px 12px;
+				.text_cash {
+					display: flex;
+					flex-direction: column;
+					gap: 3px;
+					h4 {
+						width: 140px;
+					}
+					p {
+						font-size: 13px;
+					}
+				}
+			}
+		}
+		.card_number {
+			margin-top: 60px;
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+			width: 446px;
+			height: 268px;
+			border-radius: 6px;
+			background: white;
+			padding: 26px 17px 30px 17px;
+			@media (max-width: 511px) {
+				width: 270px;
+				padding: 20px 13px 26px 13px;
+			}
+			.images_card_number {
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
+				gap: 10px;
+				img {
+					width: 40px;
+				}
+			}
+		}
+		button {
+			margin-top: 10px;
+			cursor: pointer;
+			width: 445px;
+			height: 45px;
+			background: rgb(203, 17, 171);
+			border-radius: 6px;
+			border: none;
+			color: rgb(255, 255, 255);
+			font-size: 16px;
+			font-weight: 600;
+			text-align: center;
+			text-transform: capitalize;
+			@media (max-width: 511px) {
+				width: 270px;
+			}
+		}
+	}
+}
