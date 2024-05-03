@@ -74,7 +74,6 @@ const Catalog = () => {
               <div className={scss.divBackgroundLeft}>
                 <h4 onClick={handleRemoveCategories}>Сбросить все фильтры</h4>
                 <div className={scss.divLine}></div>
-
                 {reduceOne ? (
                   <div>
                     <div className={scss.category}>

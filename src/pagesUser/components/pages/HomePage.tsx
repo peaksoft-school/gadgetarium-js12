@@ -3,6 +3,7 @@ import ProductsPromotion from '@/src/pagesUser/components/pages/homeSections/Pro
 import ProductsNew from '@/src/pagesUser/components/pages/homeSections/ProductsNew.tsx';
 import ProductsRecom from '@/src/pagesUser/components/pages/homeSections/ProductsRecom.tsx';
 import AboutService from './homeSections/AboutService.tsx';
+import Notification from '@/src/ui/notification/Notification.tsx';
 
 const HomePage = () => {
 	return (
@@ -11,6 +12,7 @@ const HomePage = () => {
 			<ProductsPromotion />
 			<ProductsNew />
 			<ProductsRecom />
+			<Notification />
 			<AboutService />
 		</>
 	);

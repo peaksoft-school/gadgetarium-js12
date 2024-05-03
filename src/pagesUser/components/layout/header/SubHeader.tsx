@@ -1,5 +1,5 @@
 import scss from './SubHeader.module.scss';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IconGadgetarium } from '@/src/assets/icons';
 import {
@@ -13,6 +13,7 @@ import {
 } from '@tabler/icons-react';
 import { Input } from 'antd';
 import { SearchProps } from 'antd/es/input';
+import CatalogMenu from '@/src/ui/catalogMenu/CatalogMenu';
 
 interface SubHeaderProps {
 	isMobile: boolean;
@@ -22,6 +23,7 @@ interface SubHeaderProps {
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
 	console.log(info?.source, value);
 const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
+	const [isHover, setIsHover] = useState(false);
 	return (
 		<header
 			className={
@@ -38,10 +40,15 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 								</Link>
 							</>
 						)}
-						<button className={scss.catalog}>
+						<button
+							className={scss.catalog}
+							onClick={() => setIsHover(!isHover)}
+							onMouseEnter={() => <CatalogMenu />}
+						>
 							<IconGridDots />
 							Каталог
 						</button>
+
 						<span className={scss.hr_line}></span>
 						<Input.Search
 							className={scss.search}
