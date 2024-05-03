@@ -1,0 +1,207 @@
+.PaymentInputs {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	.number_card_input {
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		.input {
+			font-size: 16px;
+			padding: 10px 10px 10px 5px;
+			display: block;
+			width: 400px;
+			border: none;
+			border-bottom: 1px solid #515151;
+			background: transparent;
+			color: black;
+			&:focus {
+				outline: none;
+			}
+
+			&:focus ~ label,
+			&:valid ~ label {
+				top: -20px;
+				font-size: 14px;
+				color: rgb(145, 150, 158);
+			}
+			@media (max-width: 511px) {
+				width: 245px;
+			}
+		}
+
+		label {
+			color: #999;
+			font-size: 15px;
+			font-weight: normal;
+			position: absolute;
+			pointer-events: none;
+			left: 5px;
+			top: 10px;
+			transition: 0.2s ease all;
+			-moz-transition: 0.2s ease all;
+			-webkit-transition: 0.2s ease all;
+		}
+	}
+	.year_card_input {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+		.inputs_cvc_mm_yy {
+			display: flex;
+			align-items: center;
+			gap: 50px;
+			.inputs_mm_yy {
+				display: flex;
+				align-items: center;
+				gap: 15px;
+				.input_month {
+					display: flex;
+					position: relative;
+					.input_mm {
+						font-size: 16px;
+						padding: 10px 10px 10px 5px;
+						display: block;
+						width: 42px;
+						border: none;
+						border-bottom: 1px solid #515151;
+						background: transparent;
+						color: black;
+						&:focus {
+							outline: none;
+						}
+
+						&:focus ~ label,
+						&:valid ~ label {
+							top: -20px;
+							font-size: 14px;
+							color: rgb(145, 150, 158);
+						}
+					}
+					.label_mm {
+						color: #999;
+						font-size: 15px;
+						font-weight: normal;
+						position: absolute;
+						pointer-events: none;
+						left: 5px;
+						top: 10px;
+						transition: 0.2s ease all;
+						-moz-transition: 0.2s ease all;
+						-webkit-transition: 0.2s ease all;
+					}
+				}
+				.input_year {
+					position: relative;
+					.input_yy {
+						font-size: 16px;
+						padding: 10px 10px 10px 5px;
+						display: block;
+						width: 42px;
+						border: none;
+						border-bottom: 1px solid #515151;
+						background: transparent;
+						color: black;
+						&:focus {
+							outline: none;
+						}
+
+						&:focus ~ label,
+						&:valid ~ label {
+							top: -20px;
+							font-size: 14px;
+							color: rgb(145, 150, 158);
+						}
+					}
+					.label_yy {
+						color: #999;
+						font-size: 15px;
+						font-weight: normal;
+						position: absolute;
+						pointer-events: none;
+						left: 5px;
+						top: 10px;
+						transition: 0.2s ease all;
+						-moz-transition: 0.2s ease all;
+						-webkit-transition: 0.2s ease all;
+					}
+				}
+			}
+			.input_cvc {
+				position: relative;
+				.input_cvc {
+					font-size: 16px;
+					padding: 10px 10px 10px 5px;
+					display: block;
+					width: 50px;
+					border: none;
+					border-bottom: 1px solid #515151;
+					background: transparent;
+					color: black;
+					&:focus {
+						outline: none;
+						// background: red;
+					}
+
+					&:focus ~ label,
+					&:valid ~ label {
+						top: -20px;
+						font-size: 14px;
+						color: rgb(145, 150, 158);
+					}
+				}
+				.label_cvc {
+					color: #999;
+					font-size: 15px;
+					font-weight: normal;
+					position: absolute;
+					pointer-events: none;
+					left: 5px;
+					top: 10px;
+					transition: 0.2s ease all;
+					-moz-transition: 0.2s ease all;
+					-webkit-transition: 0.2s ease all;
+				}
+			}
+		}
+		.first_name_input {
+			position: relative;
+			.input_name {
+				font-size: 16px;
+				padding: 10px 10px 10px 5px;
+				display: block;
+				width: 400px;
+				border: none;
+				border-bottom: 1px solid #515151;
+				background: transparent;
+				color: black;
+				&:focus {
+					outline: none;
+				}
+
+				&:focus ~ label,
+				&:valid ~ label {
+					top: -20px;
+					font-size: 14px;
+					color: rgb(145, 150, 158);
+				}
+				@media (max-width: 511px) {
+					width: 245px;
+				}
+			}
+
+			label {
+				color: #999;
+				font-size: 14px;
+				font-weight: normal;
+				position: absolute;
+				pointer-events: none;
+				left: 5px;
+				top: 10px;
+				transition: 0.2s ease all;
+				-moz-transition: 0.2s ease all;
+				-webkit-transition: 0.2s ease all;
+			}
+		}
+	}
+}
