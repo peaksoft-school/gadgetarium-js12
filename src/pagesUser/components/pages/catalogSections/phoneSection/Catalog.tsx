@@ -65,7 +65,13 @@ const Catalog = () => {
           <p className={scss.navigationP} onClick={() => navigate("/")}>Главная » <h3>Смартфоны</h3></p>
           <div className={scss.divHeading}>
             <h3>Cмартфоны</h3>
+<<<<<<< HEAD
             <span></span>
+=======
+            <div className={scss.borderDiv}>
+              <div></div>
+            </div>
+>>>>>>> aaf5a31812061a7903f287570910415615b2a773
           </div>
 
           <div className={scss.divGlobal}>
@@ -170,7 +176,7 @@ const Catalog = () => {
                       <div>
                         <div className={scss.colourDiv} onClick={() => setReduceThree(true)}>
                           <p>Цвет</p>
-                          <img src={arrow} alt="ArrowTop"  />
+                          <img src={arrow} alt="ArrowTop" />
                         </div>
                         <div className={scss.clapDiv} onClick={() => setHideColours(false)}>
                           <img src={arrowBlueBottom} alt="ArrowTop" />

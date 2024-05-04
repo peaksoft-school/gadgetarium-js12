@@ -22,6 +22,7 @@ export const api = createApi({
 	baseQuery: baseQueryExtended,
 	refetchOnReconnect: true,
 	refetchOnFocus: false,
+<<<<<<< HEAD
 	tagTypes: [
 		'auth',
 		'basket',
@@ -31,5 +32,8 @@ export const api = createApi({
 		'comparison',
 		'phones'
 	],
+=======
+	tagTypes: ['auth', 'basket', 'product', 'slider','favorite', 'comparison', 'phones'],
+>>>>>>> aaf5a31812061a7903f287570910415615b2a773
 	endpoints: () => ({})
 });
