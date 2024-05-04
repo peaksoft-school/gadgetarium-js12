@@ -1,32 +1,7 @@
 .sort_div {
-	// display: flex;
-	// justify-content: flex-end;
-	// align-items: flex-end;
-	// @media (max-width: 760px) {
-	// 	display: flex;
-	// }
 	.sortirovat {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-	}
-}
-@media (max-width: 827.2px) {
-	.sortDiv {
-		margin-right: 65px;
-
-		@media (max-width: 672px) {
-			margin-right: 280px;
-		}
-		@media (max-width: 494.4px) {
-			margin-top: 10px;
-			margin-left: 10px;
-		}
-	}
-	p {
-		font-size: 13px;
-		@media (max-width: 494.4px) {
-			font-size: 11px;
-		}
 	}
 }
