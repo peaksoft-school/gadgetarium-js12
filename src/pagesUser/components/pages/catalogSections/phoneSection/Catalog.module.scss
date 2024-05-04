@@ -1,1034 +1,1024 @@
 .catalog {
-  .content {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-direction: column;
-    padding-top: 3.1rem;
-    padding-bottom: 7.1rem;
-    display: flex;
-    gap: 2.3rem;
-
-    .navigationP {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      color: rgb(145, 150, 158);
-      font-size: clamp(0.5rem, 4vw, 0.8rem);
-      cursor: pointer;
-
-      h3 {
-        color: rgba(56, 66, 85, 0.6);
-        font-size: clamp(0.5rem, 4vw, 0.8rem);
-      }
-    }
-
-    .divHeading {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-
-      h3 {
-        color: rgb(41, 41, 41);
-        font-size: clamp(1.4rem, 5vw, 1.7rem);
-      }
-
-      div {
-        width: 860%;
-        height: 1px;
-        border: 1px solid rgb(205, 205, 205);
-      }
-    }
-
-    .divBottom {
-      display: flex;
-      flex-direction: column;
-      margin-top: 120px;
-
-      h2 {
-        font-size: clamp(0.5rem, 4vw, 1.5rem);
-      }
-
-      .bottomCards {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 35px;
-
-      }
-
-      .cards {
-        .card {
-          display: flex;
-          flex-direction: column;
-          background-color: #ffffff;
-          padding: 10px 10px 25px 10px;
-          width: 230px;
-          border-radius: 8px;
-          transition: box-shadow 0.3s ease;
-          cursor: pointer;
-
-          @media (max-width: 827.20px) {
-            width: 200px;
-          }
-
-          &:hover {
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1)
-          }
-
-          .middle_image_card {
-            display: flex;
-            justify-content: center;
-
-            img {
-              width: 100%;
-            }
-          }
-
-          .middle_card {
-            display: flex;
-            flex-direction: column;
-
-            .phone_quantity {
-              color: #2FC409;
-              font-weight: 500;
-              font-size: 11px;
-              margin-top: 20px;
-            }
-
-            h3 {
-              margin-top: 8px;
-              font-weight: 600;
-              font-size: clamp(0.5rem, 4vw, 0.8rem);
-              width: 100%;
-              max-width: 70%;
-              margin-top: 20px;
-            }
-
-            .phone_rating {
-              display: flex;
-              justify-content: flex-start;
-              align-items: center;
-              gap: 5px;
-              margin-top: 9px;
-
-              .rating_stars {
-                display: flex;
-                gap: 1px;
-              }
-
-              p {
-                color: #8E9AB3;
-                font-size: 11px;
-
-                @media (max-width: 827.20px) {
-                  font-size: clamp(0.5rem, 4vw, 0.7rem);
-                }
-              }
-            }
-          }
-
-          .bottom_card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 18px;
-
-
-            .phone_price {
-              font-size: 17px;
-              font-weight: 700;
-
-              @media (max-width: 827.20px) {
-                font-size: clamp(0.5rem, 4vw, 0.9rem);
-              }
-            }
-          }
-        }
-      }
-    }
-
-    .divGlobal {
-      display: flex;
-
-      .divLeft {
-        p {
-          color: rgba(145, 150, 158, 1);
-          font-size: clamp(0.5rem, 4vw, 0.8rem);
-          margin-bottom: 18px;
-        }
-
-        .divBackgroundLeft {
-          width: 100%;
-          max-width: 285px;
-          background-color: #fff;
-          padding: 25px 22px 5px 22px;
-
-          @media (max-width: 827.20px) {
-            width: 100%;
-            max-width: 200px;
-          }
-
-
-          h4 {
-            color: #5786F7;
-            font-weight: 500;
-            font-size: clamp(0.5rem, 4vw, 0.9rem);
-            cursor: pointer;
-            margin-bottom: 20px;
-
-            @media (max-width: 827.20px) {
-              font-size: clamp(0.5rem, 4vw, 0.7rem);
-            }
-          }
-
-          .divLine {
-            width: 100%;
-            height: 1px;
-            border: 1px solid rgba(232, 232, 232, 1);
-            margin-bottom: 20px;
-          }
-
-          .category {
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 64%;
-            cursor: pointer;
-
-            @media (max-width: 827.20px) {
-              display: flex;
-              gap: 52%;
-            }
-
-            p {
-              font-size: clamp(0.5rem, 4vw, 0.8rem);
-              font-weight: 600;
-              color: rgba(56, 66, 85, 1);
-
-              @media (max-width: 827.20px) {
-                font-size: clamp(0.5rem, 4vw, 0.7rem);
-              }
-            }
-
-            svg {
-              color: #CB11AB;
-              cursor: pointer;
-            }
-
-            img {
-              cursor: pointer;
-              margin-top: 5px;
-            }
-          }
-
-          .categoriesDiv {
-            .categories {
-              display: flex;
-              justify-content: flex-start;
-              align-items: flex-start;
-              gap: 5px;
-
-              p {
-                color: rgba(41, 41, 41, 1);
-                margin-top: 1px;
-
-                @media (max-width: 827.20px) {
-                  font-size: clamp(0.5rem, 4vw, 0.7rem);
-                  margin-top: 2px;
-                }
-              }
-
-              input[type="checkbox"] {
-                cursor: pointer;
-                opacity: 0;
-                position: absolute;
-              }
-
-              label {
-                display: flex;
-                cursor: pointer;
-              }
-
-              label::before {
-                content: "";
-                width: 1em;
-                height: 1em;
-                border-radius: .15em;
-                margin-right: .5em;
-                border: .05em solid #909CB5;
-              }
-
-
-              input[type="checkbox"]:hover+label::before {
-                transition: 0.5s;
-                background-color: #e3e2e2;
-              }
-
-              input[type="checkbox"]:checked+label::before {
-                content: "✓";
-                background-color: #CB11AB;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                color: #fff;
-              }
-            }
-          }
-
-          .anotherCostDiv {
-            padding: 0 230px 0 0;
-          }
-
-          .costDiv {
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 61%;
-            cursor: pointer;
-
-            @media (max-width: 827.20px) {
-              display: flex;
-              gap: 50%;
-            }
-
-            p {
-              font-size: clamp(0.5rem, 4vw, 0.8rem);
-              font-weight: 600;
-              color: rgba(56, 66, 85, 1);
-
-              @media (max-width: 827.20px) {
-                font-size: clamp(0.5rem, 4vw, 0.7rem);
-              }
-            }
-
-            img {
-              cursor: pointer;
-              margin-top: 5px;
-            }
-
-            svg {
-              cursor: pointer;
-            }
-          }
-
-          .priceDiv {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            margin-bottom: 30px;
-            gap: 15px;
-
-            @media (max-width: 827.20px) {
-              display: flex;
-              gap: 10px;
-            }
-
-            input[type="number"]::-webkit-inner-spin-button {
-              -webkit-appearance: none;
-              margin: 0;
-            }
-
-            p {
-              position: absolute;
-            }
-
-            .pOne {
-              margin-top: 17px;
-              margin-left: 10px;
-            }
-
-            .pTwo {
-              margin-top: 17px;
-              margin-left: 135px;
-
-              @media (max-width: 827.20px) {
-                margin-left: 100px;
-              }
-            }
-
-            input {
-              border: 1px solid #D5D5D5;
-              background-color: transparent;
-              width: 105px;
-              padding-left: 35px;
-              height: 30px;
-              border-radius: 4px;
-              color: #000;
-              appearance: none;
-              -moz-appearance: textfield;
-
-              @media (max-width: 827.20px) {
-                width: 80px;
-                height: 25px;
-                padding-left: 28px;
-                margin-top: 2px;
-              }
-            }
-          }
-
-          .priceChangerDiv {
-            display: flex;
-            margin-bottom: 20px;
-
-
-            .progress {
-              height: 2px;
-              background-color: #CA11AA;
-              width: 74%;
-
-              @media (max-width: 827.20px) {
-                width: 55%;
-              }
-            }
-
-            .progressTwo {
-              margin-right: -102px;
-              height: 2px;
-              background-color: #CA11AA;
-              width: 80%;
-
-              @media (max-width: 827.20px) {
-                width: 55%;
-              }
-            }
-
-            .price {
-              margin-left: -110px;
-              width: 82%;
-              height: 1px;
-              background: none;
-              appearance: none;
-              -webkit-appearance: none;
-
-              @media (max-width: 827.20px) {
-                width: 55%;
-                margin-left: -100px;
-              }
-            }
-
-
-
-            .priceTwo {
-              width: 90%;
-              height: 1px;
-              background: none;
-              appearance: none;
-              -webkit-appearance: none;
-
-              @media (max-width: 827.20px) {
-                width: 55%;
-              }
-            }
-
-            .price::-webkit-slider-thumb {
-              appearance: none;
-              border-radius: 100%;
-              background-color: #CA11AA;
-              height: 13px;
-              width: 13px;
-              margin-left: 8px;
-              cursor: pointer;
-            }
-
-            .priceTwo::-webkit-slider-thumb {
-              appearance: none;
-              border-radius: 100%;
-              background-color: #CA11AA;
-              height: 13px;
-              width: 13px;
-              margin-left: -10px;
-              cursor: pointer;
-
-              @media (max-width: 827.20px) {
-                margin-left: 22px;
-              }
-            }
-          }
-
-          .colourDiv {
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 78%;
-            cursor: pointer;
-
-            @media (max-width: 827.20px) {
-              display: flex;
-              gap: 72%;
-            }
-
-            p {
-              font-size: clamp(0.5rem, 4vw, 0.8rem);
-              font-weight: 600;
-              color: rgba(56, 66, 85, 1);
-
-              @media (max-width: 827.20px) {
-                font-size: clamp(0.5rem, 4vw, 0.7rem);
-              }
-            }
-
-            svg {
-              cursor: pointer;
-            }
-
-            img {
-              cursor: pointer;
-              margin-top: 5px;
-            }
-          }
-
-          .colours {
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 5px;
-
-            p {
-              color: rgba(41, 41, 41, 1);
-              margin-top: 1px;
-              margin-right: 6px;
-
-              @media (max-width: 827.20px) {
-                font-size: clamp(0.5rem, 4vw, 0.7rem);
-                margin-top: 1px;
-              }
-            }
-
-            span {
-              color: #A7ABB1;
-              font-weight: 300;
-              font-size: clamp(0.5rem, 4vw, 0.8rem);
-
-              @media (max-width: 827.20px) {
-                font-size: clamp(0.5rem, 4vw, 0.7rem);
-                margin-top: 1px;
-              }
-            }
-
-            input[type="checkbox"] {
-              cursor: pointer;
-              opacity: 0;
-              position: absolute;
-            }
-
-            label {
-              display: flex;
-              cursor: pointer;
-            }
-
-            label::before {
-              content: "";
-              width: 1em;
-              height: 1em;
-              border-radius: .15em;
-              margin-right: .5em;
-              border: .05em solid #909CB5;
-            }
-
-
-            input[type="checkbox"]:hover+label::before {
-              transition: 0.5s;
-              background-color: #e3e2e2;
-            }
-
-            input[type="checkbox"]:checked+label::before {
-              content: "✓";
-              background-color: #CB11AB;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              color: #fff;
-            }
-          }
-
-          .clapDiv {
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 3px;
-            cursor: pointer;
-
-            p {
-              color: #2C68F5;
-
-              @media (max-width: 827.20px) {
-                font-size: clamp(0.5rem, 4vw, 0.8rem);
-              }
-            }
-          }
-
-          .gbDiv {
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 38%;
-            cursor: pointer;
-
-            p {
-              font-size: clamp(0.5rem, 4vw, 0.8rem);
-              font-weight: 600;
-              color: rgba(56, 66, 85, 1);
-
-              @media (max-width: 827.20px) {
-                font-size: clamp(0.5rem, 4vw, 0.7rem);
-              }
-            }
-
-            svg {
-              cursor: pointer;
-            }
-
-            img {
-              cursor: pointer;
-              margin-top: 5px;
-            }
-          }
-
-          .gigabytes {
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 5px;
-
-            p {
-              color: rgba(41, 41, 41, 1);
-              margin-top: 1px;
-              margin-right: 6px;
-
-              @media (max-width: 827.20px) {
-                font-size: clamp(0.5rem, 4vw, 0.7rem);
-                margin-top: 2px;
-              }
-            }
-
-            span {
-              color: #A7ABB1;
-              font-weight: 300;
-              font-size: clamp(0.5rem, 4vw, 0.8rem);
-            }
-
-            input[type="checkbox"] {
-              cursor: pointer;
-              opacity: 0;
-              position: absolute;
-            }
-
-            label {
-              display: flex;
-              cursor: pointer;
-            }
-
-            label::before {
-              content: "";
-              width: 1em;
-              height: 1em;
-              border-radius: .15em;
-              margin-right: .5em;
-              border: .05em solid #909CB5;
-            }
-
-
-            input[type="checkbox"]:hover+label::before {
-              transition: 0.5s;
-              background-color: #e3e2e2;
-            }
-
-            input[type="checkbox"]:checked+label::before {
-              content: "✓";
-              background-color: #CB11AB;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              color: #fff;
-            }
-          }
-
-          .gigabytesMoreDiv {
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 3px;
-
-            p {
-              color: #2C68F5;
-              cursor: pointer;
-
-              @media (max-width: 827.20px) {
-                font-size: clamp(0.5rem, 4vw, 0.8rem);
-              }
-            }
-
-            img {
-              margin-top: 1px;
-              cursor: pointer;
-            }
-          }
-
-          .moreGbDiv {
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 1%;
-            cursor: pointer;
-
-            p {
-              font-size: clamp(0.5rem, 4vw, 0.8rem);
-              font-weight: 600;
-              color: rgba(56, 66, 85, 1);
-
-              @media (max-width: 827.20px) {
-                font-size: clamp(0.5rem, 4vw, 0.7rem);
-              }
-            }
-
-            svg {
-              cursor: pointer;
-            }
-
-            img {
-              cursor: pointer;
-              margin-top: 5px;
-            }
-          }
-
-          .moreGb {
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 5px;
-
-            p {
-              color: rgba(41, 41, 41, 1);
-              margin-top: 1px;
-              margin-right: 6px;
-
-              @media (max-width: 827.20px) {
-                font-size: clamp(0.5rem, 4vw, 0.7rem);
-                margin-top: 3px;
-              }
-            }
-
-            span {
-              color: #A7ABB1;
-              font-weight: 300;
-              font-size: clamp(0.5rem, 4vw, 0.8rem);
-            }
-
-            input[type="checkbox"] {
-              cursor: pointer;
-              opacity: 0;
-              position: absolute;
-            }
-
-            label {
-              display: flex;
-              cursor: pointer;
-            }
-
-            label::before {
-              content: "";
-              width: 1em;
-              height: 1em;
-              border-radius: .15em;
-              margin-right: .5em;
-              border: .05em solid #909CB5;
-            }
-
-
-            input[type="checkbox"]:hover+label::before {
-              transition: 0.5s;
-              background-color: #e3e2e2;
-            }
-
-            input[type="checkbox"]:checked+label::before {
-              content: "✓";
-              background-color: #CB11AB;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              color: #fff;
-            }
-          }
-        }
-      }
-
-      .divRight {
-        margin-left: 23px;
-
-        @media (max-width: 905.60px) {
-          .showButtons {
-            margin-right: 270px;
-          }
-        }
-
-        .showButtons {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-top: 35px;
-
-          .moreButton {
-            background-color: transparent;
-            border: 1px solid #CB11AB;
-            color: #CB11AB;
-            border-radius: 4px;
-            font-weight: 600;
-            font-size: clamp(0.5rem, 4vw, 0.9rem);
-            padding: 10px 80px;
-            cursor: pointer;
-          }
-        }
-
-
-        .filterDiv {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-top: -12px;
-          margin-bottom: 11px;
-
-          .categoriesRight {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-
-            .category_right {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              background-color: #E8E8E8;
-              padding: 5px 15px 5px 10px;
-              border-radius: 6px;
-              border: 1px solid #CDCDCD;
-
-              svg {
-                cursor: pointer;
-              }
-            }
-          }
-
-          .sortDiv {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 11px;
-            margin-right: 10px;
-          }
-        }
-
-        @media (max-width: 672px) {
-          .cardss {
-            display: flex;
-            flex-direction: column;
-          }
-        }
-
-        @media (max-width: 827.20px) {
-          .cardss {
-            .cards {
-              .card {
-                width: 200px;
-
-                .middle_card {
-                  h3 {
-                    font-size: 13px;
-                  }
-                }
-
-                .bottom_card {
-                  .phone_prices {
-                    margin-left: 4px;
-
-                    .phone_price {
-                      font-size: 13px;
-                      font-weight: 700;
-                    }
-
-                    .phone_old_price {
-                      margin-top: 2px;
-                      font-size: 11px;
-                      color: #909CB5;
-                      text-decoration: line-through;
-                    }
-                  }
-
-                  .bottom_cart {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    gap: 4px;
-                    background-color: #CB11AB;
-                    padding: 7px;
-                    border-radius: 6px;
-                    cursor: pointer;
-
-                    p {
-                      color: #fff;
-                      font-size: 10px;
-                      text-transform: uppercase;
-                      letter-spacing: 1px;
-                    }
-
-                    svg {
-                      color: #fff;
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-
-
-      .cardss {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-
-
-        .cards {
-          .card {
-            display: flex;
-            flex-direction: column;
-            background-color: #ffffff;
-            padding: 10px 10px 25px 10px;
-            width: 275px;
-            border-radius: 8px;
-            transition: box-shadow 0.3s ease;
-            cursor: pointer;
-
-            &:hover {
-              box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1)
-            }
-
-            .top_card {
-              display: flex;
-              justify-content: space-between;
-              height: 32px;
-
-              p {
-                font-size: 12px;
-                font-weight: 700;
-                color: #fff;
-                background-color: #F53B49;
-                border-radius: 100%;
-                display: flex;
-                align-items: center;
-                padding: 9px 0 9px 0;
-              }
-
-              .top_icons {
-                display: flex;
-                gap: 10px;
-
-                svg {
-                  color: #AAB1BF;
-                  transition: 0.3s;
-
-                  &:hover {
-
-                    color: #CA11AA;
-                  }
-                }
-              }
-
-            }
-
-            .middle_image_card {
-              display: flex;
-              justify-content: center;
-
-              img {
-                width: 80%;
-              }
-            }
-
-            .middle_card {
-              display: flex;
-              flex-direction: column;
-
-              .phone_quantity {
-                color: #2FC409;
-                font-weight: 500;
-                font-size: 11px;
-                margin-top: 20px;
-              }
-
-              h3 {
-                margin-top: 8px;
-                font-weight: 600;
-                font-size: 16px;
-              }
-
-              .phone_rating {
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                gap: 5px;
-                margin-top: 9px;
-
-                .rating_stars {
-                  display: flex;
-                  gap: 1px;
-                }
-
-                p {
-                  color: #8E9AB3;
-                  font-size: 11px;
-                }
-              }
-            }
-
-            .bottom_card {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              margin-top: 18px;
-
-              .phone_prices {
-                display: flex;
-                flex-direction: column;
-                margin-left: 10px;
-
-                .phone_price {
-                  font-size: 17px;
-                  font-weight: 700;
-                }
-
-                .phone_old_price {
-                  margin-top: 2px;
-                  font-size: 14px;
-                  color: #909CB5;
-                  text-decoration: line-through;
-                }
-              }
-
-              .bottom_cart {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 3px;
-                background-color: #CB11AB;
-                padding: 12px;
-                border-radius: 6px;
-                cursor: pointer;
-
-                p {
-                  color: #fff;
-                  font-size: 14px;
-                  text-transform: uppercase;
-                  letter-spacing: 1px;
-                }
-
-                svg {
-                  color: #fff;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+	.content {
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+		flex-direction: column;
+		padding-top: 3.1rem;
+		padding-bottom: 7.1rem;
+		display: flex;
+		gap: 2.3rem;
+
+		.navigationP {
+			display: flex;
+			align-items: center;
+			gap: 5px;
+			color: rgb(145, 150, 158);
+			font-size: clamp(0.5rem, 4vw, 0.8rem);
+			cursor: pointer;
+
+			h3 {
+				color: rgba(56, 66, 85, 0.6);
+				font-size: clamp(0.5rem, 4vw, 0.8rem);
+			}
+		}
+
+		.divHeading {
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+
+			h3 {
+				color: rgb(41, 41, 41);
+				font-size: clamp(1.4rem, 5vw, 1.7rem);
+			}
+
+			width: 100%;
+			span {
+				display: block;
+				margin-top: 20px;
+				border: 1px solid #cdcdcd;
+				@media (max-width: 440px) {
+					margin-top: 10px;
+				}
+			}
+		}
+
+		.divBottom {
+			display: flex;
+			flex-direction: column;
+			margin-top: 120px;
+
+			h2 {
+				font-size: clamp(0.5rem, 4vw, 1.5rem);
+			}
+
+			.bottomCards {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 10px;
+				margin-top: 35px;
+			}
+
+			.cards {
+				.card {
+					display: flex;
+					flex-direction: column;
+					background-color: #ffffff;
+					padding: 10px 10px 25px 10px;
+					width: 230px;
+					border-radius: 8px;
+					transition: box-shadow 0.3s ease;
+					cursor: pointer;
+
+					@media (max-width: 827.2px) {
+						width: 200px;
+					}
+
+					&:hover {
+						box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+					}
+
+					.middle_image_card {
+						display: flex;
+						justify-content: center;
+
+						img {
+							width: 100%;
+						}
+					}
+
+					.middle_card {
+						display: flex;
+						flex-direction: column;
+
+						.phone_quantity {
+							color: #2fc409;
+							font-weight: 500;
+							font-size: 11px;
+							margin-top: 20px;
+						}
+
+						h3 {
+							margin-top: 8px;
+							font-weight: 600;
+							font-size: clamp(0.5rem, 4vw, 0.8rem);
+							width: 100%;
+							max-width: 70%;
+							margin-top: 20px;
+						}
+
+						.phone_rating {
+							display: flex;
+							justify-content: flex-start;
+							align-items: center;
+							gap: 5px;
+							margin-top: 9px;
+
+							.rating_stars {
+								display: flex;
+								gap: 1px;
+							}
+
+							p {
+								color: #8e9ab3;
+								font-size: 11px;
+
+								@media (max-width: 827.2px) {
+									font-size: clamp(0.5rem, 4vw, 0.7rem);
+								}
+							}
+						}
+					}
+
+					.bottom_card {
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						margin-top: 18px;
+
+						.phone_price {
+							font-size: 17px;
+							font-weight: 700;
+
+							@media (max-width: 827.2px) {
+								font-size: clamp(0.5rem, 4vw, 0.9rem);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.divGlobal {
+			display: flex;
+			justify-content: space-between;
+			gap: 108px;
+			@media (max-width: 600px) {
+				gap: 35px;
+			}
+			@media (max-width: 519px) {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				margin-left: 70px;
+			}
+			@media (max-width: 400px) {
+				margin-left: 40px;
+			}
+			.divLeft {
+				p {
+					color: rgba(145, 150, 158, 1);
+					font-size: clamp(0.5rem, 4vw, 0.8rem);
+					margin-bottom: 18px;
+				}
+
+				.divBackgroundLeft {
+					width: 100%;
+					max-width: 285px;
+					background-color: #fff;
+					padding: 25px 22px 5px 22px;
+
+					@media (max-width: 827.2px) {
+						width: 100%;
+						max-width: 460px;
+					}
+
+					h4 {
+						color: #5786f7;
+						font-weight: 500;
+						font-size: clamp(0.5rem, 4vw, 0.9rem);
+						cursor: pointer;
+						margin-bottom: 20px;
+
+						@media (max-width: 827.2px) {
+							font-size: clamp(0.5rem, 4vw, 0.7rem);
+						}
+					}
+
+					.divLine {
+						width: 100%;
+						height: 1px;
+						border: 1px solid rgba(232, 232, 232, 1);
+						margin-bottom: 20px;
+					}
+
+					.category {
+						display: flex;
+						justify-content: flex-start;
+						align-items: flex-start;
+						gap: 64%;
+						cursor: pointer;
+
+						@media (max-width: 827.2px) {
+							display: flex;
+							gap: 52%;
+						}
+
+						p {
+							font-size: clamp(0.5rem, 4vw, 0.8rem);
+							font-weight: 600;
+							color: rgba(56, 66, 85, 1);
+
+							@media (max-width: 827.2px) {
+								font-size: clamp(0.5rem, 4vw, 0.7rem);
+							}
+						}
+
+						svg {
+							color: #cb11ab;
+							cursor: pointer;
+						}
+
+						img {
+							cursor: pointer;
+							margin-top: 5px;
+						}
+					}
+
+					.categoriesDiv {
+						.categories {
+							display: flex;
+							justify-content: flex-start;
+							align-items: flex-start;
+							gap: 5px;
+
+							p {
+								color: rgba(41, 41, 41, 1);
+								margin-top: 1px;
+
+								@media (max-width: 827.2px) {
+									font-size: clamp(0.5rem, 4vw, 0.7rem);
+									margin-top: 2px;
+								}
+							}
+
+							input[type='checkbox'] {
+								cursor: pointer;
+								opacity: 0;
+								position: absolute;
+							}
+
+							label {
+								display: flex;
+								cursor: pointer;
+							}
+
+							label::before {
+								content: '';
+								width: 1em;
+								height: 1em;
+								border-radius: 0.15em;
+								margin-right: 0.5em;
+								border: 0.05em solid #909cb5;
+							}
+
+							input[type='checkbox']:hover + label::before {
+								transition: 0.5s;
+								background-color: #e3e2e2;
+							}
+
+							input[type='checkbox']:checked + label::before {
+								content: '✓';
+								background-color: #cb11ab;
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								color: #fff;
+							}
+						}
+					}
+
+					.anotherCostDiv {
+						padding: 0 230px 0 0;
+					}
+
+					.costDiv {
+						display: flex;
+						justify-content: flex-start;
+						align-items: flex-start;
+						gap: 61%;
+						cursor: pointer;
+
+						@media (max-width: 827.2px) {
+							display: flex;
+							gap: 50%;
+						}
+
+						p {
+							font-size: clamp(0.5rem, 4vw, 0.8rem);
+							font-weight: 600;
+							color: rgba(56, 66, 85, 1);
+
+							@media (max-width: 827.2px) {
+								font-size: clamp(0.5rem, 4vw, 0.7rem);
+							}
+						}
+
+						img {
+							cursor: pointer;
+							margin-top: 5px;
+						}
+
+						svg {
+							cursor: pointer;
+						}
+					}
+
+					.priceDiv {
+						display: flex;
+						justify-content: flex-start;
+						align-items: center;
+						margin-bottom: 30px;
+						gap: 15px;
+
+						@media (max-width: 827.2px) {
+							display: flex;
+							gap: 10px;
+						}
+
+						input[type='number']::-webkit-inner-spin-button {
+							-webkit-appearance: none;
+							margin: 0;
+						}
+
+						p {
+							position: absolute;
+						}
+
+						.pOne {
+							margin-top: 17px;
+							margin-left: 10px;
+						}
+
+						.pTwo {
+							margin-top: 17px;
+							margin-left: 135px;
+
+							@media (max-width: 827.2px) {
+								margin-left: 100px;
+							}
+						}
+
+						input {
+							border: 1px solid #d5d5d5;
+							background-color: transparent;
+							width: 105px;
+							padding-left: 35px;
+							height: 30px;
+							border-radius: 4px;
+							color: #000;
+							appearance: none;
+							-moz-appearance: textfield;
+
+							@media (max-width: 827.2px) {
+								width: 80px;
+								height: 25px;
+								padding-left: 28px;
+								margin-top: 2px;
+							}
+						}
+					}
+
+					.priceChangerDiv {
+						display: flex;
+						margin-bottom: 20px;
+
+						.progress {
+							height: 2px;
+							background-color: #ca11aa;
+							width: 74%;
+
+							@media (max-width: 827.2px) {
+								width: 55%;
+							}
+						}
+
+						.progressTwo {
+							margin-right: -102px;
+							height: 2px;
+							background-color: #ca11aa;
+							width: 80%;
+
+							@media (max-width: 827.2px) {
+								width: 55%;
+							}
+						}
+
+						.price {
+							margin-left: -110px;
+							width: 82%;
+							height: 1px;
+							background: none;
+							appearance: none;
+							-webkit-appearance: none;
+
+							@media (max-width: 827.2px) {
+								width: 55%;
+								margin-left: -100px;
+							}
+						}
+
+						.priceTwo {
+							width: 90%;
+							height: 1px;
+							background: none;
+							appearance: none;
+							-webkit-appearance: none;
+
+							@media (max-width: 827.2px) {
+								width: 55%;
+							}
+						}
+
+						.price::-webkit-slider-thumb {
+							appearance: none;
+							border-radius: 100%;
+							background-color: #ca11aa;
+							height: 13px;
+							width: 13px;
+							margin-left: 8px;
+							cursor: pointer;
+						}
+
+						.priceTwo::-webkit-slider-thumb {
+							appearance: none;
+							border-radius: 100%;
+							background-color: #ca11aa;
+							height: 13px;
+							width: 13px;
+							margin-left: -10px;
+							cursor: pointer;
+
+							@media (max-width: 827.2px) {
+								margin-left: 22px;
+							}
+						}
+					}
+
+					.colourDiv {
+						display: flex;
+						justify-content: flex-start;
+						align-items: flex-start;
+						gap: 78%;
+						cursor: pointer;
+
+						@media (max-width: 827.2px) {
+							display: flex;
+							gap: 72%;
+						}
+
+						p {
+							font-size: clamp(0.5rem, 4vw, 0.8rem);
+							font-weight: 600;
+							color: rgba(56, 66, 85, 1);
+
+							@media (max-width: 827.2px) {
+								font-size: clamp(0.5rem, 4vw, 0.7rem);
+							}
+						}
+
+						svg {
+							cursor: pointer;
+						}
+
+						img {
+							cursor: pointer;
+							margin-top: 5px;
+						}
+					}
+
+					.colours {
+						display: flex;
+						justify-content: flex-start;
+						align-items: flex-start;
+						gap: 5px;
+
+						p {
+							color: rgba(41, 41, 41, 1);
+							margin-top: 1px;
+							margin-right: 6px;
+
+							@media (max-width: 827.2px) {
+								font-size: clamp(0.5rem, 4vw, 0.7rem);
+								margin-top: 1px;
+							}
+						}
+
+						span {
+							color: #a7abb1;
+							font-weight: 300;
+							font-size: clamp(0.5rem, 4vw, 0.8rem);
+
+							@media (max-width: 827.2px) {
+								font-size: clamp(0.5rem, 4vw, 0.7rem);
+								margin-top: 1px;
+							}
+						}
+
+						input[type='checkbox'] {
+							cursor: pointer;
+							opacity: 0;
+							position: absolute;
+						}
+
+						label {
+							display: flex;
+							cursor: pointer;
+						}
+
+						label::before {
+							content: '';
+							width: 1em;
+							height: 1em;
+							border-radius: 0.15em;
+							margin-right: 0.5em;
+							border: 0.05em solid #909cb5;
+						}
+
+						input[type='checkbox']:hover + label::before {
+							transition: 0.5s;
+							background-color: #e3e2e2;
+						}
+
+						input[type='checkbox']:checked + label::before {
+							content: '✓';
+							background-color: #cb11ab;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							color: #fff;
+						}
+					}
+
+					.clapDiv {
+						display: flex;
+						justify-content: flex-start;
+						align-items: flex-start;
+						gap: 3px;
+						cursor: pointer;
+
+						p {
+							color: #2c68f5;
+
+							@media (max-width: 827.2px) {
+								font-size: clamp(0.5rem, 4vw, 0.8rem);
+							}
+						}
+					}
+
+					.gbDiv {
+						display: flex;
+						justify-content: flex-start;
+						align-items: flex-start;
+						gap: 38%;
+						cursor: pointer;
+
+						p {
+							font-size: clamp(0.5rem, 4vw, 0.8rem);
+							font-weight: 600;
+							color: rgba(56, 66, 85, 1);
+
+							@media (max-width: 827.2px) {
+								font-size: clamp(0.5rem, 4vw, 0.7rem);
+							}
+						}
+
+						svg {
+							cursor: pointer;
+						}
+
+						img {
+							cursor: pointer;
+							margin-top: 5px;
+						}
+					}
+
+					.gigabytes {
+						display: flex;
+						justify-content: flex-start;
+						align-items: flex-start;
+						gap: 5px;
+
+						p {
+							color: rgba(41, 41, 41, 1);
+							margin-top: 1px;
+							margin-right: 6px;
+
+							@media (max-width: 827.2px) {
+								font-size: clamp(0.5rem, 4vw, 0.7rem);
+								margin-top: 2px;
+							}
+						}
+
+						span {
+							color: #a7abb1;
+							font-weight: 300;
+							font-size: clamp(0.5rem, 4vw, 0.8rem);
+						}
+
+						input[type='checkbox'] {
+							cursor: pointer;
+							opacity: 0;
+							position: absolute;
+						}
+
+						label {
+							display: flex;
+							cursor: pointer;
+						}
+
+						label::before {
+							content: '';
+							width: 1em;
+							height: 1em;
+							border-radius: 0.15em;
+							margin-right: 0.5em;
+							border: 0.05em solid #909cb5;
+						}
+
+						input[type='checkbox']:hover + label::before {
+							transition: 0.5s;
+							background-color: #e3e2e2;
+						}
+
+						input[type='checkbox']:checked + label::before {
+							content: '✓';
+							background-color: #cb11ab;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							color: #fff;
+						}
+					}
+
+					.gigabytesMoreDiv {
+						display: flex;
+						justify-content: flex-start;
+						align-items: flex-start;
+						gap: 3px;
+
+						p {
+							color: #2c68f5;
+							cursor: pointer;
+
+							@media (max-width: 827.2px) {
+								font-size: clamp(0.5rem, 4vw, 0.8rem);
+							}
+						}
+
+						img {
+							margin-top: 1px;
+							cursor: pointer;
+						}
+					}
+
+					.moreGbDiv {
+						display: flex;
+						justify-content: flex-start;
+						align-items: flex-start;
+						gap: 1%;
+						cursor: pointer;
+
+						p {
+							font-size: clamp(0.5rem, 4vw, 0.8rem);
+							font-weight: 600;
+							color: rgba(56, 66, 85, 1);
+
+							@media (max-width: 827.2px) {
+								font-size: clamp(0.5rem, 4vw, 0.7rem);
+							}
+						}
+
+						svg {
+							cursor: pointer;
+						}
+
+						img {
+							cursor: pointer;
+							margin-top: 5px;
+						}
+					}
+
+					.moreGb {
+						display: flex;
+						justify-content: flex-start;
+						align-items: flex-start;
+						gap: 5px;
+
+						p {
+							color: rgba(41, 41, 41, 1);
+							margin-top: 1px;
+							margin-right: 6px;
+
+							@media (max-width: 827.2px) {
+								font-size: clamp(0.5rem, 4vw, 0.7rem);
+								margin-top: 3px;
+							}
+						}
+
+						span {
+							color: #a7abb1;
+							font-weight: 300;
+							font-size: clamp(0.5rem, 4vw, 0.8rem);
+						}
+
+						input[type='checkbox'] {
+							cursor: pointer;
+							opacity: 0;
+							position: absolute;
+						}
+
+						label {
+							display: flex;
+							cursor: pointer;
+						}
+
+						label::before {
+							content: '';
+							width: 1em;
+							height: 1em;
+							border-radius: 0.15em;
+							margin-right: 0.5em;
+							border: 0.05em solid #909cb5;
+						}
+
+						input[type='checkbox']:hover + label::before {
+							transition: 0.5s;
+							background-color: #e3e2e2;
+						}
+
+						input[type='checkbox']:checked + label::before {
+							content: '✓';
+							background-color: #cb11ab;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							color: #fff;
+						}
+					}
+				}
+			}
+
+			.divRight {
+				.showButtons {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					margin-top: 35px;
+
+					.moreButton {
+						background-color: transparent;
+						border: 1px solid #cb11ab;
+						color: #cb11ab;
+						border-radius: 4px;
+						font-weight: 600;
+						font-size: clamp(0.5rem, 4vw, 0.9rem);
+						padding: 10px 80px;
+						cursor: pointer;
+					}
+				}
+				// !cc dffvvd
+				.filterDiv {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					@media (max-width: 910px) {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+					}
+					.categoriesRight {
+						display: flex;
+						flex-wrap: wrap;
+						gap: 4px;
+
+						.category_right {
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							background-color: #e8e8e8;
+							padding: 5px 15px 5px 10px;
+							border-radius: 6px;
+							border: 1px solid #cdcdcd;
+
+							svg {
+								cursor: pointer;
+							}
+						}
+					}
+				}
+
+				@media (max-width: 672px) {
+					.cardss {
+						display: flex;
+						flex-direction: column;
+					}
+				}
+
+				@media (max-width: 827.2px) {
+					.cardss {
+						.cards {
+							.card {
+								width: 250px;
+
+								.middle_card {
+									h3 {
+										font-size: 13px;
+									}
+								}
+
+								.bottom_card {
+									.phone_prices {
+										margin-left: 4px;
+
+										.phone_price {
+											font-size: 13px;
+											font-weight: 700;
+										}
+
+										.phone_old_price {
+											margin-top: 2px;
+											font-size: 11px;
+											color: #909cb5;
+											text-decoration: line-through;
+										}
+									}
+
+									.bottom_cart {
+										display: flex;
+										justify-content: center;
+										align-items: center;
+										gap: 4px;
+										background-color: #cb11ab;
+										padding: 7px;
+										border-radius: 6px;
+										cursor: pointer;
+
+										p {
+											color: #fff;
+											font-size: 10px;
+											text-transform: uppercase;
+											letter-spacing: 1px;
+										}
+
+										svg {
+											color: #fff;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			.cardss {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 10px;
+
+				.cards {
+					.card {
+						display: flex;
+						flex-direction: column;
+						background-color: #ffffff;
+						padding: 10px 10px 25px 10px;
+						width: 275px;
+						border-radius: 8px;
+						transition: box-shadow 0.3s ease;
+						cursor: pointer;
+
+						&:hover {
+							box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+						}
+
+						.top_card {
+							display: flex;
+							justify-content: space-between;
+							height: 32px;
+
+							p {
+								font-size: 12px;
+								font-weight: 700;
+								color: #fff;
+								background-color: #f53b49;
+								border-radius: 100%;
+								display: flex;
+								align-items: center;
+								padding: 9px 0 9px 0;
+							}
+
+							.top_icons {
+								display: flex;
+								gap: 10px;
+
+								svg {
+									color: #aab1bf;
+									transition: 0.3s;
+
+									&:hover {
+										color: #ca11aa;
+									}
+								}
+							}
+						}
+
+						.middle_image_card {
+							display: flex;
+							justify-content: center;
+
+							img {
+								width: 80%;
+							}
+						}
+
+						.middle_card {
+							display: flex;
+							flex-direction: column;
+
+							.phone_quantity {
+								color: #2fc409;
+								font-weight: 500;
+								font-size: 11px;
+								margin-top: 20px;
+							}
+
+							h3 {
+								margin-top: 8px;
+								font-weight: 600;
+								font-size: 16px;
+							}
+
+							.phone_rating {
+								display: flex;
+								justify-content: flex-start;
+								align-items: center;
+								gap: 5px;
+								margin-top: 9px;
+
+								.rating_stars {
+									display: flex;
+									gap: 1px;
+								}
+
+								p {
+									color: #8e9ab3;
+									font-size: 11px;
+								}
+							}
+						}
+
+						.bottom_card {
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							margin-top: 18px;
+
+							.phone_prices {
+								display: flex;
+								flex-direction: column;
+								margin-left: 10px;
+
+								.phone_price {
+									font-size: 17px;
+									font-weight: 700;
+								}
+
+								.phone_old_price {
+									margin-top: 2px;
+									font-size: 14px;
+									color: #909cb5;
+									text-decoration: line-through;
+								}
+							}
+
+							.bottom_cart {
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								gap: 3px;
+								background-color: #cb11ab;
+								padding: 12px;
+								border-radius: 6px;
+								cursor: pointer;
+
+								p {
+									color: #fff;
+									font-size: 14px;
+									text-transform: uppercase;
+									letter-spacing: 1px;
+								}
+
+								svg {
+									color: #fff;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }

@@ -17,7 +17,7 @@ const Catalog = () => {
   const [priceLow, setPriceLow] = useState<string>("")
   const [priceHigh, setPriceHigh] = useState("")
   const { data: posts } = useGetPhonesQuery(0)
-  const categoryArray: any[] = []
+  const categoryArray: string[] = []
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
   const [reduceOne, setReduceOne] = useState(false)
@@ -65,7 +65,7 @@ const Catalog = () => {
           <p className={scss.navigationP} onClick={() => navigate("/")}>Главная » <h3>Смартфоны</h3></p>
           <div className={scss.divHeading}>
             <h3>Cмартфоны</h3>
-            <div></div>
+            <span></span>
           </div>
 
           <div className={scss.divGlobal}>
