@@ -81,7 +81,6 @@ const Catalog = () => {
                       <p>Категория</p>
                       <img src={arrowDown} alt="ArrowDown" onClick={() => setReduceOne(false)} />
                     </div>
-
                   </div>
                 ) : (
                   <div>
@@ -89,7 +88,6 @@ const Catalog = () => {
                       <p>Категория</p>
                       <img src={arrow} alt="ArrowTop" onClick={() => setReduceOne(true)} />
                     </div>
-
                     <div className={scss.categoriesDiv}>
                       {phoneCatalog.map((e, index) => (
                         <div className={scss.categories} key={index}>
