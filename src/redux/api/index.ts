@@ -8,7 +8,7 @@ const baseQuery = fetchBaseQuery({
 	baseUrl: import.meta.env.VITE_PRODUCT_URL
 	// prepareHeaders: (headers) => {
 	// 	return headers;
-	// },
+	// },	
 	// credentials: 'include'
 });
 

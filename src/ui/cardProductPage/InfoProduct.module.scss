@@ -1,0 +1,90 @@
+.ContainerInfoProduct {
+	width: 100%;
+	height: auto;
+	background: rgb(255, 255, 255);
+	// background-color: rgba(0, 0, 0, 0.368);
+	.content {
+		padding-block: 57px;
+		display: flex;
+		flex-direction: column;
+		gap: 54px;
+		@media (max-width: 555px) {
+			padding-block: 20px;
+		}
+		.navbar_product_info_buttons {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			@media (max-width: 768px) {
+				flex-wrap: wrap;
+				gap: 8px;
+			}
+			nav {
+				display: flex;
+				align-items: center;
+				gap: 49px;
+				@media (max-width: 900px) {
+					gap: 35px;
+				}
+				@media (max-width: 786px) {
+					gap: 30px;
+				}
+				@media (max-width: 532px) {
+					gap: 15px;
+					// flex-wrap: wrap;
+				}
+				@media (max-width: 504px) {
+					flex-direction: column;
+					gap: 6px;
+					align-items: start;
+				}
+				ul {
+					display: flex;
+					flex-direction: column;
+          cursor: pointer;
+					gap: 5px;
+					@media (max-width: 475px) {
+						align-items: start;
+					}
+					.nooActive {
+						color: rgb(41, 41, 41);
+						font-size: clamp(10px, 5vw, 18px);
+						&.active {
+							color: rgb(203, 17, 171);
+							font-size: clamp(10px, 5vw, 18px);
+						}
+					}
+					.nooActiveDiv {
+						min-width: 0;
+						height: 1px;
+						overflow: hidden;
+						transition: max-height 1s ease;
+						animation: fade 1s ease-in-out;
+						&.activeDiv {
+              transition: all 1s ease;
+							min-width: 75px;
+							animation: fade 1s ease-in-out;
+							background: rgb(203, 17, 171);
+						}
+					}
+				}
+			}
+			.document_content_div {
+				display: flex;
+				align-items: center;
+				gap: 11px;
+			}
+		}
+	}
+}
+
+@keyframes fade {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
