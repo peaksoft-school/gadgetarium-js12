@@ -1,4 +1,4 @@
-import Catalog from "./catalogSections/phoneSection/Catalog"
+import Catalog from "./catalogPhones/Catalog"
 
 const CatalogPage = () => {
   return (

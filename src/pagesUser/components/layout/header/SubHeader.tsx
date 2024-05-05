@@ -1,12 +1,11 @@
 import scss from './SubHeader.module.scss';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { IconGadgetarium } from '@/src/assets/icons';
 import {
 	IconBrandFacebook,
 	IconBrandInstagram,
 	IconBrandWhatsapp,
-	IconGridDots,
 	IconHeart,
 	IconScale,
 	IconShoppingCart
@@ -23,7 +22,6 @@ interface SubHeaderProps {
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
 	console.log(info?.source, value);
 const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
-	const [isHover, setIsHover] = useState(false);
 	return (
 		<header
 			className={
@@ -40,15 +38,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 								</Link>
 							</>
 						)}
-						<button
-							className={scss.catalog}
-							onClick={() => setIsHover(!isHover)}
-							onMouseEnter={() => <CatalogMenu />}
-						>
-							<IconGridDots />
-							Каталог
-						</button>
-
+						<CatalogMenu />
 						<span className={scss.hr_line}></span>
 						<Input.Search
 							className={scss.search}

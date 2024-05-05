@@ -15,6 +15,7 @@ import CatalogPage from '../pages/CatalogPage.tsx';
 import BasketPage from '../pages/BasketPage.tsx';
 import ComparisonPage from '../pages/ComparisonPage.tsx';
 import FavoritePage from '../pages/FavoritePage.tsx';
+import PayPage from '@/src/pagesUser/components/pages/PayPage.tsx';
 
 const LayoutUser = () => {
 	const { pathname } = useLocation();
@@ -85,6 +86,7 @@ const LayoutUser = () => {
 						<Route path="/comparison" element={<ComparisonPage />} />
 						<Route path="/favorite" element={<FavoritePage />} />
 						<Route path="/basket" element={<BasketPage />} />
+						<Route path="/pay/*" element={<PayPage />} />
 					</Routes>
 				</main>
 				<Footer />
