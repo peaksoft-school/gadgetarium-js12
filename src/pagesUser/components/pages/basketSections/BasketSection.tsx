@@ -15,9 +15,9 @@ import { Button, Checkbox, Rate } from 'antd';
 import { useEffect, useState } from 'react';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 type OrderPrice = {
-	NumberOfGoods: string | number;
-	YourDiscount: string | number;
-	Sum: string | number;
+	NumberOfGoods: number;
+	YourDiscount: number;
+	Sum: number;
 	Total: number;
 };
 interface ProductType {
@@ -37,13 +37,22 @@ interface ProductType {
 	orderPrice: OrderPrice;
 	isChecked: boolean;
 }
+interface PRICE {
+	yourDiscount: number;
+	total: number;
+	sumProducts: number;
+	numberOfGoods: number;
+}
 const BasketSection = () => {
 	const [basketDeleteProduct] = useBasketPutProductMutation();
 	const [favoriteAddProduct] = useFavoritePutProductMutation();
 	const navigate = useNavigate();
-	const [checkboxIsResult, setCheckboxIsResult] = useState<boolean>(false);
+	const [checkboxIsResult, setCheckboxIsResult] = useState<number[]>([]);
 	const [allProductItemId, setAllProductItemId] = useState<any>();
 	const [basketProductAllDelete] = useBasketProductDeleteAllMutation();
+	// const arrayResultPricesIsProducts: PRICE[] = [];
+	const [arrayResultPricesIsProducts, setArrayResultPricesIsProducts] =
+		useState<PRICE[]>([]);
 	const { data } = useGetBasketQuery();
 	const handleBasketProductDelete = async (id: number, isInBasket: boolean) => {
 		await basketDeleteProduct({ id, isInBasket: !isInBasket });
@@ -65,9 +74,48 @@ const BasketSection = () => {
 			setAllProductItemId(sum);
 		}
 	};
-	useEffect(() => {
-		
-	}, []);
+
+	const handleProductItem = (item: ProductType, id: number) => {
+		let yourDiscount = item.orderPrice.YourDiscount;
+		console.log(item);
+		console.log(yourDiscount);
+
+		let totalResult = item.orderPrice.Total;
+		let sumProducts = item.orderPrice.Sum;
+		let numberOfGoods = item.orderPrice.NumberOfGoods;
+		if (checkboxIsResult.includes(id)) {
+			setCheckboxIsResult(checkboxIsResult.filter((el) => el !== id));
+			if (checkboxIsResult.includes(id)) {
+				// arrayResultPricesIsProducts.pop();
+				setArrayResultPricesIsProducts([]);
+				console.log(arrayResultPricesIsProducts, 'text');
+			}
+		} else {
+			setCheckboxIsResult([...checkboxIsResult, id]);
+			if (checkboxIsResult.some((el) => el !== id)) {
+				setArrayResultPricesIsProducts([
+					totalResult,
+					sumProducts,
+					yourDiscount,
+					numberOfGoods
+				]);
+				console.log(arrayResultPricesIsProducts, 'esen');
+			}
+		}
+	};
+	const handleAllProducts = () => {
+		const resultId = data?.map((el) => el.id);
+		console.log(resultId);
+
+		if (checkboxIsResult.includes(2)) {
+			setCheckboxIsResult([]);
+			console.log('test');
+		} else {
+			setCheckboxIsResult([1, 2, 3, 4, 5, 6, 7]);
+			console.log('esen');
+		}
+	};
+	useEffect(() => {}, []);
 
 	return (
 		<div className={scss.BasketSection}>
@@ -98,10 +146,9 @@ const BasketSection = () => {
 								<div className={scss.button_is_basket_results_div}>
 									{/* <input type="checkbox" /> */}
 									<Checkbox
-										onClick={() => handleAllProductItemId()}
 										// onChange={onChange}
-										checked={checkboxIsResult ? true : false}
-									
+										onChange={() => handleAllProducts()}
+										onClick={() => handleAllProducts()}
 									></Checkbox>
 									<p>Отметить все</p>
 								</div>
@@ -128,7 +175,15 @@ const BasketSection = () => {
 									{data?.map((item, index) => (
 										<div key={item.id} className={scss.basket_product_content}>
 											<Checkbox
-												
+												onChange={() => {
+													handleProductItem(item, item.id);
+												}}
+												onClick={() => {
+													handleProductItem(item, item.id);
+												}}
+												checked={
+													checkboxIsResult.includes(item.id) ? true : false
+												}
 											></Checkbox>
 											<div className={scss.content_product_div}>
 												<div className={scss.contents_product}>
@@ -232,7 +287,10 @@ const BasketSection = () => {
 											</div>
 											<div className={scss.price_result_product_div}>
 												<h3>Итого</h3>
-												<p>{allProductItemId}</p>
+												{/* <p>{allProductItemId}</p> */}
+												{arrayResultPricesIsProducts.map((item, index) => (
+													<p key={index}>{item.sumProducts}</p>
+												))}
 											</div>
 										</div>
 										<Button
