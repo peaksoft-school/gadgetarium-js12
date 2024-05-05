@@ -21,7 +21,7 @@ const api = index.injectEndpoints({
 	endpoints: (build) => ({
 		getPhones: build.query<IPhone[], number>({
 			query: () => ({
-				url: 'https://api.elchocrud.pro/api/v1/d3988f845a72a4ed787386c7ac879e78/products',
+				url: 'https://76de117aa07ffb38.mokky.dev/filterProduct',
 				method: 'GET'
 			}),
 			providesTags: ['phones']

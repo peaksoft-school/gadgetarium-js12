@@ -37,12 +37,6 @@ interface ProductType {
 	orderPrice: OrderPrice;
 	isChecked: boolean;
 }
-interface PRICE {
-	yourDiscount: number;
-	total: number;
-	sumProducts: number;
-	numberOfGoods: number;
-}
 const BasketSection = () => {
 	const [basketDeleteProduct] = useBasketPutProductMutation();
 	const [favoriteAddProduct] = useFavoritePutProductMutation();
@@ -51,17 +45,12 @@ const BasketSection = () => {
 	const [allProductItemId, setAllProductItemId] = useState<any>();
 	const [basketProductAllDelete] = useBasketProductDeleteAllMutation();
 	// const arrayResultPricesIsProducts: PRICE[] = [];
-	const [arrayResultPricesIsProducts, setArrayResultPricesIsProducts] =
-		useState<PRICE[]>([]);
 	const { data } = useGetBasketQuery();
 	const handleBasketProductDelete = async (id: number, isInBasket: boolean) => {
 		await basketDeleteProduct({ id, isInBasket: !isInBasket });
 	};
 	const handleFavoriteAddProduct = async (id: number, isFavorite: boolean) => {
 		await favoriteAddProduct({ id, isFavorite: !isFavorite });
-	};
-	const handleBasketProductAllDelete = async (isInBasket: boolean) => {
-		await basketProductAllDelete({ isInBasket });
 	};
 
 	const handleAllProductItemId = () => {
@@ -75,45 +64,59 @@ const BasketSection = () => {
 		}
 	};
 
-	const handleProductItem = (item: ProductType, id: number) => {
-		let yourDiscount = item.orderPrice.YourDiscount;
-		console.log(item);
-		console.log(yourDiscount);
-
-		let totalResult = item.orderPrice.Total;
-		let sumProducts = item.orderPrice.Sum;
-		let numberOfGoods = item.orderPrice.NumberOfGoods;
-		if (checkboxIsResult.includes(id)) {
-			setCheckboxIsResult(checkboxIsResult.filter((el) => el !== id));
-			if (checkboxIsResult.includes(id)) {
-				// arrayResultPricesIsProducts.pop();
-				setArrayResultPricesIsProducts([]);
-				console.log(arrayResultPricesIsProducts, 'text');
+	const handleAllProducts = async (ids: number[]) => {
+		// const id = data?.map((el) => el.id);
+		const Sum = data?.reduce((acc, item) => {
+			const orderPrice = item.orderPrice;
+			if (orderPrice) {
+				const sum =
+					typeof orderPrice.Sum === 'number'
+						? orderPrice.Sum
+						: parseFloat(orderPrice.Sum);
+				return acc + (isNaN(sum) ? 0 : sum);
 			}
-		} else {
-			setCheckboxIsResult([...checkboxIsResult, id]);
-			if (checkboxIsResult.some((el) => el !== id)) {
-				setArrayResultPricesIsProducts([
-					totalResult,
-					sumProducts,
-					yourDiscount,
-					numberOfGoods
-				]);
-				console.log(arrayResultPricesIsProducts, 'esen');
+			return acc;
+		}, 0);
+		const NumberOfGoods = data?.reduce((acc, item) => {
+			const orderPrice = item.orderPrice;
+			if (orderPrice) {
+				const numberOfGoods =
+					typeof orderPrice.NumberOfGoods === 'number'
+						? orderPrice.NumberOfGoods
+						: parseFloat(orderPrice.NumberOfGoods);
+				return acc + (isNaN(numberOfGoods) ? 0 : numberOfGoods);
 			}
-		}
-	};
-	const handleAllProducts = () => {
-		const resultId = data?.map((el) => el.id);
-		console.log(resultId);
-
-		if (checkboxIsResult.includes(2)) {
-			setCheckboxIsResult([]);
-			console.log('test');
-		} else {
-			setCheckboxIsResult([1, 2, 3, 4, 5, 6, 7]);
-			console.log('esen');
-		}
+			return acc;
+		}, 0);
+		const YourDiscount = data?.reduce((acc, item) => {
+			const orderPrice = item.orderPrice;
+			if (orderPrice) {
+				const yourDiscount =
+					typeof orderPrice.YourDiscount === 'number'
+						? orderPrice.YourDiscount
+						: parseFloat(orderPrice.YourDiscount);
+				return acc + (isNaN(yourDiscount) ? 0 : yourDiscount);
+			}
+			return acc;
+		}, 0);
+		const Total = data?.reduce((acc, item) => {
+			const orderPrice = item.orderPrice;
+			if (orderPrice) {
+				const total =
+					typeof orderPrice.Total === 'number'
+						? orderPrice.Total
+						: parseFloat(orderPrice.Total);
+				return acc + (isNaN(total) ? 0 : total);
+			}
+			return acc;
+		}, 0);
+		await basketProductAllDelete({
+			id: ids,
+			Sum,
+			NumberOfGoods,
+			YourDiscount,
+			Total
+		});
 	};
 	useEffect(() => {}, []);
 
@@ -147,15 +150,13 @@ const BasketSection = () => {
 									{/* <input type="checkbox" /> */}
 									<Checkbox
 										// onChange={onChange}
-										onChange={() => handleAllProducts()}
-										onClick={() => handleAllProducts()}
+										style={{ position: 'relative', left: '15rem' }}
+										onChange={() => handleAllProducts(data?.map((el) => el.id) || [])}
+										onClick={() => handleAllProducts(data?.map((el) => el.id) || [])}
 									></Checkbox>
 									<p>Отметить все</p>
 								</div>
-								<div
-									onClick={() => handleBasketProductAllDelete(false)}
-									className={scss.button_is_basket_results_div}
-								>
+								<div className={scss.button_is_basket_results_div}>
 									<IconCardonDelete />
 									<p>Удалить</p>
 								</div>
@@ -174,17 +175,7 @@ const BasketSection = () => {
 								<div className={scss.container_basket_product}>
 									{data?.map((item, index) => (
 										<div key={item.id} className={scss.basket_product_content}>
-											<Checkbox
-												onChange={() => {
-													handleProductItem(item, item.id);
-												}}
-												onClick={() => {
-													handleProductItem(item, item.id);
-												}}
-												checked={
-													checkboxIsResult.includes(item.id) ? true : false
-												}
-											></Checkbox>
+											<Checkbox></Checkbox>
 											<div className={scss.content_product_div}>
 												<div className={scss.contents_product}>
 													<img src={item.image} alt={item.productName} />
@@ -288,9 +279,6 @@ const BasketSection = () => {
 											<div className={scss.price_result_product_div}>
 												<h3>Итого</h3>
 												{/* <p>{allProductItemId}</p> */}
-												{arrayResultPricesIsProducts.map((item, index) => (
-													<p key={index}>{item.sumProducts}</p>
-												))}
 											</div>
 										</div>
 										<Button
