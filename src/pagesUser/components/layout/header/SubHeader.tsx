@@ -6,13 +6,13 @@ import {
 	IconBrandFacebook,
 	IconBrandInstagram,
 	IconBrandWhatsapp,
-	IconGridDots,
 	IconHeart,
 	IconScale,
 	IconShoppingCart
 } from '@tabler/icons-react';
 import { Input } from 'antd';
 import { SearchProps } from 'antd/es/input';
+import CatalogMenu from '@/src/ui/catalogMenu/CatalogMenu';
 
 interface SubHeaderProps {
 	isMobile: boolean;
@@ -38,10 +38,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 								</Link>
 							</>
 						)}
-						<button className={scss.catalog}>
-							<IconGridDots />
-							Каталог
-						</button>
+						<CatalogMenu />
 						<span className={scss.hr_line}></span>
 						<Input.Search
 							className={scss.search}
