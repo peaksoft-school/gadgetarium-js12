@@ -1,0 +1,499 @@
+.history {
+  width: 100%;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    padding-top: 49.6px;
+    padding-bottom: 104px;
+    gap: 107.2px;
+
+
+    @media (max-width: 1100px) {
+      padding-top: 32px;
+      padding-bottom: 64px;
+      gap: 64px;
+    }
+
+    @media (max-width: 650px) {
+      padding-top: 24px;
+      padding-bottom: 35px;
+      gap: 48px;
+    }
+
+    .pages {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+
+      .page_content_1 {
+        display: flex;
+        flex-direction: column;
+        gap: 28.8px;
+
+        .navigation_p {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          color: rgb(145, 150, 158);
+          font-size: clamp(0.5rem, 4vw, 0.8rem);
+          cursor: pointer;
+
+          h3 {
+            color: #292929;
+            font-weight: 400;
+            font-size: clamp(0.5rem, 4vw, 0.8rem);
+          }
+        }
+
+        .div_heading {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+
+          @media (max-width: 700px) {
+            gap: 11.2px;
+          }
+
+          h3 {
+            color: rgb(41, 41, 41);
+            font-size: clamp(1.4rem, 5vw, 1.7rem);
+          }
+
+          div {
+            width: 100%;
+            height: 1px;
+            border: 1px solid rgb(205, 205, 205);
+
+            @media (max-width: 700px) {
+              height: 0.5px;
+              border: 0.5px solid rgb(205, 205, 205);
+            }
+          }
+        }
+
+        .div_navigation {
+          display: flex;
+          gap: 250px;
+
+          @media (max-width: 849.60px) {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+          }
+
+          .navigation {
+            display: flex;
+            gap: 10px;
+
+            button {
+              background-color: #E0E2E7;
+              color: #384255;
+              font-weight: 600;
+              padding: 7px 15px;
+              border-radius: 4px;
+              border: none;
+              transition: 0.3s;
+              cursor: pointer;
+
+              @media (max-width: 424px) {
+                padding: 7px 10px;
+                font-size: clamp(0.5rem, 4vw, 0.6rem);
+              }
+
+              @media (max-width: 321.60px) {
+                padding: 7px 10px;
+                font-size: clamp(0.4rem, 4vw, 0.5rem);
+              }
+
+              &:hover {
+                background-color: #d3d4d6;
+              }
+            }
+
+            .active_button {
+              background-color: #384255;
+              color: #ffffff;
+              font-weight: 600;
+              padding: 7px 15px;
+              border-radius: 4px;
+              border: none;
+              transition: 0.3s;
+              cursor: pointer;
+
+              &:hover {
+                background-color: #384255;
+              }
+            }
+          }
+
+          .clear {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3px;
+
+            @media (max-width: 849.60px) {
+              display: flex;
+              align-self: start;
+            }
+
+            cursor: pointer;
+
+            svg {
+              height: 15px;
+              width: 15px;
+            }
+
+            p {
+              font-size: clamp(0.6rem, 4vw, 0.8rem);
+            }
+          }
+        }
+
+        .div_navigation_two {
+          display: flex;
+          justify-content: space-between;
+          align-items: start;
+
+          @media (max-width: 608px) {
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            gap: 15px;
+          }
+
+          .account {
+            display: flex;
+            align-self: flex-end;
+            gap: 3px;
+            flex-direction: column;
+
+            @media (max-width: 608px) {
+              display: flex;
+              flex-direction: column;
+              align-self: start;
+            }
+
+            h3 {
+              width: 100%;
+              max-width: 10px;
+              color: #384255;
+              font-weight: 600;
+              font-size: clamp(0.5rem, 5vw, 1rem);
+
+              @media (max-width: 608px) {
+                font-size: clamp(0.5rem, 5vw, 0.8rem);
+              }
+            }
+
+            .account_email {
+              color: #384255;
+              font-size: clamp(0.5rem, 5vw, 0.8rem);
+
+              @media (max-width: 608px) {
+                font-size: clamp(0.5rem, 5vw, 0.6rem);
+              }
+            }
+
+            .account_phone {
+              color: #384255;
+              font-size: clamp(0.5rem, 5vw, 0.8rem);
+
+              @media (max-width: 608px) {
+                font-size: clamp(0.5rem, 5vw, 0.6rem);
+              }
+            }
+
+            .account_leave {
+              color: #2C68F5;
+              font-size: clamp(0.5rem, 5vw, 0.8rem);
+              font-weight: 700;
+              cursor: pointer;
+
+              @media (max-width: 608px) {
+                font-size: clamp(0.5rem, 5vw, 0.7rem);
+              }
+            }
+          }
+
+          .navigation {
+            display: flex;
+            gap: 10px;
+
+            button {
+              background-color: #E0E2E7;
+              color: #384255;
+              font-weight: 600;
+              padding: 7px 15px;
+              border-radius: 4px;
+              border: none;
+              transition: 0.3s;
+              cursor: pointer;
+
+              @media (max-width: 424px) {
+                padding: 7px 10px;
+                font-size: clamp(0.5rem, 4vw, 0.6rem);
+              }
+
+              @media (max-width: 321.60px) {
+                padding: 7px 10px;
+                font-size: clamp(0.4rem, 4vw, 0.5rem);
+              }
+
+              &:hover {
+                background-color: #d3d4d6;
+              }
+            }
+
+            .active_button {
+              background-color: #384255;
+              color: #ffffff;
+              font-weight: 600;
+              padding: 7px 15px;
+              border-radius: 4px;
+              border: none;
+              transition: 0.3s;
+              cursor: pointer;
+
+              &:hover {
+                background-color: #384255;
+              }
+            }
+          }
+
+          .clear {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3px;
+            cursor: pointer;
+
+            svg {
+              height: 15px;
+              width: 15px;
+            }
+
+            p {
+              font-size: clamp(0.6rem, 4vw, 0.8rem);
+            }
+          }
+        }
+      }
+
+      .page_content_2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        img {
+          width: 100%;
+          max-width: 400px;
+
+          @media (max-width: 440px) {
+            margin-top: 30px;
+          }
+        }
+
+        .image_text {
+          margin-top: 30px;
+          margin-bottom: 30px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          gap: 25px;
+
+          h2 {
+            font-size: clamp(14px, 7vw, 24px);
+            font-weight: 500;
+          }
+
+          p {
+            font-size: clamp(12px, 7vw, 18px);
+            font-weight: 400;
+          }
+
+          button {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 5px;
+            background: #cb11ab;
+            font-size: 16px;
+            font-weight: 500;
+
+            cursor: pointer;
+          }
+        }
+
+      }
+
+      .page_content_3 {
+        .orders {
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 20px;
+
+          .order {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            min-width: 675px;
+            border: 2px solid #E8E8E8;
+            border-top: 0;
+            border-left: 0;
+            border-right: 0;
+            padding: 0 0 10px 0;
+
+            @media (max-width: 735.20px) {
+              width: 100%;
+              min-width: 517px;
+            }
+
+            @media (max-width: 555.20px) {
+              width: 100%;
+              min-width: 350px;
+            }
+
+            @media (max-width: 392px) {
+              width: 100%;
+              min-width: 280px;
+            }
+
+            .order_information {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              gap: 50px;
+
+              @media (max-width: 555.20px) {
+                gap: 15px;
+              }
+
+              .order_date {
+                color: #000000;
+                font-size: clamp(0.7rem, 7vw, 0.8rem);
+
+                @media (max-width: 555.20px) {
+                  font-size: clamp(0.7rem, 7vw, 0.6rem);
+                }
+
+                @media (max-width: 448px) {
+                  font-size: clamp(0.5rem, 7vw, 0.5rem);
+                }
+              }
+
+              .order_number {
+                color: #000000;
+                font-size: clamp(0.9rem, 4vw, 0.6rem);
+                font-weight: 700;
+
+                @media (max-width: 555.20px) {
+                  font-size: clamp(0.7rem, 7vw, 0.6rem);
+                }
+
+                @media (max-width: 448px) {
+                  font-size: clamp(0.5rem, 7vw, 0.5rem);
+                }
+              }
+
+              .order_delivered {
+                font-size: clamp(0.7rem, 4vw, 0.8em);
+                color: #299A0D;
+
+                @media (max-width: 555.20px) {
+                  position: relative;
+                  top: -2px;
+                  font-size: clamp(0.7rem, 7vw, 0.6rem);
+                }
+
+                @media (max-width: 448px) {
+                  font-size: clamp(0.5rem, 7vw, 0.5rem);
+                  position: relative;
+                  top: -3px;
+                }
+              }
+
+              .order_cancelled {
+                font-size: clamp(0.7rem, 4vw, 0.8em);
+                color: #E43744;
+
+                @media (max-width: 555.20px) {
+                  position: relative;
+                  top: -2px;
+                  font-size: clamp(0.7rem, 7vw, 0.6rem);
+                }
+
+                @media (max-width: 448px) {
+                  font-size: clamp(0.5rem, 7vw, 0.5rem);
+                  position: relative;
+                  top: -3px;
+                }
+              }
+
+              .order_processing {
+                font-size: clamp(0.7rem, 4vw, 0.8em);
+                color: #F99808;
+
+                @media (max-width: 555.20px) {
+                  position: relative;
+                  top: -2px;
+                  font-size: clamp(0.7rem, 7vw, 0.6rem);
+                }
+
+                @media (max-width: 448px) {
+                  font-size: clamp(0.5rem, 7vw, 0.5rem);
+                  position: relative;
+                  top: -3px;
+                }
+              }
+
+              .order_on_the_way {
+                font-size: clamp(0.7rem, 4vw, 0.8em);
+                color: #08A592;
+
+                @media (max-width: 555.20px) {
+                  position: relative;
+                  top: -2px;
+                  font-size: clamp(0.7rem, 7vw, 0.6rem);
+                }
+
+                @media (max-width: 448px) {
+                  font-size: clamp(0.5rem, 7vw, 0.5rem);
+                  position: relative;
+                  top: -3px;
+                }
+              }
+            }
+
+            .order_total {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              h3 {
+                color: #000000;
+                font-size: clamp(0.7rem, 4vw, 0.8em);
+                margin-right: 40px;
+
+                @media (max-width: 555.20px) {
+                  font-size: clamp(0.7rem, 7vw, 0.6rem);
+                }
+
+                @media (max-width: 448px) {
+                  font-size: clamp(0.5rem, 7vw, 0.6rem);
+             
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
