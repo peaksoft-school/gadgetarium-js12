@@ -1,0 +1,172 @@
+.ShippingAndPaymentPage {
+	padding-top: 84.8px;
+	padding-bottom: 62.4px;
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	gap: 70.4px;
+	@media (max-width: 1000px) {
+		padding-top: 56px;
+		padding-bottom: 32px;
+		gap: 48px;
+	}
+	@media (max-width: 710px) {
+		display: flex;
+		flex-direction: column;
+		align-items: start;
+	}
+	@media (max-width: 600px) {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		gap: 32px;
+	}
+	.shippingAndPayment_contents_div {
+		display: flex;
+		flex-direction: column;
+		align-items: start;
+		gap: 28px;
+		@media (max-width: 925px) {
+			gap: 18px;
+		}
+		h2 {
+			color: rgb(41, 41, 41);
+			font-size: clamp(15px, 5vw, 27.2px);
+		}
+		p {
+			color: rgb(41, 41, 41);
+			font-size: clamp(10px, 7vw, 18px);
+			h3 {
+				color: rgb(41, 41, 41);
+				font-size: clamp(10px, 7vw, 18px);
+			}
+		}
+		.contents_shipping {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			@media (max-width: 925px) {
+				gap: 8px;
+			}
+			.content_and_photo {
+				display: flex;
+				align-items: start;
+				gap: 48px;
+				@media (max-width: 925px) {
+					gap: 24px;
+					flex-wrap: wrap;
+				}
+				@media (max-width: 750px) {
+					flex-wrap: wrap;
+				}
+				@media (max-width: 500px) {
+					display: flex;
+					flex-direction: column;
+					align-items: start;
+				}
+				.cards_contents {
+					display: flex;
+					align-items: start;
+					gap: 10px;
+					@media (max-width: 600px) {
+						display: flex;
+						flex-direction: column;
+						align-items: start;
+					}
+					.texts {
+						display: flex;
+						flex-direction: column;
+						align-items: start;
+						h3 {
+							color: rgb(41, 41, 41);
+							font-size: clamp(10px, 4vw, 16px);
+						}
+						p {
+							color: rgb(41, 41, 41);
+							font-size: clamp(10px, 4vw, 16px);
+							width: 192px;
+						}
+					}
+				}
+				h2 {
+					color: rgb(26, 26, 37);
+					font-size: clamp(12px, 7vw, 20px);
+				}
+			}
+			.content_and_photo_content {
+				display: flex;
+				align-items: center;
+				// justify-content: space-around;
+				gap: 7rem;
+				@media (max-width: 710px) {
+					gap: 14px;
+					display: flex;
+					flex-direction: column;
+					align-items: start;
+				}
+				.content_Div {
+					display: flex;
+					align-items: center;
+					gap: 10px;
+					@media (max-width: 600px) {
+						gap: 5px;
+					}
+					p {
+						color: rgb(41, 41, 41);
+						font-size: clamp(10px, 4vw, 16px);
+					}
+				}
+			}
+		}
+		.shipping_and_payment_content {
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+			gap: 32px;
+			@media (max-width: 500px) {
+				align-items: center;
+			}
+			@media (max-width: 750px) {
+				gap: 16px;
+			}
+			h2 {
+				color: rgb(41, 41, 41);
+				font-size: clamp(12px, 8vw, 20px);
+			}
+			.content_and_photo_content {
+				display: flex;
+				align-items: center;
+				// justify-content: space-evenly;
+				gap: 52.8px;
+				@media (max-width: 750px) {
+					gap: 56px;
+				}
+				@media (max-width: 500px) {
+					display: flex;
+					flex-direction: column;
+					align-items: start;
+					gap: 10px;
+				}
+				.content_Div {
+					display: flex;
+					align-items: center;
+					gap: 11px;
+					@media (max-width: 600px) {
+						gap: 7px;
+					}
+					@media (max-width: 500px) {
+						gap: 3px;
+					}
+					.div_texts {
+						display: flex;
+						flex-direction: column;
+						align-items: start;
+						p {
+							color: rgb(41, 41, 41);
+							font-size: clamp(8px, 4vw, 16px);
+						}
+					}
+				}
+			}
+		}
+	}
+}
