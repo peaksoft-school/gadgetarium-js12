@@ -1,8 +1,8 @@
-/* eslint-disable prefer-const */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
 	useBasketProductDeleteAllMutation,
+	useBasketProductMutation,
+	useBasketProductResultQuantityMutation,
 	useBasketPutProductMutation,
 	useGetBasketQuery
 } from '@/src/redux/api/basket';
@@ -12,113 +12,119 @@ import { Link, useNavigate } from 'react-router-dom';
 import { IconCardonDelete, IconRedHeart } from '@/src/assets/icons';
 import { IconHeart, IconX } from '@tabler/icons-react';
 import { Button, Checkbox, Rate } from 'antd';
-import { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
-type OrderPrice = {
-	NumberOfGoods: number;
-	YourDiscount: number;
-	Sum: number;
-	Total: number;
+import type { InputNumberProps } from 'antd';
+import { InputNumber } from 'antd';
+
+const onChange: InputNumberProps['onChange'] = (value) => {
+	console.log('changed', value);
 };
-interface ProductType {
-	id: number;
-	image: string;
-	productName: string;
-	price: number;
-	quantity: number | string;
-	isFavorite: boolean;
-	isInBasket: boolean;
-	isComparison: boolean;
-	token: string;
-	Rating: string;
-	productCode: number;
-	buyProduct: string;
-	buyProductQuantity: number;
-	orderPrice: OrderPrice;
-	isChecked: boolean;
-}
+
 const BasketSection = () => {
 	const [basketDeleteProduct] = useBasketPutProductMutation();
+	const [basketProductResultQuantity] =
+		useBasketProductResultQuantityMutation();
 	const [favoriteAddProduct] = useFavoritePutProductMutation();
+	const [basketProduct] = useBasketProductMutation();
+	const [basketProductsAllId] = useBasketProductDeleteAllMutation();
 	const navigate = useNavigate();
-	const [checkboxIsResult, setCheckboxIsResult] = useState<number[]>([]);
-	const [allProductItemId, setAllProductItemId] = useState<any>();
-	const [basketProductAllDelete] = useBasketProductDeleteAllMutation();
-	// const arrayResultPricesIsProducts: PRICE[] = [];
+	const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
+	const [inputValueItemId, setInputValueItemId] = useState<number>();
+	const [selectAll, setSelectAll] = useState<boolean>(false);
+	const [inputValueQuantity, setInputValueQuantity] = useState<number>();
 	const { data } = useGetBasketQuery();
+
 	const handleBasketProductDelete = async (id: number, isInBasket: boolean) => {
 		await basketDeleteProduct({ id, isInBasket: !isInBasket });
 	};
+
 	const handleFavoriteAddProduct = async (id: number, isFavorite: boolean) => {
 		await favoriteAddProduct({ id, isFavorite: !isFavorite });
 	};
 
-	const handleAllProductItemId = () => {
-		if (data) {
-			const sum = data.reduce((acc, item) => {
-				const price =
-					typeof item.price === 'number' ? item.price : parseFloat(item.price);
-				return acc + (isNaN(price) ? 0 : price);
-			}, 0);
-			setAllProductItemId(sum);
+	const handleSelectProduct = async (
+		productId: number,
+		NumberOfGoods: number,
+		YourDiscount: number,
+		Sum: number,
+		Total: number
+	) => {
+		if (selectedProducts.includes(productId)) {
+			setSelectedProducts(selectedProducts.filter((id) => id !== productId));
+			await basketProduct({ id: null });
+		} else {
+			setSelectedProducts([...selectedProducts, productId]);
+			await basketProduct({
+				id: productId,
+				NumberOfGoods,
+				YourDiscount,
+				Sum,
+				Total
+			});
 		}
 	};
 
-	const handleAllProducts = async (ids: number[]) => {
-		// const id = data?.map((el) => el.id);
-		const Sum = data?.reduce((acc, item) => {
-			const orderPrice = item.orderPrice;
-			if (orderPrice) {
-				const sum =
-					typeof orderPrice.Sum === 'number'
-						? orderPrice.Sum
-						: parseFloat(orderPrice.Sum);
-				return acc + (isNaN(sum) ? 0 : sum);
-			}
-			return acc;
-		}, 0);
-		const NumberOfGoods = data?.reduce((acc, item) => {
-			const orderPrice = item.orderPrice;
-			if (orderPrice) {
-				const numberOfGoods =
-					typeof orderPrice.NumberOfGoods === 'number'
-						? orderPrice.NumberOfGoods
-						: parseFloat(orderPrice.NumberOfGoods);
-				return acc + (isNaN(numberOfGoods) ? 0 : numberOfGoods);
-			}
-			return acc;
-		}, 0);
-		const YourDiscount = data?.reduce((acc, item) => {
-			const orderPrice = item.orderPrice;
-			if (orderPrice) {
-				const yourDiscount =
-					typeof orderPrice.YourDiscount === 'number'
-						? orderPrice.YourDiscount
-						: parseFloat(orderPrice.YourDiscount);
-				return acc + (isNaN(yourDiscount) ? 0 : yourDiscount);
-			}
-			return acc;
-		}, 0);
-		const Total = data?.reduce((acc, item) => {
-			const orderPrice = item.orderPrice;
-			if (orderPrice) {
-				const total =
-					typeof orderPrice.Total === 'number'
-						? orderPrice.Total
-						: parseFloat(orderPrice.Total);
-				return acc + (isNaN(total) ? 0 : total);
-			}
-			return acc;
-		}, 0);
-		await basketProductAllDelete({
-			id: ids,
-			Sum,
+	const handleSelectAll = async (
+		id: number,
+		NumberOfGoods: number,
+		YourDiscount: number,
+		Total: number,
+		Sum: number
+	) => {
+		console.log(id);
+
+		if (selectAll) {
+			setSelectedProducts([]);
+			await basketProductsAllId({ id: null });
+		} else {
+			setSelectedProducts(data?.map((item) => item.id) || []);
+			await basketProductsAllId({
+				id: id,
+				NumberOfGoods,
+				YourDiscount,
+				Sum,
+				Total
+			});
+		}
+		setSelectAll(!selectAll);
+	};
+
+	const handleInputValueForProductQuantity = (value: number | null) => {
+		if (value !== null) {
+			setInputValueQuantity(value);
+		}
+		console.log(value);
+	};
+	// const handleInputValueForProductQuantity = (
+	// 	value: number | null,
+	// 	e: React.ChangeEvent<HTMLInputElement>
+	// ) => {
+	// 	if (value !== null) {
+	// 		setInputValueQuantity(parseInt(e.target.value));
+	// 	}
+	// };
+
+	const handleProductQuantityFunkForEnter = async (
+		id: number,
+		buyProductQuantity: number,
+		NumberOfGoods: number,
+		YourDiscount: number,
+		Total: number,
+		Sum: number
+	) => {
+		await basketProductResultQuantity({
+			id,
+			buyProductQuantity,
 			NumberOfGoods,
 			YourDiscount,
-			Total
+			Total,
+			Sum
 		});
 	};
-	useEffect(() => {}, []);
+
+	const allSelected = selectedProducts.length === (data?.length || 0);
+	const someSelected = selectedProducts.length > 0;
 
 	return (
 		<div className={scss.BasketSection}>
@@ -147,12 +153,20 @@ const BasketSection = () => {
 						<div className={scss.basket_product_container_div}>
 							<div className={scss.basket_product_result_div}>
 								<div className={scss.button_is_basket_results_div}>
-									{/* <input type="checkbox" /> */}
-									<Checkbox
-										// onChange={onChange}
-										style={{ position: 'relative', left: '15rem' }}
-										onChange={() => handleAllProducts(data?.map((el) => el.id) || [])}
-										onClick={() => handleAllProducts(data?.map((el) => el.id) || [])}
+									<Checkbox style={{position: 'relative', left: '15rem'}}
+										checked={allSelected}
+										indeterminate={someSelected && !allSelected}
+										onChange={() =>
+											data?.forEach((el) =>
+												handleSelectAll(
+													el.id,
+													el.orderPrice.NumberOfGoods,
+													el.orderPrice.YourDiscount,
+													el.orderPrice.Total,
+													el.orderPrice.Sum
+												)
+											)
+										}
 									></Checkbox>
 									<p>Отметить все</p>
 								</div>
@@ -164,10 +178,7 @@ const BasketSection = () => {
 									className={scss.button_is_basket_results_div}
 									onClick={() => navigate('/favorite')}
 								>
-									<>
-										<IconHeart color="rgb(144, 156, 181)" />
-									</>
-
+									<IconHeart color="rgb(144, 156, 181)" />
 									<p>Переместить в избранное</p>
 								</div>
 							</div>
@@ -175,7 +186,18 @@ const BasketSection = () => {
 								<div className={scss.container_basket_product}>
 									{data?.map((item, index) => (
 										<div key={item.id} className={scss.basket_product_content}>
-											<Checkbox></Checkbox>
+											<Checkbox
+												checked={selectedProducts.includes(item.id)}
+												onChange={() =>
+													handleSelectProduct(
+														item.id,
+														item.orderPrice.NumberOfGoods,
+														item.orderPrice.YourDiscount,
+														item.orderPrice.Sum,
+														item.orderPrice.Total
+													)
+												}
+											></Checkbox>
 											<div className={scss.content_product_div}>
 												<div className={scss.contents_product}>
 													<img src={item.image} alt={item.productName} />
@@ -198,7 +220,36 @@ const BasketSection = () => {
 															>
 																<div>
 																	<button>-</button>
-																	<span>{item.buyProductQuantity}</span>
+																	<InputNumber
+																		color="black"
+																		className={scss.input_number}
+																		min={1}
+																		max={100}
+																		defaultValue={item.buyProductQuantity}
+																		onChange={
+																			handleInputValueForProductQuantity
+																		}
+																		onClick={() => setInputValueItemId(item.id)}
+																		value={
+																			inputValueItemId !== item.id
+																				? inputValueQuantity
+																				: null
+																		}
+																		onKeyPress={(
+																			e: React.KeyboardEvent<HTMLInputElement>
+																		) => {
+																			if (e.key === 'Enter') {
+																				handleProductQuantityFunkForEnter(
+																					item.id,
+																					item.buyProductQuantity,
+																					item.orderPrice.NumberOfGoods,
+																					item.orderPrice.YourDiscount,
+																					item.orderPrice.Sum,
+																					item.orderPrice.Total
+																				);
+																			}
+																		}}
+																	/>
 																	<button>+</button>
 																</div>
 																<h3>{item.price}</h3>
@@ -206,10 +257,9 @@ const BasketSection = () => {
 														</div>
 														<div className={scss.div_product_code_and_buttons}>
 															<p>Код товара: {item.productCode}</p>
-															{item.isInBasket === true ? (
-																// <h1 onChange={handleCheckboxFalse}>Hello</h1>
+															{/* {item.isInBasket === true ? (
 																<input type="checkbox" />
-															) : null}
+															) : null} */}
 															<div className={scss.buttons_div}>
 																<div
 																	className={scss.div}
@@ -282,7 +332,7 @@ const BasketSection = () => {
 											</div>
 										</div>
 										<Button
-											onClick={() => navigate('')}
+											onClick={() => navigate('/pay/')}
 											className={scss.button}
 										>
 											Перейти к оформлению

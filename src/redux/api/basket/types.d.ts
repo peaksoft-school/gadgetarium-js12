@@ -27,14 +27,14 @@ namespace BASKETPRODUCTS {
 	}[];
 
 	type BasketProductsAllItemIdRequest = {
-		id: number | number[];
+		id: number | null;
 		NumberOfGoods?: number;
 		YourDiscount?: number;
 		Sum?: number;
 		Total?: number;
 	};
 	type BasketProductsAllItemIdResponse = {
-		id: number | number[];
+		id: number | null;
 		NumberOfGoods?: number;
 		YourDiscount?: number;
 		Sum?: number;
@@ -47,5 +47,39 @@ namespace BASKETPRODUCTS {
 	type PutProductResponse = {
 		id: number;
 		isInBasket: boolean;
+	};
+
+	type BasketProductRequest = {
+		id: number | null;
+		NumberOfGoods?: number;
+		YourDiscount?: number;
+		Sum?: number;
+		Total?: number;
+	};
+	type BasketProductResponse = {
+		id: number | null;
+		NumberOfGoods?: number;
+		YourDiscount?: number;
+		Sum?: number;
+		Total?: number;
+	};
+
+	type ProductQuantityRequest = {
+		id: number;
+		buyProductQuantity: number;
+		price?: number;
+		NumberOfGoods?: number;
+		YourDiscount?: number;
+		Sum?: number;
+		Total?: number;
+	};
+	type ProductQuantityResponse = {
+		id: number;
+		buyProductQuantity: number;
+		price?: number;
+		NumberOfGoods?: number;
+		YourDiscount?: number;
+		Sum?: number;
+		Total?: number;
 	};
 }

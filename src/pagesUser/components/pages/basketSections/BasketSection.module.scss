@@ -171,7 +171,20 @@
 														background: rgb(56, 66, 85);
 													}
 												}
-												span {
+												// span {
+												// 	color: rgb(144, 156, 181);
+												// 	font-size: clamp(10px, 4vw, 18px);
+												// }
+												.input_number {
+													// color: rgb(144, 156, 181);
+													color: black;
+													font-size: clamp(10px, 4vw, 18px);
+													background-color: transparent;
+													width: 68px;
+												}
+												.input_number::placeholder {
+													color: black;
+
 													color: rgb(144, 156, 181);
 													font-size: clamp(10px, 4vw, 18px);
 												}

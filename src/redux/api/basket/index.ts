@@ -33,6 +33,26 @@ const api = index.injectEndpoints({
 				body: { YourDiscount, Total, Sum, NumberOfGoods }
 			}),
 			invalidatesTags: ['basket']
+		}),
+		basketProduct: build.mutation<
+			BASKETPRODUCTS.BasketProductResponse,
+			BASKETPRODUCTS.BasketProductRequest
+		>({
+			query: ({ id }) => ({
+				url: `/${id}`,
+				method: 'PATCH'
+			}),
+			invalidatesTags: ['basket']
+		}),
+		basketProductResultQuantity: build.mutation<
+			BASKETPRODUCTS.ProductQuantityResponse,
+			BASKETPRODUCTS.ProductQuantityRequest
+		>({
+			query: ({ id,  }) => ({
+				url: `/${id}`,
+				method: 'PATCH'
+			}),
+			invalidatesTags: ['basket']
 		})
 	})
 });
@@ -40,5 +60,7 @@ const api = index.injectEndpoints({
 export const {
 	useGetBasketQuery,
 	useBasketPutProductMutation,
-	useBasketProductDeleteAllMutation
+	useBasketProductDeleteAllMutation,
+	useBasketProductMutation,
+	useBasketProductResultQuantityMutation
 } = api;
