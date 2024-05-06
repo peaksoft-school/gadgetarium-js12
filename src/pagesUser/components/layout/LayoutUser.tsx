@@ -17,6 +17,10 @@ import ComparisonPage from '../pages/ComparisonPage.tsx';
 import FavoritePage from '../pages/FavoritePage.tsx';
 import { ProductPage } from '../pages/ProductPage.tsx';
 import PayPage from '@/src/pagesUser/components/pages/PayPage.tsx';
+import Profile from '../pages/personalAccountSections/Profile.tsx';
+import Favorite from '../pages/personalAccountSections/Favorite.tsx';
+import HistoryOfOrders from '../pages/personalAccountSections/HistoryOfOrders.tsx';
+import HistorySinglePage from '../pages/personalAccountSections/HistorySinglePage.tsx';
 
 const LayoutUser = () => {
 	const { pathname } = useLocation();
@@ -93,6 +97,11 @@ const LayoutUser = () => {
 							element={<ProductPage />}
 						/>
 						<Route path="/pay/*" element={<PayPage />} />
+
+						<Route path="personal-account/profile" element={<Profile/>}/>
+						<Route path="personal-account/favorite" element={<Favorite/>}/>
+						<Route path="personal-account/history-of-orders" element={<HistoryOfOrders/>}/>
+						<Route path="personal-account/history-of-orders/my-orders/:id" element={<HistorySinglePage/>}></Route>
 					</Routes>
 				</main>
 				<Footer />
