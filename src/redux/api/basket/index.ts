@@ -48,9 +48,10 @@ const api = index.injectEndpoints({
 			BASKETPRODUCTS.ProductQuantityResponse,
 			BASKETPRODUCTS.ProductQuantityRequest
 		>({
-			query: ({ id,  }) => ({
+			query: ({ id, buyProductQuantity }) => ({
 				url: `/${id}`,
-				method: 'PATCH'
+				method: 'PATCH',
+				body: {buyProductQuantity}
 			}),
 			invalidatesTags: ['basket']
 		})

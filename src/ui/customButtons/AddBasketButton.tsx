@@ -4,7 +4,7 @@ import scss from './AddBasketButton.module.scss';
 interface AddBasketButtonProps {
 	children: ReactNode;
 	onClick?: MouseEventHandler<HTMLButtonElement>;
-	className: string;
+	className?: string;
 }
 
 const AddBasketButton: FC<AddBasketButtonProps> = ({

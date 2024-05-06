@@ -10,16 +10,16 @@ import png from '../../../../assets/sammy_shopping_1_1.png';
 import scss from './BasketSection.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { IconCardonDelete, IconRedHeart } from '@/src/assets/icons';
-import { IconHeart, IconX } from '@tabler/icons-react';
+import { IconHeart, IconX, IconExclamationMark } from '@tabler/icons-react';
 import { Button, Checkbox, Rate } from 'antd';
 import React, { useState } from 'react';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
-import type { InputNumberProps } from 'antd';
+// import type { InputNumberProps } from 'antd';
 import { InputNumber } from 'antd';
 
-const onChange: InputNumberProps['onChange'] = (value) => {
-	console.log('changed', value);
-};
+// const onChange: InputNumberProps['onChange'] = (value) => {
+// 	console.log('changed', value);
+// };
 
 const BasketSection = () => {
 	const [basketDeleteProduct] = useBasketPutProductMutation();
@@ -32,7 +32,7 @@ const BasketSection = () => {
 	const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
 	const [inputValueItemId, setInputValueItemId] = useState<number>();
 	const [selectAll, setSelectAll] = useState<boolean>(false);
-	const [inputValueQuantity, setInputValueQuantity] = useState<number>();
+	const [inputValueQuantity, setInputValueQuantity] = useState<number>(0);
 	const { data } = useGetBasketQuery();
 
 	const handleBasketProductDelete = async (id: number, isInBasket: boolean) => {
@@ -95,36 +95,26 @@ const BasketSection = () => {
 			setInputValueQuantity(value);
 		}
 		console.log(value);
+		console.log(inputValueQuantity);
 	};
-	// const handleInputValueForProductQuantity = (
-	// 	value: number | null,
-	// 	e: React.ChangeEvent<HTMLInputElement>
-	// ) => {
-	// 	if (value !== null) {
-	// 		setInputValueQuantity(parseInt(e.target.value));
-	// 	}
-	// };
-
-	const handleProductQuantityFunkForEnter = async (
-		id: number,
-		buyProductQuantity: number,
-		NumberOfGoods: number,
-		YourDiscount: number,
-		Total: number,
-		Sum: number
-	) => {
+	const handleProductQuantityFunkForEnter = async (id: number) => {
+		console.log(inputValueQuantity);
+		setSelectedProducts([...selectedProducts, id]);
 		await basketProductResultQuantity({
 			id,
-			buyProductQuantity,
-			NumberOfGoods,
-			YourDiscount,
-			Total,
-			Sum
+			buyProductQuantity: inputValueQuantity
 		});
 	};
-
 	const allSelected = selectedProducts.length === (data?.length || 0);
 	const someSelected = selectedProducts.length > 0;
+
+	const calculateButtonClass = () => {
+		if (selectedProducts.some((id) => data?.map((el) => el.id).includes(id))) {
+			return `${scss.nooActiveButton} ${scss.activeButton}`;
+		} else {
+			return `${scss.nooActiveButton}`;
+		}
+	};
 
 	return (
 		<div className={scss.BasketSection}>
@@ -137,7 +127,7 @@ const BasketSection = () => {
 						<p>Корзина</p>
 					</div>
 					<h1>Товары в корзине</h1>
-					<span className={scss.hr}></span>
+					<div className={scss.hr}></div>
 					{data?.length === 0 ? (
 						<>
 							<img src={png} alt="png" />
@@ -153,7 +143,7 @@ const BasketSection = () => {
 						<div className={scss.basket_product_container_div}>
 							<div className={scss.basket_product_result_div}>
 								<div className={scss.button_is_basket_results_div}>
-									<Checkbox style={{position: 'relative', left: '15rem'}}
+									<Checkbox
 										checked={allSelected}
 										indeterminate={someSelected && !allSelected}
 										onChange={() =>
@@ -184,7 +174,7 @@ const BasketSection = () => {
 							</div>
 							<div className={scss.basket_products}>
 								<div className={scss.container_basket_product}>
-									{data?.map((item, index) => (
+									{data?.map((item) => (
 										<div key={item.id} className={scss.basket_product_content}>
 											<Checkbox
 												checked={selectedProducts.includes(item.id)}
@@ -222,6 +212,7 @@ const BasketSection = () => {
 																	<button>-</button>
 																	<InputNumber
 																		color="black"
+																		id="inputValueQuantity"
 																		className={scss.input_number}
 																		min={1}
 																		max={100}
@@ -240,12 +231,7 @@ const BasketSection = () => {
 																		) => {
 																			if (e.key === 'Enter') {
 																				handleProductQuantityFunkForEnter(
-																					item.id,
-																					item.buyProductQuantity,
-																					item.orderPrice.NumberOfGoods,
-																					item.orderPrice.YourDiscount,
-																					item.orderPrice.Sum,
-																					item.orderPrice.Total
+																					item.id
 																				);
 																			}
 																		}}
@@ -257,9 +243,6 @@ const BasketSection = () => {
 														</div>
 														<div className={scss.div_product_code_and_buttons}>
 															<p>Код товара: {item.productCode}</p>
-															{/* {item.isInBasket === true ? (
-																<input type="checkbox" />
-															) : null} */}
 															<div className={scss.buttons_div}>
 																<div
 																	className={scss.div}
@@ -299,44 +282,68 @@ const BasketSection = () => {
 								</div>
 								<div className={scss.content_product_price}>
 									<div className={scss.contents_product_price_div}>
-										<h3>Сумма заказа</h3>
-										<div></div>
-										<div className={scss.div_contents_and_results_price}>
-											<div className={scss.price_result_product_div}>
-												<p>Количество товаров:</p>
-												{data
-													?.slice(0, 1)
-													.map((item) => (
-														<p key={item.id}>{item.orderPrice.NumberOfGoods}</p>
-													))}
-											</div>
-											<div className={scss.price_result_product_div}>
-												<p>Ваша скидка:</p>
-												{data?.slice(0, 1).map((item) => (
-													<p className={scss.color_red_p} key={item.id}>
-														{item.orderPrice.YourDiscount}
-													</p>
-												))}
-											</div>
-											<div className={scss.price_result_product_div}>
-												<p>Сумма:</p>
-												{data
-													?.slice(0, 1)
-													.map((item) => (
-														<p key={item.id}>{item.orderPrice.Sum}</p>
-													))}
-											</div>
-											<div className={scss.price_result_product_div}>
-												<h3>Итого</h3>
-												{/* <p>{allProductItemId}</p> */}
-											</div>
-										</div>
+										{selectedProducts.some((id) =>
+											data?.map((el) => el.id).includes(id)
+										) && (
+											<>
+												<h3>Сумма заказа</h3>
+												<div></div>
+												<div className={scss.div_contents_and_results_price}>
+													<div className={scss.price_result_product_div}>
+														<p>Количество товаров:</p>
+														{data
+															?.slice(0, 1)
+															.map((item) => (
+																<p key={item.id}>
+																	{item.orderPrice.NumberOfGoods}
+																</p>
+															))}
+													</div>
+													<div className={scss.price_result_product_div}>
+														<p>Ваша скидка:</p>
+														{data?.slice(0, 1).map((item) => (
+															<p className={scss.color_red_p} key={item.id}>
+																{item.orderPrice.YourDiscount}
+															</p>
+														))}
+													</div>
+													<div className={scss.price_result_product_div}>
+														<p>Сумма:</p>
+														{data
+															?.slice(0, 1)
+															.map((item) => (
+																<p key={item.id}>{item.orderPrice.Sum}</p>
+															))}
+													</div>
+													<div className={scss.price_result_product_div}>
+														<h3>Итого</h3>
+														{/* <p>{o}</p> */}
+													</div>
+												</div>
+											</>
+										)}
 										<Button
-											onClick={() => navigate('/pay/')}
-											className={scss.button}
+											onClick={() => {
+												selectedProducts.some(
+													(id) =>
+														data?.map((el) => el.id).includes(id) &&
+														navigate('/pay/delivery')
+												);
+											}}
+											className={calculateButtonClass()}
 										>
 											Перейти к оформлению
 										</Button>
+										{selectedProducts.some((id) =>
+											data?.map((el) => el.id).includes(id)
+										) ? null : (
+											<button className={scss.buttonNooActive}>
+												<IconExclamationMark color="#464343" />{' '}
+												<p>
+													Выберите товары, чтобы перейти к оформлению заказа
+												</p>
+											</button>
+										)}
 									</div>
 								</div>
 							</div>
