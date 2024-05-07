@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from 'react-router-dom';
 import scss from './ComparisonSection.module.scss';
 import comparison from '@/src/assets/sammy_finance_1.png';
@@ -249,7 +250,7 @@ const ComparisonSection = () => {
 				<div className={scss.content}>
 					<h1>Сравнение товаров</h1>
 					<span className={scss.hr}></span>
-					{data?.length === 0 ? (
+					{data?.length !== 0 ? (
 						<>
 							<img
 								className={scss.favorite_empty_img}
@@ -355,27 +356,27 @@ const ComparisonSection = () => {
 									</div>
 								</>
 							</div>
-						</>
-					)}
-					{loaded && instanceRef.current && (
-						<>
-							<span
-								className={`${scss.arrow} ${scss.left} `}
-								onClick={(e: any) =>
-									e.stopPropagation() || instanceRef.current?.prev()
-								}
-							>
-								<ButtonArrowLeft />
-							</span>
+							{loaded && instanceRef.current && (
+								<>
+									<span
+										className={`${scss.arrow} ${scss.left} `}
+										onClick={(e: any) =>
+											e.stopPropagation() || instanceRef.current?.prev()
+										}
+									>
+										<ButtonArrowLeft />
+									</span>
 
-							<span
-								className={`${scss.arrow} ${scss.right}`}
-								onClick={(e: any) =>
-									e.stopPropagation() || instanceRef.current?.next()
-								}
-							>
-								<ButtonArrowRight />
-							</span>
+									<span
+										className={`${scss.arrow} ${scss.right}`}
+										onClick={(e: any) =>
+											e.stopPropagation() || instanceRef.current?.next()
+										}
+									>
+										<ButtonArrowRight />
+									</span>
+								</>
+							)}
 						</>
 					)}
 				</div>
