@@ -1,62 +1,42 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useGetFavoriteQuery } from '@/src/redux/api/favorite';
+import {
+	useFavoritePutProductMutation,
+	useGetFavoriteQuery
+} from '@/src/redux/api/favorite';
 import favorite from '../../../../assets/sammy_order_completed_by_a_delivery_girl_1.png';
 import scss from './FavoriteSection.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { IconPlaystationX } from '@tabler/icons-react';
-
-interface ProductsTypes {
-	id: number;
-	sale?: string;
-	phone: string;
-	stock: string;
-	productName: string;
-	price: number;
-	oldPrice?: number;
-}
-const card: ProductsTypes[] = [
-	{
-		id: 1,
-		sale: '-10%',
-		phone:
-			'https://www.istore.kg/media/products/iphone-15-pro-finish-select-202309-6-7inch-naturaltitanium.webp',
-		stock: 'В наличии',
-		productName: 'Смартфон Apple iPhone 13 256gb синий 9(MLP3RU...',
-		price: 98910,
-		oldPrice: 109900
-	},
-	{
-		id: 2,
-		sale: '-10%',
-		phone:
-			'https://www.istore.kg/media/products/iphone-15-finish-select-202309-6-7inch-blue_%D0%BA%D0%BE%D0%BF%D0%B8%D1%8F.webp',
-		stock: 'В наличии',
-		productName: 'Смартфон Apple iPhone 13 256gb синий 9(MLP3RU...',
-		price: 98910,
-		oldPrice: 109900
-	},
-	{
-		id: 3,
-		phone:
-			'https://www.istore.kg/media/products/iphone-15-pro-finish-select-202309-6-1inch-naturaltitanium_3zWelJF.webp',
-		stock: 'В наличии',
-		productName: 'Смартфон Apple iPhone 13 256gb синий 9(MLP3RU...',
-		price: 98910
-	},
-	{
-		id: 4,
-		phone:
-			'https://www.istore.kg/media/products/iphone-14-finish-select-202209-6-7inch-starlight_pTsrxXM.webp',
-		stock: 'В наличии',
-		productName: 'Смартфон Apple iPhone 13 256gb синий 9(MLP3RU...',
-		price: 98910
-	}
-];
-
+import { IconHeart, IconPlaystationX, IconScale } from '@tabler/icons-react';
+import { Button, Rate } from 'antd';
+import IconHeartRed from '@/src/assets/icons/icon-heart-red';
+import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
+import { useBasketPutProductMutation } from '@/src/redux/api/basket';
+import { useComparisonPutProductMutation } from '@/src/redux/api/comparison';
 const FavoriteSection = () => {
 	const navigate = useNavigate();
 	const { data } = useGetFavoriteQuery();
-
+	const [addBasketProduct] = useBasketPutProductMutation();
+	const [addComparisonProducts] = useComparisonPutProductMutation();
+	const [addFavoriteProducts] = useFavoritePutProductMutation();
+	const handleAddBasketProduct = async (_id: number, isInBasket: boolean) => {
+		await addBasketProduct({ _id, isInBasket: !isInBasket });
+	};
+	const handleAddComparisonProducts = async (
+		_id: number,
+		isComparison: boolean
+	) => {
+		await addComparisonProducts({ _id, isComparison: !isComparison });
+	};
+	const handleDeleteIsFavoriteProducts = async (
+		_id: number,
+		isFavorite: boolean
+	) => {
+		console.log(isFavorite);
+		await addFavoriteProducts({ _id, isFavorite: false });
+	};
+	const handleAddFavoriteProduct = async (_id: number, isFavorite: boolean) => {
+		await addFavoriteProducts({ _id, isFavorite: !isFavorite });
+	};
 	return (
 		<div className={scss.FavoriteSection}>
 			<div className="container">
@@ -93,23 +73,120 @@ const FavoriteSection = () => {
 					) : (
 						<div className={scss.container_products_favorite}>
 							<div className={scss.icon_and_text_div}>
-								<IconPlaystationX /> <p>Очистить список товаров</p>
+								<IconPlaystationX
+									style={{ cursor: 'pointer' }}
+									onClick={() =>
+										data?.forEach((el) =>
+											handleDeleteIsFavoriteProducts(el._id, el.isFavorite)
+										)
+									}
+								/>{' '}
+								<p
+									onClick={() =>
+										data?.forEach((el) =>
+											handleDeleteIsFavoriteProducts(el._id, el.isFavorite)
+										)
+									}
+								>
+									Очистить список товаров
+								</p>
 							</div>
 							<div className={scss.container_products}>
-								{card.map((item) => (
-									<div key={item.id} className={scss.container_product}>
-										<div className={scss.content_product}>
-											<div className={scss.product_basket_and_favorite_buttons_and_photo}>
-												<div className={scss.div_sale_product}>
-													{item.sale}
+								{data &&
+									data?.map((item) => (
+										<div key={item._id} className={scss.container_product}>
+											<div className={scss.content_product}>
+												<div
+													className={
+														scss.product_basket_and_favorite_buttons_and_photo
+													}
+												>
+													{item.sale ? (
+														<img src={item.sale} alt={item.productName} />
+													) : (
+														<div></div>
+													)}
+													<div className={scss.div_icons}>
+														<IconScale
+															onClick={() =>
+																handleAddComparisonProducts(
+																	item._id,
+																	item.isComparison
+																)
+															}
+															style={
+																item.isComparison
+																	? { color: 'rgb(181, 18, 154)' }
+																	: { color: 'rgb(170, 177, 191)' }
+															}
+														/>
+														{item.isFavorite ? (
+															<div
+																onClick={() =>
+																	handleAddFavoriteProduct(
+																		item._id,
+																		item.isFavorite
+																	)
+																}
+															>
+																<IconHeartRed />
+															</div>
+														) : (
+															<IconHeart
+																onClick={() =>
+																	handleAddFavoriteProduct(
+																		item._id,
+																		item.isFavorite
+																	)
+																}
+															/>
+														)}
+													</div>
 												</div>
-												<div>
-
+												<div className={scss.photo_div}>
+													<img src={item.image} alt={item.productName} />
+												</div>
+												<div className={scss.products_name_and_rating}>
+													<p className={scss.text_stock}>{item.stock}</p>
+													<p className={scss.product_name}>
+														{item.productName}
+													</p>
+													<p>
+														Рейтинг <Rate defaultValue={item.Rating} />
+													</p>
+												</div>
+												<div
+													className={
+														scss.div_for_product_prices_and_basket_button
+													}
+												>
+													<div className={scss.prices_div_product}>
+														<h2>{item.price}</h2>
+														<p>{item.oldPrice}</p>
+													</div>
+													<AddBasketButton
+														onClick={() =>
+															item &&
+															handleAddBasketProduct(item._id, item.isInBasket)
+														}
+														children={
+															item.isInBasket === true
+																? 'В корзине'
+																: 'В корзину'
+														}
+														className={
+															item.isInBasket === true
+																? `${scss.noo_active_basket_button} ${scss.active_basket_button}`
+																: `${scss.noo_active_basket_button}`
+														}
+													/>
 												</div>
 											</div>
 										</div>
-									</div>
-								))}
+									))}
+							</div>
+							<div className={scss.button_div}>
+								<Button className={scss.button}>Продолжить покупки</Button>
 							</div>
 						</div>
 					)}
