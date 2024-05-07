@@ -1,66 +1,124 @@
 .FavoriteSection {
-	padding-bottom: 120px;
-	@media (max-width: 440px) {
-		padding-bottom: 50px;
-	}
+	width: 100%;
+	height: auto;
+	background: rgb(244, 244, 244);
 	.content {
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		h1 {
-			width: 100%;
-			margin-top: 80px;
-			font-size: clamp(16px, 7vw, 30px);
-
-			@media (max-width: 440px) {
-				margin-top: 30px;
+		padding-top: 55px;
+		padding-bottom: 110px;
+		gap: 31.5px;
+		.content_products_page {
+			display: flex;
+			align-items: center;
+			gap: 5px;
+			.text_home_user_page {
+				cursor: pointer;
+				color: rgb(145, 150, 158);
+				font-size: clamp(8px, 4vw, 14px);
+			}
+			p {
+				color: rgba(56, 66, 85, 0.6);
+				font-size: clamp(8px, 4vw, 14px);
 			}
 		}
-		.hr {
-			display: block;
-			margin-top: 20px;
+		.div_for_text_and_border {
+			display: flex;
+			flex-direction: column;
+			gap: 18px;
 			width: 100%;
-			border: 1px solid #cdcdcd;
-
-			@media (max-width: 440px) {
-				margin-top: 10px;
+			h2 {
+				font-size: clamp(15px, 5vw, 28px);
+				color: rgb(41, 41, 41);
+			}
+			.border {
+				width: 100%;
+				border: 1px solid #cdcdcd;
 			}
 		}
-		img {
-			margin-top: 120px;
+		.photo_div {
+			display: flex;
+			justify-content: center;
 			width: 100%;
-			max-width: 400px;
-			@media (max-width: 440px) {
-				margin-top: 30px;
+			img {
+				width: 100%;
+				max-width: 400px;
 			}
 		}
 		.text_after_img {
-			margin-top: 30px;
-			margin-bottom: 30px;
 			display: flex;
 			flex-direction: column;
-			justify-content: center;
 			align-items: center;
-			text-align: center;
-			gap: 25px;
-			h2 {
-				font-size: clamp(14px, 7vw, 24px);
+			justify-content: center;
+			gap: 19px;
+			h3 {
+				color: rgb(41, 41, 41);
+				font-size: clamp(11px, 5vw, 23px);
 				font-weight: 500;
 			}
-			p {
-				font-size: clamp(12px, 7vw, 18px);
-				font-weight: 400;
+			.texts_div {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+
+				p {
+					color: rgb(41, 41, 41);
+					font-size: clamp(8px, 4vw, 18px);
+					font-weight: 400;
+				}
 			}
 			button {
 				padding: 10px 24px;
 				border: none;
 				border-radius: 5px;
 				background: #cb11ab;
-				font-size: 16px;
-				font-weight: 500;
-
+				font-weight: 600;
 				cursor: pointer;
+				color: rgb(255, 255, 255);
+				font-size: clamp(8px, 6vw, 16px);
+			}
+		}
+		.container_products_favorite {
+			display: flex;
+			flex-direction: column;
+			gap: 30px;
+			.icon_and_text_div {
+				display: flex;
+				align-items: center;
+				gap: 5px;
+				cursor: pointer;
+				p {
+					color: rgb(41, 41, 41);
+					font-size: clamp(8px, 4vw, 14px);
+				}
+			}
+			.container_products {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 7px;
+				.container_product {
+					width: 295px;
+					height: 489px;
+					border-radius: 4px;
+					background: rgb(255, 255, 255);
+					.content_product {
+						padding: 10px, 13px, 20px, 13px;
+						display: flex;
+						flex-direction: column;
+						gap: 14px;
+						width: 100%;
+						.product_basket_and_favorite_buttons_and_photo {
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							.div_sale_product {
+								/* красный */
+								background: rgb(245, 59, 73);
+								
+							}
+						}
+					}
+				}
 			}
 		}
 	}
