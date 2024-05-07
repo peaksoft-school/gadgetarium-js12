@@ -1,3 +1,5 @@
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
 	useBasketProductDeleteAllMutation,
@@ -14,12 +16,7 @@ import { IconHeart, IconX, IconExclamationMark } from '@tabler/icons-react';
 import { Button, Checkbox, Rate } from 'antd';
 import React, { useState } from 'react';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
-// import type { InputNumberProps } from 'antd';
 import { InputNumber } from 'antd';
-
-// const onChange: InputNumberProps['onChange'] = (value) => {
-// 	console.log('changed', value);
-// };
 
 const BasketSection = () => {
 	const [basketDeleteProduct] = useBasketPutProductMutation();
@@ -30,11 +27,14 @@ const BasketSection = () => {
 	const [basketProductsAllId] = useBasketProductDeleteAllMutation();
 	const navigate = useNavigate();
 	const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
+	const [productsIdsResult, setProductsIdsResult] = useState<number>(
+		
+	);
+	const [arrayNumbers, setArrayNumbers] = useState<number[]>([]);
 	const [inputValueItemId, setInputValueItemId] = useState<number>();
 	const [selectAll, setSelectAll] = useState<boolean>(false);
 	const [inputValueQuantity, setInputValueQuantity] = useState<number>(0);
 	const { data } = useGetBasketQuery();
-
 	const handleBasketProductDelete = async (id: number, isInBasket: boolean) => {
 		await basketDeleteProduct({ id, isInBasket: !isInBasket });
 	};
@@ -52,9 +52,11 @@ const BasketSection = () => {
 	) => {
 		if (selectedProducts.includes(productId)) {
 			setSelectedProducts(selectedProducts.filter((id) => id !== productId));
+			setArrayNumbers(arrayNumbers.filter((el) => el !== productId));
 			await basketProduct({ id: null });
 		} else {
 			setSelectedProducts([...selectedProducts, productId]);
+			setArrayNumbers((prevState) => [...prevState, productId]);
 			await basketProduct({
 				id: productId,
 				NumberOfGoods,
@@ -63,8 +65,8 @@ const BasketSection = () => {
 				Total
 			});
 		}
-	};
 
+	};
 	const handleSelectAll = async (
 		id: number,
 		NumberOfGoods: number,
@@ -72,13 +74,12 @@ const BasketSection = () => {
 		Total: number,
 		Sum: number
 	) => {
-		console.log(id);
-
 		if (selectAll) {
 			setSelectedProducts([]);
 			await basketProductsAllId({ id: null });
 		} else {
 			setSelectedProducts(data?.map((item) => item.id) || []);
+
 			await basketProductsAllId({
 				id: id,
 				NumberOfGoods,
@@ -88,7 +89,7 @@ const BasketSection = () => {
 			});
 		}
 		setSelectAll(!selectAll);
-	};
+	};	
 
 	const handleInputValueForProductQuantity = (value: number | null) => {
 		if (value !== null) {
@@ -317,7 +318,6 @@ const BasketSection = () => {
 													</div>
 													<div className={scss.price_result_product_div}>
 														<h3>Итого</h3>
-														{/* <p>{o}</p> */}
 													</div>
 												</div>
 											</>

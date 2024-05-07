@@ -5,7 +5,6 @@
 	.content {
 		display: flex;
 		flex-direction: column;
-		// justify-content: center;
 		align-items: center;
 		padding-top: 55px;
 		padding-bottom: 110px;
@@ -27,7 +26,6 @@
 		.div_page_text {
 			display: flex;
 			align-items: center;
-			// justify-content: start;
 			gap: 4px;
 			width: 100%;
 			@media (max-width: 565px) {
@@ -132,10 +130,8 @@
 			.basket_products {
 				display: flex;
 				align-items: start;
-				// justify-content: space-between;
 				gap: 98px;
 				@media (max-width: 1500px) {
-					// gap: 85px;
 					justify-content: space-between;
 				}
 				@media (max-width: 1360px) {
@@ -214,6 +210,9 @@
 										width: 25%;
 										height: auto;
 									}
+									@media (max-width: 470px) {
+										width: 32%;
+									}
 								}
 								.product_info_text_div {
 									display: flex;
@@ -247,6 +246,10 @@
 												gap: 3px;
 												color: rgb(144, 156, 181);
 												font-size: clamp(7px, 5vw, 12px);
+												@media (max-width: 390px) {
+													flex-wrap: wrap;
+													align-items: start;
+												}
 											}
 											.buy_product_text {
 												color: rgb(60, 222, 20);
@@ -262,6 +265,17 @@
 											}
 											@media (max-width: 800px) {
 												gap: 10px;
+											}
+											@media (max-width: 601px) {
+												// gap: 40px;
+												justify-content: space-between;
+												width: 100%;
+											}
+											@media (max-width: 485px) {
+												justify-content: space-around;
+											}
+											@media (max-width: 400px) {
+												justify-content: space-evenly;
 											}
 											div {
 												display: flex;
@@ -342,6 +356,12 @@
 											@media (max-width: 750px) {
 												gap: 3px;
 											}
+											@media (max-width: 544px) {
+												gap: 55px;
+											}
+											@media (max-width: 430px) {
+												gap: 20px;
+											}
 											.div {
 												display: flex;
 												align-items: center;
@@ -364,7 +384,6 @@
 				}
 				.content_product_price {
 					width: 435px;
-					// height: 270px;
 					border-radius: 4px;
 					background: rgb(255, 255, 255);
 					height: auto;
