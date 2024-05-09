@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import scss from './ComparisonSection.module.scss';
 import comparison from '@/src/assets/sammy_finance_1.png';
-import phone from '@/src/assets/image_53.png';
 import {
 	IconBrand,
 	IconColor,
@@ -14,150 +14,32 @@ import {
 	IconSystem
 } from '@/src/assets/icons';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
-import { Checkbox } from 'antd';
+import { Checkbox, ConfigProvider } from 'antd';
 import type { CheckboxProps } from 'antd';
 import ButtonArrowLeft from '@/src/ui/customButtons/ButtonArrowLeft';
 import ButtonArrowRight from '@/src/ui/customButtons/ButtonArrowRight';
-const data = [
-	{
-		img: phone,
-		title: 'Samsung Galaxy S21 128gb синий 9(MLP3RU)',
-		price: 98910,
-		brand: 'Apple',
-		screen: '53" (2340×1080) IPS',
-		color: 'Black',
-		os: 'iOS',
-		storage: '128GB',
-		ram: '8GB',
-		weight: '238g',
-		sim: '2 (nano SIM)'
-	},
-	{
-		img: phone,
-		title: 'Samsung Galaxy S21 128gb синий 9(MLP3RU)',
-		price: 98910,
-		brand: 'Samsung',
-		screen: '53" (2340×1080) IPS',
-		color: 'Phantom Black',
-		os: 'Android',
-		storage: '256GB',
-		ram: '12GB',
-		weight: '228g',
-		sim: '2 (nano SIM)'
-	},
-	{
-		img: phone,
-		title: 'Samsung Galaxy S21 128gb синий 9(MLP3RU)',
-		price: 98910,
-		brand: 'Google',
-		screen: '53" (2340×1080) IPS',
-		color: 'Stormy Black',
-		os: 'Android',
-		storage: '128GB',
-		ram: '8GB',
-		weight: '207g',
-		sim: '2 (nano SIM)'
-	},
-	{
-		img: phone,
-		title: 'Samsung Galaxy S21 128gb синий 9(MLP3RU)',
-		price: 98910,
-		brand: 'OnePlus',
-		screen: '53" (2340×1080) IPS',
-		color: 'Morning Mist',
-		os: 'OxygenOS',
-		storage: '256GB',
-		ram: '12GB',
-		weight: '206g',
-		sim: '2 (nano SIM)'
-	},
-	{
-		img: phone,
-		title: 'Samsung Galaxy S21 128gb синий 9(MLP3RU)',
-		price: 98910,
-		brand: 'Xiaomi',
-		screen: '53" (2340×1080) IPS',
-		color: 'Cosmic Black',
-		os: 'MIUI',
-		storage: '512GB',
-		ram: '16GB',
-		weight: '234g',
-		sim: '2 (nano SIM)'
-	},
-	{
-		img: phone,
-		title: 'Samsung Galaxy S21 128gb синий 9(MLP3RU)',
-		price: 98910,
-		brand: 'Huawei',
-		screen: '53" (2340×1080) IPS',
-		color: 'Golden Black',
-		os: 'HarmonyOS',
-		storage: '256GB',
-		ram: '8GB',
-		weight: '195g',
-		sim: '2 (nano SIM)'
-	},
-	{
-		img: phone,
-		title: 'Samsung Galaxy S21 128gb синий 9(MLP3RU)',
-		price: 98910,
-		brand: 'Sony',
-		screen: '53" (2340×1080) IPS',
-		color: 'Frosted Black',
-		os: 'Android',
-		storage: '256GB',
-		ram: '12GB',
-		weight: '187g',
-		sim: '2 (nano SIM)'
-	},
-	{
-		img: phone,
-		title: 'Samsung Galaxy S21 128gb синий 9(MLP3RU)',
-		price: 98910,
-		brand: 'LG',
-		screen: '53" (2340×1080) IPS',
-		color: 'Aurora Black',
-		os: 'Android',
-		storage: '256GB',
-		ram: '8GB',
-		weight: '204g',
-		sim: '2 (nano SIM)'
-	},
-	{
-		img: phone,
-		title: 'Samsung Galaxy S21 128gb синий 9(MLP3RU)',
-		price: 98910,
-		brand: 'Nokia',
-		screen: '53" (2340×1080) IPS',
-		color: 'Midnight Blue',
-		os: 'Android One',
-		storage: '128GB',
-		ram: '8GB',
-		weight: '210g',
-		sim: '2 (nano SIM)'
-	},
-	{
-		img: phone,
-		title: 'Samsung Galaxy S21 128gb синий 9(MLP3RU)',
-		price: 98910,
-		brand: 'Motorola',
-		screen: '53" (2340×1080) IPS',
-		color: 'Solar Black',
-		os: 'Android',
-		storage: '256GB',
-		ram: '12GB',
-		weight: '215g',
-		sim: '2 (nano SIM)'
-	}
-];
-
+import { useBasketPutProductMutation } from '@/src/redux/api/basket';
+import {
+	useCategoryProductsMutation,
+	useComparisonPutProductMutation,
+	useComparisonResultsMutation,
+	useGetComparisonQuery
+} from '@/src/redux/api/comparison';
 const ComparisonSection = () => {
 	const onChange: CheckboxProps['onChange'] = (e) => {
 		console.log(`checked = ${e.target.checked}`);
 	};
+	const [addComparison] = useComparisonPutProductMutation();
+	const { data } = useGetComparisonQuery();
+	const [addBasketProducts] = useBasketPutProductMutation();
+	const [compatisonResults] = useComparisonResultsMutation();
+	const [categoryProductsResults] = useCategoryProductsMutation();
+	const [filtredResults, setFiltredResults] = useState<string>('Apple');
+	const navigate = useNavigate();
 	const [brand, setBrand] = useState<boolean>(false);
+	const refResults = useRef<HTMLDivElement | null>(null);
 	const [loaded, setLoaded] = useState<any>(false);
 	const [ref, instanceRef] = useKeenSlider<HTMLDivElement>(
 		{
@@ -186,7 +68,6 @@ const ComparisonSection = () => {
 				setLoaded(true);
 			}
 		},
-
 		// ! auto play
 		[
 			(slider) => {
@@ -238,19 +119,60 @@ const ComparisonSection = () => {
 			window.removeEventListener('resize', handleChange);
 		};
 	}, []);
-	const [isBasket, setIsBasket] = useState(false);
 
-	const handleBasketActive = () => {
-		setIsBasket(!isBasket);
+	const setRef = (node: HTMLDivElement | null) => {
+		// Устанавливаем значение рефа
+		refResults.current = node;
+	};
+
+	// Обновляем instanceRef.current при изменении filtredResults
+	useEffect(() => {
+		// Проверяем, существует ли текущий реф
+		if (refResults.current) {
+			setRef(refResults.current)
+			// Теперь ref.current существует и имеет тип HTMLDivElement
+			// Здесь вы можете выполнять дополнительные действия с ref.current
+		}
+	}, [filtredResults]);
+
+	const handleAddBasketProducts = async (_id: number, isInBasket: boolean) => {
+		console.log(isInBasket);
+
+		await addBasketProducts({ _id, isInBasket: !isInBasket });
+	};
+
+	const handleComparisonProducts = async (_id: number) => {
+		await addComparison({ _id, isComparison: false });
+	};
+
+	const handleProductsIsDeleteComparison = async (_id: number) => {
+		await addComparison({ _id, isComparison: false });
+	};
+
+	const handleComparisonResults = async (isDifference: boolean) => {
+		await compatisonResults({ isDifference: !isDifference });
+	};
+
+	const handleCategoryProducts = (categoryProducts: string) => {
+		setFiltredResults(categoryProducts);
+		console.log(categoryProducts);
+
+		//  categoryProductsResults({ categoryProducts });
 	};
 
 	return (
 		<div className={scss.ComparisonSection}>
 			<div className="container">
 				<div className={scss.content}>
+					<div className={scss.div_for_texts_pages}>
+						<p onClick={() => navigate('/')} className={scss.home_page_text}>
+							Главная »
+						</p>
+						<p>Сравнение</p>
+					</div>
 					<h1>Сравнение товаров</h1>
-					<span className={scss.hr}></span>
-					{data?.length !== 0 ? (
+					{data?.length === 0 && <span className={scss.hr}></span>}
+					{data?.length === 0 ? (
 						<>
 							<img
 								className={scss.favorite_empty_img}
@@ -272,15 +194,89 @@ const ComparisonSection = () => {
 						<>
 							<div className={scss.second_content}>
 								<div className={scss.three_buttons}>
-									<button>Смартфоны(7)</button>
-									<button>Ноутбуки (3) </button>
-									<button>Наушники (1)</button>
+									<button
+										onClick={() => handleCategoryProducts('Apple')}
+										className={
+											filtredResults.includes('Apple')
+												? `${scss.noo_active_button} ${scss.active_button}`
+												: `${scss.noo_active_button}`
+										}
+									>
+										Смартфоны(
+										{data &&
+											data?.filter(
+												(el) =>
+													el.comparisonProduct &&
+													el.comparisonProduct.brand === 'Apple'
+											).length}
+										)
+									</button>
+									<button
+										onClick={() => handleCategoryProducts('mac')}
+										className={
+											filtredResults.includes('mac')
+												? `${scss.noo_active_button} ${scss.active_button}`
+												: `${scss.noo_active_button}`
+										}
+									>
+										Ноутбуки (
+										{data &&
+											data?.filter(
+												(el) =>
+													el.comparisonProduct &&
+													el.comparisonProduct.brand === 'mac'
+											).length}
+										){' '}
+									</button>
+									<button
+										onClick={() => handleCategoryProducts('AirPods')}
+										className={
+											filtredResults.includes('AirPods')
+												? `${scss.noo_active_button} ${scss.active_button}`
+												: `${scss.noo_active_button}`
+										}
+									>
+										Наушники (
+										{data &&
+											data?.filter(
+												(el) =>
+													el.comparisonProduct &&
+													el.comparisonProduct.brand === 'AirPods'
+											).length}
+										)
+									</button>
 								</div>
 								<div className={scss.checkboxes}>
-									<Checkbox onChange={onChange}>
-										<p>Показывать только различия</p>
-									</Checkbox>
-									<div className={scss.cleaningText}>
+									<ConfigProvider
+										theme={{
+											components: {
+												Checkbox: {
+													colorPrimary: '#C11BAB',
+													colorBgContainer: 'white',
+													algorithm: true
+												}
+											}
+										}}
+									>
+										<Checkbox
+											onClick={() =>
+												data?.forEach((el) =>
+													handleComparisonResults(el.isDifference)
+												)
+											}
+											onChange={onChange}
+										>
+											<p>Показывать только различия</p>
+										</Checkbox>
+									</ConfigProvider>
+									<div
+										onClick={() =>
+											data?.forEach((el) =>
+												handleProductsIsDeleteComparison(el._id)
+											)
+										}
+										className={scss.cleaningText}
+									>
 										<IconDelete />
 										<p>Очистить список</p>
 									</div>
@@ -317,41 +313,82 @@ const ComparisonSection = () => {
 											</div>
 										</div>
 										<div ref={ref} className="keen-slider">
-											{data.map((item, index) => (
-												<div key={index} className="keen-slider__slide">
-													<div className={scss.slider_block}>
-														<div className={scss.card}>
-															<button className={scss.delete_button}>
-																<IconDelete />
-															</button>
-															<img src={item.img} alt="img" />
-															<p className={scss.charackter}>{item.title}</p>
-															<p className={scss.charackter_price}>
-																{item.price} c
-															</p>
-															<AddBasketButton
-																onClick={handleBasketActive}
-																children={isBasket ? `В корзине` : `В корзину`}
-																className={
-																	isBasket
-																		? `${scss.add_bas_button} ${scss.active}`
-																		: `${scss.add_bas_button}`
-																}
-															/>
+											{data &&
+												data
+													?.filter(
+														(el) =>
+															el.comparisonProduct &&
+															el.comparisonProduct.brand === filtredResults
+													)
+													.map((item, index) => (
+														<div key={index} className="keen-slider__slide">
+															<div className={scss.slider_block}>
+																<div className={scss.card}>
+																	<button
+																		onClick={() =>
+																			handleComparisonProducts(item._id)
+																		}
+																		className={scss.delete_button}
+																	>
+																		<IconDelete />
+																	</button>
+																	{item.comparisonProduct &&
+																		item.comparisonProduct.image && (
+																			<img
+																				src={item.comparisonProduct.image}
+																				alt={item.comparisonProduct.productName}
+																			/>
+																		)}
+																	{item.comparisonProduct &&
+																		item.comparisonProduct.productName && (
+																			<p className={scss.charackter}>
+																				{item.comparisonProduct.productName}
+																			</p>
+																		)}
+																	{item.comparisonProduct &&
+																		item.comparisonProduct.price && (
+																			<p className={scss.charackter_price}>
+																				{item.comparisonProduct.price} c
+																			</p>
+																		)}
+																	<AddBasketButton
+																		onClick={() =>
+																			handleAddBasketProducts(
+																				item._id,
+																				item.comparisonProduct.isInBasket
+																			)
+																		}
+																		children={
+																			item.comparisonProduct &&
+																			item.comparisonProduct.isInBasket === true
+																				? `В корзине`
+																				: `В корзину`
+																		}
+																		className={
+																			item.comparisonProduct &&
+																			item.comparisonProduct.isInBasket
+																				? `${scss.add_bas_button} ${scss.active}`
+																				: `${scss.add_bas_button}`
+																		}
+																	/>
+																</div>
+																<div className={scss.table_div}>
+																	{item.comparisonProduct && (
+																		<>
+																			<p>{item.comparisonProduct.brand}</p>
+																			<p>{item.comparisonProduct.screen}</p>
+																			<p>{item.comparisonProduct.color}</p>
+																			<p>{item.comparisonProduct.os}</p>
+																			<p>{item.comparisonProduct.memory}</p>
+																			<p>{item.comparisonProduct.ram}</p>
+																			<p>{item.comparisonProduct.weight}</p>
+																			<p>{item.comparisonProduct.sim}</p>
+																		</>
+																	)}
+																</div>
+															</div>
 														</div>
-														<div className={scss.table_div}>
-															<p>{item.brand}</p>
-															<p>{item.screen}</p>
-															<p>{item.color}</p>
-															<p>{item.os}</p>
-															<p>{item.storage}</p>
-															<p>{item.ram}</p>
-															<p>{item.weight}</p>
-															<p>{item.sim}</p>
-														</div>
-													</div>
-												</div>
-											))}
+													))}
 										</div>
 									</div>
 								</>
