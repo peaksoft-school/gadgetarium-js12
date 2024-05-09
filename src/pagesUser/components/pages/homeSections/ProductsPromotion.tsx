@@ -1,4 +1,4 @@
-import {  useState } from 'react';
+import { useState } from 'react';
 import scss from './ProductsPromotion.module.scss';
 import { useGetProductsQuery } from '@/src/redux/api/product';
 import { Rate, Skeleton, Tooltip } from 'antd';
@@ -66,8 +66,7 @@ const ProductsPromotion = () => {
 									<Skeleton.Button
 										active
 										block
-										
-										style={{ width: 290, height: 450 , color: 'black'}}
+										style={{ width: 290, height: 450, color: 'black' }}
 									/>
 									<Skeleton.Button
 										active
@@ -110,6 +109,7 @@ const ProductsPromotion = () => {
 																	? 'Добавить к сравнению'
 																	: 'Удалить из сравнения'
 															}
+															color="#c11bab"
 														>
 															<IconScale
 																className={
@@ -126,6 +126,7 @@ const ProductsPromotion = () => {
 																? 'Добавить в избранное'
 																: 'Удалить из избранного'
 														}
+														color="#c11bab"
 													>
 														<button
 															className={scss.heart}
@@ -163,7 +164,6 @@ const ProductsPromotion = () => {
 												<div className={scss.div_buttons_and_price}>
 													<div className={scss.product_price}>
 														<h2>{item.price} c</h2>
-														<p>{item.previousPrice} c</p>
 													</div>
 													<AddBasketButton
 														onClick={() =>

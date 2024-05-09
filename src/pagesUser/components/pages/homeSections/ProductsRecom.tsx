@@ -111,6 +111,7 @@ const ProductsRecom = () => {
 																	? 'Добавить к сравнению'
 																	: 'Удалить из сравнения'
 															}
+															color="#c11bab"
 														>
 															<IconScale
 																className={
@@ -127,6 +128,7 @@ const ProductsRecom = () => {
 																? 'Добавить в избранное'
 																: 'Удалить из избранного'
 														}
+														color="#c11bab"
 													>
 														<button
 															className={scss.heart}
@@ -164,7 +166,6 @@ const ProductsRecom = () => {
 												<div className={scss.div_buttons_and_price}>
 													<div className={scss.product_price}>
 														<h2>{item.price} c</h2>
-														<p>{item.previousPrice} c</p>
 													</div>
 													<AddBasketButton
 														onClick={() =>
