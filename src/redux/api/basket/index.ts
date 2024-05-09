@@ -22,8 +22,46 @@ const api = index.injectEndpoints({
 				body: { isInBasket }
 			}),
 			invalidatesTags: ['basket']
+		}),
+		basketProductDeleteAll: build.mutation<
+			BASKETPRODUCTS.BasketProductsAllItemIdResponse,
+			BASKETPRODUCTS.BasketProductsAllItemIdRequest
+		>({
+			query: ({ id, YourDiscount, Total, Sum, NumberOfGoods }) => ({
+				url: `/${id}`,
+				method: 'PATCH',
+				body: { YourDiscount, Total, Sum, NumberOfGoods }
+			}),
+			invalidatesTags: ['basket']
+		}),
+		basketProduct: build.mutation<
+			BASKETPRODUCTS.BasketProductResponse,
+			BASKETPRODUCTS.BasketProductRequest
+		>({
+			query: ({ id }) => ({
+				url: `/${id}`,
+				method: 'PATCH'
+			}),
+			invalidatesTags: ['basket']
+		}),
+		basketProductResultQuantity: build.mutation<
+			BASKETPRODUCTS.ProductQuantityResponse,
+			BASKETPRODUCTS.ProductQuantityRequest
+		>({
+			query: ({ id, buyProductQuantity }) => ({
+				url: `/${id}`,
+				method: 'PATCH',
+				body: {buyProductQuantity}
+			}),
+			invalidatesTags: ['basket']
 		})
 	})
 });
 
-export const { useGetBasketQuery, useBasketPutProductMutation } = api;
+export const {
+	useGetBasketQuery,
+	useBasketPutProductMutation,
+	useBasketProductDeleteAllMutation,
+	useBasketProductMutation,
+	useBasketProductResultQuantityMutation
+} = api;

@@ -14,7 +14,7 @@ import {
 	IconSystem
 } from '@/src/assets/icons';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import { Checkbox, ConfigProvider } from 'antd';
 import type { CheckboxProps } from 'antd';
@@ -32,14 +32,13 @@ const ComparisonSection = () => {
 		console.log(`checked = ${e.target.checked}`);
 	};
 	const [addComparison] = useComparisonPutProductMutation();
-	const { data } = useGetComparisonQuery();
+	const { data, isLoading } = useGetComparisonQuery();
 	const [addBasketProducts] = useBasketPutProductMutation();
 	const [compatisonResults] = useComparisonResultsMutation();
 	const [categoryProductsResults] = useCategoryProductsMutation();
 	const [filtredResults, setFiltredResults] = useState<string>('Apple');
 	const navigate = useNavigate();
 	const [brand, setBrand] = useState<boolean>(false);
-	const refResults = useRef<HTMLDivElement | null>(null);
 	const [loaded, setLoaded] = useState<any>(false);
 	const [ref, instanceRef] = useKeenSlider<HTMLDivElement>(
 		{
@@ -119,22 +118,6 @@ const ComparisonSection = () => {
 			window.removeEventListener('resize', handleChange);
 		};
 	}, []);
-
-	const setRef = (node: HTMLDivElement | null) => {
-		// Устанавливаем значение рефа
-		refResults.current = node;
-	};
-
-	// Обновляем instanceRef.current при изменении filtredResults
-	useEffect(() => {
-		// Проверяем, существует ли текущий реф
-		if (refResults.current) {
-			setRef(refResults.current)
-			// Теперь ref.current существует и имеет тип HTMLDivElement
-			// Здесь вы можете выполнять дополнительные действия с ref.current
-		}
-	}, [filtredResults]);
-
 	const handleAddBasketProducts = async (_id: number, isInBasket: boolean) => {
 		console.log(isInBasket);
 
@@ -153,11 +136,9 @@ const ComparisonSection = () => {
 		await compatisonResults({ isDifference: !isDifference });
 	};
 
-	const handleCategoryProducts = (categoryProducts: string) => {
+	const handleCategoryProducts = async (categoryProducts: string) => {
 		setFiltredResults(categoryProducts);
-		console.log(categoryProducts);
-
-		//  categoryProductsResults({ categoryProducts });
+		await categoryProductsResults({categoryProducts})
 	};
 
 	return (
@@ -174,11 +155,9 @@ const ComparisonSection = () => {
 					{data?.length === 0 && <span className={scss.hr}></span>}
 					{data?.length === 0 ? (
 						<>
-							<img
-								className={scss.favorite_empty_img}
-								src={comparison}
-								alt="favorite"
-							/>
+							<div className={scss.favorite_empty_img_div}>
+								<img src={comparison} alt="favorite" />
+							</div>
 							<div className={scss.text_after_img}>
 								<h2>Сравнивать пока нечего</h2>
 								<p>
@@ -192,226 +171,229 @@ const ComparisonSection = () => {
 						</>
 					) : (
 						<>
-							<div className={scss.second_content}>
-								<div className={scss.three_buttons}>
-									<button
-										onClick={() => handleCategoryProducts('Apple')}
-										className={
-											filtredResults.includes('Apple')
-												? `${scss.noo_active_button} ${scss.active_button}`
-												: `${scss.noo_active_button}`
-										}
-									>
-										Смартфоны(
-										{data &&
-											data?.filter(
-												(el) =>
-													el.comparisonProduct &&
-													el.comparisonProduct.brand === 'Apple'
-											).length}
-										)
-									</button>
-									<button
-										onClick={() => handleCategoryProducts('mac')}
-										className={
-											filtredResults.includes('mac')
-												? `${scss.noo_active_button} ${scss.active_button}`
-												: `${scss.noo_active_button}`
-										}
-									>
-										Ноутбуки (
-										{data &&
-											data?.filter(
-												(el) =>
-													el.comparisonProduct &&
-													el.comparisonProduct.brand === 'mac'
-											).length}
-										){' '}
-									</button>
-									<button
-										onClick={() => handleCategoryProducts('AirPods')}
-										className={
-											filtredResults.includes('AirPods')
-												? `${scss.noo_active_button} ${scss.active_button}`
-												: `${scss.noo_active_button}`
-										}
-									>
-										Наушники (
-										{data &&
-											data?.filter(
-												(el) =>
-													el.comparisonProduct &&
-													el.comparisonProduct.brand === 'AirPods'
-											).length}
-										)
-									</button>
-								</div>
-								<div className={scss.checkboxes}>
-									<ConfigProvider
-										theme={{
-											components: {
-												Checkbox: {
-													colorPrimary: '#C11BAB',
-													colorBgContainer: 'white',
-													algorithm: true
-												}
-											}
-										}}
-									>
-										<Checkbox
-											onClick={() =>
-												data?.forEach((el) =>
-													handleComparisonResults(el.isDifference)
-												)
-											}
-											onChange={onChange}
-										>
-											<p>Показывать только различия</p>
-										</Checkbox>
-									</ConfigProvider>
-									<div
-										onClick={() =>
-											data?.forEach((el) =>
-												handleProductsIsDeleteComparison(el._id)
-											)
-										}
-										className={scss.cleaningText}
-									>
-										<IconDelete />
-										<p>Очистить список</p>
-									</div>
-								</div>
+							{isLoading ? (
+								<h1>IsLOading...</h1>
+							) : (
 								<>
-									<div className={scss.all_blocks}>
-										<div className={scss.first_block}>
-											<div className={scss.second_half_block}>
-												{!brand ? (
-													<>
-														<div className={scss.icons}>
-															<IconBrand />
-															<IconScreen />
-															<IconColor />
-															<IconSystem />
-															<IconStorage />
-															<IconStorage />
-															<IconScales />
-															<IconSim />
-														</div>
-													</>
-												) : (
-													<>
-														<p>Бренд</p>
-														<p>Экран</p>
-														<p>Цвет</p>
-														<p>Операционная система</p>
-														<p>Память</p>
-														<p>Оперативная память</p>
-														<p>Вес</p>
-														<p>SIM-карты</p>
-													</>
-												)}
-											</div>
-										</div>
-										<div ref={ref} className="keen-slider">
-											{data &&
-												data
-													?.filter(
+									<div className={scss.second_content}>
+										<div className={scss.three_buttons}>
+											<button
+												onClick={() => handleCategoryProducts('Apple')}
+												className={
+													filtredResults.includes('Apple')
+														? `${scss.noo_active_button} ${scss.active_button}`
+														: `${scss.noo_active_button}`
+												}
+											>
+												Смартфоны(
+												{data &&
+													data?.filter(
 														(el) =>
 															el.comparisonProduct &&
-															el.comparisonProduct.brand === filtredResults
+															el.comparisonProduct.brand === 'Apple'
+													).length}
+												)
+											</button>
+											<button
+												onClick={() => handleCategoryProducts('mac')}
+												className={
+													filtredResults.includes('mac')
+														? `${scss.noo_active_button} ${scss.active_button}`
+														: `${scss.noo_active_button}`
+												}
+											>
+												Ноутбуки (
+												{data &&
+													data?.filter(
+														(el) =>
+															el.comparisonProduct &&
+															el.comparisonProduct.brand === 'mac'
+													).length}
+												){' '}
+											</button>
+											<button
+												onClick={() => handleCategoryProducts('AirPods')}
+												className={
+													filtredResults.includes('AirPods')
+														? `${scss.noo_active_button} ${scss.active_button}`
+														: `${scss.noo_active_button}`
+												}
+											>
+												Наушники (
+												{data &&
+													data?.filter(
+														(el) =>
+															el.comparisonProduct &&
+															el.comparisonProduct.brand === 'AirPods'
+													).length}
+												)
+											</button>
+										</div>
+										<div className={scss.checkboxes}>
+											<ConfigProvider
+												theme={{
+													components: {
+														Checkbox: {
+															colorPrimary: '#C11BAB',
+															colorBgContainer: 'white',
+															algorithm: true
+														}
+													}
+												}}
+											>
+												<Checkbox
+													onClick={() =>
+														data?.forEach((el) =>
+															handleComparisonResults(el.isDifference)
+														)
+													}
+													onChange={onChange}
+												>
+													<p>Показывать только различия</p>
+												</Checkbox>
+											</ConfigProvider>
+											<div
+												onClick={() =>
+													data?.forEach((el) =>
+														handleProductsIsDeleteComparison(el._id)
 													)
-													.map((item, index) => (
-														<div key={index} className="keen-slider__slide">
-															<div className={scss.slider_block}>
-																<div className={scss.card}>
-																	<button
-																		onClick={() =>
-																			handleComparisonProducts(item._id)
-																		}
-																		className={scss.delete_button}
-																	>
-																		<IconDelete />
-																	</button>
-																	{item.comparisonProduct &&
-																		item.comparisonProduct.image && (
-																			<img
-																				src={item.comparisonProduct.image}
-																				alt={item.comparisonProduct.productName}
-																			/>
-																		)}
-																	{item.comparisonProduct &&
-																		item.comparisonProduct.productName && (
-																			<p className={scss.charackter}>
-																				{item.comparisonProduct.productName}
-																			</p>
-																		)}
-																	{item.comparisonProduct &&
-																		item.comparisonProduct.price && (
-																			<p className={scss.charackter_price}>
-																				{item.comparisonProduct.price} c
-																			</p>
-																		)}
-																	<AddBasketButton
-																		onClick={() =>
-																			handleAddBasketProducts(
-																				item._id,
-																				item.comparisonProduct.isInBasket
-																			)
-																		}
-																		children={
-																			item.comparisonProduct &&
-																			item.comparisonProduct.isInBasket === true
-																				? `В корзине`
-																				: `В корзину`
-																		}
-																		className={
-																			item.comparisonProduct &&
-																			item.comparisonProduct.isInBasket
-																				? `${scss.add_bas_button} ${scss.active}`
-																				: `${scss.add_bas_button}`
-																		}
-																	/>
+												}
+												className={scss.cleaningText}
+											>
+												<IconDelete />
+												<p>Очистить список</p>
+											</div>
+										</div>
+										<>
+											<div className={scss.all_blocks}>
+												<div className={scss.first_block}>
+													<div className={scss.second_half_block}>
+														{!brand ? (
+															<>
+																<div className={scss.icons}>
+																	<IconBrand />
+																	<IconScreen />
+																	<IconColor />
+																	<IconSystem />
+																	<IconStorage />
+																	<IconStorage />
+																	<IconScales />
+																	<IconSim />
 																</div>
-																<div className={scss.table_div}>
-																	{item.comparisonProduct && (
-																		<>
-																			<p>{item.comparisonProduct.brand}</p>
-																			<p>{item.comparisonProduct.screen}</p>
-																			<p>{item.comparisonProduct.color}</p>
-																			<p>{item.comparisonProduct.os}</p>
-																			<p>{item.comparisonProduct.memory}</p>
-																			<p>{item.comparisonProduct.ram}</p>
-																			<p>{item.comparisonProduct.weight}</p>
-																			<p>{item.comparisonProduct.sim}</p>
-																		</>
-																	)}
+															</>
+														) : (
+															<>
+																<p>Бренд</p>
+																<p>Экран</p>
+																<p>Цвет</p>
+																<p>Операционная система</p>
+																<p>Память</p>
+																<p>Оперативная память</p>
+																<p>Вес</p>
+																<p>SIM-карты</p>
+															</>
+														)}
+													</div>
+												</div>
+												<div ref={ref} className="keen-slider">
+													{data &&
+														data?.map((item, index) => (
+															<div key={index} className="keen-slider__slide">
+																<div className={scss.slider_block}>
+																	<div className={scss.card}>
+																		<button
+																			onClick={() =>
+																				handleComparisonProducts(item._id)
+																			}
+																			className={scss.delete_button}
+																		>
+																			<IconDelete />
+																		</button>
+																		{item.comparisonProduct &&
+																			item.comparisonProduct.image && (
+																				<img
+																					src={item.comparisonProduct.image}
+																					alt={
+																						item.comparisonProduct.productName
+																					}
+																				/>
+																			)}
+																		{item.comparisonProduct &&
+																			item.comparisonProduct.productName && (
+																				<p className={scss.charackter}>
+																					{item.comparisonProduct.productName}
+																				</p>
+																			)}
+																		{item.comparisonProduct &&
+																			item.comparisonProduct.price && (
+																				<p className={scss.charackter_price}>
+																					{item.comparisonProduct.price} c
+																				</p>
+																			)}
+																		<AddBasketButton
+																			onClick={() =>
+																				handleAddBasketProducts(
+																					item._id,
+																					item.comparisonProduct.isInBasket
+																				)
+																			}
+																			children={
+																				item.comparisonProduct &&
+																				item.comparisonProduct.isInBasket ===
+																					true
+																					? `В корзине`
+																					: `В корзину`
+																			}
+																			className={
+																				item.comparisonProduct &&
+																				item.comparisonProduct.isInBasket
+																					? `${scss.add_bas_button} ${scss.active}`
+																					: `${scss.add_bas_button}`
+																			}
+																		/>
+																	</div>
+																	<div className={scss.table_div}>
+																		{item.comparisonProduct && (
+																			<>
+																				<p>{item.comparisonProduct.brand}</p>
+																				<p>{item.comparisonProduct.screen}</p>
+																				<p>{item.comparisonProduct.color}</p>
+																				<p>{item.comparisonProduct.os}</p>
+																				<p>{item.comparisonProduct.memory}</p>
+																				<p>{item.comparisonProduct.ram}</p>
+																				<p>{item.comparisonProduct.weight}</p>
+																				<p>{item.comparisonProduct.sim}</p>
+																			</>
+																		)}
+																	</div>
 																</div>
 															</div>
-														</div>
-													))}
-										</div>
+														))}
+												</div>
+											</div>
+										</>
 									</div>
-								</>
-							</div>
-							{loaded && instanceRef.current && (
-								<>
-									<span
-										className={`${scss.arrow} ${scss.left} `}
-										onClick={(e: any) =>
-											e.stopPropagation() || instanceRef.current?.prev()
-										}
-									>
-										<ButtonArrowLeft />
-									</span>
+									{loaded && instanceRef.current && (
+										<>
+											<span
+												className={`${scss.arrow} ${scss.left} `}
+												onClick={(e: any) =>
+													e.stopPropagation() || instanceRef.current?.prev()
+												}
+											>
+												<ButtonArrowLeft />
+											</span>
 
-									<span
-										className={`${scss.arrow} ${scss.right}`}
-										onClick={(e: any) =>
-											e.stopPropagation() || instanceRef.current?.next()
-										}
-									>
-										<ButtonArrowRight />
-									</span>
+											<span
+												className={`${scss.arrow} ${scss.right}`}
+												onClick={(e: any) =>
+													e.stopPropagation() || instanceRef.current?.next()
+												}
+											>
+												<ButtonArrowRight />
+											</span>
+										</>
+									)}
 								</>
 							)}
 						</>

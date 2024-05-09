@@ -16,8 +16,8 @@ const api = index.injectEndpoints({
 			FAVORITEPRODUCTS.PutFavoriteProductResponse,
 			FAVORITEPRODUCTS.PutFavoriteProductRequest
 		>({
-			query: ({ _id, isFavorite }) => ({
-				url: `/${_id}`,
+			query: ({ id, isFavorite }) => ({
+				url: `/${id}`,
 				method: 'PATCH',
 				body: { isFavorite }
 			}),
