@@ -2,7 +2,7 @@
 namespace COMPARISONPRODUCTS {
 	type GetComparisonProductsRequest = void;
 	type GetComparisonProductsResponse = {
-		_id: number;
+		id: number;
 		image: string;
 		productName: string;
 		price: number;
@@ -16,11 +16,11 @@ namespace COMPARISONPRODUCTS {
 		buyProduc: string;
 	}[];
 	type PutComparisonProductRequest = {
-		_id: number;
+		id: number;
 		isComparison: boolean;
 	};
 	type PutComparisonProductResponse = {
-		_id: number;
+		id: number;
 		isComparison: boolean;
 	};
 }

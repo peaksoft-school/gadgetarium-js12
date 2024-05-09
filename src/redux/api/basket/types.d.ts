@@ -2,7 +2,7 @@
 namespace BASKETPRODUCTS {
 	type GetBasketProductsRequest = void;
 	type GetBasketProductsResponse = {
-		_id: number;
+		id: number;
 		image: string;
 		productName: string;
 		price: number;
@@ -16,11 +16,11 @@ namespace BASKETPRODUCTS {
 		buyProduc: string;
 	}[];
 	type PutProductRequest = {
-		_id: number;
+		id: number;
 		isInBasket: boolean;
 	};
 	type PutProductResponse = {
-		_id: number;
+		id: number;
 		isInBasket: boolean;
 	};
 }

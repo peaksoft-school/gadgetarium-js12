@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {  useState } from 'react';
 import scss from './ProductsPromotion.module.scss';
 import { useGetProductsQuery } from '@/src/redux/api/product';
 import { Rate, Skeleton, Tooltip } from 'antd';
@@ -36,22 +36,22 @@ const ProductsPromotion = () => {
 		setShowMore(!showMore);
 	};
 
-	const handleScaleClick = async (_id: number, isComparison: boolean) => {
-		await comparisonPutProduct({ _id, isComparison: !isComparison });
+	const handleScaleClick = async (id: number, isComparison: boolean) => {
+		await comparisonPutProduct({ id, isComparison: !isComparison });
 		refetch();
-		setActiveScaleId(activeScaleId === _id ? null : _id);
+		setActiveScaleId(activeScaleId === id ? null : id);
 	};
 
-	const handleHeartClick = async (_id: number, isFavorite: boolean) => {
-		await putFavoriteProduct({ _id, isFavorite: !isFavorite });
+	const handleHeartClick = async (id: number, isFavorite: boolean) => {
+		await putFavoriteProduct({ id, isFavorite: !isFavorite });
 		refetch();
-		setActiveHeartId(activeHeartId === _id ? null : _id);
+		setActiveHeartId(activeHeartId === id ? null : id);
 	};
 
-	const handleBasket = async (_id: number, isInBasket: boolean) => {
-		await basketPutProduct({ _id, isInBasket: !isInBasket });
+	const handleBasket = async (id: number, isInBasket: boolean) => {
+		await basketPutProduct({ id, isInBasket: !isInBasket });
 		refetch();
-		setIsBasket(isBasket === _id ? null : _id);
+		setIsBasket(isBasket === id ? null : id);
 	};
 
 	return (
@@ -62,19 +62,46 @@ const ProductsPromotion = () => {
 					<div className={scss.title}>
 						<div className={scss.product_cards}>
 							{isLoading ? (
-								<Skeleton />
+								<>
+									<Skeleton.Button
+										active
+										block
+										
+										style={{ width: 290, height: 450 , color: 'black'}}
+									/>
+									<Skeleton.Button
+										active
+										block
+										style={{ width: 290, height: 450 }}
+									/>
+									<Skeleton.Button
+										active
+										block
+										style={{ width: 290, height: 450 }}
+									/>
+									<Skeleton.Button
+										active
+										block
+										style={{ width: 290, height: 450 }}
+									/>
+									<Skeleton.Button
+										active
+										block
+										style={{ width: 290, height: 450 }}
+									/>
+								</>
 							) : (
 								<>
 									{productData?.slice(0, isVisible).map((item) => (
-										<div className={scss.div_product_map} key={item._id}>
+										<div className={scss.div_product_map} key={item.id}>
 											<div className={scss.div_icons}>
 												<div className={scss.minus_promotion}> -10%</div>
 												<div className={scss.div_two_icons}>
 													<button
-														onMouseEnter={() => setActiveScaleId(item._id)}
+														onMouseEnter={() => setActiveScaleId(item.id)}
 														onMouseLeave={() => setActiveScaleId(null)}
 														onClick={() =>
-															handleScaleClick(item._id, item.isComparison)
+															handleScaleClick(item.id, item.isComparison)
 														}
 													>
 														<Tooltip
@@ -103,9 +130,9 @@ const ProductsPromotion = () => {
 														<button
 															className={scss.heart}
 															onClick={() =>
-																handleHeartClick(item._id, item.isFavorite)
+																handleHeartClick(item.id, item.isFavorite)
 															}
-															onMouseEnter={() => setActiveHeartId(item._id)}
+															onMouseEnter={() => setActiveHeartId(item.id)}
 															onMouseLeave={() => setActiveHeartId(null)}
 														>
 															{item.isFavorite === true ? (
@@ -140,7 +167,7 @@ const ProductsPromotion = () => {
 													</div>
 													<AddBasketButton
 														onClick={() =>
-															handleBasket(item._id, item.isInBasket)
+															handleBasket(item.id, item.isInBasket)
 														}
 														children={
 															item.isInBasket === true
