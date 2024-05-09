@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from 'react-router-dom';
 import scss from './ComparisonSection.module.scss';
 import comparison from '@/src/assets/sammy_finance_1.png';
