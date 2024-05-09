@@ -16,8 +16,8 @@ const api = index.injectEndpoints({
 			BASKETPRODUCTS.PutProductResponse,
 			BASKETPRODUCTS.PutProductRequest
 		>({
-			query: ({ id, isInBasket }) => ({
-				url: `/${id}`,
+			query: ({ _id, isInBasket }) => ({
+				url: `/${_id}`,
 				method: 'PATCH',
 				body: { isInBasket }
 			}),
