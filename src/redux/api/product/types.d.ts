@@ -75,7 +75,7 @@ namespace PRODUCTSTORE {
 		image: string;
 		quantity: number;
 		productName: string;
-		
+		brand: string;
 		isResult: string;
 		isFavorite: boolean;
 		isInBasket: boolean;
@@ -114,6 +114,7 @@ namespace PRODUCTSTORE {
 		image: string;
 		productName: string;
 		isFavorite: boolean;
+		brand: string;
 		isInBasket: boolean;
 		previousPrice: number;
 		quantity: number;

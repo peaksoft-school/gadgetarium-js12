@@ -48,14 +48,14 @@ const CardProductPage = () => {
 		}
 	};
 	console.log(isSlider, sliderResult);
-	const addBasketProduct = async (_id: number, isInBasket: boolean) => {
+	const addBasketProduct = async (id: number, isInBasket: boolean) => {
 		console.log(isInBasket);
-		await basketAddProduct({ _id, isInBasket: !isInBasket });
+		await basketAddProduct({ id, isInBasket: !isInBasket });
 		refetch();
 	};
-	const addFavoriteProduct = async (_id: number, isFavorite: boolean) => {
+	const addFavoriteProduct = async (id: number, isFavorite: boolean) => {
 		console.log(isFavorite);
-		await favoriteAddProduct({ _id, isFavorite: !isFavorite });
+		await favoriteAddProduct({ id, isFavorite: !isFavorite });
 		refetch();
 	};
 	return (

@@ -27,9 +27,7 @@ const BasketSection = () => {
 	const [basketProductsAllId] = useBasketProductDeleteAllMutation();
 	const navigate = useNavigate();
 	const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
-	const [productsIdsResult, setProductsIdsResult] = useState<number>(
-		
-	);
+	const [productsIdsResult, setProductsIdsResult] = useState<number>();
 	const [arrayNumbers, setArrayNumbers] = useState<number[]>([]);
 	const [inputValueItemId, setInputValueItemId] = useState<number>();
 	const [selectAll, setSelectAll] = useState<boolean>(false);
@@ -65,7 +63,6 @@ const BasketSection = () => {
 				Total
 			});
 		}
-
 	};
 	const handleSelectAll = async (
 		id: number,
@@ -89,7 +86,7 @@ const BasketSection = () => {
 			});
 		}
 		setSelectAll(!selectAll);
-	};	
+	};
 
 	const handleInputValueForProductQuantity = (value: number | null) => {
 		if (value !== null) {
