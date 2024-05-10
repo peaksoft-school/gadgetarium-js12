@@ -4,13 +4,14 @@
 	border-radius: 100%;
 	background: none;
 	color: #cb11ab;
-	border: none;
+	border: none;		background: #ffff;
+
 	cursor: pointer;
 	transition: 0.4s;
 
 	&:hover {
 		background: #cb11ab;
-		color: white;
+		color: #fff;
 	}
 
 	svg {

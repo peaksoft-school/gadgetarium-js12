@@ -7,7 +7,7 @@ const api = index.injectEndpoints({
 			FAVORITEPRODUCTS.GetFavoriteProductsRequest
 		>({
 			query: () => ({
-				url: '',
+				url: 'https://api-v2.elchocrud.pro/api/v1/eca987f41677bb5cc17c0789a3c9920e/favorite_products',
 				method: 'GET'
 			}),
 			providesTags: ['favorite']
@@ -16,8 +16,8 @@ const api = index.injectEndpoints({
 			FAVORITEPRODUCTS.PutFavoriteProductResponse,
 			FAVORITEPRODUCTS.PutFavoriteProductRequest
 		>({
-			query: ({ _id, isFavorite }) => ({
-				url: `/${_id}`,
+			query: ({ id, isFavorite }) => ({
+				url: `https://api-v2.elchocrud.pro/api/v1/eca987f41677bb5cc17c0789a3c9920e/favorite_products/${id}`,
 				method: 'PATCH',
 				body: { isFavorite }
 			}),
