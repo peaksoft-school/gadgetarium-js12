@@ -13,7 +13,7 @@ import scss from './BasketSection.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { IconCardonDelete, IconRedHeart } from '@/src/assets/icons';
 import { IconHeart, IconX, IconExclamationMark } from '@tabler/icons-react';
-import { Button, Checkbox, Rate } from 'antd';
+import { Button, Checkbox, ConfigProvider, Rate } from 'antd';
 import React, { useState } from 'react';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { InputNumber } from 'antd';
@@ -27,9 +27,6 @@ const BasketSection = () => {
 	const [basketProductsAllId] = useBasketProductDeleteAllMutation();
 	const navigate = useNavigate();
 	const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
-	const [productsIdsResult, setProductsIdsResult] = useState<number>(
-		
-	);
 	const [arrayNumbers, setArrayNumbers] = useState<number[]>([]);
 	const [inputValueItemId, setInputValueItemId] = useState<number>();
 	const [selectAll, setSelectAll] = useState<boolean>(false);
@@ -53,10 +50,19 @@ const BasketSection = () => {
 		if (selectedProducts.includes(productId)) {
 			setSelectedProducts(selectedProducts.filter((id) => id !== productId));
 			setArrayNumbers(arrayNumbers.filter((el) => el !== productId));
+			localStorage.removeItem('selectedProducts');
+			localStorage.setItem(
+				'selectedProducts',
+				JSON.stringify(selectedProducts.filter((el) => el !== productId))
+			);
 			await basketProduct({ id: null });
 		} else {
 			setSelectedProducts([...selectedProducts, productId]);
 			setArrayNumbers((prevState) => [...prevState, productId]);
+			localStorage.setItem(
+				'selectedProducts',
+				JSON.stringify([...selectedProducts, productId])
+			);
 			await basketProduct({
 				id: productId,
 				NumberOfGoods,
@@ -65,8 +71,8 @@ const BasketSection = () => {
 				Total
 			});
 		}
-
 	};
+
 	const handleSelectAll = async (
 		id: number,
 		NumberOfGoods: number,
@@ -76,10 +82,17 @@ const BasketSection = () => {
 	) => {
 		if (selectAll) {
 			setSelectedProducts([]);
+			localStorage.setItem(
+				'selectedProducts',
+				JSON.stringify(setSelectedProducts([]))
+			);
 			await basketProductsAllId({ id: null });
 		} else {
 			setSelectedProducts(data?.map((item) => item.id) || []);
-
+			localStorage.setItem(
+				'selectedProducts',
+				JSON.stringify(data?.map((item) => item.id))
+			);
 			await basketProductsAllId({
 				id: id,
 				NumberOfGoods,
@@ -89,7 +102,7 @@ const BasketSection = () => {
 			});
 		}
 		setSelectAll(!selectAll);
-	};	
+	};
 
 	const handleInputValueForProductQuantity = (value: number | null) => {
 		if (value !== null) {
@@ -101,6 +114,10 @@ const BasketSection = () => {
 	const handleProductQuantityFunkForEnter = async (id: number) => {
 		console.log(inputValueQuantity);
 		setSelectedProducts([...selectedProducts, id]);
+		localStorage.setItem(
+			'selectedProducts',
+			JSON.stringify([...selectedProducts, id])
+		);
 		await basketProductResultQuantity({
 			id,
 			buyProductQuantity: inputValueQuantity
@@ -108,6 +125,8 @@ const BasketSection = () => {
 	};
 	const allSelected = selectedProducts.length === (data?.length || 0);
 	const someSelected = selectedProducts.length > 0;
+	const localProductsResults = localStorage.getItem('selectedProducts');
+	console.log(localProductsResults);
 
 	const calculateButtonClass = () => {
 		if (selectedProducts.some((id) => data?.map((el) => el.id).includes(id))) {
@@ -144,21 +163,32 @@ const BasketSection = () => {
 						<div className={scss.basket_product_container_div}>
 							<div className={scss.basket_product_result_div}>
 								<div className={scss.button_is_basket_results_div}>
-									<Checkbox
-										checked={allSelected}
-										indeterminate={someSelected && !allSelected}
-										onChange={() =>
-											data?.forEach((el) =>
-												handleSelectAll(
-													el.id,
-													el.orderPrice.NumberOfGoods,
-													el.orderPrice.YourDiscount,
-													el.orderPrice.Total,
-													el.orderPrice.Sum
+									<ConfigProvider
+										theme={{
+											components: {
+												Checkbox: {
+													colorPrimary: '#c11bab',
+													colorBgContainer: 'white',
+													algorithm: true
+												}
+											}
+										}}
+									>
+										<Checkbox
+											checked={allSelected && someSelected}
+											onChange={() =>
+												data?.forEach((el) =>
+													handleSelectAll(
+														el.id,
+														el.orderPrice.NumberOfGoods,
+														el.orderPrice.YourDiscount,
+														el.orderPrice.Total,
+														el.orderPrice.Sum
+													)
 												)
-											)
-										}
-									></Checkbox>
+											}
+										/>
+									</ConfigProvider>
 									<p>Отметить все</p>
 								</div>
 								<div className={scss.button_is_basket_results_div}>
@@ -177,18 +207,33 @@ const BasketSection = () => {
 								<div className={scss.container_basket_product}>
 									{data?.map((item) => (
 										<div key={item.id} className={scss.basket_product_content}>
-											<Checkbox
-												checked={selectedProducts.includes(item.id)}
-												onChange={() =>
-													handleSelectProduct(
-														item.id,
-														item.orderPrice.NumberOfGoods,
-														item.orderPrice.YourDiscount,
-														item.orderPrice.Sum,
-														item.orderPrice.Total
-													)
-												}
-											></Checkbox>
+											<ConfigProvider
+												theme={{
+													components: {
+														Checkbox: {
+															colorPrimary: '#c11bab',
+															colorBgContainer: 'white',
+															algorithm: true
+														}
+													}
+												}}
+											>
+												<Checkbox
+													checked={
+														selectedProducts.includes(item.id) &&
+														localProductsResults?.includes(item.id.toString())
+													}
+													onChange={() =>
+														handleSelectProduct(
+															item.id,
+															item.orderPrice.NumberOfGoods,
+															item.orderPrice.YourDiscount,
+															item.orderPrice.Sum,
+															item.orderPrice.Total
+														)
+													}
+												/>
+											</ConfigProvider>
 											<div className={scss.content_product_div}>
 												<div className={scss.contents_product}>
 													<img src={item.image} alt={item.productName} />
@@ -211,35 +256,49 @@ const BasketSection = () => {
 															>
 																<div>
 																	<button>-</button>
-																	<InputNumber
-																		color="black"
-																		id="inputValueQuantity"
-																		className={scss.input_number}
-																		min={1}
-																		max={100}
-																		defaultValue={item.buyProductQuantity}
-																		onChange={
-																			handleInputValueForProductQuantity
-																		}
-																		onClick={() => setInputValueItemId(item.id)}
-																		value={
-																			inputValueItemId !== item.id
-																				? inputValueQuantity
-																				: null
-																		}
-																		onKeyPress={(
-																			e: React.KeyboardEvent<HTMLInputElement>
-																		) => {
-																			if (e.key === 'Enter') {
-																				handleProductQuantityFunkForEnter(
-																					item.id
-																				);
+																	<ConfigProvider
+																		theme={{
+																			components: {
+																				InputNumber: {
+																					handleHoverColor: '#eb2f96',
+																					colorText: 'black',
+																					algorithm: true
+																				}
 																			}
 																		}}
-																	/>
+																	>
+																		<InputNumber
+																			color="black"
+																			id="inputValueQuantity"
+																			className={scss.input_number}
+																			min={1}
+																			max={100}
+																			defaultValue={item.buyProductQuantity}
+																			onChange={
+																				handleInputValueForProductQuantity
+																			}
+																			onClick={() =>
+																				setInputValueItemId(item.id)
+																			}
+																			value={
+																				inputValueItemId === item.id
+																					? inputValueQuantity
+																					: null
+																			}
+																			onKeyPress={(
+																				e: React.KeyboardEvent<HTMLInputElement>
+																			) => {
+																				if (e.key === 'Enter') {
+																					handleProductQuantityFunkForEnter(
+																						item.id
+																					);
+																				}
+																			}}
+																		/>
+																	</ConfigProvider>
 																	<button>+</button>
 																</div>
-																<h3>{item.price}</h3>
+																<h3>{item.price} c</h3>
 															</div>
 														</div>
 														<div className={scss.div_product_code_and_buttons}>

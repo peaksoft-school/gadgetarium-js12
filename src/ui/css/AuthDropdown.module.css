@@ -1,1 +1,0 @@
-.button{width:30px;height:30px;display:flex;justify-content:center;align-items:center;background:#fff;border-radius:50%;border:none;cursor:pointer}@media(max-width: 500px){.button{cursor:default}}.button svg{color:#1a1a25}

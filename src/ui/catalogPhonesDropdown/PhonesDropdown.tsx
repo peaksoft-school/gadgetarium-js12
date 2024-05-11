@@ -1,7 +1,7 @@
 import { IconChevronDown } from '@tabler/icons-react';
 import scss from './PhonesDropdown.module.scss';
 import type { MenuProps } from 'antd';
-import { Dropdown, Space } from 'antd';
+import { ConfigProvider, Dropdown, Space, theme } from 'antd';
 
 const items: MenuProps['items'] = [
 	{
@@ -41,19 +41,30 @@ const items: MenuProps['items'] = [
 ];
 
 const PhonesDropdown = () => {
+	const antdThemeConfig = {
+		algorithm: theme.defaultAlgorithm,
+		token: {
+			colorBgElevated: 'white',
+			colorText: ' black',
+			colorPrimaryBorderHover: 'red',
+			controlItemBgActiveHover: '#bae0ff'
+		}
+	};
 	return (
-		<Dropdown menu={{ items }}>
-			<a onClick={(e) => e.preventDefault()}>
-				<Space>
-					<div className={scss.sort_div}>
-						<div className={scss.sortirovat}>
-							<p>Сортировать</p>
-							<IconChevronDown />
+		<ConfigProvider theme={antdThemeConfig}>
+			<Dropdown menu={{ items }}>
+				<a onClick={(e) => e.preventDefault()}>
+					<Space>
+						<div className={scss.sort_div}>
+							<div className={scss.sortirovat}>
+								<p>Сортировать</p>
+								<IconChevronDown />
+							</div>
 						</div>
-					</div>
-				</Space>
-			</a>
-		</Dropdown>
+					</Space>
+				</a>
+			</Dropdown>
+		</ConfigProvider>
 	);
 };
 

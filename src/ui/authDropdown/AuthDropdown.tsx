@@ -1,6 +1,6 @@
 import scss from './AuthDropdown.module.scss';
 import { Link } from 'react-router-dom';
-import { Dropdown, MenuProps } from 'antd';
+import { ConfigProvider, Dropdown, MenuProps, theme } from 'antd';
 import { IconUser } from '@tabler/icons-react';
 
 const items: MenuProps['items'] = [
@@ -23,12 +23,17 @@ const items: MenuProps['items'] = [
 ];
 
 const AuthDropdown = () => {
+	const antdThemeConfig = {
+		algorithm: theme.defaultAlgorithm
+	};
 	return (
-		<Dropdown menu={{ items }} placement="bottomRight">
-			<button className={scss.button}>
-				<IconUser />
-			</button>
-		</Dropdown>
+		<ConfigProvider theme={antdThemeConfig}>
+			<Dropdown menu={{ items }} placement="bottomRight">
+				<button className={scss.button}>
+					<IconUser />
+				</button>
+			</Dropdown>
+		</ConfigProvider>
 	);
 };
 

@@ -21,7 +21,7 @@ const SliderDiscount = () => {
 		<div className={scss.slider}>
 			{isLoading ? (
 				<>
-					<Skeleton className={scss.skeleton} />
+					<Skeleton.Button style={{ width: 1900, height: 550 }} />
 				</>
 			) : (
 				<>

@@ -2,9 +2,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import scss from './Login.module.scss';
 import logo from '@/src/assets/logo.png';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { Button, Input } from 'antd';
+import { Button, ConfigProvider, Input } from 'antd';
+import React from 'react';
 
 const Login = () => {
+	const [passwordVisible, setPasswordVisible] = React.useState(false);
 	const navigate = useNavigate();
 	const {
 		handleSubmit,
@@ -25,8 +27,10 @@ const Login = () => {
 		<div className={scss.loginPages}>
 			<div className="container">
 				<div className={scss.content}>
-					<div>
-						<img src={logo} alt="logo" />
+					<div className={scss.logo}>
+						<Link to="/">
+							<img src={logo} alt="logo" />
+						</Link>
 					</div>
 					<div className={scss.displayFormDiv}>
 						<div className={scss.formsDiv}>
@@ -69,12 +73,28 @@ const Login = () => {
 											}
 										}}
 										render={({ field }) => (
-											<Input.Password
-												className={scss.inputs}
-												id="password"
-												placeholder="Password"
-												{...field}
-											/>
+											<ConfigProvider
+												theme={{
+													components: {
+														Input: {
+															colorTextPlaceholder: 'black',
+															colorIcon: 'black',
+															colorBgContainer: 'white'
+														}
+													}
+												}}
+											>
+												<Input.Password
+													style={{ color: 'black' }}
+													className={scss.inputs}
+													placeholder="Password"
+													{...field}
+													visibilityToggle={{
+														visible: passwordVisible,
+														onVisibleChange: setPasswordVisible
+													}}
+												/>
+											</ConfigProvider>
 										)}
 									/>
 									{(errors.email && (
@@ -95,7 +115,7 @@ const Login = () => {
 									</button>
 									<div className={scss.divForms}>
 										<p>
-											Нет аккаунта?{' '}
+											Нет аккаунта?
 											<Link className={scss.link} to={'/auth/register'}>
 												Зарегистрироваться
 											</Link>{' '}

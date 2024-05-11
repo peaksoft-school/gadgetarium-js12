@@ -1,6 +1,7 @@
 import scss from './Delivery.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { IconWallet, IconKamazCar } from '@/src/assets/icons';
+import { IconWalletCard, IconKamazCar } from '@/src/assets/icons';
+import { IconBusinessplan, IconCash, IconWallet } from '@tabler/icons-react';
 
 const Delivery = () => {
 	const navigate = useNavigate();
@@ -46,15 +47,15 @@ const Delivery = () => {
 						</div>
 						<div className={scss.div_cards_2}>
 							<div className={scss.card_content2}>
-								<IconWallet />
+								<IconWallet style={{color: '#c11bab'}}/>
 								<p>Предоплата не требуется</p>
 							</div>
 							<div className={scss.card_content2}>
-								<IconWallet />
+								<IconWallet style={{color: '#c11bab'}}/>
 								<p>Предоплата не требуется</p>
 							</div>
 							<div className={scss.card_content2}>
-								<IconKamazCar />
+								<IconWallet style={{color: '#c11bab'}}/>
 								<p>Предоплата не требуется</p>
 							</div>
 						</div>
@@ -62,21 +63,21 @@ const Delivery = () => {
 					<h2>Способы оплаты</h2>
 					<div className={scss.cards_and_texts_content_div_2}>
 						<div className={scss.card_content_2}>
-							<IconWallet />
+							<IconCash style={{color: '#c11bab'}}/>
 							<div className={scss.card_texts_div}>
 								<p>Оплата картой </p>
 								<p>онлайн</p>
 							</div>
 						</div>
 						<div className={scss.card_content_2}>
-							<IconWallet />
+							<IconBusinessplan style={{color: '#c11bab'}}/>
 							<div className={scss.card_texts_div}>
 								<p>Наличными при</p>
 								<p>получении</p>
 							</div>
 						</div>
 						<div className={scss.card_content_2}>
-							<IconWallet />
+							<IconWalletCard />
 							<div className={scss.card_texts_div}>
 								<p>Картой </p>
 								<p>при получении</p>
