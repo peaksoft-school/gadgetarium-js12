@@ -49,6 +49,17 @@ const api = index.injectEndpoints({
 				method: 'DELETE'
 			}),
 			invalidatesTags: ['product']
+		}),
+		ProductPatchForQuantity: build.mutation<
+			PRODUCTSTORE.ProductPatchForQuantityResponse,
+			PRODUCTSTORE.ProductPatchForQuantityRequest
+		>({
+			query: ({ id, quantity }) => ({
+				url: `https://c7c9df01cc80687d.mokky.dev/basket_products/${id}`,
+				method: 'PATCH',
+				body: quantity
+			}),
+			invalidatesTags: ['product']
 		})
 	})
 });
@@ -58,5 +69,6 @@ export const {
 	useGetProductsItemIdQuery,
 	useGetProductDetailsQuery,
 	useEditAdminCommitMutation,
-	useDeleteProductsMutation
+	useDeleteProductsMutation,
+	useProductPatchForQuantityMutation
 } = api;

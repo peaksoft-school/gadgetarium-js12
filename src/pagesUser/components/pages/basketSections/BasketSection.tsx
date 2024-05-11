@@ -13,10 +13,9 @@ import scss from './BasketSection.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { IconCardonDelete, IconRedHeart } from '@/src/assets/icons';
 import { IconHeart, IconX, IconExclamationMark } from '@tabler/icons-react';
-import { Button, Checkbox, Rate } from 'antd';
+import { Button, Checkbox, Rate, InputNumber } from 'antd';
 import React, { useState } from 'react';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
-import { InputNumber } from 'antd';
 
 const BasketSection = () => {
 	const [basketDeleteProduct] = useBasketPutProductMutation();

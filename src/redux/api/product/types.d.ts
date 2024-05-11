@@ -168,6 +168,15 @@ namespace PRODUCTSTORE {
 		_id: number;
 		reviews: Reviews;
 	};
+
+	type ProductPatchForQuantityRequest = {
+		id: number;
+		quantity: number;
+	}
+	type ProductPatchForQuantityResponse = {
+		id: number;
+		quantity: number;
+	}
 }
 
 // namespace PRODUCTSTORE {

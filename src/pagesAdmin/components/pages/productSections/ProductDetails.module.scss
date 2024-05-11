@@ -2,6 +2,13 @@
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	@media (max-width: 640px) {
+		display: flex;
+		flex-direction: column;
+		align-items: start;
+		gap: 6px;
+		background-color: red;
+	}
 	.content {
 		padding-left: 20px;
 		width: 100%;
@@ -11,6 +18,21 @@
 		grid-template-columns: 1fr 1.4fr 3fr 1.2fr 2fr 1fr 1fr 2fr 1.9fr;
 		background: rgba(56, 66, 85, 0.9);
 		padding-block: 11px;
+		@media (max-width: 980px) {
+			display: flex;
+			justify-content: space-between;
+			padding-right: 20px;
+			height: auto;
+			max-width: 100px;
+			gap: 25px;
+		}
+		@media (max-width: 740px) {
+			padding-left: 10px;
+			padding-right: 10px;
+			display: flex;
+			flex-direction: column;
+		}
+		
 		p {
 			color: rgb(255, 255, 255);
 			font-size: clamp(7px, 6vw, 14px);
@@ -21,6 +43,11 @@
 		display: flex;
 		flex-direction: column;
 		gap: 8px;
+		@media (max-width: 740px) {
+			display: flex;
+			align-items: start;
+			flex-direction: row;
+		}
 		.container_product {
 			transition: all 0.3s ease;
 
@@ -30,6 +57,11 @@
 			box-sizing: border-box;
 			border: 1px solid rgb(205, 205, 205);
 			border-radius: 6px;
+			@media (max-width: 740px) {
+				height: auto;
+				max-width: 150px;
+				background-color: black;
+			}
 			&.index_active {
 				transition: all 0.3s ease;
 				border: 1px solid rgb(205, 205, 205);
@@ -42,6 +74,12 @@
 				display: grid;
 				grid-template-columns: 0.4fr 0.7fr 1.8fr 1fr 0.7fr 0.8fr 0.4fr 0.6fr 1.8fr;
 				place-items: center;
+				@media (max-width: 740px) {
+					display: flex;
+					flex-direction: column;
+					gap: 25px;
+
+				}
 				.product_name {
 					color: rgb(41, 41, 41);
 					font-size: clamp(7px, 4vw, 14px);
@@ -53,6 +91,11 @@
 					width: 64px;
 					// height: auto;
 					height: 64px;
+					@media (max-width: 740px) {
+						width: 100%;
+						max-width: 100px;
+						height: 80px;
+					}
 				}
 				p {
 					color: rgb(41, 41, 41);

@@ -4,14 +4,11 @@ import scss from './CardProductPage.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
 	useDeleteProductsMutation,
-	useGetProductsItemIdQuery
+	useGetProductsItemIdQuery,
+	useProductPatchForQuantityMutation
 } from '@/src/redux/api/product';
 import React, { useState } from 'react';
-import {
-	IconArrowLeft,
-	IconArrowRight,
-	IconTrash
-} from '@tabler/icons-react';
+import { IconArrowLeft, IconArrowRight, IconTrash } from '@tabler/icons-react';
 import { Button, ConfigProvider, InputNumber, Modal, Rate } from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
 import InfoProduct from './InfoProduct';
@@ -21,6 +18,7 @@ const CardProductPage = () => {
 	const [deleteProducts] = useDeleteProductsMutation();
 	const { productId } = useParams();
 	const [isSlider, setIsSlider] = useState<number>(1);
+	const [productPatchForQuantity] = useProductPatchForQuantityMutation();
 	const [sliderResult, setSliderresult] = useState<number>(0);
 	const [contentIsModal, setContentIsModal] = useState<string>('');
 	const [modal2Open, setModal2Open] = useState(false);
@@ -59,16 +57,12 @@ const CardProductPage = () => {
 			setProductQuantity(value);
 		}
 	};
-	const handleProductQuantityForEnter = async (
-		e: React.KeyboardEvent<HTMLInputElement>
-	) => {
-		if (e.key === 'Enter') {
-			console.log(e.key);
-		}
+	const handleProductPatchForQuantity = async (id: number) => {
+		await productPatchForQuantity({ id, quantity: productQuantity });
 	};
 	const handleDeleteProducts = async (id: number) => {
 		await deleteProducts(id);
-		refetch()
+		refetch();
 	};
 	return (
 		<>
@@ -184,7 +178,6 @@ const CardProductPage = () => {
 										/>
 									</div>
 								</div>
-
 								<div className={scss.product_info}>
 									<h3>{data?.productName}</h3>
 									<div className={scss.product_content}>
@@ -263,7 +256,13 @@ const CardProductPage = () => {
 															type="number"
 															onChange={changeInputValue}
 															value={productQuantity}
-															onKeyPress={handleProductQuantityForEnter}
+															onKeyPress={(
+																e: React.KeyboardEvent<HTMLInputElement>
+															) => {
+																if (e.key === 'Enter') {
+																	handleProductPatchForQuantity(data?.id!);
+																}
+															}}
 														/>
 													</ConfigProvider>
 													<button>+</button>
@@ -284,7 +283,12 @@ const CardProductPage = () => {
 														>
 															<IconTrash color="rgb(144, 156, 181)" />
 														</button>
-														<Button onClick={() => navigate('')} className={scss.add_bas_button}>редактировать</Button>
+														<Button
+															onClick={() => navigate('')}
+															className={scss.add_bas_button}
+														>
+															редактировать
+														</Button>
 													</div>
 												</div>
 												<div className={scss.info_product}>
@@ -352,11 +356,13 @@ const CardProductPage = () => {
 				onOk={() => setModal2Open(false)}
 				onCancel={() => setModal2Open(false)}
 			>
-				<img
-					className={scss.modal_img}
-					src={contentIsModal}
-					alt={data?.productName}
-				/>
+				<div className={scss.container_modal_img}>
+					<img
+						className={scss.modal_img}
+						src={contentIsModal}
+						alt={data?.productName}
+					/>
+				</div>
 			</Modal>
 		</>
 	);

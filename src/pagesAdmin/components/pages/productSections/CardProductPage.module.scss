@@ -146,6 +146,7 @@
 					img {
 						width: 304px;
 						height: 364px;
+						cursor: pointer;
 						@media (max-width: 555px) {
 							width: 75%;
 							height: 300px;
@@ -182,6 +183,7 @@
 							width: 70px;
 							padding: 10px;
 							height: 70px;
+							cursor: pointer;
 							@media (max-width: 1376px) {
 								padding: 7px;
 							}
@@ -562,11 +564,16 @@
 		}
 	}
 }
-.modal_img {
-	width: 470px;
-	height: 264px;
-	@media (max-width: 600px) {
-		width: 100%;
-		height: 245px;
+.container_modal_img {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	.modal_img {
+		width: 220px;
+		height: 300px;
+		@media (max-width: 600px) {
+			width: 100%;
+			height: 245px;
+		}
 	}
 }
