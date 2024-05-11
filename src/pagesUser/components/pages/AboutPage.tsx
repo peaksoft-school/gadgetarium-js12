@@ -1,7 +1,9 @@
+import AboutSection from './aboutSections/AboutSection';
+
 const AboutPage = () => {
 	return (
 		<>
-			<h1>AboutPage</h1>
+			<AboutSection />
 		</>
 	);
 };
