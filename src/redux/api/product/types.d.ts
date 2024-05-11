@@ -49,11 +49,12 @@ interface AdditionalFeatures {
 }
 
 interface User {
-	userProfile: string;
-	userName: string;
-	Time: string;
-	scoreRating: string;
-	userCommit: string;
+	userProfile?: string;
+	userName?: string;
+	Time?: string;
+	scoreRating?: string;
+	userCommit?: string;
+	adminCommit: string;
 }
 
 type Reviews = {
@@ -144,6 +145,28 @@ namespace PRODUCTSTORE {
 		AdditionalFeatures: AdditionalFeatures;
 		reviews: Reviews;
 		deliveryAndPayment: DeliveryAndPayment;
+	};
+
+	type GetProductDetailsRequest = void;
+	type GetProductDetailsResponse = {
+		_id: number;
+		price: number;
+		productName: string;
+		SIMCards: number;
+		image: string;
+		quantity: number;
+		colors: string;
+		ram: number;
+		memory: number;
+	}[];
+
+	type EditAdminCommitRequest = {
+		_id: number;
+		reviews: Reviews;
+	};
+	type EditAdminCommitResponse = {
+		_id: number;
+		reviews: Reviews;
 	};
 }
 

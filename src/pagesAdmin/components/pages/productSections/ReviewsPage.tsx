@@ -1,37 +1,49 @@
-import { useGetProductsItemIdQuery } from '@/src/redux/api/product';
+import {
+	useEditAdminCommitMutation,
+	useGetProductsItemIdQuery
+} from '@/src/redux/api/product';
 import scss from './ReviewsPage.module.scss';
 import { useParams } from 'react-router-dom';
-import { Rate, Button, Modal, Input } from 'antd';
-import { useState } from 'react';
-import type { UploadProps } from 'antd';
-import { message, Upload } from 'antd';
-import { IconKamore } from '@/src/assets/icons';
-const { Dragger } = Upload;
-const props: UploadProps = {
-	name: 'file',
-	multiple: true,
-	action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
-	onChange(info) {
-		const { status } = info.file;
-		if (status !== 'uploading') {
-			console.log(info.file, info.fileList);
-		}
-		if (status === 'done') {
-			message.success(`${info.file.name} file uploaded successfully.`);
-		} else if (status === 'error') {
-			message.error(`${info.file.name} file upload failed.`);
-		}
-	},
-	onDrop(e) {
-		console.log('Dropped files', e.dataTransfer.files);
-	}
-};
+import { Rate, Modal, Input, Button } from 'antd';
+import React, { useState } from 'react';
+// type User  = {
+// 	adminCommit: string
+// }
+// interface AdminCommitTypeObject {
+// 	reviews: User[]
+// }
 const ReviewsPage = () => {
 	const { productId } = useParams();
 	const { data } = useGetProductsItemIdQuery(productId!);
+	const [editAdminCommit] = useEditAdminCommitMutation();
+	const [modalForEdit, setModalForEdit] = useState<boolean>(false);
 	const [modal2Open, setModal2Open] = useState<boolean>(false);
-
+	const [indexProducts, setIndexProducts] = useState<number>(0);
+	const [answerForInput, setAnswerForInput] = useState<string>('');
+	const changeInputValueForAnswer = (value: string | null) => {
+		if (value !== null) {
+			setAnswerForInput(value);
+		}
+	};
+	const handleEditAdminCommitFunk = async (index: number) => {
+		const reviewsResults = {
+			reviews: {
+				user: [
+					{
+						adminCommit: answerForInput
+					}
+				]
+			}
+		};
+		await editAdminCommit({ _id: index, reviews: reviewsResults });
+	};
 	const { TextArea } = Input;
+	const handleProductsModalFunk = (index: number) => {
+		console.log(index);
+
+		setIndexProducts(index);
+		setModalForEdit(!modalForEdit);
+	};
 	return (
 		<>
 			<section className={scss.ReviewsPage}>
@@ -41,19 +53,51 @@ const ReviewsPage = () => {
 						{data?.reviews.user &&
 							Array.isArray(data.reviews.user) &&
 							data.reviews.user.map((item, index) => (
-								<div key={index} className={scss.div_users_commits}>
-									<img src={item.userProfile} alt="photo is user profile" />
-									<div className={scss.commits_for_users_div}>
-										<div className={scss.user_info}>
-											<h2>{item.userName}</h2>
-											<p>{item.Time}</p>
+								<div className={scss.admin_and_users_commits}>
+									<div key={index} className={scss.div_users_commits}>
+										<img src={item.userProfile} alt="photo is user profile" />
+										<div className={scss.commits_for_users_div}>
+											<div className={scss.user_info}>
+												<h2>{item.userName}</h2>
+												<p>{item.Time}</p>
+											</div>
+											<div className={scss.grade_div}>
+												<p>Оценка</p>
+												<Rate allowHalf defaultValue={5} />
+											</div>
+											<p className={scss.commit_user}>{item.userCommit}</p>
+											{!item.adminCommit && (
+												<div className={scss.div_answer}>
+													<p
+														onClick={() => setModal2Open(!modal2Open)}
+														className={scss.answer}
+													>
+														Ответить
+													</p>
+												</div>
+											)}
 										</div>
-										<div className={scss.grade_div}>
-											<p>Оценка</p>
-											<Rate allowHalf defaultValue={5} />
-										</div>
-										<p className={scss.commit_user}>{item.userCommit}</p>
 									</div>
+									{item.adminCommit && (
+										<>
+											<div className={scss.div_admin_commit}>
+												<div className={scss.content_admin_commit_div}>
+													{item.adminCommit && (
+														<>
+															<h3>Ответ от представителя</h3>
+															<p>{item.adminCommit}</p>
+														</>
+													)}
+												</div>
+											</div>
+											<p
+												className={scss.edit}
+												onClick={() => handleProductsModalFunk(index)}
+											>
+												Редактировать
+											</p>
+										</>
+									)}
 								</div>
 							))}
 					</div>
@@ -92,12 +136,6 @@ const ReviewsPage = () => {
 									</div>
 								</div>
 							</div>
-							<Button
-								onClick={() => setModal2Open(!modal2Open)}
-								className={scss.button_rating}
-							>
-								Оставить отзыв
-							</Button>
 						</div>
 					</div>
 				</div>
@@ -108,35 +146,62 @@ const ReviewsPage = () => {
 				onOk={() => setModal2Open(false)}
 				onCancel={() => setModal2Open(false)}
 			>
-				<div className={scss.content_modal}>
-					<h3>Оставьте свой отзыв</h3>
-					<div className={scss.modal_content_for_reviews}>
-						Оценка <Rate allowHalf defaultValue={0} />
-					</div>
-					<div className={scss.modal_form_div}>
-						<p>Ваш комментарий</p>
+				<div className={scss.container_modal}>
+					<h3>Ответ на комментарий</h3>
+					<div className={scss.input_and_buttons_div}>
 						<TextArea
-							className={scss.commit_input}
-							placeholder="Напишите комментарий"
+							className={scss.input}
+							defaultValue={answerForInput}
+							onChange={changeInputValueForAnswer}
+							value={answerForInput}
 						/>
-						<Dragger className={scss.input_for_file} {...props}>
-							<div className={scss.input_file_content_div}>
-								<IconKamore />
-								<p>
-									<span>Нажмите на ссылку,</span> чтобы выбрать фотографии или
-									просто перетащите их сюда
-								</p>
-							</div>
-						</Dragger>
-						<Button
-							className={scss.button_modal}
-							onClick={() => setModal2Open(false)}
-						>
-							Отправить отзыв
-						</Button>
+						<div className={scss.buttons}>
+							<Button
+								onClick={() => setModal2Open(false)}
+								className={scss.button_for_cancel}
+							>
+								Отменить
+							</Button>
+							<Button className={scss.button_for_add}>Добавить</Button>
+						</div>
 					</div>
 				</div>
 			</Modal>
+			{indexProducts ||
+				(modalForEdit && (
+					<Modal
+						centered
+						open={modalForEdit}
+						onOk={() => setModalForEdit(false)}
+						onCancel={() => setModalForEdit(false)}
+					>
+						<div className={scss.container_modal}>
+							<h3>Редактировать комментарий</h3>
+							<div className={scss.input_and_buttons_div}>
+								<TextArea
+									className={scss.input}
+									defaultValue={answerForInput}
+									onChange={(e) => setAnswerForInput(e.target.value)}
+									value={answerForInput}
+								/>
+								<div className={scss.buttons}>
+									<Button
+										onClick={() => setModalForEdit(false)}
+										className={scss.button_for_cancel}
+									>
+										Отменить
+									</Button>
+									<Button
+										className={scss.button_for_add}
+										onClick={() => handleEditAdminCommitFunk(indexProducts + 1)}
+									>
+										СОХРАНИТЬ
+									</Button>
+								</div>
+							</div>
+						</div>
+					</Modal>
+				))}
 		</>
 	);
 };

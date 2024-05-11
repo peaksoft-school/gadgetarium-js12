@@ -2,20 +2,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import scss from './CardProductPage.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetProductsItemIdQuery } from '@/src/redux/api/product';
+import {
+	useDeleteProductsMutation,
+	useGetProductsItemIdQuery
+} from '@/src/redux/api/product';
 import React, { useState } from 'react';
-import { IconArrowLeft, IconArrowRight, IconHeart } from '@tabler/icons-react';
-import { ConfigProvider, InputNumber, Modal, Rate } from 'antd';
+import {
+	IconArrowLeft,
+	IconArrowRight,
+	IconTrash
+} from '@tabler/icons-react';
+import { Button, ConfigProvider, InputNumber, Modal, Rate } from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
-import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
-import { useBasketPutProductMutation } from '@/src/redux/api/basket';
-import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
-import { IconRedHeart } from '@/src/assets/icons';
 import InfoProduct from './InfoProduct';
+import { ProductDetails } from './ProductDetails';
 
 const CardProductPage = () => {
-	const [basketAddProduct] = useBasketPutProductMutation();
-	const [favoriteAddProduct] = useFavoritePutProductMutation();
+	const [deleteProducts] = useDeleteProductsMutation();
 	const { productId } = useParams();
 	const [isSlider, setIsSlider] = useState<number>(1);
 	const [sliderResult, setSliderresult] = useState<number>(0);
@@ -63,13 +66,9 @@ const CardProductPage = () => {
 			console.log(e.key);
 		}
 	};
-	const addBasketProduct = async (id: number, isInBasket: boolean) => {
-		await basketAddProduct({ id, isInBasket: !isInBasket });
-		refetch();
-	};
-	const addFavoriteProduct = async (id: number, isFavorite: boolean) => {
-		await favoriteAddProduct({ id, isFavorite: !isFavorite });
-		refetch();
+	const handleDeleteProducts = async (id: number) => {
+		await deleteProducts(id);
+		refetch()
 	};
 	return (
 		<>
@@ -267,7 +266,6 @@ const CardProductPage = () => {
 															onKeyPress={handleProductQuantityForEnter}
 														/>
 													</ConfigProvider>
-
 													<button>+</button>
 												</div>
 												<div className={scss.border_div}></div>
@@ -279,38 +277,14 @@ const CardProductPage = () => {
 													<h3>Коротко о товаре:</h3>
 													<div className={scss.div_buttons_favorite_and_basket}>
 														<button
-															className={
-																data?.isFavorite === true
-																	? `${scss.nooActiveButton} ${scss.activeButton}`
-																	: `${scss.nooActiveButton}`
-															}
+															className={scss.nooActiveButton}
 															onClick={() =>
-																data &&
-																addFavoriteProduct(data.id, data.isFavorite)
+																data && handleDeleteProducts(data.id)
 															}
 														>
-															{data?.isFavorite === true ? (
-																<IconRedHeart />
-															) : (
-																<IconHeart color="rgb(144, 156, 181)" />
-															)}
+															<IconTrash color="rgb(144, 156, 181)" />
 														</button>
-														<AddBasketButton
-															onClick={() =>
-																data &&
-																addBasketProduct(data.id, data.isInBasket)
-															}
-															children={
-																data?.isInBasket === true
-																	? 'В корзине'
-																	: 'В корзину'
-															}
-															className={
-																data?.isInBasket === true
-																	? `${scss.add_bas_button} ${scss.active}`
-																	: `${scss.add_bas_button}`
-															}
-														/>
+														<Button onClick={() => navigate('')} className={scss.add_bas_button}>редактировать</Button>
 													</div>
 												</div>
 												<div className={scss.info_product}>
@@ -365,7 +339,7 @@ const CardProductPage = () => {
 								</div>
 							</div>
 						) : (
-							<div></div>
+							<ProductDetails />
 						)}
 					</div>
 				</div>
