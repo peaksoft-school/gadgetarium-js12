@@ -1,0 +1,53 @@
+.ReviewSection {
+	padding-top: 70px;
+	.content {
+		.first_three_buttons {
+			display: flex;
+			gap: 10px;
+			button {
+				border-radius: 4px;
+				padding: 8px 20px 9px 20px;
+				background: #e0e2e7;
+				color: #384255;
+				border: none;
+				font-size: 16px;
+				font-weight: 600;
+
+				&:active {
+					background: #cb11ab;
+					color: #fff;
+				}
+			}
+		}
+		.id_photo_name_product {
+			width: 100%;
+			display: flex;
+      justify-content: space-between;
+			padding-top: 50px;
+			padding-bottom: 25px;
+			p {
+
+				font-size: clamp(14px, 5vw, 18px);
+				font-weight: 600;
+			}
+
+			.first_id_photo_comments {
+				width: 100%;
+				display: flex;
+				gap: 50px;
+			}
+			.second_select_users {
+				width: 100%;
+
+				display: flex;
+				justify-content: flex-start;
+				gap: 107px;
+			}
+		}
+		.hr {
+			display: block;
+			width: 100%;
+			border: 1px solid #cdcdcd;
+		}
+	}
+}
