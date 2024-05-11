@@ -130,7 +130,7 @@
 			.basket_products {
 				display: flex;
 				align-items: start;
-				gap: 98px;
+				gap: 115px;
 				@media (max-width: 1500px) {
 					justify-content: space-between;
 				}
@@ -400,12 +400,10 @@
 					}
 					@media (max-width: 908px) {
 						width: 57%;
-						// position: fixed;
-						// top: 235px;
-						// right: 0;
+						
 					}
-					@media (max-width: 487px) {
-						width: 57%;
+					@media (max-width: 965px) {
+						width: 80%;
 					}
 					@media (max-width: 420px) {
 						width: 59%;

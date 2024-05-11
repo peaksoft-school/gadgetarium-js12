@@ -32,8 +32,8 @@ const BasketSection = () => {
 	const [selectAll, setSelectAll] = useState<boolean>(false);
 	const [inputValueQuantity, setInputValueQuantity] = useState<number>(0);
 	const { data } = useGetBasketQuery();
-	const handleBasketProductDelete = async (id: number, isInBasket: boolean) => {
-		await basketDeleteProduct({ id, isInBasket: !isInBasket });
+	const handleBasketProductDelete = async (_id: number, isInBasket: boolean) => {
+		await basketDeleteProduct({ _id, isInBasket: !isInBasket });
 	};
 
 	const handleFavoriteAddProduct = async (id: number, isFavorite: boolean) => {

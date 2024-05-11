@@ -9,9 +9,9 @@
 	.content {
 		display: flex;
 		flex-direction: column;
-		gap: 6rem;
+		gap: 180px;
 		padding-block: 2.2rem;
-		div {
+		.logo {
 			img {
 				width: 17.7rem;
 				height: 2.8rem;
@@ -34,8 +34,8 @@
 			justify-content: center;
 			.formsDiv {
 				border-radius: 4px;
-				width: 35.6rem;
-				height: 25.2rem;
+				width: 560px;
+				height: 400px;
 				box-shadow: 0px 10px 30px 0px rgba(133, 143, 164, 0.1);
 				background: rgb(255, 255, 255);
 				padding-top: 3.1rem;
@@ -60,7 +60,7 @@
 					.formsInputs {
 						display: flex;
 						flex-direction: column;
-						gap: 0.8rem;
+						gap: 13px;
 						@media (max-width: 600px) {
 							gap: 0.6rem;
 						}
@@ -80,12 +80,13 @@
 								width: 22rem;
 							}
 							@media (max-width: 431px) {
-								width: 19rem;
+								width: 17rem;
+							}
+							&::placeholder {
+								color: #292929;
 							}
 						}
-						.inputs::placeholder {
-							color: #292929;
-						}
+
 						.errors {
 							color: rgb(241, 0, 0);
 							font-size: clamp(0.5rem, 4vw, 0.8rem);
@@ -94,13 +95,10 @@
 						.buttonDiv {
 							display: flex;
 							align-items: center;
-							// padding-top: 25px;
 							.buttonSubmit {
-								// margin-top: 0.4rem;
 								width: 100%;
 								border-radius: 4px;
 
-								/* Pink */
 								background: rgb(203, 17, 171);
 								display: flex;
 								align-items: center;
@@ -117,7 +115,6 @@
 							padding: 4px 12px 4px 12px;
 							border: none;
 							cursor: pointer;
-							box-shadow: 0px 0px 2px black;
 							background-color: transparent;
 							img {
 								width: 20px;
@@ -137,7 +134,10 @@
 							justify-content: center;
 							align-items: center;
 							flex-direction: column;
+							gap: 10px;
 							p {
+								display: flex;
+								gap: 10px;
 								font-size: clamp(0.5rem, 9vw, 0.8rem);
 								color: #292929;
 								.link {

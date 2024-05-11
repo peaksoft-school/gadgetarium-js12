@@ -41,11 +41,11 @@ namespace BASKETPRODUCTS {
 		Total?: number;
 	};
 	type PutProductRequest = {
-		id: number;
+		_id: number;
 		isInBasket: boolean;
 	};
 	type PutProductResponse = {
-		id: number;
+		_id: number;
 		isInBasket: boolean;
 	};
 
