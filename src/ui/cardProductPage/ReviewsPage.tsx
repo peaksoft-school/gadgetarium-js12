@@ -1,7 +1,7 @@
 import { useGetProductsItemIdQuery } from '@/src/redux/api/product';
 import scss from './ReviewsPage.module.scss';
 import { useParams } from 'react-router-dom';
-import { Rate, Button, Modal, Input } from 'antd';
+import { Rate, Button, Modal, Input, ConfigProvider } from 'antd';
 import { useState } from 'react';
 import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd';
@@ -102,41 +102,52 @@ const ReviewsPage = () => {
 					</div>
 				</div>
 			</section>
-			<Modal
-				centered
-				open={modal2Open}
-				onOk={() => setModal2Open(false)}
-				onCancel={() => setModal2Open(false)}
+			<ConfigProvider
+				theme={{
+					components: {
+						Modal: {
+							colorBgElevated: 'white',
+							algorithm: true
+						}
+					}
+				}}
 			>
-				<div className={scss.content_modal}>
-					<h3>Оставьте свой отзыв</h3>
-					<div className={scss.modal_content_for_reviews}>
-						Оценка <Rate allowHalf defaultValue={0} />
+				<Modal
+					centered
+					open={modal2Open}
+					onOk={() => setModal2Open(false)}
+					onCancel={() => setModal2Open(false)}
+				>
+					<div className={scss.content_modal}>
+						<h3>Оставьте свой отзыв</h3>
+						<div className={scss.modal_content_for_reviews}>
+							Оценка <Rate allowHalf defaultValue={0} />
+						</div>
+						<div className={scss.modal_form_div}>
+							<p>Ваш комментарий</p>
+							<TextArea
+								className={scss.commit_input}
+								placeholder="Напишите комментарий"
+							/>
+							<Dragger className={scss.input_for_file} {...props}>
+								<div className={scss.input_file_content_div}>
+									<IconKamore />
+									<p>
+										<span>Нажмите на ссылку,</span> чтобы выбрать фотографии или
+										просто перетащите их сюда
+									</p>
+								</div>
+							</Dragger>
+							<Button
+								className={scss.button_modal}
+								onClick={() => setModal2Open(false)}
+							>
+								Отправить отзыв
+							</Button>
+						</div>
 					</div>
-					<div className={scss.modal_form_div}>
-						<p>Ваш комментарий</p>
-						<TextArea
-							className={scss.commit_input}
-							placeholder="Напишите комментарий"
-						/>
-						<Dragger className={scss.input_for_file} {...props}>
-							<div className={scss.input_file_content_div}>
-								<IconKamore />
-								<p>
-									<span>Нажмите на ссылку,</span> чтобы выбрать фотографии или
-									просто перетащите их сюда
-								</p>
-							</div>
-						</Dragger>
-						<Button
-							className={scss.button_modal}
-							onClick={() => setModal2Open(false)}
-						>
-							Отправить отзыв
-						</Button>
-					</div>
-				</div>
-			</Modal>
+				</Modal>
+			</ConfigProvider>
 		</>
 	);
 };

@@ -10,15 +10,16 @@ import { Dropdown, MenuProps } from 'antd/es';
 const links = [
 	{
 		name: 'Товары',
-		link: '/admin'
+		link: '/admin/productsAdmin'
 	},
 	{
 		name: 'Заказы',
 		link: '/admin/orders/in-pending'
+		link: '/admin/ordersAdmin'
 	},
 	{
 		name: 'Отзывы и рейтинг',
-		link: '/admin'
+		link: '/admin/review'
 	}
 ];
 

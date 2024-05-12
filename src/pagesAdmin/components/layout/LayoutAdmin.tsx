@@ -9,6 +9,9 @@ import OrderInPending from '../pages/ordersSections/OrderInPending';
 import OrderCourierOnTheWay from '../pages/ordersSections/OrderCourierOnTheWay';
 import OrderDelivered from '../pages/ordersSections/OrderDelivered';
 import OrderCancelled from '../pages/ordersSections/OrderCancelled';
+import ReviewPage from '../pages/ReviewAdminPage';
+import ProductsAdminPage from '../pages/ProductsAdminPage';
+import OrdersAdminPage from '../pages/OrdersAdminPage';
 
 const LayoutAdmin = () => {
 	return (
@@ -30,6 +33,9 @@ const LayoutAdmin = () => {
 						<Route path="/orders/courier-on-the-way/single-order/:id" element={<OrderSinglePage/>}></Route>
 						<Route path="/orders/delivered/single-order/:id" element={<OrderSinglePage/>}></Route>
 						<Route path="/orders/canceled/single-order/:id" element={<OrderSinglePage/>}></Route>
+						<Route path="/review" element={<ReviewPage />} />
+						<Route path="/productsAdmin" element={<ProductsAdminPage />} />
+						<Route path="/ordersAdmin" element={<OrdersAdminPage />} />
 					</Routes>
 				</main>
 				<Footer />

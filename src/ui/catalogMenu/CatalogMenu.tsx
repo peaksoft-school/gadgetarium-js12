@@ -1,11 +1,12 @@
 import scss from './CatalogMenu.module.scss';
 import { IconGridDots } from '@tabler/icons-react';
-import { Dropdown, MenuProps } from 'antd';
+import { ConfigProvider, Dropdown, MenuProps, theme } from 'antd';
+import { Link } from 'react-router-dom';
 
 const items: MenuProps['items'] = [
 	{
 		key: '1',
-		label: 'Смартфоны',
+		label: <Link to="/catalog/phones">Смартфоны</Link>,
 		children: [
 			{
 				key: '2-1',
@@ -38,15 +39,15 @@ const items: MenuProps['items'] = [
 				label: 'Защита экрана'
 			},
 			{
-				key: '2-3',
+				key: '2-4',
 				label: 'Чехлы и корпусы'
 			},
 			{
-				key: '2-3',
+				key: '2-5',
 				label: 'Подставки'
 			},
 			{
-				key: '2-3',
+				key: '2-6',
 				label: 'Кабели и адаптеры'
 			}
 		]
@@ -68,15 +69,15 @@ const items: MenuProps['items'] = [
 				label: 'Защита экрана'
 			},
 			{
-				key: '2-3',
+				key: '2-4',
 				label: 'Чехлы и корпусы'
 			},
 			{
-				key: '2-3',
+				key: '2-5',
 				label: 'Подставки'
 			},
 			{
-				key: '2-3',
+				key: '2-6',
 				label: 'Кабели и адаптеры'
 			}
 		]
@@ -98,15 +99,15 @@ const items: MenuProps['items'] = [
 				label: 'Защита экрана'
 			},
 			{
-				key: '2-3',
+				key: '2-4',
 				label: 'Чехлы и корпусы'
 			},
 			{
-				key: '2-3',
+				key: '2-5',
 				label: 'Подставки'
 			},
 			{
-				key: '2-3',
+				key: '2-6',
 				label: 'Кабели и адаптеры'
 			}
 		]
@@ -114,14 +115,33 @@ const items: MenuProps['items'] = [
 ];
 
 const CatalogMenu = () => {
+	const antdThemeConfig = {
+		algorithm: theme.defaultAlgorithm,
+		token: {
+			colorBgElevated: 'white',
+			colorText: ' black',
+			colorPrimaryBorderHover: 'red',
+			controlItemBgActiveHover: '#bae0ff'
+		}
+	};
 	return (
 		<div className={scss.catalog_menu}>
-			<Dropdown menu={{ items }}>
-				<button className={scss.catalog}>
-					<IconGridDots />
-					Каталог
-				</button>
-			</Dropdown>
+			<ConfigProvider theme={antdThemeConfig}>
+				<Dropdown
+					menu={{ items }}
+					overlayStyle={{
+						width: '250px',
+						borderRadius: '10px'
+					}}
+					placement="bottomLeft"
+					arrow={{ pointAtCenter: true }}
+				>
+					<button className={scss.catalog}>
+						<IconGridDots />
+						Каталог
+					</button>
+				</Dropdown>
+			</ConfigProvider>
 		</div>
 	);
 };

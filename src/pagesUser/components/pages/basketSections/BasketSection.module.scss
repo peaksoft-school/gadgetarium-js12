@@ -130,7 +130,7 @@
 			.basket_products {
 				display: flex;
 				align-items: start;
-				gap: 98px;
+				gap: 115px;
 				@media (max-width: 1500px) {
 					justify-content: space-between;
 				}
@@ -217,7 +217,7 @@
 								.product_info_text_div {
 									display: flex;
 									flex-direction: column;
-									gap: 8px;
+									gap: 18px;
 									width: 100%;
 									@media (max-width: 1110px) {
 										gap: 5px;
@@ -303,7 +303,6 @@
 													}
 												}
 												.input_number {
-													// color: rgb(144, 156, 181);
 													color: black;
 													font-size: clamp(10px, 4vw, 18px);
 													background-color: transparent;
@@ -316,8 +315,8 @@
 													}
 												}
 												.input_number::placeholder {
-													color: black;
-													color: rgb(144, 156, 181);
+														color: black;
+														color: rgb(144, 156, 181);
 													font-size: clamp(10px, 4vw, 18px);
 												}
 											}
@@ -400,12 +399,11 @@
 						width: 52%;
 					}
 					@media (max-width: 908px) {
-						position: fixed;
-						top: 235px;
-						right: 0;
-					}
-					@media (max-width: 487px) {
 						width: 57%;
+						
+					}
+					@media (max-width: 965px) {
+						width: 80%;
 					}
 					@media (max-width: 420px) {
 						width: 59%;

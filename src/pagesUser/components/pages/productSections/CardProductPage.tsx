@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import scss from './CardProductPage.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
-import InfoPageForProduct from './InfoPageForProduct';
+import InfoPageForProduct from '../InfoPageForProduct';
 import { useGetProductsItemIdQuery } from '@/src/redux/api/product';
 import { useState } from 'react';
 import { IconArrowLeft, IconArrowRight, IconHeart } from '@tabler/icons-react';

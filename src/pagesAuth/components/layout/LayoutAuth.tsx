@@ -12,7 +12,7 @@ const LayoutAuth = () => {
 					<Routes>
 						<Route path="/login" element={<LoginPage />} />
 						<Route path="/register" element={<RegisterPage />} />
-						<Route path="/forgot" element={<ForgotPasswordPage />} />
+						<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
 					</Routes>
 				</main>
 			</div>
