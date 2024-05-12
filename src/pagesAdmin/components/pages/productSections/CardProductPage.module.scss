@@ -148,11 +148,15 @@
 						height: 364px;
 						cursor: pointer;
 						@media (max-width: 555px) {
-							width: 75%;
+							width: 70%;
 							height: 300px;
 							border-radius: 7px;
 							object-fit: cover;
 							object-position: center;
+						}
+						@media (max-width: 420px) {
+							width: 65%;
+							height: 300px;
 						}
 					}
 				}
@@ -171,7 +175,7 @@
 					}
 					@media (max-width: 420px) {
 						display: flex;
-						flex-wrap: wrap;
+						// flex-wrap: wrap;
 					}
 					.slider_photos_div {
 						// border: 2px solid red;
@@ -191,6 +195,11 @@
 								padding: 5px;
 								width: 50px;
 								height: 50px;
+							}
+							@media (max-width: 420px) {
+								padding: 3px;
+								width: 40px;
+								height: 40px;
 							}
 						}
 					}

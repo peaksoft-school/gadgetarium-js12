@@ -36,7 +36,6 @@ const HistoryOfOrders = () => {
                   <h3>История заказов</h3>
                   <div></div>
                 </div>
-
                 <div className={scss.div_navigation}>
                   <div className={scss.navigation}>
                     <button className={scss.active_button}>История заказов</button>

@@ -24,7 +24,9 @@ export const ForgotPassword = () => {
 			<div className="container">
 				<div className={scss.content}>
 					<div>
-						<img src={logo} alt="logo" />
+						<Link to="/">
+							<img src={logo} alt="logo" />
+						</Link>
 					</div>
 					<div className={scss.displayFormDiv}>
 						<div className={scss.formsDiv}>
@@ -39,22 +41,22 @@ export const ForgotPassword = () => {
 										control={control}
 										defaultValue=""
 										rules={{
-											required: 'Код обязателен для заполнения',
+											required: 'Email обязателен для заполнения',
 											minLength: {
 												value: 4,
-												message: 'Код должен содержать минимум 4 символов'
+												message: 'Email должен содержать минимум 10 символов'
 											}
 										}}
 										render={({ field }) => (
 											<Input
 												className={scss.inputs}
-												id="code"
-												placeholder="code"
+												id="email"
+												placeholder="Email"
 												{...field}
 											/>
 										)}
 									/>
-									<Controller
+									{/* <Controller
 										name="password"
 										control={control}
 										defaultValue=""
@@ -94,7 +96,7 @@ export const ForgotPassword = () => {
 												{...field}
 											/>
 										)}
-									/>
+									/> */}
 									{(errors.code && (
 										<p className={scss.errors}>{errors.code.message}</p>
 									)) ||
@@ -107,11 +109,11 @@ export const ForgotPassword = () => {
 											</p>
 										))}
 									<div className={scss.buttonDiv}>
-										<Button className={scss.buttonSubmit}>Войти</Button>
+										<Button className={scss.buttonSubmit}>Отправить</Button>
 									</div>
 									<div className={scss.divForms}>
-										<Link className={scss.link} to={'/auth/login'}>
-											Я вспомнил свой пароль
+										<Link className={scss.link} to={'/auth/register'}>
+											Зарегистироваться
 										</Link>
 									</div>
 								</form>

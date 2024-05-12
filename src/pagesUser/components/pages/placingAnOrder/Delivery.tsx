@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import scss from './Delivery.module.scss';
-import { Checkbox } from 'antd';
+import { Checkbox, ConfigProvider } from 'antd';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,6 +14,7 @@ const Delivery = () => {
 	const [isCheckedPickup, setIsCheckedPickup] = useState(true);
 	const [isCheckedCourier, setIsCheckedPickupCourier] = useState(false);
 	const navigate = useNavigate();
+
 	const {
 		handleSubmit,
 		reset,
@@ -53,10 +54,22 @@ const Delivery = () => {
 							}}
 						>
 							<div>
-								<Checkbox
-									checked={isCheckedPickup}
-									onChange={handleCheckboxPickup}
-								></Checkbox>
+								<ConfigProvider
+									theme={{
+										components: {
+											Checkbox: {
+												colorPrimary: '#c11bab',
+												colorBgContainer: 'white',
+												algorithm: true
+											}
+										}
+									}}
+								>
+									<Checkbox
+										checked={isCheckedPickup}
+										onChange={handleCheckboxPickup}
+									/>
+								</ConfigProvider>
 							</div>
 							<div className={scss.text_pickup}>
 								<h4>Самовывоз из магазина</h4>
@@ -74,10 +87,22 @@ const Delivery = () => {
 							}}
 						>
 							<div>
-								<Checkbox
-									checked={isCheckedCourier}
-									onChange={handleCheckboxCourier}
-								></Checkbox>
+								<ConfigProvider
+									theme={{
+										components: {
+											Checkbox: {
+												colorPrimary: '#c11bab',
+												colorBgContainer: 'white',
+												algorithm: true
+											}
+										}
+									}}
+								>
+									<Checkbox
+										checked={isCheckedCourier}
+										onChange={handleCheckboxCourier}
+									/>
+								</ConfigProvider>
 							</div>
 							<div className={scss.text_courier}>
 								<h4>Доставка курьером</h4>

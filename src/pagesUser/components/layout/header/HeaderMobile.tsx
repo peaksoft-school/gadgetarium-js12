@@ -31,13 +31,17 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 	const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
 		console.log(info?.source, value);
 
+	const handleCloseMobileMenu = () => {
+		setIsOpenMobileMenu(false);
+	};
+
 	return (
 		<>
 			<header className={scss.HeaderMobile}>
 				<div className="container">
 					<div className={scss.content}>
 						<Link className={scss.logo} to="/">
-							<img src={mini_logo} alt="mini-logo" />
+							<img src={mini_logo} alt="	-logo" />
 						</Link>
 						<Input.Search
 							className={scss.search}
@@ -80,6 +84,7 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 										: `${scss.link}`
 								}
 								to={item.link}
+								onClick={handleCloseMobileMenu}
 							>
 								<div className={scss.icon_burger_menu}>{item.icon}</div>
 								<div className={scss.label_burger_menu}>{item.label}</div>
