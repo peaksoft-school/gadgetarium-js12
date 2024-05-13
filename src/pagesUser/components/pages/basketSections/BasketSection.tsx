@@ -11,8 +11,13 @@ import {
 import png from '../../../../assets/sammy_shopping_1_1.png';
 import scss from './BasketSection.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { IconCardonDelete, IconRedHeart } from '@/src/assets/icons';
-import { IconHeart, IconX, IconExclamationMark } from '@tabler/icons-react';
+import {
+	IconHeart,
+	IconX,
+	IconExclamationMark,
+	IconHeartFilled,
+	IconTrash
+} from '@tabler/icons-react';
 import { Button, Checkbox, ConfigProvider, Rate, InputNumber } from 'antd';
 import React, { useState } from 'react';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
@@ -192,19 +197,30 @@ const BasketSection = () => {
 														)
 													)
 												}
-											/>
+											>
+												<p>Отметить все</p>
+											</Checkbox>
 										</ConfigProvider>
-										<p>Отметить все</p>
 									</div>
 									<div className={scss.button_is_basket_results_div}>
-										<IconCardonDelete />
+										<IconTrash
+											color="rgb(144, 156, 181)"
+											width={'24px'}
+											height={'24px'}
+											cursor={'pointer'}
+										/>
 										<p>Удалить</p>
 									</div>
 									<div
 										className={scss.button_is_basket_results_div}
 										onClick={() => navigate('/favorite')}
 									>
-										<IconHeart color="rgb(144, 156, 181)" />
+										<IconHeart
+											color="rgb(144, 156, 181)"
+											width={'24px'}
+											height={'24px'}
+											cursor={'pointer'}
+										/>
 										<p>Переместить в избранное</p>
 									</div>
 								</div>
@@ -328,9 +344,19 @@ const BasketSection = () => {
 																		}
 																	>
 																		{item.isFavorite === true ? (
-																			<IconRedHeart />
+																			<>
+																				<IconHeartFilled
+																					color="red"
+																					width={'18px'}
+																					height={'18px'}
+																				/>
+																			</>
 																		) : (
-																			<IconHeart color="rgb(144, 156, 181)" />
+																			<IconHeart
+																				width={'18px'}
+																				height={'18px'}
+																				color="rgb(144, 156, 181)"
+																			/>
 																		)}
 																		<p>В избранное</p>
 																	</div>
@@ -343,7 +369,7 @@ const BasketSection = () => {
 																			)
 																		}
 																	>
-																		<IconX />
+																		<IconX width={'16px'} height={'16px'} />
 																		<p>Удалить</p>
 																	</div>
 																</div>

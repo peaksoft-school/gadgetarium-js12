@@ -175,11 +175,8 @@
 					}
 					@media (max-width: 420px) {
 						display: flex;
-						// flex-wrap: wrap;
 					}
 					.slider_photos_div {
-						// border: 2px solid red;
-
 						&.activeBorder {
 							border: 2px solid purple;
 						}
@@ -209,7 +206,6 @@
 				display: flex;
 				flex-direction: column;
 				gap: 45px;
-				// width: 100%;
 				@media (max-width: 650px) {
 					gap: 30px;
 				}

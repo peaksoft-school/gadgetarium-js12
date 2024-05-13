@@ -86,11 +86,15 @@
 						width: 304px;
 						height: 364px;
 						@media (max-width: 555px) {
-							width: 75%;
+							width: 70%;
 							height: 300px;
 							border-radius: 7px;
 							object-fit: cover;
 							object-position: center;
+						}
+						@media (max-width: 420px) {
+							width: 65%;
+							height: 300px;
 						}
 					}
 				}
@@ -109,11 +113,8 @@
 					}
 					@media (max-width: 420px) {
 						display: flex;
-						flex-wrap: wrap;
 					}
 					.slider_photos_div {
-						// border: 2px solid red;
-
 						&.activeBorder {
 							border: 2px solid purple;
 						}
@@ -129,6 +130,11 @@
 								width: 50px;
 								height: 50px;
 							}
+							@media (max-width: 420px) {
+								padding: 3px;
+								width: 40px;
+								height: 40px;
+							}
 						}
 					}
 				}
@@ -137,7 +143,6 @@
 				display: flex;
 				flex-direction: column;
 				gap: 45px;
-				// width: 100%;
 				@media (max-width: 650px) {
 					gap: 30px;
 				}
