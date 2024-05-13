@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
+// import PhoneInput from 'react-phone-input-2';
+// import 'react-phone-input-2/lib/style.css';
 
 const PhoneNumberValidation = () => {
 	const [phoneNumber, setPhoneNumber] = useState<string>('');
 	const [, setValid] = useState<boolean>(true);
 
-	const handleChange = (value: string) => {
-		setPhoneNumber(value);
-		setValid(validationPhoneNumber(value));
-	};
+	// const handleChange = (value: string) => {
+	// 	setPhoneNumber(value);
+	// 	setValid(validationPhoneNumber(value));
+	// };
 
 	const validationPhoneNumber = (phoneNumber: string): boolean => {
 		const phoneNumberPattern = /^\+[1-9]\d{1,14}$/;
@@ -18,7 +18,7 @@ const PhoneNumberValidation = () => {
 
 	return (
 		<div>
-			<PhoneInput
+			{/* <PhoneInput
 				searchStyle={{
 					width: '100px'
 				}}
@@ -36,7 +36,7 @@ const PhoneNumberValidation = () => {
 				inputProps={{
 					required: true
 				}}
-			/>
+			/> */}
 		</div>
 	);
 };

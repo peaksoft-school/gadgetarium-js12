@@ -6,6 +6,8 @@ import Footer from './footer/Footer';
 import ReviewPage from '../pages/ReviewAdminPage';
 import ProductsAdminPage from '../pages/ProductsAdminPage';
 import OrdersAdminPage from '../pages/OrdersAdminPage';
+import { ProductPage } from '../pages/ProductPage';
+
 
 const LayoutAdmin = () => {
 	return (
@@ -18,6 +20,7 @@ const LayoutAdmin = () => {
 						<Route path="/review" element={<ReviewPage />} />
 						<Route path="/productsAdmin" element={<ProductsAdminPage />} />
 						<Route path="/ordersAdmin" element={<OrdersAdminPage />} />
+						<Route path="/goodsPage/product-page/:productId" element={<ProductPage />} />
 					</Routes>
 				</main>
 				<Footer />

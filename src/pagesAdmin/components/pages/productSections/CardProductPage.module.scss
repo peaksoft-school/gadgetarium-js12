@@ -50,10 +50,71 @@
 					color: rgb(55, 55, 241);
 					font-size: clamp(18px, 8vw, 29px);
 				}
+				.product_details_text {
+					color: rgb(41, 41, 41);
+					letter-spacing: 0%;
+					text-align: left;
+					font-size: clamp(14px, 5vw, 29px);
+					font-weight: 500;
+					line-height: 110%;
+				}
 				div {
 					width: 100%;
-					/* Gray Input */
 					border: 1px solid rgb(205, 205, 205);
+				}
+			}
+		}
+
+		.product_buttons {
+			display: flex;
+			align-items: center;
+			gap: 11px;
+			@media (max-width: 850px) {
+				gap: 9px;
+			}
+			@media (max-width: 555px) {
+				flex-wrap: wrap;
+				align-items: start;
+				gap: 7px;
+			}
+			.button_noo_active {
+				padding-block: 8px;
+				padding-inline: 19px;
+				border-radius: 4px;
+				background: rgb(224, 226, 231);
+				color: rgb(56, 66, 85);
+				font-size: clamp(8px, 6vw, 16px);
+				font-weight: 600;
+				border: none;
+				cursor: pointer;
+				@media (max-width: 768px) {
+					padding-block: 6px;
+					padding-inline: 14px;
+				}
+				@media (max-width: 578px) {
+					font-weight: 500;
+				}
+				&:hover {
+					transition: all 0.7s ease;
+					background: rgb(56, 66, 85);
+					color: rgb(255, 255, 255);
+				}
+				&.button_active {
+					padding-block: 8px;
+					padding-inline: 19px;
+					border-radius: 4px;
+					background: rgb(56, 66, 85);
+					font-size: clamp(8px, 6vw, 16px);
+					font-weight: 600;
+					color: rgb(255, 255, 255);
+					border: none;
+					@media (max-width: 768px) {
+						padding-block: 6px;
+						padding-inline: 14px;
+					}
+					@media (max-width: 578px) {
+						font-weight: 500;
+					}
 				}
 			}
 		}
@@ -85,6 +146,7 @@
 					img {
 						width: 304px;
 						height: 364px;
+						cursor: pointer;
 						@media (max-width: 555px) {
 							width: 70%;
 							height: 300px;
@@ -122,6 +184,7 @@
 							width: 70px;
 							padding: 10px;
 							height: 70px;
+							cursor: pointer;
 							@media (max-width: 1376px) {
 								padding: 7px;
 							}
@@ -336,9 +399,16 @@
 							display: flex;
 							align-items: center;
 							gap: 100px;
-							@media (max-width: 390px) {
-								gap: 0;
-								justify-content: space-between;
+							@media (max-width: 488px) {
+								gap: 65px;
+							}
+							@media (max-width: 451px) {
+								gap: 25px;
+							}
+							@media (max-width: 411px) {
+								flex-wrap: wrap;
+								align-items: start;
+								gap: 12px;
 							}
 							// justify-content: space-between;
 							.product_colors {
@@ -350,6 +420,9 @@
 								display: flex;
 								align-items: center;
 								gap: 4px;
+								@media (max-width: 488px) {
+									gap: 3px;
+								}
 								button {
 									border: 1px solid rgb(144, 156, 181);
 									// padding-block: 9px;
@@ -370,9 +443,14 @@
 										color: rgb(255, 255, 255);
 									}
 								}
-								span {
-									color: rgb(144, 156, 181);
-									font-size: clamp(10px, 4vw, 20px);
+								.input_for_quantity {
+									background-color: aliceblue;
+									width: 65px;
+									font-size: clamp(7px, 4vw, 20px);
+									font-weight: 400;
+									// border: 1px solid rgb(202, 203, 209);
+									border: none;
+									box-shadow: 0px 0px 4px rgb(147, 148, 154);
 								}
 							}
 							.border_div {
@@ -443,9 +521,7 @@
 										border-radius: 4px;
 										width: 64px;
 										height: 45px;
-										&.activeButton {
-											border: 1px solid rgb(203, 17, 171);
-										}
+										cursor: pointer;
 									}
 									.add_bas_button {
 										width: 196px;
@@ -454,18 +530,9 @@
 										background: rgb(203, 17, 171);
 										color: rgb(255, 255, 255);
 										font-size: clamp(8px, 6vw, 14px);
+										font-weight: 600;
 										border: none;
-										&.active {
-											// transition: all 1s ease;
-											border: 1px dashed rgb(151, 71, 255);
-											background: rgb(47, 197, 9);
-										}
-										&:hover {
-											color: white;
-											border: none;
-											border: 1px dashed rgb(151, 71, 255);
-											transition: all 0.5s ease-in;
-										}
+										cursor: pointer;
 									}
 								}
 							}
@@ -502,11 +569,16 @@
 		}
 	}
 }
-.modal_img {
-	width: 470px;
-	height: 264px;
-	@media (max-width: 600px) {
-		width: 100%;
-		height: 245px;
+.container_modal_img {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	.modal_img {
+		width: 220px;
+		height: 300px;
+		@media (max-width: 600px) {
+			width: 100%;
+			height: 245px;
+		}
 	}
 }
