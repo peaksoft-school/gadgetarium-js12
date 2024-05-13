@@ -130,7 +130,8 @@
 			.container_products {
 				display: flex;
 				flex-wrap: wrap;
-				gap: 7px;
+				// justify-content: center;
+				gap: 37px;
 				@media (max-width: 1266px) {
 					justify-content: center;
 				}
@@ -141,48 +142,47 @@
 					gap: 12px;
 				}
 				.container_product {
-					width: 295px;
-					height: 457px;
-					// height: auto;
+					width: 275px;
+					height: 442px;
 					border-radius: 4px;
 					background: rgb(255, 255, 255);
 					@media (max-width: 535px) {
 						height: auto;
 					}
 					.content_product {
-						padding: 10px 13px 20px 13px;
+						padding: 10px 13px 18px 13px;
 						display: flex;
 						flex-direction: column;
-						gap: 14px;
+						gap: 10px;
 						width: 100%;
 						@media (max-width: 875px) {
-							gap: 10px;
-							padding: 8px 10px 17px 10px;
+							gap: 17px;
+							padding: 8px 10px 15px 10px;
 						}
 						@media (max-width: 585px) {
 							gap: 7px;
-							padding: 6px 8px 15px 8px;
+							padding: 5px 6px 12px 6px;
 						}
 						.product_basket_and_favorite_buttons_and_photo {
 							display: flex;
 							justify-content: space-between;
 							align-items: center;
 							img {
-								width: 36px;
-								height: 36px;
+								width: 33px;
+								height: 33px;
 								border-radius: 50%;
 							}
 							.div_icons {
 								display: flex;
 								align-items: center;
-								gap: 15px;
+								gap: 12px;
 							}
 						}
 						.photo_div {
 							text-align: center;
 							img {
 								width: 90%;
-								max-width: 180px;
+								max-width: 190px;
 								height: auto;
 							}
 						}
@@ -190,7 +190,7 @@
 							display: flex;
 							flex-direction: column;
 							align-items: start;
-							gap: 8px;
+							gap: 6px;
 							.text_stock {
 								color: rgb(47, 197, 9);
 								font-size: clamp(7px, 5vw, 12px);
@@ -224,15 +224,15 @@
 							}
 							.button_for_basket_div_noo_active {
 								&.button_for_basket_div_active {
-									margin-top: 12.3px;
+									margin-top: 9.3px;
 								}
 								.noo_active_basket_button {
 									transition: all 0.4s ease;
-									padding-block: 12px;
-									padding-inline: 18px;
+									padding-block: 10px;
+									padding-inline: 16px;
 									display: flex;
 									align-items: center;
-									gap: 6px;
+									gap: 5px;
 									border-radius: 4px;
 									background: rgb(203, 17, 171);
 									color: rgb(255, 255, 255);
@@ -240,11 +240,11 @@
 									border: none;
 									&.active_basket_button {
 										transition: all 0.4s ease;
-										padding-block: 12px;
-										padding-inline: 18px;
+										padding-block: 10px;
+										padding-inline: 16px;
 										display: flex;
 										align-items: center;
-										gap: 6px;
+										gap: 5px;
 										border-radius: 4px;
 										background: rgb(47, 197, 9);
 										color: rgb(255, 255, 255);

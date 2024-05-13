@@ -5,7 +5,7 @@ import InfoPageForProduct from '../InfoPageForProduct';
 import { useGetProductsItemIdQuery } from '@/src/redux/api/product';
 import { useState } from 'react';
 import { IconArrowLeft, IconArrowRight, IconHeart } from '@tabler/icons-react';
-import { Modal, Rate } from 'antd';
+import { ConfigProvider, Modal, Rate } from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
@@ -310,19 +310,30 @@ const CardProductPage = () => {
 
 				<InfoPageForProduct />
 			</section>
-			<Modal
-				title="Iphones"
-				centered
-				open={modal2Open}
-				onOk={() => setModal2Open(false)}
-				onCancel={() => setModal2Open(false)}
+			<ConfigProvider 
+			theme={{
+				components: {
+					Modal: {
+						colorBgElevated: 'white',
+						algorithm: true
+					}
+				}
+			}}
 			>
-				<img
-					className={scss.modal_img}
-					src={contentIsModal}
-					alt={data?.productName}
-				/>
-			</Modal>
+				<Modal
+					title="Iphones"
+					centered
+					open={modal2Open}
+					onOk={() => setModal2Open(false)}
+					onCancel={() => setModal2Open(false)}
+				>
+					<img
+						className={scss.modal_img}
+						src={contentIsModal}
+						alt={data?.productName}
+					/>
+				</Modal>
+			</ConfigProvider>
 		</>
 	);
 };
