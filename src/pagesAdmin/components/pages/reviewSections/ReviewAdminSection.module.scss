@@ -1,53 +1,230 @@
-.ReviewSection {
-	padding-top: 70px;
-	.content {
-		.first_three_buttons {
-			display: flex;
-			gap: 10px;
-			button {
-				border-radius: 4px;
-				padding: 8px 20px 9px 20px;
-				background: #e0e2e7;
-				color: #384255;
-				border: none;
-				font-size: 16px;
-				font-weight: 600;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
-				&:active {
-					background: #cb11ab;
-					color: #fff;
+.ReviewAdminSection {
+	width: 100%;
+	height: auto;
+	background: rgb(255, 255, 255);
+	.content {
+		padding-top: 40px;
+		padding-bottom: 200px;
+		display: flex;
+		justify-content: space-between;
+		align-items: start;
+		.contents_for_users {
+			display: flex;
+			flex-direction: column;
+			gap: 39px;
+			.buttons_for_category {
+				display: flex;
+				align-items: center;
+				gap: 11px;
+				.noo_active_button {
+					transition: all 0.4s ease;
+					padding-inline: 19px;
+					padding-block: 8px;
+					border-radius: 4px;
+					color: rgb(56, 66, 85);
+					background: rgb(224, 226, 231);
+					font-size: clamp(8px, 6vw, 16px);
+					font-weight: 600;
+					cursor: pointer;
+					border: none;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					gap: 4px;
+					span {
+						color: rgb(47, 197, 9);
+						font-size: clamp(8px, 6vw, 16px);
+						font-weight: 600;
+					}
+					&:hover {
+						transition: all 0.4s ease;
+						background: rgb(203, 17, 171);
+						color: rgb(255, 255, 255);
+					}
+					&.active_button {
+						transition: all 0.4s ease;
+						padding-inline: 19px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						gap: 4px;
+
+						border: none;
+						padding-block: 8px;
+						cursor: pointer;
+						border-radius: 4px;
+						background: rgb(203, 17, 171);
+						color: rgb(255, 255, 255);
+						font-size: clamp(8px, 6vw, 16px);
+						font-weight: 600;
+						span {
+							color: rgb(47, 197, 9);
+							font-size: clamp(8px, 6vw, 16px);
+							font-weight: 600;
+						}
+					}
 				}
 			}
-		}
-		.id_photo_name_product {
-			width: 100%;
-			display: flex;
-      justify-content: space-between;
-			padding-top: 50px;
-			padding-bottom: 25px;
-			p {
-
-				font-size: clamp(14px, 5vw, 18px);
-				font-weight: 600;
-			}
-
-			.first_id_photo_comments {
-				width: 100%;
+			.all_product_and_commits_div {
 				display: flex;
-				gap: 50px;
+				flex-direction: column;
+				gap: 18.5px;
+				.names_product_data {
+					display: flex;
+					flex-direction: column;
+					gap: 11px;
+					.text_div_for_category {
+						display: flex;
+						align-items: center;
+						// justify-content: space-between;
+						gap: 395px;
+						.category_text_1 {
+							display: flex;
+							align-items: center;
+							gap: 48px;
+							.id_and_photo_content_tag {
+								display: flex;
+								align-items: center;
+								gap: 21px;
+								color: rgb(56, 66, 85);
+								font-size: clamp(7px, 6vw, 14px);
+								font-weight: 600;
+								span {
+									color: rgb(56, 66, 85);
+									font-size: clamp(7px, 6vw, 14px);
+									font-weight: 600;
+								}
+							}
+							p {
+								color: rgb(56, 66, 85);
+								font-size: clamp(7px, 6vw, 14px);
+								font-weight: 600;
+							}
+						}
+						.category_text_2 {
+							display: flex;
+							align-items: center;
+							gap: 84px;
+							margin-right: 155px;
+							p {
+								display: flex;
+								align-items: center;
+								gap: 5px;
+								color: rgb(56, 66, 85);
+								font-size: clamp(7px, 6vw, 14px);
+								font-weight: 600;
+							}
+						}
+					}
+					.border_div {
+						width: 100%;
+						border: 1px solid rgb(205, 205, 205);
+					}
+				}
+				.container_users_commits {
+					display: flex;
+					flex-direction: column;
+					.users_commits_maps {
+						border-top: 1px solid rgb(232, 232, 232);
+						border-bottom: 1px solid rgb(232, 232, 232);
+						width: 100%;
+						.content_maps {
+							display: flex;
+							align-items: center;
+							gap: 23px;
+							padding-block: 19px;
+							.div_content_commits {
+								display: flex;
+								align-items: center;
+								gap: 60px;
+								.info_users_div {
+									display: flex;
+									align-items: center;
+									gap: 25px;
+									p {
+										color: rgb(41, 41, 41);
+										font-size: clamp(8px, 4vw, 16px);
+										font-weight: 400;
+									}
+									img {
+										width: 56px;
+										height: 62px;
+										border-radius: 5px;
+									}
+									div {
+										display: flex;
+										flex-direction: column;
+										gap: 2px;
+										align-items: start;
+										h3 {
+											color: rgb(41, 41, 41);
+											font-size: clamp(7px, 6vw, 14px);
+											font-weight: 600;
+										}
+										p {
+											color: rgb(144, 156, 181);
+											font-size: clamp(7px, 5vw, 14px);
+											font-weight: 500;
+										}
+									}
+								}
+								.user_commit_and_time {
+									display: flex;
+									flex-direction: column;
+									gap: 2px;
+									p {
+										color: rgb(46, 44, 52);
+										font-size: clamp(7px, 4vw, 14px);
+										font-weight: 400;
+									}
+									.user_commit_for_time {
+										color: rgba(0, 0, 0, 0.5);
+										font-size: clamp(6px, 4vw, 12px);
+										font-weight: 400;
+									}
+								}
+							}
+							.content_rating_and_user_profile_and_buttons {
+								display: flex;
+								align-items: start;
+								gap: 140px;
+								.user_profile_and_buttons {
+									display: flex;
+									align-items: start;
+									gap: 38px;
+									.user_profile {
+										display: flex;
+										align-items: center;
+										gap: 15px;
+										img {
+											width: 40px;
+											height: 40px;
+											border-radius: 50%;
+										}
+										.div_for_user_name {
+											display: flex;
+											flex-direction: column;
+											gap: 2px;
+											h3 {
+												color: rgb(41, 41, 41);
+												font-size: clamp(7px, 6vw, 14px);
+												font-weight: 600;
+											}
+											p {
+												color: rgb(145, 150, 158);
+												font-size: clamp(7px, 5vw, 14px);
+												font-weight: 500;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			}
-			.second_select_users {
-				width: 100%;
-
-				display: flex;
-				justify-content: flex-start;
-				gap: 107px;
-			}
-		}
-		.hr {
-			display: block;
-			width: 100%;
-			border: 1px solid #cdcdcd;
 		}
 	}
 }
