@@ -1,9 +1,16 @@
 .dropdown_select {
+	width: 100%;
+	max-width: 160px;
+
+	@media (max-width: 1231.20px) {
+		max-width: 226px;
+	}
 	.selected_option {
 		margin-left: 6px;
 	}
 	.selected_option_icon {
-		margin-top: 5px;
+		display: flex;
+		align-items: center;
 		display: flex;
 		gap: 5px;
 		cursor: pointer;
