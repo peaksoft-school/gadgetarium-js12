@@ -5,7 +5,7 @@
 	z-index: 99;
 	overflow: hidden;
 	height: 0;
-	background: #0e0d0d9e;
+	background: #1a1a25cb;
 	border-radius: 10px;
 	transition: all 0.5s;
 	color: white;
@@ -33,6 +33,10 @@
 					transition: 0.2s;
 					color: white;
 					&:hover {
+						background: white;
+						color: #cb11ac;
+					}
+					&.active {
 						background: white;
 						color: #cb11ac;
 					}

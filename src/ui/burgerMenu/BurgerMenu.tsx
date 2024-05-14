@@ -6,20 +6,21 @@ import { Dropdown, MenuProps } from 'antd/es';
 
 interface BurgerMenuProps {
 	isOpenMobileMenu: boolean;
+	setIsOpenMobileMenu: (isOpen: boolean) => void;
 }
 
 const links = [
 	{
 		name: 'Товары',
-		link: '/admin'
+		link: '/admin/productsAdmin'
 	},
 	{
 		name: 'Заказы',
-		link: '/admin'
+		link: '/admin/ordersAdmin'
 	},
 	{
 		name: 'Отзывы и рейтинг',
-		link: '/admin'
+		link: '/admin/review'
 	}
 ];
 const items: MenuProps['items'] = [
@@ -33,8 +34,14 @@ const items: MenuProps['items'] = [
 	}
 ];
 
-const BurgerMenu: FC<BurgerMenuProps> = ({ isOpenMobileMenu }) => {
+const BurgerMenu: FC<BurgerMenuProps> = ({
+	isOpenMobileMenu,
+	setIsOpenMobileMenu
+}) => {
 	const { pathname } = useLocation();
+	const handleCancel = () => {
+		setIsOpenMobileMenu(false);
+	};
 	return (
 		<>
 			<div
@@ -55,6 +62,7 @@ const BurgerMenu: FC<BurgerMenuProps> = ({ isOpenMobileMenu }) => {
 											: `${scss.link}`
 									}
 									to={item.link}
+									onClick={handleCancel}
 								>
 									{item.name}
 								</Link>

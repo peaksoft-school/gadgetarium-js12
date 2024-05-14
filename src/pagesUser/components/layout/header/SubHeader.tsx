@@ -10,7 +10,7 @@ import {
 	IconScale,
 	IconShoppingCart
 } from '@tabler/icons-react';
-import { Input } from 'antd';
+import { ConfigProvider, Input, theme } from 'antd';
 import { SearchProps } from 'antd/es/input';
 import CatalogMenu from '@/src/ui/catalogMenu/CatalogMenu';
 
@@ -22,6 +22,14 @@ interface SubHeaderProps {
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
 	console.log(info?.source, value);
 const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
+	const antdThemeConfig = {
+		algorithm: theme.darkAlgorithm,
+		token: {
+			colorPrimary: '#cb11ab',
+			// borderRadius: 2,
+			colorBgContainer: '#1a1a25'
+		}
+	};
 	return (
 		<header
 			className={
@@ -40,13 +48,15 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 						)}
 						<CatalogMenu />
 						<span className={scss.hr_line}></span>
-						<Input.Search
-							className={scss.search}
-							size="large"
-							placeholder="Поиск по каталогу магазина"
-							allowClear
-							onSearch={onSearch}
-						/>
+						<ConfigProvider theme={antdThemeConfig}>
+							<Input.Search
+								className={scss.search}
+								size="large"
+								placeholder="Поиск по каталогу магазина"
+								allowClear
+								onSearch={onSearch}
+							/>
+						</ConfigProvider>
 					</div>
 					<div className={scss.icon_networks}>
 						{!isScrolled && (

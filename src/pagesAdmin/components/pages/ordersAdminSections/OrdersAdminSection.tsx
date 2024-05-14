@@ -4,7 +4,7 @@ const OrdersAdminSection = () => {
 		<div className={scss.OrdersAdminSection}>
 			<div className="container">
 				<div className={scss.content}>
-					<h1>OrdersAdminSection</h1>
+					<h3>OrdersAdminSection</h3>
 				</div>
 			</div>
 		</div>
