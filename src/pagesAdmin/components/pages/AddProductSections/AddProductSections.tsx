@@ -2,6 +2,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import scss from './AddProductSections.module.scss';
 import { ConfigProvider, Input, Select } from 'antd';
+import { BrandSelect, options } from '@/src/data/InputSelect';
+
 interface PagesArrayTypes {
 	id: number;
 	link: string;
@@ -27,6 +29,9 @@ const pagesArray: PagesArrayTypes[] = [
 		title: 'Описание и обзор'
 	}
 ];
+const handleChange = (value: string) => {
+	console.log(`selected ${value}`);
+};
 
 export const AddProductSections = () => {
 	const location = useLocation();
@@ -114,58 +119,34 @@ export const AddProductSections = () => {
 											options={[
 												{
 													value: '1',
-													label: 'смартфоны'
+													label: 'Смартфоны'
 												},
 												{
 													value: '2',
-													label: 'ноутбуки'
+													label: 'Ноутбуки и планшеты'
 												},
 												{
 													value: '3',
-													label: 'аксессуары'
+													label: 'Защита экрана'
 												},
 												{
 													value: '4',
-													label: 'планшеты'
-												}
+													label: 'Смарт-часы и браслеты'
+												},
+												{
+													value: '5',
+													label: 'Аксессуары'
+												},
 											]}
 										/>
 									</div>
 									<div className={scss.label_and_input_div}>
 										<label>Выберите подкатегорию *</label>
 										<Select
-											size="large"
-											showSearch
 											className={scss.input}
-											placeholder="Выберите бренд товара"
-											optionFilterProp="children"
-											filterOption={(input, option) =>
-												(option?.label ?? '').includes(input)
-											}
-											style={{ background: 'white' }}
-											filterSort={(optionA, optionB) =>
-												(optionA?.label ?? '')
-													.toLowerCase()
-													.localeCompare((optionB?.label ?? '').toLowerCase())
-											}
-											options={[
-												{
-													value: '1',
-													label: 'смартфоны'
-												},
-												{
-													value: '2',
-													label: 'ноутбуки'
-												},
-												{
-													value: '3',
-													label: 'аксессуары'
-												},
-												{
-													value: '4',
-													label: 'планшеты'
-												}
-											]}
+											placeholder="Выбрать"
+											onChange={handleChange}
+											options={BrandSelect}
 										/>
 									</div>
 									<div className={scss.label_and_input_div}>
@@ -180,38 +161,25 @@ export const AddProductSections = () => {
 									<div className={scss.label_and_input_div}>
 										<label>Выберите подкатегорию *</label>
 										<Select
-											size="large"
-											showSearch
 											className={scss.input}
-											placeholder="Выберите бренд товара"
-											optionFilterProp="children"
-											filterOption={(input, option) =>
-												(option?.label ?? '').includes(input)
-											}
-											style={{ background: 'white' }}
-											filterSort={(optionA, optionB) =>
-												(optionA?.label ?? '')
-													.toLowerCase()
-													.localeCompare((optionB?.label ?? '').toLowerCase())
-											}
-											options={[
-												{
-													value: '1',
-													label: 'смартфоны'
-												},
-												{
-													value: '2',
-													label: 'ноутбуки'
-												},
-												{
-													value: '3',
-													label: 'аксессуары'
-												},
-											]}
+											placeholder="Выбрать"
+											onChange={handleChange}
+											options={options}
 										/>
 									</div>
 									<div className={scss.label_and_input_div}>
 										<label>Гарантия (месяцев) *</label>
+										<Input
+											className={scss.input_for_text}
+											placeholder="Введите гарантию товара"
+										/>
+									</div>
+									<div className={scss.label_and_input_div}>
+										<label>Дата выпуска *</label>
+										<Input
+											className={scss.input_for_text}
+											placeholder="Введите дату выпуска"
+										/>
 									</div>
 								</div>
 							</div>
