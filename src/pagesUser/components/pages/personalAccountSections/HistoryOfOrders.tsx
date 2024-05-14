@@ -16,7 +16,7 @@ const HistoryOfOrders = () => {
       await deleteOrder();
       setIsDeleting(false);
       console.log(isDeleting);
-      
+
     } catch (error) {
       console.error(error);
       setIsDeleting(false);
