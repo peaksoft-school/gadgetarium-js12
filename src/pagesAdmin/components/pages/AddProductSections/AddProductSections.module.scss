@@ -1,0 +1,149 @@
+.AddProductSections {
+	width: 100%;
+	height: auto;
+	background: rgb(255, 255, 255);
+	.content {
+		display: flex;
+		flex-direction: column;
+		padding-top: 55px;
+		padding-bottom: 75px;
+		gap: 35px;
+		.main_text_for_pages {
+			display: flex;
+			align-items: center;
+			gap: 5px;
+			.product_page_text {
+				cursor: pointer;
+				color: rgb(145, 150, 158);
+				font-size: clamp(7px, 4vw, 14px);
+				font-weight: 400;
+			}
+			p {
+				color: rgb(41, 41, 41);
+				font-size: clamp(7px, 4vw, 14px);
+				font-weight: 400;
+			}
+		}
+		.page_name_and_border {
+			display: flex;
+			flex-direction: column;
+			gap: 19px;
+			h3 {
+				color: rgb(41, 41, 41);
+				font-size: clamp(14px, 5vw, 29px);
+				font-weight: 500;
+			}
+			.border {
+				width: 100%;
+				border: 1px solid rgb(205, 205, 205);
+			}
+		}
+		.navigate_buttons {
+			display: flex;
+			align-items: center;
+			gap: 15px;
+			.add_product_button {
+				display: flex;
+				align-items: center;
+				gap: 16px;
+				cursor: pointer;
+				.div {
+					width: 54px;
+					height: 54px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					border-radius: 50%;
+					background: rgb(145, 150, 158);
+					border: none;
+					color: rgb(255, 255, 255);
+					font-size: clamp(17px, 6vw, 27px);
+					font-weight: 600;
+					&.div_active {
+						width: 54px;
+						height: 54px;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						border-radius: 50%;
+						background: rgb(203, 17, 171);
+						border: none;
+						color: rgb(255, 255, 255);
+						font-size: clamp(17px, 6vw, 27px);
+						font-weight: 600;
+					}
+				}
+				.p {
+					font-size: clamp(8px, 5vw, 17px);
+					font-weight: 500;
+					color: rgb(56, 66, 85);
+					&.p_active {
+						font-size: clamp(8px, 5vw, 17px);
+						color: rgb(203, 17, 171);
+
+						font-weight: 500;
+					}
+				}
+				.add_product_border {
+					border: 1px solid rgb(56, 66, 85);
+					width: 30px;
+					height: 1px;
+				}
+			}
+		}
+		.forms_for_add_product {
+			display: flex;
+			flex-direction: column;
+			gap: 38px;
+			width: 75%;
+			.for_category_product_form_div {
+				display: flex;
+				gap: 19px;
+				.category_and_brand_forms {
+					display: flex;
+					flex-direction: column;
+					align-items: start;
+					gap: 16px;
+					.label_and_input_div {
+						display: flex;
+						flex-direction: column;
+						gap: 6px;
+						:global {
+							.ant-select-selector {
+								background: white;
+								color: black;
+								border: 1px solid rgb(205, 205, 205);
+							}
+							.ant-select-arrow {
+								color: #000;
+							}
+						}
+						label {
+							color: rgb(56, 66, 85);
+							font-size: clamp(7px, 4vw, 14px);
+							font-weight: 400;
+						}
+
+						.input {
+							width: 392px;
+							height: 39px;
+						}
+						.input_for_text {
+							width: 392px;
+							height: 39px;
+							background-color: white;
+              border: 1px solid rgb(205, 205, 205);
+              color: rgb(36, 34, 34);
+              font-size: clamp(7px, 4vw, 16px);
+              font-weight: 400;
+						}
+            .input_for_text::placeholder {
+              color: rgb(145, 150, 158);
+            }
+					}
+				}
+        
+			}
+		}
+	}
+}

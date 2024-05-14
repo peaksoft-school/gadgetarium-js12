@@ -13,7 +13,7 @@ import ReviewPage from '../pages/ReviewAdminPage';
 import ProductsAdminPage from '../pages/ProductsAdminPage';
 import OrdersAdminPage from '../pages/OrdersAdminPage';
 import { ProductPage } from '../pages/ProductPage';
-
+import AddProductPage from '../pages/AddProductPage';
 
 const LayoutAdmin = () => {
 	return (
@@ -24,21 +24,55 @@ const LayoutAdmin = () => {
 					<Routes>
 						<Route path="/" element={<HomePage />} />
 
-						<Route path="/orders/in-processing" element={<OrdersPage/>}></Route>
-						<Route path="/orders/in-pending" element={<OrderInPending/>}></Route>
-						<Route path="/orders/courier-on-the-way" element={<OrderCourierOnTheWay/>}></Route>
-						<Route path="/orders/delivered" element={<OrderDelivered/>}></Route>
-						<Route path="/orders/canceled" element={<OrderCancelled/>}></Route>
+						<Route
+							path="/orders/in-processing"
+							element={<OrdersPage />}
+						></Route>
+						<Route
+							path="/orders/in-pending"
+							element={<OrderInPending />}
+						></Route>
+						<Route
+							path="/orders/courier-on-the-way"
+							element={<OrderCourierOnTheWay />}
+						></Route>
+						<Route
+							path="/orders/delivered"
+							element={<OrderDelivered />}
+						></Route>
+						<Route path="/orders/canceled" element={<OrderCancelled />}></Route>
 
-						<Route path="/orders/in-processing/single-order/:id" element={<OrderSinglePage/>}></Route>
-						<Route path="/orders/in-pending/single-order/:id" element={<OrderSinglePage/>}></Route>
-						<Route path="/orders/courier-on-the-way/single-order/:id" element={<OrderSinglePage/>}></Route>
-						<Route path="/orders/delivered/single-order/:id" element={<OrderSinglePage/>}></Route>
-						<Route path="/orders/canceled/single-order/:id" element={<OrderSinglePage/>}></Route>
+						<Route
+							path="/orders/in-processing/single-order/:id"
+							element={<OrderSinglePage />}
+						></Route>
+						<Route
+							path="/orders/in-pending/single-order/:id"
+							element={<OrderSinglePage />}
+						></Route>
+						<Route
+							path="/orders/courier-on-the-way/single-order/:id"
+							element={<OrderSinglePage />}
+						></Route>
+						<Route
+							path="/orders/delivered/single-order/:id"
+							element={<OrderSinglePage />}
+						></Route>
+						<Route
+							path="/orders/canceled/single-order/:id"
+							element={<OrderSinglePage />}
+						></Route>
 						<Route path="/review" element={<ReviewPage />} />
 						<Route path="/productsAdmin" element={<ProductsAdminPage />} />
+						<Route
+							path="/add-product-page"
+							element={<AddProductPage />}
+						/>
 						<Route path="/ordersAdmin" element={<OrdersAdminPage />} />
-						<Route path="/goodsPage/product-page/:productId" element={<ProductPage />} />
+						<Route
+							path="/goodsPage/product-page/:productId"
+							element={<ProductPage />}
+						/>
 					</Routes>
 				</main>
 				<Footer />
