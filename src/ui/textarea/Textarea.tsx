@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import scss from './Textarea.module.scss';
 import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'
+import { Link } from 'react-router-dom';
 
 const Textarea = () => {
 	const [text, setText] = useState('');
@@ -28,7 +30,9 @@ const Textarea = () => {
 					/>
 				</div>
 				<div className={scss.buttons}>
+					<Link to={"/admin/product-adding/part-2"}>
 					<button className={scss.cancel_b}>Отменить</button>
+					</Link>
 					<button className={scss.add_b}>Добавить</button>
 				</div>
 			</div>
