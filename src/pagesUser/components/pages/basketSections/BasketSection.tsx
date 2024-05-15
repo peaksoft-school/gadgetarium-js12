@@ -46,7 +46,6 @@ const BasketSection = () => {
 	const handleFavoriteAddProduct = async (id: number, isFavorite: boolean) => {
 		await favoriteAddProduct({ id, isFavorite: !isFavorite });
 	};
-
 	const handleSelectProduct = async (
 		productId: number,
 		NumberOfGoods: number,

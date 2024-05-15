@@ -2,7 +2,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import scss from './AddProductSections.module.scss';
 import { ConfigProvider, Input, Select } from 'antd';
-import { BrandSelect, options } from '@/src/data/InputSelect';
+import { BrandForSmartphones, OptionsForScreenProtection } from '@/src/data/InputSelect';
 
 interface PagesArrayTypes {
 	id: number;
@@ -43,7 +43,7 @@ export const AddProductSections = () => {
 					<div className={scss.main_text_for_pages}>
 						<p
 							className={scss.product_page_text}
-							onClick={() => navigate('/productsAdmin')}
+							onClick={() => navigate('/admin/productsAdmin')}
 						>
 							Товары »
 						</p>
@@ -100,7 +100,6 @@ export const AddProductSections = () => {
 								<div className={scss.category_and_brand_forms}>
 									<div className={scss.label_and_input_div}>
 										<label>Выберите категорию *</label>
-
 										<Select
 											size="large"
 											showSearch
@@ -146,7 +145,7 @@ export const AddProductSections = () => {
 											className={scss.input}
 											placeholder="Выбрать"
 											onChange={handleChange}
-											options={BrandSelect}
+											options={BrandForSmartphones}
 										/>
 									</div>
 									<div className={scss.label_and_input_div}>
@@ -164,7 +163,7 @@ export const AddProductSections = () => {
 											className={scss.input}
 											placeholder="Выбрать"
 											onChange={handleChange}
-											options={options}
+											options={OptionsForScreenProtection}
 										/>
 									</div>
 									<div className={scss.label_and_input_div}>

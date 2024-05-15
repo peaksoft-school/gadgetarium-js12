@@ -8,10 +8,23 @@
 		padding-top: 55px;
 		padding-bottom: 75px;
 		gap: 35px;
+		@media (max-width: 1100px) {
+			padding-top: 40px;
+			padding-bottom: 55px;
+			gap: 25px;
+		}
+		@media (max-width: 650px) {
+			padding-top: 25px;
+			padding-bottom: 35px;
+			gap: 15px;
+		}
 		.main_text_for_pages {
 			display: flex;
 			align-items: center;
 			gap: 5px;
+			@media (max-width: 750px) {
+				gap: 2.5px;
+			}
 			.product_page_text {
 				cursor: pointer;
 				color: rgb(145, 150, 158);
@@ -28,6 +41,9 @@
 			display: flex;
 			flex-direction: column;
 			gap: 19px;
+			@media (max-width: 760px) {
+				gap: 10px;
+			}
 			h3 {
 				color: rgb(41, 41, 41);
 				font-size: clamp(14px, 5vw, 29px);
@@ -42,11 +58,22 @@
 			display: flex;
 			align-items: center;
 			gap: 15px;
+			@media (max-width: 850px) {
+				gap: 9px;
+			}
+			@media (max-width: 768px) {
+				flex-wrap: wrap;
+				align-items: start;
+				gap: 7px;
+			}
 			.add_product_button {
 				display: flex;
 				align-items: center;
 				gap: 16px;
 				cursor: pointer;
+				@media (max-width: 850px) {
+					gap: 11px;
+				}
 				.div {
 					width: 54px;
 					height: 54px;
@@ -59,6 +86,12 @@
 					color: rgb(255, 255, 255);
 					font-size: clamp(17px, 6vw, 27px);
 					font-weight: 600;
+					@media (max-width: 984px) {
+						width: 60px;
+					}
+					@media (max-width: 768px) {
+						width: 54px;
+					}
 					&.div_active {
 						width: 54px;
 						height: 54px;
@@ -71,6 +104,12 @@
 						color: rgb(255, 255, 255);
 						font-size: clamp(17px, 6vw, 27px);
 						font-weight: 600;
+						@media (max-width: 984px) {
+							width: 60px;
+						}
+						@media (max-width: 768px) {
+							width: 54px;
+						}
 					}
 				}
 				.p {
@@ -80,8 +119,10 @@
 					&.p_active {
 						font-size: clamp(8px, 5vw, 17px);
 						color: rgb(203, 17, 171);
-
 						font-weight: 500;
+					}
+					@media (max-width: 481px) {
+						width: 170px;
 					}
 				}
 				.add_product_border {
@@ -96,18 +137,46 @@
 			flex-direction: column;
 			gap: 38px;
 			width: 75%;
+			@media (max-width: 850px) {
+				gap: 28px;
+			}
+			@media (max-width: 700px) {
+				gap: 18px;
+			}
+			@media (max-width: 678px) {
+				width: 100%;
+			}
 			.for_category_product_form_div {
 				display: flex;
 				gap: 19px;
+				@media (max-width: 850px) {
+					gap: 15px;
+				}
+				@media (max-width: 750px) {
+					flex-wrap: wrap;
+					gap: 11px;
+				}
+				@media (max-width: 555px) {
+					gap: 8px;
+				}
 				.category_and_brand_forms {
 					display: flex;
 					flex-direction: column;
 					align-items: start;
 					gap: 16px;
+					@media (max-width: 800px) {
+						gap: 12px;
+					}
+					@media (max-width: 700px) {
+						gap: 7px;
+					}
 					.label_and_input_div {
 						display: flex;
 						flex-direction: column;
 						gap: 6px;
+						@media (max-width: 700px) {
+							gap: 4px;
+						}
 						:global {
 							.ant-select-selector {
 								background: white;
@@ -127,22 +196,56 @@
 						.input {
 							width: 392px;
 							height: 39px;
+							border-radius: 5px;
+							@media (max-width: 853px) {
+								width: 300px;
+							}
+							@media (max-width: 767px) {
+								width: 200px;
+								height: 34px;
+							}
+							@media (max-width: 455px) {
+								width: 384px;
+								// max-width: 430px;
+							}
+							@media (max-width: 438px) {
+								width: 325px;
+							}
+							@media (max-width: 375px) {
+								width: 285px;
+							}
 						}
 						.input_for_text {
 							width: 392px;
 							height: 39px;
 							background-color: white;
-              border: 1px solid rgb(205, 205, 205);
-              color: rgb(36, 34, 34);
-              font-size: clamp(7px, 4vw, 16px);
-              font-weight: 400;
+							border: 1px solid rgb(205, 205, 205);
+							color: rgb(36, 34, 34);
+							font-size: clamp(7px, 4vw, 16px);
+							font-weight: 400;
+							border-radius: 5px;
+							@media (max-width: 853px) {
+								width: 300px;
+							}
+							@media (max-width: 767px) {
+								width: 200px;
+								height: 34px;
+							}
+							@media (max-width: 455px) {
+								width: 384px;
+							}
+							@media (max-width: 438px) {
+								width: 325px;
+							}
+							@media (max-width: 375px) {
+								width: 285px;
+							}
 						}
-            .input_for_text::placeholder {
-              color: rgb(145, 150, 158);
-            }
+						.input_for_text::placeholder {
+							color: rgb(145, 150, 158);
+						}
 					}
 				}
-        
 			}
 		}
 	}
