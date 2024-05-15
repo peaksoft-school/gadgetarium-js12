@@ -1,13 +1,15 @@
 .layout {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	align-items: start;
 	justify-self: center;
+
 	.content {
 		display: flex;
 		justify-content: flex-start;
 		align-items: flex-start;
 		flex-direction: column;
+		width: 100%;
 
 		p {
 			font-size: 14px;
@@ -18,11 +20,14 @@
 		.textarea {
 			display: flex;
 			flex-direction: column;
-			align-items: center;
+			align-items: start;
 			justify-content: center;
+			margin-top: 5px;
+			width: 100%;
 
 			.it {
-				width: 700px;
+				width: 100%;
+				max-width: 700px;
 				height: 240px;
 				max-height: 240px;
 				font-weight: 300;
@@ -32,27 +37,46 @@
 
 		.buttons {
 			display: flex;
-			justify-content: flex-end;
-			align-self: flex-end;
+			justify-content: end;
 			gap: 25px;
 			margin-top: 65px;
+			width: 100%;
+			max-width: 700px;
+			@media (max-width: 700px) {
+				gap: 14px;
+			}
 			.cancel_b {
 				color: rgba(203, 17, 171, 1);
 				background-color: transparent;
 				border: 2px solid rgba(203, 17, 171, 1);
 				border-radius: 4px;
-				padding: 5px 14px;
+				padding: 10px 20px;
 				font-weight: 600;
 				cursor: pointer;
+				@media (max-width: 550px) {
+					padding: 7px 16px;
+				}
+				&:hover {
+					transition: 0.3s;
+					color: rgb(249, 98, 223);
+					border: 2px solid rgb(249, 98, 223);
+				}
 			}
 			.add_b {
 				background-color: rgba(203, 17, 171, 1);
 				border: none;
 				color: #fff;
-				font-weight: 600;
-				padding: 5px 14px;
+				font-weight: 500;
+				padding: 10px 20px;
 				border-radius: 4px;
 				cursor: pointer;
+				@media (max-width: 550px) {
+					padding: 7px 16px;
+				}
+				&:hover {
+					background-color: rgb(249, 98, 223);
+					transition: 0.3s;
+				}
 			}
 		}
 	}

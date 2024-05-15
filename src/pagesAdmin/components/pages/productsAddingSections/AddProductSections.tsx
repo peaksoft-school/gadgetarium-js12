@@ -13,13 +13,13 @@ interface PagesArrayTypes {
 const pagesArray: PagesArrayTypes[] = [
 	{
 		id: 1,
-		link: '/admin/add-product-page',
+		link: '/admin/product-adding/part-1',
 		title: 'Добавление товара',
 		border: ' '
 	},
 	{
 		id: 2,
-		link: '',
+		link: '/admin/product-adding/part-2',
 		title: 'Установка цены и количества товара',
 		border: ' '
 	},

@@ -33,7 +33,7 @@ export const api = createApi({
 		'personalFavorite',
 		'personalHistory',
 		'adminOrders',
-		'productCategory'
+		'productAdd',
 	],
 	endpoints: () => ({})
 });
