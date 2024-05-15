@@ -41,10 +41,10 @@ const LogoutModal: FC<ModalNewsletterProps> = ({
 					<div className={scss.logOut}>
 						<p>Вы уверены, что хотите выйти?</p>
 						<div className={scss.buttons}>
-							<CancelButtonCustom setIsModalOpen={setIsModalLogOut}>
+							<CancelButtonCustom onClick={handleCancel}>
 								Отменить
 							</CancelButtonCustom>
-							<CustomButtonAdd>Выйти</CustomButtonAdd>
+							<CustomButtonAdd onClick={handleCancel}>Выйти</CustomButtonAdd>
 						</div>
 					</div>
 				</Modal>

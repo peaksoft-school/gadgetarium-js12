@@ -1,8 +1,16 @@
 import scss from './BurgerMenu.module.scss';
 import { Link, useLocation } from 'react-router-dom';
 import { IconChevronDown } from '@tabler/icons-react';
-import { FC } from 'react';
-import { Dropdown, MenuProps } from 'antd/es';
+import { FC, useState } from 'react';
+import { DatePicker, DatePickerProps, Dropdown, MenuProps } from 'antd/es';
+import CustomModal from '../modalAdmin/CustomModal';
+import CancelButtonCustom from '../adminButtons/CancelButtonCustom';
+import CustomButtonAdd from '../adminButtons/CustomButtonAdd';
+import CustomImageAdd from '../customImageAdd/CustomImageAdd';
+
+const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+	console.log(date, dateString);
+};
 
 interface BurgerMenuProps {
 	isOpenMobileMenu: boolean;
@@ -12,11 +20,11 @@ interface BurgerMenuProps {
 const links = [
 	{
 		name: 'Товары',
-		link: '/admin/productsAdmin'
+		link: '/admin'
 	},
 	{
 		name: 'Заказы',
-		link: '/admin/ordersAdmin'
+		link: '/admin/orders/in-pending'
 	},
 	{
 		name: 'Отзывы и рейтинг',
@@ -39,8 +47,17 @@ const BurgerMenu: FC<BurgerMenuProps> = ({
 	setIsOpenMobileMenu
 }) => {
 	const { pathname } = useLocation();
+	const [isModalOpen, setIsModalOpen] = useState(false);
 	const handleCancel = () => {
 		setIsOpenMobileMenu(false);
+	};
+
+	const showModal = () => {
+		setIsModalOpen(true);
+	};
+
+	const showModalCancel = () => {
+		setIsModalOpen(false);
 	};
 	return (
 		<>
@@ -72,13 +89,14 @@ const BurgerMenu: FC<BurgerMenuProps> = ({
 				</nav>
 
 				<div className={scss.alone_div}>
-					<button className={scss.create_button}>Создать рассылку</button>
+					<button className={scss.create_button} onClick={showModal}>
+						Создать рассылку
+					</button>
 					<div className={scss.selected_option_icon}>
 						<Dropdown menu={{ items }} placement="bottomRight">
 							<button className={scss.button}>
 								Администратор
 								<span className={scss.icon}>
-									{' '}
 									<IconChevronDown />
 								</span>
 							</button>
@@ -86,6 +104,57 @@ const BurgerMenu: FC<BurgerMenuProps> = ({
 					</div>
 				</div>
 			</div>
+			<CustomModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
+				<div className={scss.create_newsletter}>
+					<h1>Создать скидку</h1>
+
+					<CustomImageAdd />
+					<div className={scss.size_sale}>
+						<label htmlFor="name">Название рассылки *</label>
+						<input
+							type="text"
+							name="name"
+							placeholder="Введите название рассылки"
+						/>
+					</div>
+					<div className={scss.size_sale}>
+						<label htmlFor="name">Описание рассылки *</label>
+						<input
+							type="text"
+							name="name"
+							placeholder="Введите название рассылки "
+						/>
+					</div>
+					<div className={scss.dates}>
+						<div>
+							<label htmlFor="name">Дата начала акции *</label>
+							<DatePicker
+								name="name"
+								className={scss.date}
+								placeholder="От"
+								onChange={onChange}
+							/>
+						</div>
+						<div>
+							<label htmlFor="name">Дата окончания акции *</label>
+							<DatePicker
+								name="name"
+								className={scss.date}
+								placeholder="Выберите дату"
+								onChange={onChange}
+							/>
+						</div>
+					</div>
+					<div className={scss.buttons}>
+						<CancelButtonCustom onClick={showModalCancel}>
+							ОТМЕНИТЬ
+						</CancelButtonCustom>
+						<CustomButtonAdd onClick={showModalCancel}>
+							ОТПРАВИТЬ
+						</CustomButtonAdd>
+					</div>
+				</div>
+			</CustomModal>
 		</>
 	);
 };

@@ -9,5 +9,8 @@
 		color: rgb(203, 17, 171);
 		font-size: 14px;
 		font-weight: 600;
+		@media (max-width: 475px) {
+			width: 130px;
+		}
 	}
 }

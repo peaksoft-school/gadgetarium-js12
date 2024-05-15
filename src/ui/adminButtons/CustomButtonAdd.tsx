@@ -3,12 +3,13 @@ import scss from './CustomButtonAdd.module.scss';
 
 interface CustomButtonAddProps {
 	children: ReactNode;
+	onClick: () => void;
 }
 
-const CustomButtonAdd: FC<CustomButtonAddProps> = ({ children }) => {
+const CustomButtonAdd: FC<CustomButtonAddProps> = ({ children, onClick }) => {
 	return (
 		<div className={scss.add_button}>
-			<button>{children}</button>
+			<button onClick={onClick}>{children}</button>
 		</div>
 	);
 };

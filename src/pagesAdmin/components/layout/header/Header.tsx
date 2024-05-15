@@ -20,7 +20,8 @@ const links = [
 	},
 	{
 		name: 'Заказы',
-		link: '/admin/ordersAdmin'
+		link: '/admin/orders/in-pending',
+		links: '/admin/ordersAdmin'
 	},
 	{
 		name: 'Отзывы и рейтинг',
@@ -36,6 +37,10 @@ const Header: FC = () => {
 
 	const showModal = () => {
 		setIsModalOpen(true);
+	};
+
+	const showModalCancel = () => {
+		setIsModalOpen(false);
 	};
 
 	const showModalLogOut = () => {
@@ -175,10 +180,12 @@ const Header: FC = () => {
 								</div>
 							</div>
 							<div className={scss.buttons}>
-								<CancelButtonCustom setIsModalOpen={setIsModalOpen}>
+								<CancelButtonCustom onClick={showModalCancel}>
 									ОТМЕНИТЬ
 								</CancelButtonCustom>
-								<CustomButtonAdd>ОТПРАВИТЬ</CustomButtonAdd>
+								<CustomButtonAdd onClick={showModalCancel}>
+									ОТПРАВИТЬ
+								</CustomButtonAdd>
 							</div>
 						</div>
 					</CustomModal>

@@ -148,6 +148,7 @@
 	.size_sale {
 		display: flex;
 		flex-direction: column;
+
 		input {
 			width: 436.36px;
 			height: 35px;
@@ -163,6 +164,7 @@
 	.dates {
 		display: flex;
 		gap: 30px;
+
 		.date {
 			display: flex;
 			justify-content: center;

@@ -32,7 +32,7 @@ export const api = createApi({
 		'phones',
 		'personalFavorite',
 		'personalHistory',
-		'adminProducts'
+		'adminOrders'
 	],
 	endpoints: () => ({})
 });

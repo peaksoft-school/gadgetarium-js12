@@ -7,7 +7,7 @@ import {
 	Pagination,
 	theme
 } from 'antd';
-import { IconChartCircles } from '@tabler/icons-react';
+import { IconChartCircles, IconEdit, IconTrash } from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
 import { adminProducts } from '@/src/routes';
 import { useState } from 'react';
@@ -15,6 +15,7 @@ import CustomModal from '@/src/ui/modalAdmin/CustomModal';
 import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
 import CustomButtonAdd from '@/src/ui/adminButtons/CustomButtonAdd';
 import UploadBanner from '@/src/ui/customImageAdd/UploadBanner';
+import Infographics from '@/src/ui/infographics/Infographics';
 
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
 	console.log(info?.source, value);
@@ -30,6 +31,14 @@ const ProductsMainSection = () => {
 
 	const showModal = () => {
 		setIsModalOpen(true);
+	};
+
+	const handleCancel = () => {
+		setIsModalOpen(false);
+	};
+
+	const handleCancelBanner = () => {
+		setIsModalOpenBanner(false);
 	};
 
 	const showModalBanner = () => {
@@ -134,79 +143,77 @@ const ProductsMainSection = () => {
 								<p>Найдено 167 Товаров </p>
 								<PhonesDropdown />
 							</div>
-							<div className={scss.cards}>
-								<div className={scss.card_title}>
-									<div className={scss.id_img}>
-										<p>ID</p>
-										<p>Фото</p>
+							<table className={scss.cards}>
+								<tr className={scss.card_title}>
+									<div className={scss.row_1}>
+										<th>ID</th>
+										<th>Фото</th>
 									</div>
-									<p>Артикул</p>
-									<p>Наименование товара</p>
-									<p>Дата создания</p>
-									<p>Кол-во</p>
-									<p>Цена товара</p>
-									<p>Текущая цена</p>
-									<p>Действия</p>
-								</div>
-								{adminProducts.map((item, index) => (
-									<div key={index} className={scss.card}>
-										<div className={scss.three}>
-											<p>{item.idProduct}</p>
-											<img src={item.image} alt="" />
+									<div className={scss.rows}>
+										<div className={scss.row_2}>
+											<th>Артикул</th>
+											<th>Наименование товара</th>
+											<th>Дата создания</th>
+											<th>Кол-во</th>
+											<th>Цена товара</th>
 										</div>
-										<p>{item.articul}</p>
-										{/* //! */}
-										{/* <div className={scss.sixThree}> */}
-										{item.productName.map((productName, index) => (
-											<>
-												<div key={index}>
-													<p>{productName.quantity}</p>
-													<p>{productName.name}</p>
-												</div>
-											</>
-										))}
-										{item.createDate.map((productName, index) => (
-											<>
-												<div key={index}>
-													<p>{productName.date}</p>
-													<p>{productName.time}</p>
-												</div>
-											</>
-										))}
-										<p>{item.quantityProduct}</p>
-										{item.priceProduct.map((productName, index) => (
-											<>
-												<div key={index}>
-													<p>{productName.price}</p>
-													<p>{productName.discount}</p>
-												</div>
-											</>
-										))}
-										<p>{item.CurrentPrice}</p>
-										{item.actions.map((productName, index) => (
-											<>
-												<div className={scss.icons} key={index}>
-													<p>{productName.ubdate}</p>
-													<p>{productName.delete}</p>
-												</div>
-											</>
-										))}
-										{/* </div> */}
+										<div className={scss.row_3}>
+											<th>Текущая цена</th>
+											<th>Действия</th>
+										</div>
 									</div>
-								))}
-							</div>
+								</tr>
+								<tr className={scss.tr}>
+									{adminProducts?.map((item, index) => (
+										<div key={index} className={scss.card}>
+											<div className={scss.three}>
+												<td>{item.idProduct}</td>
+												<img src={item.image} alt="" />
+											</div>
+											<td>{item.articul}</td>
+											{item.productName.map((productName, index) => (
+												<>
+													<div key={index} className={scss.quantity_name}>
+														<td>{productName.quantity}</td>
+														<td className={scss.name}>{productName.name}</td>
+													</div>
+												</>
+											))}
+											{item.createDate.map((productName, index) => (
+												<>
+													<div key={index} className={scss.date_time}>
+														<td>{productName.date}</td>
+														<td className={scss.time}>{productName.time}</td>
+													</div>
+												</>
+											))}
+											<td>{item.quantityProduct}</td>
+											{item.priceProduct.map((productName, index) => (
+												<>
+													<div key={index} className={scss.price_discount}>
+														<td>{productName.price}</td>
+														<td className={scss.discount}>
+															{productName.discount}
+														</td>
+													</div>
+												</>
+											))}
+											<td>{item.CurrentPrice}</td>
+											<div className={scss.icons}>
+												<IconEdit className={scss.trash} />
+												<IconTrash />
+											</div>
+										</div>
+									))}
+								</tr>
+							</table>
 						</div>
 						<div>
-							<Pagination defaultCurrent={10} total={70} />;
+							<Pagination defaultCurrent={10} total={40} />;
 						</div>
 					</div>
 					<div className={scss.right_content}>
-						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Et
-							dignissimos commodi illum libero ipsum animi quasi magnam,
-							delectus necessitatibus amet ipsa. Harum quia expedita mollitia
-							quibusdam iure quidem dolore voluptates.
-						</p>
+						<Infographics />
 					</div>
 				</div>
 				<div className={scss.modal_create_newsletter}>
@@ -217,12 +224,16 @@ const ProductsMainSection = () => {
 						<div className={scss.create_newsletter}>
 							<h1>Создать скидку</h1>
 							<div className={scss.size_sale}>
-								<label htmlFor="name">Размер скидки *</label>
+								<label className={scss.label} htmlFor="name">
+									Размер скидки *
+								</label>
 								<input type="text" name="name" placeholder="0%  " />
 							</div>
 							<div className={scss.dates}>
 								<div>
-									<label htmlFor="name">Дата начала скидки * </label>
+									<label className={scss.label} htmlFor="name">
+										Дата начала скидки *{' '}
+									</label>
 									<DatePicker
 										name="name"
 										className={scss.date}
@@ -231,7 +242,9 @@ const ProductsMainSection = () => {
 									/>
 								</div>
 								<div>
-									<label htmlFor="name">Дата окончания скидки *</label>
+									<label className={scss.label} htmlFor="name">
+										Дата окончания скидки *
+									</label>
 									<DatePicker
 										name="name"
 										className={scss.date}
@@ -241,10 +254,12 @@ const ProductsMainSection = () => {
 								</div>
 							</div>
 							<div className={scss.buttons}>
-								<CancelButtonCustom setIsModalOpen={setIsModalOpen}>
+								<CancelButtonCustom onClick={handleCancel}>
 									ОТМЕНИТЬ
 								</CancelButtonCustom>
-								<CustomButtonAdd>ОТПРАВИТЬ</CustomButtonAdd>
+								<CustomButtonAdd onClick={handleCancel}>
+									ОТПРАВИТЬ
+								</CustomButtonAdd>
 							</div>
 						</div>
 					</CustomModal>
@@ -256,10 +271,12 @@ const ProductsMainSection = () => {
 							<h1>Загрузить баннер</h1>
 							<UploadBanner />
 							<div className={scss.buttons_banner}>
-								<CancelButtonCustom setIsModalOpen={setIsModalOpenBanner}>
+								<CancelButtonCustom onClick={handleCancelBanner}>
 									ОТМЕНИТЬ
 								</CancelButtonCustom>
-								<CustomButtonAdd>ОТПРАВИТЬ</CustomButtonAdd>
+								<CustomButtonAdd onClick={handleCancelBanner}>
+									ОТПРАВИТЬ
+								</CustomButtonAdd>
 							</div>
 						</div>
 					</CustomModal>

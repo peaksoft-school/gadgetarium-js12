@@ -61,13 +61,7 @@ export const adminProducts = [
 				discount: '15%'
 			}
 		],
-		CurrentPrice: '45 000 c',
-		actions: [
-			{
-				ubdate: <IconEdit />,
-				delete: <IconTrash />
-			}
-		]
+		CurrentPrice: '45 000 c'
 	},
 	{
 		idProduct: 2,
@@ -260,5 +254,5 @@ export const adminProducts = [
 				delete: <IconTrash />
 			}
 		]
-	},
+	}
 ];
