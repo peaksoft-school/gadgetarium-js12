@@ -8,7 +8,7 @@ const baseQuery = fetchBaseQuery({
 	baseUrl: import.meta.env.VITE_PRODUCT_URL
 	// prepareHeaders: (headers) => {
 	// 	return headers;
-	// },	
+	// },
 	// credentials: 'include'
 });
 
@@ -22,7 +22,19 @@ export const api = createApi({
 	baseQuery: baseQueryExtended,
 	refetchOnReconnect: true,
 	refetchOnFocus: false,
-	tagTypes: ['auth', 'basket', 'product', 'slider','favorite', 'comparison', 'phones', 'personalFavorite', 'personalHistory', 'productAdd'],
-	tagTypes: ['auth', 'basket', 'product', 'slider','favorite', 'comparison', 'phones', 'personalFavorite', 'personalHistory', 'adminOrders'],
+	tagTypes: [
+		'auth',
+		'basket',
+		'product',
+		'slider',
+		'favorite',
+		'comparison',
+		'phones',
+		'personalFavorite',
+		'personalHistory',
+		'productAdd',
+		'adminOrders'
+	],
+
 	endpoints: () => ({})
 });

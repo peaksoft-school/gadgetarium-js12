@@ -4,7 +4,7 @@ const ReviewAdminSection = () => {
 		<div className={scss.ReviewSection}>
 			<div className="container">
 				<div className={scss.content}>
-					<h1>ReviewAdminSection</h1>
+					<h3>ReviewAdminSection</h3>
 				</div>
 			</div>
 		</div>

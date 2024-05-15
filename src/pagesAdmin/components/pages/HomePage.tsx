@@ -1,9 +1,9 @@
-import Welcome from './homeSections/Welcome';
+import ProductsMainSection from './homeSections/ProductsMainSection';
 
 const HomePage = () => {
 	return (
 		<>
-			<Welcome />
+			<ProductsMainSection />
 		</>
 	);
 };
