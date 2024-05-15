@@ -3,64 +3,60 @@
 .ReviewAdminSection {
 	width: 100%;
 	height: auto;
-	background: rgb(255, 255, 255);
+	background: #ffffff;
 	.content {
+		width: 100%;
+		max-width: 1120px;
 		padding-top: 40px;
 		padding-bottom: 200px;
 		display: flex;
 		justify-content: space-between;
-		align-items: start;
 		.contents_for_users {
 			display: flex;
 			flex-direction: column;
-			gap: 39px;
+			gap: 30px;
+			width: 100%;
+			max-width: 1120px;
 			.buttons_for_category {
+				width: 100%;
 				display: flex;
-				align-items: center;
 				gap: 11px;
 				.noo_active_button {
 					transition: all 0.4s ease;
-					padding-inline: 19px;
 					padding-block: 8px;
 					border-radius: 4px;
-					color: rgb(56, 66, 85);
-					background: rgb(224, 226, 231);
+					color: #384255;
+					background: #e0e2e7;
 					font-size: clamp(8px, 6vw, 16px);
 					font-weight: 600;
 					cursor: pointer;
 					border: none;
 					display: flex;
-					align-items: center;
-					justify-content: center;
-					gap: 4px;
 					span {
-						color: rgb(47, 197, 9);
+						color: #2fc509;
 						font-size: clamp(8px, 6vw, 16px);
 						font-weight: 600;
 					}
 					&:hover {
 						transition: all 0.4s ease;
-						background: rgb(203, 17, 171);
-						color: rgb(255, 255, 255);
+						background: #cb11ab;
+						color: #ffffff;
 					}
 					&.active_button {
 						transition: all 0.4s ease;
 						padding-inline: 19px;
 						display: flex;
-						align-items: center;
-						justify-content: center;
-						gap: 4px;
-
+						justify-content: space-between;
 						border: none;
 						padding-block: 8px;
 						cursor: pointer;
 						border-radius: 4px;
-						background: rgb(203, 17, 171);
-						color: rgb(255, 255, 255);
+						background: #cb11ab;
+						color: #ffffff;
 						font-size: clamp(8px, 6vw, 16px);
 						font-weight: 600;
 						span {
-							color: rgb(47, 197, 9);
+							color: #2fc509;
 							font-size: clamp(8px, 6vw, 16px);
 							font-weight: 600;
 						}
@@ -70,49 +66,43 @@
 			.all_product_and_commits_div {
 				display: flex;
 				flex-direction: column;
-				gap: 18.5px;
 				.names_product_data {
 					display: flex;
 					flex-direction: column;
-					gap: 11px;
 					.text_div_for_category {
 						display: flex;
-						align-items: center;
-						// justify-content: space-between;
-						gap: 395px;
+						gap: 350px;
 						.category_text_1 {
 							display: flex;
-							align-items: center;
-							gap: 48px;
+							justify-content: space-between;
+							gap: 40px;
 							.id_and_photo_content_tag {
 								display: flex;
-								align-items: center;
+								justify-content: space-between;
 								gap: 21px;
-								color: rgb(56, 66, 85);
+								color: #384255;
 								font-size: clamp(7px, 6vw, 14px);
 								font-weight: 600;
 								span {
-									color: rgb(56, 66, 85);
+									color: #384255;
 									font-size: clamp(7px, 6vw, 14px);
 									font-weight: 600;
 								}
 							}
 							p {
-								color: rgb(56, 66, 85);
+								color: #384255;
 								font-size: clamp(7px, 6vw, 14px);
 								font-weight: 600;
 							}
 						}
 						.category_text_2 {
 							display: flex;
-							align-items: center;
-							gap: 84px;
-							margin-right: 155px;
+							justify-content: space-between;
+							gap: 50px;
 							p {
 								display: flex;
-								align-items: center;
 								gap: 5px;
-								color: rgb(56, 66, 85);
+								color: #384255;
 								font-size: clamp(7px, 6vw, 14px);
 								font-weight: 600;
 							}
@@ -120,31 +110,38 @@
 					}
 					.border_div {
 						width: 100%;
-						border: 1px solid rgb(205, 205, 205);
+						border: 1px solid #cdcdcd;
+						max-width: 1120px;
 					}
 				}
 				.container_users_commits {
 					display: flex;
 					flex-direction: column;
+					width: 100%;
+					max-width: 1120px;
 					.users_commits_maps {
-						border-top: 1px solid rgb(232, 232, 232);
-						border-bottom: 1px solid rgb(232, 232, 232);
+						border-top: 1px solid #e8e8e8;
+						border-bottom: 1px solid #e8e8e8;
 						width: 100%;
 						.content_maps {
 							display: flex;
-							align-items: center;
-							gap: 23px;
+							justify-content: space-between;
+							width: 100%;
+							max-width: 1120px;
 							padding-block: 19px;
+							&.active_content_maps {
+								display: flex;
+							}
 							.div_content_commits {
 								display: flex;
-								align-items: center;
-								gap: 60px;
+								justify-content: space-between;
+								gap: 50px;
 								.info_users_div {
 									display: flex;
-									align-items: center;
+									justify-content: space-between;
 									gap: 25px;
 									p {
-										color: rgb(41, 41, 41);
+										color: #292929;
 										font-size: clamp(8px, 4vw, 16px);
 										font-weight: 400;
 									}
@@ -157,14 +154,13 @@
 										display: flex;
 										flex-direction: column;
 										gap: 2px;
-										align-items: start;
 										h3 {
-											color: rgb(41, 41, 41);
+											color: #292929;
 											font-size: clamp(7px, 6vw, 14px);
 											font-weight: 600;
 										}
 										p {
-											color: rgb(144, 156, 181);
+											color: #909cb5;
 											font-size: clamp(7px, 5vw, 14px);
 											font-weight: 500;
 										}
@@ -174,49 +170,116 @@
 									display: flex;
 									flex-direction: column;
 									gap: 2px;
+									width: 100%;
 									p {
-										color: rgb(46, 44, 52);
+										color: #2e2c34;
 										font-size: clamp(7px, 4vw, 14px);
 										font-weight: 400;
 									}
 									.user_commit_for_time {
-										color: rgba(0, 0, 0, 0.5);
+										color: #00000080;
 										font-size: clamp(6px, 4vw, 12px);
 										font-weight: 400;
+									}
+									.index_active {
+										display: flex;
+										justify-content: space-between;
+										justify-content: space-between;
+										img {
+											width: 100%;
+											max-width: 75px;
+											height: auto;
+											border-radius: 7px;
+										}
 									}
 								}
 							}
 							.content_rating_and_user_profile_and_buttons {
 								display: flex;
-								align-items: start;
-								gap: 140px;
-								.user_profile_and_buttons {
+								&.active_div_index {
 									display: flex;
-									align-items: start;
-									gap: 38px;
-									.user_profile {
+									flex-direction: column;
+								}
+								.rate_and_user_name_and_profile_div {
+									display: flex;
+									justify-content: space-between;
+									.user_profile_and_buttons {
 										display: flex;
-										align-items: center;
-										gap: 15px;
-										img {
-											width: 40px;
-											height: 40px;
-											border-radius: 50%;
-										}
-										.div_for_user_name {
+										justify-content: space-between;
+										gap: 20px;
+										.user_profile {
 											display: flex;
-											flex-direction: column;
-											gap: 2px;
-											h3 {
-												color: rgb(41, 41, 41);
-												font-size: clamp(7px, 6vw, 14px);
-												font-weight: 600;
+											img {
+												width: 40px;
+												height: 40px;
+												border-radius: 50%;
 											}
-											p {
-												color: rgb(145, 150, 158);
-												font-size: clamp(7px, 5vw, 14px);
-												font-weight: 500;
+											.div_for_user_name {
+												display: flex;
+												flex-direction: column;
+												gap: 2px;
+												h3 {
+													color: #292929;
+													font-size: clamp(7px, 6vw, 14px);
+													font-weight: 600;
+												}
+												p {
+													color: #91969e;
+													font-size: clamp(7px, 5vw, 14px);
+													font-weight: 500;
+												}
 											}
+										}
+										.buttons {
+											display: flex;
+											justify-content: space-between;
+											gap: 20px;
+										}
+									}
+								}
+								.form_of_commit_div {
+									display: flex;
+									flex-direction: column;
+									p {
+										color: #384255;
+										font-size: clamp(7px, 6vw, 14px);
+										font-weight: 600;
+									}
+									.input_for_text_area {
+										width: 100%;
+										height: 110px;
+										border-radius: 6px;
+										background-color: transparent;
+										color: #000000;
+									}
+									div {
+										display: flex;
+										justify-content: space-between;
+										padding-top: 10px;
+										.button {
+											color: #fff;
+											font-size: clamp(8px, 5vw, 15px);
+											font-weight: 500;
+											width: 100%;
+											max-width: 180px;
+											background: #cb11ab;
+											border: none;
+										}
+										.none {
+											display: none;
+										}
+
+										.button_cancel {
+											display: none;
+										}
+										.button_cancel_2 {
+											background: #fff;
+											color: #cb11ab;
+											border: 1px solid #cb11ab;
+											font-size: clamp(8px, 5vw, 15px);
+											font-weight: 500;
+											width: 100%;
+											max-width: 180px;
 										}
 									}
 								}

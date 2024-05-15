@@ -1,13 +1,9 @@
 import scss from './ReviewAdminSection.module.scss';
 import images from '@/src/assets/image_53.png';
 import line from '@/src/assets/Line_62.png';
-import {
-	IconChevronDown,
-	IconTrash,
-	IconUserCircle
-} from '@tabler/icons-react';
-import { useState } from 'react';
-import { Flex, Rate } from 'antd';
+import { IconChevronDown, IconTrash } from '@tabler/icons-react';
+import { SetStateAction, useState } from 'react';
+import { Rate, Input, Button } from 'antd';
 
 const data = [
 	{
@@ -29,7 +25,6 @@ const data = [
 			'https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Clipart.png',
 		userName: 'Адыл Бакытов',
 		userGmail: 'Adyl@mail.com'
-
 	},
 	{
 		id: 2,
@@ -95,13 +90,27 @@ const data = [
 
 const ReviewAdminSection = () => {
 	const [indexProductsResults, setIndexProductsResults] = useState<
-		null | boolean
+		null | number
 	>(null);
 	const [buttonFiltredStyle, setButtonFiltredStyle] =
 		useState<string>('Все отзывы');
 	const handleCategotyUsersCommits = (value: string) => {
 		setButtonFiltredStyle(value);
 	};
+	const handleProductOpenMenuResultFunk = (index: number) => {
+		setIndexProductsResults(indexProductsResults === index ? null : index);
+	};
+	const [message, setMessage] = useState('');
+	const handleInputChange = (event: {
+		target: { value: SetStateAction<string> };
+	}) => {
+		setMessage(event.target.value);
+	};
+	const handleCancel = () => {
+		setMessage('');
+	};
+
+	const { TextArea } = Input;
 	return (
 		<section className={scss.ReviewAdminSection}>
 			<div className="container">
@@ -146,11 +155,11 @@ const ReviewAdminSection = () => {
 										<p className={scss.id_and_photo_content_tag}>
 											ID <span>Фото</span>
 										</p>
-										<p>Название товара</p>
+										<p style={{ width: '119px' }}>Название товара</p>
 										<p>Комментарий</p>
 									</div>
 									<div className={scss.category_text_2}>
-										<p>
+										<p style={{ width: '200px' }}>
 											Все оценки (1775) <IconChevronDown />
 										</p>
 										<p>Пользователь</p>
@@ -161,7 +170,13 @@ const ReviewAdminSection = () => {
 							<div className={scss.container_users_commits}>
 								{data.map((item, index) => (
 									<div key={item.id} className={scss.users_commits_maps}>
-										<div className={scss.content_maps}>
+										<div
+											className={
+												indexProductsResults === index
+													? `${scss.content_maps} ${scss.active_content_maps}`
+													: `${scss.content_maps}`
+											}
+										>
 											<div className={scss.div_content_commits}>
 												<div className={scss.info_users_div}>
 													<p>{index + 1}</p>
@@ -173,32 +188,98 @@ const ReviewAdminSection = () => {
 													</div>
 												</div>
 												<div className={scss.user_commit_and_time}>
-													{item.comments.map((el, index) => (
-														<p key={index}>{el}</p>
-													))}
+													{indexProductsResults === index
+														? item.comments.map((el, index) => (
+																<p key={index}>{el}</p>
+															))
+														: item.comments.length >= 2 &&
+															item.comments
+																.slice(0, 2)
+																.map((el, index) => (
+																	<p key={index}>
+																		{index === 0 ? el : el + '...'}
+																	</p>
+																))}
+
 													<p className={scss.user_commit_for_time}>
 														{item.calendar}
 													</p>
+													{indexProductsResults === index && (
+														<div className={scss.index_active}>
+															<img src={item.images} alt="products photo" />
+															<img src={item.images} alt="products photo" />
+															<img src={item.images} alt="products photo" />
+															<img src={item.images} alt="products photo" />
+														</div>
+													)}
 												</div>
 											</div>
 											<div
 												className={
-													scss.content_rating_and_user_profile_and_buttons
+													indexProductsResults === index
+														? `${scss.content_rating_and_user_profile_and_buttons} ${scss.active_div_index}`
+														: `${scss.content_rating_and_user_profile_and_buttons}`
 												}
 											>
-												<Rate defaultValue={3} />
-												<div className={scss.user_profile_and_buttons}>
-													<div className={scss.user_profile}>
-														<img
-															src={item.userProfile}
-															alt="user profile photo"
-														/>
-														<div className={scss.div_for_user_name}>
-															<h3>{item.userName}</h3>
-															<p>{item.userGmail}</p>
+												<div
+													className={scss.rate_and_user_name_and_profile_div}
+												>
+													<Rate defaultValue={4} style={{ width: '150px' }} />
+													<div className={scss.user_profile_and_buttons}>
+														<div className={scss.user_profile}>
+															<img
+																src={item.userProfile}
+																alt="user profile photo"
+															/>
+															<div className={scss.div_for_user_name}>
+																<h3>{item.userName}</h3>
+																<p>{item.userGmail}</p>
+															</div>
+														</div>
+														<div className={scss.buttons}>
+															<IconTrash color="#91969e" cursor={'pointer'} />
+															<IconChevronDown
+																color="#91969e"
+																cursor={'pointer'}
+																onClick={() =>
+																	handleProductOpenMenuResultFunk(index)
+																}
+															/>
 														</div>
 													</div>
 												</div>
+												{indexProductsResults === index && (
+													<div className={scss.form_of_commit_div}>
+														<p>Ответить на комментарий</p>
+														<TextArea
+															id="message"
+															value={message}
+															onChange={handleInputChange}
+															placeholder="Напишите ответ!"
+															className={scss.input_for_text_area}
+														/>
+														<div className={scss.buttonContainer}>
+															<Button
+																className={message ? scss.none : scss.button}
+															>
+																{message ? scss.button_cancel : 'Ответить'}
+															</Button>
+															{message ? (
+																<>
+																	<Button
+																		className={scss.button_cancel_2}
+																		onClick={handleCancel}
+																	>
+																		{message ? 'Отменить' : ''}
+																	</Button>
+																	<Button className={scss.button}>
+																		Сохранить
+																	</Button>
+																</>
+															) : null}
+														</div>
+													</div>
+												)}
 											</div>
 										</div>
 									</div>
