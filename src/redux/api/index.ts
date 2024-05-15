@@ -32,6 +32,18 @@ export const api = createApi({
 		'phones',
 		'personalFavorite',
 		'personalHistory',
+		'productAdd'
+	],
+	tagTypes: [
+		'auth',
+		'basket',
+		'product',
+		'slider',
+		'favorite',
+		'comparison',
+		'phones',
+		'personalFavorite',
+		'personalHistory',
 		'adminOrders'
 	],
 	endpoints: () => ({})
