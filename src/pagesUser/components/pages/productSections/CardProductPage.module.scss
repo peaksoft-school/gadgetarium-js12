@@ -85,6 +85,7 @@
 					img {
 						width: 304px;
 						height: 364px;
+						cursor: pointer;
 						@media (max-width: 555px) {
 							width: 70%;
 							height: 300px;
@@ -122,6 +123,7 @@
 							width: 70px;
 							padding: 10px;
 							height: 70px;
+							cursor: pointer;
 							@media (max-width: 1376px) {
 								padding: 7px;
 							}
@@ -363,7 +365,7 @@
 									color: rgb(56, 66, 85);
 									font-size: clamp(10px, 4vw, 20px);
 									border-radius: 50%;
-
+									cursor: pointer;
 									&:hover {
 										transition: all 0.3s ease;
 										background: rgb(56, 66, 85);
@@ -423,7 +425,6 @@
 									display: flex;
 									align-items: center;
 									gap: 13px;
-									// margin-top: -11px;
 									@media (max-width: 557px) {
 										gap: 7px;
 									}
@@ -432,7 +433,6 @@
 									}
 									@media (max-width: 548px) {
 										flex-wrap: wrap;
-										// gap: 0;
 									}
 									.nooActiveButton {
 										border: 1px solid rgb(144, 156, 181);
@@ -443,8 +443,10 @@
 										border-radius: 4px;
 										width: 64px;
 										height: 45px;
+										cursor: pointer;
 										&.activeButton {
 											border: 1px solid rgb(203, 17, 171);
+											cursor: pointer;
 										}
 									}
 									.add_bas_button {
@@ -456,7 +458,6 @@
 										font-size: clamp(8px, 6vw, 14px);
 										border: none;
 										&.active {
-											// transition: all 1s ease;
 											border: 1px dashed rgb(151, 71, 255);
 											background: rgb(47, 197, 9);
 										}
@@ -473,7 +474,6 @@
 								display: flex;
 								flex-direction: column;
 								gap: 10px;
-
 								.div_screen {
 									display: flex;
 									align-items: center;

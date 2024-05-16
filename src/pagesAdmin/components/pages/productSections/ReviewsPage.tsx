@@ -4,8 +4,8 @@ import {
 } from '@/src/redux/api/product';
 import scss from './ReviewsPage.module.scss';
 import { useParams } from 'react-router-dom';
-import { Rate, Modal, Input, Button } from 'antd';
-import  { useState } from 'react';
+import { Rate, Modal, Input, Button, ConfigProvider } from 'antd';
+import { useState } from 'react';
 // type User  = {
 // 	adminCommit: string
 // }
@@ -148,68 +148,81 @@ const ReviewsPage = () => {
 					</div>
 				)}
 			</section>
-			<Modal
-				centered
-				open={modal2Open}
-				onOk={() => setModal2Open(false)}
-				onCancel={() => setModal2Open(false)}
-			>
-				<div className={scss.container_modal}>
-					<h3>Ответ на комментарий</h3>
-					<div className={scss.input_and_buttons_div}>
-						<TextArea
-							className={scss.input}
-							defaultValue={answerForInput}
-							onChange={changeInputValueForAnswer}
-							value={answerForInput}
-						/>
-						<div className={scss.buttons}>
-							<Button
-								onClick={() => setModal2Open(false)}
-								className={scss.button_for_cancel}
-							>
-								Отменить
-							</Button>
-							<Button className={scss.button_for_add}>Добавить</Button>
-						</div>
-					</div>
-				</div>
-			</Modal>
-			{indexProducts ||
-				(modalForEdit && (
+			<ConfigProvider theme={{
+				components: {
+					Modal: {
+						colorBgElevated: 'white',
+						algorithm: true
+					}
+				}
+			}}>
+				<>
 					<Modal
 						centered
-						open={modalForEdit}
-						onOk={() => setModalForEdit(false)}
-						onCancel={() => setModalForEdit(false)}
+						open={modal2Open}
+						onOk={() => setModal2Open(false)}
+						onCancel={() => setModal2Open(false)}
 					>
 						<div className={scss.container_modal}>
-							<h3>Редактировать комментарий</h3>
+							<h3>Ответ на комментарий</h3>
 							<div className={scss.input_and_buttons_div}>
 								<TextArea
 									className={scss.input}
 									defaultValue={answerForInput}
-									onChange={(e) => setAnswerForInput(e.target.value)}
+									onChange={changeInputValueForAnswer}
 									value={answerForInput}
 								/>
 								<div className={scss.buttons}>
 									<Button
-										onClick={() => setModalForEdit(false)}
+										onClick={() => setModal2Open(false)}
 										className={scss.button_for_cancel}
 									>
 										Отменить
 									</Button>
-									<Button
-										className={scss.button_for_add}
-										onClick={() => handleEditAdminCommitFunk(indexProducts + 1)}
-									>
-										СОХРАНИТЬ
-									</Button>
+									<Button className={scss.button_for_add}>Добавить</Button>
 								</div>
 							</div>
 						</div>
 					</Modal>
-				))}
+					{indexProducts ||
+						(modalForEdit && (
+							<Modal
+								centered
+								open={modalForEdit}
+								onOk={() => setModalForEdit(false)}
+								onCancel={() => setModalForEdit(false)}
+							>
+								<div className={scss.container_modal}>
+									<h3>Редактировать комментарий</h3>
+									<div className={scss.input_and_buttons_div}>
+										<TextArea
+											className={scss.input}
+											defaultValue={answerForInput}
+											onChange={(e) => setAnswerForInput(e.target.value)}
+											value={answerForInput}
+										/>
+										<div className={scss.buttons}>
+											<Button
+												onClick={() => setModalForEdit(false)}
+												className={scss.button_for_cancel}
+											>
+												Отменить
+											</Button>
+											<Button
+												className={scss.button_for_add}
+												onClick={() =>
+													handleEditAdminCommitFunk(indexProducts + 1)
+												}
+											>
+												СОХРАНИТЬ
+											</Button>
+										</div>
+									</div>
+								</div>
+							</Modal>
+						))}
+				</>
+			</ConfigProvider>
 		</>
 	);
 };

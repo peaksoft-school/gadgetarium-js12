@@ -20,8 +20,8 @@ const links = [
 	},
 	{
 		name: 'Заказы',
-		link: '/admin/orders/in-pending',
-		links: '/admin/ordersAdmin'
+		links: '/admin/ordersAdmin',
+		link: '/admin/orders/in-pending'
 	},
 	{
 		name: 'Отзывы и рейтинг',

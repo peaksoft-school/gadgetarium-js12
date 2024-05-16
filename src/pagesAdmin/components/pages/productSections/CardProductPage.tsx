@@ -357,21 +357,32 @@ const CardProductPage = () => {
 				</div>
 				{resultProductPage && <InfoProduct />}
 			</section>
-			<Modal
-				title="Iphones"
-				centered
-				open={modal2Open}
-				onOk={() => setModal2Open(false)}
-				onCancel={() => setModal2Open(false)}
+			<ConfigProvider
+				theme={{
+					components: {
+						Modal: {
+							colorBgElevated: 'white',
+							algorithm: true
+						}
+					}
+				}}
 			>
-				<div className={scss.container_modal_img}>
-					<img
-						className={scss.modal_img}
-						src={contentIsModal}
-						alt={data?.productName}
-					/>
-				</div>
-			</Modal>
+				<Modal
+					title="Iphones"
+					centered
+					open={modal2Open}
+					onOk={() => setModal2Open(false)}
+					onCancel={() => setModal2Open(false)}
+				>
+					<div className={scss.container_modal_img}>
+						<img
+							className={scss.modal_img}
+							src={contentIsModal}
+							alt={data?.productName}
+						/>
+					</div>
+				</Modal>
+			</ConfigProvider>
 		</>
 	);
 };
