@@ -13,6 +13,7 @@ import OrdersAdminPage from '../pages/OrdersAdminPage';
 import { ProductPage } from '../pages/ProductPage';
 import ProductAddPage2 from '../pages/ProductAddPage2';
 import ProductAddPage3 from '../pages/ProductAddPage3';
+import ProductAddPage1 from '../pages/ProductAddPage1';
 
 const LayoutAdmin = () => {
 	return (
@@ -79,6 +80,10 @@ const LayoutAdmin = () => {
 							path="/product-adding/part-3"
 							element={<ProductAddPage3 />}
 						></Route>
+						<Route
+							path="/product-adding/part-1"
+							element={<ProductAddPage1 />}
+						/>
 					</Routes>
 				</main>
 			</div>

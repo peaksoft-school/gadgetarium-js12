@@ -32,8 +32,8 @@ export const api = createApi({
 		'phones',
 		'personalFavorite',
 		'personalHistory',
+		'adminOrders',
 		'productAdd',
-		'adminOrders'
 	],
 
 	endpoints: () => ({})
