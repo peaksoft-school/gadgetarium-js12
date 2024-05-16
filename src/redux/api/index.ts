@@ -34,6 +34,7 @@ export const api = createApi({
 		'personalHistory',
 		'adminOrders',
 		'productAdd',
+		'viewedProducts'
 	],
 
 	endpoints: () => ({})
