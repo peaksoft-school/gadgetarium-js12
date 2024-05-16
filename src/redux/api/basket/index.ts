@@ -7,7 +7,7 @@ const api = index.injectEndpoints({
 			BASKETPRODUCTS.GetBasketProductsRequest
 		>({
 			query: () => ({
-				url: '',
+				url: 'https://c7c9df01cc80687d.mokky.dev/basket',
 				method: 'GET'
 			}),
 			providesTags: ['basket']
@@ -17,7 +17,7 @@ const api = index.injectEndpoints({
 			BASKETPRODUCTS.PutProductRequest
 		>({
 			query: ({ _id, isInBasket }) => ({
-				url: `/${_id}`,
+				url: `https://c7c9df01cc80687d.mokky.dev/basket/${_id}`,
 				method: 'PATCH',
 				body: { isInBasket }
 			}),
@@ -28,7 +28,7 @@ const api = index.injectEndpoints({
 			BASKETPRODUCTS.BasketProductsAllItemIdRequest
 		>({
 			query: ({ id, YourDiscount, Total, Sum, NumberOfGoods }) => ({
-				url: `/${id}`,
+				url: `https://c7c9df01cc80687d.mokky.dev/basket/${id}`,
 				method: 'PATCH',
 				body: { YourDiscount, Total, Sum, NumberOfGoods }
 			}),
@@ -39,7 +39,7 @@ const api = index.injectEndpoints({
 			BASKETPRODUCTS.BasketProductRequest
 		>({
 			query: ({ id }) => ({
-				url: `/${id}`,
+				url: `https://c7c9df01cc80687d.mokky.dev/basket/${id}`,
 				method: 'PATCH'
 			}),
 			invalidatesTags: ['basket']
@@ -49,7 +49,7 @@ const api = index.injectEndpoints({
 			BASKETPRODUCTS.ProductQuantityRequest
 		>({
 			query: ({ id, buyProductQuantity }) => ({
-				url: `/${id}`,
+				url: `https://c7c9df01cc80687d.mokky.dev/basket/${id}`,
 				method: 'PATCH',
 				body: {buyProductQuantity}
 			}),

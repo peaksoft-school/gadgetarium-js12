@@ -13,7 +13,7 @@ const AddBasketButton: FC<AddBasketButtonProps> = ({
 	className
 }) => {
 	return (
-		<button onClick={onClick} className={className}>
+		<button onClick={onClick} className={className} style={{cursor: 'pointer'}}>
 			<div className={scss.svg_plus_child}>
 				<svg
 					width="21.000000"

@@ -6,12 +6,17 @@ namespace FAVORITEPRODUCTS {
 		image: string;
 		productName: string;
 		price: number;
-		quantity: number | string;
+		sale?: string;
+		stock?: string;
+		quantity?: number | string;
 		isFavorite: boolean;
+		isComparison: boolean;
+		isInBasket: boolean;
 		token: string;
-		Rating: string;
-		productCode: string;
-		buyProduc: string;
+		Rating: number;
+		productCode?: string;
+		buyProduc?: string;
+		oldPrice?: number;
 	}[];
 	type PutFavoriteProductRequest = {
 		id: number;

@@ -3,24 +3,26 @@
 .ReviewAdminSection {
 	width: 100%;
 	height: auto;
-	background: #ffffff;
 	.content {
-		width: 100%;
-		max-width: 1120px;
 		padding-top: 40px;
 		padding-bottom: 200px;
 		display: flex;
 		justify-content: space-between;
+		@media (max-width:1400px) {
+			display: flex;
+			flex-direction: column-reverse;
+		}
 		.contents_for_users {
 			display: flex;
 			flex-direction: column;
 			gap: 30px;
 			width: 100%;
-			max-width: 1120px;
+			max-width: 1121px;
 			.buttons_for_category {
 				width: 100%;
 				display: flex;
 				gap: 11px;
+				padding-top: 40px;
 				@media (max-width: 500px) {
 					display: flex;
 					flex-direction: column;
@@ -70,6 +72,8 @@
 				}
 			}
 			.all_product_and_commits_div {
+				width: 100%;
+				max-width: 1121px;
 				display: flex;
 				flex-direction: column;
 				.names_product_data {
@@ -78,6 +82,8 @@
 					.text_div_for_category {
 						display: flex;
 						gap: 350px;
+						padding-top: 40px;
+						padding-bottom: 12px;
 						@media (max-width: 1000px) {
 							gap: 10px;
 						}
@@ -416,6 +422,10 @@
 											.icon_trash {
 												color: #91969e;
 												cursor: pointer;
+
+												&:hover {
+													color: #ff0000;
+												}
 												@media (max-width: 500px) {
 													width: 20px;
 													height: 20px;

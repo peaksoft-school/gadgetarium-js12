@@ -49,11 +49,12 @@ interface AdditionalFeatures {
 }
 
 interface User {
-	userProfile: string;
-	userName: string;
-	Time: string;
-	scoreRating: string;
-	userCommit: string;
+	userProfile?: string;
+	userName?: string;
+	Time?: string;
+	scoreRating?: string;
+	userCommit?: string;
+	adminCommit: string;
 }
 
 type Reviews = {
@@ -75,7 +76,7 @@ namespace PRODUCTSTORE {
 		image: string;
 		quantity: number;
 		productName: string;
-		
+		brand: string;
 		isResult: string;
 		isFavorite: boolean;
 		isInBasket: boolean;
@@ -114,6 +115,7 @@ namespace PRODUCTSTORE {
 		image: string;
 		productName: string;
 		isFavorite: boolean;
+		brand: string;
 		isInBasket: boolean;
 		previousPrice: number;
 		quantity: number;
@@ -144,21 +146,52 @@ namespace PRODUCTSTORE {
 		reviews: Reviews;
 		deliveryAndPayment: DeliveryAndPayment;
 	};
+
+	type GetProductDetailsRequest = void;
+	type GetProductDetailsResponse = {
+		_id: number;
+		price: number;
+		productName: string;
+		SIMCards: number;
+		image: string;
+		quantity: number;
+		colors: string;
+		ram: number;
+		memory: number;
+	}[];
+
+	type EditAdminCommitRequest = {
+		_id: number;
+		reviews: Reviews;
+	};
+	type EditAdminCommitResponse = {
+		_id: number;
+		reviews: Reviews;
+	};
+
+	type ProductPatchForQuantityRequest = {
+		id: number;
+		quantity: number;
+	}
+	type ProductPatchForQuantityResponse = {
+		id: number;
+		quantity: number;
+	}
 }
 
-// namespace PRODUCTSTORE {
-// 	type GetProductsRequest = void;
-// 	type GetProductsResponse = {
-// 		_id: number;
-// 		price: number;
-// 		image: string;
-// 		productName: string;
-// 		isFavorite: boolean;
-// 		isInBasket: boolean;
-// 		previousPrice: number;
-// 		Rating: string;
-// 		buyProduc: string;
-// 		newProduct: string;
-// 		isResult: string;
-// 	}[];
-// }
+namespace PRODUCTSTORE {
+	type GetProductsRequest = void;
+	type GetProductsResponse = {
+		_id: number;
+		price: number;
+		image: string;
+		productName: string;
+		isFavorite: boolean;
+		isInBasket: boolean;
+		previousPrice: number;
+		Rating: string;
+		buyProduc: string;
+		newProduct: string;
+		isResult: string;
+	}[];
+}

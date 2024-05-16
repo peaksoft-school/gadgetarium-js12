@@ -138,11 +138,11 @@ const ComparisonSection = () => {
 
 	const handleCategoryProducts = async (categoryProducts: string) => {
 		setFiltredResults(categoryProducts);
-		await categoryProductsResults({categoryProducts})
+		await categoryProductsResults({ categoryProducts });
 	};
 
 	return (
-		<div className={scss.ComparisonSection}>
+		<section className={scss.ComparisonSection}>
 			<div className="container">
 				<div className={scss.content}>
 					<div className={scss.div_for_texts_pages}>
@@ -172,7 +172,7 @@ const ComparisonSection = () => {
 					) : (
 						<>
 							{isLoading ? (
-								<h1>IsLOading...</h1>
+								<h1>IsLoading...</h1>
 							) : (
 								<>
 									<div className={scss.second_content}>
@@ -295,62 +295,77 @@ const ComparisonSection = () => {
 														)}
 													</div>
 												</div>
-												<div ref={ref} className="keen-slider">
+												<div
+													ref={ref}
+													className={`keen-slider ${scss.slider_results}`}
+												>
 													{data &&
 														data?.map((item, index) => (
 															<div key={index} className="keen-slider__slide">
 																<div className={scss.slider_block}>
 																	<div className={scss.card}>
-																		<button
-																			onClick={() =>
-																				handleComparisonProducts(item._id)
-																			}
-																			className={scss.delete_button}
-																		>
-																			<IconDelete />
-																		</button>
-																		{item.comparisonProduct &&
-																			item.comparisonProduct.image && (
-																				<img
-																					src={item.comparisonProduct.image}
-																					alt={
-																						item.comparisonProduct.productName
-																					}
-																				/>
-																			)}
-																		{item.comparisonProduct &&
-																			item.comparisonProduct.productName && (
-																				<p className={scss.charackter}>
-																					{item.comparisonProduct.productName}
-																				</p>
-																			)}
-																		{item.comparisonProduct &&
-																			item.comparisonProduct.price && (
-																				<p className={scss.charackter_price}>
-																					{item.comparisonProduct.price} c
-																				</p>
-																			)}
-																		<AddBasketButton
-																			onClick={() =>
-																				handleAddBasketProducts(
-																					item._id,
+																		<div className={scss.card_content_div}>
+																			<button
+																				onClick={() =>
+																					handleComparisonProducts(item._id)
+																				}
+																				className={scss.delete_button}
+																			>
+																				<IconDelete />
+																			</button>
+																			{item.comparisonProduct &&
+																				item.comparisonProduct.image && (
+																					<div className={scss.div_photos}>
+																						<img
+																							src={item.comparisonProduct.image}
+																							alt={
+																								item.comparisonProduct
+																									.productName
+																							}
+																						/>
+																					</div>
+																				)}
+																			{item.comparisonProduct &&
+																				item.comparisonProduct.productName && (
+																					<p className={scss.charackter}>
+																						{item.comparisonProduct.productName}
+																					</p>
+																				)}
+																			{item.comparisonProduct &&
+																				item.comparisonProduct.price && (
+																					<p
+																						className={
+																							item.comparisonProduct.productName
+																								.length < 25
+																								? `${scss.charackter_price} ${scss.active_margin}`
+																								: `${scss.charackter_price}`
+																						}
+																					>
+																						{item.comparisonProduct.price} c
+																					</p>
+																				)}
+																			<AddBasketButton
+																				onClick={() =>
+																					handleAddBasketProducts(
+																						item._id,
+																						item.comparisonProduct.isInBasket
+																					)
+																				}
+																				children={
+																					item.comparisonProduct &&
+																					item.comparisonProduct.isInBasket ===
+																						true
+																						? `В корзине`
+																						: `В корзину`
+																				}
+																				className={
+																					item.comparisonProduct &&
 																					item.comparisonProduct.isInBasket
-																				)
-																			}
-																			children={
-																				item.comparisonProduct &&
-																				item.comparisonProduct.isInBasket ===
-																					true
-																					? `В корзине`
-																					: `В корзину`
-																			}
-																			className={
-																				item.comparisonProduct &&
-																				item.comparisonProduct.isInBasket
-																					? `${scss.add_bas_button} ${scss.active}`
-																					: `${scss.add_bas_button}`
-																			}
-																		/>
+																						? `${scss.add_bas_button} ${scss.active}`
+																						: `${scss.add_bas_button}`
+																				}
+																			/>
+																		</div>
 																	</div>
 																	<div className={scss.table_div}>
 																		{item.comparisonProduct && (
@@ -371,36 +386,35 @@ const ComparisonSection = () => {
 														))}
 												</div>
 											</div>
+											{loaded && instanceRef.current && (
+												<>
+													<span
+														className={`${scss.left} `}
+														onClick={(e: any) =>
+															e.stopPropagation() || instanceRef.current?.prev()
+														}
+													>
+														<ButtonArrowLeft />
+													</span>
+													<span
+														className={`${scss.right}`}
+														onClick={(e: any) =>
+															e.stopPropagation() || instanceRef.current?.next()
+														}
+													>
+														<ButtonArrowRight />
+													</span>{' '}
+												</>
+											)}
 										</>
 									</div>
-									{loaded && instanceRef.current && (
-										<>
-											<span
-												className={`${scss.arrow} ${scss.left} `}
-												onClick={(e: any) =>
-													e.stopPropagation() || instanceRef.current?.prev()
-												}
-											>
-												<ButtonArrowLeft />
-											</span>
-
-											<span
-												className={`${scss.arrow} ${scss.right}`}
-												onClick={(e: any) =>
-													e.stopPropagation() || instanceRef.current?.next()
-												}
-											>
-												<ButtonArrowRight />
-											</span>
-										</>
-									)}
 								</>
 							)}
 						</>
 					)}
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 };
 

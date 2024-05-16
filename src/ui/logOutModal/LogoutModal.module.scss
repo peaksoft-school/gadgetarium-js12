@@ -1,0 +1,17 @@
+  .logOut {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 30px;
+	p {
+		color: rgb(41, 41, 41);
+		font-family: Inter;
+		font-size: 18px;
+		font-weight: 400;
+	}
+	.buttons {
+		display: flex;
+		gap: 30px;
+	}
+}

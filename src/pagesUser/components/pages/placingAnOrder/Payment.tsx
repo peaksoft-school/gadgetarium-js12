@@ -1,4 +1,4 @@
-import { Checkbox } from 'antd';
+import { Checkbox, ConfigProvider } from 'antd';
 import scss from './Payment.module.scss';
 import { useState } from 'react';
 import PaymentInputs from '@/src/ui/paymentInputs/PaymentInputs';
@@ -56,10 +56,22 @@ const Payment = () => {
 						}}
 					>
 						<div>
-							<Checkbox
-								checked={isPaymentOnline}
-								onChange={handlePaymentOnline}
-							></Checkbox>
+							<ConfigProvider
+								theme={{
+									components: {
+										Checkbox: {
+											colorPrimary: '#c11bab',
+											colorBgContainer: 'white',
+											algorithm: true
+										}
+									}
+								}}
+							>
+								<Checkbox
+									checked={isPaymentOnline}
+									onChange={handlePaymentOnline}
+								/>
+							</ConfigProvider>
 						</div>
 						<div className={scss.text_payment}>
 							<h4>Оплата картой онлайн</h4>
@@ -82,7 +94,19 @@ const Payment = () => {
 						}}
 					>
 						<div>
-							<Checkbox checked={isReceipt} onChange={handleReceipt}></Checkbox>
+							<ConfigProvider
+								theme={{
+									components: {
+										Checkbox: {
+											colorPrimary: '#c11bab',
+											colorBgContainer: 'white',
+											algorithm: true
+										}
+									}
+								}}
+							>
+								<Checkbox checked={isReceipt} onChange={handleReceipt} />
+							</ConfigProvider>
 						</div>
 						<div className={scss.text_receipt}>
 							<h4>Картой при получении</h4>
@@ -106,7 +130,19 @@ const Payment = () => {
 						}}
 					>
 						<div>
-							<Checkbox checked={isCash} onChange={handleCash}></Checkbox>
+							<ConfigProvider
+								theme={{
+									components: {
+										Checkbox: {
+											colorPrimary: '#c11bab',
+											colorBgContainer: 'white',
+											algorithm: true
+										}
+									}
+								}}
+							>
+								<Checkbox checked={isCash} onChange={handleCash} />
+							</ConfigProvider>
 						</div>
 						<div className={scss.text_cash}>
 							<h4>Наличными при получении</h4>

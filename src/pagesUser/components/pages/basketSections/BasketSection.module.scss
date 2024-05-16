@@ -99,7 +99,7 @@
 				display: flex;
 				align-items: center;
 				justify-content: start;
-				gap: 30px;
+				gap: 34px;
 				@media (max-width: 750px) {
 					gap: 18px;
 				}
@@ -113,7 +113,7 @@
 				.button_is_basket_results_div {
 					display: flex;
 					align-items: center;
-					gap: 10px;
+					gap: 9px;
 					@media (max-width: 700px) {
 						gap: 5px;
 					}
@@ -122,7 +122,8 @@
 					}
 					p {
 						color: rgb(41, 41, 41);
-						font-size: clamp(10px, 4vw, 18px);
+						font-size: clamp(10px, 4vw, 19px);
+						font-weight: 400;
 						cursor: pointer;
 					}
 				}
@@ -130,7 +131,7 @@
 			.basket_products {
 				display: flex;
 				align-items: start;
-				gap: 98px;
+				gap: 115px;
 				@media (max-width: 1500px) {
 					justify-content: space-between;
 				}
@@ -144,7 +145,6 @@
 					flex-wrap: wrap;
 					gap: 47px;
 				}
-
 				.container_basket_product {
 					display: flex;
 					flex-direction: column;
@@ -167,6 +167,7 @@
 						}
 						.content_product_div {
 							width: 914px;
+							max-width: 100%;
 							height: 150px;
 							background: rgb(255, 255, 255);
 							border-radius: 5px;
@@ -183,7 +184,10 @@
 								width: 600px;
 								height: auto;
 							}
-							@media (max-width: 972px) {
+							@media (max-width: 963px) {
+								width: 600px;
+							}
+							@media (max-width: 672px) {
 								width: 100%;
 							}
 							.contents_product {
@@ -196,27 +200,24 @@
 									padding-inline: 10px;
 									gap: 18px;
 								}
-								@media (max-width: 600px) {
+								@media (max-width: 672px) {
 									align-items: center;
+									flex-direction: column;
 								}
 								img {
-									width: 106px;
+									width: 100%;
+									max-width: 106px;
 									height: 121px;
-									@media (max-width: 1110px) {
-										width: 20%;
-										height: 100px;
-									}
-									@media (max-width: 493px) {
-										width: 25%;
-										height: auto;
-									}
-									@media (max-width: 470px) {
-										width: 32%;
+									cursor: pointer;
+									@media (max-width: 670px) {
+										max-width: 150px;
+										height: 170px;
 									}
 								}
 								.product_info_text_div {
 									display: flex;
 									flex-direction: column;
+									justify-content: space-between;
 									gap: 8px;
 									width: 100%;
 									@media (max-width: 1110px) {
@@ -225,10 +226,15 @@
 									p {
 										color: rgb(41, 41, 41);
 										font-size: clamp(10px, 4vw, 18px);
+										font-weight: 400;
 									}
 									.product_content {
 										display: flex;
 										justify-content: space-between;
+										margin-right: 75px;
+										@media (max-width: 1304px) {
+											margin-right: 0;
+										}
 										@media (max-width: 1110px) {
 											justify-content: space-around;
 										}
@@ -240,12 +246,17 @@
 										.rating_product_and_buy_product {
 											display: flex;
 											flex-direction: column;
+											gap: 8px;
+											@media (max-width: 700px) {
+												gap: 5px;
+											}
 											p {
 												display: flex;
 												align-items: center;
 												gap: 3px;
 												color: rgb(144, 156, 181);
 												font-size: clamp(7px, 5vw, 12px);
+												font-weight: 500;
 												@media (max-width: 390px) {
 													flex-wrap: wrap;
 													align-items: start;
@@ -254,6 +265,7 @@
 											.buy_product_text {
 												color: rgb(60, 222, 20);
 												font-size: clamp(7px, 5vw, 12px);
+												font-weight: 500;
 											}
 										}
 										.div_product_count_and_price_div {
@@ -267,15 +279,8 @@
 												gap: 10px;
 											}
 											@media (max-width: 601px) {
-												// gap: 40px;
 												justify-content: space-between;
 												width: 100%;
-											}
-											@media (max-width: 485px) {
-												justify-content: space-around;
-											}
-											@media (max-width: 400px) {
-												justify-content: space-evenly;
 											}
 											div {
 												display: flex;
@@ -292,9 +297,10 @@
 													background: transparent;
 													color: rgb(56, 66, 85);
 													font-size: clamp(8px, 5vw, 16px);
+													cursor: pointer;
 													@media (max-width: 700px) {
-														width: 21px;
-														height: 21px;
+														width: 28px;
+														height: 28px;
 													}
 													&:hover {
 														transition: all 0.5s ease;
@@ -303,7 +309,6 @@
 													}
 												}
 												.input_number {
-													// color: rgb(144, 156, 181);
 													color: black;
 													font-size: clamp(10px, 4vw, 18px);
 													background-color: transparent;
@@ -332,15 +337,12 @@
 										align-items: center;
 										justify-content: space-between;
 										@media (max-width: 1000px) {
-											justify-content: space-around;
-										}
-										@media (max-width: 768px) {
-											justify-content: space-evenly;
+											justify-content: space-between;
 										}
 										@media (max-width: 550px) {
 											flex-direction: column;
 											align-items: start;
-											gap: 2px;
+											gap: 6px;
 										}
 										p {
 											color: rgb(56, 66, 85);
@@ -356,11 +358,9 @@
 											@media (max-width: 750px) {
 												gap: 3px;
 											}
-											@media (max-width: 544px) {
-												gap: 55px;
-											}
-											@media (max-width: 430px) {
-												gap: 20px;
+											@media (max-width: 672px) {
+												justify-content: space-between;
+												width: 100%;
 											}
 											.div {
 												display: flex;
@@ -373,6 +373,7 @@
 												p {
 													color: rgb(144, 156, 181);
 													font-size: clamp(8px, 4vw, 14px);
+													font-weight: 400;
 												}
 											}
 										}
@@ -400,15 +401,19 @@
 						width: 52%;
 					}
 					@media (max-width: 908px) {
-						position: fixed;
-						top: 235px;
-						right: 0;
-					}
-					@media (max-width: 487px) {
 						width: 57%;
 					}
-					@media (max-width: 420px) {
-						width: 59%;
+					@media (max-width: 965px) {
+						width: 55%;
+					}
+					@media (max-width: 544px) {
+						width: 60%;
+					}
+					@media (max-width: 472px) {
+						width: 65%;
+					}
+					@media (max-width: 435px) {
+						width: 85%;
 					}
 					.contents_product_price_div {
 						padding: 30px;

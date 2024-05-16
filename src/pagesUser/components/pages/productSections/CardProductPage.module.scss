@@ -85,12 +85,17 @@
 					img {
 						width: 304px;
 						height: 364px;
+						cursor: pointer;
 						@media (max-width: 555px) {
-							width: 75%;
+							width: 70%;
 							height: 300px;
 							border-radius: 7px;
 							object-fit: cover;
 							object-position: center;
+						}
+						@media (max-width: 420px) {
+							width: 65%;
+							height: 300px;
 						}
 					}
 				}
@@ -109,11 +114,8 @@
 					}
 					@media (max-width: 420px) {
 						display: flex;
-						flex-wrap: wrap;
 					}
 					.slider_photos_div {
-						// border: 2px solid red;
-
 						&.activeBorder {
 							border: 2px solid purple;
 						}
@@ -121,6 +123,7 @@
 							width: 70px;
 							padding: 10px;
 							height: 70px;
+							cursor: pointer;
 							@media (max-width: 1376px) {
 								padding: 7px;
 							}
@@ -128,6 +131,11 @@
 								padding: 5px;
 								width: 50px;
 								height: 50px;
+							}
+							@media (max-width: 420px) {
+								padding: 3px;
+								width: 40px;
+								height: 40px;
 							}
 						}
 					}
@@ -137,7 +145,6 @@
 				display: flex;
 				flex-direction: column;
 				gap: 45px;
-				// width: 100%;
 				@media (max-width: 650px) {
 					gap: 30px;
 				}
@@ -358,7 +365,7 @@
 									color: rgb(56, 66, 85);
 									font-size: clamp(10px, 4vw, 20px);
 									border-radius: 50%;
-
+									cursor: pointer;
 									&:hover {
 										transition: all 0.3s ease;
 										background: rgb(56, 66, 85);
@@ -418,7 +425,6 @@
 									display: flex;
 									align-items: center;
 									gap: 13px;
-									// margin-top: -11px;
 									@media (max-width: 557px) {
 										gap: 7px;
 									}
@@ -427,7 +433,6 @@
 									}
 									@media (max-width: 548px) {
 										flex-wrap: wrap;
-										// gap: 0;
 									}
 									.nooActiveButton {
 										border: 1px solid rgb(144, 156, 181);
@@ -438,8 +443,10 @@
 										border-radius: 4px;
 										width: 64px;
 										height: 45px;
+										cursor: pointer;
 										&.activeButton {
 											border: 1px solid rgb(203, 17, 171);
+											cursor: pointer;
 										}
 									}
 									.add_bas_button {
@@ -451,7 +458,6 @@
 										font-size: clamp(8px, 6vw, 14px);
 										border: none;
 										&.active {
-											// transition: all 1s ease;
 											border: 1px dashed rgb(151, 71, 255);
 											background: rgb(47, 197, 9);
 										}
@@ -468,7 +474,6 @@
 								display: flex;
 								flex-direction: column;
 								gap: 10px;
-
 								.div_screen {
 									display: flex;
 									align-items: center;

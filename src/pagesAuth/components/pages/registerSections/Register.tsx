@@ -2,7 +2,8 @@ import scss from './Register.module.scss';
 import logo from '@/src/assets/logo.png';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
-import { Button, Input } from 'antd';
+import { Button, ConfigProvider, Input } from 'antd';
+import PhoneNumberValidation from '@/src/ui/phoneNumberValidation/PhoneNumberValidation';
 
 export const Register = () => {
 	const navigate = useNavigate();
@@ -25,7 +26,9 @@ export const Register = () => {
 			<div className="container">
 				<div className={scss.content}>
 					<div>
-						<img src={logo} alt="logo" />
+						<Link to="/">
+							<img src={logo} alt="logo" />
+						</Link>
 					</div>
 					<div className={scss.displayFormDiv}>
 						<div className={scss.formsDiv}>
@@ -78,27 +81,7 @@ export const Register = () => {
 											/>
 										)}
 									/>
-									<Controller
-										name="phoneNumber"
-										control={control}
-										defaultValue=""
-										rules={{
-											required: 'Телефон номер обязателен для заполнения',
-											minLength: {
-												value: 9,
-												message:
-													'Телефон номер должен содержать минимум 9 символов'
-											}
-										}}
-										render={({ field }) => (
-											<Input
-												className={scss.inputs}
-												id="phoneNumber"
-												placeholder="+996 (_ _ _) _ _  _ _  _ _"
-												{...field}
-											/>
-										)}
-									/>
+									<PhoneNumberValidation />
 									<Controller
 										name="email"
 										control={control}
@@ -132,12 +115,24 @@ export const Register = () => {
 											}
 										}}
 										render={({ field }) => (
-											<Input.Password
-												className={scss.inputs}
-												id="password"
-												placeholder="Напишите пароль"
-												{...field}
-											/>
+											<ConfigProvider
+												theme={{
+													components: {
+														Input: {
+															colorTextPlaceholder: 'black',
+															colorIcon: 'black',
+															colorBgContainer: 'white'
+														}
+													}
+												}}
+											>
+												<Input.Password
+													className={scss.inputs}
+													id="password"
+													placeholder="Напишите пароль"
+													{...field}
+												/>
+											</ConfigProvider>
 										)}
 									/>
 									<Controller
@@ -153,12 +148,24 @@ export const Register = () => {
 											}
 										}}
 										render={({ field }) => (
-											<Input.Password
-												className={scss.inputs}
-												id="confirmThePassword"
-												placeholder="Подтвердите пароль"
-												{...field}
-											/>
+											<ConfigProvider
+												theme={{
+													components: {
+														Input: {
+															colorTextPlaceholder: 'black',
+															colorIcon: 'black',
+															colorBgContainer: 'white'
+														}
+													}
+												}}
+											>
+												<Input.Password
+													className={scss.inputs}
+													id="confirmThePassword"
+													placeholder="Подтвердите пароль"
+													{...field}
+												/>
+											</ConfigProvider>
 										)}
 									/>
 									{(errors.firsName && (
@@ -184,7 +191,9 @@ export const Register = () => {
 											</p>
 										))}
 									<div className={scss.buttonDiv}>
-										<Button className={scss.buttonSubmit}>Войти</Button>
+										<Button className={scss.buttonSubmit}>
+											Создать аккаунт
+										</Button>
 									</div>
 									<div className={scss.divForms}>
 										<p>

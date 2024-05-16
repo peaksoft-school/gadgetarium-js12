@@ -8,6 +8,7 @@ import {
 } from '@tabler/icons-react';
 import { SetStateAction, useState } from 'react';
 import { Rate, Input, Button } from 'antd';
+import Infographics from '@/src/ui/infographics/Infographics';
 
 const data = [
 	{
@@ -291,6 +292,9 @@ const ReviewAdminSection = () => {
 								))}
 							</div>
 						</div>
+					</div>
+					<div>
+						<Infographics />
 					</div>
 				</div>
 			</div>
