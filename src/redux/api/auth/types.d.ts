@@ -9,12 +9,12 @@ namespace AUTH {
 	};
 
 	type PostRegisterRequest = {
+		firstName: string;
+		lastName: string;
+		phoneNumber: number | string;
 		email: string;
 		password: string;
-		lastName: string;
-		firsName: string;
-		phoneNumber: number | string;
-		confirmThePassword: string;
+		address: string;
 	};
 	type PostRegisterResponse = {
 		id: string | number;

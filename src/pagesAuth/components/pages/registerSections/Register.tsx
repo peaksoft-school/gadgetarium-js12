@@ -1,13 +1,15 @@
 import scss from './Register.module.scss';
 import logo from '@/src/assets/logo.png';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button, ConfigProvider, Input } from 'antd';
 import PhoneNumberValidation from '@/src/ui/phoneNumberValidation/PhoneNumberValidation';
+import { usePostRegisterMutation } from '@/src/redux/api/auth';
 
 export const Register = () => {
-	const navigate = useNavigate();
+	const [postRequest] = usePostRegisterMutation();
 	const {
+		register,
 		handleSubmit,
 		reset,
 		control,
@@ -16,10 +18,15 @@ export const Register = () => {
 		mode: 'onBlur'
 	});
 
-	const onSubmit: SubmitHandler<RegisterForms> = (data) => {
-		console.log(data);
-		navigate('/auth/login');
-		reset();
+	const onSubmit: SubmitHandler<RegisterForms> = async (data) => {
+		try {
+			const response = await postRequest(data);
+			console.log('is working ', response);
+			console.log(data);
+			reset();
+		} catch {
+			console.log('not working');
+		}
 	};
 	return (
 		<div className={scss.registerPages}>
@@ -39,7 +46,7 @@ export const Register = () => {
 									onSubmit={handleSubmit(onSubmit)}
 								>
 									<Controller
-										name="firsName"
+										{...register('firstName')}
 										control={control}
 										defaultValue=""
 										rules={{
@@ -53,14 +60,14 @@ export const Register = () => {
 										render={({ field }) => (
 											<Input
 												className={scss.inputs}
-												id="firsName"
+												id="firstName"
 												placeholder="Напишите ваше имя"
 												{...field}
 											/>
 										)}
 									/>
 									<Controller
-										name="lastName"
+										{...register('lastName')}
 										control={control}
 										defaultValue=""
 										rules={{
@@ -83,7 +90,7 @@ export const Register = () => {
 									/>
 									<PhoneNumberValidation />
 									<Controller
-										name="email"
+										{...register('email')}
 										control={control}
 										defaultValue=""
 										rules={{
@@ -104,7 +111,7 @@ export const Register = () => {
 										)}
 									/>
 									<Controller
-										name="password"
+										{...register('password')}
 										control={control}
 										defaultValue=""
 										rules={{
@@ -136,7 +143,7 @@ export const Register = () => {
 										)}
 									/>
 									<Controller
-										name="confirmThePassword"
+										{...register('confirmThePassword')}
 										control={control}
 										defaultValue=""
 										rules={{
@@ -168,17 +175,17 @@ export const Register = () => {
 											</ConfigProvider>
 										)}
 									/>
-									{(errors.firsName && (
-										<p className={scss.errors}>{errors.firsName.message}</p>
+									{(errors.firstName && (
+										<p className={scss.errors}>{errors.firstName.message}</p>
 									)) ||
 										(errors.lastName && (
 											<p className={scss.errors}>{errors.lastName.message}</p>
 										)) ||
-										(errors.phoneNumber && (
-											<p className={scss.errors}>
-												{errors.phoneNumber.message}
-											</p>
-										)) ||
+										// (errors.phoneNumber && (
+										// 	<p className={scss.errors}>
+										// 		{errors.phoneNumber.message}
+										// 	</p>
+										// )) ||
 										(errors.email && (
 											<p className={scss.errors}>{errors.email.message}</p>
 										)) ||
@@ -191,7 +198,11 @@ export const Register = () => {
 											</p>
 										))}
 									<div className={scss.buttonDiv}>
-										<Button className={scss.buttonSubmit}>
+										<Button
+											className={scss.buttonSubmit}
+											type="primary"
+											htmlType="submit"
+										>
 											Создать аккаунт
 										</Button>
 									</div>

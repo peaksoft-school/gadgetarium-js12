@@ -4,7 +4,7 @@ const api = index.injectEndpoints({
 	endpoints: (build) => ({
 		postLogin: build.mutation<AUTH.PostLoginResponse, AUTH.PostLoginRequest>({
 			query: (newData) => ({
-				url: '',
+				url: '/api/auth/sign-in',
 				method: 'POST',
 				body: newData
 			}),
@@ -15,7 +15,7 @@ const api = index.injectEndpoints({
 			AUTH.PostRegisterRequest
 		>({
 			query: (newData) => ({
-				url: '',
+				url: '/api/auth/sign-up',
 				method: 'POST',
 				body: newData
 			}),

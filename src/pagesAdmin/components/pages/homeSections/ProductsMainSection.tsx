@@ -16,6 +16,7 @@ import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
 import CustomButtonAdd from '@/src/ui/adminButtons/CustomButtonAdd';
 import UploadBanner from '@/src/ui/customImageAdd/UploadBanner';
 import Infographics from '@/src/ui/infographics/Infographics';
+import { useNavigate } from 'react-router-dom';
 
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
 	console.log(info?.source, value);
@@ -28,6 +29,11 @@ const ProductsMainSection = () => {
 	const [filtered, setFiltered] = useState<boolean>(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isModalOpenBanner, setIsModalOpenBanner] = useState(false);
+	const navigate = useNavigate();
+
+	const addProduct = () => {
+		navigate('/');
+	};
 
 	const showModal = () => {
 		setIsModalOpen(true);
@@ -73,7 +79,7 @@ const ProductsMainSection = () => {
 								</ConfigProvider>
 							</div>
 							<div className={scss.add_product}>
-								<button>Добавить товар</button>
+								<button onClick={addProduct}>Добавить товар</button>
 								<button onClick={showModal}>Создать скидку</button>
 							</div>
 						</div>

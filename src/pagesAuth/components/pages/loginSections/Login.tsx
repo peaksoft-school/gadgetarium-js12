@@ -1,14 +1,16 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import scss from './Login.module.scss';
 import logo from '@/src/assets/logo.png';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Button, ConfigProvider, Input } from 'antd';
 import React from 'react';
+import { usePostLoginMutation } from '@/src/redux/api/auth';
 
 const Login = () => {
 	const [passwordVisible, setPasswordVisible] = React.useState(false);
-	const navigate = useNavigate();
+	const [postRequestLogin] = usePostLoginMutation();
 	const {
+		register,
 		handleSubmit,
 		reset,
 		control,
@@ -17,9 +19,16 @@ const Login = () => {
 		mode: 'onBlur'
 	});
 
-	const onSubmit: SubmitHandler<LoginForms> = (data) => {
+	const onSubmit: SubmitHandler<LoginForms> = async (data) => {
+		try {
+			const response = await postRequestLogin(data);
+			console.log('is working ', response);
+			console.log(data);
+			reset();
+		} catch (error) {
+			console.log('not working', error);
+		}
 		console.log(data);
-		navigate('/auth/register');
 		reset();
 	};
 
@@ -41,7 +50,7 @@ const Login = () => {
 									onSubmit={handleSubmit(onSubmit)}
 								>
 									<Controller
-										name="email"
+										{...register('email')}
 										control={control}
 										defaultValue=""
 										rules={{
@@ -62,7 +71,7 @@ const Login = () => {
 										)}
 									/>
 									<Controller
-										name="password"
+										{...register('password')}
 										control={control}
 										defaultValue=""
 										rules={{
@@ -104,7 +113,13 @@ const Login = () => {
 											<p className={scss.errors}>{errors.password.message}</p>
 										))}
 									<div className={scss.buttonDiv}>
-										<Button className={scss.buttonSubmit}>Войти</Button>
+										<Button
+											className={scss.buttonSubmit}
+											type="primary"
+											htmlType="submit"
+										>
+											Войти
+										</Button>
 									</div>
 									<button className={scss.googleButton}>
 										<img

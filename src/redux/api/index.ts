@@ -7,6 +7,10 @@ import {
 const baseQuery = fetchBaseQuery({
 	baseUrl: import.meta.env.VITE_PRODUCT_URL
 	// prepareHeaders: (headers) => {
+	// 	const token = localStorage.getItem('token-auth');
+	// 	if (token) {
+	// 		headers.set('Authorization', `Bearer ${token}`);
+	// 	}
 	// 	return headers;
 	// },
 	// credentials: 'include'
