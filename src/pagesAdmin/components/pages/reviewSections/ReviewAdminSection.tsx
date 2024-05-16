@@ -1,7 +1,11 @@
 import scss from './ReviewAdminSection.module.scss';
 import images from '@/src/assets/image_53.png';
 import line from '@/src/assets/Line_62.png';
-import { IconChevronDown, IconTrash } from '@tabler/icons-react';
+import {
+	IconChevronDown,
+	IconTrash,
+	IconUserCircle
+} from '@tabler/icons-react';
 import { SetStateAction, useState } from 'react';
 import { Rate, Input, Button } from 'antd';
 
@@ -155,12 +159,13 @@ const ReviewAdminSection = () => {
 										<p className={scss.id_and_photo_content_tag}>
 											ID <span>Фото</span>
 										</p>
-										<p style={{ width: '119px' }}>Название товара</p>
+										<p>Название товара</p>
 										<p>Комментарий</p>
 									</div>
 									<div className={scss.category_text_2}>
-										<p style={{ width: '200px' }}>
-											Все оценки (1775) <IconChevronDown />
+										<p>
+											Все оценки (1775)
+											<IconChevronDown className={scss.icon_chevronDown} />
 										</p>
 										<p>Пользователь</p>
 									</div>
@@ -224,12 +229,11 @@ const ReviewAdminSection = () => {
 												<div
 													className={scss.rate_and_user_name_and_profile_div}
 												>
-													<Rate defaultValue={4} style={{ width: '150px' }} />
+													<Rate defaultValue={5} className={scss.rating} />
 													<div className={scss.user_profile_and_buttons}>
 														<div className={scss.user_profile}>
-															<img
-																src={item.userProfile}
-																alt="user profile photo"
+															<IconUserCircle
+																className={scss.icon_user_circle}
 															/>
 															<div className={scss.div_for_user_name}>
 																<h3>{item.userName}</h3>
@@ -237,10 +241,9 @@ const ReviewAdminSection = () => {
 															</div>
 														</div>
 														<div className={scss.buttons}>
-															<IconTrash color="#91969e" cursor={'pointer'} />
+															<IconTrash className={scss.icon_trash} />
 															<IconChevronDown
-																color="#91969e"
-																cursor={'pointer'}
+																className={scss.icon_chevron_down}
 																onClick={() =>
 																	handleProductOpenMenuResultFunk(index)
 																}
@@ -248,38 +251,40 @@ const ReviewAdminSection = () => {
 														</div>
 													</div>
 												</div>
-												{indexProductsResults === index && (
-													<div className={scss.form_of_commit_div}>
-														<p>Ответить на комментарий</p>
-														<TextArea
-															id="message"
-															value={message}
-															onChange={handleInputChange}
-															placeholder="Напишите ответ!"
-															className={scss.input_for_text_area}
-														/>
-														<div className={scss.buttonContainer}>
-															<Button
-																className={message ? scss.none : scss.button}
-															>
-																{message ? scss.button_cancel : 'Ответить'}
-															</Button>
-															{message ? (
-																<>
-																	<Button
-																		className={scss.button_cancel_2}
-																		onClick={handleCancel}
-																	>
-																		{message ? 'Отменить' : ''}
-																	</Button>
-																	<Button className={scss.button}>
-																		Сохранить
-																	</Button>
-																</>
-															) : null}
+												<div>
+													{indexProductsResults === index && (
+														<div className={scss.form_of_commit_div}>
+															<p>Ответить на комментарий</p>
+															<TextArea
+																id="message"
+																value={message}
+																onChange={handleInputChange}
+																placeholder="Напишите ответ!"
+																className={scss.input_for_text_area}
+															/>
+															<div className={scss.buttonContainer}>
+																<Button
+																	className={message ? scss.none : scss.button}
+																>
+																	{message ? scss.button_cancel : 'Ответить'}
+																</Button>
+																{message ? (
+																	<>
+																		<Button
+																			className={scss.button_cancel_2}
+																			onClick={handleCancel}
+																		>
+																			{message ? 'Отменить' : ''}
+																		</Button>
+																		<Button className={scss.button}>
+																			Сохранить
+																		</Button>
+																	</>
+																) : null}
+															</div>
 														</div>
-													</div>
-												)}
+													)}
+												</div>
 											</div>
 										</div>
 									</div>
