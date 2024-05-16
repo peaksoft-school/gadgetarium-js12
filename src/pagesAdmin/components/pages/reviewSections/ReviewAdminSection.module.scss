@@ -1,0 +1,514 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+.ReviewAdminSection {
+	width: 100%;
+	height: auto;
+	.content {
+		padding-top: 40px;
+		padding-bottom: 200px;
+		display: flex;
+		justify-content: space-between;
+		@media (max-width:1400px) {
+			display: flex;
+			flex-direction: column-reverse;
+		}
+		.contents_for_users {
+			display: flex;
+			flex-direction: column;
+			gap: 30px;
+			width: 100%;
+			max-width: 1121px;
+			.buttons_for_category {
+				width: 100%;
+				display: flex;
+				gap: 11px;
+				padding-top: 40px;
+				@media (max-width: 500px) {
+					display: flex;
+					flex-direction: column;
+					width: 100%;
+					max-width: 150px;
+				}
+				.noo_active_button {
+					transition: all 0.4s ease;
+					padding-block: 8px;
+					border-radius: 4px;
+					color: #384255;
+					background: #e0e2e7;
+					font-size: clamp(8px, 6vw, 16px);
+					font-weight: 600;
+					cursor: pointer;
+					border: none;
+					display: flex;
+					span {
+						color: #2fc509;
+						font-size: clamp(8px, 6vw, 16px);
+						font-weight: 600;
+					}
+					&:hover {
+						transition: all 0.4s ease;
+						background: #cb11ab;
+						color: #ffffff;
+					}
+					&.active_button {
+						transition: all 0.4s ease;
+						padding-inline: 19px;
+						display: flex;
+						justify-content: space-between;
+						border: none;
+						padding-block: 8px;
+						cursor: pointer;
+						border-radius: 4px;
+						background: #cb11ab;
+						color: #ffffff;
+						font-size: clamp(8px, 6vw, 16px);
+						font-weight: 600;
+						span {
+							color: #2fc509;
+							font-size: clamp(8px, 6vw, 16px);
+							font-weight: 600;
+						}
+					}
+				}
+			}
+			.all_product_and_commits_div {
+				width: 100%;
+				max-width: 1121px;
+				display: flex;
+				flex-direction: column;
+				.names_product_data {
+					display: flex;
+					flex-direction: column;
+					.text_div_for_category {
+						display: flex;
+						gap: 350px;
+						padding-top: 40px;
+						padding-bottom: 12px;
+						@media (max-width: 1000px) {
+							gap: 10px;
+						}
+						@media (max-width: 800px) {
+							gap: 10px;
+						}
+						@media (max-width: 500px) {
+							gap: 10px;
+						}
+						.category_text_1 {
+							display: flex;
+							justify-content: space-between;
+							gap: 40px;
+
+							@media (max-width: 1000px) {
+								gap: 10px;
+							}
+							@media (max-width: 800px) {
+								gap: 10px;
+							}
+							@media (max-width: 500px) {
+								gap: 5px;
+							}
+							.id_and_photo_content_tag {
+								display: flex;
+								justify-content: space-between;
+								gap: 21px;
+								color: #384255;
+								font-size: clamp(7px, 6vw, 14px);
+								font-weight: 600;
+								@media (max-width: 500px) {
+									color: #292929;
+									font-size: clamp(8px, 3vw, 10px);
+									font-weight: 500;
+								}
+
+								@media (max-width: 1000px) {
+									gap: 10px;
+								}
+
+								@media (max-width: 600px) {
+									gap: 10px;
+								}
+								@media (max-width: 500px) {
+									gap: 5px;
+								}
+								span {
+									color: #384255;
+									font-size: clamp(7px, 6vw, 14px);
+									font-weight: 600;
+									@media (max-width: 500px) {
+										color: #292929;
+										font-size: clamp(8px, 3vw, 10px);
+										font-weight: 500;
+									}
+								}
+							}
+							p {
+								color: #384255;
+								font-size: clamp(7px, 6vw, 14px);
+								font-weight: 600;
+								@media (max-width: 500px) {
+									color: #292929;
+									font-size: clamp(8px, 3vw, 10px);
+									font-weight: 500;
+								}
+							}
+						}
+						.category_text_2 {
+							display: flex;
+							justify-content: space-between;
+							gap: 50px;
+							padding-bottom: 10px;
+							@media (max-width: 600px) {
+								width: 100%;
+								max-width: 200px;
+								gap: 0;
+								display: flex;
+								justify-content: space-around;
+							}
+							@media (max-width: 500px) {
+								width: 100%;
+								max-width: 200px;
+								gap: 0;
+								display: flex;
+								justify-content: space-around;
+							}
+							.icon_chevronDown {
+								width: 20px;
+								height: 15px;
+								color: #292929;
+							}
+							p {
+								max-width: 250px;
+								display: flex;
+								gap: 5px;
+								color: #384255;
+								font-size: clamp(7px, 6vw, 14px);
+								font-weight: 600;
+								@media (max-width: 500px) {
+									color: #292929;
+									font-size: clamp(8px, 3vw, 10px);
+									font-weight: 500;
+									width: 50px;
+								}
+							}
+						}
+					}
+					.border_div {
+						width: 100%;
+						border: 1px solid #cdcdcd;
+						max-width: 1120px;
+					}
+				}
+				.container_users_commits {
+					display: flex;
+					flex-direction: column;
+					width: 100%;
+					max-width: 1120px;
+					.users_commits_maps {
+						border-top: 1px solid #e8e8e8;
+						border-bottom: 1px solid #e8e8e8;
+						width: 100%;
+						.content_maps {
+							display: flex;
+							justify-content: space-between;
+							width: 100%;
+							max-width: 1120px;
+							padding-block: 19px;
+							@media (max-width: 800px) {
+								display: flex;
+								flex-wrap: wrap;
+								gap: 15px;
+							}
+							@media (max-width: 1200px) {
+								gap: 15px;
+							}
+							&.active_content_maps {
+								display: flex;
+								@media (max-width: 1200px) {
+								}
+							}
+
+							.div_content_commits {
+								display: flex;
+								justify-content: space-between;
+								gap: 50px;
+								@media (max-width: 500px) {
+									gap: 30px;
+								}
+								.info_users_div {
+									display: flex;
+									justify-content: space-between;
+									gap: 25px;
+									@media (max-width: 500px) {
+										gap: 5px;
+									}
+									p {
+										color: #292929;
+										font-size: clamp(8px, 4vw, 16px);
+										font-weight: 400;
+										@media (max-width: 500px) {
+											color: #292929;
+											font-size: clamp(8px, 4vw, 16px);
+											font-weight: 500;
+										}
+									}
+									img {
+										width: 56px;
+										height: 62px;
+										border-radius: 5px;
+										@media (max-width: 500px) {
+											width: 100%;
+											max-width: 30px;
+											height: 20px;
+										}
+									}
+									div {
+										display: flex;
+										flex-direction: column;
+										gap: 2px;
+										h3 {
+											color: #292929;
+											font-size: clamp(7px, 6vw, 14px);
+											font-weight: 600;
+											@media (max-width: 500px) {
+												color: #292929;
+												font-size: clamp(7px, 6vw, 14px);
+												font-weight: 600;
+											}
+										}
+										p {
+											color: #909cb5;
+											font-size: clamp(7px, 5vw, 14px);
+											font-weight: 500;
+											@media (max-width: 500px) {
+												color: #909cb5;
+												font-size: clamp(8px, 3vw, 10px);
+												font-weight: 500;
+											}
+										}
+									}
+								}
+								.user_commit_and_time {
+									display: flex;
+									flex-direction: column;
+									gap: 2px;
+									width: 100%;
+									@media (max-width: 800px) {
+										width: 100%;
+									}
+									p {
+										color: #2e2c34;
+										font-size: clamp(7px, 4vw, 14px);
+										font-weight: 400;
+
+										@media (max-width: 1000px) {
+											color: #2e2c34;
+											font-size: clamp(12px, 6vw, 16px);
+											font-weight: 400;
+										}
+										@media (max-width: 800px) {
+											color: #2e2c34;
+											font-size: clamp(12px, 6vw, 16px);
+											font-weight: 400;
+										}
+										@media (max-width: 500px) {
+											color: #2e2c34;
+											font-size: clamp(8px, 3vw, 10px);
+											font-weight: 500;
+										}
+									}
+									.user_commit_for_time {
+										color: #00000080;
+										font-size: clamp(6px, 4vw, 12px);
+										font-weight: 400;
+									}
+									.index_active {
+										padding-top: 10px;
+										padding-bottom: 10px;
+										display: flex;
+										gap: 10px;
+										@media (max-width: 500px) {
+											display: flex;
+										}
+										img {
+											width: 80px;
+											height: 80px;
+											border-radius: 3px;
+											@media (max-width: 1000px) {
+												width: 100%;
+												max-width: 50px;
+												height: 50px;
+											}
+											@media (max-width: 800px) {
+												width: 100%;
+												max-width: 50px;
+												height: 50px;
+											}
+											@media (max-width: 500px) {
+												width: 100%;
+												max-width: 30px;
+												height: 20px;
+											}
+										}
+									}
+								}
+							}
+							.content_rating_and_user_profile_and_buttons {
+								display: flex;
+								@media (max-width: 430px) {
+									flex-direction: column;
+								}
+
+								&.active_div_index {
+									display: flex;
+									flex-direction: column;
+								}
+								.rate_and_user_name_and_profile_div {
+									display: flex;
+									justify-content: space-between;
+									gap: 10px;
+									@media (max-width: 400px) {
+										display: flex;
+										flex-direction: column;
+									}
+									.rating {
+										width: 100%;
+										max-width: 200px;
+									}
+									.user_profile_and_buttons {
+										display: flex;
+										justify-content: space-between;
+										gap: 20px;
+										.user_profile {
+											display: flex;
+											img {
+												width: 40px;
+												height: 40px;
+												border-radius: 50%;
+											}
+											.icon_user_circle {
+												color: #91969e;
+											}
+											.div_for_user_name {
+												display: flex;
+												flex-direction: column;
+												gap: 2px;
+
+												h3 {
+													color: #292929;
+													font-size: clamp(7px, 6vw, 14px);
+													font-weight: 600;
+													@media (max-width: 500px) {
+														color: #292929;
+														font-size: clamp(6px, 4vw, 12px);
+														font-weight: 600;
+													}
+												}
+												p {
+													color: #91969e;
+													font-size: clamp(7px, 5vw, 14px);
+													font-weight: 500;
+													@media (max-width: 500px) {
+														color: #91969e;
+														font-size: clamp(5px, 3vw, 12px);
+														font-weight: 500;
+													}
+												}
+											}
+										}
+										.buttons {
+											display: flex;
+											justify-content: space-between;
+											gap: 20px;
+											.icon_trash {
+												color: #91969e;
+												cursor: pointer;
+
+												&:hover {
+													color: #ff0000;
+												}
+												@media (max-width: 500px) {
+													width: 20px;
+													height: 20px;
+												}
+											}
+											.icon_chevron_down {
+												color: #91969e;
+												cursor: pointer;
+												@media (max-width: 500px) {
+													width: 20px;
+													height: 20px;
+												}
+											}
+										}
+									}
+								}
+								.form_of_commit_div {
+									display: flex;
+									flex-direction: column;
+									@media (max-width: 500px) {
+										display: flex;
+										flex-direction: column;
+									}
+									@media (max-width: 1147px) {
+										margin-left: 20px;
+									}
+
+									@media (max-width: 500px) {
+										margin-left: 10px;
+									}
+
+									p {
+										color: #384255;
+										font-size: clamp(7px, 6vw, 14px);
+										font-weight: 600;
+									}
+									.input_for_text_area {
+										width: 100%;
+										height: 110px;
+										border-radius: 6px;
+										background-color: transparent;
+										color: #000000;
+										@media (max-width: 500px) {
+											width: 100%;
+											height: 30px;
+										}
+									}
+									div {
+										display: flex;
+										justify-content: space-between;
+										padding-top: 10px;
+										.button {
+											color: #fff;
+											font-size: clamp(8px, 5vw, 15px);
+											font-weight: 500;
+											width: 100%;
+											max-width: 180px;
+											background: #cb11ab;
+											border: none;
+										}
+										.none {
+											display: none;
+										}
+
+										.button_cancel {
+											display: none;
+										}
+										.button_cancel_2 {
+											background: #fff;
+											color: #cb11ab;
+											border: 1px solid #cb11ab;
+											font-size: clamp(8px, 5vw, 15px);
+											font-weight: 500;
+											width: 100%;
+											max-width: 180px;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
