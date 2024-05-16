@@ -35,5 +35,6 @@ export const api = createApi({
 		'adminOrders',
 		'productAdd',
 	],
+
 	endpoints: () => ({})
 });
