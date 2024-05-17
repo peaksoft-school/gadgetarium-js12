@@ -60,6 +60,7 @@ export const Register = () => {
 										render={({ field }) => (
 											<Input
 												className={scss.inputs}
+												style={errors.firstName && { border: '1px solid red' }}
 												id="firstName"
 												placeholder="Напишите ваше имя"
 												{...field}
@@ -82,6 +83,7 @@ export const Register = () => {
 										render={({ field }) => (
 											<Input
 												className={scss.inputs}
+												style={errors.lastName && { border: '1px solid red' }}
 												id="lastName"
 												placeholder="Напишите ваше фамилию"
 												{...field}
@@ -106,6 +108,7 @@ export const Register = () => {
 												className={scss.inputs}
 												id="email"
 												placeholder="Напишите email"
+												style={errors.email && { border: '1px solid red' }}
 												{...field}
 											/>
 										)}
@@ -138,6 +141,8 @@ export const Register = () => {
 													id="password"
 													placeholder="Напишите пароль"
 													{...field}
+													style={errors.password && {border: '1px solid red'}}
+
 												/>
 											</ConfigProvider>
 										)}
@@ -171,6 +176,8 @@ export const Register = () => {
 													id="confirmThePassword"
 													placeholder="Подтвердите пароль"
 													{...field}
+													style={errors.confirmThePassword && {border: '1px solid red'}}
+
 												/>
 											</ConfigProvider>
 										)}

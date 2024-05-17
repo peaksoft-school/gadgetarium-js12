@@ -13,7 +13,7 @@ import {
 import mini_logo from '@/src/assets/mini-logo.png';
 import AuthDropdown from '@/src/ui/authDropdown/AuthDropdown.tsx';
 import { userLinks } from '@/src/routes';
-import { Input } from 'antd';
+import { ConfigProvider, Input, theme } from 'antd';
 import { SearchProps } from 'antd/es/input';
 import BurgerButton from '@/src/ui/burgerButton/BurgerButton.tsx';
 
@@ -35,6 +35,15 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 		setIsOpenMobileMenu(false);
 	};
 
+	const antdThemeConfig = {
+		algorithm: theme.darkAlgorithm,
+		token: {
+			colorPrimary: '#cb11ab',
+			// borderRadius: 2,
+			colorBgContainer: '#1a1a25'
+		}
+	};
+
 	return (
 		<>
 			<header className={scss.HeaderMobile}>
@@ -43,12 +52,14 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 						<Link className={scss.logo} to="/">
 							<img src={mini_logo} alt="	-logo" />
 						</Link>
-						<Input.Search
-							className={scss.search}
-							placeholder="Поиск по каталогу магазина"
-							allowClear
-							onSearch={onSearch}
-						/>
+						<ConfigProvider theme={antdThemeConfig}>
+							<Input.Search
+								className={scss.search}
+								placeholder="Поиск по каталогу магазина"
+								allowClear
+								onSearch={onSearch}
+							/>
+						</ConfigProvider>
 						<BurgerButton
 							checked={isOpenMobileMenu}
 							onChange={() => {

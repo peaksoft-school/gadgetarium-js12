@@ -28,15 +28,20 @@ const onChange: DatePickerProps['onChange'] = (date, dateString) => {
 const ProductsMainSection = () => {
 	const [filtered, setFiltered] = useState<boolean>(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
 	const [isModalOpenBanner, setIsModalOpenBanner] = useState(false);
 	const navigate = useNavigate();
 
 	const addProduct = () => {
-		navigate('/');
+		navigate('/admin/product-adding/part-1');
 	};
 
 	const showModal = () => {
 		setIsModalOpen(true);
+	};
+
+	const showModalDelete = () => {
+		setIsModalOpenDelete(true);
 	};
 
 	const handleCancel = () => {
@@ -207,7 +212,7 @@ const ProductsMainSection = () => {
 											<td>{item.CurrentPrice}</td>
 											<div className={scss.icons}>
 												<IconEdit className={scss.trash} />
-												<IconTrash />
+												<IconTrash onClick={showModalDelete} />
 											</div>
 										</div>
 									))}
@@ -288,6 +293,23 @@ const ProductsMainSection = () => {
 					</CustomModal>
 				</div>
 			</div>
+			<CustomModal
+				isModalOpen={isModalOpenDelete}
+				setIsModalOpen={setIsModalOpenDelete}
+			>
+				<div className={scss.modal}>
+					<h2>
+						Вы уверены, что хотите удалить товар?
+					</h2>
+
+					<div className={scss.modal_buttons}>
+						<CancelButtonCustom onClick={() => setIsModalOpenDelete(false)}>
+							Отменить
+						</CancelButtonCustom>
+						<CustomButtonAdd onClick={handleCancel}>Удалить</CustomButtonAdd>
+					</div>
+				</div>
+			</CustomModal>
 		</div>
 	);
 };

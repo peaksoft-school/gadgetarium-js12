@@ -7,6 +7,7 @@ import logo from '@/src/assets/logo.png';
 export const ForgotPassword = () => {
 	const navigate = useNavigate();
 	const {
+		register,
 		reset,
 		handleSubmit,
 		control,
@@ -37,14 +38,15 @@ export const ForgotPassword = () => {
 									onSubmit={handleSubmit(onSubmit)}
 								>
 									<Controller
-										name="code"
+										{...register('email')}
 										control={control}
 										defaultValue=""
 										rules={{
 											required: 'Email обязателен для заполнения',
-											minLength: {
-												value: 4,
-												message: 'Email должен содержать минимум 10 символов'
+											pattern: {
+												value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+												message:
+													'Введите действительный email адрес с доменом @gmail.com'
 											}
 										}}
 										render={({ field }) => (
@@ -53,61 +55,14 @@ export const ForgotPassword = () => {
 												id="email"
 												placeholder="Email"
 												{...field}
+												style={errors.email && { border: '1px solid red' }}
 											/>
 										)}
 									/>
-									{/* <Controller
-										name="password"
-										control={control}
-										defaultValue=""
-										rules={{
-											required: 'Пароль обязателен для заполнения',
-											minLength: {
-												value: 8,
-												message: 'Пароль должен содержать минимум 8 символов'
-											}
-										}}
-										render={({ field }) => (
-											<Input.Password
-												className={scss.inputs}
-												id="password"
-												placeholder="Напишите пароль"
-												{...field}
-											/>
-										)}
-									/>
-									<Controller
-										name="confirmThePassword"
-										control={control}
-										defaultValue=""
-										rules={{
-											required: 'Подтвердите пароль обязателен для заполнения',
-											minLength: {
-												value: 8,
-												message:
-													'Подтвердите пароль должен содержать минимум 8 символов'
-											}
-										}}
-										render={({ field }) => (
-											<Input.Password
-												className={scss.inputs}
-												id="confirmThePassword"
-												placeholder="Подтвердите пароль"
-												{...field}
-											/>
-										)}
-									/> */}
-									{(errors.code && (
-										<p className={scss.errors}>{errors.code.message}</p>
-									)) ||
-										(errors.password && (
-											<p className={scss.errors}>{errors.password.message}</p>
-										)) ||
-										(errors.confirmThePassword && (
-											<p className={scss.errors}>
-												{errors.confirmThePassword.message}
-											</p>
-										))}
+
+									{errors.email && (
+										<p className={scss.errors}>{errors.email.message}</p>
+									)}
 									<div className={scss.buttonDiv}>
 										<Button className={scss.buttonSubmit}>Отправить</Button>
 									</div>

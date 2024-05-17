@@ -1,6 +1,6 @@
 .ProductsMainSection {
 	.content {
-		margin-top: 50px;
+		margin-top: 45px;
 		display: flex;
 		justify-content: space-between;
 		@media (max-width: 1526px) {
@@ -387,3 +387,57 @@
 		gap: 30px;
 	}
 }
+.modal {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 15px;
+	text-align: center;
+
+	h2 {
+		font-weight: 500;
+
+		span {
+			font-weight: 700;
+		}
+	}
+
+	.modal_buttons {
+		display: flex;
+		justify-content: center;
+		align-content: center;
+		gap: 20px;
+
+		.cancel_modal_button {
+			color: #cb11ab;
+			border: 2px solid #cb11ab;
+			padding: 5px 15px;
+			background-color: transparent;
+			font-weight: 600;
+			border-radius: 4px;
+			cursor: pointer;
+
+			&:hover {
+				color: #e638c9;
+				border: 2px solid #e638c9;
+				transition: 0.3s;
+			}
+		}
+
+		.delete_modal_button {
+			color: #ffffff;
+			background-color: #cb11ab;
+			padding: 6px 18px;
+			border-radius: 4px;
+			font-weight: 600;
+			border: none;
+			cursor: pointer;
+
+			&:hover {
+				background-color: #e638c9;
+				transition: 0.3s;
+			}
+		}
+	}
+}	

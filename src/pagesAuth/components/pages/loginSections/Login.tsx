@@ -9,8 +9,9 @@ import { usePostLoginMutation } from '@/src/redux/api/auth';
 const Login = () => {
 	const [passwordVisible, setPasswordVisible] = React.useState(false);
 	const [postRequestLogin] = usePostLoginMutation();
+	// const navigate = useNavigate();
 	const {
-		register,
+		// register,
 		handleSubmit,
 		reset,
 		control,
@@ -24,6 +25,7 @@ const Login = () => {
 			const response = await postRequestLogin(data);
 			console.log('is working ', response);
 			console.log(data);
+			// navigate('/admin');
 			reset();
 		} catch (error) {
 			console.log('not working', error);
@@ -50,7 +52,8 @@ const Login = () => {
 									onSubmit={handleSubmit(onSubmit)}
 								>
 									<Controller
-										{...register('email')}
+										// {...register('email')}
+										name='email'
 										control={control}
 										defaultValue=""
 										rules={{
@@ -67,11 +70,13 @@ const Login = () => {
 												id="email"
 												placeholder="Email"
 												{...field}
+												style={errors.email && { border: '1px solid red' }}
 											/>
 										)}
 									/>
 									<Controller
-										{...register('password')}
+										// {...register('password')}
+										name='password'
 										control={control}
 										defaultValue=""
 										rules={{
@@ -94,10 +99,14 @@ const Login = () => {
 												}}
 											>
 												<Input.Password
-													style={{ color: 'black' }}
 													className={scss.inputs}
 													placeholder="Password"
 													{...field}
+													style={
+														errors.password
+															? { border: '1px solid red', color: 'black' }
+															: { color: 'black' }
+													}
 													visibilityToggle={{
 														visible: passwordVisible,
 														onVisibleChange: setPasswordVisible
@@ -133,7 +142,7 @@ const Login = () => {
 											Нет аккаунта?
 											<Link className={scss.link} to={'/auth/register'}>
 												Зарегистрироваться
-											</Link>{' '}
+											</Link>
 											<br />
 										</p>
 										<Link className={scss.Link} to={'/auth/forgotPassword'}>
