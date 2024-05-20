@@ -289,7 +289,7 @@ const CardProductPage = () => {
 																<IconTrash color="rgb(144, 156, 181)" />
 															</button>
 															<Button
-																onClick={() => navigate('')}
+																onClick={() => navigate(`/admin/edit-page/${data?.id}`)}
 																className={scss.add_bas_button}
 															>
 																редактировать

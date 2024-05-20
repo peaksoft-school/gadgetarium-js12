@@ -14,11 +14,13 @@ import { ProductPage } from '../pages/ProductPage';
 import ProductAddPage2 from '../pages/ProductAddPage2';
 import ProductAddPage3 from '../pages/ProductAddPage3';
 import ProductAddPage1 from '../pages/ProductAddPage1';
+import { EditPage } from '../pages/EditPage';
 
 const LayoutAdmin = () => {
 	return (
 		<>
-			<div className={scss.Layout}>orders/courier-on-the-way
+			<div className={scss.Layout}>
+				orders/courier-on-the-way
 				<Header />
 				<main>
 					<Routes>
@@ -84,6 +86,7 @@ const LayoutAdmin = () => {
 							path="/product-adding/part-1"
 							element={<ProductAddPage1 />}
 						/>
+						<Route path="/edit-page/:productId" element={<EditPage />} />
 					</Routes>
 				</main>
 			</div>
