@@ -18,7 +18,7 @@ import ProductAddPage1 from '../pages/ProductAddPage1';
 const LayoutAdmin = () => {
 	return (
 		<>
-			<div className={scss.Layout}>
+			<div className={scss.Layout}>orders/courier-on-the-way
 				<Header />
 				<main>
 					<Routes>

@@ -222,7 +222,7 @@ const Order = () => {
 														<div className={scss.tr_div}>
 															<div className={scss.tr_row_1}>
 																<td className={scss.id_col}>{e._id}</td>
-																<td>{e.fullname}</td>
+																<td className={scss.id_col}>{e.fullname}</td>
 															</div>
 															<div className={scss.tr_row_2}>
 																<td className={scss.number_col}>
