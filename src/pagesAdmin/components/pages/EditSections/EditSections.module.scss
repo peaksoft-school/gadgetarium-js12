@@ -1,17 +1,30 @@
 .EditSections {
 	width: 100%;
-	height: auto;
+	height: 100vw;
 	background: rgb(255, 255, 255);
+	@media (max-width: 1200px) {
+		height: auto;
+	}
 	.content {
 		padding-block: 40px;
 		display: flex;
 		flex-direction: column;
 		gap: 32px;
-
+		@media (max-width: 950px) {
+			padding-block: 30px;
+			gap: 25px;
+		}
+		@media (max-width: 750px) {
+			padding-block: 20px;
+			gap: 20px;
+		}
 		.pages_text_div {
 			display: flex;
 			align-items: center;
-			gap: 4px;
+			gap: 6px;
+			@media (max-width: 768px) {
+				gap: 3px;
+			}
 			.edit_page_text {
 				color: rgb(145, 150, 158);
 				font-size: clamp(8px, 4vw, 14px);
@@ -50,34 +63,66 @@
 			flex-direction: column;
 			gap: 12px;
 			width: 80%;
+			@media (max-width: 768px) {
+				gap: 8px;
+			}
+			@media (max-width: 700px) {
+				width: 100%;
+			}
 			.form_content_1 {
 				display: flex;
 				align-items: start;
 				gap: 20px;
+				@media (max-width: 850px) {
+					flex-wrap: wrap;
+					align-items: start;
+				}
+				@media (max-width: 768px) {
+					gap: 15px;
+				}
 				.form_1 {
 					display: flex;
 					flex-direction: column;
 					gap: 18px;
+					@media (max-width: 768px) {
+						gap: 11px;
+					}
 					.label_and_input_div {
 						display: flex;
 						flex-direction: column;
 						gap: 5px;
+						@media (max-width: 555px) {
+							gap: 2.5px;
+						}
 						label {
 							color: rgb(56, 66, 85);
 							font-size: clamp(7px, 4vw, 14px);
 							font-weight: 400;
 						}
-            .input {
-              // width: 100%;
-              width: 392px;
+						.input {
+							// width: 100%;
+							width: 392px;
 							height: 39px;
 							border-radius: 5px;
-            }
+							@media (max-width: 800px) {
+								width: 320px;
+							}
+							@media (max-width: 585px) {
+								width: 280px;
+								height: 34px;
+							}
+						}
+						.input::placeholder {
+							color: black;
+						}
 					}
 					.colors_div {
 						display: flex;
 						flex-direction: column;
 						gap: 7px;
+						@media (max-width: 785px) {
+							gap: 5px;
+						}
 						label {
 							color: rgb(56, 66, 85);
 							font-size: clamp(7px, 4vw, 14px);
@@ -88,6 +133,63 @@
 							align-items: center;
 							gap: 10px;
 						}
+					}
+				}
+				.form_2 {
+					display: flex;
+					flex-direction: column;
+					gap: 10px;
+					@media (max-width: 768px) {
+						gap: 4px;
+					}
+					.label_and_input_div {
+						display: flex;
+						flex-direction: column;
+						gap: 5px;
+						@media (max-width: 555px) {
+							gap: 2.5px;
+						}
+						label {
+							color: rgb(56, 66, 85);
+							font-size: clamp(7px, 4vw, 14px);
+							font-weight: 400;
+						}
+						.input {
+							width: 392px;
+							height: 39px;
+							border-radius: 5px;
+							@media (max-width: 800px) {
+								width: 320px;
+							}
+							@media (max-width: 585px) {
+								width: 280px;
+								height: 34px;
+							}
+						}
+						.input::placeholder {
+							color: black;
+						}
+					}
+				}
+			}
+			.button_div {
+				text-align: center;
+				.button {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					width: 150px;
+					height: 40px;
+					border-radius: 5px;
+					border: none;
+					background: rgb(203, 17, 171);
+					color: #fff;
+					font-size: clamp(7px, 5vw, 16px);
+					font-weight: 500;
+					@media (max-width: 600px) {
+						width: 120px;
+						height: 35px;
+						font-weight: 400;
 					}
 				}
 			}
