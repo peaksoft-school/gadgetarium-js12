@@ -11,7 +11,7 @@ import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { IconRedHeart } from '@/src/assets/icons';
-import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
+import { ViewedProducts } from '@/src/ui/ViewedProducts/ViewedProducts';
 
 const CardProductPage = () => {
 	const [basketAddProduct] = useBasketPutProductMutation();
