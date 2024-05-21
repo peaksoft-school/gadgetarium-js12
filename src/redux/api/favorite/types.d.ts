@@ -20,10 +20,10 @@ namespace FAVORITEPRODUCTS {
 	}[];
 	type PutFavoriteProductRequest = {
 		id: number;
-		isFavorite: boolean;
+		// isFavorite: boolean;
 	};
 	type PutFavoriteProductResponse = {
 		id: number;
-		isFavorite: boolean;
+		// isFavorite: boolean;
 	};
 }

@@ -1,27 +1,13 @@
 import { api as index } from '../index';
 
-interface IPhone {
-	_id: number;
-	img: string;
-	name: string;
-	price: string;
-	discount: string;
-	oldPrice: string;
-	quantity: string;
-	rating: string;
-	status: string;
-	Image: string;
-	Name: string;
-	Price: string;
-	Rating: string;
-	Quantity: string;
-}
-
 const api = index.injectEndpoints({
 	endpoints: (build) => ({
-		getPhones: build.query<IPhone[], number>({
+		getPhones: build.query<
+			FILTREDPRODUCTS.GetFiltredProductsResponse,
+			FILTREDPRODUCTS.GetFiltredProductsRequest
+		>({
 			query: () => ({
-				url: 'https://76de117aa07ffb38.mokky.dev/filterProduct',
+				url: '/api/gadget/filter',
 				method: 'GET'
 			}),
 			providesTags: ['phones']
@@ -29,4 +15,4 @@ const api = index.injectEndpoints({
 	})
 });
 
-export const { useGetPhonesQuery: useGetPhonesQuery } = api;
+export const { useGetPhonesQuery } = api;

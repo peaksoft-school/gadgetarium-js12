@@ -11,7 +11,7 @@ import { useGetPhonesQuery } from "@/src/redux/api/phones"
 import starFilled from "@/src/assets/map/starYellow.png"
 import starUnfilled from "@/src/assets/map/starNotFilled.png"
 import { IconHeart, IconScale, IconShoppingCart, IconX } from "@tabler/icons-react"
-import PhonesDropdown from "@/src/ui/phonesCatalogDropdown/PhonesDropdown"
+import PhonesDropdown from "@/src/ui/catalogPhonesDropdown/PhonesDropdown"
 
 const Catalog = () => {
   const navigate = useNavigate()
@@ -82,10 +82,6 @@ const Catalog = () => {
                       <p>Категория</p>
                       <img src={arrowDown} alt="ArrowDown" onClick={() => setReduceOne(false)} />
                     </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> dev
                   </div>
                 ) : (
                   <div>
@@ -93,10 +89,6 @@ const Catalog = () => {
                       <p>Категория</p>
                       <img src={arrow} alt="ArrowTop" onClick={() => setReduceOne(true)} />
                     </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> dev
                     <div className={scss.categoriesDiv}>
                       {phoneCatalog.map((e, index) => (
                         <div className={scss.categories} key={index}>

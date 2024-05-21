@@ -12,8 +12,6 @@ import {
 } from '@/src/data/Catalog';
 import { useState } from 'react';
 import { useGetPhonesQuery } from '@/src/redux/api/phones';
-import starFilled from '@/src/assets/map/starYellow.png';
-import starUnfilled from '@/src/assets/map/starNotFilled.png';
 import {
 	IconHeart,
 	IconScale,
@@ -21,12 +19,17 @@ import {
 	IconX
 } from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
+import { Rate } from 'antd';
+import { useBasketPutProductMutation } from '@/src/redux/api/basket';
+import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
 
 const Catalog = () => {
 	const navigate = useNavigate();
+	const [addProductBasket] = useBasketPutProductMutation();
+	const [addProductsForFavorite] = useAddProductsForFavoriteMutation();
 	const [priceLow, setPriceLow] = useState<string>('');
 	const [priceHigh, setPriceHigh] = useState('');
-	const { data: posts } = useGetPhonesQuery(0);
+	const { data: posts } = useGetPhonesQuery();
 	const categoryArray: string[] = [];
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
@@ -66,6 +69,25 @@ const Catalog = () => {
 			setSelectedCategories([...selectedCategories, category]);
 		}
 	};
+
+	const handleBasketProductsFunk = async (id: number) => {
+		await addProductBasket({ id });
+	};
+
+	const handleAddProductsFavoriteFunk = async (id: number) => {
+		console.log(id);
+
+		await addProductsForFavorite({ id });
+	};
+
+	// const handleBasketProductStyleResultFunk = () => {
+
+	// 	if (status ===) {
+	// 		return `${scss.bottom_cart} ${scss.basket_product_active}`;
+	// 	} else {
+	// 		return `${scss.bottom_cart}`;
+	// 	}
+	// };
 
 	return (
 		<section className={scss.catalog}>
@@ -360,95 +382,67 @@ const Catalog = () => {
 								</div>
 							</div>
 							<div className={scss.cardss}>
-								{posts &&
-									posts
-										.filter((post) => {
-											if (selectedCategories.length === 0) {
-												return true;
-											}
-											const isMatchingCategory =
-												post.name &&
-												selectedCategories.some((category) =>
-													post.name.includes(category)
-												);
-											return isMatchingCategory;
-										})
-										.filter((post) => {
-											const postPrice = post.price
-												? parseFloat(
-														post.price.replace(' с', '').replace(' ', '')
-													)
-												: null;
-											const lowPrice =
-												priceLow !== '' ? parseFloat(priceLow) : null;
-											const highPrice =
-												priceHigh !== '' ? parseFloat(priceHigh) : null;
+								{posts?.responses.map((e) => (
+									<div className={scss.cards} key={e.id}>
+										<div className={scss.card}>
+											<div
+												className={
+													e.percent === 0
+														? `${scss.top_card} ${scss.active_top_card}`
+														: `${scss.top_card}`
+												}
+											>
+												<p
+													className={
+														e.percent === 0
+															? `${scss.p} ${scss.percent}`
+															: `${scss.p}`
+													}
+												>
+													{e.percent !== 0 && e.percent}{' '}
+												</p>{' '}
+												<div className={scss.top_icons}>
+													<IconScale />
 
-											if (lowPrice === null || highPrice === null) {
-												return true;
-											}
-
-											return (
-												postPrice !== null &&
-												postPrice >= lowPrice &&
-												postPrice <= highPrice
-											);
-										})
-
-										.filter((_, index) => allPhones || index < phonesToShow)
-										.map((e, index) => (
-											<div className={scss.cards} key={index}>
-												{index < posts.length - 5 && (
-													<div className={scss.card}>
-														<div className={scss.top_card}>
-															<p>
-																{e.discount}{' '}
-																<span>
-																	<img src={e.status} alt="" />
-																</span>
-															</p>
-															<div className={scss.top_icons}>
-																<IconScale />
-																<IconHeart />
-															</div>
-														</div>
-														<div className={scss.middle_image_card}>
-															<img src={e.img} alt="Phone" />
-														</div>
-														<div className={scss.middle_card}>
-															<p className={scss.phone_quantity}>
-																В наличии {e.quantity}
-															</p>
-															<h3>{e.name}</h3>
-															<div className={scss.phone_rating}>
-																<p>Рейтинг</p>
-																<div className={scss.rating_stars}>
-																	<img src={starFilled} alt="Rating_Stars" />
-																	<img src={starFilled} alt="Rating_Stars" />
-																	<img src={starFilled} alt="Rating_Stars" />
-																	<img src={starFilled} alt="Rating_Stars" />
-																	<img src={starUnfilled} alt="Rating_Stars" />
-																</div>
-																<p>({e.rating})</p>
-															</div>
-														</div>
-
-														<div className={scss.bottom_card}>
-															<div className={scss.phone_prices}>
-																<p className={scss.phone_price}>{e.price}</p>
-																<p className={scss.phone_old_price}>
-																	{e.oldPrice}
-																</p>
-															</div>
-															<div className={scss.bottom_cart}>
-																<IconShoppingCart />
-																<p>В корзину</p>
-															</div>
-														</div>
-													</div>
-												)}
+													<IconHeart
+														onClick={() => handleAddProductsFavoriteFunk(e.id)}
+													/>
+												</div>
 											</div>
-										))}
+											<div className={scss.middle_image_card}>
+												<img src={e.image} alt="Phone" />
+											</div>
+											<div className={scss.middle_card}>
+												<p className={scss.phone_quantity}>
+													В наличии {e.quantity}
+												</p>
+												<h3>{e.brandNameOfGadget}</h3>
+												<div className={scss.phone_rating}>
+													<p>Рейтинг</p>
+													<Rate defaultValue={e.rating} />
+													<p>({e.rating})</p>
+												</div>
+											</div>
+											<div className={scss.bottom_card}>
+												<div className={scss.phone_prices}>
+													<p className={scss.phone_price}>{e.price}</p>
+													<p className={scss.phone_old_price}>
+														{e.currentPrice}
+													</p>
+												</div>
+												<div
+													className={scss.bottom_cart}
+													onClick={() => {
+														handleBasketProductsFunk(e.id);
+													}}
+												>
+													<IconShoppingCart />
+													<p>В корзину</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								))}
 							</div>
 							<div className={scss.showButtons}>
 								{!allPhones && (
@@ -468,42 +462,6 @@ const Catalog = () => {
 									</button>
 								)}
 							</div>
-						</div>
-					</div>
-
-					<div className={scss.divBottom}>
-						<h2>Просмотренные товары</h2>
-						<div className={scss.bottomCards}>
-							{posts &&
-								posts.slice(Math.max(posts.length - 5, 0)).map((e, index) => (
-									<div className={scss.cards} key={index}>
-										{index < posts.length - 2 && (
-											<div className={scss.card}>
-												<div className={scss.middle_image_card}>
-													<img src={e.Image} alt="Phone" />
-												</div>
-												<div className={scss.middle_card}>
-													<h3>{e.Name}</h3>
-													<div className={scss.phone_rating}>
-														<p>Рейтинг</p>
-														<div className={scss.rating_stars}>
-															<img src={starFilled} alt="Rating_Stars" />
-															<img src={starFilled} alt="Rating_Stars" />
-															<img src={starFilled} alt="Rating_Stars" />
-															<img src={starFilled} alt="Rating_Stars" />
-															<img src={starFilled} alt="Rating_Stars" />
-														</div>
-														<p>({e.Rating})</p>
-													</div>
-												</div>
-
-												<div className={scss.bottom_card}>
-													<p className={scss.phone_price}>{e.Price}</p>
-												</div>
-											</div>
-										)}
-									</div>
-								))}
 						</div>
 					</div>
 				</div>

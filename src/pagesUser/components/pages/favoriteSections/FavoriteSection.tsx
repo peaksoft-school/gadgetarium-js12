@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-	useFavoritePutProductMutation,
+	// useFavoritePutProductMutation,
+	useAddProductsForFavoriteMutation,
 	useGetFavoriteQuery
 } from '@/src/redux/api/favorite';
 import favorite from '../../../../assets/sammy_order_completed_by_a_delivery_girl_1.png';
@@ -17,7 +18,7 @@ const FavoriteSection = () => {
 	const { data, isLoading } = useGetFavoriteQuery();
 	const [addBasketProduct] = useBasketPutProductMutation();
 	const [addComparisonProducts] = useComparisonPutProductMutation();
-	const [addFavoriteProducts] = useFavoritePutProductMutation();
+	const [addFavoriteProducts] = useAddProductsForFavoriteMutation();
 	const handleAddBasketProduct = async (_id: number, isInBasket: boolean) => {
 		await addBasketProduct({ _id, isInBasket: !isInBasket });
 	};

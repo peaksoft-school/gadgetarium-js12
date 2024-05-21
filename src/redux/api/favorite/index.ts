@@ -7,23 +7,28 @@ const api = index.injectEndpoints({
 			FAVORITEPRODUCTS.GetFavoriteProductsRequest
 		>({
 			query: () => ({
-				url: 'https://api-v2.elchocrud.pro/api/v1/eca987f41677bb5cc17c0789a3c9920e/favorite_products',
-				method: 'GET'
+				url: '/api/favorites',
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
 			}),
 			providesTags: ['favorite']
 		}),
-		favoritePutProduct: build.mutation<
+		addProductsForFavorite: build.mutation<
 			FAVORITEPRODUCTS.PutFavoriteProductResponse,
 			FAVORITEPRODUCTS.PutFavoriteProductRequest
 		>({
-			query: ({ id, isFavorite }) => ({
-				url: `https://api-v2.elchocrud.pro/api/v1/eca987f41677bb5cc17c0789a3c9920e/favorite_products/${id}`,
-				method: 'PATCH',
-				body: { isFavorite }
+			query: ( {id} ) => ({
+				url: `/api/favorites/${id}`,
+				method: 'POST',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				},
 			}),
 			invalidatesTags: ['favorite']
 		})
 	})
 });
 
-export const { useGetFavoriteQuery, useFavoritePutProductMutation } = api;
+export const { useGetFavoriteQuery, useAddProductsForFavoriteMutation } = api;
