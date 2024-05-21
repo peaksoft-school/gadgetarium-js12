@@ -16,6 +16,7 @@ import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
 import CustomButtonAdd from '@/src/ui/adminButtons/CustomButtonAdd';
 import UploadBanner from '@/src/ui/customImageAdd/UploadBanner';
 import Infographics from '@/src/ui/infographics/Infographics';
+import { useNavigate } from 'react-router-dom';
 
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
 	console.log(info?.source, value);
@@ -27,10 +28,20 @@ const onChange: DatePickerProps['onChange'] = (date, dateString) => {
 const ProductsMainSection = () => {
 	const [filtered, setFiltered] = useState<boolean>(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
 	const [isModalOpenBanner, setIsModalOpenBanner] = useState(false);
+	const navigate = useNavigate();
+
+	const addProduct = () => {
+		navigate('/admin/product-adding/part-1');
+	};
 
 	const showModal = () => {
 		setIsModalOpen(true);
+	};
+
+	const showModalDelete = () => {
+		setIsModalOpenDelete(true);
 	};
 
 	const handleCancel = () => {
@@ -73,7 +84,7 @@ const ProductsMainSection = () => {
 								</ConfigProvider>
 							</div>
 							<div className={scss.add_product}>
-								<button>Добавить товар</button>
+								<button onClick={addProduct}>Добавить товар</button>
 								<button onClick={showModal}>Создать скидку</button>
 							</div>
 						</div>
@@ -201,7 +212,7 @@ const ProductsMainSection = () => {
 											<td>{item.CurrentPrice}</td>
 											<div className={scss.icons}>
 												<IconEdit className={scss.trash} />
-												<IconTrash />
+												<IconTrash onClick={showModalDelete} />
 											</div>
 										</div>
 									))}
@@ -282,6 +293,23 @@ const ProductsMainSection = () => {
 					</CustomModal>
 				</div>
 			</div>
+			<CustomModal
+				isModalOpen={isModalOpenDelete}
+				setIsModalOpen={setIsModalOpenDelete}
+			>
+				<div className={scss.modal}>
+					<h2>
+						Вы уверены, что хотите удалить товар?
+					</h2>
+
+					<div className={scss.modal_buttons}>
+						<CancelButtonCustom onClick={() => setIsModalOpenDelete(false)}>
+							Отменить
+						</CancelButtonCustom>
+						<CustomButtonAdd onClick={handleCancel}>Удалить</CustomButtonAdd>
+					</div>
+				</div>
+			</CustomModal>
 		</div>
 	);
 };

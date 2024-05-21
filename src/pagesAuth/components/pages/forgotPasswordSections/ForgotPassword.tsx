@@ -3,10 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { Button, Input } from 'antd';
 import logo from '@/src/assets/logo.png';
+import { usePostForgotMutation } from '@/src/redux/api/auth';
 
 export const ForgotPassword = () => {
+	const [postForgot] = usePostForgotMutation();
 	const navigate = useNavigate();
 	const {
+		// register,
 		reset,
 		handleSubmit,
 		control,
@@ -14,10 +17,19 @@ export const ForgotPassword = () => {
 	} = useForm<ForgotPasswordForms>({
 		mode: 'onBlur'
 	});
-	const onSubmit: SubmitHandler<ForgotPasswordForms> = (data) => {
-		console.log(data);
-		navigate('/auth/login');
-		reset();
+	const onSubmit: SubmitHandler<ForgotPasswordForms> = async (data) => {
+		try {
+			await postForgot(data);
+			// if ('data' in response) {
+			// 	const { token } = response.data;
+			// 	localStorage.setItem('token', token);
+			// }
+			console.log(data);
+			navigate('/auth/login');
+			reset();
+		} catch (error) {
+			console.log('not working', error);
+		}
 	};
 	return (
 		<div className={scss.forgotPasswordPages}>
@@ -37,14 +49,16 @@ export const ForgotPassword = () => {
 									onSubmit={handleSubmit(onSubmit)}
 								>
 									<Controller
-										name="code"
+										// {...register('email')}
+										name='email'
 										control={control}
 										defaultValue=""
 										rules={{
 											required: 'Email обязателен для заполнения',
-											minLength: {
-												value: 4,
-												message: 'Email должен содержать минимум 10 символов'
+											pattern: {
+												value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+												message:
+													'Введите действительный email адрес с доменом @gmail.com'
 											}
 										}}
 										render={({ field }) => (
@@ -53,63 +67,22 @@ export const ForgotPassword = () => {
 												id="email"
 												placeholder="Email"
 												{...field}
+												style={errors.email && { border: '1px solid red' }}
 											/>
 										)}
 									/>
-									{/* <Controller
-										name="password"
-										control={control}
-										defaultValue=""
-										rules={{
-											required: 'Пароль обязателен для заполнения',
-											minLength: {
-												value: 8,
-												message: 'Пароль должен содержать минимум 8 символов'
-											}
-										}}
-										render={({ field }) => (
-											<Input.Password
-												className={scss.inputs}
-												id="password"
-												placeholder="Напишите пароль"
-												{...field}
-											/>
-										)}
-									/>
-									<Controller
-										name="confirmThePassword"
-										control={control}
-										defaultValue=""
-										rules={{
-											required: 'Подтвердите пароль обязателен для заполнения',
-											minLength: {
-												value: 8,
-												message:
-													'Подтвердите пароль должен содержать минимум 8 символов'
-											}
-										}}
-										render={({ field }) => (
-											<Input.Password
-												className={scss.inputs}
-												id="confirmThePassword"
-												placeholder="Подтвердите пароль"
-												{...field}
-											/>
-										)}
-									/> */}
-									{(errors.code && (
-										<p className={scss.errors}>{errors.code.message}</p>
-									)) ||
-										(errors.password && (
-											<p className={scss.errors}>{errors.password.message}</p>
-										)) ||
-										(errors.confirmThePassword && (
-											<p className={scss.errors}>
-												{errors.confirmThePassword.message}
-											</p>
-										))}
+
+									{errors.email && (
+										<p className={scss.errors}>{errors.email.message}</p>
+									)}
 									<div className={scss.buttonDiv}>
-										<Button className={scss.buttonSubmit}>Отправить</Button>
+										<Button
+											type="primary"
+											htmlType="submit"
+											className={scss.buttonSubmit}
+										>
+											Отправить
+										</Button>
 									</div>
 									<div className={scss.divForms}>
 										<Link className={scss.link} to={'/auth/register'}>

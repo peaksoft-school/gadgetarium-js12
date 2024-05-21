@@ -12,7 +12,9 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ children }) => {
 	const isAuthresult = !!isAuth;
 
 	useEffect(() => {
-		if (isAuthresult && pathname === '/auth/loginPages') {
+		if (isAuthresult && pathname === '/login') {
+			navigate('/admin');
+		} else if (isAuthresult && pathname === '/register') {
 			navigate('/');
 		}
 	}, [pathname]);

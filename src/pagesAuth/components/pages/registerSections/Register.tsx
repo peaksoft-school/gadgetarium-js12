@@ -1,12 +1,14 @@
 import scss from './Register.module.scss';
 import logo from '@/src/assets/logo.png';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button, ConfigProvider, Input } from 'antd';
-import PhoneNumberValidation from '@/src/ui/phoneNumberValidation/PhoneNumberValidation';
+import { usePostRegisterMutation } from '@/src/redux/api/auth';
+import PhoneInputWrapper from '@/src/ui/phoneNumberValidation/PhoneNumberValidation';
 
 export const Register = () => {
-	const navigate = useNavigate();
+	const [postRequest] = usePostRegisterMutation();
+
 	const {
 		handleSubmit,
 		reset,
@@ -16,10 +18,21 @@ export const Register = () => {
 		mode: 'onBlur'
 	});
 
-	const onSubmit: SubmitHandler<RegisterForms> = (data) => {
-		console.log(data);
-		navigate('/auth/login');
-		reset();
+	const onSubmit: SubmitHandler<RegisterForms> = async (data, event) => {
+		event?.preventDefault();
+		try {
+			const response = await postRequest(data);
+			if ('data' in response) {
+				const { token } = response.data;
+				localStorage.setItem('token', token);
+				localStorage.setItem('isAuth', 'true');
+			}
+			console.log('is working ', response);
+			console.log(data);
+			reset();
+		} catch {
+			console.log('not working');
+		}
 	};
 	return (
 		<div className={scss.registerPages}>
@@ -39,7 +52,7 @@ export const Register = () => {
 									onSubmit={handleSubmit(onSubmit)}
 								>
 									<Controller
-										name="firsName"
+										name="firstName"
 										control={control}
 										defaultValue=""
 										rules={{
@@ -53,7 +66,8 @@ export const Register = () => {
 										render={({ field }) => (
 											<Input
 												className={scss.inputs}
-												id="firsName"
+												style={errors.firstName && { border: '1px solid red' }}
+												id="firstName"
 												placeholder="Напишите ваше имя"
 												{...field}
 											/>
@@ -75,13 +89,45 @@ export const Register = () => {
 										render={({ field }) => (
 											<Input
 												className={scss.inputs}
+												style={errors.lastName && { border: '1px solid red' }}
 												id="lastName"
 												placeholder="Напишите ваше фамилию"
 												{...field}
 											/>
 										)}
 									/>
-									<PhoneNumberValidation />
+									<Controller
+										name="phoneNumber"
+										control={control}
+										defaultValue=""
+										rules={{
+											required: 'PhoneNumber обязателен для заполнения',
+											minLength: {
+												value: 8,
+												message: 'Телефон номер не сообветсвует данному коду '
+											}
+										}}
+										render={({ field }) => (
+											<PhoneInputWrapper
+												{...field}
+												style={
+													errors.phoneNumber && { border: '1px solid red' }
+												}
+												inputStyle={{
+													maxWidth: '454px',
+													width: '100%',
+													height: '40px',
+													color: 'black',
+													border: '1px solid black',
+													borderRadius: '5px'
+												}}
+												country={'us'}
+												inputProps={{
+													required: true
+												}}
+											/>
+										)}
+									/>
 									<Controller
 										name="email"
 										control={control}
@@ -99,6 +145,7 @@ export const Register = () => {
 												className={scss.inputs}
 												id="email"
 												placeholder="Напишите email"
+												style={errors.email && { border: '1px solid red' }}
 												{...field}
 											/>
 										)}
@@ -131,6 +178,7 @@ export const Register = () => {
 													id="password"
 													placeholder="Напишите пароль"
 													{...field}
+													style={errors.password && { border: '1px solid red' }}
 												/>
 											</ConfigProvider>
 										)}
@@ -164,12 +212,17 @@ export const Register = () => {
 													id="confirmThePassword"
 													placeholder="Подтвердите пароль"
 													{...field}
+													style={
+														errors.confirmThePassword && {
+															border: '1px solid red'
+														}
+													}
 												/>
 											</ConfigProvider>
 										)}
 									/>
-									{(errors.firsName && (
-										<p className={scss.errors}>{errors.firsName.message}</p>
+									{(errors.firstName && (
+										<p className={scss.errors}>{errors.firstName.message}</p>
 									)) ||
 										(errors.lastName && (
 											<p className={scss.errors}>{errors.lastName.message}</p>
@@ -191,7 +244,11 @@ export const Register = () => {
 											</p>
 										))}
 									<div className={scss.buttonDiv}>
-										<Button className={scss.buttonSubmit}>
+										<Button
+											className={scss.buttonSubmit}
+											type="primary"
+											htmlType="submit"
+										>
 											Создать аккаунт
 										</Button>
 									</div>
