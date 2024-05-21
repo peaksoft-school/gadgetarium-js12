@@ -3,11 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { Button, Input } from 'antd';
 import logo from '@/src/assets/logo.png';
+import { usePostForgotMutation } from '@/src/redux/api/auth';
 
 export const ForgotPassword = () => {
+	const [postForgot] = usePostForgotMutation();
 	const navigate = useNavigate();
 	const {
-		register,
+		// register,
 		reset,
 		handleSubmit,
 		control,
@@ -15,10 +17,19 @@ export const ForgotPassword = () => {
 	} = useForm<ForgotPasswordForms>({
 		mode: 'onBlur'
 	});
-	const onSubmit: SubmitHandler<ForgotPasswordForms> = (data) => {
-		console.log(data);
-		navigate('/auth/login');
-		reset();
+	const onSubmit: SubmitHandler<ForgotPasswordForms> = async (data) => {
+		try {
+			await postForgot(data);
+			// if ('data' in response) {
+			// 	const { token } = response.data;
+			// 	localStorage.setItem('token', token);
+			// }
+			console.log(data);
+			navigate('/auth/login');
+			reset();
+		} catch (error) {
+			console.log('not working', error);
+		}
 	};
 	return (
 		<div className={scss.forgotPasswordPages}>
@@ -38,7 +49,8 @@ export const ForgotPassword = () => {
 									onSubmit={handleSubmit(onSubmit)}
 								>
 									<Controller
-										{...register('email')}
+										// {...register('email')}
+										name='email'
 										control={control}
 										defaultValue=""
 										rules={{
@@ -64,7 +76,13 @@ export const ForgotPassword = () => {
 										<p className={scss.errors}>{errors.email.message}</p>
 									)}
 									<div className={scss.buttonDiv}>
-										<Button className={scss.buttonSubmit}>Отправить</Button>
+										<Button
+											type="primary"
+											htmlType="submit"
+											className={scss.buttonSubmit}
+										>
+											Отправить
+										</Button>
 									</div>
 									<div className={scss.divForms}>
 										<Link className={scss.link} to={'/auth/register'}>

@@ -14,7 +14,6 @@ type Register = {
 };
 
 type Login = {
-	// id: userAndAdminId;
 	token: string;
 	authority: boolean;
 };

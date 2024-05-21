@@ -13,7 +13,7 @@ const baseQuery = fetchBaseQuery({
 		}
 		return headers;
 	},
-	credentials: 'include'
+	
 });
 
 const baseQueryExtended: BaseQueryFn = async (args, api, extraOptions) => {

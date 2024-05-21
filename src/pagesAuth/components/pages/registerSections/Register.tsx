@@ -3,13 +3,13 @@ import logo from '@/src/assets/logo.png';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { Button, ConfigProvider, Input } from 'antd';
-import PhoneNumberValidation from '@/src/ui/phoneNumberValidation/PhoneNumberValidation';
 import { usePostRegisterMutation } from '@/src/redux/api/auth';
+import PhoneInputWrapper from '@/src/ui/phoneNumberValidation/PhoneNumberValidation';
 
 export const Register = () => {
 	const [postRequest] = usePostRegisterMutation();
+
 	const {
-		register,
 		handleSubmit,
 		reset,
 		control,
@@ -18,9 +18,15 @@ export const Register = () => {
 		mode: 'onBlur'
 	});
 
-	const onSubmit: SubmitHandler<RegisterForms> = async (data) => {
+	const onSubmit: SubmitHandler<RegisterForms> = async (data, event) => {
+		event?.preventDefault();
 		try {
 			const response = await postRequest(data);
+			if ('data' in response) {
+				const { token } = response.data;
+				localStorage.setItem('token', token);
+				localStorage.setItem('isAuth', 'true');
+			}
 			console.log('is working ', response);
 			console.log(data);
 			reset();
@@ -46,7 +52,7 @@ export const Register = () => {
 									onSubmit={handleSubmit(onSubmit)}
 								>
 									<Controller
-										{...register('firstName')}
+										name="firstName"
 										control={control}
 										defaultValue=""
 										rules={{
@@ -68,7 +74,7 @@ export const Register = () => {
 										)}
 									/>
 									<Controller
-										{...register('lastName')}
+										name="lastName"
 										control={control}
 										defaultValue=""
 										rules={{
@@ -90,9 +96,40 @@ export const Register = () => {
 											/>
 										)}
 									/>
-									<PhoneNumberValidation />
 									<Controller
-										{...register('email')}
+										name="phoneNumber"
+										control={control}
+										defaultValue=""
+										rules={{
+											required: 'PhoneNumber обязателен для заполнения',
+											minLength: {
+												value: 8,
+												message: 'Телефон номер не сообветсвует данному коду '
+											}
+										}}
+										render={({ field }) => (
+											<PhoneInputWrapper
+												{...field}
+												style={
+													errors.phoneNumber && { border: '1px solid red' }
+												}
+												inputStyle={{
+													maxWidth: '454px',
+													width: '100%',
+													height: '40px',
+													color: 'black',
+													border: '1px solid black',
+													borderRadius: '5px'
+												}}
+												country={'us'}
+												inputProps={{
+													required: true
+												}}
+											/>
+										)}
+									/>
+									<Controller
+										name="email"
 										control={control}
 										defaultValue=""
 										rules={{
@@ -114,7 +151,7 @@ export const Register = () => {
 										)}
 									/>
 									<Controller
-										{...register('password')}
+										name="password"
 										control={control}
 										defaultValue=""
 										rules={{
@@ -141,14 +178,13 @@ export const Register = () => {
 													id="password"
 													placeholder="Напишите пароль"
 													{...field}
-													style={errors.password && {border: '1px solid red'}}
-
+													style={errors.password && { border: '1px solid red' }}
 												/>
 											</ConfigProvider>
 										)}
 									/>
 									<Controller
-										{...register('confirmThePassword')}
+										name="confirmThePassword"
 										control={control}
 										defaultValue=""
 										rules={{
@@ -176,8 +212,11 @@ export const Register = () => {
 													id="confirmThePassword"
 													placeholder="Подтвердите пароль"
 													{...field}
-													style={errors.confirmThePassword && {border: '1px solid red'}}
-
+													style={
+														errors.confirmThePassword && {
+															border: '1px solid red'
+														}
+													}
 												/>
 											</ConfigProvider>
 										)}
@@ -188,11 +227,11 @@ export const Register = () => {
 										(errors.lastName && (
 											<p className={scss.errors}>{errors.lastName.message}</p>
 										)) ||
-										// (errors.phoneNumber && (
-										// 	<p className={scss.errors}>
-										// 		{errors.phoneNumber.message}
-										// 	</p>
-										// )) ||
+										(errors.phoneNumber && (
+											<p className={scss.errors}>
+												{errors.phoneNumber.message}
+											</p>
+										)) ||
 										(errors.email && (
 											<p className={scss.errors}>{errors.email.message}</p>
 										)) ||

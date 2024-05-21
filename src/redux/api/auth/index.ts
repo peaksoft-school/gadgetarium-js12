@@ -20,8 +20,25 @@ const api = index.injectEndpoints({
 				body: newData
 			}),
 			invalidatesTags: ['auth']
+		}),
+		postForgot: build.mutation<
+			AUTH.PostForgotEmailResponse,
+			AUTH.POstForgotEmailRequest
+		>({
+			query: (newData) => (
+				console.log(newData),
+				{
+					url: `/api/reset?email=${newData.email}`,
+					method: 'POST'
+				}
+			),
+			invalidatesTags: ['auth']
 		})
 	})
 });
 
-export const { usePostLoginMutation, usePostRegisterMutation } = api;
+export const {
+	usePostLoginMutation,
+	usePostRegisterMutation,
+	usePostForgotMutation
+} = api;
