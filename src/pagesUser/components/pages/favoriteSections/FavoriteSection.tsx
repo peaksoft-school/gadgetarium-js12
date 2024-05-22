@@ -12,12 +12,12 @@ import { Button, Rate } from 'antd';
 import IconHeartRed from '@/src/assets/icons/icon-heart-red';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
-import { useComparisonPutProductMutation } from '@/src/redux/api/comparison';
+import { useAddProductsFotComparisonMutation } from '@/src/redux/api/comparison';
 const FavoriteSection = () => {
 	const navigate = useNavigate();
 	const { data, isLoading } = useGetFavoriteQuery();
 	const [addBasketProduct] = useBasketPutProductMutation();
-	const [addComparisonProducts] = useComparisonPutProductMutation();
+	const [addComparisonProducts] = useAddProductsFotComparisonMutation();
 	const [addFavoriteProducts] = useAddProductsForFavoriteMutation();
 	const handleAddBasketProduct = async (_id: number, isInBasket: boolean) => {
 		await addBasketProduct({ _id, isInBasket: !isInBasket });

@@ -7,19 +7,24 @@ const api = index.injectEndpoints({
 			COMPARISONPRODUCTS.GetComparisonProductsRequest
 		>({
 			query: () => ({
-				url: 'https://api-v2.elchocrud.pro/api/v1/e29346eff0c433ab971a172fd2128212/comparison_products',
-				method: 'GET'
+				url: '/api/comparison',
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
 			}),
 			providesTags: ['comparison']
 		}),
-		comparisonPutProduct: build.mutation<
+		addProductsFotComparison: build.mutation<
 			COMPARISONPRODUCTS.PutComparisonProductResponse,
 			COMPARISONPRODUCTS.PutComparisonProductRequest
 		>({
-			query: ({ _id, isComparison }) => ({
-				url: `https://api-v2.elchocrud.pro/api/v1/e29346eff0c433ab971a172fd2128212/comparison_products/${_id}`,
-				method: 'PATCH',
-				body: { isComparison }
+			query: ({ id }) => ({
+				url: `/api/comparison/${id}`,
+				method: 'POST',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
 			}),
 			invalidatesTags: ['comparison']
 		}),
@@ -50,7 +55,7 @@ const api = index.injectEndpoints({
 
 export const {
 	useGetComparisonQuery,
-	useComparisonPutProductMutation,
+	useAddProductsFotComparisonMutation,
 	useComparisonResultsMutation,
 	useCategoryProductsMutation
 } = api;

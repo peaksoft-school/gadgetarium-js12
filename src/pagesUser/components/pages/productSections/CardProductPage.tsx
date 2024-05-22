@@ -9,12 +9,12 @@ import { ConfigProvider, Modal, Rate } from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
-import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
+import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
 import { IconRedHeart } from '@/src/assets/icons';
 
 const CardProductPage = () => {
 	const [basketAddProduct] = useBasketPutProductMutation();
-	const [favoriteAddProduct] = useFavoritePutProductMutation();
+	const [favoriteAddProduct] = useAddProductsForFavoriteMutation();
 	const { productId } = useParams();
 	const [isSlider, setIsSlider] = useState<number>(1);
 	const [sliderResult, setSliderresult] = useState<number>(0);

@@ -8,14 +8,14 @@ import photoIsIphone from '../../../../assets/productImage/IphoneCard.png';
 import ShowMoreButton from '@/src/ui/customButtons/ShowMoreButton.tsx';
 import { IconRedHeart } from '@/src/assets/icons';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
-import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
-import { useComparisonPutProductMutation } from '@/src/redux/api/comparison';
+import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
+import { useAddProductsFotComparisonMutation } from '@/src/redux/api/comparison';
 
 const ProductsNew = () => {
 	const { data: productData = [], isLoading, refetch } = useGetProductsQuery();
-	const [comparisonPutProduct] = useComparisonPutProductMutation();
+	const [comparisonPutProduct] = useAddProductsFotComparisonMutation();
 	const [basketPutProduct] = useBasketPutProductMutation();
-	const [putFavoriteProduct] = useFavoritePutProductMutation();
+	const [putFavoriteProduct] = useAddProductsForFavoriteMutation();
 	const [isVisible, setIsVisible] = useState(5);
 	const [showMore, setShowMore] = useState(false);
 	const [activeScaleId, setActiveScaleId] = useState<null | number | string>(

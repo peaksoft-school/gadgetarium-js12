@@ -20,13 +20,13 @@ import {
 } from '@tabler/icons-react';
 import { Button, Checkbox, ConfigProvider, Rate, InputNumber } from 'antd';
 import React, { useState } from 'react';
-import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
+import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
 
 const BasketSection = () => {
 	const [basketDeleteProduct] = useBasketPutProductMutation();
 	const [basketProductResultQuantity] =
 		useBasketProductResultQuantityMutation();
-	const [favoriteAddProduct] = useFavoritePutProductMutation();
+	const [favoriteAddProduct] = useAddProductsForFavoriteMutation();
 	const [basketProduct] = useBasketProductMutation();
 	const [basketProductsAllId] = useBasketProductDeleteAllMutation();
 	const navigate = useNavigate();

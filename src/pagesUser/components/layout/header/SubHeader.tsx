@@ -13,6 +13,9 @@ import {
 import { ConfigProvider, Input, theme } from 'antd';
 import { SearchProps } from 'antd/es/input';
 import CatalogMenu from '@/src/ui/catalogMenu/CatalogMenu';
+import { useGetBasketQuery } from '@/src/redux/api/basket';
+import { useGetFavoriteQuery } from '@/src/redux/api/favorite';
+import { useGetComparisonQuery } from '@/src/redux/api/comparison';
 
 interface SubHeaderProps {
 	isMobile: boolean;
@@ -22,6 +25,9 @@ interface SubHeaderProps {
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
 	console.log(info?.source, value);
 const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
+	const { data: BasketData = [] } = useGetBasketQuery();
+	const { data: FavoriteData = [] } = useGetFavoriteQuery();
+	const { data: ComparisonData = [] } = useGetComparisonQuery();
 	const antdThemeConfig = {
 		algorithm: theme.darkAlgorithm,
 		token: {
@@ -87,15 +93,19 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 					</div>
 					<div className={scss.icon_basket_heart}>
 						<Link to="/comparison" className={scss.icon}>
-							<span>0</span>
+							<span>
+								{ComparisonData.length <= 99 ? ComparisonData.length : '99+'}
+							</span>
 							<IconScale />
 						</Link>
 						<Link to="/favorite" className={scss.icon}>
-							<span>0</span>
+							<span>
+								{FavoriteData.length <= 99 ? FavoriteData.length : '99+'}
+							</span>
 							<IconHeart />
 						</Link>
 						<Link to="/basket" className={scss.icon}>
-							<span>0</span>
+							<span>{BasketData.length <= 99 ? BasketData.length : '99+'}</span>
 							<IconShoppingCart />
 						</Link>
 					</div>

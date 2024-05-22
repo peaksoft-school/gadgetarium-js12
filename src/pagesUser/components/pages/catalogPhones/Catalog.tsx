@@ -22,11 +22,13 @@ import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
 import { Rate } from 'antd';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
+import { useAddProductsFotComparisonMutation } from '@/src/redux/api/comparison';
 
 const Catalog = () => {
 	const navigate = useNavigate();
 	const [addProductBasket] = useBasketPutProductMutation();
 	const [addProductsForFavorite] = useAddProductsForFavoriteMutation();
+	const [addComparisonProducts] = useAddProductsFotComparisonMutation();
 	const [priceLow, setPriceLow] = useState<string>('');
 	const [priceHigh, setPriceHigh] = useState('');
 	const { data: posts } = useGetPhonesQuery();
@@ -75,9 +77,10 @@ const Catalog = () => {
 	};
 
 	const handleAddProductsFavoriteFunk = async (id: number) => {
-		console.log(id);
-
 		await addProductsForFavorite({ id });
+	};
+	const handleAddProductsComparisonFunk = async (id: number) => {
+		await addComparisonProducts({ id });
 	};
 
 	// const handleBasketProductStyleResultFunk = () => {
@@ -402,7 +405,11 @@ const Catalog = () => {
 													{e.percent !== 0 && e.percent}{' '}
 												</p>{' '}
 												<div className={scss.top_icons}>
-													<IconScale />
+													<IconScale
+														onClick={() =>
+															handleAddProductsComparisonFunk(e.id)
+														}
+													/>
 
 													<IconHeart
 														onClick={() => handleAddProductsFavoriteFunk(e.id)}

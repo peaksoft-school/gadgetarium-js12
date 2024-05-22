@@ -23,7 +23,7 @@ import ButtonArrowRight from '@/src/ui/customButtons/ButtonArrowRight';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import {
 	useCategoryProductsMutation,
-	useComparisonPutProductMutation,
+	useAddProductsFotComparisonMutation,
 	useComparisonResultsMutation,
 	useGetComparisonQuery
 } from '@/src/redux/api/comparison';
@@ -31,7 +31,7 @@ const ComparisonSection = () => {
 	const onChange: CheckboxProps['onChange'] = (e) => {
 		console.log(`checked = ${e.target.checked}`);
 	};
-	const [addComparison] = useComparisonPutProductMutation();
+	const [addComparison] = useAddProductsFotComparisonMutation();
 	const { data, isLoading } = useGetComparisonQuery();
 	const [addBasketProducts] = useBasketPutProductMutation();
 	const [compatisonResults] = useComparisonResultsMutation();
@@ -120,7 +120,6 @@ const ComparisonSection = () => {
 	}, []);
 	const handleAddBasketProducts = async (_id: number, isInBasket: boolean) => {
 		console.log(isInBasket);
-
 		await addBasketProducts({ _id, isInBasket: !isInBasket });
 	};
 
@@ -186,12 +185,12 @@ const ComparisonSection = () => {
 												}
 											>
 												Смартфоны(
-												{data &&
+												{/* {data &&
 													data?.filter(
 														(el) =>
 															el.comparisonProduct &&
 															el.comparisonProduct.brand === 'Apple'
-													).length}
+													).length} */}
 												)
 											</button>
 											<button
@@ -203,12 +202,12 @@ const ComparisonSection = () => {
 												}
 											>
 												Ноутбуки (
-												{data &&
+												{/* {data &&
 													data?.filter(
 														(el) =>
 															el.comparisonProduct &&
 															el.comparisonProduct.brand === 'mac'
-													).length}
+													).length} */}
 												){' '}
 											</button>
 											<button
@@ -220,12 +219,12 @@ const ComparisonSection = () => {
 												}
 											>
 												Наушники (
-												{data &&
+												{/* {data &&
 													data?.filter(
 														(el) =>
 															el.comparisonProduct &&
 															el.comparisonProduct.brand === 'AirPods'
-													).length}
+													).length} */}
 												)
 											</button>
 										</div>
@@ -243,9 +242,7 @@ const ComparisonSection = () => {
 											>
 												<Checkbox
 													onClick={() =>
-														data?.forEach((el) =>
-															handleComparisonResults(el.isDifference)
-														)
+														data?.forEach((el) => handleComparisonResults(el))
 													}
 													onChange={onChange}
 												>
@@ -255,7 +252,7 @@ const ComparisonSection = () => {
 											<div
 												onClick={() =>
 													data?.forEach((el) =>
-														handleProductsIsDeleteComparison(el._id)
+														handleProductsIsDeleteComparison(el.id)
 													)
 												}
 												className={scss.cleaningText}
@@ -313,62 +310,58 @@ const ComparisonSection = () => {
 																			>
 																				<IconDelete />
 																			</button>
-																			{item.comparisonProduct &&
-																				item.comparisonProduct.image && (
+																			{item &&
+																				item.images && (
 																					<div className={scss.div_photos}>
-																						<img
-																							src={item.comparisonProduct.image}
-																							alt={
-																								item.comparisonProduct
-																									.productName
-																							}
-																						/>
+																						{item.images.map((el, index) => (
+																							<img
+																								src={el}
+																								alt={item.nameOfGadget}
+																								key={index}
+																							/>
+																						))}
 																					</div>
 																				)}
-																			{item.comparisonProduct &&
-																				item.comparisonProduct.productName && (
-																					<p className={scss.charackter}>
-																						{item.comparisonProduct.productName}
-																					</p>
-																				)}
-																			{item.comparisonProduct &&
-																				item.comparisonProduct.price && (
-																					<p
-																						className={
-																							item.comparisonProduct.productName
-																								.length < 25
-																								? `${scss.charackter_price} ${scss.active_margin}`
-																								: `${scss.charackter_price}`
-																						}
-																					>
-																						{item.comparisonProduct.price} c
-																					</p>
-																				)}
+																			{item && item.nameOfGadget && (
+																				<p className={scss.charackter}>
+																					{item.nameOfGadget} Gello Hello
+																				</p>
+																			)}
+																			{item && item.price && (
+																				<p
+																					className={
+																						item.nameOfGadget.length < 25
+																							? `${scss.charackter_price} ${scss.active_margin}`
+																							: `${scss.charackter_price}`
+																					}
+																				>
+																					{item.price} c
+																				</p>
+																			)}
 																			<AddBasketButton
 																				onClick={() =>
-																					handleAddBasketProducts(
-																						item._id,
-																						item.comparisonProduct.isInBasket
-																					)
+																					handleAddBasketProducts(item.id)
 																				}
-																				children={
-																					item.comparisonProduct &&
-																					item.comparisonProduct.isInBasket ===
-																						true
-																						? `В корзине`
-																						: `В корзину`
-																				}
-																				className={
-																					item.comparisonProduct &&
-																					item.comparisonProduct.isInBasket
-																						? `${scss.add_bas_button} ${scss.active}`
-																						: `${scss.add_bas_button}`
-																				}
+																				// children={
+																				// 	item.comparisonProduct &&
+																				// 	item.comparisonProduct.isInBasket ===
+																				// 		true
+																				// 		? `В корзине`
+																				// 		: `В корзину`
+																				// }
+																				children="В корзину"
+																				// className={
+																				// 	item.comparisonProduct &&
+																				// 	item.comparisonProduct.isInBasket
+																				// 		? `${scss.add_bas_button} ${scss.active}`
+																				// 		: `${scss.add_bas_button}`
+																				// }
+																				className={scss.add_bas_button}
 																			/>
 																		</div>
 																	</div>
 																	<div className={scss.table_div}>
-																		{item.comparisonProduct && (
+																		{/* {item.comparisonProduct && (
 																			<>
 																				<p>{item.comparisonProduct.brand}</p>
 																				<p>{item.comparisonProduct.screen}</p>
@@ -379,7 +372,7 @@ const ComparisonSection = () => {
 																				<p>{item.comparisonProduct.weight}</p>
 																				<p>{item.comparisonProduct.sim}</p>
 																			</>
-																		)}
+																		)} */}
 																	</div>
 																</div>
 															</div>
