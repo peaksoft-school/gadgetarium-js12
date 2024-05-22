@@ -1,4 +1,6 @@
-import { useNavigate } from 'react-router-dom';
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Link, useNavigate } from 'react-router-dom';
 import scss from './Catalog.module.scss';
 import arrow from '@/src/assets/map/arrowtop.png';
 import arrowDown from '@/src/assets/map/arrowDown.png';
@@ -10,7 +12,7 @@ import {
 	moreGBiteCatalog,
 	phoneCatalog
 } from '@/src/data/Catalog';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useGetPhonesQuery } from '@/src/redux/api/phones';
 import {
 	IconHeart,
@@ -20,7 +22,10 @@ import {
 } from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
 import { Rate } from 'antd';
-import { useBasketPutProductMutation } from '@/src/redux/api/basket';
+import {
+	useBasketPutProductMutation,
+	useGetBasketQuery
+} from '@/src/redux/api/basket';
 import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
 import { useAddProductsFotComparisonMutation } from '@/src/redux/api/comparison';
 
@@ -29,6 +34,7 @@ const Catalog = () => {
 	const [addProductBasket] = useBasketPutProductMutation();
 	const [addProductsForFavorite] = useAddProductsForFavoriteMutation();
 	const [addComparisonProducts] = useAddProductsFotComparisonMutation();
+	const { data: BasketData = [] } = useGetBasketQuery();
 	const [priceLow, setPriceLow] = useState<string>('');
 	const [priceHigh, setPriceHigh] = useState('');
 	const { data: posts } = useGetPhonesQuery();
@@ -36,6 +42,8 @@ const Catalog = () => {
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
 	const [reduceOne, setReduceOne] = useState(false);
+	const [filtredBasketProductsItemId, setFiltredBasketProductsItemId] =
+		useState<number[] | null>(null);
 	const [reduceTwo, setReduceTwo] = useState(false);
 	const [reduceThree, setReduceThree] = useState(false);
 	const [reduceFour, setReduceFour] = useState(false);
@@ -91,6 +99,19 @@ const Catalog = () => {
 	// 		return `${scss.bottom_cart}`;
 	// 	}
 	// };
+
+	useEffect(() => {
+		const filtredBasketProductsItemId = BasketData.map((el) => {
+			return el.id;
+		});
+		// console.log(true, 'true');
+		if (filtredBasketProductsItemId) {
+			console.log(true, 'true');
+
+			setFiltredBasketProductsItemId(filtredBasketProductsItemId);
+			console.log(filtredBasketProductsItemId);
+		}
+	}, []);
 
 	return (
 		<section className={scss.catalog}>
@@ -417,7 +438,9 @@ const Catalog = () => {
 												</div>
 											</div>
 											<div className={scss.middle_image_card}>
-												<img src={e.image} alt="Phone" />
+												<Link to={`/catalog/phones/${e.id}`}>
+													<img src={e.image} alt="Phone" />
+												</Link>
 											</div>
 											<div className={scss.middle_card}>
 												<p className={scss.phone_quantity}>
@@ -438,7 +461,13 @@ const Catalog = () => {
 													</p>
 												</div>
 												<div
-													className={scss.bottom_cart}
+													className={
+														filtredBasketProductsItemId?.some(
+															(el) => el !== e.id
+														)
+															? `${scss.bottom_cart} ${scss.active_basket_button}`
+															: `${scss.bottom_cart}`
+													}
 													onClick={() => {
 														handleBasketProductsFunk(e.id);
 													}}

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { api as index } from '../index';
 
 const api = index.injectEndpoints({
@@ -19,4 +18,4 @@ const api = index.injectEndpoints({
 	})
 });
 
-const { useGetCardProductQuery } = api;
+export  const { useGetCardProductQuery } = api;

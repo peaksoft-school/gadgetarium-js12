@@ -5,23 +5,24 @@ import InfoPageForProduct from '../InfoPageForProduct';
 import { useGetProductsItemIdQuery } from '@/src/redux/api/product';
 import { useState } from 'react';
 import { IconArrowLeft, IconArrowRight, IconHeart } from '@tabler/icons-react';
-import { ConfigProvider, Modal, Rate } from 'antd';
+import { ConfigProvider, InputNumber, Modal, Rate } from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
 import { IconRedHeart } from '@/src/assets/icons';
+import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 
 const CardProductPage = () => {
 	const [basketAddProduct] = useBasketPutProductMutation();
 	const [favoriteAddProduct] = useAddProductsForFavoriteMutation();
 	const { productId } = useParams();
+	const { data, isLoading, refetch } = useGetCardProductQuery(productId!);
 	const [isSlider, setIsSlider] = useState<number>(1);
 	const [sliderResult, setSliderresult] = useState<number>(0);
 	const [contentIsModal, setContentIsModal] = useState<string>('');
 	const [modal2Open, setModal2Open] = useState(false);
 	const navigate = useNavigate();
-	const { data, refetch, isLoading } = useGetProductsItemIdQuery(productId!);
 	console.log(data);
 	const handleIndexSlider = (index: number) => {
 		if (index === 0) {
@@ -48,14 +49,12 @@ const CardProductPage = () => {
 		}
 	};
 	console.log(isSlider, sliderResult);
-	const addBasketProduct = async (id: number, isInBasket: boolean) => {
-		console.log(isInBasket);
-		await basketAddProduct({ id, isInBasket: !isInBasket });
+	const addBasketProduct = async (id: number) => {
+		await basketAddProduct({ id });
 		refetch();
 	};
-	const addFavoriteProduct = async (id: number, isFavorite: boolean) => {
-		console.log(isFavorite);
-		await favoriteAddProduct({ id, isFavorite: !isFavorite });
+	const addFavoriteProduct = async (id: number) => {
+		await favoriteAddProduct({ id });
 		refetch();
 	};
 	return (
@@ -70,7 +69,7 @@ const CardProductPage = () => {
 								<div className={scss.div_content_product_and_pages}>
 									<p onClick={() => navigate('/')}>Главная »</p>
 									<p onClick={() => navigate('')}> Смартфоны »</p>
-									<p>{data?.productName}</p>
+									<p>{data?.nameOfGadget}</p>
 								</div>
 								<div className={scss.div_brad_product}>
 									<h2>APPLE</h2>
@@ -80,7 +79,7 @@ const CardProductPage = () => {
 							<div className={scss.display_keen_slider}>
 								<div className={scss.slider_div_contents}>
 									<div className={scss.slider_div}>
-										{data?.photos
+										{data?.images
 											.slice(sliderResult, isSlider)
 											.map((item, index) => (
 												<img
@@ -90,7 +89,7 @@ const CardProductPage = () => {
 													}}
 													src={item}
 													key={index}
-													alt={data.productName}
+													alt={data.nameOfGadget}
 												/>
 											))}
 									</div>
@@ -110,7 +109,7 @@ const CardProductPage = () => {
 												}
 											}}
 										/>
-										{data?.photos.map((item, index) => (
+										{data?.images.map((item, index) => (
 											<>
 												<div
 													className={
@@ -123,7 +122,7 @@ const CardProductPage = () => {
 													<img
 														onClick={() => handleIndexSlider(index)}
 														src={item}
-														alt={data.productName}
+														alt={data.nameOfGadget}
 													/>
 												</div>
 											</>
@@ -145,21 +144,20 @@ const CardProductPage = () => {
 										/>
 									</div>
 								</div>
-
 								<div className={scss.product_info}>
-									<h3>{data?.productName}</h3>
+									<h3>{data?.nameOfGadget}</h3>
 									<div className={scss.product_content}>
 										<div className={scss.border_and_contents}>
 											<div className={scss.product_rating_and_numbers}>
 												<p className={scss.text_buy_product}>
-													{data?.buyProduc}
+													({data?.quantity})
 												</p>
 												<p>
-													Артикул: <span>030696</span>
+													Артикул: <span>{data?.articleNumber}</span>
 												</p>
 												<div>
-													<Rate defaultValue={5} />
-													<p>{data?.Rating}</p>
+													<Rate defaultValue={data?.rating} />
+													<p>{data?.rating}</p>
 												</div>
 											</div>
 											<div></div>
@@ -172,7 +170,7 @@ const CardProductPage = () => {
 													<div>-16%</div>
 													<h2>{data?.price}</h2>
 													<h3 className={scss.previous_price}>
-														{data?.previousPrice}
+														{data?.currentPrice}
 													</h3>
 												</div>
 											</div>
@@ -206,8 +204,24 @@ const CardProductPage = () => {
 												</div>
 												<div className={scss.div_buttons_counts}>
 													<button>-</button>
-													{/* <span>{data?.quantity}</span> */}
-													<span>1</span>
+													<ConfigProvider
+														theme={{
+															components: {
+																InputNumber: {
+																	colorText: 'rgb(43, 44, 47)',
+																	algorithm: true
+																}
+															}
+														}}
+													>
+														<InputNumber
+															className={scss.input_for_quantity}
+															min={1}
+															max={100}
+															defaultValue={data?.quantity}
+															type="number"
+														/>
+													</ConfigProvider>
 													<button>+</button>
 												</div>
 												<div className={scss.border_div}></div>
@@ -225,8 +239,7 @@ const CardProductPage = () => {
 																	: `${scss.nooActiveButton}`
 															}
 															onClick={() =>
-																data &&
-																addFavoriteProduct(data.id, data.isFavorite)
+																data && addFavoriteProduct(data.id)
 															}
 														>
 															{data?.isFavorite === true ? (
@@ -236,10 +249,7 @@ const CardProductPage = () => {
 															)}
 														</button>
 														<AddBasketButton
-															onClick={() =>
-																data &&
-																addBasketProduct(data.id, data.isInBasket)
-															}
+															onClick={() => data && addBasketProduct(data.id)}
 															children={
 																data?.isInBasket === true
 																	? 'В корзине'
@@ -264,39 +274,45 @@ const CardProductPage = () => {
 														<p>
 															Цвет..............................................
 														</p>
-														<h4>{data?.colorProduct}</h4>
+														<h4>{data?.mainColour}</h4>
 													</div>
 													<div className={scss.div_screen}>
 														<p>Дата выпуска..............................</p>
-														<h4>{data?.DateOfIssue}</h4>
+														<h4>{data?.releaseDate}</h4>
 													</div>
 													<div className={scss.div_screen}>
 														<p>Операционная система............</p>
-														<h4>{data?.operatingSystem}</h4>
+														{/* <h4>{data?.operatingSystem}</h4> */}
 													</div>
 													<div className={scss.div_screen}>
 														<p>
 															Память.........................................
 														</p>
-														<h4>{data?.Memory}</h4>
+														<h4>{data?.memory}</h4>
 													</div>
 													<div className={scss.div_screen}>
 														<p>SIM-карты...................................</p>
-														<h4>{data?.SIMCards}</h4>
+														<h4>{data?.countSim}</h4>
 													</div>
 													<div className={scss.div_screen}>
 														<p>Гарантия (месяцев)...................</p>
-														<h4>{data?.WarrantyMonths}</h4>
+														<h4>{data?.warranty}</h4>
 													</div>
 													<div className={scss.div_screen}>
 														<p>Процессор..................................</p>
-														<h4>{data?.CPU}</h4>
+														{/* <h4>{data?.CPU}</h4> */}
 													</div>
-													<div className={scss.div_screen}>
+													{/* <div className={scss.div_screen}>
 														<p>
 															Вес...............................................
 														</p>
 														<h4>{data?.Weight}</h4>
+													</div> */}
+													<div className={scss.div_screen}>
+														<p>
+															процент.......................................
+														</p>
+														<h4>{data?.percent}</h4>
 													</div>
 												</div>
 											</div>
@@ -310,15 +326,15 @@ const CardProductPage = () => {
 
 				<InfoPageForProduct />
 			</section>
-			<ConfigProvider 
-			theme={{
-				components: {
-					Modal: {
-						colorBgElevated: 'white',
-						algorithm: true
+			<ConfigProvider
+				theme={{
+					components: {
+						Modal: {
+							colorBgElevated: 'white',
+							algorithm: true
+						}
 					}
-				}
-			}}
+				}}
 			>
 				<Modal
 					title="Iphones"

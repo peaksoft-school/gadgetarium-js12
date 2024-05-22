@@ -20,6 +20,7 @@ namespace CARTPRODUCT {
     releaseDate: string;
     warranty: number;
     memory: string;
+    countSim: number;
     characteristics: Characteristics
   }
 }
