@@ -1,129 +1,59 @@
+import {
+	useGetCatalogProductsQuery,
+	useSubCategoriesQuery
+} from '@/src/redux/api/catalogProducts';
 import scss from './CatalogMenu.module.scss';
 import { IconGridDots } from '@tabler/icons-react';
 import { ConfigProvider, Dropdown, MenuProps, theme } from 'antd';
 import { Link } from 'react-router-dom';
 
-const items: MenuProps['items'] = [
-	{
-		key: '1',
-		label: <Link to="/catalog/phones">Смартфоны</Link>,
+const CatalogMenu = () => {
+	const { data } = useGetCatalogProductsQuery();
+	const { data: SubCategories = [] } = useSubCategoriesQuery(0);
+
+	function handle(id: number) {
+		console.log(id);
+		
+		// SubCategories.push(id);
+		// console.log(SubCategories);
+	}
+
+	if (!data) {
+		// Пока данные загружаются, можно вернуть загрузочный компонент или null
+		return <div>Loading...</div>;
+	}
+
+	const items: MenuProps['items'] = data.map((category) => ({
+		key: category.id,
+		label: (
+			<p onMouseEnter={() => handle(category.id)}>{category.categoryName}</p>
+		),
 		children: [
 			{
-				key: '2-1',
+				key: `${category.id}-1`,
 				label: 'Apple'
 			},
 			{
-				key: '2-2',
+				key: `${category.id}-2`,
 				label: 'Samsung'
 			},
 			{
-				key: '2-3',
+				key: `${category.id}-3`,
 				label: 'Redmi'
 			}
 		]
-	},
-	{
-		key: '2',
-		label: 'Ноутбуки и планшеты',
-		children: [
-			{
-				key: '2-1',
-				label: 'Ремешки для часов'
-			},
-			{
-				key: '2-2',
-				label: 'Зарядные устройства'
-			},
-			{
-				key: '2-3',
-				label: 'Защита экрана'
-			},
-			{
-				key: '2-4',
-				label: 'Чехлы и корпусы'
-			},
-			{
-				key: '2-5',
-				label: 'Подставки'
-			},
-			{
-				key: '2-6',
-				label: 'Кабели и адаптеры'
-			}
-		]
-	},
-	{
-		key: '3',
-		label: 'Смарт-часы и браслеты',
-		children: [
-			{
-				key: '2-1',
-				label: 'Ремешки для часов'
-			},
-			{
-				key: '2-2',
-				label: 'Зарядные устройства'
-			},
-			{
-				key: '2-3',
-				label: 'Защита экрана'
-			},
-			{
-				key: '2-4',
-				label: 'Чехлы и корпусы'
-			},
-			{
-				key: '2-5',
-				label: 'Подставки'
-			},
-			{
-				key: '2-6',
-				label: 'Кабели и адаптеры'
-			}
-		]
-	},
-	{
-		key: '4',
-		label: 'Аксессуары',
-		children: [
-			{
-				key: '2-1',
-				label: 'Ремешки для часов'
-			},
-			{
-				key: '2-2',
-				label: 'Зарядные устройства'
-			},
-			{
-				key: '2-3',
-				label: 'Защита экрана'
-			},
-			{
-				key: '2-4',
-				label: 'Чехлы и корпусы'
-			},
-			{
-				key: '2-5',
-				label: 'Подставки'
-			},
-			{
-				key: '2-6',
-				label: 'Кабели и адаптеры'
-			}
-		]
-	}
-];
+	}));
 
-const CatalogMenu = () => {
 	const antdThemeConfig = {
 		algorithm: theme.defaultAlgorithm,
 		token: {
 			colorBgElevated: 'white',
-			colorText: ' black',
+			colorText: 'black',
 			colorPrimaryBorderHover: 'red',
 			controlItemBgActiveHover: '#bae0ff'
 		}
 	};
+
 	return (
 		<div className={scss.catalog_menu}>
 			<ConfigProvider theme={antdThemeConfig}>
@@ -147,3 +77,4 @@ const CatalogMenu = () => {
 };
 
 export default CatalogMenu;
+

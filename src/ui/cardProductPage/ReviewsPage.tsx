@@ -1,4 +1,3 @@
-import { useGetProductsItemIdQuery } from '@/src/redux/api/product';
 import scss from './ReviewsPage.module.scss';
 import { useParams } from 'react-router-dom';
 import { Rate, Button, Modal, Input, ConfigProvider } from 'antd';
@@ -6,6 +5,8 @@ import { useState } from 'react';
 import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd';
 import { IconKamore } from '@/src/assets/icons';
+import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
+
 const { Dragger } = Upload;
 const props: UploadProps = {
 	name: 'file',
@@ -28,7 +29,7 @@ const props: UploadProps = {
 };
 const ReviewsPage = () => {
 	const { productId } = useParams();
-	const { data, isLoading } = useGetProductsItemIdQuery(productId!);
+	const { data, isLoading } = useGetCardProductQuery(productId!);
 	const [modal2Open, setModal2Open] = useState<boolean>(false);
 
 	const { TextArea } = Input;

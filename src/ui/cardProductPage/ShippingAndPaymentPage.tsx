@@ -1,16 +1,16 @@
 import { useParams } from 'react-router-dom';
 import scss from './ShippingAndPaymentPage.module.scss';
-import { useGetProductsItemIdQuery } from '@/src/redux/api/product';
 import {
 	IconCashUponReceipt,
 	IconKamazCar,
 	IconUponReceipt
 } from '@/src/assets/icons';
 import { IconCreditCard, IconWallet } from '@tabler/icons-react';
+import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 
 export const ShippingAndPaymentPage = () => {
 	const { productId } = useParams();
-	const { data, isLoading } = useGetProductsItemIdQuery(productId!);
+	const { data, isLoading } = useGetCardProductQuery(productId!);
 	return (
 		<section className={scss.ShippingAndPaymentPage}>
 			{isLoading ? (

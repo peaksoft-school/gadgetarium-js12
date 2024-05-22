@@ -44,7 +44,7 @@ const Login = () => {
 		signInWithPopup(auth, provider)
 			.then(async (result) => {
 				const token = result.user.getIdToken();
-				localStorage.setItem('auth_token', await token);
+				localStorage.setItem('token', await token);
 				localStorage.setItem('isAuth', 'true');
 				navigate('/admin');
 			})

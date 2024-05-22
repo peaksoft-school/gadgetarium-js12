@@ -12,16 +12,6 @@ const api = index.injectEndpoints({
 			}),
 			providesTags: ['product']
 		}),
-		getProductsItemId: build.query<
-			PRODUCTSTORE.GetProductsItemIdResponse,
-			PRODUCTSTORE.GetProductsItemIdRequest
-		>({
-			query: (_id) => ({
-				url: `https://c7c9df01cc80687d.mokky.dev/basket_products/${_id}`,
-				method: 'GET'
-			}),
-			providesTags: ['product']
-		}),
 		getProductDetails: build.query<
 			PRODUCTSTORE.GetProductDetailsResponse,
 			PRODUCTSTORE.GetProductDetailsRequest
@@ -66,7 +56,6 @@ const api = index.injectEndpoints({
 
 export const {
 	useGetProductsQuery,
-	useGetProductsItemIdQuery,
 	useGetProductDetailsQuery,
 	useEditAdminCommitMutation,
 	useDeleteProductsMutation,

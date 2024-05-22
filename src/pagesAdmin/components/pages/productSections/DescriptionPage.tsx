@@ -1,10 +1,9 @@
-import { useGetProductsItemIdQuery } from '@/src/redux/api/product';
+import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 import scss from './DescriptionPage.module.scss';
 import { useParams } from 'react-router-dom';
-
 const DescriptionPage = () => {
 	const { productId } = useParams();
-	const { data, isLoading } = useGetProductsItemIdQuery(productId!);
+	const { data, isLoading } = useGetCardProductQuery(productId!);
 	return (
 		<section className={scss.DescriptionPage}>
 			{isLoading ? (
