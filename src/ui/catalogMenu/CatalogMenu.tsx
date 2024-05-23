@@ -6,20 +6,42 @@ import scss from './CatalogMenu.module.scss';
 import { IconGridDots } from '@tabler/icons-react';
 import { ConfigProvider, Dropdown, MenuProps, theme } from 'antd';
 import { useState } from 'react';
+// import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
+import { Link } from 'react-router-dom';
 
 const CatalogMenu = () => {
 	const { data } = useGetCatalogProductsQuery();
 	const [idState, setIdState] = useState<number>(0);
+	const [filtredAddProductsState, setFiltredAddProductsState] = useState<
+		string[] | string
+	>(['']);
+	const [filtredProductsIds, setFiltredProductsIds] = useState<number>(0);
 
 	const handleAddSubCategories = (id: number) => {
-	setIdState(id);
+		setIdState(id);
 	};
+
+	const handleFiltredAddProducts = (id: number, brand: string) => {
+		console.log(id, 'id');
+		
+		setFiltredAddProductsState(brand);
+		setFiltredProductsIds(id);
+	};
+	// const { data: FiltredGatged = [] } = useGetFiltredGadgetQuery(
+	// 	filtredProductsIds,
+	// 	filtredAddProductsState
+	// );
 
 	const { data: SubCategories = [] } = useSubCategoriesQuery(idState!);
 	console.log(SubCategories);
 
 	if (!data) {
-		return <div>Loading...</div>;
+		return (
+			<button className={scss.button_for_loading}>
+				<IconGridDots />
+				Каталог
+			</button>
+		);
 	}
 
 	const items: MenuProps['items'] = data.map((category) => ({
@@ -31,7 +53,14 @@ const CatalogMenu = () => {
 		),
 		children: SubCategories.map((el) => ({
 			key: el.id,
-			label: el.categoryName
+			label: (
+				<Link
+					to={''}
+					onClick={() => handleFiltredAddProducts(category.id, el.categoryName)}
+				>
+					{el.categoryName}
+				</Link>
+			)
 		}))
 	}));
 

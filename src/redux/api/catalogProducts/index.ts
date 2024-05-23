@@ -13,7 +13,7 @@ const api = index.injectEndpoints({
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				}
 			}),
-			providesTags: ['cardProductApi']
+			providesTags: ['catalogApi']
 		}),
 		subCategories: build.query<
 			CATALOGAPI.SubCategoriesResponse,

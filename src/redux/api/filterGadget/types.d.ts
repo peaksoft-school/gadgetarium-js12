@@ -11,21 +11,28 @@ type Responses = {
 	price: number;
 	currentPrice: number;
 	percent: number;
+	likes: boolean;
+	compression: boolean;
+	basked: boolean;
 };
 
 namespace FILTREDPRODUCTS {
-	type GetFiltredProductsRequest = void;
+	type GetFiltredProductsRequest = {
+		id: number;
+		brand: string[];
+	};
 	type GetFiltredProductsResponse = {
+		id: number;
 		sort: null | string;
 		discount: null | string;
-		memory: null | string;
-		ram: null | string;
+		memory: null | string[];
+		ram: null | string[];
 		costFrom: null | number;
 		costUpTo: null | number;
-		colour: null | string;
-		brand: null | string;
+		colour: string[];
+		brand: string[];
 		page: null | number;
 		size: null | number;
 		responses: Responses[];
-	};
+	}[]
 }

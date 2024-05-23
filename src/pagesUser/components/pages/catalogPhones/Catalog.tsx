@@ -13,7 +13,7 @@ import {
 	phoneCatalog
 } from '@/src/data/Catalog';
 import { useEffect, useState } from 'react';
-import { useGetPhonesQuery } from '@/src/redux/api/phones';
+import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
 import {
 	IconHeart,
 	IconScale,
@@ -37,7 +37,7 @@ const Catalog = () => {
 	const { data: BasketData = [] } = useGetBasketQuery();
 	const [priceLow, setPriceLow] = useState<string>('');
 	const [priceHigh, setPriceHigh] = useState('');
-	const { data: posts } = useGetPhonesQuery();
+	const { data: posts } = useGetFiltredGadgetQuery();
 	const categoryArray: string[] = [];
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 

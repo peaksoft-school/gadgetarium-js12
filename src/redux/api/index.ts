@@ -33,7 +33,7 @@ export const api = createApi({
 		'slider',
 		'favorite',
 		'comparison',
-		'phones',
+		'filterProductsApi',
 		'personalFavorite',
 		'personalHistory',
 		'adminOrders',
