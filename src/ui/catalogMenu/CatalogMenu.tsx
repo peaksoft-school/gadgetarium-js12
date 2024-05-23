@@ -23,7 +23,7 @@ const CatalogMenu = () => {
 
 	const handleFiltredAddProducts = (id: number, brand: string) => {
 		console.log(id, 'id');
-		
+
 		setFiltredAddProductsState(brand);
 		setFiltredProductsIds(id);
 	};
@@ -37,10 +37,12 @@ const CatalogMenu = () => {
 
 	if (!data) {
 		return (
-			<button className={scss.button_for_loading}>
-				<IconGridDots />
-				Каталог
-			</button>
+			<>
+				<button className={scss.button_for_loading}>
+					<IconGridDots />
+					Каталог
+				</button>
+			</>
 		);
 	}
 
