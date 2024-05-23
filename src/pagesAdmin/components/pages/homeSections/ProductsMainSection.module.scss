@@ -1,6 +1,9 @@
 .ProductsMainSection {
+	width: 100%;
+	height: auto;
+	background: rgb(255, 255, 255);
 	.content {
-		margin-top: 45px;
+		padding-block: 40px;
 		display: flex;
 		justify-content: space-between;
 		@media (max-width: 1526px) {

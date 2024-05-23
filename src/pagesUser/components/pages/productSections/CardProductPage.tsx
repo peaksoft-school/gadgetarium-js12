@@ -11,6 +11,8 @@ import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
 import { IconRedHeart } from '@/src/assets/icons';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
+import { ViewedProducts } from '@/src/ui/ViewedProducts/ViewedProducts';
+
 
 const CardProductPage = () => {
 	const [basketAddProduct] = useBasketPutProductMutation();
@@ -324,6 +326,7 @@ const CardProductPage = () => {
 				</div>
 
 				<InfoPageForProduct />
+				<ViewedProducts />
 			</section>
 			<ConfigProvider
 				theme={{
