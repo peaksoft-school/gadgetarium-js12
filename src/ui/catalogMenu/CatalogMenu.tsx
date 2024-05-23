@@ -5,43 +5,34 @@ import {
 import scss from './CatalogMenu.module.scss';
 import { IconGridDots } from '@tabler/icons-react';
 import { ConfigProvider, Dropdown, MenuProps, theme } from 'antd';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const CatalogMenu = () => {
 	const { data } = useGetCatalogProductsQuery();
-	const { data: SubCategories = [] } = useSubCategoriesQuery(0);
+	const [idState, setIdState] = useState<number>(0);
 
-	function handle(id: number) {
-		console.log(id);
-		
-		// SubCategories.push(id);
-		// console.log(SubCategories);
-	}
+	const handleAddSubCategories = (id: number) => {
+	setIdState(id);
+	};
+
+	const { data: SubCategories = [] } = useSubCategoriesQuery(idState!);
+	console.log(SubCategories);
 
 	if (!data) {
-		// Пока данные загружаются, можно вернуть загрузочный компонент или null
 		return <div>Loading...</div>;
 	}
 
 	const items: MenuProps['items'] = data.map((category) => ({
 		key: category.id,
 		label: (
-			<p onMouseEnter={() => handle(category.id)}>{category.categoryName}</p>
+			<p onMouseEnter={() => handleAddSubCategories(category.id)}>
+				{category.categoryName}
+			</p>
 		),
-		children: [
-			{
-				key: `${category.id}-1`,
-				label: 'Apple'
-			},
-			{
-				key: `${category.id}-2`,
-				label: 'Samsung'
-			},
-			{
-				key: `${category.id}-3`,
-				label: 'Redmi'
-			}
-		]
+		children: SubCategories.map((el) => ({
+			key: el.id,
+			label: el.categoryName
+		}))
 	}));
 
 	const antdThemeConfig = {
@@ -77,4 +68,3 @@ const CatalogMenu = () => {
 };
 
 export default CatalogMenu;
-

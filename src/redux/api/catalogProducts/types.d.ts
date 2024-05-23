@@ -7,7 +7,7 @@ namespace CATALOGAPI {
 		categoryName: string;
 	}[];
 
-	type SubCategoriesRequest = any;
+	type SubCategoriesRequest = number;
 	type SubCategoriesResponse = {
 		id: number;
 		categoryName: string;

@@ -19,7 +19,7 @@ const api = index.injectEndpoints({
 			CATALOGAPI.SubCategoriesResponse,
 			CATALOGAPI.SubCategoriesRequest
 		>({
-			query: ({ id }) => ({
+			query: (id) => ({
 				url: `/api/gadget/${id}/sub-categories`,
 				method: 'GET',
 				headers: {
