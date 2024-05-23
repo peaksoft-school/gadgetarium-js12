@@ -11,6 +11,7 @@ import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { IconRedHeart } from '@/src/assets/icons';
+import { ViewedProducts } from '@/src/ui/ViewedProducts/ViewedProducts';
 
 const CardProductPage = () => {
 	const [basketAddProduct] = useBasketPutProductMutation();
@@ -309,16 +310,17 @@ const CardProductPage = () => {
 				</div>
 
 				<InfoPageForProduct />
+				<ViewedProducts />
 			</section>
-			<ConfigProvider 
-			theme={{
-				components: {
-					Modal: {
-						colorBgElevated: 'white',
-						algorithm: true
+			<ConfigProvider
+				theme={{
+					components: {
+						Modal: {
+							colorBgElevated: 'white',
+							algorithm: true
+						}
 					}
-				}
-			}}
+				}}
 			>
 				<Modal
 					title="Iphones"
