@@ -14,7 +14,6 @@ type Register = {
 };
 
 type Login = {
-	// id: userAndAdminId;
 	token: string;
 	authority: boolean;
 };
@@ -46,12 +45,11 @@ type RegisterForms = {
 	email: string;
 	password: string;
 	lastName: string;
-	firsName: string;
+	firstName: string;
 	phoneNumber: string;
+	address: string;
 	confirmThePassword: string;
 };
-
-
 
 type ContactsPagesFormTypes = {
 	firstName: string;

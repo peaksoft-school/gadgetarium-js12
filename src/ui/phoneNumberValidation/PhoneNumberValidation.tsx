@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
@@ -10,6 +10,8 @@ const PhoneNumberValidation = () => {
 		setPhoneNumber(value);
 		setValid(validationPhoneNumber(value));
 	};
+	const PhoneInputWrapper = forwardRef((props, ref) => {
+		const phoneInputRef = useRef<React.ElementRef<typeof PhoneInput>>(null);
 
 	const validationPhoneNumber = (phoneNumber: string): boolean => {
 		const phoneNumberPattern = /^\+[1-9]\d{1,14}$/;
@@ -39,6 +41,6 @@ const PhoneNumberValidation = () => {
 			/>
 		</div>
 	);
-};
+});
 
 export default PhoneNumberValidation;

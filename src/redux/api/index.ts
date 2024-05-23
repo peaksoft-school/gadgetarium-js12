@@ -5,11 +5,15 @@ import {
 } from '@reduxjs/toolkit/query/react';
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: import.meta.env.VITE_PRODUCT_URL
-	// prepareHeaders: (headers) => {
-	// 	return headers;
-	// },
-	// credentials: 'include'
+	baseUrl: import.meta.env.VITE_PRODUCT_URL,
+	prepareHeaders: (headers) => {
+		const token = localStorage.getItem('token-auth');
+		if (token) {
+			headers.set('Authorization', `Bearer ${token}`);
+		}
+		return headers;
+	},
+	
 });
 
 const baseQueryExtended: BaseQueryFn = async (args, api, extraOptions) => {
@@ -35,6 +39,7 @@ export const api = createApi({
 		'adminOrders',
 		'productAdd',
 		'viewedProducts'
+
 	],
 
 	endpoints: () => ({})

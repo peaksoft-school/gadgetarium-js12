@@ -9,7 +9,6 @@ import OrderCourierOnTheWay from '../pages/ordersSections/OrderCourierOnTheWay';
 import OrderDelivered from '../pages/ordersSections/OrderDelivered';
 import OrderCancelled from '../pages/ordersSections/OrderCancelled';
 import ReviewPage from '../pages/ReviewAdminPage';
-import OrdersAdminPage from '../pages/OrdersAdminPage';
 import { ProductPage } from '../pages/ProductPage';
 import ProductAddPage2 from '../pages/ProductAddPage2';
 import ProductAddPage3 from '../pages/ProductAddPage3';
@@ -64,7 +63,6 @@ const LayoutAdmin = () => {
 							element={<OrderSinglePage />}
 						></Route>
 						<Route path="/review" element={<ReviewPage />} />
-						<Route path="/ordersAdmin" element={<OrdersAdminPage />} />
 
 						<Route
 							path="/goodsPage/product-page/:productId"

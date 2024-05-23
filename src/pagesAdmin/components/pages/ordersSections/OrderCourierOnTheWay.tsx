@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IconTrash } from '@tabler/icons-react';
 import scss from './OrderInProcessing.module.scss';
@@ -6,11 +7,20 @@ import {
 	useDeleteAdminOrderMutation,
 	useGetAdminOrderQuery
 } from '@/src/redux/api/adminOrders';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import CustomSelect from '@/src/ui/customSelect/CustomSelect';
 import ModalWindow from '@/src/ui/modal/Modal';
-import { ConfigProvider, DatePicker, DatePickerProps, theme } from 'antd';
-import Input, { SearchProps } from 'antd/es/input';
+import {
+	ConfigProvider,
+	DatePicker,
+	DatePickerProps,
+	Input,
+	theme
+} from 'antd';
+import { SearchProps } from 'antd/es/input';
+import CustomModal from '@/src/ui/modalAdmin/CustomModal';
+import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
+import CustomButtonAdd from '@/src/ui/adminButtons/CustomButtonAdd';
 import Infographics from '@/src/ui/infographics/Infographics';
 
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
@@ -26,6 +36,11 @@ const OrderCourierOnTheWay = () => {
 
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 	const [modalName, setModalName] = useState('');
+
+	const [day, setDay] = useState(true);
+	const [month, setMonth] = useState(false);
+	const [year, setYear] = useState(false);
+
 	const [orderIdToDelete, setOrderIdToDelete] = useState('');
 
 	const handleDeleteOrder = async () => {
@@ -74,7 +89,10 @@ const OrderCourierOnTheWay = () => {
 	const processingOrders =
 		adminOrders?.filter((order) => order.status === 'Курьер в пути') || [];
 
-	const handleOpenModal = (orderId: string, event: any) => {
+	const handleOpenModal = (
+		orderId: string,
+		event: React.MouseEvent<SVGSVGElement, MouseEvent>
+	) => {
 		event.stopPropagation();
 		event.preventDefault();
 		setModalIsOpen(true);
@@ -83,7 +101,7 @@ const OrderCourierOnTheWay = () => {
 
 	const countOrdersByStatus = (orders: any[]) => {
 		return orders.reduce(
-			(acc: { [x: string]: any }, order: { status: string | number }) => {
+			(acc: { [x: string]: number }, order: { status: string | number }) => {
 				acc[order.status] = (acc[order.status] || 0) + 1;
 				return acc;
 			},
@@ -91,6 +109,20 @@ const OrderCourierOnTheWay = () => {
 		);
 	};
 	const statusCounts = countOrdersByStatus(adminOrders || []);
+	const antaThemeConfig = {
+		algorithm: theme.defaultAlgorithm,
+		token: {
+			colorPrimary: '#cb11ab',
+			colorBgContainer: 'transparent'
+		}
+	};
+	const antdThemeConfig = {
+		algorithm: theme.defaultAlgorithm,
+		token: {
+			colorPrimary: '#cb11ab',
+			colorBgContainer: 'transparent'
+		}
+	};
 
 	const antdThemeConfig = {
 		algorithm: theme.defaultAlgorithm,
@@ -106,7 +138,7 @@ const OrderCourierOnTheWay = () => {
 					<div className={scss.content_left}>
 						<div className={scss.content_left_1}>
 							<div className={scss.search_div}>
-								<ConfigProvider theme={antdThemeConfig}>
+								<ConfigProvider theme={antaThemeConfig}>
 									<Input.Search
 										className={scss.search}
 										size="large"

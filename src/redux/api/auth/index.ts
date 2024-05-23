@@ -4,7 +4,7 @@ const api = index.injectEndpoints({
 	endpoints: (build) => ({
 		postLogin: build.mutation<AUTH.PostLoginResponse, AUTH.PostLoginRequest>({
 			query: (newData) => ({
-				url: '',
+				url: '/api/auth/sign-in',
 				method: 'POST',
 				body: newData
 			}),
@@ -15,13 +15,30 @@ const api = index.injectEndpoints({
 			AUTH.PostRegisterRequest
 		>({
 			query: (newData) => ({
-				url: '',
+				url: '/api/auth/sign-up',
 				method: 'POST',
 				body: newData
 			}),
+			invalidatesTags: ['auth']
+		}),
+		postForgot: build.mutation<
+			AUTH.PostForgotEmailResponse,
+			AUTH.POstForgotEmailRequest
+		>({
+			query: (newData) => (
+				console.log(newData),
+				{
+					url: `/api/reset?email=${newData.email}`,
+					method: 'POST'
+				}
+			),
 			invalidatesTags: ['auth']
 		})
 	})
 });
 
-export const { usePostLoginMutation, usePostRegisterMutation } = api;
+export const {
+	usePostLoginMutation,
+	usePostRegisterMutation,
+	usePostForgotMutation
+} = api;

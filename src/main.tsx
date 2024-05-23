@@ -7,12 +7,15 @@ import App from './App.tsx';
 import './index.scss';
 import { BrowserRouter } from 'react-router-dom';
 import ReduxProvider from './provider/ReduxProvider.tsx';
+import PrivateRoute from './provider/PrivateRoute.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<ReduxProvider>
-				<App />
+				<PrivateRoute>
+					<App />
+				</PrivateRoute>
 			</ReduxProvider>
 		</BrowserRouter>
 	</React.StrictMode>
