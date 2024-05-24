@@ -11,7 +11,7 @@ import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
 import { IconRedHeart } from '@/src/assets/icons';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
-import { ViewedProducts } from '@/src/ui/ViewedProducts/ViewedProducts';
+import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
 
 
 const CardProductPage = () => {

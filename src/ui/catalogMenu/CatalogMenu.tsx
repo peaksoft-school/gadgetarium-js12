@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
 	useGetCatalogProductsQuery,
 	useSubCategoriesQuery
@@ -5,35 +6,36 @@ import {
 import scss from './CatalogMenu.module.scss';
 import { IconGridDots } from '@tabler/icons-react';
 import { ConfigProvider, Dropdown, MenuProps, theme } from 'antd';
-import { useState } from 'react';
-// import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
-import { Link } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { useGetFiltredGadgetMutation } from '@/src/redux/api/filterGadget';
+import { Link, useNavigate } from 'react-router-dom';
+import { ContextForFiltredProducts } from '@/src/context/FiltredProductsForApi';
+import { Data } from '@/src/redux/api/dataApi';
 
 const CatalogMenu = () => {
+	const { responseData, setResponseData } = useContext(
+		ContextForFiltredProducts
+	);
+	// console.log(responseData.responses, 'test');
+
+	const navigate = useNavigate();
 	const { data } = useGetCatalogProductsQuery();
 	const [idState, setIdState] = useState<number>(0);
-	const [filtredAddProductsState, setFiltredAddProductsState] = useState<
-		string[] | string
-	>(['']);
-	const [filtredProductsIds, setFiltredProductsIds] = useState<number>(0);
-
+	const [addFiltredProducts] = useGetFiltredGadgetMutation();
 	const handleAddSubCategories = (id: number) => {
 		setIdState(id);
 	};
 
-	const handleFiltredAddProducts = (id: number, brand: string) => {
-		console.log(id, 'id');
-
-		setFiltredAddProductsState(brand);
-		setFiltredProductsIds(id);
+	const handleFiltredAddProducts = async (id: number, brand: string) => {
+		// navigate('');
+		const response = await addFiltredProducts({ id, brand });
+		// setResponseData(response.data);
+		const result = response.data = Data;
+		console.log(Data ,'Hello');
 	};
-	// const { data: FiltredGatged = [] } = useGetFiltredGadgetQuery(
-	// 	filtredProductsIds,
-	// 	filtredAddProductsState
-	// );
+	console.log(responseData, 'kjfhdukjfdhsufd');
 
 	const { data: SubCategories = [] } = useSubCategoriesQuery(idState!);
-	console.log(SubCategories);
 
 	if (!data) {
 		return (
@@ -49,19 +51,21 @@ const CatalogMenu = () => {
 	const items: MenuProps['items'] = data.map((category) => ({
 		key: category.id,
 		label: (
-			<p onMouseEnter={() => handleAddSubCategories(category.id)}>
+			<Link
+				to={`/catalog/phones`}
+				onMouseEnter={() => handleAddSubCategories(category.id)}
+			>
 				{category.categoryName}
-			</p>
+			</Link>
 		),
 		children: SubCategories.map((el) => ({
 			key: el.id,
 			label: (
-				<Link
-					to={''}
+				<p
 					onClick={() => handleFiltredAddProducts(category.id, el.categoryName)}
 				>
 					{el.categoryName}
-				</Link>
+				</p>
 			)
 		}))
 	}));

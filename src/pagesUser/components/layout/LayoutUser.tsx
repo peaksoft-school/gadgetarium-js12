@@ -21,6 +21,7 @@ import Profile from '../pages/personalAccountSections/Profile.tsx';
 import Favorite from '../pages/personalAccountSections/Favorite.tsx';
 import HistoryOfOrders from '../pages/personalAccountSections/HistoryOfOrders.tsx';
 import HistorySinglePage from '../pages/personalAccountSections/HistorySinglePage.tsx';
+import { ContextApi } from '@/src/context/FiltredProductsForApi.tsx';
 
 const LayoutUser = () => {
 	const { pathname } = useLocation();
@@ -68,15 +69,19 @@ const LayoutUser = () => {
 			<div className={scss.Layout}>
 				{!isMobile ? (
 					<>
-						<SupHeader />
-						<SubHeader isMobile={isMobile} isScrolled={isScrolled} />
+						<ContextApi>
+							<SupHeader />
+							<SubHeader isMobile={isMobile} isScrolled={isScrolled} />
+						</ContextApi>
 					</>
 				) : (
 					<>
-						<HeaderMobile
-							isOpenMobileMenu={isOpenMobileMenu}
-							setIsOpenMobileMenu={setIsOpenMobileMenu}
-						/>
+						<ContextApi>
+							<HeaderMobile
+								isOpenMobileMenu={isOpenMobileMenu}
+								setIsOpenMobileMenu={setIsOpenMobileMenu}
+							/>
+						</ContextApi>
 					</>
 				)}
 				<main>
@@ -87,7 +92,14 @@ const LayoutUser = () => {
 						<Route path="/faq" element={<FaqPage />} />
 						<Route path="/contacts" element={<ContactsPage />} />
 
-						<Route path="/catalog/phones" element={<CatalogPage />} />
+						<Route
+							path="/catalog/phones"
+							element={
+								<ContextApi>
+									<CatalogPage />
+								</ContextApi>
+							}
+						/>
 						<Route path="/comparison" element={<ComparisonPage />} />
 						<Route path="/favorite" element={<FavoritePage />} />
 						<Route path="/basket" element={<BasketPage />} />
@@ -98,10 +110,16 @@ const LayoutUser = () => {
 						/>
 						<Route path="/pay/*" element={<PayPage />} />
 
-						<Route path="personal-account/profile" element={<Profile/>}/>
-						<Route path="personal-account/favorite" element={<Favorite/>}/>
-						<Route path="personal-account/history-of-orders" element={<HistoryOfOrders/>}/>
-						<Route path="personal-account/history-of-orders/my-orders/:id" element={<HistorySinglePage/>}></Route>
+						<Route path="personal-account/profile" element={<Profile />} />
+						<Route path="personal-account/favorite" element={<Favorite />} />
+						<Route
+							path="personal-account/history-of-orders"
+							element={<HistoryOfOrders />}
+						/>
+						<Route
+							path="personal-account/history-of-orders/my-orders/:id"
+							element={<HistorySinglePage />}
+						></Route>
 					</Routes>
 				</main>
 				<Footer />

@@ -19,7 +19,17 @@ type Responses = {
 namespace FILTREDPRODUCTS {
 	type GetFiltredProductsRequest = {
 		id: number;
+		sort: null | string;
+		discount: null | string;
+		memory: null | string[];
+		ram: null | string[];
+		costFrom: null | number;
+		costUpTo: null | number;
+		colour: string[];
 		brand: string[];
+		page: null | number;
+		size: null | number;
+		responses: Responses[];
 	};
 	type GetFiltredProductsResponse = {
 		id: number;
@@ -34,5 +44,35 @@ namespace FILTREDPRODUCTS {
 		page: null | number;
 		size: null | number;
 		responses: Responses[];
-	}[]
+		// data?: {
+		// 	id: number;
+		// 	sort: null | string;
+		// 	discount: null | string;
+		// 	memory: null | string[];
+		// 	ram: null | string[];
+		// 	costFrom: null | number;
+		// 	costUpTo: null | number;
+		// 	colour: string[];
+		// 	brand: string[];
+		// 	page: null | number;
+		// 	size: null | number;
+		// 	responses: Responses[];
+		// };
+	};
+
+	type GetProductsForFiltredRequest = number;
+	type GetProductsForFiltredResponse = {
+		id: number;
+		sort: null | string;
+		discount: null | string;
+		memory: null | string[];
+		ram: null | string[];
+		costFrom: null | number;
+		costUpTo: null | number;
+		colour: string[];
+		brand: string[];
+		page: null | number;
+		size: null | number;
+		responses: Responses[];
+	};
 }

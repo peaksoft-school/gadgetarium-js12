@@ -12,8 +12,8 @@ import {
 	moreGBiteCatalog,
 	phoneCatalog
 } from '@/src/data/Catalog';
-import { useEffect, useState } from 'react';
-import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
+import { useContext, useEffect, useState } from 'react';
+import { useGetFiltredGadgetMutation } from '@/src/redux/api/filterGadget';
 import {
 	IconHeart,
 	IconScale,
@@ -28,16 +28,23 @@ import {
 } from '@/src/redux/api/basket';
 import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
 import { useAddProductsFotComparisonMutation } from '@/src/redux/api/comparison';
+import { ContextForFiltredProducts } from '@/src/context/FiltredProductsForApi';
 
 const Catalog = () => {
 	const navigate = useNavigate();
 	const [addProductBasket] = useBasketPutProductMutation();
 	const [addProductsForFavorite] = useAddProductsForFavoriteMutation();
 	const [addComparisonProducts] = useAddProductsFotComparisonMutation();
+
 	const { data: BasketData = [] } = useGetBasketQuery();
 	const [priceLow, setPriceLow] = useState<string>('');
 	const [priceHigh, setPriceHigh] = useState('');
-	const { data: posts } = useGetFiltredGadgetQuery();
+	// const { data: posts } = useGetFiltredGadgetQuery();
+	const { responseData, setResponseData } = useContext(
+		ContextForFiltredProducts
+	);
+	console.log(responseData, 'kjfhdukjfdhsufd');
+
 	const categoryArray: string[] = [];
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
@@ -48,6 +55,9 @@ const Catalog = () => {
 	const [reduceThree, setReduceThree] = useState(false);
 	const [reduceFour, setReduceFour] = useState(false);
 	const [reduceFive, setReduceFive] = useState(false);
+
+	// !
+	const [addGetFiltredProducts] = useGetFiltredGadgetMutation();
 
 	const [hideColours, setHideColours] = useState(false);
 
@@ -112,7 +122,13 @@ const Catalog = () => {
 			console.log(filtredBasketProductsItemId);
 		}
 	}, []);
-
+	useEffect(() => {
+		if (responseData.responses !== null) {
+			console.log(responseData.responses, 'Esen for test');
+		} else {
+			console.log(undefined);
+		}
+	}, [responseData]);
 	return (
 		<section className={scss.catalog}>
 			<div className="container">
@@ -406,7 +422,7 @@ const Catalog = () => {
 								</div>
 							</div>
 							<div className={scss.cardss}>
-								{posts?.responses.map((e) => (
+								{/* {posts?.responses.map((e) => (
 									<div className={scss.cards} key={e.id}>
 										<div className={scss.card}>
 											<div
@@ -478,7 +494,86 @@ const Catalog = () => {
 											</div>
 										</div>
 									</div>
-								))}
+								))} */}
+								{responseData.page !== null ? responseData.page : 'Esen'}
+								{responseData.responses !== null
+									? responseData?.responses.map((e) => (
+											<div className={scss.cards} key={e.id}>
+												<div className={scss.card}>
+													<p>{responseData.brand.map((el) => el)}</p>
+													<div
+														className={
+															e.percent === 0
+																? `${scss.top_card} ${scss.active_top_card}`
+																: `${scss.top_card}`
+														}
+													>
+														<p
+															className={
+																e.percent === 0
+																	? `${scss.p} ${scss.percent}`
+																	: `${scss.p}`
+															}
+														>
+															{e.percent !== 0 && e.percent}{' '}
+														</p>{' '}
+														<div className={scss.top_icons}>
+															<IconScale
+																onClick={() =>
+																	handleAddProductsComparisonFunk(e.id)
+																}
+															/>
+
+															<IconHeart
+																onClick={() =>
+																	handleAddProductsFavoriteFunk(e.id)
+																}
+															/>
+														</div>
+													</div>
+													<div className={scss.middle_image_card}>
+														<Link to={`/catalog/phones/${e.id}`}>
+															<img src={e.image} alt="Phone" />
+														</Link>
+													</div>
+													<div className={scss.middle_card}>
+														<p className={scss.phone_quantity}>
+															В наличии {e.quantity}
+														</p>
+														<h3>{e.brandNameOfGadget}</h3>
+														<div className={scss.phone_rating}>
+															<p>Рейтинг</p>
+															<Rate defaultValue={e.rating} />
+															<p>({e.rating})</p>
+														</div>
+													</div>
+													<div className={scss.bottom_card}>
+														<div className={scss.phone_prices}>
+															<p className={scss.phone_price}>{e.price}</p>
+															<p className={scss.phone_old_price}>
+																{e.currentPrice}
+															</p>
+														</div>
+														<div
+															className={
+																filtredBasketProductsItemId?.some(
+																	(el) => el !== e.id
+																)
+																	? `${scss.bottom_cart} ${scss.active_basket_button}`
+																	: `${scss.bottom_cart}`
+															}
+															onClick={() => {
+																handleBasketProductsFunk(e.id);
+															}}
+														>
+															<IconShoppingCart />
+															<p>В корзину</p>
+														</div>
+													</div>
+												</div>
+											</div>
+										))
+									: 'Not'}
 							</div>
 							<div className={scss.showButtons}>
 								{!allPhones && (
