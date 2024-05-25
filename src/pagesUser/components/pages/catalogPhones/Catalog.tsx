@@ -1,6 +1,6 @@
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import scss from './Catalog.module.scss';
 import arrow from '@/src/assets/map/arrowtop.png';
 import arrowDown from '@/src/assets/map/arrowDown.png';
@@ -12,8 +12,8 @@ import {
 	moreGBiteCatalog,
 	phoneCatalog
 } from '@/src/data/Catalog';
-import { useContext, useEffect, useState } from 'react';
-import { useGetFiltredGadgetMutation } from '@/src/redux/api/filterGadget';
+import { useEffect, useState } from 'react';
+import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
 import {
 	IconHeart,
 	IconScale,
@@ -28,22 +28,25 @@ import {
 } from '@/src/redux/api/basket';
 import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
 import { useAddProductsFotComparisonMutation } from '@/src/redux/api/comparison';
-import { ContextForFiltredProducts } from '@/src/context/FiltredProductsForApi';
-
+import { useSubCategoriesQuery } from '@/src/redux/api/catalogProducts';
 const Catalog = () => {
 	const navigate = useNavigate();
+	const { brand, filtredIds } = useParams();
+	const { data: subCategories = [] } = useSubCategoriesQuery(filtredIds!);
 	const [addProductBasket] = useBasketPutProductMutation();
 	const [addProductsForFavorite] = useAddProductsForFavoriteMutation();
 	const [addComparisonProducts] = useAddProductsFotComparisonMutation();
 
 	const { data: BasketData = [] } = useGetBasketQuery();
 	const [priceLow, setPriceLow] = useState<string>('');
+	const [filtredForBrand, setFiltredForBrand] = useState<string | null>('');
 	const [priceHigh, setPriceHigh] = useState('');
-	// const { data: posts } = useGetFiltredGadgetQuery();
-	const { responseData, setResponseData } = useContext(
-		ContextForFiltredProducts
-	);
-	console.log(responseData, 'kjfhdukjfdhsufd');
+	const { data: posts, isLoading } = useGetFiltredGadgetQuery({
+		id: filtredIds,
+		brand: brand || filtredForBrand
+	});
+
+	console.log(posts, 'is Array');
 
 	const categoryArray: string[] = [];
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -57,7 +60,6 @@ const Catalog = () => {
 	const [reduceFive, setReduceFive] = useState(false);
 
 	// !
-	const [addGetFiltredProducts] = useGetFiltredGadgetMutation();
 
 	const [hideColours, setHideColours] = useState(false);
 
@@ -83,10 +85,20 @@ const Catalog = () => {
 	};
 
 	const handleSelectedCategory = (category: string) => {
-		if (selectedCategories.includes(category)) {
-			setSelectedCategories(selectedCategories.filter((c) => c !== category));
+		// if (selectedCategories.includes(category)) {
+		// 	setSelectedCategories(selectedCategories.filter((c) => c !== category));
+		// } else {
+		// 	setSelectedCategories([...selectedCategories, category]);
+		// }
+		console.log(filtredForBrand);
+
+		console.log('test');
+		if (posts?.brand.includes(category)) {
+			// alert('')
+
+			setFiltredForBrand('');
 		} else {
-			setSelectedCategories([...selectedCategories, category]);
+			setFiltredForBrand(category);
 		}
 	};
 
@@ -122,13 +134,6 @@ const Catalog = () => {
 			console.log(filtredBasketProductsItemId);
 		}
 	}, []);
-	useEffect(() => {
-		if (responseData.responses !== null) {
-			console.log(responseData.responses, 'Esen for test');
-		} else {
-			console.log(undefined);
-		}
-	}, [responseData]);
 	return (
 		<section className={scss.catalog}>
 			<div className="container">
@@ -172,22 +177,28 @@ const Catalog = () => {
 										</div>
 
 										<div className={scss.categoriesDiv}>
-											{phoneCatalog.map((e, index) => (
+											{subCategories?.map((e, index) => (
 												<div className={scss.categories} key={index}>
 													<input
-														id={e.phone}
+														id={e.categoryName}
 														type="checkbox"
 														checked={
-															selectedCategories.includes(e.phone) &&
-															categoryArray.push(e.phone)
+															// selectedCategories.includes(e.categoryName) &&
+															// categoryArray.push(e.categoryName)
+															e.categoryName === brand ||
+															posts?.brand.includes(e.categoryName)
 																? true
 																: false
 														}
-														onChange={() => handleSelectedCategory(e.phone)}
-														onClick={() => handleSelectedCategory(e.phone)}
+														onChange={() =>
+															handleSelectedCategory(e.categoryName)
+														}
+														onClick={() =>
+															handleSelectedCategory(e.categoryName)
+														}
 													/>
-													<label htmlFor={e.phone}>
-														<p>{e.phone}</p>
+													<label htmlFor={e.categoryName}>
+														<p>{e.categoryName}</p>
 													</label>
 												</div>
 											))}
@@ -422,85 +433,13 @@ const Catalog = () => {
 								</div>
 							</div>
 							<div className={scss.cardss}>
-								{/* {posts?.responses.map((e) => (
-									<div className={scss.cards} key={e.id}>
-										<div className={scss.card}>
-											<div
-												className={
-													e.percent === 0
-														? `${scss.top_card} ${scss.active_top_card}`
-														: `${scss.top_card}`
-												}
-											>
-												<p
-													className={
-														e.percent === 0
-															? `${scss.p} ${scss.percent}`
-															: `${scss.p}`
-													}
-												>
-													{e.percent !== 0 && e.percent}{' '}
-												</p>{' '}
-												<div className={scss.top_icons}>
-													<IconScale
-														onClick={() =>
-															handleAddProductsComparisonFunk(e.id)
-														}
-													/>
-
-													<IconHeart
-														onClick={() => handleAddProductsFavoriteFunk(e.id)}
-													/>
-												</div>
-											</div>
-											<div className={scss.middle_image_card}>
-												<Link to={`/catalog/phones/${e.id}`}>
-													<img src={e.image} alt="Phone" />
-												</Link>
-											</div>
-											<div className={scss.middle_card}>
-												<p className={scss.phone_quantity}>
-													В наличии {e.quantity}
-												</p>
-												<h3>{e.brandNameOfGadget}</h3>
-												<div className={scss.phone_rating}>
-													<p>Рейтинг</p>
-													<Rate defaultValue={e.rating} />
-													<p>({e.rating})</p>
-												</div>
-											</div>
-											<div className={scss.bottom_card}>
-												<div className={scss.phone_prices}>
-													<p className={scss.phone_price}>{e.price}</p>
-													<p className={scss.phone_old_price}>
-														{e.currentPrice}
-													</p>
-												</div>
-												<div
-													className={
-														filtredBasketProductsItemId?.some(
-															(el) => el !== e.id
-														)
-															? `${scss.bottom_cart} ${scss.active_basket_button}`
-															: `${scss.bottom_cart}`
-													}
-													onClick={() => {
-														handleBasketProductsFunk(e.id);
-													}}
-												>
-													<IconShoppingCart />
-													<p>В корзину</p>
-												</div>
-											</div>
-										</div>
-									</div>
-								))} */}
-								{responseData.page !== null ? responseData.page : 'Esen'}
-								{responseData.responses !== null
-									? responseData?.responses.map((e) => (
+								{isLoading ? (
+									<h1>IsLoading...</h1>
+								) : (
+									<>
+										{posts?.responses.map((e) => (
 											<div className={scss.cards} key={e.id}>
 												<div className={scss.card}>
-													<p>{responseData.brand.map((el) => el)}</p>
 													<div
 														className={
 															e.percent === 0
@@ -572,8 +511,9 @@ const Catalog = () => {
 													</div>
 												</div>
 											</div>
-										))
-									: 'Not'}
+										))}
+									</>
+								)}
 							</div>
 							<div className={scss.showButtons}>
 								{!allPhones && (

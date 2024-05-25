@@ -91,99 +91,103 @@ const ProductsNew = () => {
 								</>
 							) : (
 								<>
-									{productData?.slice(0, isVisible).map((item) => (
-										<div className={scss.div_product_map} key={item.id}>
-											<div className={scss.div_icons}>
-												<div className={scss.minus_promotion}>New</div>
-												<div className={scss.div_two_icons}>
-													<button
-														onMouseEnter={() => setActiveScaleId(item.id)}
-														onMouseLeave={() => setActiveScaleId(null)}
-														onClick={() =>
-															handleScaleClick(item.id, item.isComparison)
-														}
-													>
+									{productData.length === 0 ? (
+										<h1>Здесь нет товаров</h1>
+									) : (
+										productData?.slice(0, isVisible).map((item) => (
+											<div className={scss.div_product_map} key={item.id}>
+												<div className={scss.div_icons}>
+													<div className={scss.minus_promotion}>New</div>
+													<div className={scss.div_two_icons}>
+														<button
+															onMouseEnter={() => setActiveScaleId(item.id)}
+															onMouseLeave={() => setActiveScaleId(null)}
+															onClick={() =>
+																handleScaleClick(item.id, item.isComparison)
+															}
+														>
+															<Tooltip
+																title={
+																	item.isComparison === false
+																		? 'Добавить к сравнению'
+																		: 'Удалить из сравнения'
+																}
+																color="#c11bab"
+															>
+																<IconScale
+																	className={
+																		item.isComparison === true
+																			? `${scss.scale} ${scss.active}`
+																			: scss.scale
+																	}
+																/>
+															</Tooltip>
+														</button>
 														<Tooltip
 															title={
-																item.isComparison === false
-																	? 'Добавить к сравнению'
-																	: 'Удалить из сравнения'
+																item.isFavorite === false
+																	? 'Добавить в избранное'
+																	: 'Удалить из избранного'
 															}
 															color="#c11bab"
 														>
-															<IconScale
-																className={
-																	item.isComparison === true
-																		? `${scss.scale} ${scss.active}`
-																		: scss.scale
+															<button
+																className={scss.heart}
+																onClick={() =>
+																	handleHeartClick(item.id, item.isFavorite)
 																}
-															/>
+																onMouseEnter={() => setActiveHeartId(item.id)}
+																onMouseLeave={() => setActiveHeartId(null)}
+															>
+																{item.isFavorite === true ? (
+																	<IconRedHeart />
+																) : (
+																	<IconHeart />
+																)}
+															</button>
 														</Tooltip>
-													</button>
-													<Tooltip
-														title={
-															item.isFavorite === false
-																? 'Добавить в избранное'
-																: 'Удалить из избранного'
-														}
-														color="#c11bab"
-													>
-														<button
-															className={scss.heart}
-															onClick={() =>
-																handleHeartClick(item.id, item.isFavorite)
-															}
-															onMouseEnter={() => setActiveHeartId(item.id)}
-															onMouseLeave={() => setActiveHeartId(null)}
-														>
-															{item.isFavorite === true ? (
-																<IconRedHeart />
-															) : (
-																<IconHeart />
-															)}
-														</button>
-													</Tooltip>
-												</div>
-											</div>
-											<div className={scss.div_img}>
-												<img
-													className={scss.img_product}
-													src={photoIsIphone}
-													alt={item.productName}
-												/>
-											</div>
-											<div className={scss.div_product_contents}>
-												<p className={scss.tag_color_green}>
-													В наличии {item.buyProduc}
-												</p>
-												<h3>{item.productName}</h3>
-												<p>
-													Рейтинг <Rate allowHalf defaultValue={3.5} />{' '}
-													{item.Rating}
-												</p>
-												<div className={scss.div_buttons_and_price}>
-													<div className={scss.product_price}>
-														<h2>{item.price} c</h2>
 													</div>
-													<AddBasketButton
-														onClick={() =>
-															handleBasket(item.id, item.isInBasket)
-														}
-														children={
-															item.isInBasket === true
-																? `В корзине`
-																: `В корзину`
-														}
-														className={
-															item.isInBasket === true
-																? `${scss.add_bas_button} ${scss.active}`
-																: `${scss.add_bas_button}`
-														}
+												</div>
+												<div className={scss.div_img}>
+													<img
+														className={scss.img_product}
+														src={photoIsIphone}
+														alt={item.productName}
 													/>
 												</div>
+												<div className={scss.div_product_contents}>
+													<p className={scss.tag_color_green}>
+														В наличии {item.buyProduc}
+													</p>
+													<h3>{item.productName}</h3>
+													<p>
+														Рейтинг <Rate allowHalf defaultValue={3.5} />{' '}
+														{item.Rating}
+													</p>
+													<div className={scss.div_buttons_and_price}>
+														<div className={scss.product_price}>
+															<h2>{item.price} c</h2>
+														</div>
+														<AddBasketButton
+															onClick={() =>
+																handleBasket(item.id, item.isInBasket)
+															}
+															children={
+																item.isInBasket === true
+																	? `В корзине`
+																	: `В корзину`
+															}
+															className={
+																item.isInBasket === true
+																	? `${scss.add_bas_button} ${scss.active}`
+																	: `${scss.add_bas_button}`
+															}
+														/>
+													</div>
+												</div>
 											</div>
-										</div>
-									))}
+										))
+									)}
 								</>
 							)}
 						</div>

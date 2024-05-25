@@ -1,4 +1,109 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// /* eslint-disable @typescript-eslint/no-unused-vars */
+// /* eslint-disable react-hooks/rules-of-hooks */
+// import {
+// 	useGetCatalogProductsQuery,
+// 	useSubCategoriesQuery
+// } from '@/src/redux/api/catalogProducts';
+// import scss from './CatalogMenu.module.scss';
+// import { IconGridDots } from '@tabler/icons-react';
+// import { ConfigProvider, Dropdown, MenuProps, theme } from 'antd';
+// import { useState } from 'react';
+// import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+// import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
+
+// const CatalogMenu = () => {
+// 	const [searchParams, setSearchParams] = useSearchParams();
+// 	const searchForBrand = searchParams.get('brand') || '';
+// 	const navigate = useNavigate();
+
+// 	const { data } = useGetCatalogProductsQuery();
+// 	const [idState, setIdState] = useState<number>(0);
+// 	const handleAddSubCategories = (id: number) => {
+// 		setIdState(id);
+// 	};
+
+// 	const handleFiltredAddProducts = async (id: number, brand: string) => {
+// 		console.log(brand, 'brand');
+// 		searchForBrand = brand
+// 		try {
+// 			const { data: FiltredData = [] } = useGetFiltredGadgetQuery(id, brand: searchForBrand);
+
+// 			navigate('');
+// 		} catch (error) {
+// 			console.error(error);
+// 		}
+// 	};
+
+// 	const { data: SubCategories = [] } = useSubCategoriesQuery(idState!);
+
+// 	if (!data) {
+// 		return (
+// 			<>
+// 				<button className={scss.button_for_loading}>
+// 					<IconGridDots />
+// 					Каталог
+// 				</button>
+// 			</>
+// 		);
+// 	}
+
+// 	const items: MenuProps['items'] = data.map((category) => ({
+// 		key: category.id,
+// 		label: (
+// 			<Link
+// 				to={`/catalog/phones`}
+// 				onMouseEnter={() => handleAddSubCategories(category.id)}
+// 			>
+// 				{category.categoryName}
+// 			</Link>
+// 		),
+// 		children: SubCategories.map((el) => ({
+// 			key: el.id,
+// 			label: (
+// 				<p
+// 					onClick={() => handleFiltredAddProducts(category.id, el.categoryName)}
+// 				>
+// 					{el.categoryName}
+// 				</p>
+// 			)
+// 		}))
+// 	}));
+
+// 	const antdThemeConfig = {
+// 		algorithm: theme.defaultAlgorithm,
+// 		token: {
+// 			colorBgElevated: 'white',
+// 			colorText: 'black',
+// 			colorPrimaryBorderHover: 'red',
+// 			controlItemBgActiveHover: '#bae0ff'
+// 		}
+// 	};
+
+// 	return (
+// 		<div className={scss.catalog_menu}>
+// 			<ConfigProvider theme={antdThemeConfig}>
+// 				<Dropdown
+// 					menu={{ items }}
+// 					overlayStyle={{
+// 						width: '250px',
+// 						borderRadius: '10px'
+// 					}}
+// 					placement="bottomLeft"
+// 					arrow={{ pointAtCenter: true }}
+// 				>
+// 					<button className={scss.catalog}>
+// 						<IconGridDots />
+// 						Каталог
+// 					</button>
+// 				</Dropdown>
+// 			</ConfigProvider>
+// 		</div>
+// 	);
+// };
+
+// export default CatalogMenu;
+
 import {
 	useGetCatalogProductsQuery,
 	useSubCategoriesQuery
@@ -6,66 +111,45 @@ import {
 import scss from './CatalogMenu.module.scss';
 import { IconGridDots } from '@tabler/icons-react';
 import { ConfigProvider, Dropdown, MenuProps, theme } from 'antd';
-import { useContext, useState } from 'react';
-import { useGetFiltredGadgetMutation } from '@/src/redux/api/filterGadget';
-import { Link, useNavigate } from 'react-router-dom';
-import { ContextForFiltredProducts } from '@/src/context/FiltredProductsForApi';
-import { Data } from '@/src/redux/api/dataApi';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 const CatalogMenu = () => {
-	const { responseData, setResponseData } = useContext(
-		ContextForFiltredProducts
-	);
-	// console.log(responseData.responses, 'test');
-
+	const [searchParams, setSearchParams] = useSearchParams();
+	const searchForBrand = searchParams.get('brand') || '';
 	const navigate = useNavigate();
-	const { data } = useGetCatalogProductsQuery();
+
+	const { data: catalogData } = useGetCatalogProductsQuery();
 	const [idState, setIdState] = useState<number>(0);
-	const [addFiltredProducts] = useGetFiltredGadgetMutation();
-	const handleAddSubCategories = (id: number) => {
-		setIdState(id);
-	};
 
-	const handleFiltredAddProducts = async (id: number, brand: string) => {
-		// navigate('');
-		const response = await addFiltredProducts({ id, brand });
-		// setResponseData(response.data);
-		const result = response.data = Data;
-		console.log(Data ,'Hello');
-	};
-	console.log(responseData, 'kjfhdukjfdhsufd');
+	const { data: subCategories = [] } = useSubCategoriesQuery(idState);
 
-	const { data: SubCategories = [] } = useSubCategoriesQuery(idState!);
+	console.log(searchForBrand);
 
-	if (!data) {
+	if (!catalogData) {
 		return (
-			<>
-				<button className={scss.button_for_loading}>
-					<IconGridDots />
-					Каталог
-				</button>
-			</>
+			<button className={scss.button_for_loading}>
+				<IconGridDots />
+				Каталог
+			</button>
 		);
 	}
 
-	const items: MenuProps['items'] = data.map((category) => ({
+	const items: MenuProps['items'] = catalogData.map((category) => ({
 		key: category.id,
 		label: (
-			<Link
-				to={`/catalog/phones`}
-				onMouseEnter={() => handleAddSubCategories(category.id)}
-			>
+			<p onMouseEnter={() => setIdState(category.id)}>
 				{category.categoryName}
-			</Link>
+			</p>
 		),
-		children: SubCategories.map((el) => ({
+		children: subCategories.map((el) => ({
 			key: el.id,
 			label: (
-				<p
-					onClick={() => handleFiltredAddProducts(category.id, el.categoryName)}
+				<Link
+					to={`/catalog/${category.id}/phones/brand/${el.categoryName}`}
 				>
 					{el.categoryName}
-				</p>
+				</Link>
 			)
 		}))
 	}));
