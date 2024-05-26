@@ -2,8 +2,9 @@
 import { IconEye, IconEyeOff, IconPhotoPlus } from '@tabler/icons-react';
 import scss from './Profile.module.scss';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { usePostProfilesInformationQueryMutation, usePostProfilesPasswordQueryMutation, usePutProfilesImageQueryMutation } from '@/src/redux/api/personalAccount/profile';
 
 const Profile = () => {
 	const {
@@ -13,10 +14,6 @@ const Profile = () => {
 	} = useForm({
 		mode: 'onSubmit'
 	});
-
-	const onSubmit = (data: any) => {
-		console.log(data);
-	};
 
 	const profiles = [
 		{
@@ -59,10 +56,86 @@ const Profile = () => {
 		}
 	];
 
-	const [isShown, setIsShown] = useState(false);
+	const [isShown, setIsShown] = useState(false)
 	const [passwordVisibility, setPasswordVisibility] = useState<{
-		[key: string]: boolean;
-	}>({});
+		[key: string]: boolean
+	}>({})
+
+	const [oldPassword, setOldPassword] = useState('')
+	const [newPassword, setNewPassword] = useState('')
+	const [confirmPassword, setConfirmPassword] = useState('')
+	const [firstName, setFirstName] = useState('')
+	const [lastName, setLastName] = useState('')
+	const [email, setEmail] = useState('')
+	const [phone, setPhone] = useState('')
+	const [address, setAddress] = useState('')
+
+	const [profilePasswords] = usePostProfilesPasswordQueryMutation()
+	const [profileInformation] = usePostProfilesInformationQueryMutation()
+	const [profileImage] = usePutProfilesImageQueryMutation()
+
+	const handlePostNewPassword = async () => {
+		const passwords = {
+			oldPassword: oldPassword,
+			newPassword: newPassword,
+			confirmationPassword: confirmPassword
+		}
+
+		if (oldPassword == "" || newPassword == "" || confirmPassword == "") {
+			return
+		} else {
+			try {
+				const res = await profilePasswords(passwords)
+				console.log(res);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	}
+
+	const handlePostNewInformation = async () => {
+		const informations = {
+			userName: firstName,
+			lastName: lastName,
+			email: email,
+			phoneNumber: phone,
+			address: address
+		}
+		try {
+			const res = await profileInformation(informations)
+			console.log(res);
+		} catch (error) {
+			console.error(error);
+		}
+	}
+	
+	const onSubmit = () => {
+		handlePostNewInformation()
+		handlePostNewPassword()
+	};
+
+	const fileInputRef = useRef(null);
+
+	const handleImageClick = () => {
+		if (fileInputRef.current) {
+			fileInputRef.current.click();
+		}
+	};
+
+	const handleFileChange = async (event: any) => {
+		const file = event.target.files[0];
+		if (file) {
+			const formData = new FormData();
+			formData.append('file', file);
+
+			try {
+				const res = await profileImage(formData);
+				console.log(res);
+			} catch (error) {
+				console.error("Error uploading profile image:", error);
+			}
+		}
+	};
 
 	return (
 		<section className={scss.profile}>
@@ -90,11 +163,16 @@ const Profile = () => {
 					</div>
 
 					<div className={scss.page_content_2}>
-						<div className={scss.div_left}>
+						<div className={scss.div_left} onClick={handleImageClick}>
 							<IconPhotoPlus />
 							<p>Нажмите для добавления фотографии</p>
+							<input
+								type="file"
+								ref={fileInputRef}
+								style={{ display: 'none' }}
+								onChange={handleFileChange}
+							/>
 						</div>
-
 						<div className={scss.div_right}>
 							<h1>Личные данные</h1>
 
@@ -111,6 +189,28 @@ const Profile = () => {
 												{...register(`${e.error}`, {
 													required: 'Это поле обьязательна для заполнения!'
 												})}
+												onChange={(event) => {
+													if (e.error === 'FirstName') {
+														setFirstName(event.target.value);
+													} else if (e.error === 'LastName') {
+														setLastName(event.target.value);
+													} else if (e.error === 'email') {
+														setEmail(event.target.value);
+													} else if (e.error === 'phone') {
+														setPhone(event.target.value);
+													}
+												}}
+												value={
+													e.error === 'FirstName'
+														? firstName
+														: e.error === 'LastName'
+															? lastName
+															: e.error === 'email'
+																? email
+																: e.error === 'phone'
+																	? phone
+																	: ''
+												}
 											/>
 											<div>
 												<p>{errors?.[e.error]?.message?.toString()}</p>
@@ -127,6 +227,8 @@ const Profile = () => {
 											{...register('address', {
 												required: 'Это поле обьязательна для заполнения!'
 											})}
+											value={address}
+											onChange={(event) => setAddress(event.target.value)}
 										/>
 										<div>
 											<p>{errors?.address?.message?.toString()}</p>
@@ -145,9 +247,30 @@ const Profile = () => {
 															passwordVisibility[e.error] ? 'text' : 'password'
 														}
 														placeholder={e.placeholder}
+
 														{...register(`${e.error}`, {
 															required: 'Это поле обьязательна для заполнения!'
 														})}
+
+														onChange={(event) => {
+															if (e.error === 'old') {
+																setOldPassword(event.target.value)
+															} else if (e.error === 'new') {
+																setNewPassword(event.target.value)
+															} else if (e.error === 'confirm') {
+																setConfirmPassword(event.target.value)
+															}
+														}}
+
+														value={
+															e.error === 'old'
+																? oldPassword
+																: e.error === 'new'
+																	? newPassword
+																	: e.error === 'confirm'
+																		? confirmPassword
+																		: ''
+														}
 													/>
 
 													{passwordVisibility[e.error] ? (

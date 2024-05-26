@@ -18,6 +18,7 @@ const Favorite = () => {
               <div></div>
             </div>
 
+            //wdwd
             <div className={scss.div_navigation}>
               <Link to="/personal-account/history-of-orders">
                 <button>История заказов</button>
