@@ -5,7 +5,7 @@ import { useState } from 'react';
 import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd';
 import { IconKamore } from '@/src/assets/icons';
-import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
+import { useGetReviewsQuery } from '@/src/redux/api/reviews';
 
 const { Dragger } = Upload;
 const props: UploadProps = {
@@ -29,7 +29,7 @@ const props: UploadProps = {
 };
 const ReviewsPage = () => {
 	const { productId } = useParams();
-	const { data, isLoading } = useGetCardProductQuery(productId!);
+	const { data, isLoading } = useGetReviewsQuery(productId!);
 	const [modal2Open, setModal2Open] = useState<boolean>(false);
 
 	const { TextArea } = Input;

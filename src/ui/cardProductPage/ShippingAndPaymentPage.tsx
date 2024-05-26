@@ -6,11 +6,11 @@ import {
 	IconUponReceipt
 } from '@/src/assets/icons';
 import { IconCreditCard, IconWallet } from '@tabler/icons-react';
-import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
+import { useGetDeliveryProductQuery } from '@/src/redux/api/deliveryApi';
 
 export const ShippingAndPaymentPage = () => {
 	const { productId } = useParams();
-	const { data, isLoading } = useGetCardProductQuery(productId!);
+	const { data, isLoading } = useGetDeliveryProductQuery(productId!);
 	return (
 		<section className={scss.ShippingAndPaymentPage}>
 			{isLoading ? (
@@ -30,7 +30,7 @@ export const ShippingAndPaymentPage = () => {
 									<p>Забрать в течение 14 дней</p>
 								</div>
 							</div>
-							<h2>{data?.deliveryAndPayment.sum} с</h2>
+							<h2>0 с</h2>
 							<div className={scss.cards_contents}>
 								<IconKamazCar />
 								<div className={scss.texts}>
@@ -38,7 +38,7 @@ export const ShippingAndPaymentPage = () => {
 									<p>Забрать в течение 14 дней</p>
 								</div>
 							</div>
-							<h2>{data?.deliveryAndPayment.sun2} с</h2>
+							<h2>0 с</h2>
 							<div className={scss.cards_contents}>
 								<IconKamazCar />
 								<div className={scss.texts}>
@@ -46,7 +46,7 @@ export const ShippingAndPaymentPage = () => {
 									<p>Бесплатная доставка при покупках свыше — 10 000с.</p>
 								</div>
 							</div>
-							<h2>от {data?.deliveryAndPayment.sum3} с</h2>
+							<h2>от {data?.deliveryPrice} с</h2>
 						</div>
 						<div className={scss.content_and_photo_content}>
 							<div className={scss.content_Div}>
