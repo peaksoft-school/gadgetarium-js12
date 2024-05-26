@@ -4,7 +4,7 @@ import favorite from "@/src/assets/sammy_order_completed_by_a_delivery_girl_1.pn
 import { useGetProductsQuery } from "@/src/redux/api/personalAccount/favorite"
 
 const Favorite = () => {
-  const { data: products, isLoading } = useGetProductsQuery(0)
+  const { data: products, isLoading } = useGetProductsQuery("")
 
   return (
     <section className={scss.favorite}>

@@ -1,55 +1,46 @@
 import { api as index } from "../../index";
 
-interface IProfile {
-  oldPassword: string;
-  newPassword: string;
-  confirmationPassword: string;
-}
-
-interface IInformation {
-  userName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  address: string;
-}
-
-interface IImage {
-  image: string;
-}
-
 const api = index.injectEndpoints({
   endpoints: (build) => ({
-    postProfilesPasswordQuery: build.mutation<IProfile[], IProfile>({
+    postProfilesPasswordQuery: build.mutation<
+      PROFILESTORE.PostProfilePasswordResponse,
+      PROFILESTORE.PostProfilePasswordRequest
+    >({
       query: (products) => ({
         url: "/api/personal/change-password",
         method: "POST",
         body: products,
         headers: {
-					'Authorization': `Bearer ${localStorage.getItem('token')}` 
-				},
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
       })
     }),
 
-    postProfilesInformationQuery: build.mutation<IInformation[], IInformation>({
+    postProfilesInformationQuery: build.mutation<
+      PROFILESTORE.PostProfileInformationResponse,
+      PROFILESTORE.PostProfileInformationRequest
+    >({
       query: (products) => ({
         url: "/api/personal/edit-profile",
         method: "POST",
         body: products,
         headers: {
-					'Authorization': `Bearer ${localStorage.getItem('token')}` 
-				},
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
       })
     }),
 
-   putProfilesImageQuery: build.mutation<IImage, void>({
+    putProfilesImageQuery: build.mutation<
+      PROFILESTORE.PutProfileImageResponse,
+      PROFILESTORE.PutProfileImageRequest
+    >({
       query: (products) => ({
         url: "/api/personal/add-image",
         method: "PUT",
         body: products,
         headers: {
-					'Authorization': `Bearer ${localStorage.getItem("token")}` 
-				},
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
+        },
       })
     }),
   })

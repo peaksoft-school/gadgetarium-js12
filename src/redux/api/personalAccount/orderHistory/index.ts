@@ -1,29 +1,11 @@
 import { api as index } from '../../index';
 
-interface IHistory {
-	_id: string;
-	date: string;
-	orderNumber: string;
-	statusDelivered: string;
-	statusCancelled: string;
-	statusProcessing: string;
-	statusOnTheWay: string;
-	total: string;
-	client: string;
-	firstName: string;
-	lastName: string;
-	region: string;
-	address: string;
-	phone: string;
-	email: string;
-	payment: string;
-	city: string;
-	discount: string;
-}
-
 const api = index.injectEndpoints({
 	endpoints: (build) => ({
-		getOrder: build.query<IHistory[], number>({
+		getOrder: build.query<
+		ORDERHISTORYSTORE.GetOrderResponse,
+		ORDERHISTORYSTORE.GetOrderRequest
+		>({
 			query: () => ({
 				url: '/api/personal',
 				method: 'GET',
@@ -33,7 +15,10 @@ const api = index.injectEndpoints({
 			}),
 			providesTags: ['personalHistory']
 		}),
-		postOrder: build.mutation<IHistory[], IHistory>({
+		postOrder: build.mutation<
+		ORDERHISTORYSTORE.PostOrderRequest,
+		ORDERHISTORYSTORE.PostOrderResponse
+		>({
 			query: (products) => ({
 				url: '/api/personal',
 				method: 'POST',
@@ -44,7 +29,7 @@ const api = index.injectEndpoints({
 			}),
 			invalidatesTags: ['personalHistory']
 		}),
-		deleteOrder: build.mutation<void, void>({
+		deleteOrder: build.mutation({
 			query: () => ({
 				url: '/api/personal',
 				headers: {

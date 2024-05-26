@@ -6,7 +6,7 @@ import dummy from "@/src/assets/sammy-the-man-trying-to-find-the-right-document 
 import { useState } from "react"
 
 const HistoryOfOrders = () => {
-  const { data: orders, isLoading } = useGetOrderQuery(0)
+  const { data: orders, isLoading } = useGetOrderQuery("")
   const [deleteOrder] = useDeleteOrderMutation()
   const [isDeleting, setIsDeleting] = useState(false);
 
