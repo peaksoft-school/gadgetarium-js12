@@ -40,8 +40,10 @@ export const api = createApi({
 		'productAdd',
 		'cardProductApi',
 		'catalogApi',
-		'viewedProducts'
-
+		'viewedProducts',
+		'CharacteristicsApi',
+		'descriptionApi',
+		'deliveryApi'
 	],
 
 	endpoints: () => ({})

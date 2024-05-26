@@ -454,6 +454,15 @@
 											cursor: pointer;
 										}
 									}
+									.active_basket_button_navigate {
+										width: 190px;
+										height: 45px;
+										border-radius: 4px;
+										background: rgb(47, 197, 9);
+										color: rgb(255, 255, 255);
+										font-size: clamp(8px, 6vw, 16px);
+										border: none;
+									}
 									.add_bas_button {
 										width: 196px;
 										height: 45px;
@@ -462,10 +471,6 @@
 										color: rgb(255, 255, 255);
 										font-size: clamp(8px, 6vw, 14px);
 										border: none;
-										&.active {
-											border: 1px dashed rgb(151, 71, 255);
-											background: rgb(47, 197, 9);
-										}
 										&:hover {
 											color: white;
 											border: none;

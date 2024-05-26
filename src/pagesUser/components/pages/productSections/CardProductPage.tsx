@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import InfoPageForProduct from '../InfoPageForProduct';
 import { useState } from 'react';
 import { IconArrowLeft, IconArrowRight, IconHeart } from '@tabler/icons-react';
-import { ConfigProvider, InputNumber, Modal, Rate } from 'antd';
+import { Button, ConfigProvider, InputNumber, Modal, Rate } from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
@@ -12,7 +12,6 @@ import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
 import { IconRedHeart } from '@/src/assets/icons';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
-
 
 const CardProductPage = () => {
 	const [basketAddProduct] = useBasketPutProductMutation();
@@ -235,7 +234,7 @@ const CardProductPage = () => {
 													<div className={scss.div_buttons_favorite_and_basket}>
 														<button
 															className={
-																data?.isFavorite === true
+																data?.likes === true
 																	? `${scss.nooActiveButton} ${scss.activeButton}`
 																	: `${scss.nooActiveButton}`
 															}
@@ -243,25 +242,28 @@ const CardProductPage = () => {
 																data && addFavoriteProduct(data.id)
 															}
 														>
-															{data?.isFavorite === true ? (
+															{data?.likes === true ? (
 																<IconRedHeart />
 															) : (
 																<IconHeart color="rgb(144, 156, 181)" />
 															)}
 														</button>
-														<AddBasketButton
-															onClick={() => data && addBasketProduct(data.id)}
-															children={
-																data?.isInBasket === true
-																	? 'В корзине'
-																	: 'В корзину'
-															}
-															className={
-																data?.isInBasket === true
-																	? `${scss.add_bas_button} ${scss.active}`
-																	: `${scss.add_bas_button}`
-															}
-														/>
+														{data?.basket ? (
+															<Button
+																className={scss.active_basket_button_navigate}
+																onClick={() => navigate('/basket')}
+															>
+																В корзине Перейти
+															</Button>
+														) : (
+															<AddBasketButton
+																onClick={() =>
+																	data && addBasketProduct(data.id)
+																}
+																children={'В корзину'}
+																className={scss.add_bas_button}
+															/>
+														)}
 													</div>
 												</div>
 												<div className={scss.info_product}>
@@ -269,7 +271,7 @@ const CardProductPage = () => {
 														<p>
 															Экран............................................
 														</p>
-														<h4>{data?.Screen}</h4>
+														{/* <h4>{data?.Screen}</h4> */}
 													</div>
 													<div className={scss.div_screen}>
 														<p>
@@ -348,7 +350,7 @@ const CardProductPage = () => {
 					<img
 						className={scss.modal_img}
 						src={contentIsModal}
-						alt={data?.productName}
+						alt={data?.nameOfGadget}
 					/>
 				</Modal>
 			</ConfigProvider>

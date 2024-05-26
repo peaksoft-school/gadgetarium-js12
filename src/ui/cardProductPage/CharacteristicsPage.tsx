@@ -4,10 +4,10 @@ import scss from './CharacteristicsPage.module.scss';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { IconArrowRight } from '@tabler/icons-react';
-import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
+import { useGetCharacteristicsProductQuery } from '@/src/redux/api/characteristicsAPI';
 export const CharacteristicsPage = () => {
 	const { productId } = useParams();
-	const { data, isLoading } = useGetCardProductQuery(productId!);
+	const { data, isLoading } = useGetCharacteristicsProductQuery(productId!);
 	const [characteristicsProduct, setCharacteristicsProduct] =
 		useState<boolean>(true);
 	const [memoryAndProcessor, setMemoryAndProcessor] = useState<boolean>(false);
@@ -41,56 +41,23 @@ export const CharacteristicsPage = () => {
 							<div className={scss.product_info_text_main}>
 								<p>Тип дорожки:</p>
 								<p className={scss.text_product}>
-									{data?.Characteristics.TrackType}
+									{data?.mainCharacteristics.additionalProp1 &&
+										data?.mainCharacteristics.additionalProp1.additionalProp1}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
 								<p>Мощность двигателя</p>
 								<p className={scss.text_product}>
-									{data?.Characteristics.enginePower}
-								</p>
+									{data?.mainCharacteristics.additionalProp1 &&
+										data?.mainCharacteristics.additionalProp1.additionalProp2}
+								</p>{' '}
 							</div>
 							<div className={scss.product_info_text_main}>
 								<p>Тип двигателя</p>
 								<p className={scss.text_product}>
-									{data?.Characteristics.enginesType}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Регулировка скорости</p>
-								<p className={scss.text_product}>
-									{data?.Characteristics.speedAdjustment}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Беговое полотно</p>
-								<p className={scss.text_product}>
-									{data?.Characteristics.runningBelt}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Наклон бегового полотна</p>
-								<p className={scss.text_product}>
-									{data?.Characteristics.runningBeltIncline}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Размер бегового полотна (ДхШ)</p>
-								<p className={scss.text_product}>
-									{data?.Characteristics.runningBeltSize}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Диаметр задних валов</p>
-								<p className={scss.text_product}>
-									{data?.Characteristics.rearShaftDiameter}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Программы тренировки</p>
-								<p className={scss.text_product}>
-									{data?.Characteristics.trainingPrograms}
-								</p>
+									{data?.mainCharacteristics.additionalProp1 &&
+										data?.mainCharacteristics.additionalProp1.additionalProp3}
+								</p>{' '}
 							</div>
 						</div>
 					)}
@@ -114,55 +81,22 @@ export const CharacteristicsPage = () => {
 							<div className={scss.product_info_text_main}>
 								<p>Тип дорожки:</p>
 								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.TrackType}
+									{data?.mainCharacteristics.additionalProp2 &&
+										data?.mainCharacteristics.additionalProp2.additionalProp1}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
 								<p>Мощность двигателя</p>
 								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.enginePower}
+									{data?.mainCharacteristics.additionalProp2 &&
+										data?.mainCharacteristics.additionalProp2.additionalProp2}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Тип двигателя</p>
+								<p>Мощность двигателя</p>
 								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.enginesType}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Регулировка скорости</p>
-								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.speedAdjustment}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Беговое полотно</p>
-								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.runningBelt}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Наклон бегового полотна</p>
-								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.runningBeltIncline}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Размер бегового полотна (ДхШ)</p>
-								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.runningBeltSize}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Диаметр задних валов</p>
-								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.rearShaftDiameter}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Программы тренировки</p>
-								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.trainingPrograms}
+									{data?.mainCharacteristics.additionalProp2 &&
+										data?.mainCharacteristics.additionalProp2.additionalProp3}
 								</p>
 							</div>
 						</div>
@@ -187,55 +121,22 @@ export const CharacteristicsPage = () => {
 							<div className={scss.product_info_text_main}>
 								<p>Тип дорожки:</p>
 								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.TrackType}
+									{data?.mainCharacteristics.additionalProp3 &&
+										data?.mainCharacteristics.additionalProp3.additionalProp1}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
 								<p>Мощность двигателя</p>
 								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.enginePower}
+									{data?.mainCharacteristics.additionalProp3 &&
+										data?.mainCharacteristics.additionalProp3.additionalProp2}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
 								<p>Тип двигателя</p>
 								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.enginesType}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Регулировка скорости</p>
-								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.speedAdjustment}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Беговое полотно</p>
-								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.runningBelt}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Наклон бегового полотна</p>
-								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.runningBeltIncline}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Размер бегового полотна (ДхШ)</p>
-								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.runningBeltSize}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Диаметр задних валов</p>
-								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.rearShaftDiameter}
-								</p>
-							</div>
-							<div className={scss.product_info_text_main}>
-								<p>Программы тренировки</p>
-								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.trainingPrograms}
+									{data?.mainCharacteristics.additionalProp3 &&
+										data?.mainCharacteristics.additionalProp3.additionalProp3}
 								</p>
 							</div>
 						</div>

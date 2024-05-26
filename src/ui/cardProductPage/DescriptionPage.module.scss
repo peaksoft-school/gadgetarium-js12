@@ -1,11 +1,11 @@
 .DescriptionPage {
 	display: flex;
 	flex-direction: column;
-	gap: 51px;
+	gap: 30px;
 	@media (max-width: 900px) {
 		gap: 1rem;
 	}
-	img {
+	iframe {
 		height: 34.8rem;
 		width: 100%;
     border-radius: 8px;
@@ -18,7 +18,7 @@
     display: flex;
     flex-direction: column;
     align-items: start;
-    gap: 18px;
+    gap: 13px;
     @media (max-width: 900px) {
       gap: 20px;
     }
@@ -30,7 +30,7 @@
       display: flex;
       flex-direction: column;
       align-items: start;
-      gap: 38px;
+      gap: 30px;
       @media (max-width: 900px) {
         gap: 15px;
       }

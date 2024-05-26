@@ -20,6 +20,7 @@
 		"antd-style": "^3.6.2",
 		"firebase": "^10.12.1",
 		"keen-slider": "^6.8.6",
+		"qs": "^6.12.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-hook-form": "^7.51.2",
