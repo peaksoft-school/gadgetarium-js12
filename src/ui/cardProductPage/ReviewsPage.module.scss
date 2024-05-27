@@ -3,10 +3,13 @@
 	flex-direction: column;
 	align-items: start;
 	gap: 48px;
+	width: 100%;
 	.reviews_contents_div {
 		display: flex;
 		align-items: start;
-		gap: 225px;
+		// gap: 225px;
+		width: 100%;
+		justify-content: space-between;
 		@media (max-width: 1400px) {
 			gap: 170px;
 		}
@@ -92,9 +95,10 @@
 		.div_rating_results_content {
 			border-radius: 6px;
 			background: rgb(244, 244, 244);
-			width: 100%;
-			// max-width: 655px;
-			// height: 223.2px;
+			// width: 100%;
+			max-width: 655px;
+			height: 223.2px;
+			align-items: end;
 			height: auto;
 			@media (max-width: 450px) {
 				width: 100%;

@@ -156,7 +156,9 @@ const FavoriteSection = () => {
 														</div>
 													</div>
 													<div className={scss.photo_div}>
-														<img src={item.image} alt={item.productName} />
+														<Link to={`/catalog/phones/${item.id}`}>
+															<img src={item.image} alt={item.productName} />
+														</Link>
 													</div>
 													<div className={scss.products_name_and_rating}>
 														<p className={scss.text_stock}>{item.stock}</p>
@@ -176,7 +178,13 @@ const FavoriteSection = () => {
 															<h2>{item.price}</h2>
 															<p>{item.oldPrice}</p>
 														</div>
-														<div className={!item.oldPrice ? `${scss.button_for_basket_div_noo_active} ${scss.button_for_basket_div_active}` : `${scss.button_for_basket_div_noo_active}`}>
+														<div
+															className={
+																!item.oldPrice
+																	? `${scss.button_for_basket_div_noo_active} ${scss.button_for_basket_div_active}`
+																	: `${scss.button_for_basket_div_noo_active}`
+															}
+														>
 															<AddBasketButton
 																onClick={() =>
 																	item &&

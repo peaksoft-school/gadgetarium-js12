@@ -310,18 +310,19 @@ const ComparisonSection = () => {
 																			>
 																				<IconDelete />
 																			</button>
-																			{item &&
-																				item.images && (
-																					<div className={scss.div_photos}>
-																						{item.images.map((el, index) => (
+																			{item && item.images && (
+																				<div className={scss.div_photos}>
+																					{item.images.map((el, index) => (
+																						<Link to={`/catalog/phones/${item.id}`}>
 																							<img
 																								src={el}
 																								alt={item.nameOfGadget}
 																								key={index}
 																							/>
-																						))}
-																					</div>
-																				)}
+																						</Link>
+																					))}
+																				</div>
+																			)}
 																			{item && item.nameOfGadget && (
 																				<p className={scss.charackter}>
 																					{item.nameOfGadget} Gello Hello

@@ -42,7 +42,7 @@ const ReviewsPage = () => {
 					<div className={scss.reviews_contents_div}>
 						<div className={scss.contents_and_commits_users}>
 							<h2>Отзывы</h2>
-							{data?.reviews.user &&
+							{/* {data?.reviews.user &&
 								Array.isArray(data.reviews.user) &&
 								data.reviews.user.map((item, index) => (
 									<div key={index} className={scss.div_users_commits}>
@@ -59,7 +59,35 @@ const ReviewsPage = () => {
 											<p className={scss.commit_user}>{item.userCommit}</p>
 										</div>
 									</div>
-								))}
+								))} */}
+							{data?.map((e) => (
+								<div key={e.id} className={scss.div_users_commits}>
+									<img src={e.image} alt={e.fullName} />
+									<div className={scss.commits_for_users_div}>
+										<div className={scss.user_info}>
+											<h2>{e.fullName}</h2>
+											<p>{e.dateTime}</p>
+										
+										</div>
+										<div className={scss.grade_div}>
+											{/* <p>{e.description}</p> */}
+											<p>
+												Lorem ipsum dolor sit amet consectetur, adipisicing
+												elit. Laudantium ad sed voluptatum, illo sint odit
+												quisquam officiis est ipsum neque enim qui non cum
+												eligendi quidem molestias incidunt, consequatur
+												repellendus. Animi, obcaecati! Pariatur, laboriosam.
+												Soluta animi reiciendis voluptate, velit labore ducimus
+												sint nobis. Repudiandae laboriosam eos nemo dolore
+												laudantium alias asperiores repellendus dignissimos
+												vitae nam.
+											</p>
+											<Rate allowHalf defaultValue={e.rating} />
+										</div>
+										{/* <p className={scss.commit_user}>{e.description}</p> */}
+									</div>
+								</div>
+							))}
 						</div>
 						<div className={scss.div_rating_results_content}>
 							<div className={scss.rating_div_content}>

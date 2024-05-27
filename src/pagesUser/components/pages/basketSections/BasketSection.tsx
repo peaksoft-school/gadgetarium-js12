@@ -259,7 +259,9 @@ const BasketSection = () => {
 												</ConfigProvider>
 												<div className={scss.content_product_div}>
 													<div className={scss.contents_product}>
-														<img src={item.image} alt={item.productName} />
+														<Link to={`/catalog/phones/${item.id}`}>
+															<img src={item.image} alt={item.productName} />
+														</Link>
 														<div className={scss.product_info_text_div}>
 															<p>{item.productName}</p>
 															<div className={scss.product_content}>

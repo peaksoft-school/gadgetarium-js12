@@ -457,13 +457,13 @@ const Catalog = () => {
 															{e.percent !== 0 && e.percent}{' '}
 														</p>{' '}
 														<div className={scss.top_icons}>
-															<IconScale
+															<IconScale style={e.compression ? {color: 'pink'} : {color: 'black'}}
 																onClick={() =>
 																	handleAddProductsComparisonFunk(e.id)
 																}
 															/>
 
-															<IconHeart
+															<IconHeart style={e.likes ? {color: 'red'} : {color: 'black'}}
 																onClick={() =>
 																	handleAddProductsFavoriteFunk(e.id)
 																}

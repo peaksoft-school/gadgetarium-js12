@@ -8,7 +8,10 @@ const api = index.injectEndpoints({
 		>({
 			query: (id) => ({
 				url: `/api/gadget/description/${id}`,
-				method: 'GET'
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
 			}),
 			providesTags: ['descriptionApi']
 		})

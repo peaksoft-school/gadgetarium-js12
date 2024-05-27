@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import scss from './CardProductPage.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import InfoPageForProduct from '../InfoPageForProduct';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { IconArrowLeft, IconArrowRight, IconHeart } from '@tabler/icons-react';
 import { Button, ConfigProvider, InputNumber, Modal, Rate } from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
@@ -57,6 +58,10 @@ const CardProductPage = () => {
 		await favoriteAddProduct({ id });
 		refetch();
 	};
+
+	const handleCountOfGadgetFunk = (id: number, countOfGadget: number) => {
+		
+	}
 	return (
 		<>
 			<section className={scss.CardProductPage}>
@@ -218,8 +223,12 @@ const CardProductPage = () => {
 															className={scss.input_for_quantity}
 															min={1}
 															max={100}
-															defaultValue={data?.quantity}
+															// defaultValue={data?.quantity}
+															defaultValue={data.countOfGadget}
 															type="number"
+															onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+																
+															}}
 														/>
 													</ConfigProvider>
 													<button>+</button>
