@@ -54,8 +54,10 @@ const CardProductPage = () => {
 		await basketAddProduct({ id });
 		refetch();
 	};
-	const addFavoriteProduct = async (id: number) => {
-		await favoriteAddProduct({ id });
+	const addFavoriteProduct = async (gadgetId: number) => {
+		console.log(gadgetId, 'id test');
+		
+		await favoriteAddProduct({ gadgetId });
 		refetch();
 	};
 
@@ -248,7 +250,7 @@ const CardProductPage = () => {
 																	: `${scss.nooActiveButton}`
 															}
 															onClick={() =>
-																data && addFavoriteProduct(data.id)
+																data && addFavoriteProduct(data.gadgetId)
 															}
 														>
 															{data?.likes === true ? (

@@ -21,7 +21,7 @@ const api = index.injectEndpoints({
 		>({
 			query: ({ id }) => ({
 				url: `/api/basket/${id}`,
-				method: 'POST',
+				method: 'PATCH',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				}

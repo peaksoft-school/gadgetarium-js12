@@ -19,9 +19,9 @@ const api = index.injectEndpoints({
 			FAVORITEPRODUCTS.PutFavoriteProductResponse,
 			FAVORITEPRODUCTS.PutFavoriteProductRequest
 		>({
-			query: ( {id} ) => ({
-				url: `/api/favorites/${id}`,
-				method: 'POST',
+			query: ( {gadgetId} ) => ({
+				url: `/api/favorites/${gadgetId}`,
+				method: 'PATCH',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				},
