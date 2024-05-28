@@ -37,7 +37,9 @@ export const api = createApi({
 		'personalFavorite',
 		'personalHistory',
 		'adminOrders',
-		'productAdd'
+		'productAdd',
+		'viewedProducts'
+
 	],
 
 	endpoints: () => ({})

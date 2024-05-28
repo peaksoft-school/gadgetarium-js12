@@ -1,10 +1,15 @@
 .order {
+	width: 100%;
+	height: 100vw;
+	background: rgb(255, 255, 255);
+	@media (max-width: 1000px) {
+		height: auto;
+	}
 	.content {
 		display: flex;
 		justify-content: space-between;
 		padding-top: 40px;
 		padding-bottom: 104px;
-
 		@media (max-width: 1527.2px) {
 			display: flex;
 			flex-direction: column;
@@ -128,7 +133,12 @@
 				display: flex;
 				flex-direction: column;
 				gap: 15px;
-
+				@media (max-width: 785px) {
+					gap: 10px;
+				}
+				@media (max-width: 555px) {
+					gap: 7px;
+				}
 				h2 {
 					color: #384255;
 					font-size: clamp(0.3rem, 4vw, 0.8rem);
@@ -136,11 +146,18 @@
 				}
 
 				.table_div {
+					width: 100%;
 					table {
 						display: flex;
 						flex-direction: column;
 						gap: 15px;
-
+						width: 100%;
+						@media (max-width: 785px) {
+							gap: 10px;
+						}
+						@media (max-width: 555px) {
+							gap: 7px;
+						}
 						tr {
 							display: flex;
 							align-items: center;
@@ -149,32 +166,19 @@
 							background-color: #4c5566;
 							color: #ffffff;
 							padding: 10px 15px;
-							@media (max-width: 1090px) {
-								width: 730px;
+							justify-content: space-between;
+							gap: 10px;
+							@media (max-width: 500px) {
+								gap: 3px;
+								justify-content: space-evenly;
 							}
-							@media (max-width: 762px) {
-								width: 530px;
-							}
-							@media (max-width: 559px) {
-								width: 330px;
-							}
-
-							th {
-								letter-spacing: 1px;
-								font-weight: 500;
-								font-size: clamp(0.4rem, 4vw, 0.7rem);
-
-								@media (max-width: 1090px) {
-									font-size: clamp(0.4rem, 4vw, 0.4rem);
-								}
-							}
-
 							.row_1 {
 								display: flex;
 								width: 100%;
-								max-width: 210px;
+								max-width: 110px;
 								gap: 30px;
-
+								// justify-content: space-between;
+								margin-right: 25px;
 								@media (max-width: 1022px) {
 									width: 100%;
 									max-width: 150px;
@@ -185,6 +189,18 @@
 									max-width: 45px;
 									gap: 20px;
 								}
+								th {
+									color: rgb(255, 255, 255);
+									font-size: clamp(7px, 6vw, 14px);
+									font-weight: 600;
+									@media (max-width: 900px) {
+										font-weight: 400;
+										font-size: clamp(6px, 4vw, 10px);
+									}
+									@media (max-width: 480px) {
+										font-size: clamp(5px, 4vw, 7px);
+									}
+								}
 							}
 
 							.rows {
@@ -192,13 +208,8 @@
 								align-items: center;
 								justify-content: space-between;
 								width: 100%;
-								@media (max-width: 1090px) {
-									width: 640px;
-									gap: 30px;
-								}
-								@media (max-width: 559px) {
-									width: 530px;
-									gap: 45px;
+								@media (max-width: 779px) {
+									gap: 10px;
 								}
 							}
 							.row_2 {
@@ -206,40 +217,63 @@
 								justify-content: space-between;
 								width: 100%;
 								max-width: 570px;
-
-								@media (max-width: 1231.2px) {
-									width: 100%;
-									max-width: 520px;
+								@media (max-width: 500px) {
+									gap: 4px;
 								}
-								@media (max-width: 559px) {
-									max-width: 300px;
-									gap: -3px;
+								th {
+									color: rgb(255, 255, 255);
+									font-size: clamp(7px, 6vw, 14px);
+									font-weight: 600;
+									@media (max-width: 900px) {
+										font-weight: 400;
+										font-size: clamp(6px, 4vw, 10px);
+									}
+									@media (max-width: 650px) {
+										font-size: clamp(5px, 4vw, 8px);
+									}
+									@media (max-width: 480px) {
+										font-size: clamp(5px, 4vw, 7px);
+									}
 								}
 							}
 
 							.row_3 {
 								display: flex;
 								justify-content: space-between;
-								gap: 10px;
+								// gap: 10px;
 								width: 100%;
 								max-width: 200px;
-								@media (max-width: 1090px) {
-									width: 160px;
+								@media (max-width: 750px) {
+									justify-content: space-evenly;
+									max-width: 80px;
 								}
-								@media (max-width: 559px) {
-									width: 100px;
-									gap: 10px;
+								@media (max-width: 450px) {
+									max-width: 70px;
+								}
+								th {
+									color: rgb(255, 255, 255);
+									font-size: clamp(7px, 6vw, 14px);
+									font-weight: 600;
+									@media (max-width: 900px) {
+										font-weight: 400;
+										font-size: clamp(6px, 4vw, 10px);
+									}
+									@media (max-width: 650px) {
+										font-size: clamp(5px, 4vw, 8px);
+									}
+									@media (max-width: 480px) {
+										font-size: clamp(5px, 4vw, 7px);
+									}
 								}
 							}
 						}
-
 						.tr {
 							display: flex;
 							gap: 10px;
 							flex-direction: column;
 							background-color: transparent;
-							padding: 0 20px 0 0px;
-
+							// padding: 0 20px 0 0px;
+							width: 100%;
 							.tr_div {
 								display: flex;
 								align-items: center;
@@ -249,130 +283,192 @@
 								border-radius: 6px;
 								margin-left: 20px;
 								width: 1121px;
-
-								@media (max-width: 1231.2px) {
-									width: 1220px;
+								@media (max-width: 570px) {
+									margin-left: 0;
 								}
-
-								@media (max-width: 1189px) {
-									width: 1120px;
+								@media (max-width: 750px) {
+									padding: 10px 0px 10px 8px;
 								}
-
-								@media (max-width: 1090px) {
-									width: 730px;
+								@media (max-width: 1171px) {
+									width: 1000px;
 								}
-
-								@media (max-width: 762px) {
-									width: 530px;
+								@media (max-width: 1050px) {
+									width: 900px;
 								}
-								@media (max-width: 559px) {
-									width: 330px;
+								@media (max-width: 948px) {
+									width: 800px;
+								}
+								@media (max-width: 856px) {
+									width: 700px;
+									padding: 7px 0px 7px 5px;
+								}
+								@media (max-width: 775px) {
+									width: 600px;
+								}
+								@media (max-width: 674px) {
+									width: 500px;
+								}
+								@media (max-width: 570px) {
+									width: 450px;
+								}
+								@media (max-width: 460px) {
+									width: 380px;
 								}
 
 								&:hover {
 									background-color: #e6e8ed;
 									transition: 0.3s;
 								}
-
 								.tr_row_1 {
 									display: flex;
-									width: 100%;
-									max-width: 210px;
+									align-items: center;
+									gap: 30px;
 									color: #000000;
 									font-size: clamp(0.4rem, 4vw, 0.8rem);
-
-									@media (max-width: 1020px) {
-										max-width: 150px;
-										font-size: clamp(0.4rem, 4vw, 0.6rem);
+									font-weight: 400;
+									@media (max-width: 850px) {
+										font-size: clamp(7px, 4vw, 14px);
 									}
-
+									@media (max-width: 650px) {
+										font-size: clamp(7px, 4vw, 12px);
+										gap: 10px;
+									}
+									@media (max-width: 550px) {
+										font-size: clamp(7px, 4vw, 10px);
+										gap: 4px;
+									}
+									@media (max-width: 480px) {
+										font-size: clamp(5px, 4vw, 7px);
+									}
 									.id_col {
-										width: 100%;
-										max-width: 45px;
+										color: rgb(41, 41, 41);
+										font-size: clamp(7px, 4vw, 16px);
+										font-weight: 400;
+										@media (max-width: 850px) {
+											font-size: clamp(7px, 4vw, 14px);
+										}
+										@media (max-width: 650px) {
+											font-size: clamp(7px, 4vw, 12px);
+										}
+										@media (max-width: 550px) {
+											font-size: clamp(7px, 4vw, 10px);
+										}
+										@media (max-width: 480px) {
+											font-size: clamp(5px, 4vw, 7px);
+										}
 									}
 								}
 
 								.tr_row_2 {
 									display: flex;
 									justify-content: space-between;
+									align-items: center;
 									width: 100%;
-									margin-right: 35px;
-									color: #000000;
-									font-size: clamp(0.4rem, 4vw, 0.8rem);
-
-									// @media (max-width: 1020px) {
-									// 	font-size: clamp(0.4rem, 4vw, 0.6rem);
-									// }
-
+									@media (max-width: 850px) {
+										justify-content: space-between;
+									}
+									@media (max-width: 750px) {
+										justify-content: space-between;
+									}
 									.number_col {
 										display: flex;
 										flex-direction: column;
-										width: 100%;
-										max-width: 120px;
 
 										h2 {
 											color: #2c68f5;
-											font-size: clamp(0.4rem, 4vw, 0.8rem);
-
+											font-size: clamp(0.5rem, 4vw, 1rem);
+											font-weight: 400;
 											@media (max-width: 1020px) {
-												font-size: clamp(0.4rem, 4vw, 0.6rem);
+												font-size: clamp(0.4rem, 4vw, 0.8rem);
+											}
+											@media (max-width: 750px) {
+												font-size: clamp(0.3rem, 4vw, 0.6rem);
+											}
+											@media (max-width: 848px) {
+												font-size: clamp(0.3rem, 4vw, 0.4rem);
 											}
 										}
 
 										span {
-											color: #8692a9;
-											font-size: clamp(0.4rem, 4vw, 0.7rem);
-
+											color: rgb(144, 156, 181);
+											font-size: clamp(0.4rem, 4vw, 0.8rem);
+											font-weight: 400;
 											@media (max-width: 1020px) {
+												font-size: clamp(0.4rem, 4vw, 0.6rem);
+											}
+											@media (max-width: 750px) {
 												font-size: clamp(0.4rem, 4vw, 0.5rem);
 											}
+											@media (max-width: 848px) {
+												font-size: clamp(0.3rem, 4vw, 0.4rem);
+											}
 										}
-
-										// @media (max-width: 1231.2px) {
-										// 	max-width: 112px;
-										// }
-
-										// @media (max-width: 1020px) {
-										// 	max-width: 135px;
-										// }
 									}
 
 									.quantity_col {
-										width: 100%;
-										max-width: 90px;
-
-										@media (max-width: 1231.2px) {
-											max-width: 82px;
+										color: rgb(41, 41, 41);
+										font-size: clamp(7px, 4vw, 16px);
+										font-weight: 400;
+										@media (max-width: 850px) {
+											font-size: clamp(7px, 4vw, 14px);
 										}
-
-										@media (max-width: 1020px) {
-											max-width: 110px;
+										@media (max-width: 650px) {
+											font-size: clamp(7px, 4vw, 12px);
+										}
+										@media (max-width: 550px) {
+											font-size: clamp(7px, 4vw, 10px);
+										}
+										@media (max-width: 480px) {
+											font-size: clamp(5px, 4vw, 7px);
 										}
 									}
 
 									.total_price_col {
-										width: 100%;
-										max-width: 130px;
-
-										@media (max-width: 1231.2px) {
-											max-width: 126px;
+										color: rgb(41, 41, 41);
+										font-size: clamp(7px, 4vw, 16px);
+										font-weight: 400;
+										@media (max-width: 850px) {
+											font-size: clamp(7px, 4vw, 14px);
 										}
-
-										@media (max-width: 1020px) {
-											max-width: 190px;
+										@media (max-width: 650px) {
+											font-size: clamp(7px, 4vw, 12px);
+										}
+										@media (max-width: 550px) {
+											font-size: clamp(7px, 4vw, 10px);
+										}
+										@media (max-width: 480px) {
+											font-size: clamp(5px, 4vw, 7px);
 										}
 									}
 
 									.order_type_col {
-										width: 100%;
-										max-width: 145px;
+										color: rgb(41, 41, 41);
+										font-size: clamp(7px, 4vw, 16px);
+										font-weight: 400;
+										@media (max-width: 850px) {
+											font-size: clamp(7px, 4vw, 14px);
+										}
+										@media (max-width: 650px) {
+											font-size: clamp(7px, 4vw, 12px);
+										}
+										@media (max-width: 550px) {
+											font-size: clamp(7px, 4vw, 10px);
+										}
+										@media (max-width: 480px) {
+											font-size: clamp(5px, 4vw, 7px);
+										}
 									}
 
 									.trash {
 										color: #878c93;
-										@media (max-width: 1090px) {
-											width: 100px;
+										margin-right: 10px;
+										@media (max-width: 871px) {
+											width: 20px;
+											height: auto;
 										}
+										@media (max-width: 681px) {
+											width: 15px;
+										}	
 									}
 								}
 							}

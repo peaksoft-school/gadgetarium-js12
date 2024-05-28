@@ -29,7 +29,7 @@ const onChange: DatePickerProps['onChange'] = (date, dateString) => {
 };
 
 const OrderDelivered = () => {
-	const { data: adminOrders } = useGetAdminOrderQuery(0);
+	const { data: adminOrders, isLoading } = useGetAdminOrderQuery(0);
 	const [deleteOrder] = useDeleteAdminOrderMutation();
 
 	const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -212,63 +212,71 @@ const OrderDelivered = () => {
 											</div>
 										</div>
 									</tr>
-									<tr className={scss.tr}>
-										{processingOrders?.map((e) => (
-											<Link to={`single-order/${e._id}`}>
-												<div className={scss.tr_div}>
-													<div className={scss.tr_row_1}>
-														<td className={scss.id_col}>{e._id}</td>
-														<td>{e.fullname}</td>
-													</div>
-													<div className={scss.tr_row_2}>
-														<td className={scss.number_col}>
-															<h2>{e.number}</h2> <span>{e.date}</span>
-														</td>
-														<td className={scss.quantity_col}>{e.quantity}</td>
-														<td className={scss.total_price_col}>
-															{e.totalPrice}
-														</td>
-														<td className={scss.order_type_col}>
-															{e.orderType}
-														</td>
-														<CustomSelect
-															orderId={e._id}
-															orderStatus={e.status}
-															currentColor={statusToColor(e.status)}
-														/>
-														<IconTrash
-															onClick={(event) => {
-																handleOpenModal(e._id, event);
-																setModalName(e.modalName);
-															}}
-														/>
-													</div>
-												</div>
-											</Link>
-										))}
-										<CustomModal
-											isModalOpen={modalIsOpen}
-											setIsModalOpen={setModalIsOpen}
-										>
-											<div className={scss.modal}>
-												<h2>
-													Вы уверены, что хотите удалить товар
-													<span> {modalName}</span>?
-												</h2>
+									<>
+										{isLoading ? (
+											<h1>IsLoading...</h1>
+										) : (
+											<tr className={scss.tr}>
+												{processingOrders?.map((e) => (
+													<Link to={`single-order/${e._id}`}>
+														<div className={scss.tr_div}>
+															<div className={scss.tr_row_1}>
+																<td className={scss.id_col}>{e._id}</td>
+																<td>{e.fullname}</td>
+															</div>
+															<div className={scss.tr_row_2}>
+																<td className={scss.number_col}>
+																	<h2>{e.number}</h2> <span>{e.date}</span>
+																</td>
+																<td className={scss.quantity_col}>
+																	{e.quantity}
+																</td>
+																<td className={scss.total_price_col}>
+																	{e.totalPrice}
+																</td>
+																<td className={scss.order_type_col}>
+																	{e.orderType}
+																</td>
+																<CustomSelect
+																	orderId={e._id}
+																	orderStatus={e.status}
+																	currentColor={statusToColor(e.status)}
+																/>
+																<IconTrash
+																	onClick={(event) => {
+																		handleOpenModal(e._id, event);
+																		setModalName(e.modalName);
+																	}}
+																/>
+															</div>
+														</div>
+													</Link>
+												))}
+												<CustomModal
+													isModalOpen={modalIsOpen}
+													setIsModalOpen={setModalIsOpen}
+												>
+													<div className={scss.modal}>
+														<h2>
+															Вы уверены, что хотите удалить товар
+															<span> {modalName}</span>?
+														</h2>
 
-												<div className={scss.modal_buttons}>
-													<CancelButtonCustom
-														onClick={() => setModalIsOpen(false)}
-													>
-														Отменить
-													</CancelButtonCustom>
-													<CustomButtonAdd onClick={handleDeleteOrder}>
-														Удалить
-													</CustomButtonAdd>
-												</div>
-											</div>
-										</CustomModal>
-									</tr>
+														<div className={scss.modal_buttons}>
+															<CancelButtonCustom
+																onClick={() => setModalIsOpen(false)}
+															>
+																Отменить
+															</CancelButtonCustom>
+															<CustomButtonAdd onClick={handleDeleteOrder}>
+																Удалить
+															</CustomButtonAdd>
+														</div>
+													</div>
+												</CustomModal>
+											</tr>
+										)}
+									</>
 								</table>
 							</div>
 						</div>
