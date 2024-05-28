@@ -1,5 +1,4 @@
 import { api as index } from '../index';
-
 const api = index.injectEndpoints({
 	endpoints: (build) => ({
 		getBasket: build.query<
@@ -7,8 +6,11 @@ const api = index.injectEndpoints({
 			BASKETPRODUCTS.GetBasketProductsRequest
 		>({
 			query: () => ({
-				url: 'https://c7c9df01cc80687d.mokky.dev/basket',
-				method: 'GET'
+				url: '/api/basket',
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
 			}),
 			providesTags: ['basket']
 		}),
@@ -16,10 +18,12 @@ const api = index.injectEndpoints({
 			BASKETPRODUCTS.PutProductResponse,
 			BASKETPRODUCTS.PutProductRequest
 		>({
-			query: ({ _id, isInBasket }) => ({
-				url: `https://c7c9df01cc80687d.mokky.dev/basket/${_id}`,
-				method: 'PATCH',
-				body: { isInBasket }
+			query: ({ id }) => ({
+				url: `/api/basket/${id}`,
+				method: 'POST',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
 			}),
 			invalidatesTags: ['basket']
 		}),
@@ -51,13 +55,12 @@ const api = index.injectEndpoints({
 			query: ({ id, buyProductQuantity }) => ({
 				url: `https://c7c9df01cc80687d.mokky.dev/basket/${id}`,
 				method: 'PATCH',
-				body: {buyProductQuantity}
+				body: { buyProductQuantity }
 			}),
 			invalidatesTags: ['basket']
 		})
 	})
 });
-
 export const {
 	useGetBasketQuery,
 	useBasketPutProductMutation,

@@ -11,19 +11,16 @@ namespace BASKETPRODUCTS {
 	type GetBasketProductsResponse = {
 		id: number;
 		image: string;
-		productName: string;
+		nameOfGadget: string;
 		price: number;
-		quantity: number | string;
-		isFavorite: boolean;
-		isInBasket: boolean;
-		isComparison: boolean;
-		token: string;
-		Rating: string;
-		productCode: number;
-		buyProduct: string;
-		buyProductQuantity: number;
-		orderPrice: OrderPrice;
-		isChecked: boolean;
+		quantity: number;
+		rating: number;
+		countOfRating: number;
+		memory: string;
+		colour: string;
+		article: number;
+		countOfGadget: number;
+		likes: boolean;
 	}[];
 
 	type BasketProductsAllItemIdRequest = {
@@ -41,12 +38,14 @@ namespace BASKETPRODUCTS {
 		Total?: number;
 	};
 	type PutProductRequest = {
-		_id: number;
-		isInBasket: boolean;
+		id: number;
+		// isInBasket: boolean;
+		quantity?: number;
 	};
 	type PutProductResponse = {
-		_id: number;
-		isInBasket: boolean;
+		id: number;
+		// isInBasket: boolean;
+		quantity?: number;
 	};
 
 	type BasketProductRequest = {

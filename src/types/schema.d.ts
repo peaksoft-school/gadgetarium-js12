@@ -41,6 +41,11 @@ type LoginForms = {
 	password: string;
 };
 
+type NewForgotPassword = {
+	password: string;
+	confirmPassword: string;
+};
+
 type RegisterForms = {
 	email: string;
 	password: string;
@@ -59,7 +64,6 @@ type ContactsPagesFormTypes = {
 	message: string;
 	status?: string | undefined;
 };
-
 
 type FiltredTypesProducts = {
 	_id: number;
