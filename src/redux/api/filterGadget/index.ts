@@ -11,10 +11,10 @@ const api = index.injectEndpoints({
 				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
-				},
+				}
 			}),
 			providesTags: ['filterProductsApi']
-		}),
+		})
 	})
 });
 

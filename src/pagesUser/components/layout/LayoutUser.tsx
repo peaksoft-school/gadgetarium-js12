@@ -21,6 +21,7 @@ import Profile from '../pages/personalAccountSections/Profile.tsx';
 import Favorite from '../pages/personalAccountSections/Favorite.tsx';
 import HistoryOfOrders from '../pages/personalAccountSections/HistoryOfOrders.tsx';
 import HistorySinglePage from '../pages/personalAccountSections/HistorySinglePage.tsx';
+import { HomePraktike } from '../pages/HomePraktike.tsx';
 const LayoutUser = () => {
 	const { pathname } = useLocation();
 	const [isScrolled, setIsScrolled] = useState(false);
@@ -79,6 +80,7 @@ const LayoutUser = () => {
 					</>
 				)}
 				<main>
+					{/* <Link to={'/homePraktike'}>homePraktike</Link> */}
 					<Routes>
 						<Route path="/" element={<HomePage />} />
 						<Route path="/aboutstore" element={<AboutPage />} />
@@ -87,7 +89,10 @@ const LayoutUser = () => {
 						<Route path="/contacts" element={<ContactsPage />} />
 
 						<Route path="/catalog/phones" element={<CatalogPage />} />
-						<Route path="/catalog/:filtredIds/filtred" element={<CatalogPage />} />
+						<Route
+							path="/catalog/:filtredIds/filtred"
+							element={<CatalogPage />}
+						/>
 						<Route path="/comparison" element={<ComparisonPage />} />
 						<Route path="/favorite" element={<FavoritePage />} />
 						<Route path="/basket" element={<BasketPage />} />
@@ -108,6 +113,7 @@ const LayoutUser = () => {
 							path="personal-account/history-of-orders/my-orders/:id"
 							element={<HistorySinglePage />}
 						></Route>
+						<Route path="/homePraktike" element={<HomePraktike />} />
 					</Routes>
 				</main>
 				<Footer />

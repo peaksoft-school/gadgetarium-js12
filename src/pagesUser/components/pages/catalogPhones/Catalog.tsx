@@ -1,18 +1,24 @@
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import {
+	Link,
+	useNavigate,
+	useParams,
+	useSearchParams
+} from 'react-router-dom';
 import scss from './Catalog.module.scss';
 import arrow from '@/src/assets/map/arrowtop.png';
 import arrowDown from '@/src/assets/map/arrowDown.png';
 import arrowBlue from '@/src/assets/map/arrowTopBlue.png';
 import arrowBlueBottom from '@/src/assets/map/arrowBottomBlue.png';
+import qs from 'qs';
 import {
 	coloursCatalog,
 	gBiteCatalog,
 	moreGBiteCatalog,
 	phoneCatalog
 } from '@/src/data/Catalog';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
 import {
 	IconHeart,
@@ -30,27 +36,28 @@ import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
 import { useAddProductsFotComparisonMutation } from '@/src/redux/api/comparison';
 import { useSubCategoriesQuery } from '@/src/redux/api/catalogProducts';
 const Catalog = () => {
+	const [searchParams, setSearchParams] = useSearchParams();
+	const parseUrl = qs.parse(window.location.search.substring(1));
+	const { brand } = parseUrl;
+
 	const navigate = useNavigate();
-	const { brand, filtredIds } = useParams();
+	const { filtredIds } = useParams();
+	const searchForBrand = searchParams.get('brand') || `${brand}`;
+	const array: string[] = [''];
 	const { data: subCategories = [] } = useSubCategoriesQuery(filtredIds!);
 	const [addProductBasket] = useBasketPutProductMutation();
 	const [addProductsForFavorite] = useAddProductsForFavoriteMutation();
 	const [addComparisonProducts] = useAddProductsFotComparisonMutation();
-
 	const { data: BasketData = [] } = useGetBasketQuery();
 	const [priceLow, setPriceLow] = useState<string>('');
 	const [filtredForBrand, setFiltredForBrand] = useState<string | null>('');
 	const [priceHigh, setPriceHigh] = useState('');
-	const { data: posts, isLoading } = useGetFiltredGadgetQuery({
-		id: filtredIds,
-		brand: brand || filtredForBrand
-	});
-
-	console.log(posts, 'is Array');
-
-	const categoryArray: string[] = [];
+	// console.log(posts, 'is Array');
+	const filtredProducts = React.useRef(false);
+	const [categoryArray, setCategoryArray] = useState<string[]>([
+		searchForBrand
+	]);
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-
 	const [reduceOne, setReduceOne] = useState(false);
 	const [filtredBasketProductsItemId, setFiltredBasketProductsItemId] =
 		useState<number[] | null>(null);
@@ -85,22 +92,45 @@ const Catalog = () => {
 	};
 
 	const handleSelectedCategory = (category: string) => {
+		array.push('esen');
+		console.log(array, 'array');
+
+		if (!categoryArray.includes(category)) {
+			const urlIsString = qs.stringify({
+				brand: categoryArray.map((e) => e)
+			});
+
+			navigate(`/catalog/${filtredIds}/filtred?${urlIsString}`);
+			console.log(urlIsString, 'url is string true');
+			
+			setCategoryArray((prevValue) => [...prevValue, category]);
+		} else {
+			setCategoryArray(categoryArray.filter((c) => c !== category));
+			const urlIsString = qs.stringify({
+				brand: categoryArray.map((e) => e)
+			});
+			console.log(urlIsString, 'url is string false');
+
+
+			navigate(`/catalog/${filtredIds}/filtred?${urlIsString}`);
+		}
+		window.scrollTo(0, 0);
+
 		// if (selectedCategories.includes(category)) {
 		// 	setSelectedCategories(selectedCategories.filter((c) => c !== category));
 		// } else {
 		// 	setSelectedCategories([...selectedCategories, category]);
 		// }
-		console.log(filtredForBrand);
-
-		console.log('test');
-		if (posts?.brand.includes(category)) {
-			// alert('')
-
-			setFiltredForBrand('');
-		} else {
-			setFiltredForBrand(category);
-		}
+		filtredProducts.current = true;
 	};
+
+	// const resultUrl = qs.parse({
+	// 	brand:
+	// })
+	const { data: posts, isLoading } = useGetFiltredGadgetQuery({
+		id: Number(filtredIds),
+		brand: [searchForBrand]
+	});
 
 	const handleBasketProductsFunk = async (id: number) => {
 		await addProductBasket({ id });
@@ -128,10 +158,8 @@ const Catalog = () => {
 		});
 		// console.log(true, 'true');
 		if (filtredBasketProductsItemId) {
-			console.log(true, 'true');
 
 			setFiltredBasketProductsItemId(filtredBasketProductsItemId);
-			console.log(filtredBasketProductsItemId);
 		}
 	}, []);
 	return (
@@ -182,20 +210,26 @@ const Catalog = () => {
 													<input
 														id={e.categoryName}
 														type="checkbox"
+														// checked={
+														// 	// selectedCategories.includes(e.categoryName) &&
+														// 	// categoryArray.push(e.categoryName)
+														// 	e.categoryName === brand ||
+														// 	posts?.brand.includes(e.categoryName)
+														// 		? true
+														// 		: false
+														// }
 														checked={
-															// selectedCategories.includes(e.categoryName) &&
-															// categoryArray.push(e.categoryName)
-															e.categoryName === brand ||
-															posts?.brand.includes(e.categoryName)
+															// searchForBrand.includes(e.categoryName) ||
+															posts?.brand && posts?.brand.includes(!e.categoryName)
 																? true
 																: false
 														}
 														onChange={() =>
 															handleSelectedCategory(e.categoryName)
 														}
-														onClick={() =>
-															handleSelectedCategory(e.categoryName)
-														}
+														// onClick={() =>
+														// 	handleSelectedCategory(e.categoryName)
+														// }
 													/>
 													<label htmlFor={e.categoryName}>
 														<p>{e.categoryName}</p>
@@ -307,6 +341,7 @@ const Catalog = () => {
 															type="checkbox"
 															checked={
 																selectedCategories.includes(e.colour) &&
+																categoryArray &&
 																categoryArray.push(e.colour)
 																	? true
 																	: false
@@ -419,14 +454,15 @@ const Catalog = () => {
 						<div className={scss.divRight}>
 							<div className={scss.filterDiv}>
 								<div className={scss.categoriesRight}>
-									{categoryArray.map((categories) => (
-										<div className={scss.category_right}>
-											<p>{categories}</p>
-											<IconX
-												onClick={() => handleSelectedCategory(categories)}
-											/>
-										</div>
-									))}
+									{categoryArray &&
+										categoryArray.map((categories) => (
+											<div className={scss.category_right}>
+												<p>{categories}</p>
+												<IconX
+													onClick={() => handleSelectedCategory(categories)}
+												/>
+											</div>
+										))}
 								</div>
 								<div className={scss.sortDiv}>
 									<PhonesDropdown />
@@ -457,13 +493,23 @@ const Catalog = () => {
 															{e.percent !== 0 && e.percent}{' '}
 														</p>{' '}
 														<div className={scss.top_icons}>
-															<IconScale style={e.compression ? {color: 'pink'} : {color: 'black'}}
+															<IconScale
+																style={
+																	e.compression
+																		? { color: 'pink' }
+																		: { color: 'black' }
+																}
 																onClick={() =>
 																	handleAddProductsComparisonFunk(e.id)
 																}
 															/>
 
-															<IconHeart style={e.likes ? {color: 'red'} : {color: 'black'}}
+															<IconHeart
+																style={
+																	e.likes
+																		? { color: 'red' }
+																		: { color: 'black' }
+																}
 																onClick={() =>
 																	handleAddProductsFavoriteFunk(e.id)
 																}

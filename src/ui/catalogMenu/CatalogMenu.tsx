@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
 	useGetCatalogProductsQuery,
 	useSubCategoriesQuery
@@ -7,55 +5,36 @@ import {
 import scss from './CatalogMenu.module.scss';
 import { IconGridDots } from '@tabler/icons-react';
 import { ConfigProvider, Dropdown, MenuProps, theme } from 'antd';
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import qs from 'qs';
+import  { useState, useRef } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
-interface TypesForDataArray {}
+
 const CatalogMenu = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
-	const searchForBrand = searchParams.get('brand') || '';
-	const [brandText, setBrandText] = useState<string>('');
 	const [idCategory, setIdCategory] = useState<number>(0);
-	const searchResult = React.useRef(false);
+	const searchResult = useRef(false);
 	const navigate = useNavigate();
-
-	const addFiltredFunk = (id: number, categoryName: string) => {
-		if (window.location.search) {
-			const queryParams = qs.parse(window.location.search.substring(1));
-			console.log(queryParams, 'parse');
-
-			const { brand } = queryParams;
-			console.log(brand, 'brand');
-
-			const { data } = useGetFiltredGadgetQuery({
-				id: id,
-				brand: [brand]
-				// ...parse
-			});
-			searchResult.current = true;
-		}
-		setIdCategory(id);
-		setBrandText(categoryName);
-		console.log(categoryName, brandText, 'test esentur for');
-	};
-	const handleFiltredProductsFunk = (id: number, categoryName: string) => {
-		window.scrollTo(0, 0);
-		if (!searchResult.current) {
-			const urlString = qs.stringify({
-				brand: categoryName
-			});
-			setBrandText(categoryName);
-			navigate(`/catalog/${id}/filtred?${urlString}`);
-		}
-		searchResult.current = false;
-	};
 	const { data: catalogData } = useGetCatalogProductsQuery();
 	const [idState, setIdState] = useState<number>(0);
-
 	const { data: subCategories = [] } = useSubCategoriesQuery(idState);
 
-	console.log(searchForBrand);
+	const handleFiltredProductsFunk = (id: number, categoryName: string) => {
+		setIdCategory(id);
+		searchParams.set('brand', `${categoryName}`);
+		setSearchParams(searchParams);
+		navigate(`/catalog/${id}/filtred?${searchParams.toString()}`);
+		searchResult.current = false;
+	};
+
+	const searchResults = searchParams.get('brand') || '';
+
+	const { data: filteredData } = useGetFiltredGadgetQuery(
+		{
+			id: idCategory,
+			brand: [searchResults.toString()]
+		}
+		// { skip: !searchResult.current }
+	);
 
 	if (!catalogData) {
 		return (
@@ -79,7 +58,6 @@ const CatalogMenu = () => {
 				<p
 					onClick={() => {
 						handleFiltredProductsFunk(category.id, el.categoryName);
-						addFiltredFunk(category.id, el.categoryName);
 					}}
 				>
 					{el.categoryName}
