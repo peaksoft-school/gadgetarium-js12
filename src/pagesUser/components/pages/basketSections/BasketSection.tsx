@@ -1,11 +1,10 @@
-/* eslint-disable prefer-const */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-	useBasketProductDeleteAllMutation,
-	useBasketProductMutation,
-	useBasketProductResultQuantityMutation,
+	// useBasketProductDeleteAllMutation,
+	// useBasketProductMutation,
+	// useBasketProductResultQuantityMutation,
 	useBasketPutProductMutation,
+	useGetBasketOrderAmountQuery,
+	// useGetBasketOrderAmountQuery,
 	useGetBasketQuery
 } from '@/src/redux/api/basket';
 import png from '../../../../assets/sammy_shopping_1_1.png';
@@ -19,99 +18,77 @@ import {
 	IconTrash
 } from '@tabler/icons-react';
 import { Button, Checkbox, ConfigProvider, Rate, InputNumber } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 
 const BasketSection = () => {
 	const [basketDeleteProduct] = useBasketPutProductMutation();
-	const [basketProductResultQuantity] =
-		useBasketProductResultQuantityMutation();
 	const [favoriteAddProduct] = useFavoritePutProductMutation();
-	const [basketProduct] = useBasketProductMutation();
-	const [basketProductsAllId] = useBasketProductDeleteAllMutation();
 	const navigate = useNavigate();
 	const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
-	const [arrayNumbers, setArrayNumbers] = useState<number[]>([]);
+	// const [arrayNumbers, setArrayNumbers] = useState<number[]>([]);
 	const [inputValueItemId, setInputValueItemId] = useState<number>();
 	const [selectAll, setSelectAll] = useState<boolean>(false);
 	const [inputValueQuantity, setInputValueQuantity] = useState<number>(0);
+	const [totalAmount, setTotalAmount] = useState<number>(0);
 	const { data, isLoading } = useGetBasketQuery();
-	const handleBasketProductDelete = async (
-		id: number,
-	) => {
-		await basketDeleteProduct({ id });
+	const { data: count } = useGetBasketOrderAmountQuery({
+		ids: selectedProducts
+	});
+
+	useEffect(() => {
+		const calculateTotalAmount = () => {
+			const total = selectedProducts.reduce((sum, productId) => {
+				const product = count?.find((item) => item.id === productId);
+				return sum + (product ? product.price * product.quantity : 0);
+			}, 0);
+			setTotalAmount(total);
+		};
+		calculateTotalAmount();
+	}, [selectedProducts, count]);
+
+	const handleBasketProductDelete = async (id: number) => {
+		await basketDeleteProduct(id);
 	};
 
-	const handleFavoriteAddProduct = async (id: number, isFavorite: boolean) => {
-		await favoriteAddProduct({ id, isFavorite: !isFavorite });
-	};
-	const handleSelectProduct = async (
-		productId: number,
-	) => {
-		if (selectedProducts.includes(productId)) {
-			setSelectedProducts(selectedProducts.filter((id) => id !== productId));
-			setArrayNumbers(arrayNumbers.filter((el) => el !== productId));
-			localStorage.removeItem('selectedProducts');
-			localStorage.setItem(
-				'selectedProducts',
-				JSON.stringify(selectedProducts.filter((el) => el !== productId))
-			);
-			await basketProduct({ id: null });
-		} else {
-			setSelectedProducts([...selectedProducts, productId]);
-			setArrayNumbers((prevState) => [...prevState, productId]);
-			localStorage.setItem(
-				'selectedProducts',
-				JSON.stringify([...selectedProducts, productId])
-			);
-			await basketProduct({
-				id: productId,
-			});
-		}
+	const handleFavoriteAddProduct = async (id: number, likes: boolean) => {
+		await favoriteAddProduct({ id, likes: !likes });
 	};
 
-	const handleSelectAll = async (
-		id: number,
-	) => {
+	const handleSelectProduct = async (id: number) => {
+		setSelectedProducts((prevSelectedProducts) =>
+			prevSelectedProducts.includes(id)
+				? prevSelectedProducts.filter((productId) => productId !== id)
+				: [...prevSelectedProducts, id]
+		);
+	};
+
+	const handleSelectAll = () => {
 		if (selectAll) {
 			setSelectedProducts([]);
-			localStorage.setItem(
-				'selectedProducts',
-				JSON.stringify(setSelectedProducts([]))
-			);
-			await basketProductsAllId({ id: null });
+			localStorage.setItem('selectedProducts', JSON.stringify([]));
 		} else {
-			setSelectedProducts(data?.map((item) => item.id) || []);
-			localStorage.setItem(
-				'selectedProducts',
-				JSON.stringify(data?.map((item) => item.id))
-			);
-			await basketProductsAllId({
-				id: id,
-			});
+			const allProductIds = data?.map((item) => item.id) || [];
+			setSelectedProducts(allProductIds);
+			localStorage.setItem('selectedProducts', JSON.stringify(allProductIds));
 		}
 		setSelectAll(!selectAll);
 	};
+
+	// const handleInputValueForProductQuantity = (value: number | null) => {
+	// 	if (value !== null) {
+	// 		setInputValueQuantity(value);
+	// 	}
+	// 	console.log(value);
+	// 	console.log(inputValueQuantity);
+	// };
 
 	const handleInputValueForProductQuantity = (value: number | null) => {
 		if (value !== null) {
 			setInputValueQuantity(value);
 		}
-		console.log(value);
-		console.log(inputValueQuantity);
 	};
-	const handleProductQuantityFunkForEnter = async (id: number) => {
-		console.log(inputValueQuantity);
-		setSelectedProducts([...selectedProducts, id]);
-		localStorage.setItem(
-			'selectedProducts',
-			JSON.stringify([...selectedProducts, id])
-		);
-		await basketProductResultQuantity({
-			id,
-			buyProductQuantity: inputValueQuantity
-		});
-	};
+
 	const allSelected = selectedProducts.length === (data?.length || 0);
 	const someSelected = selectedProducts.length > 0;
 	const localProductsResults = localStorage.getItem('selectedProducts');
@@ -168,13 +145,13 @@ const BasketSection = () => {
 										>
 											<Checkbox
 												checked={allSelected && someSelected}
-												onChange={() =>
-													data?.forEach((el) =>
-														handleSelectAll(
-															el.id,
-													
-														)
-													)
+												onChange={
+													() => {
+														data?.map((el) => handleSelectAll(el.id));
+														// data?.forEach(() => handleSelectAll());
+													}
+
+													// handleSelectAll()
 												}
 											>
 												<p>Отметить все</p>
@@ -223,15 +200,10 @@ const BasketSection = () => {
 												>
 													<Checkbox
 														checked={
-															selectedProducts.includes(item.id) &&
-															localProductsResults?.includes(item.id.toString())
+															selectedProducts.includes(item.id)
+															// localProductsResults?.includes(item.id())
 														}
-														onChange={() =>
-															handleSelectProduct(
-																item.id,
-															
-															)
-														}
+														onChange={() => handleSelectProduct(item.id)}
 													/>
 												</ConfigProvider>
 												<div className={scss.content_product_div}>
@@ -276,7 +248,7 @@ const BasketSection = () => {
 																				id="inputValueQuantity"
 																				className={scss.input_number}
 																				min={1}
-																				max={100}
+																				max={300}
 																				defaultValue={item.quantity}
 																				onChange={
 																					handleInputValueForProductQuantity
@@ -293,7 +265,7 @@ const BasketSection = () => {
 																					e: React.KeyboardEvent<HTMLInputElement>
 																				) => {
 																					if (e.key === 'Enter') {
-																						handleProductQuantityFunkForEnter(
+																						handleInputValueForProductQuantity(
 																							item.id
 																						);
 																					}
@@ -339,10 +311,7 @@ const BasketSection = () => {
 																	<div
 																		className={scss.div}
 																		onClick={() =>
-																			handleBasketProductDelete(
-																				item.id,
-																				// item.isInBasket
-																			)
+																			handleBasketProductDelete(item.id)
 																		}
 																	>
 																		<IconX width={'16px'} height={'16px'} />
@@ -358,60 +327,39 @@ const BasketSection = () => {
 									</div>
 									<div className={scss.content_product_price}>
 										<div className={scss.contents_product_price_div}>
-											{selectedProducts.some((id) =>
-												data?.map((el) => el.id).includes(id)
-											) && (
+											{someSelected && (
 												<>
 													<h3>Сумма заказа</h3>
 													<div></div>
 													<div className={scss.div_contents_and_results_price}>
 														<div className={scss.price_result_product_div}>
 															<p>Количество товаров:</p>
-															{data
-																?.slice(0, 1)
-																.map((item) => (
-																	<p key={item.id}>
-																		{item.nameOfGadget}
-																	</p>
-																))}
+															<p>{selectedProducts.length} шт</p>
 														</div>
 														<div className={scss.price_result_product_div}>
 															<p>Ваша скидка:</p>
-															{data?.slice(0, 1).map((item) => (
-																<p className={scss.color_red_p} key={item.id}>
-																	{/* {item.orderPrice.YourDiscount} */}
-																</p>
-															))}
+															<p className={scss.color_red_p}>0</p>
 														</div>
 														<div className={scss.price_result_product_div}>
 															<p>Сумма:</p>
-															{data
-																?.slice(0, 1)
-																.map((item) => (
-																	<p key={item.id}></p>
-																))}
+															<p>{totalAmount} c</p>
 														</div>
 														<div className={scss.price_result_product_div}>
 															<h3>Итого</h3>
+															<p>{totalAmount} c</p>
 														</div>
 													</div>
 												</>
 											)}
 											<Button
 												onClick={() => {
-													selectedProducts.some(
-														(id) =>
-															data?.map((el) => el.id).includes(id) &&
-															navigate('/pay/delivery')
-													);
+													someSelected && navigate('/pay/delivery');
 												}}
 												className={calculateButtonClass()}
 											>
 												Перейти к оформлению
 											</Button>
-											{selectedProducts.some((id) =>
-												data?.map((el) => el.id).includes(id)
-											) ? null : (
+											{!someSelected && (
 												<button className={scss.buttonNooActive}>
 													<IconExclamationMark color="#464343" />{' '}
 													<p>

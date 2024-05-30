@@ -1,4 +1,5 @@
 import { api as index } from '../index';
+
 const api = index.injectEndpoints({
 	endpoints: (build) => ({
 		getBasket: build.query<
@@ -14,57 +15,38 @@ const api = index.injectEndpoints({
 			}),
 			providesTags: ['basket']
 		}),
-		basketPutProduct: build.mutation<
-			BASKETPRODUCTS.PutProductResponse,
-			BASKETPRODUCTS.PutProductRequest
+		getBasketOrderAmount: build.query<
+			BASKETPRODUCTS.GetBasketOrderAmountsResponse,
+			BASKETPRODUCTS.GetBasketOrderAmountsRequest
 		>({
-			query: ({ id }) => ({
-				url: `/api/basket/${id}`,
-				method: 'POST',
+			query: (ids) => ({
+				url: `/api/basket/all-amount-in-basket/?ids=${ids}`,
+				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				}
 			}),
-			invalidatesTags: ['basket']
+			providesTags: ['basket']
 		}),
-		basketProductDeleteAll: build.mutation<
-			BASKETPRODUCTS.BasketProductsAllItemIdResponse,
-			BASKETPRODUCTS.BasketProductsAllItemIdRequest
+		basketPutProduct: build.mutation<
+			BASKETPRODUCTS.PutProductResponse,
+			BASKETPRODUCTS.PutProductRequest
 		>({
-			query: ({ id, YourDiscount, Total, Sum, NumberOfGoods }) => ({
-				url: `https://c7c9df01cc80687d.mokky.dev/basket/${id}`,
-				method: 'PATCH',
-				body: { YourDiscount, Total, Sum, NumberOfGoods }
-			}),
-			invalidatesTags: ['basket']
-		}),
-		basketProduct: build.mutation<
-			BASKETPRODUCTS.BasketProductResponse,
-			BASKETPRODUCTS.BasketProductRequest
-		>({
-			query: ({ id }) => ({
-				url: `https://c7c9df01cc80687d.mokky.dev/basket/${id}`,
-				method: 'PATCH'
-			}),
-			invalidatesTags: ['basket']
-		}),
-		basketProductResultQuantity: build.mutation<
-			BASKETPRODUCTS.ProductQuantityResponse,
-			BASKETPRODUCTS.ProductQuantityRequest
-		>({
-			query: ({ id, buyProductQuantity }) => ({
-				url: `https://c7c9df01cc80687d.mokky.dev/basket/${id}`,
-				method: 'PATCH',
-				body: { buyProductQuantity }
+			query: ({ id, basket }) => ({
+				url: `/api/basket/${id}`,
+				method: 'POST',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				},
+				body: { basket }
 			}),
 			invalidatesTags: ['basket']
 		})
 	})
 });
+
 export const {
 	useGetBasketQuery,
-	useBasketPutProductMutation,
-	useBasketProductDeleteAllMutation,
-	useBasketProductMutation,
-	useBasketProductResultQuantityMutation
+	useGetBasketOrderAmountQuery,
+	useBasketPutProductMutation
 } = api;

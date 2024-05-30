@@ -6,9 +6,27 @@ type OrderPrice = {
 	Sum: number;
 	Total: number;
 };
+
+type BasketAmounts = {
+	quantity: number;
+	discountPrice: number;
+	price: number;
+	currentPrice: number;
+};
+
+interface GadgetResponse {
+	id: number;
+	image: string;
+	nameOfGadget: string;
+	memory: string;
+	colour: string;
+	article: number;
+	quantity: number;
+}
+
 namespace BASKETPRODUCTS {
 	type GetBasketProductsRequest = void;
-	type GetBasketProductsResponse = {
+	type GetBasketProductsResponse = Array<{
 		id: number;
 		image: string;
 		nameOfGadget: string;
@@ -21,7 +39,7 @@ namespace BASKETPRODUCTS {
 		article: number;
 		countOfGadget: number;
 		likes: boolean;
-	}[];
+	}>;
 
 	type BasketProductsAllItemIdRequest = {
 		id: number | null;
@@ -37,30 +55,20 @@ namespace BASKETPRODUCTS {
 		Sum?: number;
 		Total?: number;
 	};
+
 	type PutProductRequest = {
 		id: number;
-		// isInBasket: boolean;
-		quantity?: number;
+		basket: boolean;
 	};
 	type PutProductResponse = {
 		id: number;
-		// isInBasket: boolean;
-		quantity?: number;
 	};
 
 	type BasketProductRequest = {
 		id: number | null;
-		NumberOfGoods?: number;
-		YourDiscount?: number;
-		Sum?: number;
-		Total?: number;
 	};
 	type BasketProductResponse = {
 		id: number | null;
-		NumberOfGoods?: number;
-		YourDiscount?: number;
-		Sum?: number;
-		Total?: number;
 	};
 
 	type ProductQuantityRequest = {
@@ -80,5 +88,22 @@ namespace BASKETPRODUCTS {
 		YourDiscount?: number;
 		Sum?: number;
 		Total?: number;
+	};
+
+	// type GetBasketOrderAmountsRequest = {
+	// 		ids: number[];
+	// 	};
+	// 	type GetBasketOrderAmountsResponse = {
+	// 		basketAmounts: BasketAmounts;
+	// 		gadgetResponse: GadgetResponse[];
+	// 	};
+	type GetBasketOrderAmountsRequest = {
+		ids: number[];
+	};
+	type GetBasketOrderAmountsResponse = {
+		quantity: number;
+		discountPrice: number;
+		price: number;
+		currentPrice: number;
 	};
 }

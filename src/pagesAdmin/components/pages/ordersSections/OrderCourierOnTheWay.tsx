@@ -18,9 +18,6 @@ import {
 	theme
 } from 'antd';
 import { SearchProps } from 'antd/es/input';
-import CustomModal from '@/src/ui/modalAdmin/CustomModal';
-import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
-import CustomButtonAdd from '@/src/ui/adminButtons/CustomButtonAdd';
 import Infographics from '@/src/ui/infographics/Infographics';
 
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
@@ -36,10 +33,6 @@ const OrderCourierOnTheWay = () => {
 
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 	const [modalName, setModalName] = useState('');
-
-	const [day, setDay] = useState(true);
-	const [month, setMonth] = useState(false);
-	const [year, setYear] = useState(false);
 
 	const [orderIdToDelete, setOrderIdToDelete] = useState('');
 
@@ -116,21 +109,7 @@ const OrderCourierOnTheWay = () => {
 			colorBgContainer: 'transparent'
 		}
 	};
-	const antdThemeConfig = {
-		algorithm: theme.defaultAlgorithm,
-		token: {
-			colorPrimary: '#cb11ab',
-			colorBgContainer: 'transparent'
-		}
-	};
 
-	const antdThemeConfig = {
-		algorithm: theme.defaultAlgorithm,
-		token: {
-			colorPrimary: '#cb11ab',
-			colorBgContainer: 'transparent'
-		}
-	};
 	return (
 		<section className={scss.order}>
 			<div className="container">
