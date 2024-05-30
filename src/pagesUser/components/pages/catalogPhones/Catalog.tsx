@@ -54,9 +54,10 @@ const Catalog = () => {
 	const [priceHigh, setPriceHigh] = useState('');
 	// console.log(posts, 'is Array');
 	const filtredProducts = React.useRef(false);
-	const [categoryArray, setCategoryArray] = useState<string[]>([
-		searchForBrand
-	]);
+	const [categoryArray, setCategoryArray] = useState(() => {
+		const brands = searchParams.getAll('brand');
+		return brand?.length ? brands : [];
+	});
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 	const [reduceOne, setReduceOne] = useState(false);
 	const [filtredBasketProductsItemId, setFiltredBasketProductsItemId] =
@@ -89,47 +90,30 @@ const Catalog = () => {
 		setSelectedCategories([]);
 		setPriceHigh('');
 		setPriceLow('');
+		searchParams.delete('brand');
+		searchParams.delete('discount');
+		searchParams.delete('sort');
+		setSearchParams(searchParams);
+		setCategoryArray([]);
 	};
 
 	const handleSelectedCategory = (category: string) => {
-		array.push('esen');
-		console.log(array, 'array');
-
 		if (!categoryArray.includes(category)) {
-			const urlIsString = qs.stringify({
-				brand: categoryArray.map((e) => e)
-			});
-
-			navigate(`/catalog/${filtredIds}/filtred?${urlIsString}`);
-			console.log(urlIsString, 'url is string true');
-			
+			searchParams.append('brand', category);
 			setCategoryArray((prevValue) => [...prevValue, category]);
+			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
 		} else {
-			setCategoryArray(categoryArray.filter((c) => c !== category));
-			const urlIsString = qs.stringify({
-				brand: categoryArray.map((e) => e)
-			});
-			console.log(urlIsString, 'url is string false');
-
-
-			navigate(`/catalog/${filtredIds}/filtred?${urlIsString}`);
+			const removeIsBrand = categoryArray.filter((c) => c !== category);
+			searchParams.delete('brand');
+			removeIsBrand.forEach((c) => searchParams.append('brand', c));
+			setCategoryArray(removeIsBrand);
+			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
 		}
-		window.scrollTo(0, 0);
-
-		// if (selectedCategories.includes(category)) {
-		// 	setSelectedCategories(selectedCategories.filter((c) => c !== category));
-		// } else {
-		// 	setSelectedCategories([...selectedCategories, category]);
-		// }
-		filtredProducts.current = true;
 	};
 
-	// const resultUrl = qs.parse({
-	// 	brand:
-	// })
 	const { data: posts, isLoading } = useGetFiltredGadgetQuery({
 		id: Number(filtredIds),
-		brand: [searchForBrand]
+		brand: [searchParams.toString()]
 	});
 
 	const handleBasketProductsFunk = async (id: number) => {
@@ -158,7 +142,6 @@ const Catalog = () => {
 		});
 		// console.log(true, 'true');
 		if (filtredBasketProductsItemId) {
-
 			setFiltredBasketProductsItemId(filtredBasketProductsItemId);
 		}
 	}, []);
@@ -210,22 +193,13 @@ const Catalog = () => {
 													<input
 														id={e.categoryName}
 														type="checkbox"
-														// checked={
-														// 	// selectedCategories.includes(e.categoryName) &&
-														// 	// categoryArray.push(e.categoryName)
-														// 	e.categoryName === brand ||
-														// 	posts?.brand.includes(e.categoryName)
-														// 		? true
-														// 		: false
-														// }
-														checked={
-															// searchForBrand.includes(e.categoryName) ||
-															posts?.brand && posts?.brand.includes(!e.categoryName)
-																? true
-																: false
-														}
+														checked={categoryArray.includes(e.categoryName)}
+														// data-category-name={e.categoryName}
 														onChange={() =>
-															handleSelectedCategory(e.categoryName)
+															handleSelectedCategory(
+																e.categoryName
+																// e.target.checked
+															)
 														}
 														// onClick={() =>
 														// 	handleSelectedCategory(e.categoryName)

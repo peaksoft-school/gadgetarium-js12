@@ -5,7 +5,7 @@ import {
 import scss from './CatalogMenu.module.scss';
 import { IconGridDots } from '@tabler/icons-react';
 import { ConfigProvider, Dropdown, MenuProps, theme } from 'antd';
-import  { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
 
@@ -20,18 +20,19 @@ const CatalogMenu = () => {
 
 	const handleFiltredProductsFunk = (id: number, categoryName: string) => {
 		setIdCategory(id);
-		searchParams.set('brand', `${categoryName}`);
-		setSearchParams(searchParams);
+		searchParams.append('brand', `${categoryName}`);
+		// setSearchParams(searchParams);
 		navigate(`/catalog/${id}/filtred?${searchParams.toString()}`);
 		searchResult.current = false;
 	};
 
 	const searchResults = searchParams.get('brand') || '';
+console.log(searchParams, searchResults, 'test project');
 
 	const { data: filteredData } = useGetFiltredGadgetQuery(
 		{
 			id: idCategory,
-			brand: [searchResults.toString()]
+			brand: [searchResults]
 		}
 		// { skip: !searchResult.current }
 	);

@@ -20,6 +20,8 @@ namespace FILTREDPRODUCTS {
 	type GetFiltredProductsRequest = {
 		id?: number;
 		brand?: string[];
+		sort?: string;
+		discount?: string;
 	}
 	type GetFiltredProductsResponse = {
 		id: number;
