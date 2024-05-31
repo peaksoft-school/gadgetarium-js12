@@ -15,8 +15,7 @@ import qs from 'qs';
 import {
 	coloursCatalog,
 	gBiteCatalog,
-	moreGBiteCatalog,
-	phoneCatalog
+	moreGBiteCatalog
 } from '@/src/data/Catalog';
 import React, { useEffect, useState } from 'react';
 import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
@@ -39,11 +38,9 @@ const Catalog = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const parseUrl = qs.parse(window.location.search.substring(1));
 	const { brand } = parseUrl;
-
 	const navigate = useNavigate();
 	const { filtredIds } = useParams();
 	const searchForBrand = searchParams.get('brand') || `${brand}`;
-	const array: string[] = [''];
 	const { data: subCategories = [] } = useSubCategoriesQuery(filtredIds!);
 	const [addProductBasket] = useBasketPutProductMutation();
 	const [addProductsForFavorite] = useAddProductsForFavoriteMutation();
@@ -56,6 +53,10 @@ const Catalog = () => {
 	const filtredProducts = React.useRef(false);
 	const [categoryArray, setCategoryArray] = useState(() => {
 		const brands = searchParams.getAll('brand');
+		return brand?.length ? brands : [];
+	});
+	const [filtredForColors, setFiltredForColors] = useState(() => {
+		const brands = searchParams.getAll('colour');
 		return brand?.length ? brands : [];
 	});
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -93,8 +94,15 @@ const Catalog = () => {
 		searchParams.delete('brand');
 		searchParams.delete('discount');
 		searchParams.delete('sort');
+		searchParams.delete('colour');
 		setSearchParams(searchParams);
 		setCategoryArray([]);
+		setFiltredForColors([]);
+		setReduceOne(true);
+		setReduceTwo(true);
+		setReduceThree(true);
+		setReduceFour(true);
+		setReduceFive(true);
 	};
 
 	const handleSelectedCategory = (category: string) => {
@@ -105,8 +113,26 @@ const Catalog = () => {
 		} else {
 			const removeIsBrand = categoryArray.filter((c) => c !== category);
 			searchParams.delete('brand');
+			searchParams.delete('sort');
+			searchParams.delete('discount');
+			searchParams.delete('colour');
 			removeIsBrand.forEach((c) => searchParams.append('brand', c));
 			setCategoryArray(removeIsBrand);
+			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
+		}
+	};
+
+	const handleColorsFiltredProducts = (colors: string) => {
+		if (!filtredForColors.includes(colors)) {
+			searchParams.append('colour', colors);
+			setFiltredForColors((prevValue) => [...prevValue, colors]);
+			setSearchParams(searchParams);
+			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
+		} else {
+			const removeColors = filtredForColors.filter((c) => c !== colors);
+			searchParams.delete('colour');
+			removeColors.forEach((c) => searchParams.append('colour', c));
+			setFiltredForColors(removeColors);
 			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
 		}
 	};
@@ -127,20 +153,10 @@ const Catalog = () => {
 		await addComparisonProducts({ id });
 	};
 
-	// const handleBasketProductStyleResultFunk = () => {
-
-	// 	if (status ===) {
-	// 		return `${scss.bottom_cart} ${scss.basket_product_active}`;
-	// 	} else {
-	// 		return `${scss.bottom_cart}`;
-	// 	}
-	// };
-
 	useEffect(() => {
 		const filtredBasketProductsItemId = BasketData.map((el) => {
 			return el.id;
 		});
-		// console.log(true, 'true');
 		if (filtredBasketProductsItemId) {
 			setFiltredBasketProductsItemId(filtredBasketProductsItemId);
 		}
@@ -196,14 +212,8 @@ const Catalog = () => {
 														checked={categoryArray.includes(e.categoryName)}
 														// data-category-name={e.categoryName}
 														onChange={() =>
-															handleSelectedCategory(
-																e.categoryName
-																// e.target.checked
-															)
+															handleSelectedCategory(e.categoryName)
 														}
-														// onClick={() =>
-														// 	handleSelectedCategory(e.categoryName)
-														// }
 													/>
 													<label htmlFor={e.categoryName}>
 														<p>{e.categoryName}</p>
@@ -313,14 +323,10 @@ const Catalog = () => {
 														<input
 															id={e.colour}
 															type="checkbox"
-															checked={
-																selectedCategories.includes(e.colour) &&
-																categoryArray &&
-																categoryArray.push(e.colour)
-																	? true
-																	: false
+															checked={filtredForColors.includes(e.colour)}
+															onChange={() =>
+																handleColorsFiltredProducts(e.colour)
 															}
-															onChange={() => handleSelectedCategory(e.colour)}
 														/>
 														<label htmlFor={e.colour}>
 															<p>{e.colour}</p>

@@ -1,56 +1,38 @@
-export const phoneCatalog = [
-  {
-    phone: "Apple"
-  },
-  {
-    phone: "Samsung"
-  },
-  {
-    phone: "Huawei"
-  },
-  {
-    phone: "Honor"
-  },
-  {
-    phone: "Xiaomi"
-  },
-]
-
 export const coloursCatalog = [
   {
-    colour: "Черный",
+    colour: "black",
     quantity: "14840"  
   },
   {
-    colour: "Синий",
+    colour: "blue",
     quantity: "22544"
   },
   {
-    colour: "Золотой",
+    colour: "yellow",
     quantity: "3044"
   },
   {
-    colour: "Графитовый",
+    colour: "Graphite",
     quantity: "2544"
   },
   {
-    colour: "Зеленый",
+    colour: "green",
     quantity: "7005"
   },
   {
-    colour: "Розовое золото ",
+    colour: "pink",
     quantity: "2500"
   },
   {
-    colour: "Красный",
+    colour: "red",
     quantity: "2444"
   },
   {
-    colour: "Серебро ",
+    colour: "Silver",
     quantity: "14000"
   },
   {
-    colour: "Белый",
+    colour: "White",
     quantity: "5000"
   },
 ]

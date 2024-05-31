@@ -1,13 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IconChevronDown } from '@tabler/icons-react';
 import scss from './PhonesDropdown.module.scss';
 import type { MenuProps } from 'antd';
 import { ConfigProvider, Dropdown, Space, theme } from 'antd';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
 
 const PhonesDropdown = () => {
+	const { filtredIds } = useParams();
+
 	const [searchParams, setSearchParams] = useSearchParams();
-	// const navigate  = useNavigate();
 	const handleSortsFunkFiltred = (categoryText: string) => {
 		searchParams.append('sort', categoryText);
 		setSearchParams(searchParams);
@@ -17,6 +19,7 @@ const PhonesDropdown = () => {
 		setSearchParams(searchParams);
 	};
 	const { data } = useGetFiltredGadgetQuery({
+		id: Number(filtredIds),
 		sort: searchParams.toString()
 	});
 
@@ -82,28 +85,6 @@ const PhonesDropdown = () => {
 			)
 		}
 	];
-	// const cards: MenuProps['itemType'] = [
-	// 	{
-	// 		key: '1',
-	// 		label: (
-	// 			<p onClick={() => handleDiscountFilterFunk('ALL_DISCOUNTS')}>
-	// 				Все акции
-	// 			</p>
-	// 		)
-	// 	},
-	// 	{
-	// 		key: '2',
-	// label: (
-	// 	<p onClick={() => handleDiscountFilterFunk('ALL_DISCOUNTS')}>До 50%</p>
-	// )
-	// 	},
-	// 	{
-	// 		key: '3',
-	// label: (
-	// 	<p onClick={() => handleDiscountFilterFunk('OVER_50')}>Свыше 50%</p>
-	// )
-	// 	},
-	// ];
 	const antdThemeConfig = {
 		algorithm: theme.defaultAlgorithm,
 		token: {
