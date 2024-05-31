@@ -6,8 +6,18 @@ const api = index.injectEndpoints({
 			FILTREDPRODUCTS.GetFiltredProductsResponse,
 			FILTREDPRODUCTS.GetFiltredProductsRequest
 		>({
-			query: ({ id, brand, sort, discount, colour }) => ({
-				url: `/api/gadget/${id}/filter?${brand}&${sort}&${discount}&${colour}`,
+			query: ({
+				id,
+				brand,
+				sort,
+				discount,
+				colour,
+				costFrom,
+				costUpTo,
+				page,
+				size
+			}) => ({
+				url: `/api/gadget/${id}/filter?${brand}&${sort}&${discount}&${colour}&${costFrom}&${costUpTo}&${page}&${size}`,
 				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`

@@ -40,6 +40,7 @@ const Catalog = () => {
 	const { brand } = parseUrl;
 	const navigate = useNavigate();
 	const { filtredIds } = useParams();
+	const [count, setCount] = useState<number>(2)
 	const searchForBrand = searchParams.get('brand') || `${brand}`;
 	const { data: subCategories = [] } = useSubCategoriesQuery(filtredIds!);
 	const [addProductBasket] = useBasketPutProductMutation();
@@ -77,12 +78,22 @@ const Catalog = () => {
 	const [phonesToShow] = useState(firstPhones);
 	const [allPhonesHide, setAllPhonesHide] = useState(false);
 
-	const handleShowAllPhones = () => {
+	const handleShowAllPhones = (page: number) => {
 		setAllPhones(true);
 		setAllPhonesHide(true);
+		let size = 12 + page;
+		searchParams.set('page', '1');
+		searchParams.set('size', size.toString());
+		setSearchParams(searchParams);
+		navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
 	};
 
-	const handleHideAllPhones = () => {
+	const handleHideAllPhones = (page: number) => {
+		let size = page;
+		searchParams.set('page', '1');
+		searchParams.set('size', size.toString());
+		setSearchParams(searchParams);
+		navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
 		setAllPhones(false);
 		setAllPhonesHide(false);
 	};
@@ -95,6 +106,10 @@ const Catalog = () => {
 		searchParams.delete('discount');
 		searchParams.delete('sort');
 		searchParams.delete('colour');
+		searchParams.delete('costFrom');
+		searchParams.delete('costUpTo');
+		searchParams.delete('page');
+		searchParams.delete('size');
 		setSearchParams(searchParams);
 		setCategoryArray([]);
 		setFiltredForColors([]);
@@ -137,9 +152,51 @@ const Catalog = () => {
 		}
 	};
 
+	const changeInputValueFunk = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const numberValue = Number(e.target.value);
+		if (!isNaN(numberValue)) {
+			setPriceLow(numberValue.toString());
+			searchParams.set('costFrom', numberValue.toString());
+			setSearchParams(searchParams);
+			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
+		} else {
+			searchParams.delete('costFrom');
+			setSearchParams(searchParams);
+			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
+		}
+		if (numberValue === 0) {
+			searchParams.delete('costFrom');
+			setSearchParams(searchParams);
+			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
+		}
+	};
+	const changeInputValueFunk2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const numberValue = Number(e.target.value);
+		if (!isNaN(numberValue)) {
+			setPriceHigh(numberValue.toString());
+			searchParams.set('costUpTo', numberValue.toString());
+			setSearchParams(searchParams);
+			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
+		} else {
+			searchParams.delete('costUpTo');
+			setSearchParams(searchParams);
+			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
+		}
+		if (numberValue === 0) {
+			searchParams.delete('costUpTo');
+			setSearchParams(searchParams);
+			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
+		}
+	};
+
 	const { data: posts, isLoading } = useGetFiltredGadgetQuery({
 		id: Number(filtredIds),
-		brand: [searchParams.toString()]
+		brand: [searchParams.toString()],
+		colour: [searchParams.toString()],
+		costFrom: Number(searchParams),
+		costUpTo: Number(searchParams),
+		page: Number(searchParams),
+		size: Number(searchParams)
 	});
 
 	const handleBasketProductsFunk = async (id: number) => {
@@ -248,13 +305,22 @@ const Catalog = () => {
 										</div>
 
 										<div className={scss.priceDiv}>
-											<input type="number" value={priceLow} />
+											<input
+												type="text"
+												value={priceLow}
+												onChange={changeInputValueFunk}
+											/>
+											{/* <input type="text" /> */}
 											<p className={scss.pOne}>от</p>
-											<input type="number" value={priceHigh} />
+											<input
+												type="text"
+												value={priceHigh}
+												onChange={changeInputValueFunk2}
+											/>
 											<p className={scss.pTwo}>до</p>
 										</div>
 
-										<div className={scss.priceChangerDiv}>
+										{/* <div className={scss.priceChangerDiv}>
 											<div className={scss.progress}></div>
 											<input
 												className={scss.price}
@@ -273,12 +339,10 @@ const Catalog = () => {
 												min="40000"
 												max="300000"
 											/>
-										</div>
+										</div> */}
 									</div>
 								)}
-
 								<div className={scss.divLine}></div>
-
 								{reduceThree ? (
 									<div>
 										<div
@@ -437,10 +501,21 @@ const Catalog = () => {
 									{categoryArray &&
 										categoryArray.map((categories) => (
 											<div className={scss.category_right}>
-												<p>{categories}</p>
+												<p onClick={() => handleSelectedCategory(categories)}>
+													{categories}
+												</p>
 												<IconX
 													onClick={() => handleSelectedCategory(categories)}
 												/>
+											</div>
+										))}
+									{filtredForColors &&
+										filtredForColors.map((e) => (
+											<div className={scss.category_right}>
+												<p onClick={() => handleColorsFiltredProducts(e)}>
+													{e}
+												</p>
+												<IconX onClick={() => handleColorsFiltredProducts(e)} />
 											</div>
 										))}
 								</div>
@@ -544,7 +619,7 @@ const Catalog = () => {
 							<div className={scss.showButtons}>
 								{!allPhones && (
 									<button
-										onClick={handleShowAllPhones}
+										onClick={() => handleShowAllPhones(posts?.responses.length)}
 										className={scss.moreButton}
 									>
 										Показать ещё
@@ -552,7 +627,7 @@ const Catalog = () => {
 								)}
 								{allPhonesHide && (
 									<button
-										onClick={handleHideAllPhones}
+										onClick={() => handleHideAllPhones(12)}
 										className={scss.moreButton}
 									>
 										Скрыть

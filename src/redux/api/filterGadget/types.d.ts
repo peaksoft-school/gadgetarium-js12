@@ -23,6 +23,10 @@ namespace FILTREDPRODUCTS {
 		sort?: string;
 		discount?: string;
 		colour?: string[];
+		costFrom?: number;
+		costUpTo?: number;
+		page?: number;
+		size?: number;
 	}
 	type GetFiltredProductsResponse = {
 		id: number;
