@@ -9,6 +9,7 @@ import {
 import { SetStateAction, useState } from 'react';
 import { Rate, Input, Button } from 'antd';
 import Infographics from '@/src/ui/infographics/Infographics';
+import { useGetReviewQuery, usePostReviewQueryMutation } from '@/src/redux/api/admin/review';
 
 const data = [
 	{
@@ -78,11 +79,8 @@ const data = [
 		model: 'Модель',
 		articul: 'Арт.1212121212',
 		comments: [
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-			'Эрсултан,красавчик! Эрсултан,красавчик!'
+			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
+
 		],
 		calendar: '26.06.22-14:15',
 		line,
@@ -116,6 +114,48 @@ const ReviewAdminSection = () => {
 	};
 
 	const { TextArea } = Input;
+
+	const [newReviewPost] = usePostReviewQueryMutation()
+	const {data: reviews} = useGetReviewQuery(0)
+
+	const handlePostReview = async () => {
+		const newReview = {
+			totalRatings: 0,
+			unanswered: 0,
+			ratingCounts: {
+				additionalProp1: 0,
+				additionalProp2: 0,
+				additionalProp3: 0
+			},
+			feedbackResponseList: [
+				{
+					id: 0,
+					gadgetImage: images,
+					subCategoryName: "Модель",
+					nameOfGadget: "Asus",
+					article: 1212121212,
+					comment: [
+						'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
+						""
+					],
+					feedbackImages: [
+						images,
+						images,
+						images,
+						images
+					],
+					dateAndTime: "26.06.22-14:15",
+					rating: 0,
+					fullNameUser: "Адыл Бакытов",
+					emailUser: "Adyl@mail.com",
+					responseAdmin: ""
+				}
+			]
+		}
+
+		const res = await newReviewPost(newReview)
+		console.log(res);
+	}
 	return (
 		<section className={scss.ReviewAdminSection}>
 			<div className="container">
@@ -174,7 +214,8 @@ const ReviewAdminSection = () => {
 								<div className={scss.border_div}></div>
 							</div>
 							<div className={scss.container_users_commits}>
-								{data.map((item, index) => (
+								<button onClick={handlePostReview}>SEND TO BACKEND</button>
+								{reviews?.map((item, index) => (
 									<div key={item.id} className={scss.users_commits_maps}>
 										<div
 											className={
@@ -196,16 +237,16 @@ const ReviewAdminSection = () => {
 												<div className={scss.user_commit_and_time}>
 													{indexProductsResults === index
 														? item.comments.map((el, index) => (
-																<p key={index}>{el}</p>
-															))
+															<p key={index}>{el}</p>
+														))
 														: item.comments.length >= 2 &&
-															item.comments
-																.slice(0, 2)
-																.map((el, index) => (
-																	<p key={index}>
-																		{index === 0 ? el : el + '...'}
-																	</p>
-																))}
+														item.comments
+															.slice(0, 2)
+															.map((el, index) => (
+																<p key={index}>
+																	{index === 0 ? el : el + '...'}
+																</p>
+															))}
 
 													<p className={scss.user_commit_for_time}>
 														{item.calendar}

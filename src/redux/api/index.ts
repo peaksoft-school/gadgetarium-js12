@@ -38,7 +38,8 @@ export const api = createApi({
 		'personalHistory',
 		'adminOrders',
 		'productAdd',
-		'viewedProducts'
+		'viewedProducts',
+		'adminReview'
 
 	],
 
