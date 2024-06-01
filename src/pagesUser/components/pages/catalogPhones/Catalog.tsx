@@ -11,7 +11,6 @@ import arrow from '@/src/assets/map/arrowtop.png';
 import arrowDown from '@/src/assets/map/arrowDown.png';
 import arrowBlue from '@/src/assets/map/arrowTopBlue.png';
 import arrowBlueBottom from '@/src/assets/map/arrowBottomBlue.png';
-import qs from 'qs';
 import {
 	coloursCatalog,
 	gBiteCatalog,
@@ -36,25 +35,18 @@ import { useAddProductsFotComparisonMutation } from '@/src/redux/api/comparison'
 import { useSubCategoriesQuery } from '@/src/redux/api/catalogProducts';
 const Catalog = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
-	const parseUrl = qs.parse(window.location.search.substring(1));
-	const { brand } = parseUrl;
 	const navigate = useNavigate();
 	const { filtredIds } = useParams();
-	const [count, setCount] = useState<number>(2);
-	const searchForBrand = searchParams.get('brand') || `${brand}`;
 	const { data: subCategories = [] } = useSubCategoriesQuery(filtredIds!);
 	const [addProductBasket] = useBasketPutProductMutation();
 	const [addProductsForFavorite] = useAddProductsForFavoriteMutation();
 	const [addComparisonProducts] = useAddProductsFotComparisonMutation();
 	const { data: BasketData = [] } = useGetBasketQuery();
 	const [priceLow, setPriceLow] = useState<string>('');
-	const [filtredForBrand, setFiltredForBrand] = useState<string | null>('');
 	const [priceHigh, setPriceHigh] = useState('');
-	// console.log(posts, 'is Array');
-	const filtredProducts = React.useRef(false);
 	const [categoryArray, setCategoryArray] = useState(() => {
 		const brands = searchParams.getAll('brand');
-		return brand?.length ? brands : [];
+		return brands?.length ? brands : [];
 	});
 	const [filtredForColors, setFiltredForColors] = useState(() => {
 		const colour = searchParams.getAll('colour');
@@ -68,10 +60,7 @@ const Catalog = () => {
 		const ram = searchParams.getAll('ram');
 		return ram.length ? ram : [];
 	});
-	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 	const [reduceOne, setReduceOne] = useState(false);
-	const [filtredBasketProductsItemId, setFiltredBasketProductsItemId] =
-		useState<number[] | null>(null);
 	const [reduceTwo, setReduceTwo] = useState(false);
 	const [reduceThree, setReduceThree] = useState(false);
 	const [reduceFour, setReduceFour] = useState(false);
@@ -82,8 +71,6 @@ const Catalog = () => {
 	const [hideColours, setHideColours] = useState(false);
 
 	const [allPhones, setAllPhones] = useState(false);
-	const firstPhones = 12;
-	const [phonesToShow] = useState(firstPhones);
 	const [allPhonesHide, setAllPhonesHide] = useState(false);
 
 	const handleShowAllPhones = (page: number) => {
@@ -107,7 +94,6 @@ const Catalog = () => {
 	};
 
 	const handleRemoveCategories = () => {
-		setSelectedCategories([]);
 		setPriceHigh('');
 		setPriceLow('');
 		searchParams.delete('brand');
@@ -254,14 +240,6 @@ const Catalog = () => {
 		await addComparisonProducts({ id });
 	};
 
-	useEffect(() => {
-		const filtredBasketProductsItemId = BasketData.map((el) => {
-			return el.id;
-		});
-		if (filtredBasketProductsItemId) {
-			setFiltredBasketProductsItemId(filtredBasketProductsItemId);
-		}
-	}, []);
 	return (
 		<section className={scss.catalog}>
 			<div className="container">
@@ -651,13 +629,7 @@ const Catalog = () => {
 															</p>
 														</div>
 														<div
-															className={
-																filtredBasketProductsItemId?.some(
-																	(el) => el !== e.id
-																)
-																	? `${scss.bottom_cart} ${scss.active_basket_button}`
-																	: `${scss.bottom_cart}`
-															}
+															className={scss.bottom_cart}
 															onClick={() => {
 																handleBasketProductsFunk(e.id);
 															}}

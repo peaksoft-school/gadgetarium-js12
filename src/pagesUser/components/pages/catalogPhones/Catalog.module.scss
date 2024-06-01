@@ -179,7 +179,8 @@
 					max-width: 285px;
 					background-color: #fff;
 					padding: 25px 22px 5px 22px;
-
+					// overflow: auto;
+					// max-height: 950px;
 					@media (max-width: 827.2px) {
 						width: 100%;
 						max-width: 460px;

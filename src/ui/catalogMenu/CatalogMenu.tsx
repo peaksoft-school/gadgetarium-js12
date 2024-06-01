@@ -21,8 +21,8 @@ const CatalogMenu = () => {
 
 	const handleFiltredProductsFunk = (id: number, categoryName: string) => {
 		setIdCategory(id);
-		searchParams.append('brand', `${categoryName}`);
-		// setSearchParams(searchParams);
+		searchParams.set('brand', `${categoryName}`);
+		setSearchParams(searchParams);
 		navigate(`/catalog/${id}/filtred?${searchParams.toString()}`);
 		searchResult.current = false;
 	};
