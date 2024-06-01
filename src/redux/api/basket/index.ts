@@ -19,8 +19,8 @@ const api = index.injectEndpoints({
 			BASKETPRODUCTS.GetBasketOrderAmountsResponse,
 			BASKETPRODUCTS.GetBasketOrderAmountsRequest
 		>({
-			query: (ids) => ({
-				url: `/api/basket/all-amount-in-basket/?ids=${ids}`,
+			query: ({ ids }) => ({
+				url: `/api/basket/all-amount-in-basket?${ids ? ids : ''}`,
 				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`

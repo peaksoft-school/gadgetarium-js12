@@ -98,7 +98,14 @@ namespace BASKETPRODUCTS {
 	// 		gadgetResponse: GadgetResponse[];
 	// 	};
 	type GetBasketOrderAmountsRequest = {
-		ids: number[];
+		ids: [];
+	};
+
+	type Basket = {
+		quantity: number;
+		discountPrice: number;
+		price: number;
+		currentPrice: number;
 	};
 	type GetBasketOrderAmountsResponse = {
 		quantity: number;
