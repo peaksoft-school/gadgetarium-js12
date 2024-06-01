@@ -15,9 +15,11 @@ const api = index.injectEndpoints({
 				costFrom,
 				costUpTo,
 				page,
-				size
+				size,
+				memory,
+				ram
 			}) => ({
-				url: `/api/gadget/${id}/filter?${brand}&${sort}&${discount}&${colour}&${costFrom}&${costUpTo}&${page}&${size}`,
+				url: `/api/gadget/${id}/filter?${brand}&${sort}&${discount}&${colour}&${costFrom}&${costUpTo}&${page}&${size}&${memory}&${ram}`,
 				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`

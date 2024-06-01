@@ -40,7 +40,7 @@ const Catalog = () => {
 	const { brand } = parseUrl;
 	const navigate = useNavigate();
 	const { filtredIds } = useParams();
-	const [count, setCount] = useState<number>(2)
+	const [count, setCount] = useState<number>(2);
 	const searchForBrand = searchParams.get('brand') || `${brand}`;
 	const { data: subCategories = [] } = useSubCategoriesQuery(filtredIds!);
 	const [addProductBasket] = useBasketPutProductMutation();
@@ -57,8 +57,16 @@ const Catalog = () => {
 		return brand?.length ? brands : [];
 	});
 	const [filtredForColors, setFiltredForColors] = useState(() => {
-		const brands = searchParams.getAll('colour');
-		return brand?.length ? brands : [];
+		const colour = searchParams.getAll('colour');
+		return colour?.length ? colour : [];
+	});
+	const [filtredMemoryArray, setFiltredMemoryArray] = useState(() => {
+		const memory = searchParams.getAll('memory');
+		return memory.length ? memory : [];
+	});
+	const [filtredRamArray, setFiltredRamArray] = useState(() => {
+		const ram = searchParams.getAll('ram');
+		return ram.length ? ram : [];
 	});
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 	const [reduceOne, setReduceOne] = useState(false);
@@ -110,9 +118,13 @@ const Catalog = () => {
 		searchParams.delete('costUpTo');
 		searchParams.delete('page');
 		searchParams.delete('size');
+		searchParams.delete('memory');
+		searchParams.delete('ram');
 		setSearchParams(searchParams);
 		setCategoryArray([]);
 		setFiltredForColors([]);
+		setFiltredMemoryArray([]);
+		setFiltredRamArray([]);
 		setReduceOne(true);
 		setReduceTwo(true);
 		setReduceThree(true);
@@ -133,6 +145,36 @@ const Catalog = () => {
 			searchParams.delete('colour');
 			removeIsBrand.forEach((c) => searchParams.append('brand', c));
 			setCategoryArray(removeIsBrand);
+			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
+		}
+	};
+
+	const handleMemoryProductsFunk = (memory: string) => {
+		if (!filtredMemoryArray.includes(memory)) {
+			searchParams.append('memory', memory);
+			setFiltredMemoryArray((prevValue) => [...prevValue, memory]);
+			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
+		} else {
+			const removeProductsMemory = filtredMemoryArray.filter(
+				(c) => c !== memory
+			);
+			searchParams.delete('memory');
+			removeProductsMemory.forEach((e) => searchParams.append('memory', e));
+			setFiltredMemoryArray(removeProductsMemory);
+			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
+		}
+	};
+
+	const handleRamProductsFunk = (ram: string) => {
+		if (!filtredRamArray.includes(ram)) {
+			searchParams.append('ram', ram);
+			setFiltredRamArray((prevValue) => [...prevValue, ram]);
+			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
+		} else {
+			const removeProductsForRam = filtredRamArray.filter((c) => c !== ram);
+			searchParams.delete('ram');
+			removeProductsForRam.forEach((c) => searchParams.append('ram', c));
+			setFiltredRamArray(removeProductsForRam);
 			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
 		}
 	};
@@ -196,7 +238,9 @@ const Catalog = () => {
 		costFrom: Number(searchParams),
 		costUpTo: Number(searchParams),
 		page: Number(searchParams),
-		size: Number(searchParams)
+		size: Number(searchParams),
+		memory: [searchParams.toString()],
+		ram: [searchParams.toString()]
 	});
 
 	const handleBasketProductsFunk = async (id: number) => {
@@ -438,9 +482,8 @@ const Catalog = () => {
 												<input
 													id={e.gb}
 													type="checkbox"
-													checked={selectedCategories.includes(e.gb)}
-													onChange={() => handleSelectedCategory(e.gb)}
-													onClick={() => handleSelectedCategory(e.gb)}
+													onChange={() => handleMemoryProductsFunk(e.gb)}
+													checked={filtredMemoryArray.includes(e.gb)}
 												/>
 												<label htmlFor={e.gb}>
 													<p>{e.gb}</p>
@@ -482,9 +525,8 @@ const Catalog = () => {
 												<input
 													id={e.gb}
 													type="checkbox"
-													checked={selectedCategories.includes(e.gb)}
-													onChange={() => handleSelectedCategory(e.gb)}
-													onClick={() => handleSelectedCategory(e.gb)}
+													checked={filtredRamArray.includes(e.gb)}
+													onChange={() => handleRamProductsFunk(e.gb)}
 												/>
 												<label htmlFor={e.gb}>
 													<p>{e.gb}</p>
@@ -516,6 +558,20 @@ const Catalog = () => {
 													{e}
 												</p>
 												<IconX onClick={() => handleColorsFiltredProducts(e)} />
+											</div>
+										))}
+									{filtredMemoryArray &&
+										filtredMemoryArray.map((e) => (
+											<div className={scss.category_right}>
+												<p onClick={() => handleMemoryProductsFunk(e)}>{e}</p>
+												<IconX onClick={() => handleMemoryProductsFunk(e)} />
+											</div>
+										))}
+									{filtredRamArray &&
+										filtredRamArray.map((e) => (
+											<div className={scss.category_right}>
+												<p onClick={() => handleRamProductsFunk(e)}>{e}</p>
+												<IconX onClick={() => handleRamProductsFunk(e)} />
 											</div>
 										))}
 								</div>

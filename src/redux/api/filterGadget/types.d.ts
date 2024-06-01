@@ -27,6 +27,8 @@ namespace FILTREDPRODUCTS {
 		costUpTo?: number;
 		page?: number;
 		size?: number;
+		memory?: string[];
+		ram?: string[];
 	}
 	type GetFiltredProductsResponse = {
 		id: number;

@@ -39,39 +39,45 @@ export const coloursCatalog = [
 
 export const gBiteCatalog = [
   {
-    gb: "8"
+    gb: "GB_16"
   },
   {
-    gb: "16"
+    gb: "GB_32"
   },
   {
-    gb: "32"
+    gb: "GB_64"
   },
   {
-    gb: "64"
+    gb: "GB_128"
   },
   {
-    gb: "128"
+    gb: "GB_256"
   },
   {
-    gb: "256"
+    gb: "GB_512"
+  },
+  {
+    gb: 'TB_1'
   },
 ]
 
 export const moreGBiteCatalog = [
   {
-    gb: "3"
+    gb: "RAM_4"
   },
   {
-    gb: "4"
+    gb: "RAM_6"
   },
   {
-    gb: "6"
+    gb: "RAM_8"
   },
   {
-    gb: "8"
+    gb: "RAM_12"
   },
   {
-    gb: "12"
+    gb: "RAM_16"
+  },
+  {
+    gb: 'RAM_32'
   },
 ]
