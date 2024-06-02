@@ -341,27 +341,26 @@ const Catalog = () => {
 											/>
 											<p className={scss.pTwo}>до</p>
 										</div>
-
-										{/* <div className={scss.priceChangerDiv}>
+										<div className={scss.priceChangerDiv}>
 											<div className={scss.progress}></div>
 											<input
 												className={scss.price}
 												type="range"
 												value={priceLow}
-												onChange={(e) => setPriceLow(e.target.value)}
-												max="100000"
-												min="250"
+												onChange={changeInputValueFunk}
+												max="25000"
+												min="0"
 											/>
 											<div className={scss.progressTwo}></div>
 											<input
 												className={scss.priceTwo}
 												value={priceHigh}
-												onChange={(e) => setPriceHigh(e.target.value)}
+												onChange={changeInputValueFunk2}
 												type="range"
-												min="40000"
-												max="300000"
+												min="0"
+												max="200000"
 											/>
-										</div> */}
+										</div>
 									</div>
 								)}
 								<div className={scss.divLine}></div>
@@ -404,8 +403,8 @@ const Catalog = () => {
 													<img src={arrow} alt="ArrowTop" />
 												</div>
 
-												{coloursCatalog.map((e) => (
-													<div className={scss.colours} key={e.colour}>
+												{coloursCatalog.map((e, index) => (
+													<div className={scss.colours} key={index}>
 														<input
 															id={e.colour}
 															type="checkbox"
@@ -455,8 +454,8 @@ const Catalog = () => {
 											<img src={arrow} alt="ArrowTop" />
 										</div>
 
-										{gBiteCatalog.map((e) => (
-											<div className={scss.gigabytes}>
+										{gBiteCatalog.map((e, index) => (
+											<div key={index} className={scss.gigabytes}>
 												<input
 													id={e.gb}
 													type="checkbox"
@@ -498,8 +497,8 @@ const Catalog = () => {
 											<img src={arrow} alt="ArrowTop" />
 										</div>
 
-										{moreGBiteCatalog.map((e) => (
-											<div className={scss.moreGb}>
+										{moreGBiteCatalog.map((e, index) => (
+											<div key={index} className={scss.moreGb}>
 												<input
 													id={e.gb}
 													type="checkbox"
@@ -519,8 +518,8 @@ const Catalog = () => {
 							<div className={scss.filterDiv}>
 								<div className={scss.categoriesRight}>
 									{categoryArray &&
-										categoryArray.map((categories) => (
-											<div className={scss.category_right}>
+										categoryArray.map((categories, index) => (
+											<div key={index} className={scss.category_right}>
 												<p onClick={() => handleSelectedCategory(categories)}>
 													{categories}
 												</p>
@@ -530,8 +529,8 @@ const Catalog = () => {
 											</div>
 										))}
 									{filtredForColors &&
-										filtredForColors.map((e) => (
-											<div className={scss.category_right}>
+										filtredForColors.map((e, index) => (
+											<div key={index} className={scss.category_right}>
 												<p onClick={() => handleColorsFiltredProducts(e)}>
 													{e}
 												</p>
@@ -539,15 +538,15 @@ const Catalog = () => {
 											</div>
 										))}
 									{filtredMemoryArray &&
-										filtredMemoryArray.map((e) => (
-											<div className={scss.category_right}>
+										filtredMemoryArray.map((e, index) => (
+											<div key={index} className={scss.category_right}>
 												<p onClick={() => handleMemoryProductsFunk(e)}>{e}</p>
 												<IconX onClick={() => handleMemoryProductsFunk(e)} />
 											</div>
 										))}
 									{filtredRamArray &&
-										filtredRamArray.map((e) => (
-											<div className={scss.category_right}>
+										filtredRamArray.map((e, index) => (
+											<div key={index} className={scss.category_right}>
 												<p onClick={() => handleRamProductsFunk(e)}>{e}</p>
 												<IconX onClick={() => handleRamProductsFunk(e)} />
 											</div>

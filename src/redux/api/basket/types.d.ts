@@ -37,9 +37,9 @@ namespace BASKETPRODUCTS {
 		Total?: number;
 	};
 	type PutProductRequest = {
-		id: number;
-		// isInBasket: boolean;
-		quantity?: number;
+		id?: number;
+		// subGadgetId?: number;
+		countOfGadget?: number;
 	};
 	type PutProductResponse = {
 		id: number;

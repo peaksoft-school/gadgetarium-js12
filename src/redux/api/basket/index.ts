@@ -19,8 +19,8 @@ const api = index.injectEndpoints({
 			BASKETPRODUCTS.PutProductResponse,
 			BASKETPRODUCTS.PutProductRequest
 		>({
-			query: ({ id }) => ({
-				url: `/api/basket/${id}`,
+			query: ({ id, countOfGadget }) => ({
+				url: `/api/basket/${id}?${countOfGadget}`,
 				method: 'PATCH',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
