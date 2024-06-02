@@ -116,13 +116,13 @@ const OrderCourierOnTheWay = () => {
 			colorBgContainer: 'transparent'
 		}
 	};
-	const antdThemeConfig = {
-		algorithm: theme.defaultAlgorithm,
-		token: {
-			colorPrimary: '#cb11ab',
-			colorBgContainer: 'transparent'
-		}
-	};
+	// const antdThemeConfig = {
+	// 	algorithm: theme.defaultAlgorithm,
+	// 	token: {
+	// 		colorPrimary: '#cb11ab',
+	// 		colorBgContainer: 'transparent'
+	// 	}
+	// };
 
 	const antdThemeConfig = {
 		algorithm: theme.defaultAlgorithm,

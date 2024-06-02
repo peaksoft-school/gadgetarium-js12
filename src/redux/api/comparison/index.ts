@@ -7,7 +7,7 @@ const api = index.injectEndpoints({
 			COMPARISONPRODUCTS.GetComparisonProductsRequest
 		>({
 			query: () => ({
-				url: 'https://api-v2.elchocrud.pro/api/v1/e29346eff0c433ab971a172fd2128212/comparison_products',
+				url: '/api/comparison',
 				method: 'GET'
 			}),
 			providesTags: ['comparison']
@@ -16,10 +16,9 @@ const api = index.injectEndpoints({
 			COMPARISONPRODUCTS.PutComparisonProductResponse,
 			COMPARISONPRODUCTS.PutComparisonProductRequest
 		>({
-			query: ({ _id, isComparison }) => ({
-				url: `https://api-v2.elchocrud.pro/api/v1/e29346eff0c433ab971a172fd2128212/comparison_products/${_id}`,
+			query: ({ id }) => ({
+				url: `/api/comparison/${id}`,
 				method: 'PATCH',
-				body: { isComparison }
 			}),
 			invalidatesTags: ['comparison']
 		}),

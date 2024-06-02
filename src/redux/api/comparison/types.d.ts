@@ -20,37 +20,38 @@ type ComparisonProduct = {
 	ram: string;
 	weight: string;
 	sim: string;
-}
+};
 namespace COMPARISONPRODUCTS {
 	type GetComparisonProductsRequest = void;
 	type GetComparisonProductsResponse = {
-		_id: number;
-		isDifference: boolean;
-		categoryProducts: string;
-		comparisonProduct: ComparisonProduct
+		id: number;
+		images: [];
+		nameOfGadget: string;
+		mainColor: string;
+		memory: string;
+		price: number;
+		basket: boolean;
 	}[];
 	type PutComparisonProductRequest = {
-		_id: number;
-		isComparison: boolean;
+		id: number;
 	};
 	type PutComparisonProductResponse = {
-		_id: number;
-		isComparison: boolean;
+		id: number;
 	};
 
 	type ComparisonResultsRequest = {
 		// _id: number;
 		isDifference: boolean;
-	}
+	};
 	type ComparisonResultsResponse = {
 		// _id: number;
 		isDifference: boolean;
-	}
+	};
 
 	type CategoryProductsRequest = {
 		categoryProducts: string;
-	}
+	};
 	type CategoryProductsResponse = {
 		categoryProducts: string;
-	}
+	};
 }
