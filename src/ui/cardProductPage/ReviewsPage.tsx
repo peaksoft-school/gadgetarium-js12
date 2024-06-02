@@ -71,7 +71,7 @@ const ReviewsPage = () => {
 										</div>
 										<div className={scss.grade_div}>
 											{/* <p>{e.description}</p> */}
-											<p>
+											{/* <p>
 												Lorem ipsum dolor sit amet consectetur, adipisicing
 												elit. Laudantium ad sed voluptatum, illo sint odit
 												quisquam officiis est ipsum neque enim qui non cum
@@ -81,7 +81,7 @@ const ReviewsPage = () => {
 												sint nobis. Repudiandae laboriosam eos nemo dolore
 												laudantium alias asperiores repellendus dignissimos
 												vitae nam.
-											</p>
+											</p> */}
 											<Rate allowHalf defaultValue={e.rating} />
 										</div>
 										{/* <p className={scss.commit_user}>{e.description}</p> */}

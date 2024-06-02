@@ -41,22 +41,22 @@ export const CharacteristicsPage = () => {
 							<div className={scss.product_info_text_main}>
 								<p>Тип дорожки:</p>
 								<p className={scss.text_product}>
-									{data?.mainCharacteristics.additionalProp1 &&
-										data?.mainCharacteristics.additionalProp1.additionalProp1}
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации.Съемный}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
 								<p>Мощность двигателя</p>
 								<p className={scss.text_product}>
-									{data?.mainCharacteristics.additionalProp1 &&
-										data?.mainCharacteristics.additionalProp1.additionalProp2}
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации.Съемный}
 								</p>{' '}
 							</div>
 							<div className={scss.product_info_text_main}>
 								<p>Тип двигателя</p>
 								<p className={scss.text_product}>
-									{data?.mainCharacteristics.additionalProp1 &&
-										data?.mainCharacteristics.additionalProp1.additionalProp3}
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации.Съемный}
 								</p>{' '}
 							</div>
 						</div>
@@ -81,22 +81,22 @@ export const CharacteristicsPage = () => {
 							<div className={scss.product_info_text_main}>
 								<p>Тип дорожки:</p>
 								<p className={scss.text_product}>
-									{data?.mainCharacteristics.additionalProp2 &&
-										data?.mainCharacteristics.additionalProp2.additionalProp1}
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации.Съемный}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
 								<p>Мощность двигателя</p>
 								<p className={scss.text_product}>
-									{data?.mainCharacteristics.additionalProp2 &&
-										data?.mainCharacteristics.additionalProp2.additionalProp2}
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации.Съемный}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
 								<p>Мощность двигателя</p>
 								<p className={scss.text_product}>
-									{data?.mainCharacteristics.additionalProp2 &&
-										data?.mainCharacteristics.additionalProp2.additionalProp3}
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации.Съемный}
 								</p>
 							</div>
 						</div>
@@ -121,22 +121,22 @@ export const CharacteristicsPage = () => {
 							<div className={scss.product_info_text_main}>
 								<p>Тип дорожки:</p>
 								<p className={scss.text_product}>
-									{data?.mainCharacteristics.additionalProp3 &&
-										data?.mainCharacteristics.additionalProp3.additionalProp1}
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации.Съемный}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
 								<p>Мощность двигателя</p>
 								<p className={scss.text_product}>
-									{data?.mainCharacteristics.additionalProp3 &&
-										data?.mainCharacteristics.additionalProp3.additionalProp2}
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации.Съемный}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
 								<p>Тип двигателя</p>
 								<p className={scss.text_product}>
-									{data?.mainCharacteristics.additionalProp3 &&
-										data?.mainCharacteristics.additionalProp3.additionalProp3}
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации.Съемный}
 								</p>
 							</div>
 						</div>
