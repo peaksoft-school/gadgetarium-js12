@@ -42,7 +42,8 @@ export const CharacteristicsPage = () => {
 								<p>Тип дорожки:</p>
 								<p className={scss.text_product}>
 									{data?.mainCharacteristics.Коммуникации &&
-										data?.mainCharacteristics.Коммуникации.Съемный}
+										data?.mainCharacteristics.Коммуникации['Время полной зарядки']}
+										{/* {data?.mainCharacteristics['kkdd kdkd']} */}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
