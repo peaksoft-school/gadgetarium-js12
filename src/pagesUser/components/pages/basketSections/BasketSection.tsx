@@ -1,6 +1,9 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
+	useBasketDeleteProductMutation,
 	useBasketPutProductMutation,
 	useGetBasketOrderAmountQuery,
+	useGetBasketOrderGadgetQuery,
 	useGetBasketQuery
 } from '@/src/redux/api/basket';
 import png from '../../../../assets/sammy_shopping_1_1.png';
@@ -32,6 +35,7 @@ const BasketSection = () => {
 	const [inputValueQuantity, setInputValueQuantity] = useState<number>(0);
 	const [totalAmount, setTotalAmount] = useState<number>(0);
 	const { data, isLoading } = useGetBasketQuery();
+	const [deleteBasket] = useBasketDeleteProductMutation();
 	const [idsArray, setIdsArray] = useState<string[]>(() => {
 		const ids = searchParams.getAll('ids');
 		return ids.length ? ids : [];
@@ -84,10 +88,20 @@ const BasketSection = () => {
 		}
 	};
 
+	const handleDeleteBasket = async (gadgetId: number) => {
+		await deleteBasket(gadgetId);
+	};
+	const handleOrderAmounts = () => {
+		navigate(`/pay/delivery?${window.location.search.substring(1)}`);
+	};
+
+	
+
+
 	const allSelected = idsArray.length === (data?.length || 0);
 	const someSelected = idsArray.length > 0;
 	const calculateButtonClass = () => {
-		if (selectedProducts.some((id) => data?.map((el) => el.id).includes(id))) {
+		if (searchParams.get('ids')) {
 			return `${scss.nooActiveButton} ${scss.activeButton}`;
 		} else {
 			return `${scss.nooActiveButton}`;
@@ -292,9 +306,7 @@ const BasketSection = () => {
 																	</div>
 																	<div
 																		className={scss.div}
-																		onClick={() =>
-																			handleBasketProductDelete(item.id)
-																		}
+																		onClick={() => handleDeleteBasket(item.id)}
 																	>
 																		<IconX width={'16px'} height={'16px'} />
 																		<p>Удалить</p>
@@ -309,44 +321,45 @@ const BasketSection = () => {
 									</div>
 									<div className={scss.content_product_price}>
 										<div className={scss.contents_product_price_div}>
-											{someSelected && (
-											<>
-												<h3>Сумма заказа</h3>
-												<div></div>
-												<div className={scss.div_contents_and_results_price}>
-													<div className={scss.price_result_product_div}>
-														<p>Количество товаров:</p>
-														<p>
-															{resultsProductsPrices?.quantity}
-															шт
-														</p>
+											{searchParams.get('ids') && (
+												<>
+													<h3>Сумма заказа</h3>
+													<div></div>
+													<div className={scss.div_contents_and_results_price}>
+														<div className={scss.price_result_product_div}>
+															<p>Количество товаров:</p>
+															<p>
+																{resultsProductsPrices?.quantity}
+																шт
+															</p>
+														</div>
+														<div className={scss.price_result_product_div}>
+															<p>Ваша скидка: </p>
+															<p className={scss.color_red_p}>
+																{resultsProductsPrices?.currentPrice} c
+															</p>
+														</div>
+														<div className={scss.price_result_product_div}>
+															<p>Сумма:</p>
+															<p>{resultsProductsPrices?.discountPrice} c</p>
+														</div>
+														<div className={scss.price_result_product_div}>
+															<h3>Итого</h3>
+															<p> {resultsProductsPrices?.price} c</p>
+														</div>
 													</div>
-													<div className={scss.price_result_product_div}>
-														<p>Ваша скидка: </p>
-														<p className={scss.color_red_p}>
-															{resultsProductsPrices?.currentPrice} c
-														</p>
-													</div>
-													<div className={scss.price_result_product_div}>
-														<p>Сумма:</p>
-														<p>{resultsProductsPrices?.discountPrice} c</p>
-													</div>
-													<div className={scss.price_result_product_div}>
-														<h3>Итого</h3>
-														<p> {resultsProductsPrices?.price} c</p>
-													</div>
-												</div>
-											</>
+												</>
 											)}
 											<Button
 												onClick={() => {
-													someSelected && navigate('/pay/delivery');
+													searchParams.get('ids') &&
+														handleOrderAmounts();
 												}}
 												className={calculateButtonClass()}
 											>
 												Перейти к оформлению
 											</Button>
-											{!someSelected && (
+											{!searchParams.get('ids') && (
 												<button className={scss.buttonNooActive}>
 													<IconExclamationMark color="#464343" />{' '}
 													<p>

@@ -113,4 +113,17 @@ namespace BASKETPRODUCTS {
 		price: number;
 		currentPrice: number;
 	};
+	type BasketDeleteRequest = {
+		gadgetId: number;
+	};
+	type BasketDeleteResponse = {
+		gadgetId: number;
+	};
+
+	type GetBasketOrderGadgetRequest = string[];
+
+	type GetBasketOrderGadgetResponse = {
+		basketAmounts: BasketAmounts;
+		gadgetResponse: GadgetResponse[];
+	};
 }

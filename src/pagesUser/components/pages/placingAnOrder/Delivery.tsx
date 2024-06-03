@@ -3,7 +3,7 @@ import scss from './Delivery.module.scss';
 import { Checkbox, ConfigProvider } from 'antd';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-
+import { usePostOrderDeliveryMutation } from '@/src/redux/api/order';
 type DeliveryPageTypes = {
 	email: string;
 	firsName: string;
@@ -13,8 +13,9 @@ type DeliveryPageTypes = {
 const Delivery = () => {
 	const [isCheckedPickup, setIsCheckedPickup] = useState(true);
 	const [isCheckedCourier, setIsCheckedPickupCourier] = useState(false);
+	const [postOrderDelivery] = usePostOrderDeliveryMutation();
 	const navigate = useNavigate();
-
+	
 	const {
 		handleSubmit,
 		reset,
@@ -24,10 +25,16 @@ const Delivery = () => {
 		mode: 'onBlur'
 	});
 
-	const onSubmit: SubmitHandler<DeliveryPageTypes> = (data) => {
-		console.log(data);
-		navigate('/auth/register');
-		reset();
+	const onSubmit: SubmitHandler<DeliveryPageTypes> = async (data) => {
+		const deliveryType = isCheckedPickup ? true : false;
+		try {
+			await postOrderDelivery({ ...data, deliveryType });
+			console.log(data);
+			// navigate('/auth/register');	
+			reset();
+		} catch (error) {
+			console.log('error', error);
+		}
 	};
 
 	const handleCheckboxPickup = () => {
@@ -325,7 +332,28 @@ const Delivery = () => {
 							</div>
 							<div className={scss.label_input}>
 								<label htmlFor="name">Телефон *</label>
-								<input type="text" placeholder="+996 (_ _ _) _ _  _ _  _ _" />
+								<Controller
+									name="phoneNumber"
+									control={control}
+									defaultValue=""
+									rules={{
+										required: 'Телефон номер обязателен для заполнения',
+										minLength: {
+											value: 9,
+											message:
+												'Телефон номер должен содержать минимум 9 символов'
+										}
+									}}
+									render={({ field }) => (
+										<input
+											{...field}
+											id="phoneNumber"
+											type="text"
+											placeholder="+996 (_ _ _) _ _  _ _  _ _"
+											style={errors.phoneNumber && { border: '1px solid red' }}
+										/>
+									)}
+								/>
 							</div>
 						</div>
 						<div className={scss.label_input}>

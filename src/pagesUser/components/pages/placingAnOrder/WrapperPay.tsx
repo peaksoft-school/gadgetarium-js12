@@ -5,11 +5,13 @@ import {
 	Route,
 	Routes,
 	useLocation,
-	useNavigate
+	useNavigate,
+	useSearchParams
 } from 'react-router-dom';
 import Delivery from '@/src/pagesUser/components/pages/placingAnOrder/Delivery.tsx';
 import Payment from '@/src/pagesUser/components/pages/placingAnOrder/Payment.tsx';
 import Review from '@/src/pagesUser/components/pages/placingAnOrder/Review.tsx';
+import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
 
 const iphones = [
 	{
@@ -35,6 +37,11 @@ const iphones = [
 const WrapperPay: FC = () => {
 	const { pathname } = useLocation();
 	const navigate = useNavigate();
+	const { data: basketOrder } = useGetBasketOrderGadgetQuery(
+		[window.location.search.substring(1)]
+	);
+	console.log(basketOrder, 'order for basket');
+	
 
 	const handleMain = () => {
 		navigate('/');
@@ -144,29 +151,34 @@ const WrapperPay: FC = () => {
 										<div className={scss.line}>.</div>
 										<div>
 											<p className={scss.quantity_order}>
-												Количество товаров: <span>3 шт</span>
+												Количество товаров:
+												<span> {basketOrder?.basketAmounts.quantity} шт</span>
 											</p>
 											<p className={scss.your_seil}>
-												Ваша скидка: <span>– 20 000 с</span>
+												Ваша скидка:
+												<span>{basketOrder?.basketAmounts.discountPrice}с</span>
 											</p>
 											<p className={scss.sum}>
-												Сумма: <span>220 900 с</span>
+												Сумма:
+												<span>
+													{basketOrder?.basketAmounts.discountPrice} с
+												</span>
 											</p>
 										</div>
 										<h4 className={scss.total}>
-											Итого: <span>200 900 с</span>
+											Итого: <span>{basketOrder?.basketAmounts.price} с</span>
 										</h4>
 									</div>
 									<div className={scss.cards_phones}>
-										{iphones.map((item, index) => (
-											<div key={index} className={scss.phone_card}>
+										{basketOrder?.gadgetResponse.map((item) => (
+											<div key={item.id} className={scss.phone_card}>
 												<img className={scss.image} src={item.image} alt="" />
 												<div className={scss.phone_texts}>
-													<p className={scss.name}>{item.name}</p>
-													<p>Артикул:{item.articul}</p>
+													<p className={scss.name}>{item.nameOfGadget}</p>
+													<p>Артикул:{item.article}</p>
 													<p> Кол-во:{item.quantity}</p>
-													<p>Размер:{item.size}</p>
-													<p>Цвет:{item.color}</p>
+													<p>Размер:{item.memory}</p>
+													<p>Цвет:{item.colour}</p>
 												</div>
 											</div>
 										))}

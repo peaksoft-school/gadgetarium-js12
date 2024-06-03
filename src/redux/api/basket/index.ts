@@ -20,7 +20,7 @@ const api = index.injectEndpoints({
 			BASKETPRODUCTS.GetBasketOrderAmountsRequest
 		>({
 			query: ({ ids }) => ({
-				url: `/api/basket/all-amount-in-basket?${ids ? ids : ''}`,
+				url: `/api/basket/all-amount-in-basket?${ids}`,
 				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -41,6 +41,31 @@ const api = index.injectEndpoints({
 				body: { basket }
 			}),
 			invalidatesTags: ['basket']
+		}),
+		basketDeleteProduct: build.mutation<
+			BASKETPRODUCTS.BasketDeleteResponse,
+			BASKETPRODUCTS.BasketDeleteRequest
+		>({
+			query: (gadgetId) => ({
+				url: `/api/basket/${gadgetId}`,
+				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			invalidatesTags: ['basket']
+		}),
+		getBasketOrderGadget: build.query<
+			BASKETPRODUCTS.GetBasketOrderGadgetResponse,
+			BASKETPRODUCTS.GetBasketOrderGadgetRequest
+		>({
+			query: (ids) => ({
+				url: `/api/basket/order-amounts?${ids}`,
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			})
 		})
 	})
 });
@@ -48,5 +73,7 @@ const api = index.injectEndpoints({
 export const {
 	useGetBasketQuery,
 	useGetBasketOrderAmountQuery,
-	useBasketPutProductMutation
+	useBasketPutProductMutation,
+	useBasketDeleteProductMutation,
+	useGetBasketOrderGadgetQuery
 } = api;
