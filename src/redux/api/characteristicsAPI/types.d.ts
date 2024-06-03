@@ -112,7 +112,7 @@ type Производительность = {
 	'4G сети': string;
 	'Функции Wi-Fi': string;
 	'Функции Bluetooth': string;
-	NFC: string;
+	'NFC*': string;
 	'3G сети': string;
 };
 
