@@ -71,18 +71,24 @@ type PhotosProducts = string;
 namespace PRODUCTSTORE {
 	type GetProductsRequest = void;
 	type GetProductsResponse = {
-		id: ProductsId;
-		price: number;
+		id: number;
+		percent: number;
 		image: string;
 		quantity: number;
-		productName: string;
-		brand: string;
-		isResult: string;
-		isFavorite: boolean;
-		isInBasket: boolean;
-		isComparison: boolean;
-		previousPrice: number;
-		Rating: string;
+		nameOfGadget: string;
+		memory: string;
+		colour: string;
+		rating: number;
+		count: number;
+		price: number;
+		likes: boolean;
+		comparison: boolean;
+		basket: boolean;
+		currentPrice: number;
+		subGadgetId: number;
+		newProduct: boolean;
+		recommend: boolean;
+		currentPrice: number;
 		buyProduc: string;
 		newProduct: string;
 		Screen?: string;
@@ -110,23 +116,29 @@ namespace PRODUCTSTORE {
 
 	type GetProductsItemIdRequest = string;
 	type GetProductsItemIdResponse = {
-		id: ProductsId;
-		price: number;
+		id: number;
+		percent: number;
 		image: string;
-		productName: string;
-		isFavorite: boolean;
-		brand: string;
-		isInBasket: boolean;
-		previousPrice: number;
 		quantity: number;
-		Rating: string;
-		buyProduc: string;
+		nameOfGadget: string;
+		memory: string;
+		colour: string;
+		rating: number;
+		count: number;
+		price: number;
+		likes: boolean;
+		comparison: boolean;
+		basket: boolean;
+		currentPrice: number;
+		subGadgetId: number;
+		newProduct: boolean;
+		recommend: boolean;
+		currentPrice: number;
 		isResult?: string;
-		newProduct: string;
-		Screen?: string;
 		colorProduct?: string;
 		DateOfIssue?: string;
 		operatingSystem?: string;
+		Screen?: string;
 		Memory?: string;
 		SIMCards?: string;
 		WarrantyMonths?: string | number;
@@ -149,49 +161,57 @@ namespace PRODUCTSTORE {
 
 	type GetProductDetailsRequest = void;
 	type GetProductDetailsResponse = {
-		_id: number;
-		price: number;
-		productName: string;
-		SIMCards: number;
+		id: number;
+		percent: number;
 		image: string;
 		quantity: number;
-		colors: string;
-		ram: number;
-		memory: number;
+		nameOfGadget: string;
+		memory: string;
+		colour: string;
+		rating: number;
+		count: number;
+		price: number;
+		likes: boolean;
+		comparison: boolean;
+		basket: boolean;
+		currentPrice: number;
 	}[];
 
 	type EditAdminCommitRequest = {
-		_id: number;
+		id: number;
 		reviews: Reviews;
 	};
 	type EditAdminCommitResponse = {
-		_id: number;
+		id: number;
 		reviews: Reviews;
 	};
 
 	type ProductPatchForQuantityRequest = {
 		id: number;
 		quantity: number;
-	}
+	};
 	type ProductPatchForQuantityResponse = {
 		id: number;
 		quantity: number;
-	}
+	};
 }
 
 namespace PRODUCTSTORE {
 	type GetProductsRequest = void;
 	type GetProductsResponse = {
-		_id: number;
-		price: number;
+		id: number;
+		percent: number;
 		image: string;
-		productName: string;
-		isFavorite: boolean;
-		isInBasket: boolean;
-		previousPrice: number;
-		Rating: string;
-		buyProduc: string;
-		newProduct: string;
-		isResult: string;
+		quantity: number;
+		nameOfGadget: string;
+		memory: string;
+		colour: string;
+		rating: number;
+		count: number;
+		price: number;
+		likes: boolean;
+		comparison: boolean;
+		basket: boolean;
+		currentPrice: number;
 	}[];
 }
