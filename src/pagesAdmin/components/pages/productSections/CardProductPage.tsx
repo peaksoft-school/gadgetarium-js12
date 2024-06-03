@@ -76,14 +76,14 @@ const CardProductPage = () => {
 								<div className={scss.div_content_product_and_pages}>
 									<p onClick={() => navigate('/')}>Товары »</p>
 									{resultProductPage ? (
-										<p onClick={() => navigate('')}>{data?.productName}</p>
+										<p onClick={() => navigate('')}>{data?.nameOfGadget}</p>
 									) : (
 										<p>Детали товара</p>
 									)}
 								</div>
 								<div className={scss.div_brad_product}>
 									{resultProductPage ? (
-										<h2>{data?.brand}</h2>
+										<h2>{data?.nameOfGadget}</h2>
 									) : (
 										<h2 className={scss.product_details_text}>Детали товара</h2>
 									)}
@@ -126,7 +126,7 @@ const CardProductPage = () => {
 														}}
 														src={item}
 														key={index}
-														alt={data.productName}
+														alt={data.nameOfGadget}
 													/>
 												))}
 										</div>
@@ -159,7 +159,7 @@ const CardProductPage = () => {
 														<img
 															onClick={() => handleIndexSlider(index)}
 															src={item}
-															alt={data.productName}
+															alt={data.nameOfGadget}
 														/>
 													</div>
 												</>
@@ -182,19 +182,19 @@ const CardProductPage = () => {
 										</div>
 									</div>
 									<div className={scss.product_info}>
-										<h3>{data?.productName}</h3>
+										<h3>{data?.nameOfGadget}</h3>
 										<div className={scss.product_content}>
 											<div className={scss.border_and_contents}>
 												<div className={scss.product_rating_and_numbers}>
 													<p className={scss.text_buy_product}>
-														{data?.buyProduc}
+														{data?.price}
 													</p>
 													<p>
 														Артикул: <span>030696</span>
 													</p>
 													<div>
 														<Rate defaultValue={5} />
-														<p>{data?.Rating}</p>
+														<p>{data?.rating}</p>
 													</div>
 												</div>
 												<div></div>
@@ -207,7 +207,7 @@ const CardProductPage = () => {
 														<div>-16%</div>
 														<h2>{data?.price}</h2>
 														<h3 className={scss.previous_price}>
-															{data?.previousPrice}
+															{data?.price}
 														</h3>
 													</div>
 												</div>
@@ -378,7 +378,7 @@ const CardProductPage = () => {
 						<img
 							className={scss.modal_img}
 							src={contentIsModal}
-							alt={data?.productName}
+							alt={data?.nameOfGadget}
 						/>
 					</div>
 				</Modal>
