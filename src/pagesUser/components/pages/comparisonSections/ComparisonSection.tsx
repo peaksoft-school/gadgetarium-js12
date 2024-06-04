@@ -33,6 +33,7 @@ const ComparisonSection = () => {
 	};
 	// const [addComparison] = useComparisonPutProductMutation();
 	const { data, isLoading } = useGetComparisonQuery();
+
 	const [addBasketProducts] = useBasketPutProductMutation();
 	// const [compatisonResults] = useComparisonResultsMutation();
 	// const [categoryProductsResults] = useCategoryProductsMutation();
@@ -121,7 +122,7 @@ const ComparisonSection = () => {
 	const handleAddBasketProducts = async (id: number, basket: boolean) => {
 		console.log(basket);
 
-		await addBasketProducts({id, basket: !basket });
+		await addBasketProducts({ id, basket: !basket });
 	};
 
 	// const handleComparisonProducts = async (id: number) => {
@@ -313,62 +314,58 @@ const ComparisonSection = () => {
 																			>
 																				<IconDelete />
 																			</button>
-																			{item.comparisonProduct &&
-																				item.comparisonProduct.images && (
-																					<div className={scss.div_photos}>
+																			{item && item.images && (
+																				<div className={scss.div_photos}>
+																					{item.images?.map((el) => (
 																						<img
-																							src={item.comparisonProduct.images}
-																							alt={
-																								item.comparisonProduct
-																									.nameOfGadget
-																							}
+																							src={el}
+																							alt={item.nameOfGadget}
 																						/>
-																					</div>
-																				)}
-																			{item.comparisonProduct &&
-																				item.comparisonProduct.nameOfGadget && (
-																					<p className={scss.charackter}>
-																						{item.comparisonProduct.nameOfGadget}
-																					</p>
-																				)}
-																			{item.comparisonProduct &&
-																				item.comparisonProduct.price && (
-																					<p
-																						className={
-																							item.comparisonProduct.nameOfGadget
-																								.length < 25
-																								? `${scss.charackter_price} ${scss.active_margin}`
-																								: `${scss.charackter_price}`
-																						}
-																					>
-																						{item.comparisonProduct.price} c
-																					</p>
-																				)}
-																			<AddBasketButton
-																				onClick={() =>
-																					handleAddBasketProducts(
-																						item.id,
-																						item.comparisonProduct.basket
-																					)
-																				}
-																				children={
-																					item.comparisonProduct &&
-																					item.comparisonProduct.basket ===
-																						true
-																						? `В корзине`
-																						: `В корзину`
-																				}
-																				className={
-																					item.comparisonProduct &&
-																					item.comparisonProduct.basket
-																						? `${scss.add_bas_button} ${scss.active}`
-																						: `${scss.add_bas_button}`
-																				}
-																			/>
+																					))}
+																				</div>
+																			)}
+																			{item && item.nameOfGadget && (
+																				<p className={scss.charackter}>
+																					{item.nameOfGadget}
+																				</p>
+																			)}
+																			{item && (
+																				<p
+																					className={
+																						item.nameOfGadget.length < 25
+																							? `${scss.charackter_price} ${scss.active_margin}`
+																							: `${scss.charackter_price}`
+																					}
+																				>
+																					{item.price} c
+																				</p>
+																			)}
+																			{item.basket ? (
+																				<button
+																					onClick={() => navigate('/basket')}
+																				>
+																					basket
+																				</button>
+																			) : (
+																				<AddBasketButton
+																					onClick={() =>
+																						handleAddBasketProducts(
+																							item.id,
+																							item.basket
+																						)
+																					}
+																					children={
+																						'В корзину'
+																					}
+																					className={
+																						scss.add_bas_button
+																					}
+																				/>
+																			)}
 																		</div>
 																	</div>
 																	<div className={scss.table_div}>
-																		{item.comparisonProduct && (
+																		{item && (
 																			<>
 																				{/* <p>{item.comparisonProduct.brand}</p>
 																				<p>{item.comparisonProduct.screen}</p>
