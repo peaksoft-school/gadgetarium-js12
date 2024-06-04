@@ -22,20 +22,20 @@ import ButtonArrowLeft from '@/src/ui/customButtons/ButtonArrowLeft';
 import ButtonArrowRight from '@/src/ui/customButtons/ButtonArrowRight';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import {
-	useCategoryProductsMutation,
-	useComparisonPutProductMutation,
-	useComparisonResultsMutation,
+	// useCategoryProductsMutation,
+	// useComparisonPutProductMutation,
+	// useComparisonResultsMutation,
 	useGetComparisonQuery
 } from '@/src/redux/api/comparison';
 const ComparisonSection = () => {
 	const onChange: CheckboxProps['onChange'] = (e) => {
 		console.log(`checked = ${e.target.checked}`);
 	};
-	const [addComparison] = useComparisonPutProductMutation();
+	// const [addComparison] = useComparisonPutProductMutation();
 	const { data, isLoading } = useGetComparisonQuery();
 	const [addBasketProducts] = useBasketPutProductMutation();
-	const [compatisonResults] = useComparisonResultsMutation();
-	const [categoryProductsResults] = useCategoryProductsMutation();
+	// const [compatisonResults] = useComparisonResultsMutation();
+	// const [categoryProductsResults] = useCategoryProductsMutation();
 	const [filtredResults, setFiltredResults] = useState<string>('Apple');
 	const navigate = useNavigate();
 	const [brand, setBrand] = useState<boolean>(false);
@@ -118,28 +118,28 @@ const ComparisonSection = () => {
 			window.removeEventListener('resize', handleChange);
 		};
 	}, []);
-	const handleAddBasketProducts = async (_id: number, isInBasket: boolean) => {
-		console.log(isInBasket);
+	const handleAddBasketProducts = async (id: number, basket: boolean) => {
+		console.log(basket);
 
-		await addBasketProducts({ _id, isInBasket: !isInBasket });
+		await addBasketProducts({id, basket: !basket });
 	};
 
-	const handleComparisonProducts = async (_id: number) => {
-		await addComparison({ _id, isComparison: false });
-	};
+	// const handleComparisonProducts = async (id: number) => {
+	// 	await addComparison({ id, comparison: false });
+	// };
 
-	const handleProductsIsDeleteComparison = async (_id: number) => {
-		await addComparison({ _id, isComparison: false });
-	};
+	// const handleProductsIsDeleteComparison = async (_id: number) => {
+	// 	await addComparison({ id, comparison: false });
+	// };
 
-	const handleComparisonResults = async (isDifference: boolean) => {
-		await compatisonResults({ isDifference: !isDifference });
-	};
+	// const handleComparisonResults = async (isDifference: boolean) => {
+	// 	await compatisonResults({ isDifference: !isDifference });
+	// };
 
-	const handleCategoryProducts = async (categoryProducts: string) => {
-		setFiltredResults(categoryProducts);
-		await categoryProductsResults({ categoryProducts });
-	};
+	// const handleCategoryProducts = async (categoryProducts: string) => {
+	// 	setFiltredResults(categoryProducts);
+	// 	await categoryProductsResults({ categoryProducts });
+	// };
 
 	return (
 		<section className={scss.ComparisonSection}>
@@ -190,7 +190,7 @@ const ComparisonSection = () => {
 													data?.filter(
 														(el) =>
 															el.comparisonProduct &&
-															el.comparisonProduct.brand === 'Apple'
+															el.comparisonProduct.mainColor === 'Apple'
 													).length}
 												)
 											</button>
@@ -207,7 +207,7 @@ const ComparisonSection = () => {
 													data?.filter(
 														(el) =>
 															el.comparisonProduct &&
-															el.comparisonProduct.brand === 'mac'
+															el.comparisonProduct.mainColor === 'mac'
 													).length}
 												){' '}
 											</button>
@@ -224,7 +224,7 @@ const ComparisonSection = () => {
 													data?.filter(
 														(el) =>
 															el.comparisonProduct &&
-															el.comparisonProduct.brand === 'AirPods'
+															el.comparisonProduct.mainColor === 'AirPods'
 													).length}
 												)
 											</button>
@@ -255,7 +255,7 @@ const ComparisonSection = () => {
 											<div
 												onClick={() =>
 													data?.forEach((el) =>
-														handleProductsIsDeleteComparison(el._id)
+														handleProductsIsDeleteComparison(el.id)
 													)
 												}
 												className={scss.cleaningText}
@@ -307,35 +307,35 @@ const ComparisonSection = () => {
 																		<div className={scss.card_content_div}>
 																			<button
 																				onClick={() =>
-																					handleComparisonProducts(item._id)
+																					handleComparisonProducts(item.id)
 																				}
 																				className={scss.delete_button}
 																			>
 																				<IconDelete />
 																			</button>
 																			{item.comparisonProduct &&
-																				item.comparisonProduct.image && (
+																				item.comparisonProduct.images && (
 																					<div className={scss.div_photos}>
 																						<img
-																							src={item.comparisonProduct.image}
+																							src={item.comparisonProduct.images}
 																							alt={
 																								item.comparisonProduct
-																									.productName
+																									.nameOfGadget
 																							}
 																						/>
 																					</div>
 																				)}
 																			{item.comparisonProduct &&
-																				item.comparisonProduct.productName && (
+																				item.comparisonProduct.nameOfGadget && (
 																					<p className={scss.charackter}>
-																						{item.comparisonProduct.productName}
+																						{item.comparisonProduct.nameOfGadget}
 																					</p>
 																				)}
 																			{item.comparisonProduct &&
 																				item.comparisonProduct.price && (
 																					<p
 																						className={
-																							item.comparisonProduct.productName
+																							item.comparisonProduct.nameOfGadget
 																								.length < 25
 																								? `${scss.charackter_price} ${scss.active_margin}`
 																								: `${scss.charackter_price}`
@@ -347,20 +347,20 @@ const ComparisonSection = () => {
 																			<AddBasketButton
 																				onClick={() =>
 																					handleAddBasketProducts(
-																						item._id,
-																						item.comparisonProduct.isInBasket
+																						item.id,
+																						item.comparisonProduct.basket
 																					)
 																				}
 																				children={
 																					item.comparisonProduct &&
-																					item.comparisonProduct.isInBasket ===
+																					item.comparisonProduct.basket ===
 																						true
 																						? `В корзине`
 																						: `В корзину`
 																				}
 																				className={
 																					item.comparisonProduct &&
-																					item.comparisonProduct.isInBasket
+																					item.comparisonProduct.basket
 																						? `${scss.add_bas_button} ${scss.active}`
 																						: `${scss.add_bas_button}`
 																				}
@@ -370,14 +370,14 @@ const ComparisonSection = () => {
 																	<div className={scss.table_div}>
 																		{item.comparisonProduct && (
 																			<>
-																				<p>{item.comparisonProduct.brand}</p>
+																				{/* <p>{item.comparisonProduct.brand}</p>
 																				<p>{item.comparisonProduct.screen}</p>
 																				<p>{item.comparisonProduct.color}</p>
 																				<p>{item.comparisonProduct.os}</p>
 																				<p>{item.comparisonProduct.memory}</p>
 																				<p>{item.comparisonProduct.ram}</p>
 																				<p>{item.comparisonProduct.weight}</p>
-																				<p>{item.comparisonProduct.sim}</p>
+																				<p>{item.comparisonProduct.sim}</p> */}
 																			</>
 																		)}
 																	</div>

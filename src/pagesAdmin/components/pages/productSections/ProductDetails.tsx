@@ -25,7 +25,7 @@ export const ProductDetails = () => {
 						data?.map((el, index) => (
 							<div
 								onClick={() => setIndexResult(index)}
-								key={el._id}
+								key={el.id}
 								className={
 									indexResult === index
 										? `${scss.container_product} ${scss.index_active}`
@@ -50,11 +50,11 @@ export const ProductDetails = () => {
 									) : (
 										<p>{index + 1}</p>
 									)}
-									<img src={el.image} alt={el.productName} />
-									<p className={scss.product_name}>{el.productName}</p>
-									<p>{el.colors}</p>
-									<p>{el.SIMCards}</p>
-									<p>{el.ram}</p>
+									<img src={el.image} alt={el.nameOfGadget} />
+									<p className={scss.product_name}>{el.nameOfGadget}</p>
+									<p>{el.colour}</p>
+									<p>{el.memory}</p>
+									<p>{el.rating}</p>
 									<p>{el.memory}</p>
 									<p>{el.quantity}</p>
 									<p className={scss.products_prices}>{el.price}</p>

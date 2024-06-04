@@ -5,14 +5,14 @@ import {
 import scss from './ReviewsPage.module.scss';
 import { useParams } from 'react-router-dom';
 import { Rate, Modal, Input, Button, ConfigProvider } from 'antd';
-import { useState } from 'react';
-// type User  = {
-// 	adminCommit: string
-// }
-// interface AdminCommitTypeObject {
-// 	reviews: User[]
-// }
-const ReviewsPage = () => {
+import { FC, useState } from 'react';
+type User = {
+	adminCommit: string;
+};
+interface AdminCommitTypeObject {
+	reviews: User[];
+}
+const ReviewsPage= () => {
 	const { productId } = useParams();
 	const { data, isLoading } = useGetProductsItemIdQuery(productId!);
 	const [editAdminCommit] = useEditAdminCommitMutation();
@@ -148,14 +148,16 @@ const ReviewsPage = () => {
 					</div>
 				)}
 			</section>
-			<ConfigProvider theme={{
-				components: {
-					Modal: {
-						colorBgElevated: 'white',
-						algorithm: true
+			<ConfigProvider
+				theme={{
+					components: {
+						Modal: {
+							colorBgElevated: 'white',
+							algorithm: true
+						}
 					}
-				}
-			}}>
+				}}
+			>
 				<>
 					<Modal
 						centered
