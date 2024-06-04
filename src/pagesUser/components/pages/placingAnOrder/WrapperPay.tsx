@@ -50,7 +50,7 @@ const WrapperPay: FC = () => {
 		navigate(`/basket?${window.location.search.substring(1)}`);
 	};
 	const handleDecor = () => {
-		navigate(`/pay/delivery?${window.location.search.substring(1)}`);
+		navigate(`/pay/delivery`);
 	};
 
 	return (
@@ -74,7 +74,7 @@ const WrapperPay: FC = () => {
 									<div className={scss.transition_numbers}>
 										<div className={scss.number_one}>
 											<Link
-												to={`/pay/delivery?${window.location.search.substring(1)}`}
+												to={`/pay/delivery`}
 												className={
 													pathname === '/pay/delivery' ||
 													pathname === '/pay/payment' ||

@@ -20,7 +20,7 @@ const api = index.injectEndpoints({
 			ORDERPRODUCT.PostBasketProductsRequest
 		>({
 			query: ({
-				ids,
+				subGadgetId,
 				deliveryType,
 				deliveryAddress,
 				email,
@@ -28,7 +28,7 @@ const api = index.injectEndpoints({
 				firstName,
 				lastName
 			}) => ({
-				url: `/api/order?${ids}&${deliveryType}`,
+				url: `/api/order?${subGadgetId}&${deliveryType}`,
 				method: 'POST',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`

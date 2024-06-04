@@ -13,13 +13,13 @@ namespace ORDERPRODUCT {
 	}>;
 
 	type PostBasketProductsRequest = {
-		ids: [];
-		deliveryType: boolean;
+		subGadgetId?: string[];
+		deliveryType?: boolean | string;
 		firstName?: string;
 		lastName?: string;
-		email: string;
-		phoneNumber: string;
-		deliveryAddress: string;
+		email?: string;
+		phoneNumber?: string;
+		deliveryAddress?: string;
 	};
 	type PostBasketProductsResponse = {
 		subGadgetId: number;

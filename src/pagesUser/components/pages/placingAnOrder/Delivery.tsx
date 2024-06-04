@@ -14,8 +14,9 @@ type DeliveryPageTypes = {
 	deliveryAddress: string;
 };
 const Delivery = () => {
-	const [isCheckedPickup, setIsCheckedPickup] = useState(true);
+	const [isCheckedPickup, setIsCheckedPickup] = useState(false);
 	const [isCheckedCourier, setIsCheckedPickupCourier] = useState(false);
+	// const [] = useState('true');
 	const [dataIds, setDataIds] = useState([]);
 	const navigate = useNavigate();
 	const [postOrderDelivery] = usePostOrderDeliveryMutation();
@@ -33,8 +34,31 @@ const Delivery = () => {
 		mode: 'onBlur'
 	});
 
+	const handleOpenChecbox = (ids: number) => {
+		setIsCheckedPickup(true);
+		setIsCheckedPickupCourier(false);
+		searchParams.set('deliveryType', String(isCheckedPickup));
+		searchParams.set('subGadgetId', ids.toString());
+		setSearchParams(searchParams);
+		// postOrderDelivery({
+		// 	subGadgetId: [searchParams.toString()],
+		// 	deliveryType: searchParams.toString()
+		// });
+	};
+
+	const handleOpenCheckbox2 = (ids: number) => {
+		setIsCheckedPickup(false);
+		setIsCheckedPickupCourier(true);
+		searchParams.set('deliveryType', String(!isCheckedCourier));
+		searchParams.set('subGadgetId', ids.toString());
+		setSearchParams(searchParams);
+		// postOrderDelivery({
+		// 	subGadgetId: [searchParams.toString()],
+		// 	deliveryType: searchParams.toString()
+		// });
+	};
+
 	const onSubmit: SubmitHandler<DeliveryPageTypes> = async (data) => {
-		const deliveryType = isCheckedPickup ? true : false;
 		const responseObject = {
 			deliveryAddress: inputValue,
 			email: data.email,
@@ -42,11 +66,11 @@ const Delivery = () => {
 			firstName: data.firstName,
 			lastName: data.lastName
 		};
-		try {
-			
-		} catch (error) {
-			console.error(error);
-		}
+		postOrderDelivery({
+			subGadgetId: [searchParams.toString()],
+			deliveryType: searchParams.toString(),
+			...responseObject
+		});
 	};
 
 	const handleCheckboxPickup = () => {
@@ -65,6 +89,11 @@ const Delivery = () => {
 					<h2> {isCheckedPickup ? 'Варианты доставки' : 'Доставка'}</h2>
 					<div className={scss.cards_pickup_courier_delivery}>
 						<div
+							onClick={() =>
+								basketOrder?.gadgetResponse.forEach((c) =>
+									handleOpenChecbox(c.id)
+								)
+							}
 							className={scss.checkbox_pickup}
 							style={{
 								border: isCheckedPickup
@@ -85,8 +114,18 @@ const Delivery = () => {
 									}}
 								>
 									<Checkbox
-										checked={isCheckedPickup}
-										onChange={handleCheckboxPickup}
+										checked={
+											searchParams
+												.getAll('deliveryType')
+												.some((el) => el === 'true')
+												? true
+												: false
+										}
+										onChange={() =>
+											basketOrder?.gadgetResponse.forEach((c) =>
+												handleOpenChecbox(c.id)
+											)
+										}
 									/>
 								</ConfigProvider>
 							</div>
@@ -98,6 +137,11 @@ const Delivery = () => {
 							</div>
 						</div>
 						<div
+							onClick={() =>
+								basketOrder?.gadgetResponse.forEach((c) =>
+									handleOpenCheckbox2(c.id)
+								)
+							}
 							className={scss.checkbox_courier_delivery}
 							style={{
 								border: isCheckedCourier
@@ -118,8 +162,18 @@ const Delivery = () => {
 									}}
 								>
 									<Checkbox
-										checked={isCheckedCourier}
-										onChange={handleCheckboxCourier}
+										checked={
+											searchParams
+												.getAll('deliveryType')
+												.some((el) => el === 'false')
+												? true
+												: false
+										}
+										onChange={() =>
+											basketOrder?.gadgetResponse.forEach((c) =>
+												handleOpenCheckbox2(c.id)
+											)
+										}
 									/>
 								</ConfigProvider>
 							</div>
