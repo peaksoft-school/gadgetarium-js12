@@ -13,9 +13,16 @@ namespace ORDERPRODUCT {
 	}>;
 
 	type PostBasketProductsRequest = {
+		ids: [];
 		deliveryType: boolean;
+		firstName?: string;
+		lastName?: string;
+		email: string;
+		phoneNumber: string;
+		deliveryAddress: string;
 	};
 	type PostBasketProductsResponse = {
+		subGadgetId: number;
 		firstName: string;
 		lastName: string;
 		email: string;

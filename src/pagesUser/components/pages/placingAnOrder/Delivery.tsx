@@ -2,20 +2,28 @@ import { useState } from 'react';
 import scss from './Delivery.module.scss';
 import { Checkbox, ConfigProvider } from 'antd';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { usePostOrderDeliveryMutation } from '@/src/redux/api/order';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
 type DeliveryPageTypes = {
-	email: string;
-	firsName: string;
+	ids: [];
+	firstName: string;
 	lastName: string;
+	email: string;
 	phoneNumber: string;
+	deliveryAddress: string;
 };
 const Delivery = () => {
 	const [isCheckedPickup, setIsCheckedPickup] = useState(true);
 	const [isCheckedCourier, setIsCheckedPickupCourier] = useState(false);
-	const [postOrderDelivery] = usePostOrderDeliveryMutation();
+	const [dataIds, setDataIds] = useState([]);
 	const navigate = useNavigate();
-	
+	const [postOrderDelivery] = usePostOrderDeliveryMutation();
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [inputValue, setInputValue] = useState('');
+	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
+		window.location.search.substring(1)
+	]);
 	const {
 		handleSubmit,
 		reset,
@@ -27,13 +35,17 @@ const Delivery = () => {
 
 	const onSubmit: SubmitHandler<DeliveryPageTypes> = async (data) => {
 		const deliveryType = isCheckedPickup ? true : false;
+		const responseObject = {
+			deliveryAddress: inputValue,
+			email: data.email,
+			phoneNumber: data.phoneNumber,
+			firstName: data.firstName,
+			lastName: data.lastName
+		};
 		try {
-			await postOrderDelivery({ ...data, deliveryType });
-			console.log(data);
-			// navigate('/auth/register');	
-			reset();
+			
 		} catch (error) {
-			console.log('error', error);
+			console.error(error);
 		}
 	};
 
@@ -131,7 +143,7 @@ const Delivery = () => {
 							<div className={scss.label_input}>
 								<label htmlFor="name">Имя *</label>
 								<Controller
-									name="firsName"
+									name="firstName"
 									control={control}
 									defaultValue=""
 									rules={{
@@ -144,7 +156,7 @@ const Delivery = () => {
 									}}
 									render={({ field }) => (
 										<input
-											style={errors.firsName && { border: '1px solid red' }}
+											style={errors.firstName && { border: '1px solid red' }}
 											type="text"
 											placeholder="Напишите ваше имя"
 											id="firsName"
@@ -235,8 +247,8 @@ const Delivery = () => {
 						{(errors.email && (
 							<p style={{ color: 'red' }}>{errors.email.message}</p>
 						)) ||
-							(errors.firsName && (
-								<p style={{ color: 'red' }}>{errors.firsName.message}</p>
+							(errors.firstName && (
+								<p style={{ color: 'red' }}>{errors.firstName.message}</p>
 							)) ||
 							(errors.lastName && (
 								<p style={{ color: 'red' }}>{errors.lastName.message}</p>
@@ -256,7 +268,7 @@ const Delivery = () => {
 							<div className={scss.label_input}>
 								<label htmlFor="name">Имя *</label>
 								<Controller
-									name="firsName"
+									name="firstName"
 									control={control}
 									defaultValue=""
 									rules={{
@@ -269,7 +281,7 @@ const Delivery = () => {
 									}}
 									render={({ field }) => (
 										<input
-											style={errors.firsName && { border: '1px solid red' }}
+											style={errors.firstName && { border: '1px solid red' }}
 											type="text"
 											placeholder="Напишите ваше имя"
 											id="firsName"
@@ -360,6 +372,8 @@ const Delivery = () => {
 							<label htmlFor="name">Адрес доставки *</label>
 							<input
 								className={scss.adress_input}
+								value={inputValue}
+								onChange={(e) => setInputValue(e.target.value)}
 								type="text"
 								placeholder="ул.Гражданская 119, кв 4, дом 9"
 							/>
@@ -367,8 +381,8 @@ const Delivery = () => {
 						{(errors.email && (
 							<p style={{ color: 'red' }}>{errors.email.message}</p>
 						)) ||
-							(errors.firsName && (
-								<p style={{ color: 'red' }}>{errors.firsName.message}</p>
+							(errors.firstName && (
+								<p style={{ color: 'red' }}>{errors.firstName.message}</p>
 							)) ||
 							(errors.lastName && (
 								<p style={{ color: 'red' }}>{errors.lastName.message}</p>

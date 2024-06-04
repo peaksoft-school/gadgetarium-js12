@@ -47,10 +47,10 @@ const WrapperPay: FC = () => {
 		navigate('/');
 	};
 	const handleBasket = () => {
-		navigate('/basket');
+		navigate(`/basket?${window.location.search.substring(1)}`);
 	};
 	const handleDecor = () => {
-		navigate('/pay/delivery');
+		navigate(`/pay/delivery?${window.location.search.substring(1)}`);
 	};
 
 	return (
@@ -74,7 +74,7 @@ const WrapperPay: FC = () => {
 									<div className={scss.transition_numbers}>
 										<div className={scss.number_one}>
 											<Link
-												to="/pay/delivery"
+												to={`/pay/delivery?${window.location.search.substring(1)}`}
 												className={
 													pathname === '/pay/delivery' ||
 													pathname === '/pay/payment' ||
@@ -98,7 +98,7 @@ const WrapperPay: FC = () => {
 										</div>
 										<div className={scss.number_two}>
 											<Link
-												to="/pay/payment"
+												to={`/pay/payment?${window.location.search.substring(1)}`}
 												className={
 													pathname === '/pay/payment' ||
 													pathname === '/pay/review'
@@ -112,7 +112,7 @@ const WrapperPay: FC = () => {
 										</div>
 										<div className={scss.number_three}>
 											<Link
-												to="/pay/review"
+												to={`/pay/review?${window.location.search.substring(1)}`}
 												className={
 													pathname === '/pay/review'
 														? `${scss.review_link} ${scss.active}`
