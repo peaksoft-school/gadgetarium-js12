@@ -6,9 +6,10 @@ type OrderPrice = {
 	Sum: number;
 	Total: number;
 };
+
 namespace BASKETPRODUCTS {
 	type GetBasketProductsRequest = void;
-	type GetBasketProductsResponse = {
+	type GetBasketProductsResponse = Array<{
 		id: number;
 		image: string;
 		nameOfGadget: string;
@@ -20,7 +21,9 @@ namespace BASKETPRODUCTS {
 		colour: string;
 		article: number;
 		countOfGadget: number;
-	}[];
+		likes: boolean;
+
+	}>;
 
 	type BasketProductsAllItemIdRequest = {
 		id: number | null;
@@ -36,30 +39,20 @@ namespace BASKETPRODUCTS {
 		Sum?: number;
 		Total?: number;
 	};
+
 	type PutProductRequest = {
-		id?: number;
-		// subGadgetId?: number;
-		countOfGadget?: number;
+		id: number;
+		basket: boolean;
 	};
 	type PutProductResponse = {
 		id: number;
-		// isInBasket: boolean;
-		quantity?: number;
 	};
 
 	type BasketProductRequest = {
 		id: number | null;
-		NumberOfGoods?: number;
-		YourDiscount?: number;
-		Sum?: number;
-		Total?: number;
 	};
 	type BasketProductResponse = {
 		id: number | null;
-		NumberOfGoods?: number;
-		YourDiscount?: number;
-		Sum?: number;
-		Total?: number;
 	};
 
 	type ProductQuantityRequest = {
@@ -80,4 +73,27 @@ namespace BASKETPRODUCTS {
 		Sum?: number;
 		Total?: number;
 	};
+
+	type GetBasketOrderAmountsRequest = void;
+	type GetBasketOrderAmountsResponse = Array<{
+		id: number;
+		image: string;
+		nameOfGadget: string;
+		memory: string;
+		colour: string;
+		article: number;
+		quantity: number;
+		quantity: number;
+		discountPrice: number;
+		price: number;
+		currentPrice: number;
+		likes: boolean;
+		comparison: boolean;
+		basket: boolean;
+		currentPrice: number;
+		subGadgetId: number;
+		newProduct: boolean;
+		recommend: boolean;
+
+	}>;
 }

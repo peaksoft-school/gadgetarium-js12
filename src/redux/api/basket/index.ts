@@ -15,16 +15,29 @@ const api = index.injectEndpoints({
 			}),
 			providesTags: ['basket']
 		}),
+		getBasketOrderAmount: build.query<
+			BASKETPRODUCTS.GetBasketOrderAmountsResponse,
+			BASKETPRODUCTS.GetBasketOrderAmountsRequest
+		>({
+			query: () => ({
+				url: '/api/basket/order-amounts',
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			providesTags: ['basket']
+		}),
 		basketPutProduct: build.mutation<
 			BASKETPRODUCTS.PutProductResponse,
 			BASKETPRODUCTS.PutProductRequest
 		>({
-			query: ({ id, countOfGadget }) => ({
-				url: `/api/basket/${id}?${countOfGadget}`,
+			query: ({ id }) => ({
+				url: `/api/basket/${id}`,
 				method: 'PATCH',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
-				}
+				},
 			}),
 			invalidatesTags: ['basket']
 		}),
@@ -32,10 +45,10 @@ const api = index.injectEndpoints({
 			BASKETPRODUCTS.BasketProductsAllItemIdResponse,
 			BASKETPRODUCTS.BasketProductsAllItemIdRequest
 		>({
-			query: ({ id, YourDiscount, Total, Sum, NumberOfGoods }) => ({
+			query: ({ id, NumberOfGoods, YourDiscount, Sum, Total }) => ({
 				url: `https://c7c9df01cc80687d.mokky.dev/basket/${id}`,
 				method: 'PATCH',
-				body: { YourDiscount, Total, Sum, NumberOfGoods }
+				body: { NumberOfGoods, YourDiscount, Sum, Total }
 			}),
 			invalidatesTags: ['basket']
 		}),
@@ -65,6 +78,7 @@ const api = index.injectEndpoints({
 
 export const {
 	useGetBasketQuery,
+	useGetBasketOrderAmountQuery,
 	useBasketPutProductMutation,
 	useBasketProductDeleteAllMutation,
 	useBasketProductMutation,

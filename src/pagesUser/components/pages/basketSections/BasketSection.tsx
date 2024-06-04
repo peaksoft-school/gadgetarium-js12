@@ -1,11 +1,9 @@
-/* eslint-disable prefer-const */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
 	useBasketProductDeleteAllMutation,
 	useBasketProductMutation,
 	useBasketProductResultQuantityMutation,
 	useBasketPutProductMutation,
+	useGetBasketOrderAmountQuery,
 	useGetBasketQuery
 } from '@/src/redux/api/basket';
 import png from '../../../../assets/sammy_shopping_1_1.png';
@@ -19,14 +17,14 @@ import {
 	IconTrash
 } from '@tabler/icons-react';
 import { Button, Checkbox, ConfigProvider, Rate, InputNumber } from 'antd';
-import React, { useState } from 'react';
-import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
+import React, { useState, useEffect } from 'react';
+import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 
 const BasketSection = () => {
 	const [basketDeleteProduct] = useBasketPutProductMutation();
 	const [basketProductResultQuantity] =
 		useBasketProductResultQuantityMutation();
-	const [favoriteAddProduct] = useAddProductsForFavoriteMutation();
+	const [favoriteAddProduct] = useFavoritePutProductMutation();
 	const [basketProduct] = useBasketProductMutation();
 	const [basketProductsAllId] = useBasketProductDeleteAllMutation();
 	const navigate = useNavigate();
@@ -35,24 +33,31 @@ const BasketSection = () => {
 	const [inputValueItemId, setInputValueItemId] = useState<number>();
 	const [selectAll, setSelectAll] = useState<boolean>(false);
 	const [inputValueQuantity, setInputValueQuantity] = useState<number>(0);
+	const [totalAmount, setTotalAmount] = useState<number>(0);
 	const { data, isLoading } = useGetBasketQuery();
-	const handleBasketProductDelete = async (
-		_id: number,
-		isInBasket: boolean
-	) => {
-		await basketDeleteProduct({ _id, isInBasket: !isInBasket });
+	const { data: orderAmount = [] } = useGetBasketOrderAmountQuery();
+
+	useEffect(() => {
+		const calculateTotalAmount = () => {
+			const total = selectedProducts.reduce((sum, productId) => {
+				const product = orderAmount.find((item) => item.id === productId);
+				return sum + (product ? product.price + 0 : 0);
+			}, 0);
+			setTotalAmount(total);
+		};
+ 
+		calculateTotalAmount();
+	}, [selectedProducts, orderAmount]);
+
+	const handleBasketProductDelete = async (id: number) => {
+		await basketDeleteProduct({ id });
 	};
 
-	const handleFavoriteAddProduct = async (id: number, isFavorite: boolean) => {
-		await favoriteAddProduct({ id, isFavorite: !isFavorite });
+	const handleFavoriteAddProduct = async (id: number, likes: boolean) => {
+		await favoriteAddProduct({ id, likes: !likes });
 	};
-	const handleSelectProduct = async (
-		productId: number,
-		NumberOfGoods: number,
-		YourDiscount: number,
-		Sum: number,
-		Total: number
-	) => {
+
+	const handleSelectProduct = async (productId: number) => {
 		if (selectedProducts.includes(productId)) {
 			setSelectedProducts(selectedProducts.filter((id) => id !== productId));
 			setArrayNumbers(arrayNumbers.filter((el) => el !== productId));
@@ -70,22 +75,12 @@ const BasketSection = () => {
 				JSON.stringify([...selectedProducts, productId])
 			);
 			await basketProduct({
-				id: productId,
-				NumberOfGoods,
-				YourDiscount,
-				Sum,
-				Total
+				id: productId
 			});
 		}
 	};
 
-	const handleSelectAll = async (
-		id: number,
-		NumberOfGoods: number,
-		YourDiscount: number,
-		Total: number,
-		Sum: number
-	) => {
+	const handleSelectAll = async (id: number) => {
 		if (selectAll) {
 			setSelectedProducts([]);
 			localStorage.setItem(
@@ -100,11 +95,7 @@ const BasketSection = () => {
 				JSON.stringify(data?.map((item) => item.id))
 			);
 			await basketProductsAllId({
-				id: id,
-				NumberOfGoods,
-				YourDiscount,
-				Sum,
-				Total
+				id: id
 			});
 		}
 		setSelectAll(!selectAll);
@@ -117,6 +108,7 @@ const BasketSection = () => {
 		console.log(value);
 		console.log(inputValueQuantity);
 	};
+
 	const handleProductQuantityFunkForEnter = async (id: number) => {
 		console.log(inputValueQuantity);
 		setSelectedProducts([...selectedProducts, id]);
@@ -129,6 +121,7 @@ const BasketSection = () => {
 			buyProductQuantity: inputValueQuantity
 		});
 	};
+
 	const allSelected = selectedProducts.length === (data?.length || 0);
 	const someSelected = selectedProducts.length > 0;
 	const localProductsResults = localStorage.getItem('selectedProducts');
@@ -186,15 +179,7 @@ const BasketSection = () => {
 											<Checkbox
 												checked={allSelected && someSelected}
 												onChange={() =>
-													data?.forEach((el) =>
-														handleSelectAll(
-															el.id,
-															el.orderPrice.NumberOfGoods,
-															el.orderPrice.YourDiscount,
-															el.orderPrice.Total,
-															el.orderPrice.Sum
-														)
-													)
+													data?.forEach((el) => handleSelectAll(el.id))
 												}
 											>
 												<p>Отметить все</p>
@@ -246,24 +231,14 @@ const BasketSection = () => {
 															selectedProducts.includes(item.id) &&
 															localProductsResults?.includes(item.id.toString())
 														}
-														onChange={() =>
-															handleSelectProduct(
-																item.id,
-																item.orderPrice.NumberOfGoods,
-																item.orderPrice.YourDiscount,
-																item.orderPrice.Sum,
-																item.orderPrice.Total
-															)
-														}
+														onChange={() => handleSelectProduct(item.id)}
 													/>
 												</ConfigProvider>
 												<div className={scss.content_product_div}>
 													<div className={scss.contents_product}>
-														<Link to={`/catalog/phones/${item.id}`}>
-															<img src={item.image} alt={item.productName} />
-														</Link>
+														<img src={item.image} alt={item.nameOfGadget} />
 														<div className={scss.product_info_text_div}>
-															<p>{item.productName}</p>
+															<p>{item.nameOfGadget}</p>
 															<div className={scss.product_content}>
 																<div
 																	className={
@@ -272,10 +247,10 @@ const BasketSection = () => {
 																>
 																	<p>
 																		Рейтинг <Rate defaultValue={5} />
-																		{item.Rating}
+																		{item.rating}
 																	</p>
 																	<p className={scss.buy_product_text}>
-																		В наличии {item.buyProduct}
+																		В наличии {item.quantity}
 																	</p>
 																</div>
 																<div
@@ -302,7 +277,7 @@ const BasketSection = () => {
 																				className={scss.input_number}
 																				min={1}
 																				max={100}
-																				defaultValue={item.buyProductQuantity}
+																				defaultValue={item.quantity}
 																				onChange={
 																					handleInputValueForProductQuantity
 																				}
@@ -333,18 +308,18 @@ const BasketSection = () => {
 															<div
 																className={scss.div_product_code_and_buttons}
 															>
-																<p>Код товара: {item.productCode}</p>
+																<p>Код товара: {item.nameOfGadget}</p>
 																<div className={scss.buttons_div}>
 																	<div
 																		className={scss.div}
 																		onClick={() =>
 																			handleFavoriteAddProduct(
 																				item.id,
-																				item.isFavorite
+																				item.likes
 																			)
 																		}
 																	>
-																		{item.isFavorite === true ? (
+																		{item.likes === true ? (
 																			<>
 																				<IconHeartFilled
 																					color="red"
@@ -364,10 +339,7 @@ const BasketSection = () => {
 																	<div
 																		className={scss.div}
 																		onClick={() =>
-																			handleBasketProductDelete(
-																				item.id,
-																				item.isInBasket
-																			)
+																			handleBasketProductDelete(item.id)
 																		}
 																	>
 																		<IconX width={'16px'} height={'16px'} />
@@ -383,60 +355,39 @@ const BasketSection = () => {
 									</div>
 									<div className={scss.content_product_price}>
 										<div className={scss.contents_product_price_div}>
-											{selectedProducts.some((id) =>
-												data?.map((el) => el.id).includes(id)
-											) && (
+											{someSelected && (
 												<>
 													<h3>Сумма заказа</h3>
 													<div></div>
 													<div className={scss.div_contents_and_results_price}>
 														<div className={scss.price_result_product_div}>
 															<p>Количество товаров:</p>
-															{data
-																?.slice(0, 1)
-																.map((item) => (
-																	<p key={item.id}>
-																		{item.orderPrice.NumberOfGoods}
-																	</p>
-																))}
+															<p>{selectedProducts.length} шт</p>
 														</div>
 														<div className={scss.price_result_product_div}>
 															<p>Ваша скидка:</p>
-															{data?.slice(0, 1).map((item) => (
-																<p className={scss.color_red_p} key={item.id}>
-																	{item.orderPrice.YourDiscount}
-																</p>
-															))}
+															<p className={scss.color_red_p}>0</p>
 														</div>
 														<div className={scss.price_result_product_div}>
 															<p>Сумма:</p>
-															{data
-																?.slice(0, 1)
-																.map((item) => (
-																	<p key={item.id}>{item.orderPrice.Sum}</p>
-																))}
+															<p>{totalAmount} c</p>
 														</div>
 														<div className={scss.price_result_product_div}>
 															<h3>Итого</h3>
+															<p>{totalAmount} c</p>
 														</div>
 													</div>
 												</>
 											)}
 											<Button
 												onClick={() => {
-													selectedProducts.some(
-														(id) =>
-															data?.map((el) => el.id).includes(id) &&
-															navigate('/pay/delivery')
-													);
+													someSelected && navigate('/pay/delivery');
 												}}
 												className={calculateButtonClass()}
 											>
 												Перейти к оформлению
 											</Button>
-											{selectedProducts.some((id) =>
-												data?.map((el) => el.id).includes(id)
-											) ? null : (
+											{!someSelected && (
 												<button className={scss.buttonNooActive}>
 													<IconExclamationMark color="#464343" />{' '}
 													<p>

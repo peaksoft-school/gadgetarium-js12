@@ -15,20 +15,20 @@ const api = index.injectEndpoints({
 			}),
 			providesTags: ['favorite']
 		}),
-		addProductsForFavorite: build.mutation<
+		favoritePutProduct: build.mutation<
 			FAVORITEPRODUCTS.PutFavoriteProductResponse,
 			FAVORITEPRODUCTS.PutFavoriteProductRequest
 		>({
-			query: ( {gadgetId} ) => ({
-				url: `/api/favorites/${gadgetId}`,
+			query: (subGadgetId) => ({
+				url: `/api/favorites/${subGadgetId}`,
 				method: 'PATCH',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
-				},
+				}
 			}),
 			invalidatesTags: ['favorite']
 		})
 	})
 });
 
-export const { useGetFavoriteQuery, useAddProductsForFavoriteMutation } = api;
+export const { useGetFavoriteQuery, useFavoritePutProductMutation } = api;

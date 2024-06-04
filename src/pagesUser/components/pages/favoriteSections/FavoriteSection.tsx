@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-	// useFavoritePutProductMutation,
-	useAddProductsForFavoriteMutation,
+	useFavoritePutProductMutation,
 	useGetFavoriteQuery
 } from '@/src/redux/api/favorite';
 import favorite from '../../../../assets/sammy_order_completed_by_a_delivery_girl_1.png';
@@ -12,31 +11,31 @@ import { Button, Rate } from 'antd';
 import IconHeartRed from '@/src/assets/icons/icon-heart-red';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
-import { useAddProductsFotComparisonMutation } from '@/src/redux/api/comparison';
+// import { useComparisonPutProductMutation } from '@/src/redux/api/comparison';
 const FavoriteSection = () => {
 	const navigate = useNavigate();
 	const { data, isLoading } = useGetFavoriteQuery();
 	const [addBasketProduct] = useBasketPutProductMutation();
-	const [addComparisonProducts] = useAddProductsFotComparisonMutation();
-	const [addFavoriteProducts] = useAddProductsForFavoriteMutation();
-	const handleAddBasketProduct = async (_id: number, isInBasket: boolean) => {
-		await addBasketProduct({ _id, isInBasket: !isInBasket });
+	// const [addComparisonProducts] = useComparisonPutProductMutation();
+	const [addFavoriteProducts] = useFavoritePutProductMutation();
+	const handleAddBasketProduct = async (id: number, isInBasket: boolean) => {
+		await addBasketProduct({ id, basket: !isInBasket });
 	};
-	const handleAddComparisonProducts = async (
-		_id: number,
-		isComparison: boolean
-	) => {
-		await addComparisonProducts({ _id, isComparison: !isComparison });
-	};
+	// const handleAddComparisonProducts = async (
+	// 	id: number,
+	// 	comparison: boolean
+	// ) => {
+	// 	await addComparisonProducts({ id, comparison: !comparison });
+	// };
 	const handleDeleteIsFavoriteProducts = async (
-		_id: number,
-		isFavorite: boolean
+		id: number,
+		likes: boolean
 	) => {
-		console.log(isFavorite);
-		await addFavoriteProducts({ _id, isFavorite: false });
+		console.log(likes);
+		await addFavoriteProducts({ id, likes: false });
 	};
-	const handleAddFavoriteProduct = async (_id: number, isFavorite: boolean) => {
-		await addFavoriteProducts({ _id, isFavorite: !isFavorite });
+	const handleAddFavoriteProduct = async (id: number, likes: boolean) => {
+		await addFavoriteProducts({ id, likes: !likes });
 	};
 	return (
 		<div className={scss.FavoriteSection}>
@@ -81,14 +80,14 @@ const FavoriteSection = () => {
 										style={{ cursor: 'pointer' }}
 										onClick={() =>
 											data?.forEach((el) =>
-												handleDeleteIsFavoriteProducts(el._id, el.isFavorite)
+												handleDeleteIsFavoriteProducts(el.id, el.likes)
 											)
 										}
 									/>{' '}
 									<p
 										onClick={() =>
 											data?.forEach((el) =>
-												handleDeleteIsFavoriteProducts(el._id, el.isFavorite)
+												handleDeleteIsFavoriteProducts(el.id, el.likes)
 											)
 										}
 									>
@@ -98,15 +97,15 @@ const FavoriteSection = () => {
 								<div className={scss.container_products}>
 									{data &&
 										data?.map((item) => (
-											<div key={item._id} className={scss.container_product}>
+											<div key={item.id} className={scss.container_product}>
 												<div className={scss.content_product}>
 													<div
 														className={
 															scss.product_basket_and_favorite_buttons_and_photo
 														}
 													>
-														{item.sale ? (
-															<img src={item.sale} alt={item.productName} />
+														{item.image ? (
+															<img src={item.image} alt={item.brandName} />
 														) : (
 															<div></div>
 														)}
@@ -114,12 +113,12 @@ const FavoriteSection = () => {
 															<IconScale
 																onClick={() =>
 																	handleAddComparisonProducts(
-																		item._id,
-																		item.isComparison
+																		item.id,
+																		item.comparison
 																	)
 																}
 																style={
-																	item.isComparison
+																	item.comparison
 																		? {
 																				color: 'rgb(181, 18, 154)',
 																				cursor: 'pointer'
@@ -130,13 +129,13 @@ const FavoriteSection = () => {
 																			}
 																}
 															/>
-															{item.isFavorite ? (
+															{item.likes ? (
 																<div
 																	style={{ cursor: 'pointer' }}
 																	onClick={() =>
 																		handleAddFavoriteProduct(
-																			item._id,
-																			item.isFavorite
+																			item.id,
+																			item.likes
 																		)
 																	}
 																>
@@ -147,8 +146,8 @@ const FavoriteSection = () => {
 																	cursor={'pointer'}
 																	onClick={() =>
 																		handleAddFavoriteProduct(
-																			item._id,
-																			item.isFavorite
+																			item.id,
+																			item.likes
 																		)
 																	}
 																/>
@@ -156,17 +155,15 @@ const FavoriteSection = () => {
 														</div>
 													</div>
 													<div className={scss.photo_div}>
-														<Link to={`/catalog/phones/${item.id}`}>
-															<img src={item.image} alt={item.productName} />
-														</Link>
+														<img src={item.image} alt={item.brandName} />
 													</div>
 													<div className={scss.products_name_and_rating}>
-														<p className={scss.text_stock}>{item.stock}</p>
+														<p className={scss.text_stock}>{item.price}</p>
 														<p className={scss.product_name}>
-															{item.productName}
+															{item.nameOfGadget}
 														</p>
 														<p>
-															Рейтинг <Rate defaultValue={item.Rating} />
+															Рейтинг <Rate defaultValue={item.rating} />
 														</p>
 													</div>
 													<div
@@ -176,30 +173,24 @@ const FavoriteSection = () => {
 													>
 														<div className={scss.prices_div_product}>
 															<h2>{item.price}</h2>
-															<p>{item.oldPrice}</p>
+															<p>{item.price}</p>
 														</div>
-														<div
-															className={
-																!item.oldPrice
-																	? `${scss.button_for_basket_div_noo_active} ${scss.button_for_basket_div_active}`
-																	: `${scss.button_for_basket_div_noo_active}`
-															}
-														>
+														<div className={!item.price ? `${scss.button_for_basket_div_noo_active} ${scss.button_for_basket_div_active}` : `${scss.button_for_basket_div_noo_active}`}>
 															<AddBasketButton
 																onClick={() =>
 																	item &&
 																	handleAddBasketProduct(
-																		item._id,
-																		item.isInBasket
+																		item.id,
+																		item.basket
 																	)
 																}
 																children={
-																	item.isInBasket === true
+																	item.basket === true
 																		? 'В корзине'
 																		: 'В корзину'
 																}
 																className={
-																	item.isInBasket === true
+																	item.basket  === true
 																		? `${scss.noo_active_basket_button} ${scss.active_basket_button}`
 																		: `${scss.noo_active_basket_button}`
 																}

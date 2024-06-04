@@ -26,8 +26,8 @@ const api = index.injectEndpoints({
 			PRODUCTSTORE.EditAdminCommitResponse,
 			PRODUCTSTORE.EditAdminCommitRequest
 		>({
-			query: ({ _id, reviews }) => ({
-				url: `https://c7c9df01cc80687d.mokky.dev/basket_products/${_id}`,
+			query: ({ id, reviews }) => ({
+				url: `https://c7c9df01cc80687d.mokky.dev/basket_products/${id}`,
 				method: 'PATCH',
 				body: { reviews }
 			}),

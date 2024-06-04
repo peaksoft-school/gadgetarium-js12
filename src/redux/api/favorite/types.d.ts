@@ -2,28 +2,29 @@
 namespace FAVORITEPRODUCTS {
 	type GetFavoriteProductsRequest = void;
 	type GetFavoriteProductsResponse = {
-		gadgetId: number;
+		subGadgetId: number;
 		image: string;
-		productName: string;
+		category: string;
+		brandName: string;
+		nameOfGadget: string;
+		memory: string;
+		color: string;
+		rating: number;
 		price: number;
-		sale?: string;
-		stock?: string;
-		quantity?: number | string;
-		isFavorite: boolean;
-		isComparison: boolean;
-		isInBasket: boolean;
-		token: string;
-		Rating: number;
-		productCode?: string;
-		buyProduc?: string;
-		oldPrice?: number;
+		currentPrice: number;
+		likes: boolean;
+		comparison: boolean;
+		basket: boolean;
+		currentPrice: number;
+		subGadgetId: number;
+		newProduct: boolean;
+		recommend: boolean;
 	}[];
 	type PutFavoriteProductRequest = {
-		gadgetId: number;
-		// isFavorite: boolean;
+		subGadgetId: number;
 	};
 	type PutFavoriteProductResponse = {
-		gadgetId: number;
-		// isFavorite: boolean;
+		status: string;
+		message: string;
 	};
 }

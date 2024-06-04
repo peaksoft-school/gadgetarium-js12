@@ -10,7 +10,7 @@ import { Button, ConfigProvider, InputNumber, Modal, Rate } from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
-import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
+import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { IconRedHeart } from '@/src/assets/icons';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
@@ -22,7 +22,7 @@ import {
 const CardProductPage = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [basketAddProduct] = useBasketPutProductMutation();
-	const [favoriteAddProduct] = useAddProductsForFavoriteMutation();
+	const [favoriteAddProduct] = useFavoritePutProductMutation();
 	const { productId } = useParams();
 	const { data, isLoading, refetch } = useGetCardProductQuery(productId!);
 	const { data: productColor } = useGetProductsColorsApiQuery(productId!);

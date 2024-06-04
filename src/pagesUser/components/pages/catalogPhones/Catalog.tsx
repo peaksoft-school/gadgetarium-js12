@@ -30,8 +30,8 @@ import {
 	useBasketPutProductMutation,
 	useGetBasketQuery
 } from '@/src/redux/api/basket';
-import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
-import { useAddProductsFotComparisonMutation } from '@/src/redux/api/comparison';
+import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
+import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
 import { useSubCategoriesQuery } from '@/src/redux/api/catalogProducts';
 const Catalog = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -39,8 +39,8 @@ const Catalog = () => {
 	const { filtredIds } = useParams();
 	const { data: subCategories = [] } = useSubCategoriesQuery(filtredIds!);
 	const [addProductBasket] = useBasketPutProductMutation();
-	const [addProductsForFavorite] = useAddProductsForFavoriteMutation();
-	const [addComparisonProducts] = useAddProductsFotComparisonMutation();
+	const [addProductsForFavorite] = useFavoritePutProductMutation();
+	const [addComparisonProducts] = useComparisonPatchProductsMutation();
 	const { data: BasketData = [] } = useGetBasketQuery();
 	const [priceLow, setPriceLow] = useState<string>('');
 	const [priceHigh, setPriceHigh] = useState('');

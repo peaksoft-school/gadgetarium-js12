@@ -5,7 +5,6 @@ import scss from './ReviewsPage.module.scss';
 import { useParams } from 'react-router-dom';
 import { Rate, Modal, Input, Button, ConfigProvider } from 'antd';
 import { useState } from 'react';
-import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 // type User  = {
 // 	adminCommit: string
 // }
@@ -148,14 +147,16 @@ const ReviewsPage = () => {
 					</div>
 				)}
 			</section>
-			<ConfigProvider theme={{
-				components: {
-					Modal: {
-						colorBgElevated: 'white',
-						algorithm: true
+			<ConfigProvider
+				theme={{
+					components: {
+						Modal: {
+							colorBgElevated: 'white',
+							algorithm: true
+						}
 					}
-				}
-			}}>
+				}}
+			>
 				<>
 					<Modal
 						centered

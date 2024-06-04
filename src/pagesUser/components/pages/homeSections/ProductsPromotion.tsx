@@ -1,30 +1,25 @@
 import { useState } from 'react';
 import scss from './ProductsPromotion.module.scss';
-import { useGetProductsQuery } from '@/src/redux/api/product';
 import { Rate, Skeleton, Tooltip } from 'antd';
 import AddBasketButton from '../../../../ui/customButtons/AddBasketButton.tsx';
 import { IconHeart, IconScale } from '@tabler/icons-react';
-import photoIsIphone from '../../../../assets/productImage/IphoneCard.png';
 import ShowMoreButton from '@/src/ui/customButtons/ShowMoreButton.tsx';
 import { IconRedHeart } from '@/src/assets/icons';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
-import { useAddProductsForFavoriteMutation } from '@/src/redux/api/favorite';
-import { useAddProductsFotComparisonMutation } from '@/src/redux/api/comparison';
+import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
+import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
+import { useNavigate } from 'react-router-dom';
+import { useGetProductsSaleQuery } from '@/src/redux/api/productsSale/index.ts';
 
 const ProductsPromotion = () => {
-	const { data: productData = [], isLoading, refetch } = useGetProductsQuery();
-	const [comparisonPutProduct] = useAddProductsFotComparisonMutation();
+	const { data: productData, isLoading, refetch } = useGetProductsSaleQuery();
+	const [comparisonPutProduct] = useComparisonPatchProductsMutation();
 	const [basketPutProduct] = useBasketPutProductMutation();
-	const [putFavoriteProduct] = useAddProductsForFavoriteMutation();
+	const [putFavoriteProduct] = useFavoritePutProductMutation();
 	const [isVisible, setIsVisible] = useState(5);
 	const [showMore, setShowMore] = useState(false);
-	const [activeScaleId, setActiveScaleId] = useState<null | number | string>(
-		null
-	);
-	const [activeHeartId, setActiveHeartId] = useState<null | number | string>(
-		null
-	);
-	const [isBasket, setIsBasket] = useState<null | number | string>(null);
+
+	const navigate = useNavigate();
 
 	const handleVisible = () => {
 		setIsVisible(isVisible + 5);
@@ -36,22 +31,22 @@ const ProductsPromotion = () => {
 		setShowMore(!showMore);
 	};
 
-	const handleScaleClick = async (id: number, isComparison: boolean) => {
-		await comparisonPutProduct({ id, isComparison: !isComparison });
+	const handleScaleClick = async (subGadgetId: number) => {
+		await comparisonPatchProduct(subGadgetId);
 		refetch();
-		setActiveScaleId(activeScaleId === id ? null : id);
 	};
 
-	const handleHeartClick = async (id: number, isFavorite: boolean) => {
-		await putFavoriteProduct({ id, isFavorite: !isFavorite });
+	const handleHeartClick = async (subGadgetId: number) => {
+		await putFavoriteProduct(subGadgetId);
 		refetch();
-		setActiveHeartId(activeHeartId === id ? null : id);
 	};
 
-	const handleBasket = async (id: number, isInBasket: boolean) => {
-		await basketPutProduct({ id, isInBasket: !isInBasket });
+	const handleBasket = async (subGadgetId: number) => {
+		await basketPutProduct({
+			id: subGadgetId,
+			basket: false
+		});
 		refetch();
-		setIsBasket(isBasket === id ? null : id);
 	};
 
 	return (
@@ -91,103 +86,95 @@ const ProductsPromotion = () => {
 								</>
 							) : (
 								<>
-									{productData.length === 0 ? (
-										<h1>Здесь нет товаров</h1>
-									) : (
-										productData?.slice(0, isVisible).map((item) => (
-											<div className={scss.div_product_map} key={item.id}>
-												<div className={scss.div_icons}>
-													<div className={scss.minus_promotion}> -10%</div>
-													<div className={scss.div_two_icons}>
-														<button
-															onMouseEnter={() => setActiveScaleId(item.id)}
-															onMouseLeave={() => setActiveScaleId(null)}
-															onClick={() =>
-																handleScaleClick(item.id, item.isComparison)
-															}
-														>
-															<Tooltip
-																title={
-																	item.isComparison === false
-																		? 'Добавить к сравнению'
-																		: 'Удалить из сравнения'
-																}
-																color="#c11bab"
-															>
-																<IconScale
-																	className={
-																		item.isComparison === true
-																			? `${scss.scale} ${scss.active}`
-																			: scss.scale
-																	}
-																/>
-															</Tooltip>
-														</button>
+									{productData?.mainPages.slice(0, isVisible).map((item) => (
+										<div className={scss.div_product_map} key={item.id}>
+											<div className={scss.div_icons}>
+												<div className={scss.minus_promotion}> -10%</div>
+												<div className={scss.div_two_icons}>
+													<button
+														onMouseEnter={() => setActiveScaleId(item.id)}
+														onMouseLeave={() => setActiveScaleId(null)}
+														onClick={() =>
+															handleScaleClick(item.id, item.isComparison)
+														}
+													>
 														<Tooltip
 															title={
-																item.isFavorite === false
-																	? 'Добавить в избранное'
-																	: 'Удалить из избранного'
+																item.isComparison === false
+																	? 'Добавить к сравнению'
+																	: 'Удалить из сравнения'
 															}
 															color="#c11bab"
 														>
-															<button
-																className={scss.heart}
-																onClick={() =>
-																	handleHeartClick(item.id, item.isFavorite)
+															<IconScale
+																className={
+																	item.isComparison === true
+																		? `${scss.scale} ${scss.active}`
+																		: scss.scale
 																}
-																onMouseEnter={() => setActiveHeartId(item.id)}
-																onMouseLeave={() => setActiveHeartId(null)}
-															>
-																{item.isFavorite === true ? (
-																	<IconRedHeart />
-																) : (
-																	<IconHeart />
-																)}
-															</button>
+															/>
 														</Tooltip>
-													</div>
-												</div>
-												<div className={scss.div_img}>
-													<img
-														className={scss.img_product}
-														src={photoIsIphone}
-														alt={item.productName}
-													/>
-												</div>
-												<div className={scss.div_product_contents}>
-													<p className={scss.tag_color_green}>
-														В наличии {item.buyProduc}
-													</p>
-													<h3>{item.productName}</h3>
-													<p>
-														Рейтинг <Rate allowHalf defaultValue={3.5} />
-														{item.Rating}
-													</p>
-													<div className={scss.div_buttons_and_price}>
-														<div className={scss.product_price}>
-															<h2>{item.price} c</h2>
-														</div>
-														<AddBasketButton
+													</button>
+													<Tooltip
+														title={
+															item.isFavorite === false
+																? 'Добавить в избранное'
+																: 'Удалить из избранного'
+														}
+														color="#c11bab"
+													>
+														<button
+															className={scss.heart}
 															onClick={() =>
-																handleBasket(item.id, item.isInBasket)
+																handleHeartClick(item.id, item.isFavorite)
 															}
-															children={
-																item.isInBasket === true
-																	? `В корзине`
-																	: `В корзину`
-															}
-															className={
-																item.isInBasket === true
-																	? `${scss.add_bas_button} ${scss.active}`
-																	: `${scss.add_bas_button}`
-															}
-														/>
-													</div>
+															onMouseEnter={() => setActiveHeartId(item.id)}
+															onMouseLeave={() => setActiveHeartId(null)}
+														>
+															{item.likes === true ? (
+																<IconRedHeart />
+															) : (
+																<IconHeart />
+															)}
+														</button>
+													</Tooltip>
 												</div>
 											</div>
-										))
-									)}
+											<div className={scss.div_img}>
+												<img
+													className={scss.img_product}
+													src={item.image}
+													alt={item.nameOfGadget}
+												/>
+											</div>
+											<div className={scss.div_product_contents}>
+												<p className={scss.tag_color_green}>
+													В наличии {item.quantity}
+												</p>
+												<h3>{item.nameOfGadget}</h3>
+												<p>
+													Рейтинг <Rate allowHalf defaultValue={3.5} />
+													{item.rating}
+												</p>
+												<div className={scss.div_buttons_and_price}>
+													<div className={scss.product_price}>
+														<h2>{item.price} c</h2>
+													</div>
+													{item.basket ? (
+														<button onClick={() => navigate('/basket')}>
+															basket
+														</button>
+													) : (
+														<AddBasketButton
+															onClick={() => handleBasket(item.id)}
+															children={'В корзину'}
+															className={scss.add_bas_button}
+														/>
+													)}
+												</div>
+											</div>
+										</div>
+									))}
 								</>
 							)}
 						</div>

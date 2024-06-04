@@ -1,27 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useNavigate } from 'react-router-dom';
-import scss from './Catalog.module.scss';
-import arrow from '@/src/assets/map/arrowtop.png';
-import arrowDown from '@/src/assets/map/arrowDown.png';
-import arrowBlue from '@/src/assets/map/arrowTopBlue.png';
-import arrowBlueBottom from '@/src/assets/map/arrowBottomBlue.png';
-import {
-	coloursCatalog,
-	gBiteCatalog,
-	moreGBiteCatalog,
-	phoneCatalog
-} from '@/src/data/Catalog';
-import { useState } from 'react';
-import { useGetPhonesQuery } from '@/src/redux/api/filterGadget';
-import starFilled from '@/src/assets/map/starYellow.png';
-import starUnfilled from '@/src/assets/map/starNotFilled.png';
-import {
-	IconHeart,
-	IconScale,
-	IconShoppingCart,
-	IconX
-} from '@tabler/icons-react';
-import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
+import { useNavigate } from "react-router-dom"
+import scss from "./Catalog.module.scss"
+import arrow from "@/src/assets/map/arrowtop.png"
+import arrowDown from "@/src/assets/map/arrowDown.png"
+import arrowBlue from "@/src/assets/map/arrowTopBlue.png"
+import arrowBlueBottom from "@/src/assets/map/arrowBottomBlue.png"
+import { coloursCatalog, gBiteCatalog, moreGBiteCatalog, phoneCatalog } from "@/src/data/Catalog"
+import { useState } from "react"
+import { useGetPhonesQuery } from "@/src/redux/api/phones"
+import starFilled from "@/src/assets/map/starYellow.png"
+import starUnfilled from "@/src/assets/map/starNotFilled.png"
+import { IconHeart, IconScale, IconShoppingCart, IconX } from "@tabler/icons-react"
+import PhonesDropdown from "@/src/ui/phonesCatalogDropdown/PhonesDropdown"
 
 const Catalog = () => {
 	const navigate = useNavigate();
@@ -87,49 +77,37 @@ const Catalog = () => {
 								<h4 onClick={handleRemoveCategories}>Сбросить все фильтры</h4>
 								<div className={scss.divLine}></div>
 
-								{reduceOne ? (
-									<div>
-										<div className={scss.category}>
-											<p>Категория</p>
-											<img
-												src={arrowDown}
-												alt="ArrowDown"
-												onClick={() => setReduceOne(false)}
-											/>
-										</div>
-									</div>
-								) : (
-									<div>
-										<div className={scss.category}>
-											<p>Категория</p>
-											<img
-												src={arrow}
-												alt="ArrowTop"
-												onClick={() => setReduceOne(true)}
-											/>
-										</div>
-										<div className={scss.categoriesDiv}>
-											{phoneCatalog.map((e, index) => (
-												<div className={scss.categories} key={index}>
-													<input
-														type="checkbox"
-														checked={
-															selectedCategories.includes(e.phone) &&
-															categoryArray.push(e.phone)
-																? true
-																: false
-														}
-														onChange={() => handleSelectedCategory(e.phone)}
-														onClick={() => handleSelectedCategory(e.phone)}
-													/>
-													<label>
-														<p>{e.phone}</p>
-													</label>
-												</div>
-											))}
-										</div>
-									</div>
-								)}
+                {reduceOne ? (
+                  <div>
+                    <div className={scss.category}>
+                      <p>Категория</p>
+                      <img src={arrowDown} alt="ArrowDown" onClick={() => setReduceOne(false)} />
+                    </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
+                  </div>
+                ) : (
+                  <div>
+                    <div className={scss.category}>
+                      <p>Категория</p>
+                      <img src={arrow} alt="ArrowTop" onClick={() => setReduceOne(true)} />
+                    </div>
+                    <div className={scss.categoriesDiv}>
+                      {phoneCatalog.map((e, index) => (
+                        <div className={scss.categories} key={index}>
+                          <input
+                            type="checkbox"
+                            checked={selectedCategories.includes(e.phone) && categoryArray.push(e.phone) ? true : false}
+                            onChange={() => handleSelectedCategory(e.phone)}
+                            onClick={() => handleSelectedCategory(e.phone)} />
+                          <label><p>{e.phone}</p></label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
 								<div className={scss.divLine}></div>
 

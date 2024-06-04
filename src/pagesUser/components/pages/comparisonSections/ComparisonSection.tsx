@@ -22,20 +22,17 @@ import ButtonArrowLeft from '@/src/ui/customButtons/ButtonArrowLeft';
 import ButtonArrowRight from '@/src/ui/customButtons/ButtonArrowRight';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import {
-	useCategoryProductsMutation,
-	useAddProductsFotComparisonMutation,
-	useComparisonResultsMutation,
+	useComparisonPatchProductsMutation,
 	useGetComparisonQuery
 } from '@/src/redux/api/comparison';
 const ComparisonSection = () => {
 	const onChange: CheckboxProps['onChange'] = (e) => {
 		console.log(`checked = ${e.target.checked}`);
 	};
-	const [addComparison] = useAddProductsFotComparisonMutation();
+	const [addComparison] = useComparisonPatchProductsMutation();
 	const { data, isLoading } = useGetComparisonQuery();
 	const [addBasketProducts] = useBasketPutProductMutation();
 	const [compatisonResults] = useComparisonResultsMutation();
-	const [categoryProductsResults] = useCategoryProductsMutation();
 	const [filtredResults, setFiltredResults] = useState<string>('Apple');
 	const navigate = useNavigate();
 	const [brand, setBrand] = useState<boolean>(false);
@@ -131,15 +128,6 @@ const ComparisonSection = () => {
 		await addComparison({ _id, isComparison: false });
 	};
 
-	const handleComparisonResults = async (isDifference: boolean) => {
-		await compatisonResults({ isDifference: !isDifference });
-	};
-
-	const handleCategoryProducts = async (categoryProducts: string) => {
-		setFiltredResults(categoryProducts);
-		await categoryProductsResults({ categoryProducts });
-	};
-
 	return (
 		<section className={scss.ComparisonSection}>
 			<div className="container">
@@ -177,7 +165,6 @@ const ComparisonSection = () => {
 									<div className={scss.second_content}>
 										<div className={scss.three_buttons}>
 											<button
-												onClick={() => handleCategoryProducts('Apple')}
 												className={
 													filtredResults.includes('Apple')
 														? `${scss.noo_active_button} ${scss.active_button}`
@@ -194,7 +181,6 @@ const ComparisonSection = () => {
 												)
 											</button>
 											<button
-												onClick={() => handleCategoryProducts('mac')}
 												className={
 													filtredResults.includes('mac')
 														? `${scss.noo_active_button} ${scss.active_button}`
@@ -211,7 +197,6 @@ const ComparisonSection = () => {
 												){' '}
 											</button>
 											<button
-												onClick={() => handleCategoryProducts('AirPods')}
 												className={
 													filtredResults.includes('AirPods')
 														? `${scss.noo_active_button} ${scss.active_button}`
@@ -241,9 +226,7 @@ const ComparisonSection = () => {
 												}}
 											>
 												<Checkbox
-													onClick={() =>
-														data?.forEach((el) => handleComparisonResults(el))
-													}
+													
 													onChange={onChange}
 												>
 													<p>Показывать только различия</p>

@@ -15,47 +15,21 @@ const api = index.injectEndpoints({
 			}),
 			providesTags: ['comparison']
 		}),
-		addProductsFotComparison: build.mutation<
-			COMPARISONPRODUCTS.PutComparisonProductResponse,
-			COMPARISONPRODUCTS.PutComparisonProductRequest
+		comparisonPatchProducts: build.mutation<
+			COMPARISONPRODUCTS.PatchComparisonProductRequest,
+			COMPARISONPRODUCTS.PatchComparisonProductResponse
 		>({
-			query: ({ id }) => ({
-				url: `/api/comparison/${id}`,
+			query: (subGadgetId) => ({
+				url: `/api/comparison/${subGadgetId}`,
 				method: 'PATCH',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				}
 			}),
 			invalidatesTags: ['comparison']
-		}),
-		comparisonResults: build.mutation<
-			COMPARISONPRODUCTS.ComparisonResultsResponse,
-			COMPARISONPRODUCTS.ComparisonResultsRequest
-		>({
-			query: (isDifference) => ({
-				url: 'https://api-v2.elchocrud.pro/api/v1/e29346eff0c433ab971a172fd2128212/comparison_products',
-				method: 'PATCH',
-				body: isDifference
-			}),
-			invalidatesTags: ['comparison']
-		}),
-		CategoryProducts: build.mutation<
-			COMPARISONPRODUCTS.CategoryProductsResponse,
-			COMPARISONPRODUCTS.CategoryProductsRequest
-		>({
-			query: (categoryProducts) => ({
-				url: 'https://api-v2.elchocrud.pro/api/v1/e29346eff0c433ab971a172fd2128212/comparison_products',
-				method: 'PATCH',
-				body: categoryProducts
-			}),
-			invalidatesTags: ['comparison']
 		})
 	})
 });
 
-export const {
-	useGetComparisonQuery,
-	useAddProductsFotComparisonMutation,
-	useComparisonResultsMutation,
-	useCategoryProductsMutation
-} = api;
+export const { useGetComparisonQuery, useComparisonPatchProductsMutation } =
+	api;
