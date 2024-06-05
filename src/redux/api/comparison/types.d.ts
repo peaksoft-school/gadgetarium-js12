@@ -2,11 +2,11 @@
 namespace COMPARISONPRODUCTS {
 	type GetComparisonProductsRequest = void;
 	type GetComparisonProductsResponse = {
-		subGadgetId: number;
-		image: string;
+		images: [];
 		category: string;
 		brandName: string;
 		nameOfGadget: string;
+		id: number;
 		memory: string;
 		color: string;
 		rating: number;
@@ -20,10 +20,7 @@ namespace COMPARISONPRODUCTS {
 		newProduct: boolean;
 		recommend: boolean;
 	}[];
-	type PatchComparisonProductRequest = {
-		gadgetId: number;
-		subGadgetId: number;
-	};
+	type PatchComparisonProductRequest = number;
 	type PatchComparisonProductResponse = {
 		subGadgetId: number;
 		// status: string;

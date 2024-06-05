@@ -21,7 +21,7 @@ interface ProductsNews {
 
 type MainPages = {
 	subGadgetId: SetStateAction<string | number | null>;
-	id: Key | null | undefined;
+	gadgetId: Key | null | undefined;
 	gadgetId: number;
 	percent: number;
 	image: string;

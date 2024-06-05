@@ -856,26 +856,10 @@
 										padding: 7px;
 										border-radius: 6px;
 										cursor: pointer;
-										&.active_basket_button {
-											display: flex;
-											justify-content: center;
-											align-items: center;
-											gap: 4px;
-											background-color: #11cb17;
-											padding: 7px;
-											border-radius: 6px;
-											cursor: pointer;
-										}
-										p {
-											color: #fff;
-											font-size: 10px;
-											text-transform: uppercase;
-											letter-spacing: 1px;
-										}
-
-										svg {
-											color: #fff;
-										}
+										color: #fff;
+										font-size: 10px;
+										text-transform: uppercase;
+										letter-spacing: 1px;
 									}
 								}
 							}
@@ -1012,7 +996,23 @@
 									text-decoration: line-through;
 								}
 							}
-
+							.basket_button_active {
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								gap: 4px;
+								background-color: #11cb17;
+								padding-block: 15px;
+								padding-inline: 12px;
+								border-radius: 6px;
+								cursor: pointer;
+								color: #fff;
+								font-size: 11px;
+								font-weight: 600;
+								text-transform: uppercase;
+								letter-spacing: 1px;
+								border: none;
+							}
 							.bottom_cart {
 								display: flex;
 								justify-content: center;
@@ -1022,26 +1022,10 @@
 								padding: 12px;
 								border-radius: 6px;
 								cursor: pointer;
-								&.basket_product_active {
-									display: flex;
-									justify-content: center;
-									align-items: center;
-									gap: 3px;
-									background-color: rgb(142, 233, 5);
-									padding: 12px;
-									border-radius: 6px;
-									cursor: pointer;
-								}
-								p {
-									color: #fff;
-									font-size: 14px;
-									text-transform: uppercase;
-									letter-spacing: 1px;
-								}
-
-								svg {
-									color: #fff;
-								}
+								color: #fff;
+								font-size: 14px;
+								text-transform: uppercase;
+								letter-spacing: 1px;
 							}
 						}
 					}

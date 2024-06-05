@@ -8,7 +8,7 @@ import { IconRedHeart } from '@/src/assets/icons';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useGetProductsSaleQuery } from '@/src/redux/api/productsSale/index.ts';
 
 const ProductsPromotion = () => {
@@ -18,7 +18,6 @@ const ProductsPromotion = () => {
 	const [putFavoriteProduct] = useFavoritePutProductMutation();
 	const [isVisible, setIsVisible] = useState(5);
 	const [showMore, setShowMore] = useState(false);
-
 	const navigate = useNavigate();
 
 	const handleVisible = () => {
@@ -32,7 +31,7 @@ const ProductsPromotion = () => {
 	};
 
 	const handleScaleClick = async (subGadgetId: number) => {
-		await comparisonPatchProduct(subGadgetId);
+		await comparisonPutProduct(subGadgetId);
 		refetch();
 	};
 
@@ -44,7 +43,6 @@ const ProductsPromotion = () => {
 	const handleBasket = async (subGadgetId: number) => {
 		await basketPutProduct({
 			id: subGadgetId,
-			basket: false
 		});
 		refetch();
 	};
@@ -87,20 +85,20 @@ const ProductsPromotion = () => {
 							) : (
 								<>
 									{productData?.mainPages.slice(0, isVisible).map((item) => (
-										<div className={scss.div_product_map} key={item.id}>
+										<div className={scss.div_product_map} key={item.gadgetId}>
 											<div className={scss.div_icons}>
 												<div className={scss.minus_promotion}> -10%</div>
 												<div className={scss.div_two_icons}>
 													<button
-														onMouseEnter={() => setActiveScaleId(item.id)}
+														onMouseEnter={() => setActiveScaleId(item.gadgetId)}
 														onMouseLeave={() => setActiveScaleId(null)}
 														onClick={() =>
-															handleScaleClick(item.id, item.isComparison)
+															handleScaleClick(item.subGadgetId)
 														}
 													>
 														<Tooltip
 															title={
-																item.isComparison === false
+																item.likes === false
 																	? 'Добавить к сравнению'
 																	: 'Удалить из сравнения'
 															}
@@ -108,7 +106,7 @@ const ProductsPromotion = () => {
 														>
 															<IconScale
 																className={
-																	item.isComparison === true
+																	item.likes === true
 																		? `${scss.scale} ${scss.active}`
 																		: scss.scale
 																}
@@ -117,7 +115,7 @@ const ProductsPromotion = () => {
 													</button>
 													<Tooltip
 														title={
-															item.isFavorite === false
+															item.likes === false
 																? 'Добавить в избранное'
 																: 'Удалить из избранного'
 														}
@@ -126,9 +124,9 @@ const ProductsPromotion = () => {
 														<button
 															className={scss.heart}
 															onClick={() =>
-																handleHeartClick(item.id, item.isFavorite)
+																handleHeartClick(item.subGadgetId)
 															}
-															onMouseEnter={() => setActiveHeartId(item.id)}
+															onMouseEnter={() => setActiveHeartId(item.gadgetId)}
 															onMouseLeave={() => setActiveHeartId(null)}
 														>
 															{item.likes === true ? (
@@ -141,11 +139,13 @@ const ProductsPromotion = () => {
 												</div>
 											</div>
 											<div className={scss.div_img}>
+												<Link to={`/gadget/${item.gadgetId}`}>
 												<img
 													className={scss.img_product}
 													src={item.image}
 													alt={item.nameOfGadget}
 												/>
+												</Link>
 											</div>
 											<div className={scss.div_product_contents}>
 												<p className={scss.tag_color_green}>
@@ -161,12 +161,12 @@ const ProductsPromotion = () => {
 														<h2>{item.price} c</h2>
 													</div>
 													{item.basket ? (
-														<button onClick={() => navigate('/basket')}>
-															basket
+														<button className={scss.active} onClick={() => navigate('/basket')}>
+															В корзине Перейти
 														</button>
 													) : (
 														<AddBasketButton
-															onClick={() => handleBasket(item.id)}
+															onClick={() => handleBasket(item.subGadgetId)}
 															children={'В корзину'}
 															className={scss.add_bas_button}
 														/>

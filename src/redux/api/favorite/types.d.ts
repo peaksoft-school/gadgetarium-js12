@@ -2,7 +2,7 @@
 namespace FAVORITEPRODUCTS {
 	type GetFavoriteProductsRequest = void;
 	type GetFavoriteProductsResponse = {
-		subGadgetId: number;
+		id: number;
 		image: string;
 		category: string;
 		brandName: string;
@@ -20,9 +20,7 @@ namespace FAVORITEPRODUCTS {
 		newProduct: boolean;
 		recommend: boolean;
 	}[];
-	type PutFavoriteProductRequest = {
-		subGadgetId: number;
-	};
+	type PutFavoriteProductRequest = number;
 	type PutFavoriteProductResponse = {
 		status: string;
 		message: string;

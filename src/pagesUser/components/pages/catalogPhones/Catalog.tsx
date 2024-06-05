@@ -605,7 +605,7 @@ const Catalog = () => {
 														</div>
 													</div>
 													<div className={scss.middle_image_card}>
-														<Link to={`/catalog/phones/${e.id}`}>
+														<Link to={`/gadget/${e.gadgetId}`}>
 															<img src={e.image} alt="Phone" />
 														</Link>
 													</div>

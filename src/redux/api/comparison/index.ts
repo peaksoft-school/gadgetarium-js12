@@ -16,8 +16,8 @@ const api = index.injectEndpoints({
 			providesTags: ['comparison']
 		}),
 		comparisonPatchProducts: build.mutation<
-			COMPARISONPRODUCTS.PatchComparisonProductRequest,
-			COMPARISONPRODUCTS.PatchComparisonProductResponse
+			COMPARISONPRODUCTS.PatchComparisonProductResponse,
+			COMPARISONPRODUCTS.PatchComparisonProductRequest
 		>({
 			query: (subGadgetId) => ({
 				url: `/api/comparison/${subGadgetId}`,

@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 namespace CARTPRODUCT {
-	type GetCardProductRequest = string;
+	type GetCardProductRequest = {
+		gadgetId?: string;
+		color?: string;
+		memory?: string;
+		quantity?: string | number;
+	};
 	type GetCardProductResponse = {
 		id: number;
 		brandLogo: string;

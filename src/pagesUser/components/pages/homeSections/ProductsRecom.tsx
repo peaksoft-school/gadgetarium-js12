@@ -8,7 +8,7 @@ import { IconRedHeart } from '@/src/assets/icons';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useGetProductsRecomQuery } from '@/src/redux/api/productsRecom/index.ts';
 
 const ProductsRecom = () => {
@@ -18,7 +18,6 @@ const ProductsRecom = () => {
 	const [putFavoriteProduct] = useFavoritePutProductMutation();
 	const [isVisible, setIsVisible] = useState(5);
 	const [showMore, setShowMore] = useState(false);
-
 	const navigate = useNavigate();
 
 	const handleVisible = () => {
@@ -32,7 +31,7 @@ const ProductsRecom = () => {
 	};
 
 	const handleScaleClick = async (subGadgetId: number) => {
-		await comparisonPatchProduct(subGadgetId);
+		await comparisonPutProduct(subGadgetId);
 		refetch();
 	};
 
@@ -43,8 +42,7 @@ const ProductsRecom = () => {
 
 	const handleBasket = async (subGadgetId: number) => {
 		await basketPutProduct({
-			id: subGadgetId,
-			basket: false
+			id: subGadgetId
 		});
 		refetch();
 	};
@@ -87,16 +85,16 @@ const ProductsRecom = () => {
 							) : (
 								<>
 									{productData?.mainPages.slice(0, isVisible).map((item) => (
-										<div className={scss.div_product_map} key={item.id}>
+										<div className={scss.div_product_map} key={item.gadgetId}>
 											<div className={scss.div_icons}>
 												<div className={scss.minus_promotion}>
 													<IconFileLike />
 												</div>
 												<div className={scss.div_two_icons}>
 													<button
-														onMouseEnter={() => setActiveScaleId(item.id)}
+														onMouseEnter={() => setActiveScaleId(item.gadgetId)}
 														onMouseLeave={() => setActiveScaleId(null)}
-														onClick={() => handleScaleClick(item.id)}
+														onClick={() => handleScaleClick(item.subGadgetId)}
 													>
 														<Tooltip
 															title={
@@ -125,8 +123,8 @@ const ProductsRecom = () => {
 													>
 														<button
 															className={scss.heart}
-															onClick={() => handleHeartClick(item.id)}
-															onMouseEnter={() => setActiveHeartId(item.id)}
+															onClick={() => handleHeartClick(item.subGadgetId)}
+															onMouseEnter={() => setActiveHeartId(item.gadgetId)}
 															onMouseLeave={() => setActiveHeartId(null)}
 														>
 															{item.likes === true ? (
@@ -139,11 +137,13 @@ const ProductsRecom = () => {
 												</div>
 											</div>
 											<div className={scss.div_img}>
-												<img
-													className={scss.img_product}
-													src={item.image}
-													alt={item.nameOfGadget}
-												/>
+												<Link to={`/gadget/${item.gadgetId}`}>
+													<img
+														className={scss.img_product}
+														src={item.image}
+														alt={item.nameOfGadget}
+													/>
+												</Link>
 											</div>
 											<div className={scss.div_product_contents}>
 												<p className={scss.tag_color_green}>
@@ -159,12 +159,15 @@ const ProductsRecom = () => {
 														<h2>{item.price} c</h2>
 													</div>
 													{item.basket ? (
-														<button onClick={() => navigate('/basket')}>
-															basket
+														<button
+															className={scss.active}
+															onClick={() => navigate('/basket')}
+														>
+															В корзине Перейти
 														</button>
 													) : (
 														<AddBasketButton
-															onClick={() => handleBasket(item.id)}
+															onClick={() => handleBasket(item.subGadgetId)}
 															children={'В корзину'}
 															className={scss.add_bas_button}
 														/>

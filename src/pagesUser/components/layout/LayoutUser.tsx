@@ -98,7 +98,7 @@ const LayoutUser = () => {
 						<Route path="/basket" element={<BasketPage />} />
 						{/* //! */}
 						<Route
-							path="/gadget/:productId/colour"
+							path="/gadget/:productId"
 							element={<ProductPage />}
 						/>
 						<Route path="/pay/*" element={<PayPage />} />

@@ -27,10 +27,7 @@ const FavoriteSection = () => {
 	// ) => {
 	// 	await addComparisonProducts({ id, comparison: !comparison });
 	// };
-	const handleDeleteIsFavoriteProducts = async (
-		id: number,
-		likes: boolean
-	) => {
+	const handleDeleteIsFavoriteProducts = async (id: number, likes: boolean) => {
 		console.log(likes);
 		await addFavoriteProducts({ id, likes: false });
 	};
@@ -155,7 +152,9 @@ const FavoriteSection = () => {
 														</div>
 													</div>
 													<div className={scss.photo_div}>
-														<img src={item.image} alt={item.brandName} />
+														<Link to={`/gadget/${item.id}`}>
+															<img src={item.image} alt={item.brandName} />
+														</Link>
 													</div>
 													<div className={scss.products_name_and_rating}>
 														<p className={scss.text_stock}>{item.price}</p>
@@ -175,14 +174,17 @@ const FavoriteSection = () => {
 															<h2>{item.price}</h2>
 															<p>{item.price}</p>
 														</div>
-														<div className={!item.price ? `${scss.button_for_basket_div_noo_active} ${scss.button_for_basket_div_active}` : `${scss.button_for_basket_div_noo_active}`}>
+														<div
+															className={
+																!item.price
+																	? `${scss.button_for_basket_div_noo_active} ${scss.button_for_basket_div_active}`
+																	: `${scss.button_for_basket_div_noo_active}`
+															}
+														>
 															<AddBasketButton
 																onClick={() =>
 																	item &&
-																	handleAddBasketProduct(
-																		item.id,
-																		item.basket
-																	)
+																	handleAddBasketProduct(item.id, item.basket)
 																}
 																children={
 																	item.basket === true
@@ -190,7 +192,7 @@ const FavoriteSection = () => {
 																		: 'В корзину'
 																}
 																className={
-																	item.basket  === true
+																	item.basket === true
 																		? `${scss.noo_active_basket_button} ${scss.active_basket_button}`
 																		: `${scss.noo_active_basket_button}`
 																}

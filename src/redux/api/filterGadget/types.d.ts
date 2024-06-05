@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 type Responses = {
-	id: number;
+	gadgetId: number;
 	image: string;
 	quantity: number;
 	brandNameOfGadget: string;

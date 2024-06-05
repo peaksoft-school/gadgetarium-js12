@@ -32,7 +32,6 @@ const ComparisonSection = () => {
 	const [addComparison] = useComparisonPatchProductsMutation();
 	const { data, isLoading } = useGetComparisonQuery();
 	const [addBasketProducts] = useBasketPutProductMutation();
-	const [compatisonResults] = useComparisonResultsMutation();
 	const [filtredResults, setFiltredResults] = useState<string>('Apple');
 	const navigate = useNavigate();
 	const [brand, setBrand] = useState<boolean>(false);
@@ -293,10 +292,10 @@ const ComparisonSection = () => {
 																			>
 																				<IconDelete />
 																			</button>
-																			{item && item.images && (
+																			{item && (
 																				<div className={scss.div_photos}>
 																					{item.images.map((el, index) => (
-																						<Link to={`/catalog/phones/${item.id}`}>
+																						<Link to={`/gadget/${item.id}`}>
 																							<img
 																								src={el}
 																								alt={item.nameOfGadget}

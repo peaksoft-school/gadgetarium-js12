@@ -18,14 +18,23 @@ import {
 	useGetProductsColorsApiQuery,
 	useGetTheResultingGadgetIsSelectedByColorQuery
 } from '@/src/redux/api/productColorApi';
+import { useGetProductMemoryQuery } from '@/src/redux/api/memoryForProductApi';
 
 const CardProductPage = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [basketAddProduct] = useBasketPutProductMutation();
 	const [favoriteAddProduct] = useFavoritePutProductMutation();
 	const { productId } = useParams();
-	const { data, isLoading, refetch } = useGetCardProductQuery(productId!);
+	console.log(productId, 'ids');
+
+	const { data, isLoading, refetch } = useGetCardProductQuery({
+		gadgetId: productId,
+		color: searchParams.toString(),
+		memory: searchParams.toString()
+	});
 	const { data: productColor } = useGetProductsColorsApiQuery(productId!);
+	const { data: productMemoryData } = useGetProductMemoryQuery(productId!);
+
 	const [isSlider, setIsSlider] = useState<number>(1);
 	const [sliderResult, setSliderresult] = useState<number>(0);
 	const [contentIsModal, setContentIsModal] = useState<string>('');
@@ -60,15 +69,15 @@ const CardProductPage = () => {
 		await basketAddProduct({ id });
 		refetch();
 	};
-	const addFavoriteProduct = async (gadgetId: number) => {
-		await favoriteAddProduct({ gadgetId });
+	const addFavoriteProduct = async (id: number) => {
+		await favoriteAddProduct({ id });
 		refetch();
 	};
 
 	const handleProductColorFunk = (color: string) => {
 		searchParams.set('colour', color);
 		setSearchParams(searchParams);
-		navigate(`/gadget/${productId}/colour?${searchParams.toString()}`);
+		navigate(`/gadget/${productId}?${searchParams.toString()}`);
 	};
 
 	const { data: GetTheResultingGadgetIsSelectedByColorQuery } =
@@ -91,7 +100,7 @@ const CardProductPage = () => {
 			id: subGadgetId,
 			countOfGadget: Number(searchParams)
 		});
-		navigate(`/gadget/${productId}/colour?${searchParams.toString()}`);
+		navigate(`/gadget/${productId}?${searchParams.toString()}`);
 	};
 
 	const changeInputValueFunk = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -268,6 +277,7 @@ const CardProductPage = () => {
 															</div>
 														))}
 													</div>
+
 													<div className={scss.div_buttons_counts}>
 														<button>-</button>
 														<ConfigProvider
@@ -350,6 +360,16 @@ const CardProductPage = () => {
 																/>
 															)}
 														</div>
+													</div>
+													<div className={scss.buttons_for_memory}>
+														{productMemoryData?.map((el, index) => (
+															<Button
+																className={scss.button_for_product_memory}
+																key={index}
+															>
+																{el}
+															</Button>
+														))}
 													</div>
 													<div className={scss.info_product}>
 														<div className={scss.div_screen}>

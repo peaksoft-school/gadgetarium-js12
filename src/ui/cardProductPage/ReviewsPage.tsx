@@ -5,7 +5,10 @@ import { useState } from 'react';
 import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd';
 import { IconKamore } from '@/src/assets/icons';
-import { useGetReviewsQuery } from '@/src/redux/api/reviews';
+import {
+	useApiFeedbackStatisticsQuery,
+	useGetReviewsQuery
+} from '@/src/redux/api/reviews';
 
 const { Dragger } = Upload;
 const props: UploadProps = {
@@ -31,7 +34,9 @@ const ReviewsPage = () => {
 	const { productId } = useParams();
 	const { data, isLoading } = useGetReviewsQuery(productId!);
 	const [modal2Open, setModal2Open] = useState<boolean>(false);
-
+	const { data: FeedbackStatistics } = useApiFeedbackStatisticsQuery({
+		id: Number(productId)
+	});
 	const { TextArea } = Input;
 	return (
 		<>
@@ -67,21 +72,20 @@ const ReviewsPage = () => {
 										<div className={scss.user_info}>
 											<h2>{e.fullName}</h2>
 											<p>{e.dateTime}</p>
-										
 										</div>
+										<p>
+											Lorem ipsum dolor sit amet consectetur adipisicing elit.
+											Hic quia placeat provident. Culpa pariatur laudantium
+											repudiandae nihil dicta magnam facilis error eius,
+											molestias, nobis suscipit mollitia amet, dolorum eum
+											blanditiis nemo laborum at sed harum nam. Obcaecati
+											voluptatum expedita sequi sunt cumque nihil distinctio
+											dolorem excepturi assumenda odio. In magnam perferendis
+											eos assumenda quisquam voluptatem!
+										</p>
 										<div className={scss.grade_div}>
 											{/* <p>{e.description}</p> */}
-											{/* <p>
-												Lorem ipsum dolor sit amet consectetur, adipisicing
-												elit. Laudantium ad sed voluptatum, illo sint odit
-												quisquam officiis est ipsum neque enim qui non cum
-												eligendi quidem molestias incidunt, consequatur
-												repellendus. Animi, obcaecati! Pariatur, laboriosam.
-												Soluta animi reiciendis voluptate, velit labore ducimus
-												sint nobis. Repudiandae laboriosam eos nemo dolore
-												laudantium alias asperiores repellendus dignissimos
-												vitae nam.
-											</p> */}
+
 											<Rate allowHalf defaultValue={e.rating} />
 										</div>
 										{/* <p className={scss.commit_user}>{e.description}</p> */}
@@ -94,37 +98,52 @@ const ReviewsPage = () => {
 								<div className={scss.div_displey_rating_content}>
 									<div className={scss.div_all_reting_contents}>
 										<div className={scss.text_result_rating}>
-											<h3>4,5</h3>
+											<h3>{FeedbackStatistics?.overallRating}</h3>
 											<>
 												<Rate
 													className={scss.rate}
 													allowHalf
-													defaultValue={5}
+													defaultValue={FeedbackStatistics?.overallRating}
 												/>{' '}
 											</>
 										</div>
-										<p>789 отзывов</p>
+										<p>{FeedbackStatistics?.quantityFeedbacks} отзывов</p>
 									</div>
 									<div className={scss.div_all_contents_results_rating}>
 										<div className={scss.userReviews}>
-											<Rate allowHalf defaultValue={5} />
-											<p>23 отзывов</p>
+											<Rate
+												allowHalf
+												defaultValue={FeedbackStatistics?.ratingCounts[1]}
+											/>
+											<p>{FeedbackStatistics?.ratingCounts[1]} отзывов</p>
 										</div>
 										<div className={scss.userReviews}>
-											<Rate allowHalf defaultValue={5} />
-											<p>5 отзывов</p>
+											<Rate
+												allowHalf
+												defaultValue={FeedbackStatistics?.ratingCounts[2]}
+											/>
+											<p>{FeedbackStatistics?.ratingCounts[2]} отзывов</p>
 										</div>
 										<div className={scss.userReviews}>
-											<Rate allowHalf defaultValue={5} />
-											<p>17 отзывов</p>
+											<Rate
+												allowHalf
+												defaultValue={FeedbackStatistics?.ratingCounts[3]}
+											/>
+											<p>{FeedbackStatistics?.ratingCounts[3]} отзывов</p>
 										</div>
 										<div className={scss.userReviews}>
-											<Rate allowHalf defaultValue={5} />
-											<p>4 отзывов</p>
+											<Rate
+												allowHalf
+												defaultValue={FeedbackStatistics?.ratingCounts[4]}
+											/>
+											<p>{FeedbackStatistics?.ratingCounts[4]} отзывов</p>
 										</div>
 										<div className={scss.userReviews}>
-											<Rate allowHalf defaultValue={5} />
-											<p>2 отзывов</p>
+											<Rate
+												allowHalf
+												defaultValue={FeedbackStatistics?.ratingCounts[5]}
+											/>
+											<p>{FeedbackStatistics?.ratingCounts[5]} отзывов</p>
 										</div>
 									</div>
 								</div>
