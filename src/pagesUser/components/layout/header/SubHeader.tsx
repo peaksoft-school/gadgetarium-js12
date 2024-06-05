@@ -1,5 +1,5 @@
 import scss from './SubHeader.module.scss';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IconGadgetarium } from '@/src/assets/icons';
 import {
@@ -10,12 +10,13 @@ import {
 	IconScale,
 	IconShoppingCart
 } from '@tabler/icons-react';
-import { ConfigProvider, Input, theme } from 'antd';
+import { ConfigProvider, Input, Tooltip, theme } from 'antd';
 import { SearchProps } from 'antd/es/input';
 import CatalogMenu from '@/src/ui/catalogMenu/CatalogMenu';
 import { useGetBasketQuery } from '@/src/redux/api/basket';
 import { useGetFavoriteQuery } from '@/src/redux/api/favorite';
 import { useGetComparisonQuery } from '@/src/redux/api/comparison';
+import { ProductsForHover } from '@/src/ui/productsForHover/ProductsForHover';
 
 interface SubHeaderProps {
 	isMobile: boolean;
@@ -28,6 +29,9 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 	const { data: BasketData = [] } = useGetBasketQuery();
 	const { data: FavoriteData = [] } = useGetFavoriteQuery();
 	const { data: ComparisonData = [] } = useGetComparisonQuery();
+	const [comparisonProducts, setComparisonProducts] = useState<boolean>(false);
+	const [favoriteProducts, setFavoriteProducts] = useState<boolean>(false);
+	const [basketProducts, setBasketProducts] = useState<boolean>(false);
 	const antdThemeConfig = {
 		algorithm: theme.darkAlgorithm,
 		token: {
@@ -92,25 +96,106 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 						)}
 					</div>
 					<div className={scss.icon_basket_heart}>
-						<Link to="/comparison" className={scss.icon}>
-							<span>
+						<Link
+							onMouseEnter={() => setComparisonProducts(true)}
+							onMouseLeave={() => setComparisonProducts(false)}
+							to="/comparison"
+							className={scss.icon}
+						>
+							<span
+								className={
+									ComparisonData.length !== 0
+										? `${scss.count_for_products} ${scss.count_for_products_active}`
+										: `${scss.count_for_products}`
+								}
+							>
 								{ComparisonData.length <= 99 ? ComparisonData.length : '99+'}
 							</span>
-							<IconScale />
+							<IconScale
+								style={
+									ComparisonData.length !== 0
+										? { color: '#ff00d4' }
+										: { color: '' }
+								}
+							/>
 						</Link>
-						<Link to="/favorite" className={scss.icon}>
-							<span>
+						<Link
+							onMouseEnter={() => setFavoriteProducts(true)}
+							onMouseLeave={() => setFavoriteProducts(false)}
+							to="/favorite"
+							className={scss.icon}
+						>
+							<span
+								className={
+									FavoriteData.length !== 0
+										? `${scss.count_for_products} ${scss.count_for_products_active}`
+										: `${scss.count_for_products}`
+								}
+							>
 								{FavoriteData.length <= 99 ? FavoriteData.length : '99+'}
 							</span>
-							<IconHeart />
+							<IconHeart
+								style={
+									FavoriteData.length !== 0
+										? { color: '#ff00d4' }
+										: { color: '' }
+								}
+							/>
 						</Link>
-						<Link to="/basket" className={scss.icon}>
-							<span>{BasketData.length <= 99 ? BasketData.length : '99+'}</span>
-							<IconShoppingCart />
+						<Link
+							onMouseEnter={() => setBasketProducts(true)}
+							onMouseLeave={() => setBasketProducts(false)}
+							to="/basket"
+							className={scss.icon}
+						>
+							<span
+								className={
+									BasketData.length !== 0
+										? `${scss.count_for_products} ${scss.count_for_products_active}`
+										: `${scss.count_for_products}`
+								}
+							>
+								{BasketData.length <= 99 ? BasketData.length : '99+'}
+							</span>
+							<IconShoppingCart
+								style={
+									BasketData.length !== 0 ? { color: '#ff00d4' } : { color: '' }
+								}
+							/>
 						</Link>
 					</div>
 				</div>
 			</div>
+			{comparisonProducts && (
+				<Tooltip
+					children={
+						<ProductsForHover
+							setComparisonProducts={setComparisonProducts}
+							comparisonProducts={comparisonProducts}
+						/>
+					}
+				/>
+			)}
+			{favoriteProducts && (
+				<Tooltip
+					children={
+						<ProductsForHover
+							favoriteProducts={favoriteProducts}
+							setFavoriteProducts={setFavoriteProducts}
+						/>
+					}
+				/>
+			)}
+			{basketProducts && (
+				<Tooltip
+					children={
+						<ProductsForHover
+							basketProducts={basketProducts}
+							setBasketProducts={setBasketProducts}
+						/>
+					}
+				/>
+			)}
 		</header>
 	);
 };

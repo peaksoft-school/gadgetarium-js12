@@ -15,23 +15,10 @@ const api = index.injectEndpoints({
 			}),
 			providesTags: ['cardProductsColorsApi']
 		}),
-		getTheResultingGadgetIsSelectedByColor: build.query<
-			GETPRODUCTCOLORSAPI.getTheResultingGadgetIsSelectedByColorResponse,
-			GETPRODUCTCOLORSAPI.getTheResultingGadgetIsSelectedByColorRequest
-		>({
-			query: ({ id, colour }) => ({
-				url: `/api/gadget/${id}/colour?${colour}`,
-				method: 'GET',
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem('token')}`
-				}
-			}),
-			providesTags: ['cardProductsColorsApi']
-		})
+		
 	})
 });
 
 export const {
-	useGetProductsColorsApiQuery,
-	useGetTheResultingGadgetIsSelectedByColorQuery
+	useGetProductsColorsApiQuery
 } = api;
