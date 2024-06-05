@@ -137,22 +137,58 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 						<hr />
 						<div className={scss.icon_basket_heart}>
 							<Link to="/comparison" className={scss.icon}>
-								<span>
+								<span
+									className={
+										ComparisonData.length !== 0
+											? `${scss.count_for_products} ${scss.count_for_products_active}`
+											: `${scss.count_for_products}`
+									}
+								>
 									{ComparisonData.length <= 99 ? ComparisonData.length : '99+'}
 								</span>
-								<IconScale />
+								<IconScale
+									style={
+										ComparisonData.length !== 0
+											? { color: '#ff00d4' }
+											: { color: '' }
+									}
+								/>
 							</Link>
 							<Link to="/favorite" className={scss.icon}>
-								<span>
+								<span
+									className={
+										FavoriteData.length !== 0
+											? `${scss.count_for_products} ${scss.count_for_products_active}`
+											: `${scss.count_for_products}`
+									}
+								>
 									{FavoriteData.length <= 99 ? FavoriteData.length : '99+'}
 								</span>
-								<IconHeart />
+								<IconHeart
+									style={
+										FavoriteData.length !== 0
+											? { color: '#ff00d4' }
+											: { color: '' }
+									}
+								/>
 							</Link>
 							<Link to="/basket" className={scss.icon}>
-								<span>
+								<span
+									className={
+										BasketData.length !== 0
+											? `${scss.count_for_products} ${scss.count_for_products_active}`
+											: `${scss.count_for_products}`
+									}
+								>
 									{BasketData.length <= 99 ? BasketData.length : '99+'}
 								</span>
-								<IconShoppingCart />
+								<IconShoppingCart
+									style={
+										BasketData.length !== 0
+											? { color: '#ff00d4' }
+											: { color: '' }
+									}
+								/>
 							</Link>
 						</div>
 					</div>

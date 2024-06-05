@@ -1,15 +1,48 @@
 .products_hover_container {
-  width: 475px;
-  height: 264px;
-  border-radius: 5px;
-  box-shadow: 0px 10px 30px 0px rgba(133, 143, 164, 0.1);
-  background: rgb(255, 255, 255);
-  overflow: auto;
-  position: absolute;
-  top: 60px;
-  right: 25px;
-  .content_for_hover_products {
-    padding-block: 25px;
-    padding-inline: 21px;
-  }
+	width: 475px;
+	height: 264px;
+	border-radius: 5px;
+	box-shadow: 0px 10px 30px 0px rgba(133, 143, 164, 0.1);
+	background: rgb(255, 255, 255);
+	position: absolute;
+	top: 60px;
+	right: 25px;
+	.content_for_hover_products {
+		// padding-block: 25px;
+		// padding-inline: 21px;
+		display: flex;
+		flex-direction: column;
+		gap: 13px;
+		.overlfow_div {
+			height: 150px;
+			overflow: auto;
+			.display_content {
+				display: flex;
+				align-items: start;
+				gap: 10px;
+        padding-block: 23px;
+        padding-inline: 14px;
+				img {
+					width: 56px;
+					height: 64px;
+				}
+				.product_name_and_price_div {
+					display: flex;
+					align-items: start;
+					// justify-content: space-between;
+					gap: 22px;
+					p {
+						color: rgb(41, 41, 41);
+						font-size: clamp(7px, 4vw, 14px);
+						font-weight: 500;
+					}
+					h3 {
+						color: rgb(56, 66, 85);
+						font-size: clamp(6px, 6vw, 13px);
+						font-weight: 700;
+					}
+				}
+			}
+		}
+	}
 }
