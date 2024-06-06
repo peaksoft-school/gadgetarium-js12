@@ -176,6 +176,23 @@
 								display: flex;
 								align-items: center;
 								gap: 12px;
+								button {
+									width: 26px;
+									border: none;
+									background: transparent;
+									color: gray;
+								}
+								.scale {
+									cursor: pointer;
+
+									&.active {
+										color: #cb11ab;
+										transition: all 0.5s ease-in;
+									}
+								}
+								.heart {
+									cursor: pointer;
+								}
 							}
 						}
 						.photo_div {
@@ -183,7 +200,7 @@
 							img {
 								width: 90%;
 								max-width: 190px;
-								height: auto;
+								height: 250px;
 							}
 						}
 						.products_name_and_rating {
@@ -226,30 +243,62 @@
 								&.button_for_basket_div_active {
 									margin-top: 9.3px;
 								}
-								.noo_active_basket_button {
-									transition: all 0.4s ease;
-									padding-block: 10px;
-									padding-inline: 16px;
-									display: flex;
-									align-items: center;
-									gap: 5px;
+								.add_bas_button_active {
+									cursor: pointer;
 									border-radius: 4px;
-									background: rgb(203, 17, 171);
-									color: rgb(255, 255, 255);
-									font-size: clamp(7px, 4vw, 14px);
+									padding: 10px 17px 10px 17px;
+									background: #2fc509;
+									color: #ffffff;
+									font-family: Inter;
+									font-size: 12px;
 									border: none;
-									&.active_basket_button {
-										transition: all 0.4s ease;
-										padding-block: 10px;
-										padding-inline: 16px;
-										display: flex;
-										align-items: center;
-										gap: 5px;
-										border-radius: 4px;
-										background: rgb(47, 197, 9);
-										color: rgb(255, 255, 255);
-										font-size: clamp(7px, 4vw, 14px);
-										border: 1px dashed rgb(151, 71, 255);
+									font-weight: 500;
+									line-height: 17px;
+									letter-spacing: 0%;
+									text-align: center;
+									text-transform: uppercase;
+									@media (max-width: 600px) {
+										padding: 8px 15px 8px 15px;
+									}
+									@media (max-width: 550px) {
+										padding: 5px 10px 5px 10px;
+										font-size: 10px;
+										font-weight: 400;
+									}
+								}
+								.add_bas_button {
+									cursor: pointer;
+									border: 1px solid #cb11ab;
+									border-radius: 4px;
+									padding: 10px 17px 10px 17px;
+									background: #cb11ab;
+									color: #ffffff;
+									font-family: Inter;
+									font-size: 12px;
+									font-weight: 500;
+									line-height: 17px;
+									letter-spacing: 0%;
+									text-align: center;
+									text-transform: uppercase;
+									@media (max-width: 600px) {
+										padding: 8px 15px 8px 15px;
+									}
+									@media (max-width: 550px) {
+										padding: 5px 10px 5px 10px;
+										font-size: 10px;
+										font-weight: 400;
+									}
+									&.active {
+										background: #2fc509;
+										color: white;
+										border: none;
+										border: 1px dashed #9747ff;
+									}
+									&:hover {
+										color: white;
+										border: none;
+										border: 1px dashed #9747ff;
+										transition: all 0.5s ease-in;
 									}
 								}
 							}

@@ -7,8 +7,11 @@ const api = index.injectEndpoints({
 			FAVORITEPRODUCTS.GetFavoriteProductsRequest
 		>({
 			query: () => ({
-				url: 'https://api-v2.elchocrud.pro/api/v1/eca987f41677bb5cc17c0789a3c9920e/favorite_products',
-				method: 'GET'
+				url: '/api/favorites',
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
 			}),
 			providesTags: ['favorite']
 		}),
@@ -16,14 +19,27 @@ const api = index.injectEndpoints({
 			FAVORITEPRODUCTS.PutFavoriteProductResponse,
 			FAVORITEPRODUCTS.PutFavoriteProductRequest
 		>({
-			query: ({ id, isFavorite }) => ({
-				url: `https://api-v2.elchocrud.pro/api/v1/eca987f41677bb5cc17c0789a3c9920e/favorite_products/${id}`,
+			query: (subGadgetId) => ({
+				url: `/api/favorites/${subGadgetId}`,
 				method: 'PATCH',
-				body: { isFavorite }
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			invalidatesTags: ['favorite']
+		}),
+		deleteAllProduct: build.mutation({
+			query: (subGadgetId) => ({
+				url: `/api/favorites/clear`,
+				method: 'DELETE',
+				body: subGadgetId,
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
 			}),
 			invalidatesTags: ['favorite']
 		})
 	})
 });
 
-export const { useGetFavoriteQuery, useFavoritePutProductMutation } = api;
+export const { useGetFavoriteQuery, useFavoritePutProductMutation , useDeleteAllProductMutation} = api;

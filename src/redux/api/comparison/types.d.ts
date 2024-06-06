@@ -1,56 +1,32 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
-type ComparisonProduct = {
-	image: string;
-	productName: string;
-	price: number;
-	quantity: number | string;
-	isFavorite: boolean;
-	isInBasket: boolean;
-	isComparison: boolean;
-	token: string;
-	Rating: string;
-	productCode: string;
-	buyProduc: string;
-	brand: string;
-	screen: string;
-	color: string;
-	os: string;
-	memory: string;
-	ram: string;
-	weight: string;
-	sim: string;
-}
 namespace COMPARISONPRODUCTS {
 	type GetComparisonProductsRequest = void;
 	type GetComparisonProductsResponse = {
-		_id: number;
-		isDifference: boolean;
-		categoryProducts: string;
-		comparisonProduct: ComparisonProduct
+		subGadgetId: number;
+		image: string;
+		category: string;
+		brandName: string;
+		nameOfGadget: string;
+		memory: string;
+		color: string;
+		rating: number;
+		price: number;
+		currentPrice: number;
+		likes: boolean;
+		comparison: boolean;
+		basket: boolean;
+		currentPrice: number;
+		subGadgetId: number;
+		newProduct: boolean;
+		recommend: boolean;
 	}[];
-	type PutComparisonProductRequest = {
-		_id: number;
-		isComparison: boolean;
+	type PatchComparisonProductRequest = {
+		gadgetId: number;
+		subGadgetId: number;
 	};
-	type PutComparisonProductResponse = {
-		_id: number;
-		isComparison: boolean;
+	type PatchComparisonProductResponse = {
+		subGadgetId: number;
+		// status: string;
+		// message: string;
 	};
-
-	type ComparisonResultsRequest = {
-		// _id: number;
-		isDifference: boolean;
-	}
-	type ComparisonResultsResponse = {
-		// _id: number;
-		isDifference: boolean;
-	}
-
-	type CategoryProductsRequest = {
-		categoryProducts: string;
-	}
-	type CategoryProductsResponse = {
-		categoryProducts: string;
-	}
 }
