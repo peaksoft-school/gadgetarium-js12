@@ -7,9 +7,10 @@ import React from 'react';
 import { usePostLoginMutation } from '@/src/redux/api/auth';
 import { auth, provider } from './config';
 import { signInWithPopup } from 'firebase/auth';
-import { Notify } from '@/src/utils/helpers/Notify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { Notify } from '@/src/utils/helpers/Notify';
+
 
 const Login = () => {
 	const [passwordVisible, setPasswordVisible] = React.useState(false);

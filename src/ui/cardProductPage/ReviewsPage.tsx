@@ -73,22 +73,13 @@ const ReviewsPage = () => {
 											<h2>{e.fullName}</h2>
 											<p>{e.dateTime}</p>
 										</div>
-										<p>
-											Lorem ipsum dolor sit amet consectetur adipisicing elit.
-											Hic quia placeat provident. Culpa pariatur laudantium
-											repudiandae nihil dicta magnam facilis error eius,
-											molestias, nobis suscipit mollitia amet, dolorum eum
-											blanditiis nemo laborum at sed harum nam. Obcaecati
-											voluptatum expedita sequi sunt cumque nihil distinctio
-											dolorem excepturi assumenda odio. In magnam perferendis
-											eos assumenda quisquam voluptatem!
-										</p>
+										{/* <p>{e.description}</p> */}
 										<div className={scss.grade_div}>
 											{/* <p>{e.description}</p> */}
 
 											<Rate allowHalf defaultValue={e.rating} />
 										</div>
-										{/* <p className={scss.commit_user}>{e.description}</p> */}
+										<p className={scss.commit_user}>{e.description}</p>
 									</div>
 								</div>
 							))}

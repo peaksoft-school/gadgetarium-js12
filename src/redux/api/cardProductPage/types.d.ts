@@ -2,7 +2,7 @@
 
 namespace CARTPRODUCT {
 	type GetCardProductRequest = {
-		gadgetId?: string;
+		id: number;
 		color?: string;
 		memory?: string;
 		quantity?: string | number;

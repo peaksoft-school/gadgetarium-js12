@@ -216,6 +216,8 @@ const Catalog = () => {
 			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
 		}
 	};
+	console.log('test, catalog render componets');
+	
 
 	const { data: posts, isLoading } = useGetFiltredGadgetQuery({
 		id: Number(filtredIds),
@@ -605,7 +607,7 @@ const Catalog = () => {
 														</div>
 													</div>
 													<div className={scss.middle_image_card}>
-														<Link to={`/gadget/${e.gadgetId}`}>
+														<Link to={`/api/gadget/by-id/${e.gadgetId}`}>
 															<img src={e.image} alt="Phone" />
 														</Link>
 													</div>

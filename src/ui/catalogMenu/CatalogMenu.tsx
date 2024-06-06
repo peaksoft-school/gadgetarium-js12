@@ -28,7 +28,6 @@ const CatalogMenu = () => {
 	};
 
 	const searchResults = searchParams.get('brand') || '';
-console.log(searchParams, searchResults, 'test project');
 
 	const { data: filteredData } = useGetFiltredGadgetQuery(
 		{

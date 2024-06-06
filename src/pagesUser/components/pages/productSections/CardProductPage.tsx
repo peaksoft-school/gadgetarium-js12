@@ -1,10 +1,11 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import scss from './CardProductPage.module.scss';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import InfoPageForProduct from '../InfoPageForProduct';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { IconArrowLeft, IconArrowRight, IconHeart } from '@tabler/icons-react';
 import { Button, ConfigProvider, InputNumber, Modal, Rate } from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
@@ -16,50 +17,71 @@ import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
 import { useGetProductsColorsApiQuery } from '@/src/redux/api/productColorApi';
 import { useGetProductMemoryQuery } from '@/src/redux/api/memoryForProductApi';
-
 const CardProductPage = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [basketAddProduct] = useBasketPutProductMutation();
 	const [favoriteAddProduct] = useFavoritePutProductMutation();
 	const { productId } = useParams();
-	const { data, isLoading, refetch } = useGetCardProductQuery({
-		gadgetId: productId,
-		color: searchParams.toString(),
-		memory: searchParams.toString()
-	});
 	const { data: productColor } = useGetProductsColorsApiQuery(productId!);
 	const { data: productMemoryData } = useGetProductMemoryQuery(productId!);
-
 	const [isSlider, setIsSlider] = useState<number>(1);
 	const [sliderResult, setSliderresult] = useState<number>(0);
 	const [contentIsModal, setContentIsModal] = useState<string>('');
 	const [modal2Open, setModal2Open] = useState(false);
 	const navigate = useNavigate();
-	console.log(data);
-	const handleIndexSlider = (index: number) => {
-		if (index === 0) {
-			setIsSlider(1);
-			setSliderresult(0);
-		} else if (index === 1) {
-			setIsSlider(2);
-			setSliderresult(1);
-		} else if (index === 2) {
-			setIsSlider(3);
-			setSliderresult(2);
-		} else if (index === 3) {
-			setIsSlider(4);
-			setSliderresult(3);
-		} else if (index === 4) {
-			setIsSlider(5);
-			setSliderresult(4);
-		} else if (index === 5) {
-			setIsSlider(6);
-			setSliderresult(5);
-		} else if (index === 6) {
-			setIsSlider(7);
-			setSliderresult(6);
-		}
+
+	// const handleIndexSlider = (index: number) => {
+	// 	if (index === 0) {
+	// 		setIsSlider(1);
+	// 		setSliderresult(0);
+	// 	} else if (index === 1) {
+	// 		setIsSlider(2);
+	// 		setSliderresult(1);
+	// 	} else if (index === 2) {
+	// 		setIsSlider(3);
+	// 		setSliderresult(2);
+	// 	} else if (index === 3) {
+	// 		setIsSlider(4);
+	// 		setSliderresult(3);
+	// 	} else if (index === 4) {
+	// 		setIsSlider(5);
+	// 		setSliderresult(4);
+	// 	} else if (index === 5) {
+	// 		setIsSlider(6);
+	// 		setSliderresult(5);
+	// 	} else if (index === 6) {
+	// 		setIsSlider(7);
+	// 		setSliderresult(6);
+	// 	}
+	// };
+	const handleIndexSlider = useCallback((index: number) => {
+		setIsSlider(index + 1);
+		setSliderresult(index);
+	}, []);
+
+	const handleColorProductFunk = (color: string) => {
+		console.log(color, 'color');
+		searchParams.set('color', color);
+		// setSearchParams(searchParams);
+		navigate(`/api/gadget/by-id/${productId}?${searchParams.toString()}`);
 	};
+
+	const handleMemoryProductFunk = (memory: string) => {
+		searchParams.set('memory', memory);
+		// setSearchParams(searchParams);
+		navigate(`/api/gadget/by-id/${productId}?${searchParams.toString()}`);
+	};
+	// let colorParams;
+	// let memoryParams;
+	// colorParams = `color=${searchParams.get('color')}`;
+	// console.log(colorParams, 'test render');
+	// memoryParams = `memory=${searchParams.get('memory')}`;
+	
+	const { data, isLoading, refetch } = useGetCardProductQuery({
+		id: Number(productId && productId),
+		color: `color=${searchParams.get('color')}`,
+		memory: `memory=${searchParams.get('memory')}`
+	});
 	const addBasketProduct = async (id: number) => {
 		await basketAddProduct({ id });
 		refetch();
@@ -69,14 +91,6 @@ const CardProductPage = () => {
 		refetch();
 	};
 
-	const changeInputValueFunk = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const quantityInput = Number(e.target.value);
-		if (!isNaN(quantityInput)) {
-			setQuantityInputValue(quantityInput.toString());
-		}
-	};
-
-	const handleCountOfGadgetFunk = (id: number, countOfGadget: number) => {};
 	return (
 		<>
 			<section className={scss.CardProductPage}>
@@ -200,6 +214,7 @@ const CardProductPage = () => {
 													{productColor?.map((el, index) => (
 														<div key={index}>
 															<ColorButton
+																onClick={() => handleColorProductFunk(el)}
 																width="26px"
 																height="26px"
 																backgroundColor={el}
@@ -278,6 +293,7 @@ const CardProductPage = () => {
 												<div className={scss.buttons_for_memory}>
 													{productMemoryData?.map((el, index) => (
 														<Button
+															onClick={() => handleMemoryProductFunk(el)}
 															className={scss.button_for_product_memory}
 															key={index}
 														>

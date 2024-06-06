@@ -49,8 +49,8 @@ export const api = createApi({
 		'deliveryApi',
 		'reviewsApi',
 		'cardProductsColorsApi',
-		'productMemoryApi'
+		'productMemoryApi',
+		'pdfApi'
 	],
-
 	endpoints: () => ({})
 });
