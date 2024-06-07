@@ -1,42 +1,83 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import scss from './ReviewsPage.module.scss';
 import { useParams } from 'react-router-dom';
 import { Rate, Button, Modal, Input, ConfigProvider } from 'antd';
-import { useState } from 'react';
-import type { UploadProps } from 'antd';
-import { message, Upload } from 'antd';
+import React, { useRef, useState } from 'react';
+import { Upload } from 'antd';
 import { IconKamore } from '@/src/assets/icons';
 import {
 	useApiFeedbackStatisticsQuery,
-	useGetReviewsQuery
+	useGetReviewsQuery,
+	usePostUsersCommitsMutation
 } from '@/src/redux/api/reviews';
+import { usePostUploadMutation } from '@/src/redux/api/pdf';
 
 const { Dragger } = Upload;
-const props: UploadProps = {
-	name: 'file',
-	multiple: true,
-	action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
-	onChange(info) {
-		const { status } = info.file;
-		if (status !== 'uploading') {
-			console.log(info.file, info.fileList);
-		}
-		if (status === 'done') {
-			message.success(`${info.file.name} file uploaded successfully.`);
-		} else if (status === 'error') {
-			message.error(`${info.file.name} file upload failed.`);
-		}
-	},
-	onDrop(e) {
-		console.log('Dropped files', e.dataTransfer.files);
-	}
-};
 const ReviewsPage = () => {
+	const fileUrl = useRef<HTMLInputElement>(null);
+	const [postUpload] = usePostUploadMutation();
 	const { productId } = useParams();
 	const { data, isLoading } = useGetReviewsQuery(productId!);
+	const [postUserCommitApi] = usePostUsersCommitsMutation();
 	const [modal2Open, setModal2Open] = useState<boolean>(false);
+	const [filesUrls, setFilesUrls] = useState<[]>([]);
+	const [inputFile, setInputFile] = useState<File | string>('');
+	const [textCommitInput, setTextCommitInput] = useState<string>('');
+	const [rateValue, setRateValue] = useState<number>(0);
 	const { data: FeedbackStatistics } = useApiFeedbackStatisticsQuery({
 		id: Number(productId)
 	});
+
+	const handleOpenFileFunk = () => {
+		if (fileUrl.current) {
+			fileUrl.current.click();
+		}
+	};
+	const handleChangeFileFunk = async (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		const fileInputValue = event.target.files;
+		if (fileInputValue && fileInputValue.length > 0) {
+			const file = fileInputValue[0];
+			setInputFile(file);
+
+			try {
+				await postUpload({
+					files: ['139325-disk_zhokej-dizajn-nebo-muha-purpur-3840x2160.jpg']
+				});
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	};
+
+	const changeInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const value = event.target.value;
+		if (value) {
+			setTextCommitInput(value);
+		}
+	};
+	console.log(rateValue, 'rate');
+
+	const handlePostCommitFunk = async () => {
+		const DATA = {
+			grade: rateValue,
+			comment: textCommitInput,
+			images: [
+				'https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o='
+			]
+		};
+		const { comment, grade, images } = DATA;
+		await postUserCommitApi({
+			gadgetId: Number(productId && productId),
+			comment,
+			grade,
+			images
+		});
+	};
+
+	console.log(inputFile, 'inputFile');
+
 	const { TextArea } = Input;
 	return (
 		<>
@@ -168,15 +209,23 @@ const ReviewsPage = () => {
 					<div className={scss.content_modal}>
 						<h3>Оставьте свой отзыв</h3>
 						<div className={scss.modal_content_for_reviews}>
-							Оценка <Rate allowHalf defaultValue={0} />
+							Оценка{' '}
+							<Rate
+								allowHalf
+								defaultValue={0}
+								onChange={(e) => setRateValue(e)}
+								value={rateValue}
+							/>
 						</div>
 						<div className={scss.modal_form_div}>
 							<p>Ваш комментарий</p>
 							<TextArea
 								className={scss.commit_input}
 								placeholder="Напишите комментарий"
+								onChange={changeInputValue}
+								value={textCommitInput}
 							/>
-							<Dragger className={scss.input_for_file} {...props}>
+							{/* <Dragger className={scss.input_for_file} {...props}>
 								<div className={scss.input_file_content_div}>
 									<IconKamore />
 									<p>
@@ -184,10 +233,23 @@ const ReviewsPage = () => {
 										просто перетащите их сюда
 									</p>
 								</div>
-							</Dragger>
+							</Dragger> */}
+							<div onClick={handleOpenFileFunk} className={scss.input_for_file}>
+								<input
+									type="file"
+									style={{ display: 'none' }}
+									ref={fileUrl}
+									onChange={handleChangeFileFunk}
+									// value={inputFile}
+									multiple
+								/>
+							</div>
 							<Button
 								className={scss.button_modal}
-								onClick={() => setModal2Open(false)}
+								onClick={() => {
+									setModal2Open(false);
+									handlePostCommitFunk();
+								}}
 							>
 								Отправить отзыв
 							</Button>

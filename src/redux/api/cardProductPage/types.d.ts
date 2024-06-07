@@ -5,12 +5,13 @@ namespace CARTPRODUCT {
 		id: number;
 		color?: string;
 		memory?: string;
-		quantity?: string | number;
+		quantity?: number;
 	};
 	type GetCardProductResponse = {
-		id: number;
+		gadgetId: number;
 		brandLogo: string;
 		images: [];
+		subGadgetId: number;
 		nameOfGadget: string;
 		quantity: number;
 		articleNumber: number;
@@ -23,7 +24,12 @@ namespace CARTPRODUCT {
 		warranty: number;
 		memory: string;
 		countSim: number;
+		ram: string;
+		recommend: boolean;
 		likes: boolean;
+		newProduct: boolean;
 		basket: boolean;
+		pdfUrl: string;
+		uniField: [];
 	};
 }

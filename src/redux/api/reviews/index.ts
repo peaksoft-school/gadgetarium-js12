@@ -32,12 +32,13 @@ const api = index.injectEndpoints({
 			REVIEWS.PostForUsersCommitsResponse,
 			REVIEWS.PostForUsersCommitsRequest
 		>({
-			query: ({ id }) => ({
-				url: `/api/feedback/${id}`,
+			query: ({ gadgetId, comment, grade, images }) => ({
+				url: `/api/feedback/${gadgetId}`,
 				method: 'POST',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
-				}
+				},
+				body: { comment, grade, images }
 			}),
 			invalidatesTags: ['reviewsApi']
 		})

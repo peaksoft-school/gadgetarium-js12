@@ -59,16 +59,17 @@ const CardProductPage = () => {
 		setSliderresult(index);
 	}, []);
 
-	const handleColorProductFunk = (color: string) => {
+	const handleColorProductFunk = (color: string, memory: string) => {
 		console.log(color, 'color');
 		searchParams.set('color', color);
-		// setSearchParams(searchParams);
+		searchParams.set('memory', 'GB_256')
+		setSearchParams(searchParams);
 		navigate(`/api/gadget/by-id/${productId}?${searchParams.toString()}`);
 	};
 
 	const handleMemoryProductFunk = (memory: string) => {
 		searchParams.set('memory', memory);
-		// setSearchParams(searchParams);
+		setSearchParams(searchParams);
 		navigate(`/api/gadget/by-id/${productId}?${searchParams.toString()}`);
 	};
 	// let colorParams;
@@ -76,19 +77,21 @@ const CardProductPage = () => {
 	// colorParams = `color=${searchParams.get('color')}`;
 	// console.log(colorParams, 'test render');
 	// memoryParams = `memory=${searchParams.get('memory')}`;
-	
-	const { data, isLoading, refetch } = useGetCardProductQuery({
+console.log(searchParams.getAll('color')[0], 'searchPamam');
+
+	const { data, isLoading } = useGetCardProductQuery({
 		id: Number(productId && productId),
-		color: `color=${searchParams.get('color')}`,
-		memory: `memory=${searchParams.get('memory')}`
+		color: `color=${searchParams.getAll('color')[0]}` || undefined,
+		memory: `memory=${searchParams.getAll('memory')[0]}` || undefined,
+		// quantity: `quantity=${searchParams.getAll('quantity')[0]}`
 	});
 	const addBasketProduct = async (id: number) => {
 		await basketAddProduct({ id });
-		refetch();
+		// refetch();
 	};
 	const addFavoriteProduct = async (id: number) => {
 		await favoriteAddProduct({ id });
-		refetch();
+		// refetch();
 	};
 
 	return (
@@ -214,7 +217,10 @@ const CardProductPage = () => {
 													{productColor?.map((el, index) => (
 														<div key={index}>
 															<ColorButton
-																onClick={() => handleColorProductFunk(el)}
+																onClick={() => {
+																	handleColorProductFunk(el, data?.memory)
+																	
+																}}
 																width="26px"
 																height="26px"
 																backgroundColor={el}
@@ -282,7 +288,7 @@ const CardProductPage = () => {
 														) : (
 															<AddBasketButton
 																onClick={() =>
-																	data && addBasketProduct(data.id)
+																	data && addBasketProduct(data.subGadgetId)
 																}
 																children={'В корзину'}
 																className={scss.add_bas_button}
@@ -293,8 +299,19 @@ const CardProductPage = () => {
 												<div className={scss.buttons_for_memory}>
 													{productMemoryData?.map((el, index) => (
 														<Button
-															onClick={() => handleMemoryProductFunk(el)}
-															className={scss.button_for_product_memory}
+															onClick={() => {
+																if (el.includes(data?.memory)) {
+																	handleMemoryProductFunk(el);
+																
+																} else {
+																	return;
+																}
+															}}
+															className={
+																el.includes(data?.memory)
+																	? `${scss.button_for_product_memory} ${scss.active_memory_button}`
+																	: `${scss.button_for_product_memory}`
+															}
 															key={index}
 														>
 															{el}

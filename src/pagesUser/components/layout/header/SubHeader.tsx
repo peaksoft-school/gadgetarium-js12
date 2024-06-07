@@ -112,11 +112,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 								{ComparisonData.length <= 99 ? ComparisonData.length : '99+'}
 							</span>
 							<IconScale
-								style={
-									ComparisonData.length !== 0
-										? { color: '#ff00d4' }
-										: { color: '' }
-								}
+								
 							/>
 						</Link>
 						<Link
@@ -135,11 +131,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 								{FavoriteData.length <= 99 ? FavoriteData.length : '99+'}
 							</span>
 							<IconHeart
-								style={
-									FavoriteData.length !== 0
-										? { color: '#ff00d4' }
-										: { color: '' }
-								}
+							
 							/>
 						</Link>
 						<Link
@@ -158,9 +150,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 								{BasketData.length <= 99 ? BasketData.length : '99+'}
 							</span>
 							<IconShoppingCart
-								style={
-									BasketData.length !== 0 ? { color: '#ff00d4' } : { color: '' }
-								}
+								
 							/>
 						</Link>
 					</div>

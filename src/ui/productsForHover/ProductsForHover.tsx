@@ -60,16 +60,27 @@ export const ProductsForHover: FC<ProductsForHoverTypes> = ({
 									<div className={scss.product_name_and_price_div}>
 										<p>{el.nameOfGadget}</p>
 										<h3>{el.price}</h3>
-										<IconX color="rgb(144, 156, 181)" />
+										<IconX
+											color="rgb(144, 156, 181)"
+											width={'14px'}
+											height={'14px'}
+										/>
 									</div>
 								</div>
 							))}
 						</div>
 					) : (
-						<h2>Not comparison</h2>
+						<h2>Сравнивать пока нечего</h2>
 					))}
 				{comparisonProducts && ComparisonData?.length !== 0 && (
-					<Button onClick={() => navigate('/comparison')}>Сравнить</Button>
+					<div className={scss.button_div}>
+						<Button
+							className={scss.button}
+							onClick={() => navigate('/comparison')}
+						>
+							Сравнить
+						</Button>
+					</div>
 				)}
 				{favoriteProducts &&
 					(FavoriteData?.length !== 0 ? (
@@ -81,18 +92,27 @@ export const ProductsForHover: FC<ProductsForHoverTypes> = ({
 									<div className={scss.product_name_and_price_div}>
 										<p>{el.nameOfGadget}</p>
 										<h3>{el.price}</h3>
-										<IconX color="rgb(144, 156, 181)" />
+										<IconX
+											color="rgb(144, 156, 181)"
+											width={'14px'}
+											height={'14px'}
+										/>
 									</div>
 								</div>
 							))}
 						</div>
 					) : (
-						<h2>Not favorite</h2>
+						<h2>В избранном пока пусто</h2>
 					))}
 				{favoriteProducts && FavoriteData?.length !== 0 && (
-					<Button onClick={() => navigate('/favorite')}>
-						Перейти в избранное
-					</Button>
+					<div className={scss.button_div}>
+						<Button
+							className={scss.button}
+							onClick={() => navigate('/favorite')}
+						>
+							Перейти в избранное
+						</Button>
+					</div>
 				)}
 				{basketProducts &&
 					(BasketData?.length !== 0 ? (
@@ -104,16 +124,24 @@ export const ProductsForHover: FC<ProductsForHoverTypes> = ({
 									<div className={scss.product_name_and_price_div}>
 										<p>{el.nameOfGadget}</p>
 										<h3>{el.price}</h3>
-										<IconX color="rgb(144, 156, 181)" />
+										<IconX
+											color="rgb(144, 156, 181)"
+											width={'14px'}
+											height={'14px'}
+										/>
 									</div>
 								</div>
 							))}
 						</div>
 					) : (
-						<h2>Not basket</h2>
+						<h2>Ваша корзина пуста</h2>
 					))}
 				{basketProducts && BasketData?.length !== 0 && (
-					<Button onClick={() => navigate('/basket')}>Корзина</Button>
+					<div className={scss.button_div}>
+						<Button className={scss.button} onClick={() => navigate('/basket')}>
+							Корзина
+						</Button>
+					</div>
 				)}
 			</div>
 		</section>

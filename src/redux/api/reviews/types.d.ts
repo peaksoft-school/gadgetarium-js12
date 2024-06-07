@@ -28,9 +28,15 @@ namespace REVIEWS {
 		ratingCounts: RatingCounts;
 	};
 	type PostForUsersCommitsRequest = {
-		id: number
+		gadgetId: number;
+		grade: number;
+		comment: string;
+		images: string[];
 	}
 	type PostForUsersCommitsResponse = {
-		id: number
-	}
+		gadgetId: number;
+		grade: number;
+		comment: string;
+		images: string[];
+	};
 }

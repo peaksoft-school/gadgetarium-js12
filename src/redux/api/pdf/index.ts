@@ -14,8 +14,21 @@ const api = index.injectEndpoints({
 				}
 			}),
 			providesTags: ['pdfApi']
+		}),
+		postUpload: build.mutation<
+			PDFAPI.PostUploadResponse,
+			PDFAPI.PostUploadRequest
+		>({
+			query: ({files }) => ({
+				url: `/api/s3/upload`,
+				method: 'POST',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				},
+				body: { files }
+			})
 		})
 	})
 });
 
-export const { useGetUserPostPDSQuery } = api;
+export const { useGetUserPostPDSQuery, usePostUploadMutation } = api;
