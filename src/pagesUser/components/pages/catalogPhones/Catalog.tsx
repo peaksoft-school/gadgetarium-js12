@@ -38,7 +38,9 @@ const Catalog = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
 	const { filtredIds } = useParams();
-	const { data: subCategories = [] } = useSubCategoriesQuery(filtredIds!);
+	const { data: subCategories = [] } = useSubCategoriesQuery(
+		Number(filtredIds!)
+	);
 	const [addProductBasket] = useBasketPutProductMutation();
 	const [addProductsForFavorite] = useFavoritePutProductMutation();
 	const [addComparisonProducts] = useComparisonPatchProductsMutation();
@@ -231,15 +233,19 @@ const Catalog = () => {
 		ram: [searchParams.toString()]
 	});
 
-	const handleBasketProductsFunk = async (id: number) => {
-		await addProductBasket({ id });
+	const handleBasketProductsFunk = async (subGadgetId: number) => {
+		await addProductBasket({ id: subGadgetId });
 	};
 
-	const handleAddProductsFavoriteFunk = async (id: number) => {
-		await addProductsForFavorite({ id });
+	const handleAddProductsFavoriteFunk = async (subGadgetId: number) => {
+		try {
+			await addProductsForFavorite(subGadgetId);
+		} catch (error) {
+			console.error(error);
+		}
 	};
-	const handleAddProductsComparisonFunk = async (id: number) => {
-		await addComparisonProducts({ id });
+	const handleAddProductsComparisonFunk = async (subGadgetId: number) => {
+		await addComparisonProducts(subGadgetId);
 	};
 
 	return (
@@ -568,7 +574,7 @@ const Catalog = () => {
 												<div className={scss.card}>
 													<div
 														className={
-															e.percent === 0
+															e.percent === 0 && e.newProduct === true && e.recommend === true
 																? `${scss.top_card} ${scss.active_top_card}`
 																: `${scss.top_card}`
 														}
@@ -582,6 +588,28 @@ const Catalog = () => {
 														>
 															{e.percent !== 0 && e.percent}{' '}
 														</p>{' '}
+														{e.newProduct === true && (
+															<div
+																className={
+																	e.newProduct
+																		? `${scss.new_product_nome} ${scss.active_new_product}`
+																		: `${scss.new_product_nome}`
+																}
+															>
+																New
+															</div>
+														)}
+														{e.recommend && (
+															<div
+																className={
+																	e.recommend
+																		? `${scss.recommend_nome} ${scss.active_recommend}`
+																		: `${scss.recommend_nome}`
+																}
+															>
+																My
+															</div>
+														)}
 														<div className={scss.top_icons}>
 															<IconScale
 																className={
@@ -590,21 +618,21 @@ const Catalog = () => {
 																		: `${scss.icon_comparison}`
 																}
 																onClick={() =>
-																	handleAddProductsComparisonFunk(e.id)
+																	handleAddProductsComparisonFunk(e.gadgetId)
 																}
 															/>
 															{e.likes ? (
 																<IconHeartFilled
 																	color="red"
 																	onClick={() =>
-																		handleAddProductsFavoriteFunk(e.id)
+																		handleAddProductsFavoriteFunk(e.subGadgetId)
 																	}
 																/>
 															) : (
 																<IconHeart
 																	className={scss.icon_heart}
 																	onClick={() =>
-																		handleAddProductsFavoriteFunk(e.id)
+																		handleAddProductsFavoriteFunk(e.subGadgetId)
 																	}
 																/>
 															)}
@@ -642,12 +670,13 @@ const Catalog = () => {
 															</button>
 														) : (
 															<AddBasketButton
-																onClick={() => handleBasketProductsFunk(e.id)}
+																onClick={() =>
+																	handleBasketProductsFunk(e.subGadgetId)
+																}
 																children={'В корзину'}
 																className={scss.bottom_cart}
 															/>
 														)}
-												
 													</div>
 												</div>
 											</div>

@@ -802,7 +802,7 @@
 						display: flex;
 						flex-wrap: wrap;
 						gap: 4px;
-						
+
 						.category_right {
 							display: flex;
 							justify-content: center;
@@ -916,7 +916,34 @@
 									display: none;
 								}
 							}
+							.new_product_nome {
+								display: none;
 
+								&.active_new_product {
+									font-size: 12px;
+									font-weight: 600;
+									color: #fff;
+									background-color: #2fc409;
+									border-radius: 100%;
+									display: flex;
+									align-items: center;
+									padding: 7px 10px 7px 10px;
+								}
+							}
+							.recommend_nome {
+								display: none;
+
+								&.active_recommend {
+									font-size: 12px;
+									font-weight: 600;
+									color: rgb(255, 255, 255);
+									background-color: rgba(44, 104, 245, 0.9);
+									border-radius: 100%;
+									display: flex;
+									align-items: center;
+									padding: 7px 10px 7px 10px;
+								}
+							}
 							.top_icons {
 								display: flex;
 								gap: 10px;

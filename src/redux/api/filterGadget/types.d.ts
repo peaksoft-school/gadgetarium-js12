@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 type Responses = {
 	gadgetId: number;
+	subGadgetId: number;
 	image: string;
 	quantity: number;
 	brandNameOfGadget: string;
@@ -14,6 +15,8 @@ type Responses = {
 	likes: boolean;
 	compression: boolean;
 	basked: boolean;
+	newProduct: boolean;
+	recommend: boolean;
 };
 
 namespace FILTREDPRODUCTS {
