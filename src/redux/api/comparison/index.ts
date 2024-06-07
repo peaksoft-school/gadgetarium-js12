@@ -27,9 +27,19 @@ const api = index.injectEndpoints({
 				}
 			}),
 			invalidatesTags: ['comparison']
+		}),
+		deleteByIdComparisonProduct: build.mutation({
+			query: (subGadgetId) => ({
+				url: `/api/comparison/${subGadgetId}`,
+				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			invalidatesTags: ['comparison']
 		})
 	})
 });
 
-export const { useGetComparisonQuery, useComparisonPatchProductsMutation } =
+export const { useGetComparisonQuery, useComparisonPatchProductsMutation, useDeleteByIdComparisonProductMutation } =
 	api;

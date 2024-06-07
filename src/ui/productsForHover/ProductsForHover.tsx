@@ -1,9 +1,18 @@
-import { useGetComparisonQuery } from '@/src/redux/api/comparison';
+import {
+	useDeleteByIdComparisonProductMutation,
+	useGetComparisonQuery
+} from '@/src/redux/api/comparison';
 import scss from './ProductsForHover.module.scss';
 import { IconX } from '@tabler/icons-react';
 import { FC } from 'react';
-import { useGetFavoriteQuery } from '@/src/redux/api/favorite';
-import { useGetBasketQuery } from '@/src/redux/api/basket';
+import {
+	useDeleteByIdFavoriteProductMutation,
+	useGetFavoriteQuery
+} from '@/src/redux/api/favorite';
+import {
+	useDeleteByIdBasketProductMutation,
+	useGetBasketQuery
+} from '@/src/redux/api/basket';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 interface ProductsForHoverTypes {
@@ -25,7 +34,32 @@ export const ProductsForHover: FC<ProductsForHoverTypes> = ({
 	const { data: ComparisonData } = useGetComparisonQuery();
 	const { data: FavoriteData } = useGetFavoriteQuery();
 	const { data: BasketData } = useGetBasketQuery();
+	const [deleteByIdBasketProduct] = useDeleteByIdBasketProductMutation();
+	const [deleteByIdFavoriteProduct] = useDeleteByIdFavoriteProductMutation();
+	const [deleteByIdComparisonProduct] =
+		useDeleteByIdComparisonProductMutation();
 	const navigate = useNavigate();
+	const handleDeleteByIdBasketProductFunk = async (gadgetId: number) => {
+		try {
+			await deleteByIdBasketProduct(gadgetId);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+	const handleDeleteByIdFavoriteProduct = async (subGadgetId: number) => {
+		try {
+			await deleteByIdFavoriteProduct(subGadgetId);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+	const handleDeleteByIdComparisonProduct = async (subGadgetId: number) => {
+		try {
+			await deleteByIdComparisonProduct(subGadgetId);
+		} catch (error) {
+			console.error(error);
+		}
+	};
 	return (
 		<section
 			onMouseEnter={() => {
@@ -61,9 +95,11 @@ export const ProductsForHover: FC<ProductsForHoverTypes> = ({
 										<p>{el.nameOfGadget}</p>
 										<h3>{el.price}</h3>
 										<IconX
+											onClick={() => handleDeleteByIdComparisonProduct(el.id)}
 											color="rgb(144, 156, 181)"
 											width={'14px'}
 											height={'14px'}
+											cursor={'pointer'}
 										/>
 									</div>
 								</div>
@@ -88,14 +124,15 @@ export const ProductsForHover: FC<ProductsForHoverTypes> = ({
 							{FavoriteData?.map((el) => (
 								<div key={el.id} className={scss.display_content}>
 									<img src={el.image} alt={el.nameOfGadget} />
-
 									<div className={scss.product_name_and_price_div}>
 										<p>{el.nameOfGadget}</p>
 										<h3>{el.price}</h3>
 										<IconX
+											onClick={() => handleDeleteByIdFavoriteProduct(el.id)}
 											color="rgb(144, 156, 181)"
 											width={'14px'}
 											height={'14px'}
+											cursor={'pointer'}
 										/>
 									</div>
 								</div>
@@ -125,9 +162,11 @@ export const ProductsForHover: FC<ProductsForHoverTypes> = ({
 										<p>{el.nameOfGadget}</p>
 										<h3>{el.price}</h3>
 										<IconX
+											onClick={() => handleDeleteByIdBasketProductFunk(el.id)}
 											color="rgb(144, 156, 181)"
 											width={'14px'}
 											height={'14px'}
+											cursor={'pointer'}
 										/>
 									</div>
 								</div>

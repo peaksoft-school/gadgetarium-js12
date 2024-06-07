@@ -27,8 +27,18 @@ const api = index.injectEndpoints({
 				}
 			}),
 			invalidatesTags: ['favorite']
+		}),
+		deleteByIdFavoriteProduct: build.mutation({
+			query: (subGadgetId) => ({
+				url: `/api/favorites/${subGadgetId}`,
+				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				},
+			}),
+			invalidatesTags: ['favorite']
 		})
 	})
 });
 
-export const { useGetFavoriteQuery, useFavoritePutProductMutation } = api;
+export const { useGetFavoriteQuery, useFavoritePutProductMutation, useDeleteByIdFavoriteProductMutation } = api;
