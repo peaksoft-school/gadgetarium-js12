@@ -295,7 +295,7 @@ const ComparisonSection = () => {
 																			{item && (
 																				<div className={scss.div_photos}>
 																					{item.images.map((el, index) => (
-																						<Link to={`/gadget/${item.id}`}>
+																						<Link to={`/api/gadget/by-id/${item.id}`}>
 																							<img
 																								src={el}
 																								alt={item.nameOfGadget}

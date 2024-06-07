@@ -1,4 +1,7 @@
 .catalog {
+	width: 100%;
+	height: auto;
+	background: rgb(244, 244, 244);
 	.content {
 		display: flex;
 		justify-content: flex-start;
@@ -154,6 +157,7 @@
 			display: flex;
 			justify-content: space-between;
 			gap: 108px;
+			width: 100%;
 			@media (max-width: 600px) {
 				gap: 35px;
 			}
@@ -763,6 +767,7 @@
 			}
 
 			.divRight {
+				width: 100%;
 				.showButtons {
 					display: flex;
 					justify-content: center;
@@ -785,6 +790,9 @@
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
+					width: 100%;
+					position: relative;
+					bottom: 20px;
 					@media (max-width: 910px) {
 						display: flex;
 						justify-content: center;
@@ -794,7 +802,7 @@
 						display: flex;
 						flex-wrap: wrap;
 						gap: 4px;
-
+						
 						.category_right {
 							display: flex;
 							justify-content: center;
@@ -912,7 +920,23 @@
 							.top_icons {
 								display: flex;
 								gap: 10px;
-
+								.icon_comparison {
+									color: rgb(170, 177, 191);
+									&:hover {
+										transition: all 0.4s ease;
+										color: #c11bab;
+									}
+									&.active_icon_comparison {
+										color: #c11bab;
+									}
+								}
+								.icon_heart {
+									color: rgb(170, 177, 191);
+									&:hover {
+										transition: all 0.4s ease;
+										color: red;
+									}
+								}
 								svg {
 									color: #aab1bf;
 									transition: 0.3s;
@@ -1024,6 +1048,23 @@
 								cursor: pointer;
 								color: #fff;
 								font-size: 14px;
+								text-transform: uppercase;
+								letter-spacing: 1px;
+								border: none;
+							}
+							.active_basket_button {
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								border: none;
+								background: #2fc509;
+								padding-block: 14px;
+								padding-inline: 10px;
+								border-radius: 6px;
+								cursor: pointer;
+								color: white;
+								font-size: 12px;
+								font-weight: 500;
 								text-transform: uppercase;
 								letter-spacing: 1px;
 							}

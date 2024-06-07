@@ -139,7 +139,7 @@ const ProductsPromotion = () => {
 												</div>
 											</div>
 											<div className={scss.div_img}>
-												<Link to={`/gadget/${item.gadgetId}`}>
+												<Link to={`/api/gadget/by-id/${item.gadgetId}`}>
 												<img
 													className={scss.img_product}
 													src={item.image}

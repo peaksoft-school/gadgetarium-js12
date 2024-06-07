@@ -5,12 +5,14 @@ import { Rate, Button, Modal, Input, ConfigProvider } from 'antd';
 import React, { useRef, useState } from 'react';
 import { Upload } from 'antd';
 import { IconKamore } from '@/src/assets/icons';
+
 import {
 	useApiFeedbackStatisticsQuery,
 	useGetReviewsQuery,
 	usePostUsersCommitsMutation
 } from '@/src/redux/api/reviews';
 import { usePostUploadMutation } from '@/src/redux/api/pdf';
+import { IconPencilMinus, IconTrash } from '@tabler/icons-react';
 
 const { Dragger } = Upload;
 const ReviewsPage = () => {
@@ -120,7 +122,28 @@ const ReviewsPage = () => {
 
 											<Rate allowHalf defaultValue={e.rating} />
 										</div>
-										<p className={scss.commit_user}>{e.description}</p>
+										{/* <p className={scss.commit_user}>{e.description}</p> */}
+										<p className={scss.commit_user}>
+											Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+											Excepturi totam ab beatae ad eum ratione quod assumenda,
+											temporibus quos? Repudiandae inventore quia asperiores
+											excepturi nemo, voluptates dolorem porro ducimus
+											voluptatibus! Nostrum ipsum quod deleniti ex.
+										</p>
+										<div className={scss.icons_div}>
+											<IconPencilMinus
+												color="rgb(145, 150, 158)"
+												width={'17px'}
+												height={'17px'}
+												cursor={'pointer'}
+											/>
+											<IconTrash
+												color="rgb(145, 150, 158)"
+												width={'17px'}
+												height={'17px'}
+												cursor={'pointer'}
+											/>
+										</div>
 									</div>
 								</div>
 							))}

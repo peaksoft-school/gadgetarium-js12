@@ -21,8 +21,8 @@ import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
 import {
 	IconHeart,
 	IconScale,
-	IconShoppingCart,
-	IconX
+	IconX,
+	IconHeartFilled
 } from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
 import { Rate } from 'antd';
@@ -33,6 +33,7 @@ import {
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
 import { useSubCategoriesQuery } from '@/src/redux/api/catalogProducts';
+import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
 const Catalog = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
@@ -217,7 +218,6 @@ const Catalog = () => {
 		}
 	};
 	console.log('test, catalog render componets');
-	
 
 	const { data: posts, isLoading } = useGetFiltredGadgetQuery({
 		id: Number(filtredIds),
@@ -584,26 +584,30 @@ const Catalog = () => {
 														</p>{' '}
 														<div className={scss.top_icons}>
 															<IconScale
-																style={
+																className={
 																	e.compression
-																		? { color: 'pink' }
-																		: { color: 'black' }
+																		? `${scss.icon_comparison} ${scss.active_icon_comparison}`
+																		: `${scss.icon_comparison}`
 																}
 																onClick={() =>
 																	handleAddProductsComparisonFunk(e.id)
 																}
 															/>
-
-															<IconHeart
-																style={
-																	e.likes
-																		? { color: 'red' }
-																		: { color: 'black' }
-																}
-																onClick={() =>
-																	handleAddProductsFavoriteFunk(e.id)
-																}
-															/>
+															{e.likes ? (
+																<IconHeartFilled
+																	color="red"
+																	onClick={() =>
+																		handleAddProductsFavoriteFunk(e.id)
+																	}
+																/>
+															) : (
+																<IconHeart
+																	className={scss.icon_heart}
+																	onClick={() =>
+																		handleAddProductsFavoriteFunk(e.id)
+																	}
+																/>
+															)}
 														</div>
 													</div>
 													<div className={scss.middle_image_card}>
@@ -629,15 +633,21 @@ const Catalog = () => {
 																{e.currentPrice}
 															</p>
 														</div>
-														<div
-															className={scss.bottom_cart}
-															onClick={() => {
-																handleBasketProductsFunk(e.id);
-															}}
-														>
-															<IconShoppingCart />
-															<p>В корзину</p>
-														</div>
+														{e.basked ? (
+															<button
+																className={scss.active_basket_button}
+																onClick={() => navigate('/basket')}
+															>
+																В корзине Перейти
+															</button>
+														) : (
+															<AddBasketButton
+																onClick={() => handleBasketProductsFunk(e.id)}
+																children={'В корзину'}
+																className={scss.bottom_cart}
+															/>
+														)}
+												
 													</div>
 												</div>
 											</div>
