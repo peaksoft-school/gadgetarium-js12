@@ -22,7 +22,8 @@ import {
 	IconHeart,
 	IconScale,
 	IconX,
-	IconHeartFilled
+	IconHeartFilled,
+	IconFileLike
 } from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
 import { Rate } from 'antd';
@@ -247,7 +248,7 @@ const Catalog = () => {
 	const handleAddProductsComparisonFunk = async (subGadgetId: number) => {
 		await addComparisonProducts(subGadgetId);
 	};
-console.log(subCategories, 'sub');
+	console.log(subCategories, 'sub');
 
 	return (
 		<section className={scss.catalog}>
@@ -575,7 +576,9 @@ console.log(subCategories, 'sub');
 												<div className={scss.card}>
 													<div
 														className={
-															e.percent === 0 && e.newProduct === true && e.recommend === true
+															e.percent === 0 &&
+															e.newProduct === true &&
+															e.recommend === true
 																? `${scss.top_card} ${scss.active_top_card}`
 																: `${scss.top_card}`
 														}
@@ -589,10 +592,10 @@ console.log(subCategories, 'sub');
 														>
 															{e.percent !== 0 && e.percent}{' '}
 														</p>{' '}
-														{e.newProduct === true && (
+														{e.newProduct === true && e.percent === 0 && (
 															<div
 																className={
-																	e.newProduct
+																	e.newProduct && e.percent === 0
 																		? `${scss.new_product_nome} ${scss.active_new_product}`
 																		: `${scss.new_product_nome}`
 																}
@@ -600,15 +603,15 @@ console.log(subCategories, 'sub');
 																New
 															</div>
 														)}
-														{e.recommend && (
+														{e.recommend && e.percent === 0 && (
 															<div
 																className={
-																	e.recommend
+																	e.recommend && e.percent === 0
 																		? `${scss.recommend_nome} ${scss.active_recommend}`
 																		: `${scss.recommend_nome}`
 																}
 															>
-																My
+																<IconFileLike />
 															</div>
 														)}
 														<div className={scss.top_icons}>
