@@ -918,7 +918,6 @@
 							}
 							.new_product_nome {
 								display: none;
-
 								&.active_new_product {
 									font-size: 12px;
 									font-weight: 600;
@@ -932,16 +931,18 @@
 							}
 							.recommend_nome {
 								display: none;
-
 								&.active_recommend {
-									font-size: 12px;
-									font-weight: 600;
+									display: flex;
+									justify-content: center;
+									align-items: center;
+									font-size: 10px;
+									font-weight: 500;
 									color: rgb(255, 255, 255);
 									background-color: rgba(44, 104, 245, 0.9);
-									border-radius: 100%;
-									display: flex;
-									align-items: center;
-									padding: 7px 10px 7px 10px;
+									border-radius: 50%;
+									width: 100%;
+									max-width: 35px;
+									height: 35px;
 								}
 							}
 							.top_icons {

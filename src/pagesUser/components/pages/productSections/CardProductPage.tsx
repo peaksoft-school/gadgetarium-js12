@@ -6,7 +6,12 @@ import scss from './CardProductPage.module.scss';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import InfoPageForProduct from '../InfoPageForProduct';
 import React, { useCallback, useState } from 'react';
-import { IconArrowLeft, IconArrowRight, IconHeart } from '@tabler/icons-react';
+import {
+	IconArrowLeft,
+	IconArrowRight,
+	IconFileLike,
+	IconHeart
+} from '@tabler/icons-react';
 import { Button, ConfigProvider, InputNumber, Modal, Rate } from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
@@ -62,7 +67,7 @@ const CardProductPage = () => {
 	const handleColorProductFunk = (color: string, memory: string) => {
 		console.log(color, 'color');
 		searchParams.set('color', color);
-		searchParams.set('memory', 'GB_256')
+		searchParams.set('memory', 'GB_256');
 		setSearchParams(searchParams);
 		navigate(`/api/gadget/by-id/${productId}?${searchParams.toString()}`);
 	};
@@ -77,12 +82,12 @@ const CardProductPage = () => {
 	// colorParams = `color=${searchParams.get('color')}`;
 	// console.log(colorParams, 'test render');
 	// memoryParams = `memory=${searchParams.get('memory')}`;
-console.log(searchParams.getAll('color')[0], 'searchPamam');
+	console.log(searchParams.getAll('color')[0], 'searchPamam');
 
 	const { data, isLoading } = useGetCardProductQuery({
 		id: Number(productId && productId),
 		color: `color=${searchParams.getAll('color')[0]}` || undefined,
-		memory: `memory=${searchParams.getAll('memory')[0]}` || undefined,
+		memory: `memory=${searchParams.getAll('memory')[0]}` || undefined
 		// quantity: `quantity=${searchParams.getAll('quantity')[0]}`
 	});
 	const addBasketProduct = async (id: number) => {
@@ -205,7 +210,39 @@ console.log(searchParams.getAll('color')[0], 'searchPamam');
 												<h3>Цвет товара:</h3>
 												<h3>Количество:</h3>
 												<div className={scss.prices_div}>
-													<div>-16%</div>
+													{data?.percent !== 0 && (
+														<div
+															className={
+																data?.percent !== 0
+																	? `${scss.noo_active_percent} ${scss.active_percent_div}`
+																	: `${scss.noo_active_percent}`
+															}
+														>
+															{data?.percent}
+														</div>
+													)}
+													{data?.newProduct && data.percent === 0 && (
+														<div
+															className={
+																data.newProduct && data.percent === 0
+																	? `${scss.new_product} ${scss.active_new_product}`
+																	: `${scss.new_product}`
+															}
+														>
+															New
+														</div>
+													)}
+													{data?.recommend && data.percent === 0 && (
+														<div
+															className={
+																data.recommend && data.percent === 0
+																	? `${scss.noo_active_percent} ${scss.active_recommend}`
+																	: `${scss.noo_active_percent}`
+															}
+														>
+															<IconFileLike />
+														</div>
+													)}
 													<h2>{data?.price}</h2>
 													<h3 className={scss.previous_price}>
 														{data?.currentPrice}
@@ -218,8 +255,7 @@ console.log(searchParams.getAll('color')[0], 'searchPamam');
 														<div key={index}>
 															<ColorButton
 																onClick={() => {
-																	handleColorProductFunk(el, data?.memory)
-																	
+																	handleColorProductFunk(el, data?.memory);
 																}}
 																width="26px"
 																height="26px"
@@ -302,7 +338,6 @@ console.log(searchParams.getAll('color')[0], 'searchPamam');
 															onClick={() => {
 																if (el.includes(data?.memory)) {
 																	handleMemoryProductFunk(el);
-																
 																} else {
 																	return;
 																}

@@ -22,7 +22,8 @@ import {
 	IconHeart,
 	IconScale,
 	IconX,
-	IconHeartFilled
+	IconHeartFilled,
+	IconFileLike
 } from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
 import { Rate } from 'antd';
@@ -77,6 +78,8 @@ const Catalog = () => {
 	const [allPhonesHide, setAllPhonesHide] = useState(false);
 
 	const handleShowAllPhones = (page: number) => {
+		console.log(page, 'page length');
+
 		setAllPhones(true);
 		setAllPhonesHide(true);
 		let size = 12 + page;
@@ -247,6 +250,9 @@ const Catalog = () => {
 	const handleAddProductsComparisonFunk = async (subGadgetId: number) => {
 		await addComparisonProducts(subGadgetId);
 	};
+
+	const buttonActive = posts?.responses.length > 0;
+	const buttonNoo = posts?.responses.length === (posts?.responses.length || 0);
 
 	return (
 		<section className={scss.catalog}>
@@ -574,7 +580,9 @@ const Catalog = () => {
 												<div className={scss.card}>
 													<div
 														className={
-															e.percent === 0 && e.newProduct === true && e.recommend === true
+															e.percent === 0 &&
+															e.newProduct === true &&
+															e.recommend === true
 																? `${scss.top_card} ${scss.active_top_card}`
 																: `${scss.top_card}`
 														}
@@ -588,7 +596,7 @@ const Catalog = () => {
 														>
 															{e.percent !== 0 && e.percent}{' '}
 														</p>{' '}
-														{e.newProduct === true && (
+														{e.newProduct === true && e.percent === 0 && (
 															<div
 																className={
 																	e.newProduct
@@ -599,7 +607,7 @@ const Catalog = () => {
 																New
 															</div>
 														)}
-														{e.recommend && (
+														{e.recommend && e.percent === 0 && (
 															<div
 																className={
 																	e.recommend
@@ -607,7 +615,7 @@ const Catalog = () => {
 																		: `${scss.recommend_nome}`
 																}
 															>
-																My
+																<IconFileLike />
 															</div>
 														)}
 														<div className={scss.top_icons}>
@@ -685,18 +693,18 @@ const Catalog = () => {
 								)}
 							</div>
 							<div className={scss.showButtons}>
-								{!allPhones && (
-									<button
-										onClick={() => handleShowAllPhones(posts?.responses.length)}
-										className={scss.moreButton}
-									>
-										Показать ещё
-									</button>
-								)}
-								{allPhonesHide && (
+								<button
+									onClick={() => handleShowAllPhones(posts?.responses.length)}
+									className={scss.moreButton}
+									// style={{ display: allPhones ? 'none' : 'block' }}
+								>
+									Показать ещё
+								</button>
+								{buttonNoo && buttonActive && (
 									<button
 										onClick={() => handleHideAllPhones(12)}
 										className={scss.moreButton}
+										// style={{ display: allPhonesHide ? 'block' : 'none' }}
 									>
 										Скрыть
 									</button>
