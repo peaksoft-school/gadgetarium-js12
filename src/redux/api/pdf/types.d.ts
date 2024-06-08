@@ -9,10 +9,10 @@ namespace PDFAPI {
 	type GetUserPostPDSResponse = string;
 
 	type PostUploadRequest = {
-		files : [];
+		files: [];
 	};
 	type PostUploadResponse = {
-		data: [];
-		httpResponse: HttpResponse;
+		data: string[];
+		// httpResponse: HttpResponse;
 	};
 }

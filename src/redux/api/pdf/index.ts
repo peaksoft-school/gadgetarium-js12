@@ -17,15 +17,15 @@ const api = index.injectEndpoints({
 		}),
 		postUpload: build.mutation<
 			PDFAPI.PostUploadResponse,
-			PDFAPI.PostUploadRequest
+			FormData
 		>({
-			query: ({files }) => ({
+			query: (formData) => ({
 				url: `/api/s3/upload`,
 				method: 'POST',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				},
-				body: { files }
+				body: formData
 			})
 		})
 	})
