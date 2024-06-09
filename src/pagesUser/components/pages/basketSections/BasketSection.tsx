@@ -25,30 +25,22 @@ const BasketSection = () => {
 	const [favoriteAddProduct] = useFavoritePutProductMutation();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
-	const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
 	// const [arrayNumbers, setArrayNumbers] = useState<number[]>([]);
 	const [inputValueItemId, setInputValueItemId] = useState<number>();
-	const [selectAll, setSelectAll] = useState<string[]>(() => {
-		const ids = searchParams.getAll('ids');
-		return ids.length ? ids : [];
-	});
+
 	const [inputValueQuantity, setInputValueQuantity] = useState<number>(0);
-	const [totalAmount, setTotalAmount] = useState<number>(0);
 	const { data, isLoading } = useGetBasketQuery();
 	const [deleteBasket] = useBasketDeleteProductMutation();
 	const [idsArray, setIdsArray] = useState<string[]>(() => {
 		const ids = searchParams.getAll('ids');
 		return ids.length ? ids : [];
 	});
-
 	const handleBasketProductDelete = async (id: number) => {
 		await basketDeleteProduct(id);
 	};
-
 	const handleFavoriteAddProduct = async (id: number) => {
 		await favoriteAddProduct(id);
 	};
-
 	const handleIdsProducts = (id: number) => {
 		const ids = id.toString();
 		if (!idsArray.includes(ids)) {
@@ -94,9 +86,6 @@ const BasketSection = () => {
 	const handleOrderAmounts = () => {
 		navigate(`/pay/delivery?${window.location.search.substring(1)}`);
 	};
-
-	
-
 
 	const allSelected = idsArray.length === (data?.length || 0);
 	const someSelected = idsArray.length > 0;
@@ -352,8 +341,7 @@ const BasketSection = () => {
 											)}
 											<Button
 												onClick={() => {
-													searchParams.get('ids') &&
-														handleOrderAmounts();
+													searchParams.get('ids') && handleOrderAmounts();
 												}}
 												className={calculateButtonClass()}
 											>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useKeenSlider } from 'keen-slider/react';
 import scss from './AboutSection.module.scss';
 import { useState } from 'react';

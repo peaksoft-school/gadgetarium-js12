@@ -1,47 +1,26 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import scss from './WrapperPay.module.scss';
 import {
 	Link,
 	Route,
 	Routes,
 	useLocation,
-	useNavigate,
-	useSearchParams
+	useNavigate
+	// useSearchParams
 } from 'react-router-dom';
 import Delivery from '@/src/pagesUser/components/pages/placingAnOrder/Delivery.tsx';
 import Payment from '@/src/pagesUser/components/pages/placingAnOrder/Payment.tsx';
 import Review from '@/src/pagesUser/components/pages/placingAnOrder/Review.tsx';
 import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
 
-const iphones = [
-	{
-		image:
-			'https://www.pngmart.com/files/15/Apple-iPhone-12-Transparent-Images-PNG.png',
-		name: 'IPhone 15 pro Max 256gb blue 9(MLP3RU)',
-		articul: 393478,
-		quantity: '3 шт',
-		size: 44,
-		color: 'Blue'
-	},
-	{
-		image:
-			'https://www.pngmart.com/files/15/Apple-iPhone-12-Transparent-Images-PNG.png',
-		name: 'IPhone 15 pro Max 256gb yellow 9(MLP3RU)',
-		articul: 393478,
-		quantity: '3 шт',
-		size: 44,
-		color: 'Yellow'
-	}
-];
-
 const WrapperPay: FC = () => {
 	const { pathname } = useLocation();
 	const navigate = useNavigate();
-	const { data: basketOrder } = useGetBasketOrderGadgetQuery(
-		[window.location.search.substring(1)]
-	);
-	console.log(basketOrder, 'order for basket');
-	
+	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
+		window.location.search.substring(1)
+	]);
+	const [isDeliveryComplete, setIsDeliveryComplete] = useState(false);
+	// console.log(basketOrder, 'order for basket');
 
 	const handleMain = () => {
 		navigate('/');
@@ -51,6 +30,18 @@ const WrapperPay: FC = () => {
 	};
 	const handleDecor = () => {
 		navigate(`/pay/delivery`);
+	};
+
+	const handleDeliveryCompletion = (isComplete: boolean) => {
+		setIsDeliveryComplete(isComplete);
+	};
+
+	const navigateWithValidation = (path: string) => {
+		if (isDeliveryComplete || path === '/pay/delivery') {
+			navigate(path);
+		} else {
+			alert('Please complete the delivery information before proceeding.');
+		}
 	};
 
 	return (
@@ -98,6 +89,11 @@ const WrapperPay: FC = () => {
 										</div>
 										<div className={scss.number_two}>
 											<Link
+												onClick={() =>
+													navigateWithValidation(
+														`/pay/payment?${window.location.search.substring(1)}`
+													)
+												}
 												to={`/pay/payment?${window.location.search.substring(1)}`}
 												className={
 													pathname === '/pay/payment' ||
@@ -112,6 +108,11 @@ const WrapperPay: FC = () => {
 										</div>
 										<div className={scss.number_three}>
 											<Link
+												onClick={() =>
+													navigateWithValidation(
+														`/pay/review?${window.location.search.substring(1)}`
+													)
+												}
 												to={`/pay/review?${window.location.search.substring(1)}`}
 												className={
 													pathname === '/pay/review'
@@ -134,11 +135,16 @@ const WrapperPay: FC = () => {
 								</div>
 								<div className={scss.content_routes}>
 									<Routes>
-										<Route path="/delivery" element={<Delivery />} />
+										<Route
+											path="/delivery"
+											element={
+												<Delivery onCompletion={handleDeliveryCompletion} />
+											}
+										/>
 										<Route path="/payment" element={<Payment />} />
 										<Route path="/review" element={<Review />} />
 									</Routes>
-								</div>
+								</div> 
 							</div>
 							{/*!right_block*/}
 							<div className={scss.right_block}>

@@ -206,6 +206,7 @@
 						display: flex;
 						flex-direction: column;
 						.phone_card {
+							margin-top: 36px;
 							display: flex;
 							align-items: center;
 							gap: 20px;
@@ -216,7 +217,6 @@
 								// object-position: center;
 							}
 							.phone_texts {
-								margin-top: 36px;
 								width: 281px;
 								display: flex;
 								flex-direction: column;

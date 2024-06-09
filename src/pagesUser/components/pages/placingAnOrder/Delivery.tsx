@@ -43,7 +43,7 @@ const Delivery = () => {
 		// postOrderDelivery({
 		// 	subGadgetId: [searchParams.toString()],
 		// 	deliveryType: searchParams.toString()
-		// });
+		// });/	1`1
 	};
 
 	const handleOpenCheckbox2 = (ids: number) => {
@@ -71,6 +71,8 @@ const Delivery = () => {
 			deliveryType: searchParams.toString(),
 			...responseObject
 		});
+		reset();
+		navigate('/pay/payment');
 	};
 
 	const handleCheckboxPickup = () => {
@@ -117,7 +119,7 @@ const Delivery = () => {
 										checked={
 											searchParams
 												.getAll('deliveryType')
-												.some((el) => el === 'true')
+												.some((el) => el === 'false')
 												? true
 												: false
 										}
@@ -165,7 +167,7 @@ const Delivery = () => {
 										checked={
 											searchParams
 												.getAll('deliveryType')
-												.some((el) => el === 'false')
+												.some((el) => el === 'true')
 												? true
 												: false
 										}

@@ -34,7 +34,7 @@ const api = index.injectEndpoints({
 		>({
 			query: ({ id, basket }) => ({
 				url: `/api/basket/${id}`,
-				method: 'POST',
+				method: 'PATCH',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				},
@@ -61,11 +61,9 @@ const api = index.injectEndpoints({
 		>({
 			query: (ids) => ({
 				url: `/api/basket/order-amounts?${ids}`,
-				method: 'GET',
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem('token')}`
-				}
-			})
+				method: 'GET'
+			}),
+			providesTags: ['basket']
 		})
 	})
 });

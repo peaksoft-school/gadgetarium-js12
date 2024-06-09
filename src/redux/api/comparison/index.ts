@@ -7,50 +7,29 @@ const api = index.injectEndpoints({
 			COMPARISONPRODUCTS.GetComparisonProductsRequest
 		>({
 			query: () => ({
-				url: 'https://api-v2.elchocrud.pro/api/v1/e29346eff0c433ab971a172fd2128212/comparison_products',
-				method: 'GET'
+				url: '/api/comparison',
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
 			}),
 			providesTags: ['comparison']
 		}),
-		comparisonPutProduct: build.mutation<
-			COMPARISONPRODUCTS.PutComparisonProductResponse,
-			COMPARISONPRODUCTS.PutComparisonProductRequest
+		comparisonPatchProducts: build.mutation<
+			COMPARISONPRODUCTS.PatchComparisonProductRequest,
+			COMPARISONPRODUCTS.PatchComparisonProductResponse
 		>({
-			query: ({ _id, isComparison }) => ({
-				url: `https://api-v2.elchocrud.pro/api/v1/e29346eff0c433ab971a172fd2128212/comparison_products/${_id}`,
+			query: (subGadgetId) => ({
+				url: `/api/comparison/${subGadgetId}`,
 				method: 'PATCH',
-				body: { isComparison }
-			}),
-			invalidatesTags: ['comparison']
-		}),
-		comparisonResults: build.mutation<
-			COMPARISONPRODUCTS.ComparisonResultsResponse,
-			COMPARISONPRODUCTS.ComparisonResultsRequest
-		>({
-			query: (isDifference) => ({
-				url: 'https://api-v2.elchocrud.pro/api/v1/e29346eff0c433ab971a172fd2128212/comparison_products',
-				method: 'PATCH',
-				body: isDifference
-			}),
-			invalidatesTags: ['comparison']
-		}),
-		CategoryProducts: build.mutation<
-			COMPARISONPRODUCTS.CategoryProductsResponse,
-			COMPARISONPRODUCTS.CategoryProductsRequest
-		>({
-			query: (categoryProducts) => ({
-				url: 'https://api-v2.elchocrud.pro/api/v1/e29346eff0c433ab971a172fd2128212/comparison_products',
-				method: 'PATCH',
-				body: categoryProducts
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
 			}),
 			invalidatesTags: ['comparison']
 		})
 	})
 });
 
-export const {
-	useGetComparisonQuery,
-	useComparisonPutProductMutation,
-	useComparisonResultsMutation,
-	useCategoryProductsMutation
-} = api;
+export const { useGetComparisonQuery, useComparisonPatchProductsMutation } =
+	api;
