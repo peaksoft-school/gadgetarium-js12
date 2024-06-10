@@ -90,11 +90,35 @@
 						color: rgb(56, 66, 85);
 						font-size: clamp(10px, 7vw, 16px);
 					}
-					.icons_div{
+					.icons_div {
 						display: flex;
 						justify-content: flex-end;
 						align-items: center;
 						gap: 18px;
+					}
+				}
+			}
+			.button_div_for_pagination {
+				// text-align: center;
+				width: 100%;
+				display: flex;
+				justify-content: center;
+				.button_for_pagination {
+					width: 100%;
+					max-width: 275px;
+					height: 40px;
+					box-sizing: border-box;
+					/* Pink */
+					border: 1px solid rgb(203, 17, 171);
+					border-radius: 4px;
+					color: rgb(203, 17, 171);
+					font-size: clamp(7px, 6vw, 15px);
+					font-weight: 600;
+					&:hover {
+						transition: all 0.4s ease;
+						background: rgb(203, 17, 171);
+						color: #fff;
+						border: none;
 					}
 				}
 			}
@@ -115,7 +139,7 @@
 				width: 100%;
 				height: auto;
 			}
-	
+
 			.rating_div_content {
 				padding-block: 28.4px;
 				padding-inline: 37px;

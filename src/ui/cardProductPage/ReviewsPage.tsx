@@ -11,6 +11,9 @@ import {
 } from '@/src/redux/api/reviews';
 import { usePostUploadMutation } from '@/src/redux/api/pdf';
 import { IconPencilMinus, IconTrash } from '@tabler/icons-react';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import { Notify } from '@/src/utils/helpers/Notify';
 
 const ReviewsPage = () => {
 	const fileUrl = useRef<HTMLInputElement>(null);
@@ -40,9 +43,7 @@ const ReviewsPage = () => {
 			const file = fileInputValue[0];
 			const formData = new FormData();
 			formData.append('files', file);
-
 			const newFileUrls: string[] = [];
-
 			try {
 				const response: any = await postUpload(formData).unwrap();
 				newFileUrls.push(response.data[0]);
@@ -68,12 +69,23 @@ const ReviewsPage = () => {
 			images: filesUrls
 		};
 		const { comment, grade, images } = DATA;
-		await postUserCommitApi({
-			gadgetId: Number(productId && productId),
-			comment,
-			grade,
-			images
-		});
+		try {
+			if (rateValue === 0 || ('' && textCommitInput === '' && filesUrls === []))
+				return Notify('Ошибка', 'Заполните все поля', '');
+			Notify('success', 'Успешно Комментарий отправлен', '');
+			await postUserCommitApi({
+				gadgetId: Number(productId && productId),
+				comment,
+				grade,
+				images
+			});
+			setRateValue(0);
+			setTextCommitInput('');
+			setFilesUrls([]);
+		} catch (error) {
+			console.error(error, 'error service');
+			Notify('Ошибка', 'Не удалось отправить комментарий', '');
+		}
 	};
 
 	const { TextArea } = Input;
@@ -121,6 +133,13 @@ const ReviewsPage = () => {
 									</div>
 								</div>
 							))}
+							{data!.length >= 3 && (
+								<div className={scss.button_div_for_pagination}>
+									<Button className={scss.button_for_pagination}>
+										Показать ещё
+									</Button>
+								</div>
+							)}
 						</div>
 						<div className={scss.div_rating_results_content}>
 							<div className={scss.rating_div_content}>
@@ -186,6 +205,7 @@ const ReviewsPage = () => {
 						</div>
 					</div>
 				)}
+				<ToastContainer />
 			</section>
 			<ConfigProvider
 				theme={{

@@ -15,6 +15,7 @@ import {
 } from '@/src/redux/api/basket';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
+
 interface ProductsForHoverTypes {
 	setComparisonProducts?: (value: boolean) => void;
 	comparisonProducts?: boolean;
