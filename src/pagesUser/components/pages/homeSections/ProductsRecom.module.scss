@@ -114,7 +114,7 @@
 						align-items: center;
 						.img_product {
 							width: 180px;
-							height: 235px;
+							height: 260px;
 							@media (max-width: 600px) {
 								width: 184px;
 								height: auto;
@@ -149,7 +149,7 @@
 						.div_buttons_and_price {
 							display: flex;
 							align-items: center;
-							gap: 41px;
+							gap: 46px;
 							@media (max-width: 600px) {
 								display: flex;
 								flex-direction: column;
@@ -176,7 +176,8 @@
 							.add_bas_button_active {
 								cursor: pointer;
 								border-radius: 4px;
-								padding: 10px 17px 10px 17px;
+								width: 135px;
+								height: 44px;
 								background: #2fc509;
 								color: #ffffff;
 								font-family: Inter;

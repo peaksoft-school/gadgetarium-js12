@@ -4,6 +4,7 @@ import { ConfigProvider, Modal, theme } from 'antd';
 import React, { FC } from 'react';
 import CancelButtonCustom from '../adminButtons/CancelButtonCustom';
 import CustomButtonAdd from '../adminButtons/CustomButtonAdd';
+import { useNavigate } from 'react-router-dom';
 
 interface ModalNewsletterProps {
 	isModalLogOut: boolean;
@@ -14,11 +15,19 @@ const LogoutModal: FC<ModalNewsletterProps> = ({
 	isModalLogOut,
 	setIsModalLogOut
 }) => {
+	const navigate = useNavigate();
 	const handleOk = () => {
 		setIsModalLogOut(false);
 	};
 
 	const handleCancel = () => {
+		setIsModalLogOut(false);
+	};
+
+	const handleLogOut = () => {
+		localStorage.removeItem('isAuth');
+		localStorage.removeItem('token');
+		navigate('/auth/login');
 		setIsModalLogOut(false);
 	};
 
@@ -44,7 +53,7 @@ const LogoutModal: FC<ModalNewsletterProps> = ({
 							<CancelButtonCustom onClick={handleCancel}>
 								Отменить
 							</CancelButtonCustom>
-							<CustomButtonAdd onClick={handleCancel}>Выйти</CustomButtonAdd>
+							<CustomButtonAdd onClick={handleLogOut}>Выйти</CustomButtonAdd>
 						</div>
 					</div>
 				</Modal>
