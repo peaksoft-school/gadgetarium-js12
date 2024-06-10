@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import scss from './ComparisonSection.module.scss';
 import comparison from '@/src/assets/sammy_finance_1.png';
 import {
@@ -14,7 +14,7 @@ import {
 	IconSystem
 } from '@/src/assets/icons';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import { Checkbox, ConfigProvider } from 'antd';
 import type { CheckboxProps } from 'antd';
@@ -22,21 +22,20 @@ import ButtonArrowLeft from '@/src/ui/customButtons/ButtonArrowLeft';
 import ButtonArrowRight from '@/src/ui/customButtons/ButtonArrowRight';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import {
-	// useCategoryProductsMutation,
-	// useComparisonPutProductMutation,
-	// useComparisonResultsMutation,
-	useGetComparisonQuery
+	useClearAllProductsComparisonMutation,
+	useDeleteByIdProductComparisonMutation,
+	useGetComparisonCompareQuery
 } from '@/src/redux/api/comparison';
+import { IconPlaystationX } from '@tabler/icons-react';
 const ComparisonSection = () => {
 	const onChange: CheckboxProps['onChange'] = (e) => {
 		console.log(`checked = ${e.target.checked}`);
 	};
-	// const [addComparison] = useComparisonPutProductMutation();
-	const { data, isLoading } = useGetComparisonQuery();
-
+	const buttonStyleResultRef = React.useRef(false);
+	const [searchParams, setSearchParams] = useSearchParams();
 	const [addBasketProducts] = useBasketPutProductMutation();
-	// const [compatisonResults] = useComparisonResultsMutation();
-	// const [categoryProductsResults] = useCategoryProductsMutation();
+	const [clearAllProducts] = useClearAllProductsComparisonMutation();
+	const [deleteByIdProduct] = useDeleteByIdProductComparisonMutation();
 	const [filtredResults, setFiltredResults] = useState<string>('Apple');
 	const navigate = useNavigate();
 	const [brand, setBrand] = useState<boolean>(false);
@@ -104,6 +103,38 @@ const ComparisonSection = () => {
 		]
 	);
 
+	const handleCategoryResultsFunk = (category: string) => {
+		console.log(category, 'category');
+		searchParams.set('gadgetType', category);
+		setSearchParams(searchParams);
+		navigate(`/comparison?${window.location.search.substring(1)}`);
+	};
+
+	const handleClearAllProductsFunk = async () => {
+		try {
+			await clearAllProducts();
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const handleDeleteByIdProductFunk = async (subGadgetId: number) => {
+		console.log(subGadgetId, 'ids');
+		await deleteByIdProduct(subGadgetId);
+	};
+
+	const handleChangeIsDifferencesResultFunk = (checked: boolean) => {
+		if (checked) {
+			searchParams.set('isDifferences', 'true');
+			setSearchParams(searchParams);
+			navigate(`/comparison?${window.location.search.substring(1)}`);
+		} else {
+			searchParams.set('isDifferences', 'false');
+			setSearchParams(searchParams);
+			navigate(`/comparison?${window.location.search.substring(1)}`);
+		}
+	};
+
 	useEffect(() => {
 		const handleChange = () => {
 			const result = window.innerWidth;
@@ -119,28 +150,23 @@ const ComparisonSection = () => {
 			window.removeEventListener('resize', handleChange);
 		};
 	}, []);
+	React.useEffect(() => {
+		if (!buttonStyleResultRef.current) {
+			buttonStyleResultRef.current = true;
+			console.log('render test2');
+		}
+		buttonStyleResultRef.current = false;
+	}, [searchParams]);
 	const handleAddBasketProducts = async (id: number, basket: boolean) => {
 		console.log(basket);
 
 		await addBasketProducts({ id, basket: !basket });
 	};
 
-	// const handleComparisonProducts = async (id: number) => {
-	// 	await addComparison({ id, comparison: false });
-	// };
-
-	// const handleProductsIsDeleteComparison = async (_id: number) => {
-	// 	await addComparison({ id, comparison: false });
-	// };
-
-	// const handleComparisonResults = async (isDifference: boolean) => {
-	// 	await compatisonResults({ isDifference: !isDifference });
-	// };
-
-	// const handleCategoryProducts = async (categoryProducts: string) => {
-	// 	setFiltredResults(categoryProducts);
-	// 	await categoryProductsResults({ categoryProducts });
-	// };
+	const { data, isLoading } = useGetComparisonCompareQuery({
+		gadgetType: searchParams.toString(),
+		isDifferences: searchParams.toString()
+	});
 
 	return (
 		<section className={scss.ComparisonSection}>
@@ -153,8 +179,10 @@ const ComparisonSection = () => {
 						<p>Сравнение</p>
 					</div>
 					<h1>Сравнение товаров</h1>
-					{data?.length === 0 && <span className={scss.hr}></span>}
-					{data?.length === 0 ? (
+					{data?.subGadgetResponses && data.subGadgetResponses === 0 && (
+						<span className={scss.hr}></span>
+					)}
+					{data?.subGadgetResponses && data?.subGadgetResponses === 0 ? (
 						<>
 							<div className={scss.favorite_empty_img_div}>
 								<img src={comparison} alt="favorite" />
@@ -178,57 +206,52 @@ const ComparisonSection = () => {
 								<>
 									<div className={scss.second_content}>
 										<div className={scss.three_buttons}>
-											<button
-												onClick={() => handleCategoryProducts('Apple')}
-												className={
-													filtredResults.includes('Apple')
-														? `${scss.noo_active_button} ${scss.active_button}`
-														: `${scss.noo_active_button}`
-												}
-											>
-												Смартфоны(
-												{data &&
-													data?.filter(
-														(el) =>
-															el.comparisonProduct &&
-															el.comparisonProduct.mainColor === 'Apple'
-													).length}
-												)
-											</button>
-											<button
-												onClick={() => handleCategoryProducts('mac')}
-												className={
-													filtredResults.includes('mac')
-														? `${scss.noo_active_button} ${scss.active_button}`
-														: `${scss.noo_active_button}`
-												}
-											>
-												Ноутбуки (
-												{data &&
-													data?.filter(
-														(el) =>
-															el.comparisonProduct &&
-															el.comparisonProduct.mainColor === 'mac'
-													).length}
-												){' '}
-											</button>
-											<button
-												onClick={() => handleCategoryProducts('AirPods')}
-												className={
-													filtredResults.includes('AirPods')
-														? `${scss.noo_active_button} ${scss.active_button}`
-														: `${scss.noo_active_button}`
-												}
-											>
-												Наушники (
-												{data &&
-													data?.filter(
-														(el) =>
-															el.comparisonProduct &&
-															el.comparisonProduct.mainColor === 'AirPods'
-													).length}
-												)
-											</button>
+											{data?.categoryCounts['phone quantity'] && (
+												<button
+													onClick={() => handleCategoryResultsFunk('PHONE')}
+													className={
+														searchParams
+															.getAll('gadgetType')
+															.includes('PHONE') ||
+														buttonStyleResultRef.current === false
+															? `${scss.noo_active_button} ${scss.active_button}`
+															: `${scss.noo_active_button}`
+													}
+												>
+													Смартфоны(
+													{data?.categoryCounts['phone quantity']})
+												</button>
+											)}
+											{data?.categoryCounts['LAPTOP quantity'] && (
+												<button
+													onClick={() => handleCategoryResultsFunk('LAPTOP')}
+													className={
+														searchParams.getAll('gadgetType').includes('LAPTOP')
+															? `${scss.noo_active_button} ${scss.active_button}`
+															: `${scss.noo_active_button}`
+													}
+												>
+													Ноутбуки (
+													{data?.categoryCounts['LAPTOP quantity'] &&
+														data?.categoryCounts['LAPTOP quantity']}
+													){' '}
+												</button>
+											)}
+											{data?.categoryCounts['WATCH quantity'] && (
+												<button
+													onClick={() => handleCategoryResultsFunk('WATCH')}
+													className={
+														searchParams.getAll('gadgetType').includes('WATCH')
+															? `${scss.noo_active_button} ${scss.active_button}`
+															: `${scss.noo_active_button}`
+													}
+												>
+													Наушники (
+													{data?.categoryCounts['WATCH quantity'] &&
+														data.categoryCounts['WATCH quantity']}
+													)
+												</button>
+											)}
 										</div>
 										<div className={scss.checkboxes}>
 											<ConfigProvider
@@ -243,22 +266,24 @@ const ComparisonSection = () => {
 												}}
 											>
 												<Checkbox
-													onClick={() =>
-														data?.forEach((el) =>
-															handleComparisonResults(el.isDifference)
+													onChange={(e) =>
+														handleChangeIsDifferencesResultFunk(
+															e.target.checked
 														)
 													}
-													onChange={onChange}
+													checked={
+														searchParams
+															.getAll('isDifferences')
+															.includes('true')
+															? true
+															: false
+													}
 												>
 													<p>Показывать только различия</p>
 												</Checkbox>
 											</ConfigProvider>
 											<div
-												onClick={() =>
-													data?.forEach((el) =>
-														handleProductsIsDeleteComparison(el.id)
-													)
-												}
+												onClick={handleClearAllProductsFunk}
 												className={scss.cleaningText}
 											>
 												<IconDelete />
@@ -284,14 +309,17 @@ const ComparisonSection = () => {
 															</>
 														) : (
 															<>
-																<p>Бренд</p>
-																<p>Экран</p>
-																<p>Цвет</p>
-																<p>Операционная система</p>
-																<p>Память</p>
-																<p>Оперативная память</p>
-																<p>Вес</p>
-																<p>SIM-карты</p>
+																{data?.subGadgetResponses.map((el) => (
+																	<>
+																		{el.characteristics &&
+																			el.characteristics.map((item, index) => (
+																				<p key={index}>{item.values_key}</p>
+																			))}
+																		{el.uniqF?.map((el, index) => (
+																			<p key={index}>{el}</p>
+																		))}
+																	</>
+																))}
 															</>
 														)}
 													</div>
@@ -301,7 +329,7 @@ const ComparisonSection = () => {
 													className={`keen-slider ${scss.slider_results}`}
 												>
 													{data &&
-														data?.map((item, index) => (
+														data?.subGadgetResponses.map((item, index) => (
 															<div key={index} className="keen-slider__slide">
 																<div className={scss.slider_block}>
 																	<div className={scss.card}>
@@ -312,31 +340,29 @@ const ComparisonSection = () => {
 																				}
 																				className={scss.delete_button}
 																			>
-																				<IconDelete />
+																				{/* <IconDelete /> */}
+																				<IconPlaystationX
+																					color="rgb(144, 156, 181)"
+																					width={'18px'}
+																					height={'18px'}
+																					onClick={() =>
+																						handleDeleteByIdProductFunk(item.id)
+																					}
+																				/>
 																			</button>
-																			{item && item.images && (
-																				<div className={scss.div_photos}>
-																					{item.images?.map((el) => (
-																						<img
-																							src={el}
-																							alt={item.nameOfGadget}
-																						/>
-																					))}
-																				</div>
-																			)}
+																			<div className={scss.div_photos}>
+																				<img
+																					src={item.image}
+																					alt={item.nameOfGadget}
+																				/>
+																			</div>
 																			{item && item.nameOfGadget && (
 																				<p className={scss.charackter}>
 																					{item.nameOfGadget}
 																				</p>
 																			)}
 																			{item && (
-																				<p
-																					className={
-																						item.nameOfGadget.length < 25
-																							? `${scss.charackter_price} ${scss.active_margin}`
-																							: `${scss.charackter_price}`
-																					}
-																				>
+																				<p className={scss.charackter_price}>
 																					{item.price} c
 																				</p>
 																			)}
@@ -354,12 +380,8 @@ const ComparisonSection = () => {
 																							item.basket
 																						)
 																					}
-																					children={
-																						'В корзину'
-																					}
-																					className={
-																						scss.add_bas_button
-																					}
+																					children={'В корзину'}
+																					className={scss.add_bas_button}
 																				/>
 																			)}
 																		</div>
@@ -367,14 +389,21 @@ const ComparisonSection = () => {
 																	<div className={scss.table_div}>
 																		{item && (
 																			<>
-																				{/* <p>{item.comparisonProduct.brand}</p>
-																				<p>{item.comparisonProduct.screen}</p>
-																				<p>{item.comparisonProduct.color}</p>
-																				<p>{item.comparisonProduct.os}</p>
-																				<p>{item.comparisonProduct.memory}</p>
-																				<p>{item.comparisonProduct.ram}</p>
-																				<p>{item.comparisonProduct.weight}</p>
-																				<p>{item.comparisonProduct.sim}</p> */}
+																				{data.subGadgetResponses.map((el) => (
+																					<>
+																						{el.characteristics &&
+																							el.characteristics.map(
+																								(item, index) => (
+																									<p key={index}>
+																										{item.values}
+																									</p>
+																								)
+																							)}
+																						{el.uniqF?.map((el, index) => (
+																							<p key={index}>{el}</p>
+																						))}
+																					</>
+																				))}
 																			</>
 																		)}
 																	</div>

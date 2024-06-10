@@ -1,4 +1,28 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
+interface CategoryCounts {
+	'phone quantity': number;
+	'WATCH quantity': number;
+	'LAPTOP quantity': number;
+}
+
+interface Characteristics {
+	values: string;
+	values_key: string;
+}
+
+type SubGadgetResponses = {
+	id: number;
+	image: string;
+	nameOfGadget: string;
+	price: number;
+	mainColour: string;
+	brandName: string;
+	memory: string;
+	basket?: boolean;
+	characteristics?: Characteristics[];
+	uniqF?: [];
+};
 namespace COMPARISONPRODUCTS {
 	type GetComparisonProductsRequest = void;
 	type GetComparisonProductsResponse = {
@@ -29,5 +53,14 @@ namespace COMPARISONPRODUCTS {
 		subGadgetId: number;
 		// status: string;
 		// message: string;
+	};
+
+	type GetComparisonCompareRequest = {
+		gadgetType?: string;
+		isDifferences?: boolean  | string;
+	};
+	type GetComparisonCompareResponse = {
+		categoryCounts: CategoryCounts;
+		subGadgetResponses: SubGadgetResponses[];
 	};
 }
