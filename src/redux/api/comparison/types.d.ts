@@ -11,7 +11,15 @@ interface Characteristics {
 	values_key: string;
 }
 
+interface UniqueCharacteristics {
+	values: string;
+	values_key: string;
+}
+
+
 type SubGadgetResponses = {
+	compareFieldResponse?: CompareFieldResponse;
+	uniqueCharacteristics?: Characteristics[];
 	id: number;
 	image: string;
 	nameOfGadget: string;
@@ -23,6 +31,20 @@ type SubGadgetResponses = {
 	characteristics?: Characteristics[];
 	uniqF?: [];
 };
+
+type CompareFieldResponse = {
+	id: number;
+	image: string;
+	brandName: string;
+	nameOfGadget: string;
+	memory: string;
+	mainColour: string;
+	price: number;
+	basket?: boolean;
+};
+
+
+// interface SubGadgetResponses2 {}
 namespace COMPARISONPRODUCTS {
 	type GetComparisonProductsRequest = void;
 	type GetComparisonProductsResponse = {
@@ -57,7 +79,7 @@ namespace COMPARISONPRODUCTS {
 
 	type GetComparisonCompareRequest = {
 		gadgetType?: string;
-		isDifferences?: boolean  | string;
+		isDifferences?: boolean | string;
 	};
 	type GetComparisonCompareResponse = {
 		categoryCounts: CategoryCounts;
