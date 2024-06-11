@@ -9,7 +9,7 @@
 		padding-bottom: 200px;
 		display: flex;
 		justify-content: space-between;
-		@media (max-width:1400px) {
+		@media (max-width: 1400px) {
 			display: flex;
 			flex-direction: column-reverse;
 		}

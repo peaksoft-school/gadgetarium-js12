@@ -1,104 +1,40 @@
 import scss from './ReviewAdminSection.module.scss';
 import images from '@/src/assets/image_53.png';
-import line from '@/src/assets/Line_62.png';
+// import line from '@/src/assets/Line_62.png';
 import {
 	IconChevronDown,
 	IconTrash,
 	IconUserCircle
 } from '@tabler/icons-react';
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { Rate, Input, Button } from 'antd';
 import Infographics from '@/src/ui/infographics/Infographics';
-import { useGetReviewQuery, usePostReviewQueryMutation } from '@/src/redux/api/admin/review';
-
-const data = [
-	{
-		id: 1,
-		images,
-		brand: 'Asus',
-		model: 'Модель',
-		articul: 'Арт.1212121212',
-		comments: [
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-			'Эрсултан,красавчик! Эрсултан,красавчик!'
-		],
-		calendar: '26.06.22-14:15',
-		line,
-		userProfile:
-			'https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Clipart.png',
-		userName: 'Адыл Бакытов',
-		userGmail: 'Adyl@mail.com'
-	},
-	{
-		id: 2,
-		images,
-		brand: 'Asus',
-		model: 'Модель',
-		articul: 'Арт.1212121212',
-		comments: [
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-			'Эрсултан,красавчик! Эрсултан,красавчик!'
-		],
-		calendar: '26.06.22-14:15',
-		line,
-		userProfile:
-			'https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Clipart.png',
-		userName: 'Адыл Бакытов',
-		userGmail: 'Adyl@mail.com'
-	},
-	{
-		id: 3,
-		images,
-		brand: 'Asus',
-		model: 'Модель',
-		articul: 'Арт.1212121212',
-		comments: [
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-			'Эрсултан,красавчик! Эрсултан,красавчик!'
-		],
-		calendar: '26.06.22-14:15',
-		line,
-		userProfile:
-			'https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Clipart.png',
-		userName: 'Адыл Бакытов',
-		userGmail: 'Adyl@mail.com'
-	},
-	{
-		id: 4,
-		images,
-		brand: 'Asus',
-		model: 'Модель',
-		articul: 'Арт.1212121212',
-		comments: [
-			'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-
-		],
-		calendar: '26.06.22-14:15',
-		line,
-		userProfile:
-			'https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Clipart.png',
-		userName: 'Адыл Бакытов',
-		userGmail: 'Adyl@mail.com'
-	}
-];
+import {
+	useGetReviewQuery,
+	usePostReviewQueryMutation
+} from '@/src/redux/api/admin/review';
+import { useSearchParams } from 'react-router-dom';
 
 const ReviewAdminSection = () => {
+	const [searchParams, setSearchParams] = useSearchParams();
 	const [indexProductsResults, setIndexProductsResults] = useState<
 		null | number
 	>(null);
 	const [buttonFiltredStyle, setButtonFiltredStyle] =
 		useState<string>('Все отзывы');
+	const [feedbackType, setFeedbackType] = useState<string>('ALL');
+
 	const handleCategotyUsersCommits = (value: string) => {
+		searchParams.set('feedbackType', feedbackType);
+		setSearchParams(searchParams);
 		setButtonFiltredStyle(value);
+		setFeedbackType(
+			value === 'Все отзывы'
+				? 'ALL'
+				: value === 'Неотвеченные'
+					? 'UNANSWERED'
+					: 'ANSWERED'
+		);
 	};
 	const handleProductOpenMenuResultFunk = (index: number) => {
 		setIndexProductsResults(indexProductsResults === index ? null : index);
@@ -115,8 +51,11 @@ const ReviewAdminSection = () => {
 
 	const { TextArea } = Input;
 
-	const [newReviewPost] = usePostReviewQueryMutation()
-	const {data: reviews} = useGetReviewQuery(0)
+	const [newReviewPost] = usePostReviewQueryMutation();
+	const { data: reviews = [] } = useGetReviewQuery({
+		feedbackType: searchParams.toString()
+	});
+	// console.log(reviews);
 
 	const handlePostReview = async () => {
 		const newReview = {
@@ -131,31 +70,26 @@ const ReviewAdminSection = () => {
 				{
 					id: 0,
 					gadgetImage: images,
-					subCategoryName: "Модель",
-					nameOfGadget: "Asus",
+					subCategoryName: 'Модель',
+					nameOfGadget: 'Asus',
 					article: 1212121212,
 					comment: [
 						'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-						""
+						''
 					],
-					feedbackImages: [
-						images,
-						images,
-						images,
-						images
-					],
-					dateAndTime: "26.06.22-14:15",
+					feedbackImages: [images, images, images, images],
+					dateAndTime: '26.06.22-14:15',
 					rating: 0,
-					fullNameUser: "Адыл Бакытов",
-					emailUser: "Adyl@mail.com",
-					responseAdmin: ""
+					fullNameUser: 'Адыл Бакытов',
+					emailUser: 'Adyl@mail.com',
+					responseAdmin: ''
 				}
 			]
-		}
+		};
 
-		const res = await newReviewPost(newReview)
+		const res = await newReviewPost(newReview);
 		console.log(res);
-	}
+	};
 	return (
 		<section className={scss.ReviewAdminSection}>
 			<div className="container">
@@ -163,9 +97,9 @@ const ReviewAdminSection = () => {
 					<div className={scss.contents_for_users}>
 						<div className={scss.buttons_for_category}>
 							<button
-								onClick={() => handleCategotyUsersCommits('Все отзывы')}
+								onClick={() => handleCategotyUsersCommits('ALL')}
 								className={
-									buttonFiltredStyle.includes('Все отзывы')
+									buttonFiltredStyle.includes('ALL')
 										? `${scss.noo_active_button} ${scss.active_button}`
 										: `${scss.noo_active_button}`
 								}
@@ -173,9 +107,9 @@ const ReviewAdminSection = () => {
 								Все отзывы
 							</button>
 							<button
-								onClick={() => handleCategotyUsersCommits('Неотвеченные')}
+								onClick={() => handleCategotyUsersCommits('UNANSWERED')}
 								className={
-									buttonFiltredStyle.includes('Неотвеченные')
+									buttonFiltredStyle.includes('UNANSWERED')
 										? `${scss.noo_active_button} ${scss.active_button}`
 										: `${scss.noo_active_button}`
 								}
@@ -183,9 +117,9 @@ const ReviewAdminSection = () => {
 								Неотвеченные <span>+6</span>
 							</button>
 							<button
-								onClick={() => handleCategotyUsersCommits('Отвеченные')}
+								onClick={() => handleCategotyUsersCommits('ANSWERED')}
 								className={
-									buttonFiltredStyle.includes('Отвеченные')
+									buttonFiltredStyle.includes('ANSWEREDs')
 										? `${scss.noo_active_button} ${scss.active_button}`
 										: `${scss.noo_active_button}`
 								}
@@ -227,7 +161,7 @@ const ReviewAdminSection = () => {
 											<div className={scss.div_content_commits}>
 												<div className={scss.info_users_div}>
 													<p>{index + 1}</p>
-													<img src={item.images} alt="logo" />
+													<img src={item.feedbackResponseList.image} alt="logo" />
 													<div>
 														<h3>{item.brand}</h3>
 														<p>{item.model}</p>
@@ -237,16 +171,16 @@ const ReviewAdminSection = () => {
 												<div className={scss.user_commit_and_time}>
 													{indexProductsResults === index
 														? item.comments.map((el, index) => (
-															<p key={index}>{el}</p>
-														))
+																<p key={index}>{el}</p>
+															))
 														: item.comments.length >= 2 &&
-														item.comments
-															.slice(0, 2)
-															.map((el, index) => (
-																<p key={index}>
-																	{index === 0 ? el : el + '...'}
-																</p>
-															))}
+															item.comments
+																.slice(0, 2)
+																.map((el, index) => (
+																	<p key={index}>
+																		{index === 0 ? el : el + '...'}
+																	</p>
+																))}
 
 													<p className={scss.user_commit_for_time}>
 														{item.calendar}
