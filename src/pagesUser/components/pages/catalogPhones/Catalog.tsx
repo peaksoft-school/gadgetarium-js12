@@ -35,6 +35,7 @@ import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
 import { useSubCategoriesQuery } from '@/src/redux/api/catalogProducts';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
+import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
 const Catalog = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
@@ -708,6 +709,7 @@ const Catalog = () => {
 							</div>
 						</div>
 					</div>
+					<ViewedProducts />
 				</div>
 			</div>
 		</section>

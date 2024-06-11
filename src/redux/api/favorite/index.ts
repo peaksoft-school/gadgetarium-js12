@@ -45,11 +45,16 @@ const api = index.injectEndpoints({
 				method: 'DELETE',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
-				},
+				}
 			}),
 			invalidatesTags: ['favorite']
 		})
 	})
 });
 
-export const { useGetFavoriteQuery, useFavoritePutProductMutation , useDeleteAllProductMutation,useDeleteByIdFavoriteProductMutation } = api;
+export const {
+	useGetFavoriteQuery,
+	useFavoritePutProductMutation,
+	useDeleteAllProductMutation,
+	useDeleteByIdFavoriteProductMutation
+} = api;

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import scss from './ReviewsPage.module.scss';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import { Rate, Button, Modal, Input, ConfigProvider } from 'antd';
 import React, { useRef, useState } from 'react';
 
@@ -17,9 +17,12 @@ import { Notify } from '@/src/utils/helpers/Notify';
 
 const ReviewsPage = () => {
 	const fileUrl = useRef<HTMLInputElement>(null);
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [modalForEdit, setModalForEdit] = useState<boolean>(false);
+	const navigate = useNavigate();
+	const [editInputValueCommit, setEditInputValueCommit] = useState<string>('');
 	const [postUpload] = usePostUploadMutation();
 	const { productId } = useParams();
-	const { data, isLoading } = useGetReviewsQuery(productId!);
 	const [postUserCommitApi] = usePostUsersCommitsMutation();
 	const [modal2Open, setModal2Open] = useState<boolean>(false);
 	const [filesUrls, setFilesUrls] = useState<string[]>([]);
@@ -88,6 +91,39 @@ const ReviewsPage = () => {
 		}
 	};
 
+	const handlePaginationFunk = (size: number) => {
+		const sizeResult = 3 + size;
+		searchParams.set('page', '1');
+		searchParams.set('size', String(sizeResult));
+		setSearchParams(searchParams);
+		navigate(
+			`/api/gadget/by-id/${productId}?${window.location.search.substring(1)}`
+		);
+	};
+
+	const handlePaginationFunkCancel = () => {
+		searchParams.set('size', '3');
+		setSearchParams(searchParams);
+		navigate(
+			`/api/gadget/by-id/${productId}?${window.location.search.substring(1)}`
+		);
+	};
+
+	const changeEditInputValueForCommit = (
+		event: React.ChangeEvent<HTMLTextAreaElement>
+	) => {
+		const value = event.target.value;
+		if (value) {
+			setEditInputValueCommit(value);
+		}
+	};
+
+	const { data, isLoading } = useGetReviewsQuery({
+		id: productId!,
+		page: Number(searchParams),
+		size: Number(searchParams)
+	});
+
 	const { TextArea } = Input;
 	return (
 		<>
@@ -122,6 +158,7 @@ const ReviewsPage = () => {
 												width={'17px'}
 												height={'17px'}
 												cursor={'pointer'}
+												onClick={() => setModalForEdit(true)}
 											/>
 											<IconTrash
 												color="rgb(145, 150, 158)"
@@ -135,8 +172,17 @@ const ReviewsPage = () => {
 							))}
 							{data!.length >= 3 && (
 								<div className={scss.button_div_for_pagination}>
-									<Button className={scss.button_for_pagination}>
+									<Button
+										onClick={() => handlePaginationFunk(3)}
+										className={scss.button_for_pagination}
+									>
 										Показать ещё
+									</Button>
+									<Button
+										onClick={handlePaginationFunkCancel}
+										className={scss.button_for_pagination}
+									>
+										Скрыть
 									</Button>
 								</div>
 							)}
@@ -260,6 +306,60 @@ const ReviewsPage = () => {
 							>
 								Отправить отзыв
 							</Button>
+						</div>
+					</div>
+				</Modal>
+				<Modal
+					centered
+					open={modalForEdit}
+					onOk={() => setModalForEdit(false)}
+					onCancel={() => setModalForEdit(false)}
+				>
+					<div className={scss.content_modal}>
+						<h3>Редактировать комментарий</h3>
+						<div className={scss.modal_content_for_reviews}>
+							Оценка{' '}
+							<Rate
+								allowHalf
+								defaultValue={0}
+								onChange={(e) => setRateValue(e)}
+								value={rateValue}
+							/>
+						</div>
+						<div className={scss.modal_form_div}>
+							<p>Ваш комментарий</p>
+							<TextArea
+								placeholder="Напишите комментарий"
+								value={editInputValueCommit}
+								onChange={changeEditInputValueForCommit}
+								className={scss.commit_input}
+							/>
+							<div onClick={handleOpenFileFunk} className={scss.input_for_file}>
+								<input
+									type="file"
+									style={{ display: 'none' }}
+									ref={fileUrl}
+									onChange={handleChangeFileFunk}
+									multiple
+								/>
+							</div>
+							<div className={scss.edit_and_delete_div}>
+								<Button
+									className={scss.button_for_edit_and_delete}
+									onClick={() => {
+										setModalForEdit(false);
+										handlePostCommitFunk();
+									}}
+								>
+									Редактировать
+								</Button>
+								<Button
+									className={scss.button_for_edit_and_delete}
+									onClick={() => setModalForEdit(false)}
+								>
+									отмена
+								</Button>
+							</div>
 						</div>
 					</div>
 				</Modal>

@@ -6,6 +6,7 @@ namespace FAVORITEPRODUCTS {
 		subGadgetId: number;
 		image: string;
 		category: string;
+		percent: number;
 		brandName: string;
 		nameOfGadget: string;
 		memory: string;
@@ -16,7 +17,6 @@ namespace FAVORITEPRODUCTS {
 		likes: number;
 		comparison: boolean;
 		basket: boolean;
-		currentPrice: number;
 		subGadgetId: number;
 		newProduct: boolean;
 		recommend: boolean;

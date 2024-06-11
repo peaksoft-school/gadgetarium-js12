@@ -8,7 +8,11 @@ interface RatingCounts {
 	5: number;
 }
 namespace REVIEWS {
-	type GetReviewsRequest = string;
+	type GetReviewsRequest = {
+		id: string;
+		page?: number;
+		size?: number;
+	};
 	type GetReviewsResponse = {
 		id: number;
 		image: string;
@@ -16,7 +20,7 @@ namespace REVIEWS {
 		dateTime: string;
 		rating: number;
 		description: string;
-		responseAdmin: string;
+		responseAdmin: string | null;
 	}[];
 
 	type GetFeedbackStatisticsRequest = {
@@ -32,7 +36,7 @@ namespace REVIEWS {
 		grade: number;
 		comment: string;
 		images: string[];
-	}
+	};
 	type PostForUsersCommitsResponse = {
 		gadgetId: number;
 		grade: number;

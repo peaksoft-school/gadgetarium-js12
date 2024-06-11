@@ -6,8 +6,8 @@ const api = index.injectEndpoints({
 			REVIEWS.GetReviewsResponse,
 			REVIEWS.GetReviewsRequest
 		>({
-			query: (id) => ({
-				url: `/api/gadget/reviews/${id}`,
+			query: ({ id, page, size }) => ({
+				url: `/api/gadget/reviews/${id}?${page}&${size}`,
 				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
