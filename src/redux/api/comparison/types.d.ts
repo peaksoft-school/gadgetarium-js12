@@ -20,6 +20,7 @@ interface UniqueCharacteristics {
 type SubGadgetResponses = {
 	compareFieldResponse?: CompareFieldResponse;
 	uniqueCharacteristics?: Characteristics[];
+	uniFiled: [];
 	id: number;
 	image: string;
 	nameOfGadget: string;
@@ -44,7 +45,9 @@ type CompareFieldResponse = {
 };
 
 
-// interface SubGadgetResponses2 {}
+interface SubGadgetResponses2 {
+	
+}
 namespace COMPARISONPRODUCTS {
 	type GetComparisonProductsRequest = void;
 	type GetComparisonProductsResponse = {

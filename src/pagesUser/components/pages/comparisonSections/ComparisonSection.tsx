@@ -17,7 +17,6 @@ import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
 import React, { useEffect, useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import { Checkbox, ConfigProvider } from 'antd';
-import type { CheckboxProps } from 'antd';
 import ButtonArrowLeft from '@/src/ui/customButtons/ButtonArrowLeft';
 import ButtonArrowRight from '@/src/ui/customButtons/ButtonArrowRight';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
@@ -28,15 +27,11 @@ import {
 } from '@/src/redux/api/comparison';
 import { IconPlaystationX } from '@tabler/icons-react';
 const ComparisonSection = () => {
-	const onChange: CheckboxProps['onChange'] = (e) => {
-		console.log(`checked = ${e.target.checked}`);
-	};
 	const buttonStyleResultRef = React.useRef(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [addBasketProducts] = useBasketPutProductMutation();
 	const [clearAllProducts] = useClearAllProductsComparisonMutation();
 	const [deleteByIdProduct] = useDeleteByIdProductComparisonMutation();
-	const [filtredResults, setFiltredResults] = useState<string>('Apple');
 	const navigate = useNavigate();
 	const [brand, setBrand] = useState<boolean>(false);
 	const [loaded, setLoaded] = useState<any>(false);
@@ -119,7 +114,6 @@ const ComparisonSection = () => {
 	};
 
 	const handleDeleteByIdProductFunk = async (subGadgetId: number) => {
-		console.log(subGadgetId, 'ids');
 		await deleteByIdProduct(subGadgetId);
 	};
 
@@ -150,22 +144,29 @@ const ComparisonSection = () => {
 			window.removeEventListener('resize', handleChange);
 		};
 	}, []);
-	React.useEffect(() => {
-		if (searchParams.get('isDifferences') || searchParams.get('gadgetType')) {
-			buttonStyleResultRef.current = true;
-		}
-		buttonStyleResultRef.current = false;
-	}, [searchParams]);
-	const handleAddBasketProducts = async (id: number, basket: boolean) => {
-		console.log(basket);
 
-		await addBasketProducts({ id, basket: !basket });
+	const handleAddBasketProducts = async (id: number) => {
+		await addBasketProducts({ id });
 	};
 
 	const { data, isLoading } = useGetComparisonCompareQuery({
 		gadgetType: searchParams.toString(),
 		isDifferences: searchParams.toString()
 	});
+
+	React.useEffect(() => {
+		if (searchParams.get('isDifferences')) {
+			buttonStyleResultRef.current = true;
+		} else if (searchParams.get('gadgetType')) {
+			buttonStyleResultRef.current = true;
+		} else {
+			buttonStyleResultRef.current = false;
+		}
+	}, [
+		searchParams,
+		handleCategoryResultsFunk,
+		handleChangeIsDifferencesResultFunk
+	]);
 
 	return (
 		<section className={scss.ComparisonSection}>
@@ -178,10 +179,10 @@ const ComparisonSection = () => {
 						<p>Сравнение</p>
 					</div>
 					<h1>Сравнение товаров</h1>
-					{data?.subGadgetResponses && data.subGadgetResponses === 0 && (
+					{data?.subGadgetResponses && data.subGadgetResponses.length === 0 && (
 						<span className={scss.hr}></span>
 					)}
-					{data?.subGadgetResponses && data?.subGadgetResponses === 0 ? (
+					{data?.subGadgetResponses && data?.subGadgetResponses.length === 0 ? (
 						<>
 							<div className={scss.favorite_empty_img_div}>
 								<img src={comparison} alt="favorite" />
@@ -209,10 +210,8 @@ const ComparisonSection = () => {
 												<button
 													onClick={() => handleCategoryResultsFunk('PHONE')}
 													className={
-														searchParams
-															.getAll('gadgetType')
-															.includes('PHONE') ||
-														buttonStyleResultRef.current === false
+														buttonStyleResultRef.current === false ||
+														searchParams.getAll('gadgetType').includes('PHONE')
 															? `${scss.noo_active_button} ${scss.active_button}`
 															: `${scss.noo_active_button}`
 													}
@@ -308,29 +307,50 @@ const ComparisonSection = () => {
 															</>
 														) : (
 															<>
-																{data?.subGadgetResponses.map((el) => (
-																	<>
-																		<>
-																			{el.characteristics &&
-																				el.characteristics.map(
-																					(item, index) => (
-																						<p key={index}>{item.values_key}</p>
-																					)
-																				)}
-																			{el.uniqF &&
-																				el.uniqF?.map((el, index) => (
-																					<p key={index}>{el}</p>
-																				))}
-																		</>
-																	</>
-																))}
+																{data?.subGadgetResponses.map(
+																	(el) =>
+																		el.characteristics &&
+																		el.characteristics.map((item, index) => (
+																			<p key={index}>{item.values_key}</p>
+																		))
+																)}
 																{data?.subGadgetResponses.map(
 																	(el) =>
 																		el.uniqueCharacteristics &&
-																		el.uniqueCharacteristics?.map(
+																		el.uniqueCharacteristics.map(
 																			(item, index) => (
 																				<p key={index}>{item.values_key}</p>
 																			)
+																		)
+																)}
+																{data?.subGadgetResponses.slice(0, 1).map(
+																	(el) =>
+																		el.uniqF && (
+																			<>
+																				<p>Материал Браслет</p>
+																				<p>Размер Смотреть</p>
+																				<p>Mатериал Тело</p>
+																				<p>Дюма</p>
+																				<p>Пол Часы</p>
+																				<p>беспроводной</p>
+																				<p>водонепроницаемый</p>
+																				<p>Форма Тело</p>
+																			</>
+																		)
+																)}
+																{data?.subGadgetResponses.slice(0, 1).map(
+																	(el) =>
+																		el.uniFiled && (
+																			<>
+																				<p>Материал Браслет</p>
+																				<p>Размер Смотреть</p>
+																				<p>Mатериал Тело</p>
+																				<p>Дюма</p>
+																				<p>Пол Часы</p>
+																				<p>беспроводной</p>
+																				<p>водонепроницаемый</p>
+																				<p>Форма Тело</p>
+																			</>
 																		)
 																)}
 															</>
@@ -342,193 +362,195 @@ const ComparisonSection = () => {
 													className={`keen-slider ${scss.slider_results}`}
 												>
 													{data?.subGadgetResponses &&
-														data?.subGadgetResponses.map((item, index) => (
-															<div
-																key={index}
-																className="keen-slider__slide"
-																style={
-																	item.compareFieldResponse && {
-																		display: 'none'
-																	}
-																}
-															>
-																<div className={scss.slider_block}>
-																	<div className={scss.card}>
-																		<div className={scss.card_content_div}>
-																			<button
-																				onClick={() =>
-																					handleComparisonProducts(item.id)
-																				}
-																				className={scss.delete_button}
-																			>
-																				{/* <IconDelete /> */}
-																				<IconPlaystationX
-																					color="rgb(144, 156, 181)"
-																					width={'18px'}
-																					height={'18px'}
+														data?.subGadgetResponses.map((item, index) =>
+															item.compareFieldResponse ? (
+																<div
+																	key={item.compareFieldResponse?.id}
+																	className="keen-slider__slide"
+																>
+																	<div className={scss.slider_block}>
+																		<div className={scss.card}>
+																			<div className={scss.card_content_div}>
+																				<button
+																					onClick={() =>
+																						handleDeleteByIdProductFunk(
+																							item.compareFieldResponse!.id
+																						)
+																					}
+																					className={scss.delete_button}
+																				>
+																					{/* <IconDelete /> */}
+																					<IconPlaystationX
+																						color="rgb(144, 156, 181)"
+																						width={'18px'}
+																						height={'18px'}
+																						onClick={() =>
+																							handleDeleteByIdProductFunk(
+																								item.compareFieldResponse!.id
+																							)
+																						}
+																					/>
+																				</button>
+																				<div className={scss.div_photos}>
+																					<img
+																						src={
+																							item.compareFieldResponse?.image
+																						}
+																						alt={
+																							item.compareFieldResponse
+																								.nameOfGadget
+																						}
+																					/>
+																				</div>
+																				{item.compareFieldResponse
+																					.nameOfGadget && (
+																					<p className={scss.charackter}>
+																						{
+																							item.compareFieldResponse
+																								.nameOfGadget
+																						}
+																					</p>
+																				)}
+																				{item.compareFieldResponse.price && (
+																					<p className={scss.charackter_price}>
+																						{item.compareFieldResponse.price} c
+																					</p>
+																				)}
+																				{item.basket ? (
+																					<button
+																						className={
+																							scss.active_button_basket_button
+																						}
+																						onClick={() => navigate('/basket')}
+																					>
+																						В корзине Перейти
+																					</button>
+																				) : (
+																					<AddBasketButton
+																						onClick={() =>
+																							handleAddBasketProducts(
+																								item.compareFieldResponse!.id
+																							)
+																						}
+																						children={'В корзину'}
+																						className={scss.add_bas_button}
+																					/>
+																				)}
+																			</div>
+																		</div>
+																		<div className={scss.table_div}>
+																			{item.uniqueCharacteristics &&
+																				item.uniqueCharacteristics.map(
+																					(item, index) => (
+																						<p key={index}>
+																							{item.values.length >= 22
+																								? item.values.slice(0, 18) +
+																									'...'
+																								: item.values}
+																						</p>
+																					)
+																				)}
+																			{item.uniFiled &&
+																				item.uniFiled.map((el, index) => (
+																					<p key={index}>{el}</p>
+																				))}
+																		</div>
+																	</div>
+																</div>
+															) : (
+																<div key={index} className="keen-slider__slide">
+																	<div className={scss.slider_block}>
+																		<div className={scss.card}>
+																			<div className={scss.card_content_div}>
+																				<button
 																					onClick={() =>
 																						handleDeleteByIdProductFunk(item.id)
 																					}
-																				/>
-																			</button>
-																			<div className={scss.div_photos}>
-																				<img
-																					src={item.image && item.image}
-																					alt={
-																						item.nameOfGadget &&
-																						item.nameOfGadget
-																					}
-																				/>
-																			</div>
-																			{item && item.nameOfGadget && (
-																				<p className={scss.charackter}>
-																					{item.nameOfGadget &&
-																						item.nameOfGadget}
-																				</p>
-																			)}
-																			{item.price && (
-																				<p className={scss.charackter_price}>
-																					{item.price && item.price} c
-																				</p>
-																			)}
-																			{item.basket ? (
-																				<button
-																					onClick={() => navigate('/basket')}
+																					className={scss.delete_button}
 																				>
-																					basket
-																				</button>
-																			) : (
-																				<AddBasketButton
-																					onClick={() =>
-																						handleAddBasketProducts(
-																							item.id
-																							// item.basket
-																						)
-																					}
-																					children={'В корзину'}
-																					className={scss.add_bas_button}
-																				/>
-																			)}
-																		</div>
-																	</div>
-																	<div className={scss.table_div}>
-																		{item && (
-																			<>
-																				{data.subGadgetResponses.map((el) => (
-																					<>
-																						<>
-																							{el.characteristics &&
-																								el.characteristics.map(
-																									(item, index) => (
-																										<p key={index}>
-																											{item.values}
-																										</p>
-																									)
-																								)}
-																							{el.uniqF?.map((el, index) => (
-																								<p key={index}>{el}</p>
-																							))}
-																						</>
-																					</>
-																				))}
-																			</>
-																		)}
-																	</div>
-																</div>
-															</div>
-														))}
-													{data &&
-														data.subGadgetResponses.map(
-															(item) =>
-																item.compareFieldResponse && (
-																	<div
-																		key={item.compareFieldResponse?.id}
-																		className="keen-slider__slide"
-																	>
-																		<div className={scss.slider_block}>
-																			<div className={scss.card}>
-																				<div className={scss.card_content_div}>
-																					<button
+																					{/* <IconDelete /> */}
+																					<IconPlaystationX
+																						color="rgb(144, 156, 181)"
+																						width={'18px'}
+																						height={'18px'}
 																						onClick={() =>
-																							handleComparisonProducts(
-																								item.compareFieldResponse.id
+																							handleDeleteByIdProductFunk(
+																								item.id
 																							)
 																						}
-																						className={scss.delete_button}
-																					>
-																						{/* <IconDelete /> */}
-																						<IconPlaystationX
-																							color="rgb(144, 156, 181)"
-																							width={'18px'}
-																							height={'18px'}
-																							onClick={() =>
-																								handleDeleteByIdProductFunk(
-																									item.compareFieldResponse.id
-																								)
-																							}
-																						/>
-																					</button>
-																					<div className={scss.div_photos}>
-																						<img
-																							src={
-																								item.compareFieldResponse?.image
-																							}
-																							alt={
-																								item.compareFieldResponse
-																									.nameOfGadget
-																							}
-																						/>
-																					</div>
-																					{item.compareFieldResponse
-																						.nameOfGadget && (
-																						<p className={scss.charackter}>
-																							{
-																								item.compareFieldResponse
-																									.nameOfGadget
-																							}
-																						</p>
-																					)}
-																					{item.compareFieldResponse.price && (
-																						<p
-																							className={scss.charackter_price}
-																						>
-																							{item.compareFieldResponse.price}{' '}
-																							c
-																						</p>
-																					)}
-																					{item.basket ? (
-																						<button
-																							onClick={() =>
-																								navigate('/basket')
-																							}
-																						>
-																							В корзине Перейти
-																						</button>
-																					) : (
-																						<AddBasketButton
-																							onClick={() =>
-																								handleAddBasketProducts(
-																									item.compareFieldResponse.id
-																									// item.basket
-																								)
-																							}
-																							children={'В корзину'}
-																							className={scss.add_bas_button}
-																						/>
-																					)}
+																					/>
+																				</button>
+																				<div className={scss.div_photos}>
+																					<img
+																						src={item.image && item.image}
+																						alt={
+																							item.nameOfGadget &&
+																							item.nameOfGadget
+																						}
+																					/>
 																				</div>
-																			</div>
-																			<div className={scss.table_div}>
-																				{item.uniqueCharacteristics &&
-																					item.uniqueCharacteristics.map(
-																						(item, index) => (
-																							<p key={index}>{item.values}</p>
-																						)
-																					)}
+																				{item && item.nameOfGadget && (
+																					<p className={scss.charackter}>
+																						{item.nameOfGadget &&
+																							item.nameOfGadget}
+																					</p>
+																				)}
+																				{item.price && (
+																					<p className={scss.charackter_price}>
+																						{item.price && item.price} c
+																					</p>
+																				)}
+																				{item.basket ? (
+																					<button
+																						className={
+																							scss.active_button_basket_button
+																						}
+																						onClick={() => navigate('/basket')}
+																					>
+																						basket
+																					</button>
+																				) : (
+																					<AddBasketButton
+																						onClick={() =>
+																							handleAddBasketProducts(
+																								item.id
+																								// item.basket
+																							)
+																						}
+																						children={'В корзину'}
+																						className={scss.add_bas_button}
+																					/>
+																				)}
 																			</div>
 																		</div>
+																		<div className={scss.table_div}>
+																			{item.characteristics && (
+																				<>
+																					{item.characteristics &&
+																						item.characteristics.map(
+																							(item, index) => (
+																								<p key={index}>
+																									{item.values.length >= 22
+																										? item.values.slice(0, 18) +
+																											'...'
+																										: item.values}
+																									{/* <p>{item.values}</p> */}
+																								</p>
+																							)
+																						)}
+																				</>
+																			)}
+																			{item.uniqF &&
+																				item.uniqF &&
+																				item.uniqF
+																					?.slice(0, 8)
+																					.map((el, index) => (
+																						<p key={index}>{el}</p>
+																					))}
+																		</div>
 																	</div>
-																)
+																</div>
+															)
 														)}
 												</div>
 											</div>

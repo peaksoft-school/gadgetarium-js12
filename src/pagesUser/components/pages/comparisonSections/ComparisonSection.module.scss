@@ -198,6 +198,11 @@ $height__text: 45px;
 				.cleaningText {
 					display: flex;
 					cursor: pointer;
+					gap: 5px;
+					align-items: center;
+					@media (max-width: 768px) {
+						gap: 2px;
+					}
 					p {
 						color: #384255;
 						font-size: 14px;
@@ -347,11 +352,23 @@ $height__text: 45px;
 										padding: 5px 10px 5px 10px;
 										font-weight: 400;
 									}
-									&.active {
-										background: #2fc509;
-										color: #ffffff;
-										border: none;
-										border: 1px dashed #9747ff;
+								}
+								.active_button_basket_button {
+									border: none;
+									border-radius: 4px;
+									padding: 12px 19px 12px 19px;
+									background: #2fc509;
+									color: rgb(255, 255, 255);
+									font-size: clamp(7px, 5vw, 14px);
+									font-weight: 500;
+									text-align: center;
+									text-transform: uppercase;
+									@media (max-width: 600px) {
+										padding: 8px 15px 8px 15px;
+									}
+									@media (max-width: 550px) {
+										padding: 5px 10px 5px 10px;
+										font-weight: 400;
 									}
 								}
 							}

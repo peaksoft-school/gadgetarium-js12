@@ -42,7 +42,6 @@ namespace BASKETPRODUCTS {
 
 	type PutProductRequest = {
 		id: number;
-		basket: boolean;
 	};
 	type PutProductResponse = {
 		id: number;
