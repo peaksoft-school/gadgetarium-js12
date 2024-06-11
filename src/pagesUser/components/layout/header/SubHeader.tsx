@@ -1,6 +1,6 @@
 import scss from './SubHeader.module.scss';
-import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { FC, useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { IconGadgetarium } from '@/src/assets/icons';
 import {
 	IconBrandFacebook,
@@ -11,17 +11,37 @@ import {
 	IconShoppingCart
 } from '@tabler/icons-react';
 import { ConfigProvider, Input, theme } from 'antd';
-import { SearchProps } from 'antd/es/input';
 import CatalogMenu from '@/src/ui/catalogMenu/CatalogMenu';
+import { useGetGlobalSearchQuery } from '@/src/redux/api/globalSearch';
 
 interface SubHeaderProps {
 	isMobile: boolean;
 	isScrolled: boolean;
 }
 
-const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
-	console.log(info?.source, value);
+// const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
+// 	console.log(info?.source, value);
+
 const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [inputValue, setInputValue] = useState<string>('');
+	const navigate = useNavigate();
+
+	const handleValueSearch = () => {
+		setInputValue('');
+	};
+	const { data: search = [] } = useGetGlobalSearchQuery({
+		request: window.location.search.substring(1)
+	});
+	const changeSearchFunk = (value: string) => {
+		searchParams.set('request', value);
+		setSearchParams(searchParams);
+		navigate(`/?${window.location.search.substring(1)}`);
+		if (value === '') {
+			searchParams.delete('request');
+			setSearchParams(searchParams);
+		}
+	};
 	const antdThemeConfig = {
 		algorithm: theme.darkAlgorithm,
 		token: {
@@ -30,6 +50,8 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 			colorBgContainer: '#1a1a25'
 		}
 	};
+	console.log(search);
+
 	return (
 		<header
 			className={
@@ -53,8 +75,12 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 								className={scss.search}
 								size="large"
 								placeholder="Поиск по каталогу магазина"
+								onChange={(e) => {
+									changeSearchFunk(e.target.value);
+									setInputValue(e.target.value);
+								}}
 								allowClear
-								onSearch={onSearch}
+								// onSearch={onSearch}
 							/>
 						</ConfigProvider>
 					</div>
@@ -99,6 +125,13 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 							<IconShoppingCart />
 						</Link>
 					</div>
+				</div>
+				<div className={scss.searchMap}>
+					{search.map((item) => (
+						<div>
+							<p>{item.brandNameOfGadget}</p>
+						</div>
+					))}
 				</div>
 			</div>
 		</header>
