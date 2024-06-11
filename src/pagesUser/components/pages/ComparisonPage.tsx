@@ -1,9 +1,9 @@
-// import ComparisonSection from './comparisonSections/ComparisonSection';
+import ComparisonSection from './comparisonSections/ComparisonSection';
 
 const ComparisonPage = () => {
 	return (
 		<>
-			{/* <ComparisonSection /> */}
+			<ComparisonSection />
 		</>
 	);
 };
