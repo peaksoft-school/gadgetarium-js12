@@ -1,6 +1,6 @@
 import scss from './SubHeader.module.scss';
-import { FC, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { FC } from 'react';
+import { Link } from 'react-router-dom';
 import { IconGadgetarium } from '@/src/assets/icons';
 import {
 	IconBrandFacebook,
@@ -10,38 +10,28 @@ import {
 	IconScale,
 	IconShoppingCart
 } from '@tabler/icons-react';
-import { ConfigProvider, Input, theme } from 'antd';
+import { ConfigProvider, Input,  theme } from 'antd';
+import { SearchProps } from 'antd/es/input';
 import CatalogMenu from '@/src/ui/catalogMenu/CatalogMenu';
-import { useGetGlobalSearchQuery } from '@/src/redux/api/globalSearch';
+import { useGetBasketQuery } from '@/src/redux/api/basket';
+import { useGetFavoriteQuery } from '@/src/redux/api/favorite';
+import { useGetComparisonQuery } from '@/src/redux/api/comparison';
+// import { ProductsForHover } from '@/src/ui/productsForHover/ProductsForHover';
 
 interface SubHeaderProps {
 	isMobile: boolean;
 	isScrolled: boolean;
 }
 
-// const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
-// 	console.log(info?.source, value);
-
+const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
+	console.log(info?.source, value);
 const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
-	const [searchParams, setSearchParams] = useSearchParams();
-	const [inputValue, setInputValue] = useState<string>('');
-	const navigate = useNavigate();
-
-	const handleValueSearch = () => {
-		setInputValue('');
-	};
-	const { data: search = [] } = useGetGlobalSearchQuery({
-		request: window.location.search.substring(1)
-	});
-	const changeSearchFunk = (value: string) => {
-		searchParams.set('request', value);
-		setSearchParams(searchParams);
-		navigate(`/?${window.location.search.substring(1)}`);
-		if (value === '') {
-			searchParams.delete('request');
-			setSearchParams(searchParams);
-		}
-	};
+	const { data: BasketData = [] } = useGetBasketQuery();
+	const { data: FavoriteData = [] } = useGetFavoriteQuery();
+	const { data: ComparisonData = [] } = useGetComparisonQuery();
+	// const [comparisonProducts, setComparisonProducts] = useState<boolean>(false);
+	// const [favoriteProducts, setFavoriteProducts] = useState<boolean>(false);
+	// const [basketProducts, setBasketProducts] = useState<boolean>(false);
 	const antdThemeConfig = {
 		algorithm: theme.darkAlgorithm,
 		token: {
@@ -50,8 +40,6 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 			colorBgContainer: '#1a1a25'
 		}
 	};
-	console.log(search);
-
 	return (
 		<header
 			className={
@@ -75,12 +63,8 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 								className={scss.search}
 								size="large"
 								placeholder="Поиск по каталогу магазина"
-								onChange={(e) => {
-									changeSearchFunk(e.target.value);
-									setInputValue(e.target.value);
-								}}
 								allowClear
-								// onSearch={onSearch}
+								onSearch={onSearch}
 							/>
 						</ConfigProvider>
 					</div>
@@ -112,28 +96,90 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 						)}
 					</div>
 					<div className={scss.icon_basket_heart}>
-						<Link to="/comparison" className={scss.icon}>
-							<span>0</span>
+						<Link
+							// onMouseEnter={() => setComparisonProducts(true)}
+							// onMouseLeave={() => setComparisonProducts(false)}
+							to="/comparison"
+							className={scss.icon}
+						>
+							<span
+								className={
+									ComparisonData.length !== 0
+										? `${scss.count_for_products} ${scss.count_for_products_active}`
+										: `${scss.count_for_products}`
+								}
+							>
+								{ComparisonData.length <= 99 ? ComparisonData.length : '99+'}
+							</span>
 							<IconScale />
 						</Link>
-						<Link to="/favorite" className={scss.icon}>
-							<span>0</span>
+						<Link
+							// onMouseEnter={() => setFavoriteProducts(true)}
+							// onMouseLeave={() => setFavoriteProducts(false)}
+							to="/favorite"
+							className={scss.icon}
+						>
+							<span
+								className={
+									FavoriteData.length !== 0
+										? `${scss.count_for_products} ${scss.count_for_products_active}`
+										: `${scss.count_for_products}`
+								}
+							>
+								{FavoriteData.length <= 99 ? FavoriteData.length : '99+'}
+							</span>
 							<IconHeart />
 						</Link>
-						<Link to="/basket" className={scss.icon}>
-							<span>0</span>
+						<Link
+							// onMouseEnter={() => setBasketProducts(true)}
+							// onMouseLeave={() => setBasketProducts(false)}..
+							to="/basket"
+							className={scss.icon}
+						>
+							<span
+								className={
+									BasketData.length !== 0
+										? `${scss.count_for_products} ${scss.count_for_products_active}`
+										: `${scss.count_for_products}`
+								}
+							>
+								{BasketData.length <= 99 ? BasketData.length : '99+'}
+							</span>
 							<IconShoppingCart />
 						</Link>
 					</div>
 				</div>
-				<div className={scss.searchMap}>
-					{search.map((item) => (
-						<div>
-							<p>{item.brandNameOfGadget}</p>
-						</div>
-					))}
-				</div>
 			</div>
+			{/* {comparisonProducts && (
+				<Tooltip
+					children={
+						<ProductsForHover
+							setComparisonProducts={setComparisonProducts}
+							comparisonProducts={comparisonProducts}
+						/>
+					}
+				/>
+			)} */}
+			{/* {favoriteProducts && (
+				<Tooltip
+					children={
+						<ProductsForHover
+							favoriteProducts={favoriteProducts}
+							setFavoriteProducts={setFavoriteProducts}
+						/>
+					}
+				/>
+			)} */}
+			{/* {basketProducts && (
+				<Tooltip
+					children={
+						<ProductsForHover
+							basketProducts={basketProducts}
+							setBasketProducts={setBasketProducts}
+						/>
+					}
+				/>
+			)} */}
 		</header>
 	);
 };
