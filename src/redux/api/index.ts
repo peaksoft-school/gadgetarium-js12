@@ -41,9 +41,12 @@ export const api = createApi({
 		'personalHistory',
 		'adminOrders',
 		'productAdd',
-		'viewedProducts'
+		'viewedProducts',
+		'adminsOrders',
+		'adminReview'
 
 	],
 
 	endpoints: () => ({})
-});
+})
+

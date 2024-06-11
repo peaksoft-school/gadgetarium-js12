@@ -4,7 +4,8 @@ import scss from './OrderInProcessing.module.scss';
 import { Link } from 'react-router-dom';
 import {
 	useDeleteAdminOrderMutation,
-	useGetAdminOrderQuery
+	useGetAdminOrderQuery,
+	usePostAdminOrderMutation
 } from '@/src/redux/api/adminOrders';
 import { useState } from 'react';
 import CustomSelect from '@/src/ui/customSelect/CustomSelect';
@@ -80,8 +81,51 @@ const OrderInPending = () => {
 		}
 	};
 
+	const [postProduct] = usePostAdminOrderMutation()
+
+	const handlePost = async () => {
+		const newData = {
+			searchWord: "",
+			status: "",
+			quantity: 0,
+			startDate: "2024-06-10",
+			endDate: "2024-06-10",
+			page: 1,
+			size: 1,
+			orderResponses: [
+				{
+					id: 1,
+					fullName: "Айзат Жумагулова",
+					modalName: "Айзат Жумагуловой",
+					article: "000000-455247",
+					date: "14:33",
+					quantity: 2,
+					totalPrice: "90 000 с",
+					discountPrice: "9 000 с",
+					fullOldPrice: "99 000 с",
+					typeOrder: "Самовывоз",
+					status: "Отменены",
+					state: "Отменены",
+					address: "г.Бишкек, Токтоналиева, 145/7 кв 24, дом 5",
+					product: "Samsung Galaxy S21 128gb синий 9(MLP3RU)",
+					phone: "+996 (400) 00-00-00",
+					discount: "15%",
+				}
+			]
+		}
+	  try {
+			const res = await postProduct(newData)
+			console.log(res);
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+
 	const processingOrders =
-		adminOrders?.filter((order) => order.status === 'В ожидании') || [];
+		Array.isArray(adminOrders)
+			? adminOrders.filter((order) => order.status === 'Доставлены')
+			: [];
 
 	const handleOpenModal = (
 		orderId: string,
@@ -92,8 +136,8 @@ const OrderInPending = () => {
 		setModalIsOpen(true);
 		setOrderIdToDelete(orderId);
 	};
-
 	const countOrdersByStatus = (orders: any[]) => {
+		if (!Array.isArray(orders)) return {};
 		return orders.reduce(
 			(acc: { [x: string]: number }, order: { status: string | number }) => {
 				acc[order.status] = (acc[order.status] || 0) + 1;
@@ -190,6 +234,7 @@ const OrderInPending = () => {
 
 						<div className={scss.content_left_2}>
 							<h2>Найдено 250 заказов</h2>
+							<button onClick={handlePost}>LET IT GO</button>
 
 							<div className={scss.table_div}>
 								<table>
@@ -216,12 +261,14 @@ const OrderInPending = () => {
 											<h1>IsLoading...</h1>
 										) : (
 											<tr className={scss.tr}>
+																											wd
+
 												{processingOrders?.map((e) => (
-													<Link to={`single-order/${e._id}`}>
+													<Link to={`single-order/${e.orderResponses.id}`}>
 														<div className={scss.tr_div}>
 															<div className={scss.tr_row_1}>
-																<td className={scss.id_col}>{e._id}</td>
-																<td>{e.fullname}</td>
+																<td className={scss.id_col}>{e.orderResponses.id}</td>
+																<td>{e.fullName}</td>
 															</div>
 															<div className={scss.tr_row_2}>
 																<td className={scss.number_col}>

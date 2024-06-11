@@ -3,8 +3,8 @@ import { IconTrash } from '@tabler/icons-react';
 import scss from './OrderInProcessing.module.scss';
 import { Link } from 'react-router-dom';
 import {
-	useDeleteAdminOrderMutation,
-	useGetAdminOrderQuery
+	useGetAdminOrderQuery,
+	useDeleteAdminOrderMutation
 } from '@/src/redux/api/adminOrders';
 import { useState } from 'react';
 import CustomSelect from '@/src/ui/customSelect/CustomSelect';

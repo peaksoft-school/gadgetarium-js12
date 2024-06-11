@@ -42,5 +42,5 @@ const PhoneNumberValidation = () => {
 		</div>
 	);
 });
-
+}
 export default PhoneNumberValidation;
