@@ -44,7 +44,6 @@ const ProductsNew = () => {
 	const handleBasket = async (subGadgetId: number) => {
 		await basketPutProduct({
 			id: subGadgetId,
-			basket: false
 		});
 		refetch();
 	};

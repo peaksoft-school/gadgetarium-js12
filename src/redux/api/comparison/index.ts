@@ -16,8 +16,8 @@ const api = index.injectEndpoints({
 			providesTags: ['comparison']
 		}),
 		comparisonPatchProducts: build.mutation<
-			COMPARISONPRODUCTS.PatchComparisonProductRequest,
-			COMPARISONPRODUCTS.PatchComparisonProductResponse
+			COMPARISONPRODUCTS.PatchComparisonProductResponse,
+			COMPARISONPRODUCTS.PatchComparisonProductRequest
 		>({
 			query: (subGadgetId) => ({
 				url: `/api/comparison/${subGadgetId}`,
@@ -27,9 +27,47 @@ const api = index.injectEndpoints({
 				}
 			}),
 			invalidatesTags: ['comparison']
+		}),
+		getComparisonCompare: build.query<
+			COMPARISONPRODUCTS.GetComparisonCompareResponse,
+			COMPARISONPRODUCTS.GetComparisonCompareRequest
+		>({
+			query: ({ gadgetType, isDifferences }) => ({
+				url: `/api/comparison/compare?${gadgetType}&${isDifferences}`,
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			providesTags: ['comparison']
+		}),
+		clearAllProductsComparison: build.mutation({
+			query: () => ({
+				url: `/api/comparison/clear`,
+				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			invalidatesTags: ['comparison']
+		}),
+		deleteByIdProductComparison: build.mutation({
+			query: (subGadgetId) => ({
+				url: `/api/comparison/${subGadgetId}`,
+				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			invalidatesTags: ['comparison']
 		})
 	})
 });
 
-export const { useGetComparisonQuery, useComparisonPatchProductsMutation } =
-	api;
+export const {
+	useGetComparisonQuery,
+	useComparisonPatchProductsMutation,
+	useGetComparisonCompareQuery,
+	useClearAllProductsComparisonMutation,
+	useDeleteByIdProductComparisonMutation
+} = api;

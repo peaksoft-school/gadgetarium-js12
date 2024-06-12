@@ -13,7 +13,6 @@ const baseQuery = fetchBaseQuery({
 		}
 		return headers;
 	},
-	
 });
 
 const baseQueryExtended: BaseQueryFn = async (args, api, extraOptions) => {
@@ -42,8 +41,6 @@ export const api = createApi({
 		'adminOrders',
 		'productAdd',
 		'viewedProducts'
-
 	],
-
 	endpoints: () => ({})
 });

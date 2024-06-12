@@ -1,4 +1,4 @@
-import EditSections from "./EditSections/EditSections";
+import EditSections from "./editSections/EditSections";
 
 export const EditPage = () => {
 	return (
