@@ -3,18 +3,20 @@ import scss from './ReviewsPage.module.scss';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import { Rate, Button, Modal, Input, ConfigProvider } from 'antd';
 import React, { useRef, useState } from 'react';
-
 import {
 	useApiFeedbackStatisticsQuery,
 	useGetReviewsQuery,
 	usePostUsersCommitsMutation
 } from '@/src/redux/api/reviews';
 import { usePostUploadMutation } from '@/src/redux/api/pdf';
-import { IconPencilMinus, IconTrash } from '@tabler/icons-react';
+import {
+	IconCameraPlus,
+	IconPencilMinus,
+	IconTrash
+} from '@tabler/icons-react';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { Notify } from '@/src/utils/helpers/Notify';
-
 const ReviewsPage = () => {
 	const fileUrl = useRef<HTMLInputElement>(null);
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -27,7 +29,10 @@ const ReviewsPage = () => {
 	const [modal2Open, setModal2Open] = useState<boolean>(false);
 	const [filesUrls, setFilesUrls] = useState<string[]>([]);
 	const [textCommitInput, setTextCommitInput] = useState<string>('');
+	const [rateEdit, setRateEdit] = useState<number>(0);
+	const [indexProducts, setIndexProducts] = useState<number>(0);
 	const [rateValue, setRateValue] = useState<number>(0);
+	const [deleteModal, setDeleteModal] = useState<boolean>(false);
 	const { data: FeedbackStatistics } = useApiFeedbackStatisticsQuery({
 		id: Number(productId)
 	});
@@ -63,8 +68,6 @@ const ReviewsPage = () => {
 			setTextCommitInput(value);
 		}
 	};
-	console.log(rateValue, 'rate');
-
 	const handlePostCommitFunk = async () => {
 		const DATA = {
 			grade: rateValue,
@@ -120,9 +123,21 @@ const ReviewsPage = () => {
 
 	const { data, isLoading } = useGetReviewsQuery({
 		id: productId!,
-		page: Number(searchParams),
-		size: Number(searchParams)
+		page: searchParams.toString(),
+		size: searchParams.toString()
 	});
+
+	console.log(indexProducts, 'index test');
+	const handleOpenModal = (index: number) => {
+		setIndexProducts(index);
+		setModalForEdit(true);
+		setRateEdit(data![index].rating);
+		setEditInputValueCommit(data![index].description);
+	};
+
+	const handleOpenModalForDelete = (id: number) => {
+		setDeleteModal(true);
+	};
 
 	const { TextArea } = Input;
 	return (
@@ -134,7 +149,7 @@ const ReviewsPage = () => {
 					<div className={scss.reviews_contents_div}>
 						<div className={scss.contents_and_commits_users}>
 							<h2>Отзывы</h2>
-							{data?.map((e) => (
+							{data?.map((e, index) => (
 								<div key={e.id} className={scss.div_users_commits}>
 									<img src={e.image} alt={e.fullName} />
 									<div className={scss.commits_for_users_div}>
@@ -158,13 +173,16 @@ const ReviewsPage = () => {
 												width={'17px'}
 												height={'17px'}
 												cursor={'pointer'}
-												onClick={() => setModalForEdit(true)}
+												onClick={() => {
+													handleOpenModal(index);
+												}}
 											/>
 											<IconTrash
 												color="rgb(145, 150, 158)"
 												width={'17px'}
 												height={'17px'}
 												cursor={'pointer'}
+												onClick={() => handleOpenModalForDelete(e.id)}
 											/>
 										</div>
 									</div>
@@ -172,18 +190,22 @@ const ReviewsPage = () => {
 							))}
 							{data!.length >= 3 && (
 								<div className={scss.button_div_for_pagination}>
-									<Button
-										onClick={() => handlePaginationFunk(3)}
-										className={scss.button_for_pagination}
-									>
-										Показать ещё
-									</Button>
-									<Button
-										onClick={handlePaginationFunkCancel}
-										className={scss.button_for_pagination}
-									>
-										Скрыть
-									</Button>
+									{FeedbackStatistics?.quantityFeedbacks.toString() <
+									searchParams.get('size') ? (
+										<Button
+											onClick={handlePaginationFunkCancel}
+											className={scss.button_for_pagination}
+										>
+											Скрыть
+										</Button>
+									) : (
+										<Button
+											onClick={() => handlePaginationFunk(3)}
+											className={scss.button_for_pagination}
+										>
+											Показать ещё
+										</Button>
+									)}
 								</div>
 							)}
 						</div>
@@ -296,6 +318,17 @@ const ReviewsPage = () => {
 									onChange={handleChangeFileFunk}
 									multiple
 								/>
+								<div className={scss.input_file_content_div}>
+									<IconCameraPlus
+										width={'30px'}
+										height={'31px'}
+										color="rgb(41, 41, 41)"
+									/>
+									<p>
+										<span>Нажмите на ссылку, </span>чтобы выбрать фотографии или
+										просто перетащите их сюда
+									</p>
+								</div>
 							</div>
 							<Button
 								className={scss.button_modal}
@@ -314,6 +347,10 @@ const ReviewsPage = () => {
 					open={modalForEdit}
 					onOk={() => setModalForEdit(false)}
 					onCancel={() => setModalForEdit(false)}
+					afterClose={() => {
+						setRateValue(0);
+						setEditInputValueCommit('');
+					}}
 				>
 					<div className={scss.content_modal}>
 						<h3>Редактировать комментарий</h3>
@@ -321,18 +358,20 @@ const ReviewsPage = () => {
 							Оценка{' '}
 							<Rate
 								allowHalf
-								defaultValue={0}
+								defaultValue={rateEdit}
 								onChange={(e) => setRateValue(e)}
-								value={rateValue}
+								// value={rateValue}
+								value={rateEdit}
 							/>
 						</div>
 						<div className={scss.modal_form_div}>
 							<p>Ваш комментарий</p>
 							<TextArea
 								placeholder="Напишите комментарий"
-								value={editInputValueCommit}
 								onChange={changeEditInputValueForCommit}
 								className={scss.commit_input}
+								defaultValue={editInputValueCommit}
+								value={editInputValueCommit}
 							/>
 							<div onClick={handleOpenFileFunk} className={scss.input_for_file}>
 								<input
@@ -342,6 +381,17 @@ const ReviewsPage = () => {
 									onChange={handleChangeFileFunk}
 									multiple
 								/>
+								<div className={scss.input_file_content_div}>
+									<IconCameraPlus
+										width={'30px'}
+										height={'31px'}
+										color="rgb(41, 41, 41)"
+									/>
+									<p>
+										<span>Нажмите на ссылку, </span>чтобы выбрать фотографии или
+										просто перетащите их сюда
+									</p>
+								</div>
 							</div>
 							<div className={scss.edit_and_delete_div}>
 								<Button
@@ -360,6 +410,20 @@ const ReviewsPage = () => {
 									отмена
 								</Button>
 							</div>
+						</div>
+					</div>
+				</Modal>
+				<Modal
+					centered
+					open={deleteModal}
+					onOk={() => setDeleteModal(false)}
+					onCancel={() => setDeleteModal(false)}
+				>
+					<div className={scss.content_modal}>
+						<h3>DELETE</h3>
+						<div>
+							<Button>Удалить</Button>
+							<Button onClick={() => setDeleteModal(false)}>Отмена</Button>
 						</div>
 					</div>
 				</Modal>

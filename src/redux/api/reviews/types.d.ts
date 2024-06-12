@@ -10,8 +10,8 @@ interface RatingCounts {
 namespace REVIEWS {
 	type GetReviewsRequest = {
 		id: string;
-		page?: number;
-		size?: number;
+		page: string;
+		size: string;
 	};
 	type GetReviewsResponse = {
 		id: number;

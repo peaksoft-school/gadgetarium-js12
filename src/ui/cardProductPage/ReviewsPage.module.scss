@@ -341,7 +341,9 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
-
+				padding-block: 35px;
+				padding-inline: 49px;
+				gap: 20px;
 				p {
 					color: rgb(150, 150, 150);
 					font-size: clamp(10px, 4vw, 16px);
@@ -350,6 +352,23 @@
 						color: rgb(44, 104, 245);
 						font-size: clamp(10px, 4vw, 16px);
 					}
+				}
+			}
+		}
+		.edit_and_delete_div {
+			display: flex;
+			align-items: start;
+			align-items: center;
+			gap: 15px;
+			.button_for_edit_and_delete {
+				color: rgb(203, 17, 171);
+				background: #fff;
+				border: 2px solid rgb(203, 17, 171);
+				font-size: clamp(7px, 5vw, 16px);
+				font-weight: 500;
+				&:hover {
+					transition: all 0.4s ease;
+					
 				}
 			}
 		}
