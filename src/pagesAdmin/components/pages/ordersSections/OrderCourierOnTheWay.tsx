@@ -116,7 +116,6 @@ const OrderCourierOnTheWay = () => {
 			colorBgContainer: 'transparent'
 		}
 	};
-
 	const antdThemeConfig = {
 		algorithm: theme.defaultAlgorithm,
 		token: {
@@ -124,6 +123,14 @@ const OrderCourierOnTheWay = () => {
 			colorBgContainer: 'transparent'
 		}
 	};
+
+	// const antdThemeConfig = {
+	// 	algorithm: theme.defaultAlgorithm,
+	// 	token: {
+	// 		colorPrimary: '#cb11ab',
+	// 		colorBgContainer: 'transparent'
+	// 	}
+	// };
 	return (
 		<section className={scss.order}>
 			<div className="container">
