@@ -1,3 +1,26 @@
+interface RatingCounts {
+	1: number;
+	2: number;
+	3: number;
+	4: number;
+	5: number;
+}
+
+type FeedbackResponseList = {
+	id: number;
+	gadgetImage: string;
+	subCategoryName: string;
+	nameOfGadget: string;
+	article: number;
+	comment: string;
+	feedbackImages: string[];
+	dateAndTime: string;
+	rating: number;
+	fullNameUser: string;
+	emailUser: string;
+	responseAdmin: null | string;
+};
+
 namespace REVIEWSTORE {
 	type IReview = {
 		totalRatings: 0;
@@ -25,10 +48,21 @@ namespace REVIEWSTORE {
 		];
 	};
 
-	type GetReviewResponse = IReview[];
+	type GetReviewResponse = {
+		totalRatings: number;
+		unanswered: number;
+		ratingCounts: RatingCounts;
+		feedbackResponseList: FeedbackResponseList[];
+	};
 	type GetReviewRequest = {
 		feedbackType: string;
 	};
-	type PostReviewRequest = IReview;
-	type PostReviewResponse = IReview;
+	type PostReviewRequest = {
+		id: number;
+		responseAdmin: string;
+	};
+	type PostReviewResponse = {
+		id: number;
+		responseAdmin: string
+	};
 }

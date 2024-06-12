@@ -13,7 +13,7 @@ const DescriptionPage = () => {
 				<>
 					<img
 						src={data?.Description.intoForTelephone}
-						alt={data?.productName}
+						alt={data?.nameOfGadget}
 					/>
 					<div className={scss.product_content_image_info}>
 						<h2>{data?.Description.MainTech}</h2>

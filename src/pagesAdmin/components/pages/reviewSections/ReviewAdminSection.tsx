@@ -6,10 +6,11 @@ import {
 	IconTrash,
 	IconUserCircle
 } from '@tabler/icons-react';
-import { SetStateAction, useEffect, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import { Rate, Input, Button } from 'antd';
 import Infographics from '@/src/ui/infographics/Infographics';
 import {
+	useDeleteFeedbackMutation,
 	useGetReviewQuery,
 	usePostReviewQueryMutation
 } from '@/src/redux/api/admin/review';
@@ -17,12 +18,14 @@ import { useSearchParams } from 'react-router-dom';
 
 const ReviewAdminSection = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
+	const [deleteFeedback] = useDeleteFeedbackMutation();
 	const [indexProductsResults, setIndexProductsResults] = useState<
 		null | number
 	>(null);
 	const [buttonFiltredStyle, setButtonFiltredStyle] =
 		useState<string>('Все отзывы');
 	const [feedbackType, setFeedbackType] = useState<string>('ALL');
+	const [rateValue, setRateValue] = useState<number>(0);
 
 	const handleCategotyUsersCommits = (value: string) => {
 		searchParams.set('feedbackType', feedbackType);
@@ -39,6 +42,11 @@ const ReviewAdminSection = () => {
 	const handleProductOpenMenuResultFunk = (index: number) => {
 		setIndexProductsResults(indexProductsResults === index ? null : index);
 	};
+
+	const handleDeleteFeedback = async (id: number) => {
+		await deleteFeedback(id);
+	};
+
 	const [message, setMessage] = useState('');
 	const handleInputChange = (event: {
 		target: { value: SetStateAction<string> };
@@ -49,47 +57,35 @@ const ReviewAdminSection = () => {
 		setMessage('');
 	};
 
+	const changeRateFunk = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (Number(e.target.value)) {
+			setRateValue(Number(e.target.value));
+		}
+	};
 	const { TextArea } = Input;
 
 	const [newReviewPost] = usePostReviewQueryMutation();
-	const { data: reviews = [] } = useGetReviewQuery({
+	const { data: reviews } = useGetReviewQuery({
 		feedbackType: searchParams.toString()
 	});
 	// console.log(reviews);
 
-	const handlePostReview = async () => {
-		const newReview = {
-			totalRatings: 0,
-			unanswered: 0,
-			ratingCounts: {
-				additionalProp1: 0,
-				additionalProp2: 0,
-				additionalProp3: 0
-			},
-			feedbackResponseList: [
-				{
-					id: 0,
-					gadgetImage: images,
-					subCategoryName: 'Модель',
-					nameOfGadget: 'Asus',
-					article: 1212121212,
-					comment: [
-						'Эрсултан,красавчик! Эрсултан,красавчик! Эрсултан,красавчик!',
-						''
-					],
-					feedbackImages: [images, images, images, images],
-					dateAndTime: '26.06.22-14:15',
-					rating: 0,
-					fullNameUser: 'Адыл Бакытов',
-					emailUser: 'Adyl@mail.com',
-					responseAdmin: ''
-				}
-			]
-		};
+	const handlePostReview = async (gadgetId: number) => {
+		console.log(gadgetId, 'id');
 
-		const res = await newReviewPost(newReview);
-		console.log(res);
+		const data = {
+			responseAdmin: message
+		};
+		const { responseAdmin } = data;
+		try {
+			await newReviewPost({ id: gadgetId, responseAdmin });
+		} catch (error) {
+			console.error(error);
+			alert('error');
+		}
 	};
+	console.log(reviews, 'array');
+
 	return (
 		<section className={scss.ReviewAdminSection}>
 			<div className="container">
@@ -148,8 +144,8 @@ const ReviewAdminSection = () => {
 								<div className={scss.border_div}></div>
 							</div>
 							<div className={scss.container_users_commits}>
-								<button onClick={handlePostReview}>SEND TO BACKEND</button>
-								{reviews?.map((item, index) => (
+								{/* <button>SEND TO BACKEND</button> */}
+								{reviews?.feedbackResponseList?.map((item, index) => (
 									<div key={item.id} className={scss.users_commits_maps}>
 										<div
 											className={
@@ -161,36 +157,50 @@ const ReviewAdminSection = () => {
 											<div className={scss.div_content_commits}>
 												<div className={scss.info_users_div}>
 													<p>{index + 1}</p>
-													<img src={item.feedbackResponseList.image} alt="logo" />
+													<img src={item.gadgetImage} alt="logo" />
 													<div>
-														<h3>{item.brand}</h3>
-														<p>{item.model}</p>
-														<p>{item.articul}</p>
+														<h3>{item.subCategoryName}</h3>
+														<p>{item.nameOfGadget}</p>
+														<p>{item.article}</p>
 													</div>
 												</div>
 												<div className={scss.user_commit_and_time}>
-													{indexProductsResults === index
-														? item.comments.map((el, index) => (
-																<p key={index}>{el}</p>
+													<p>{item.comment}</p>
+													{/* {indexProductsResults === index
+														? reviews.feedbackResponseList.map((el, index) => (
+																<p key={index}>{el.comment}</p>
 															))
-														: item.comments.length >= 2 &&
-															item.comments
+														: item.comment.length >= 2 &&
+															reviews.feedbackResponseList
 																.slice(0, 2)
 																.map((el, index) => (
 																	<p key={index}>
 																		{index === 0 ? el : el + '...'}
 																	</p>
-																))}
+																))
+																} */}
 
 													<p className={scss.user_commit_for_time}>
-														{item.calendar}
+														{item.dateAndTime}
 													</p>
 													{indexProductsResults === index && (
 														<div className={scss.index_active}>
-															<img src={item.images} alt="products photo" />
-															<img src={item.images} alt="products photo" />
-															<img src={item.images} alt="products photo" />
-															<img src={item.images} alt="products photo" />
+															<img
+																src={item.gadgetImage}
+																alt="products photo"
+															/>
+															<img
+																src={item.gadgetImage}
+																alt="products photo"
+															/>
+															<img
+																src={item.gadgetImage}
+																alt="products photo"
+															/>
+															<img
+																src={item.gadgetImage}
+																alt="products photo"
+															/>
 														</div>
 													)}
 												</div>
@@ -205,19 +215,27 @@ const ReviewAdminSection = () => {
 												<div
 													className={scss.rate_and_user_name_and_profile_div}
 												>
-													<Rate defaultValue={5} className={scss.rating} />
+													<Rate
+														defaultValue={5}
+														className={scss.rating}
+														value={rateValue}
+														onChange={changeRateFunk}
+													/>
 													<div className={scss.user_profile_and_buttons}>
 														<div className={scss.user_profile}>
 															<IconUserCircle
 																className={scss.icon_user_circle}
 															/>
 															<div className={scss.div_for_user_name}>
-																<h3>{item.userName}</h3>
-																<p>{item.userGmail}</p>
+																<h3>{item.fullNameUser}</h3>
+																<p>{item.emailUser}</p>
 															</div>
 														</div>
 														<div className={scss.buttons}>
-															<IconTrash className={scss.icon_trash} />
+															<IconTrash
+																onClick={() => handleDeleteFeedback(item.id)}
+																className={scss.icon_trash}
+															/>
 															<IconChevronDown
 																className={scss.icon_chevron_down}
 																onClick={() =>
@@ -252,7 +270,10 @@ const ReviewAdminSection = () => {
 																		>
 																			{message ? 'Отменить' : ''}
 																		</Button>
-																		<Button className={scss.button}>
+																		<Button
+																			onClick={() => handlePostReview(item.id)}
+																			className={scss.button}
+																		>
 																			Сохранить
 																		</Button>
 																	</>

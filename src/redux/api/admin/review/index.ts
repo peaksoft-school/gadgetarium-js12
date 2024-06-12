@@ -19,13 +19,24 @@ const api = index.injectEndpoints({
 			REVIEWSTORE.PostReviewResponse,
 			REVIEWSTORE.PostReviewRequest
 		>({
-			query: (gadgetId) => ({
-				url: `/api/feedback/${gadgetId}`,
-				method: 'POST',
+			query: ({ id, responseAdmin }) => ({
+				url: `/api/feedback/reply/${id}`,
+				method: 'PATCH',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				},
+				body: { responseAdmin }
+			}),
+			invalidatesTags: ['adminReview']
+		}),
+		deleteFeedback: build.mutation({
+			query: (id) => ({
+				url: `/api/feedback/${id}`,
+				method: 'DELETE',
+				body: id,
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				}
-				// body: products
 			}),
 			invalidatesTags: ['adminReview']
 		})
@@ -34,5 +45,6 @@ const api = index.injectEndpoints({
 
 export const {
 	useUseGetReviewQueryQuery: useGetReviewQuery,
-	usePostReviewQueryMutation
+	usePostReviewQueryMutation,
+	useDeleteFeedbackMutation
 } = api;
