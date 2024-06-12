@@ -244,9 +244,11 @@ const CardProductPage = () => {
 														</div>
 													)}
 													<h2>{data?.price}</h2>
-													<h3 className={scss.previous_price}>
-														{data?.currentPrice}
-													</h3>
+													{data?.percent !== 0 && (
+														<h3 className={scss.previous_price}>
+															{data?.currentPrice}
+														</h3>
+													)}
 												</div>
 											</div>
 											<div className={scss.product_colors_and_content}>
@@ -433,6 +435,7 @@ const CardProductPage = () => {
 					open={modal2Open}
 					onOk={() => setModal2Open(false)}
 					onCancel={() => setModal2Open(false)}
+					footer={false}
 				>
 					<img
 						className={scss.modal_img}

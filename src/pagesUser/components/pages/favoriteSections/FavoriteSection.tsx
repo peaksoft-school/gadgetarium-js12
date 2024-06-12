@@ -108,12 +108,36 @@ const FavoriteSection = () => {
 															scss.product_basket_and_favorite_buttons_and_photo
 														}
 													>
-														{item.percent && <div className={scss.div_for_percent}>{item.percent}</div>}
+														{item.percent && (
+															<div
+																className={
+																	item.percent
+																		? `${scss.div_for_percent} ${scss.active_div_for_percent}`
+																		: `${scss.div_for_percent}`
+																}
+															>
+																{item.percent}
+															</div>
+														)}
 														{item.newProduct && item.percent === 0 && (
-															<div className={scss.div_for_new_product}>New</div>
+															<div
+																className={
+																	item.newProduct && item.percent === 0
+																		? `${scss.div_for_new_product} ${scss.active_div_for_new_product}`
+																		: `${scss.div_for_new_product}`
+																}
+															>
+																New
+															</div>
 														)}
 														{item.recommend && item.percent === 0 && (
-															<div className={scss.div_for_recommend}>
+															<div
+																className={
+																	item.recommend && item.percent === 0
+																		? `${scss.div_for_recommend} ${scss.active_div_for_recommend}`
+																		: `${scss.div_for_recommend}`
+																}
+															>
 																<IconFileLike />
 															</div>
 														)}

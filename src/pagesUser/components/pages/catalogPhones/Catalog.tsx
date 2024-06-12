@@ -88,10 +88,9 @@ const Catalog = () => {
 		navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
 	};
 
-	const handleHideAllPhones = (page: number) => {
-		let size = page;
+	const handleHideAllPhones = () => {
 		searchParams.set('page', '1');
-		searchParams.set('size', size.toString());
+		searchParams.set('size', '12');
 		setSearchParams(searchParams);
 		navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
 		setAllPhones(false);
@@ -221,7 +220,6 @@ const Catalog = () => {
 			navigate(`/catalog/${filtredIds}/filtred?${searchParams.toString()}`);
 		}
 	};
-	console.log('test, catalog render componets');
 
 	const { data: posts, isLoading } = useGetFiltredGadgetQuery({
 		id: Number(filtredIds),
@@ -249,7 +247,6 @@ const Catalog = () => {
 	const handleAddProductsComparisonFunk = async (subGadgetId: number) => {
 		await addComparisonProducts(subGadgetId);
 	};
-	console.log(subCategories, 'sub');
 
 	return (
 		<section className={scss.catalog}>
@@ -662,9 +659,11 @@ const Catalog = () => {
 													<div className={scss.bottom_card}>
 														<div className={scss.phone_prices}>
 															<p className={scss.phone_price}>{e.price}</p>
-															<p className={scss.phone_old_price}>
-																{e.currentPrice}
-															</p>
+															{e.percent !== 0 && (
+																<p className={scss.phone_old_price}>
+																	{e.currentPrice}
+																</p>
+															)}
 														</div>
 														{e.basked ? (
 															<button
@@ -690,17 +689,17 @@ const Catalog = () => {
 								)}
 							</div>
 							<div className={scss.showButtons}>
-								{!allPhones && (
+								{posts?.responses.length.toString() ===
+								searchParams.get('size') ? (
 									<button
 										onClick={() => handleShowAllPhones(posts?.responses.length)}
 										className={scss.moreButton}
 									>
 										Показать ещё
 									</button>
-								)}
-								{allPhonesHide && (
+								) : (
 									<button
-										onClick={() => handleHideAllPhones(12)}
+										onClick={handleHideAllPhones}
 										className={scss.moreButton}
 									>
 										Скрыть

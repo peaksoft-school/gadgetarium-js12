@@ -290,6 +290,7 @@ const ReviewsPage = () => {
 					open={modal2Open}
 					onOk={() => setModal2Open(false)}
 					onCancel={() => setModal2Open(false)}
+					footer={false}
 				>
 					<div className={scss.content_modal}>
 						<h3>Оставьте свой отзыв</h3>
@@ -351,6 +352,7 @@ const ReviewsPage = () => {
 						setRateValue(0);
 						setEditInputValueCommit('');
 					}}
+					footer={false}
 				>
 					<div className={scss.content_modal}>
 						<h3>Редактировать комментарий</h3>
@@ -418,12 +420,22 @@ const ReviewsPage = () => {
 					open={deleteModal}
 					onOk={() => setDeleteModal(false)}
 					onCancel={() => setDeleteModal(false)}
+					footer={false}
 				>
 					<div className={scss.content_modal}>
-						<h3>DELETE</h3>
-						<div>
-							<Button>Удалить</Button>
-							<Button onClick={() => setDeleteModal(false)}>Отмена</Button>
+						<h3 className={scss.delete_text}>
+							вы уверены что хотите удалить этот комментарий
+						</h3>
+						<div className={scss.delete_buttons_div}>
+							<Button className={scss.delete_and_cancel_buttons}>
+								Удалить
+							</Button>
+							<Button
+								className={scss.delete_and_cancel_buttons}
+								onClick={() => setDeleteModal(false)}
+							>
+								Отмена
+							</Button>
 						</div>
 					</div>
 				</Modal>

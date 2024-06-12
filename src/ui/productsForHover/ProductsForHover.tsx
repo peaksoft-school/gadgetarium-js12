@@ -1,5 +1,5 @@
 import {
-	useDeleteByIdComparisonProductMutation,
+	useDeleteByIdProductComparisonMutation,
 	useGetComparisonQuery
 } from '@/src/redux/api/comparison';
 import scss from './ProductsForHover.module.scss';
@@ -38,7 +38,7 @@ export const ProductsForHover: FC<ProductsForHoverTypes> = ({
 	const [deleteByIdBasketProduct] = useDeleteByIdBasketProductMutation();
 	const [deleteByIdFavoriteProduct] = useDeleteByIdFavoriteProductMutation();
 	const [deleteByIdComparisonProduct] =
-		useDeleteByIdComparisonProductMutation();
+	useDeleteByIdProductComparisonMutation();
 	const navigate = useNavigate();
 	const handleDeleteByIdBasketProductFunk = async (gadgetId: number) => {
 		try {
