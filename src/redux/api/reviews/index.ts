@@ -41,6 +41,29 @@ const api = index.injectEndpoints({
 				body: { comment, grade, images }
 			}),
 			invalidatesTags: ['reviewsApi']
+		}),
+		editUserCommit: build.mutation<
+			REVIEWS.EditUserCommitResponse,
+			REVIEWS.EditUserCommitRequest
+		>({
+			query: ({ feedId }) => ({
+				url: `/api/feedback/edit/${feedId}`,
+				method: 'PATCH',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			invalidatesTags: ['reviewsApi']
+		}),
+		deleteByIdUserCommit: build.mutation({
+			query: (feedId) => ({
+				url: `/api/feedback/delete-feedback/${feedId}`,
+				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			invalidatesTags: ['reviewsApi']
 		})
 	})
 });
@@ -48,5 +71,7 @@ const api = index.injectEndpoints({
 export const {
 	useGetReviewsQuery,
 	useApiFeedbackStatisticsQuery,
-	usePostUsersCommitsMutation
+	usePostUsersCommitsMutation,
+	useEditUserCommitMutation,
+	useDeleteByIdUserCommitMutation
 } = api;

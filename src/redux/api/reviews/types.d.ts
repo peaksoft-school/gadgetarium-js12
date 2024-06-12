@@ -43,4 +43,17 @@ namespace REVIEWS {
 		comment: string;
 		images: string[];
 	};
+
+	type EditUserCommitRequest = {
+		feedId: number;
+		grade: number;
+		comment: string;
+		images: string[];
+	};
+	type EditUserCommitResponse = {
+		feedId: number;
+		grade: number;
+		comment: string;
+		images: string[];
+	};
 }

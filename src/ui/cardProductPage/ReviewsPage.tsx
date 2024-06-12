@@ -5,6 +5,8 @@ import { Rate, Button, Modal, Input, ConfigProvider } from 'antd';
 import React, { useRef, useState } from 'react';
 import {
 	useApiFeedbackStatisticsQuery,
+	useDeleteByIdUserCommitMutation,
+	useEditUserCommitMutation,
 	useGetReviewsQuery,
 	usePostUsersCommitsMutation
 } from '@/src/redux/api/reviews';
@@ -20,12 +22,16 @@ import { Notify } from '@/src/utils/helpers/Notify';
 const ReviewsPage = () => {
 	const fileUrl = useRef<HTMLInputElement>(null);
 	const [searchParams, setSearchParams] = useSearchParams();
+	const [editCommitUserApi] = useEditUserCommitMutation();
+	const [deleteByIdCommitForUsers] = useDeleteByIdUserCommitMutation();
+	const [deleteId, setDeleteId] = useState<number>(0);
 	const [modalForEdit, setModalForEdit] = useState<boolean>(false);
 	const navigate = useNavigate();
 	const [editInputValueCommit, setEditInputValueCommit] = useState<string>('');
 	const [postUpload] = usePostUploadMutation();
 	const { productId } = useParams();
 	const [postUserCommitApi] = usePostUsersCommitsMutation();
+	const [editRateValue, setEditRateValue] = useState<number>(0);
 	const [modal2Open, setModal2Open] = useState<boolean>(false);
 	const [filesUrls, setFilesUrls] = useState<string[]>([]);
 	const [textCommitInput, setTextCommitInput] = useState<string>('');
@@ -62,6 +68,35 @@ const ReviewsPage = () => {
 		}
 	};
 
+	const handleEditUserCommitFunk = async (feedId: number) => {
+		const DATA = {
+			grade: editRateValue,
+			comment: editInputValueCommit,
+			images: filesUrls
+		};
+		const { comment, grade, images } = DATA;
+		try {
+			if (
+				editRateValue === 0 &&
+				editInputValueCommit === '' &&
+				filesUrls === ['']
+			)
+				return alert('input if value not found');
+			await editCommitUserApi({
+				feedId,
+				comment,
+				grade,
+				images
+			});
+			setEditInputValueCommit('');
+			setFilesUrls([]);
+			setEditRateValue(0);
+			setModalForEdit(false);
+		} catch (error) {
+			console.error('Edit error:', error);
+		}
+	};
+
 	const changeInputValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const value = event.target.value;
 		if (value) {
@@ -92,6 +127,16 @@ const ReviewsPage = () => {
 			console.error(error, 'error service');
 			Notify('Ошибка', 'Не удалось отправить комментарий', '');
 		}
+	};
+
+	const handleDeleteByIdUserCommit = async (feedId: number) => {
+		console.log(feedId, 'id for delete result');
+		try {
+			await deleteByIdCommitForUsers(feedId);
+		} catch (error) {
+			console.error(error);
+		}
+		setDeleteModal(false);
 	};
 
 	const handlePaginationFunk = (size: number) => {
@@ -128,16 +173,26 @@ const ReviewsPage = () => {
 	});
 
 	console.log(indexProducts, 'index test');
-	const handleOpenModal = (index: number) => {
+	const handleOpenModal = (index: number, id: number) => {
 		setIndexProducts(index);
 		setModalForEdit(true);
-		setRateEdit(data![index].rating);
+		setEditRateValue(data![index].rating);
 		setEditInputValueCommit(data![index].description);
+		setDeleteId(id);
+	};
+
+	const changeEditRateValueFunk = (valueRate: number) => {
+		if (valueRate) {
+			setEditRateValue(valueRate);
+		}
 	};
 
 	const handleOpenModalForDelete = (id: number) => {
 		setDeleteModal(true);
+		setDeleteId(id);
 	};
+
+	console.log(data, 'test array');
 
 	const { TextArea } = Input;
 	return (
@@ -174,7 +229,7 @@ const ReviewsPage = () => {
 												height={'17px'}
 												cursor={'pointer'}
 												onClick={() => {
-													handleOpenModal(index);
+													handleOpenModal(index, e.id);
 												}}
 											/>
 											<IconTrash
@@ -360,10 +415,9 @@ const ReviewsPage = () => {
 							Оценка{' '}
 							<Rate
 								allowHalf
-								defaultValue={rateEdit}
-								onChange={(e) => setRateValue(e)}
-								// value={rateValue}
-								value={rateEdit}
+								defaultValue={editRateValue}
+								onChange={changeEditRateValueFunk}
+								value={editRateValue}
 							/>
 						</div>
 						<div className={scss.modal_form_div}>
@@ -400,7 +454,7 @@ const ReviewsPage = () => {
 									className={scss.button_for_edit_and_delete}
 									onClick={() => {
 										setModalForEdit(false);
-										handlePostCommitFunk();
+										handleEditUserCommitFunk(deleteId);
 									}}
 								>
 									Редактировать
@@ -427,7 +481,10 @@ const ReviewsPage = () => {
 							вы уверены что хотите удалить этот комментарий
 						</h3>
 						<div className={scss.delete_buttons_div}>
-							<Button className={scss.delete_and_cancel_buttons}>
+							<Button
+								className={scss.delete_and_cancel_buttons}
+								onClick={() => handleDeleteByIdUserCommit(deleteId)}
+							>
 								Удалить
 							</Button>
 							<Button
