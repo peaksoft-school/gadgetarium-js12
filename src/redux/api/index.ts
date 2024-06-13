@@ -42,7 +42,8 @@ export const api = createApi({
 		'adminOrders',
 		'productAdd',
 		'viewedProducts',
-		'addProductApi'
+		'addProductApi',
+		'brandApi'
 	],
 
 	endpoints: () => ({})

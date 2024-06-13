@@ -34,4 +34,46 @@ namespace ADDPRODUCTAPI {
 		warranty: number;
 		productsRequests: ProductsRequests[];
 	};
+
+	type GadgetSetQuantityByIdRequest = {
+		id: number;
+		quantity: string;
+	}
+	type GadgetSetQuantityByIdResponse = {
+		id: number;
+		quantity: string;
+	}
+	
+	type GadgetSetPriceByIdRequest = {
+		id: number;
+		price: number;
+	}
+	type GadgetSetPriceByIdResponse = {
+		id: number;
+		quantity: string;
+	}
+
+	type gadgetSetDocumentRequest = {
+		gadgetId: number;
+		pdf: string;
+		videoUrl: string;
+		description: string;
+	}
+	type gadgetSetDocumentResponse = {
+		gadgetId?: number;
+		pdf?: string;
+		videoUrl?: string;
+		description?: string;
+	}
+
+	type setAllProductsPriceAndQuantityRequest = {
+		price: number;
+		quantity: string;
+		ids: number[];
+	}
+	type setAllProductsPriceAndQuantityResponse = {
+		price?: number;
+		quantity?: string;
+		ids?: number[];
+	}
 }
