@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import scss from './InfoProduct.module.scss';
-import  { ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 // import { Tabs } from 'antd';
 // import type { TabsProps } from 'antd';
 import { CharacteristicsPage } from './CharacteristicsPage';
@@ -8,6 +9,9 @@ import DescriptionPage from './DescriptionPage';
 import ReviewsPage from './ReviewsPage';
 import { ShippingAndPaymentPage } from './ShippingAndPaymentPage';
 import { IconBurgerMenu } from '@/src/assets/icons';
+import { useGetUserPostPDSQuery } from '@/src/redux/api/pdf';
+import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 interface ComponentsTypesArray {
 	children: ReactNode;
@@ -32,11 +36,22 @@ const ComponentArray: ComponentsTypesArray[] = [
 		children: <ShippingAndPaymentPage />
 	}
 ];
-console.log(ComponentArray);
 
 const InfoProduct = () => {
+	const [searchParams, setSearchParams] = useSearchParams();
+	const useparams = useParams<{ productId: string }>();
 	const [component, setComponent] = useState<number>(1);
 	const [result, setResult] = useState<number>(0);
+	const { data: cardProductData } = useGetCardProductQuery({
+		id: Number(useparams.productId!)
+	});
+	const pdfParam = `key=${searchParams.get('key')}`
+
+	const handlePDFApiFunk = (pdfUrl: string) => {
+		searchParams.set('key', 'aa115f91-4624-46c3-b388-90d108d244f2');
+		setSearchParams(searchParams);
+	};
+	const { data } = useGetUserPostPDSQuery(pdfParam);
 
 	return (
 		<div className={scss.ContainerInfoProduct}>
@@ -133,8 +148,11 @@ const InfoProduct = () => {
 								></div>
 							</ul>
 						</nav>
-
-						<div className={scss.document_content_div}>
+						{/* <input type="file" /> */}
+						<div
+							onClick={() => handlePDFApiFunk(cardProductData?.pdfUrl!)}
+							className={scss.document_content_div}
+						>
 							<IconBurgerMenu />
 							<p>Скачать документ.pdf</p>
 						</div>

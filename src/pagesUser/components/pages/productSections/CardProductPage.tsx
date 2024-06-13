@@ -1,64 +1,106 @@
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import scss from './CardProductPage.module.scss';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import InfoPageForProduct from '../InfoPageForProduct';
-import { useGetProductsItemIdQuery } from '@/src/redux/api/product';
-import { useState } from 'react';
-import { IconArrowLeft, IconArrowRight, IconHeart } from '@tabler/icons-react';
-import { ConfigProvider, Modal, Rate } from 'antd';
+import React, { useCallback, useState } from 'react';
+import {
+	IconArrowLeft,
+	IconArrowRight,
+	IconFileLike,
+	IconHeart
+} from '@tabler/icons-react';
+import { Button, ConfigProvider, InputNumber, Modal, Rate } from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { IconRedHeart } from '@/src/assets/icons';
-import { ViewedProducts } from '@/src/ui/ViewedProducts/ViewedProducts';
-
+import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
+// import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
+import { useGetProductsColorsApiQuery } from '@/src/redux/api/productColorApi';
+import { useGetProductMemoryQuery } from '@/src/redux/api/memoryForProductApi';
+// import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
+// import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
 const CardProductPage = () => {
+	const [searchParams, setSearchParams] = useSearchParams();
 	const [basketAddProduct] = useBasketPutProductMutation();
 	const [favoriteAddProduct] = useFavoritePutProductMutation();
 	const { productId } = useParams();
+	const { data: productColor } = useGetProductsColorsApiQuery(productId!);
+	const { data: productMemoryData } = useGetProductMemoryQuery(productId!);
 	const [isSlider, setIsSlider] = useState<number>(1);
 	const [sliderResult, setSliderresult] = useState<number>(0);
 	const [contentIsModal, setContentIsModal] = useState<string>('');
 	const [modal2Open, setModal2Open] = useState(false);
 	const navigate = useNavigate();
-	const { data, refetch, isLoading } = useGetProductsItemIdQuery(productId!);
-	console.log(data);
-	const handleIndexSlider = (index: number) => {
-		if (index === 0) {
-			setIsSlider(1);
-			setSliderresult(0);
-		} else if (index === 1) {
-			setIsSlider(2);
-			setSliderresult(1);
-		} else if (index === 2) {
-			setIsSlider(3);
-			setSliderresult(2);
-		} else if (index === 3) {
-			setIsSlider(4);
-			setSliderresult(3);
-		} else if (index === 4) {
-			setIsSlider(5);
-			setSliderresult(4);
-		} else if (index === 5) {
-			setIsSlider(6);
-			setSliderresult(5);
-		} else if (index === 6) {
-			setIsSlider(7);
-			setSliderresult(6);
-		}
+
+	// const handleIndexSlider = (index: number) => {
+	// 	if (index === 0) {
+	// 		setIsSlider(1);
+	// 		setSliderresult(0);
+	// 	} else if (index === 1) {
+	// 		setIsSlider(2);
+	// 		setSliderresult(1);
+	// 	} else if (index === 2) {
+	// 		setIsSlider(3);
+	// 		setSliderresult(2);
+	// 	} else if (index === 3) {
+	// 		setIsSlider(4);
+	// 		setSliderresult(3);
+	// 	} else if (index === 4) {
+	// 		setIsSlider(5);
+	// 		setSliderresult(4);
+	// 	} else if (index === 5) {
+	// 		setIsSlider(6);
+	// 		setSliderresult(5);
+	// 	} else if (index === 6) {
+	// 		setIsSlider(7);
+	// 		setSliderresult(6);
+	// 	}
+	// };
+	const handleIndexSlider = useCallback((index: number) => {
+		setIsSlider(index + 1);
+		setSliderresult(index);
+	}, []);
+
+	const handleColorProductFunk = (color: string, memory: string) => {
+		console.log(color, 'color');
+		searchParams.set('color', color);
+		searchParams.set('memory', 'GB_256');
+		setSearchParams(searchParams);
+		navigate(`/api/gadget/by-id/${productId}?${searchParams.toString()}`);
 	};
-	console.log(isSlider, sliderResult);
-	const addBasketProduct = async (id: number, isInBasket: boolean) => {
-		console.log(isInBasket);
-		await basketAddProduct({ id, isInBasket: !isInBasket });
-		refetch();
+
+	const handleMemoryProductFunk = (memory: string) => {
+		searchParams.set('memory', memory);
+		setSearchParams(searchParams);
+		navigate(`/api/gadget/by-id/${productId}?${searchParams.toString()}`);
 	};
-	const addFavoriteProduct = async (id: number, isFavorite: boolean) => {
-		console.log(isFavorite);
-		await favoriteAddProduct({ id, isFavorite: !isFavorite });
-		refetch();
+	// let colorParams;
+	// let memoryParams;
+	// colorParams = `color=${searchParams.get('color')}`;
+	// console.log(colorParams, 'test render');
+	// memoryParams = `memory=${searchParams.get('memory')}`;
+	console.log(searchParams.getAll('color')[0], 'searchPamam');
+
+	const { data, isLoading } = useGetCardProductQuery({
+		id: Number(productId && productId),
+		color: `color=${searchParams.getAll('color')[0]}` || undefined,
+		memory: `memory=${searchParams.getAll('memory')[0]}` || undefined
+		// quantity: `quantity=${searchParams.getAll('quantity')[0]}`
+	});
+	const addBasketProduct = async (id: number) => {
+		await basketAddProduct({ id });
+		// refetch();
 	};
+	const addFavoriteProduct = async (id: number) => {
+		await favoriteAddProduct({ id });
+		// refetch();
+	};
+
 	return (
 		<>
 			<section className={scss.CardProductPage}>
@@ -71,17 +113,18 @@ const CardProductPage = () => {
 								<div className={scss.div_content_product_and_pages}>
 									<p onClick={() => navigate('/')}>Главная »</p>
 									<p onClick={() => navigate('')}> Смартфоны »</p>
-									<p>{data?.productName}</p>
+									<p>{data?.nameOfGadget}</p>
 								</div>
 								<div className={scss.div_brad_product}>
 									<h2>APPLE</h2>
 									<div></div>
 								</div>
 							</div>
+
 							<div className={scss.display_keen_slider}>
 								<div className={scss.slider_div_contents}>
 									<div className={scss.slider_div}>
-										{data?.photos
+										{data?.images
 											.slice(sliderResult, isSlider)
 											.map((item, index) => (
 												<img
@@ -91,7 +134,7 @@ const CardProductPage = () => {
 													}}
 													src={item}
 													key={index}
-													alt={data.productName}
+													alt={data.nameOfGadget}
 												/>
 											))}
 									</div>
@@ -111,7 +154,7 @@ const CardProductPage = () => {
 												}
 											}}
 										/>
-										{data?.photos.map((item, index) => (
+										{data?.images.map((item, index) => (
 											<>
 												<div
 													className={
@@ -124,7 +167,7 @@ const CardProductPage = () => {
 													<img
 														onClick={() => handleIndexSlider(index)}
 														src={item}
-														alt={data.productName}
+														alt={data.nameOfGadget}
 													/>
 												</div>
 											</>
@@ -146,21 +189,20 @@ const CardProductPage = () => {
 										/>
 									</div>
 								</div>
-
 								<div className={scss.product_info}>
-									<h3>{data?.productName}</h3>
+									<h3>{data?.nameOfGadget}</h3>
 									<div className={scss.product_content}>
 										<div className={scss.border_and_contents}>
 											<div className={scss.product_rating_and_numbers}>
 												<p className={scss.text_buy_product}>
-													{data?.buyProduc}
+													({data?.quantity})
 												</p>
 												<p>
-													Артикул: <span>030696</span>
+													Артикул: <span>{data?.articleNumber}</span>
 												</p>
 												<div>
-													<Rate defaultValue={5} />
-													<p>{data?.Rating}</p>
+													<Rate defaultValue={data?.rating} />
+													<p>{data?.rating}</p>
 												</div>
 											</div>
 											<div></div>
@@ -170,45 +212,86 @@ const CardProductPage = () => {
 												<h3>Цвет товара:</h3>
 												<h3>Количество:</h3>
 												<div className={scss.prices_div}>
-													<div>-16%</div>
+													{data?.percent !== 0 && (
+														<div
+															className={
+																data?.percent !== 0
+																	? `${scss.noo_active_percent} ${scss.active_percent_div}`
+																	: `${scss.noo_active_percent}`
+															}
+														>
+															{data?.percent}
+														</div>
+													)}
+													{data?.newProduct && data.percent === 0 && (
+														<div
+															className={
+																data.newProduct && data.percent === 0
+																	? `${scss.new_product} ${scss.active_new_product}`
+																	: `${scss.new_product}`
+															}
+														>
+															New
+														</div>
+													)}
+													{data?.recommend && data.percent === 0 && (
+														<div
+															className={
+																data.recommend && data.percent === 0
+																	? `${scss.noo_active_percent} ${scss.active_recommend}`
+																	: `${scss.noo_active_percent}`
+															}
+														>
+															<IconFileLike />
+														</div>
+													)}
 													<h2>{data?.price}</h2>
-													<h3 className={scss.previous_price}>
-														{data?.previousPrice}
-													</h3>
+													{data?.percent !== 0 && (
+														<h3 className={scss.previous_price}>
+															{data?.currentPrice}
+														</h3>
+													)}
 												</div>
 											</div>
 											<div className={scss.product_colors_and_content}>
 												<div className={scss.product_colors}>
-													<ColorButton
-														width="26px"
-														height="26px"
-														backgroundColor="rgb(0, 0, 0)"
-													/>
-													<ColorButton
-														width="26px"
-														height="26px"
-														backgroundColor="rgb(128, 128, 160)"
-													/>
-													<ColorButton
-														width="26px"
-														height="26px"
-														backgroundColor="rgb(121, 89, 116)"
-													/>
-													<ColorButton
-														width="26px"
-														height="26px"
-														backgroundColor="rgb(211, 32, 46)"
-													/>
-													<ColorButton
-														width="26px"
-														height="26px"
-														backgroundColor="rgb(57, 117, 242)"
-													/>
+													{productColor?.map((el, index) => (
+														<div key={index}>
+															<ColorButton
+																onClick={() => {
+																	handleColorProductFunk(el, data?.memory);
+																}}
+																width="26px"
+																height="26px"
+																backgroundColor={el}
+															/>
+														</div>
+													))}
 												</div>
 												<div className={scss.div_buttons_counts}>
 													<button>-</button>
-													{/* <span>{data?.quantity}</span> */}
-													<span>1</span>
+													<ConfigProvider
+														theme={{
+															components: {
+																InputNumber: {
+																	colorText: 'rgb(43, 44, 47)',
+																	algorithm: true
+																}
+															}
+														}}
+													>
+														<InputNumber
+															className={scss.input_for_quantity}
+															min={1}
+															max={100}
+															// defaultValue={data?.quantity}
+															defaultValue={data?.quantity}
+															type="number"
+															onKeyPress={(
+																e: React.KeyboardEvent<HTMLInputElement>
+															) => {}}
+														/>
+													</ConfigProvider>
 													<button>+</button>
 												</div>
 												<div className={scss.border_div}></div>
@@ -221,83 +304,109 @@ const CardProductPage = () => {
 													<div className={scss.div_buttons_favorite_and_basket}>
 														<button
 															className={
-																data?.isFavorite === true
+																data?.likes === true
 																	? `${scss.nooActiveButton} ${scss.activeButton}`
 																	: `${scss.nooActiveButton}`
 															}
 															onClick={() =>
-																data &&
-																addFavoriteProduct(data.id, data.isFavorite)
+																data && addFavoriteProduct(data.gadgetId)
 															}
 														>
-															{data?.isFavorite === true ? (
+															{data?.likes === true ? (
 																<IconRedHeart />
 															) : (
 																<IconHeart color="rgb(144, 156, 181)" />
 															)}
 														</button>
-														<AddBasketButton
-															onClick={() =>
-																data &&
-																addBasketProduct(data.id, data.isInBasket)
-															}
-															children={
-																data?.isInBasket === true
-																	? 'В корзине'
-																	: 'В корзину'
-															}
-															className={
-																data?.isInBasket === true
-																	? `${scss.add_bas_button} ${scss.active}`
-																	: `${scss.add_bas_button}`
-															}
-														/>
+														{data?.basket ? (
+															<Button
+																className={scss.active_basket_button_navigate}
+																onClick={() => navigate('/basket')}
+															>
+																В корзине Перейти
+															</Button>
+														) : (
+															<AddBasketButton
+																onClick={() =>
+																	data && addBasketProduct(data.subGadgetId)
+																}
+																children={'В корзину'}
+																className={scss.add_bas_button}
+															/>
+														)}
 													</div>
+												</div>
+												<div className={scss.buttons_for_memory}>
+													{productMemoryData?.map((el, index) => (
+														<Button
+															onClick={() => {
+																if (el.includes(data?.memory)) {
+																	handleMemoryProductFunk(el);
+																} else {
+																	return;
+																}
+															}}
+															className={
+																el.includes(data?.memory)
+																	? `${scss.button_for_product_memory} ${scss.active_memory_button}`
+																	: `${scss.button_for_product_memory}`
+															}
+															key={index}
+														>
+															{el}
+														</Button>
+													))}
 												</div>
 												<div className={scss.info_product}>
 													<div className={scss.div_screen}>
 														<p>
 															Экран............................................
 														</p>
-														<h4>{data?.Screen}</h4>
+														{/* <h4>{data?.Screen}</h4> */}
 													</div>
 													<div className={scss.div_screen}>
 														<p>
 															Цвет..............................................
 														</p>
-														<h4>{data?.colorProduct}</h4>
+														<h4>{data?.mainColour}</h4>
 													</div>
 													<div className={scss.div_screen}>
 														<p>Дата выпуска..............................</p>
-														<h4>{data?.DateOfIssue}</h4>
+														<h4>{data?.releaseDate}</h4>
 													</div>
 													<div className={scss.div_screen}>
 														<p>Операционная система............</p>
-														<h4>{data?.operatingSystem}</h4>
+														{/* <h4>{data?.operatingSystem}</h4> */}
 													</div>
 													<div className={scss.div_screen}>
 														<p>
 															Память.........................................
 														</p>
-														<h4>{data?.Memory}</h4>
+														<h4>{data?.memory}</h4>
 													</div>
 													<div className={scss.div_screen}>
 														<p>SIM-карты...................................</p>
-														<h4>{data?.SIMCards}</h4>
+														<h4>{data?.countSim}</h4>
 													</div>
 													<div className={scss.div_screen}>
 														<p>Гарантия (месяцев)...................</p>
-														<h4>{data?.WarrantyMonths}</h4>
+														<h4>{data?.warranty}</h4>
 													</div>
 													<div className={scss.div_screen}>
 														<p>Процессор..................................</p>
-														<h4>{data?.CPU}</h4>
+														{/* <h4>{data?.CPU}</h4> */}
 													</div>
-													<div className={scss.div_screen}>
+													{/* <div className={scss.div_screen}>
 														<p>
 															Вес...............................................
 														</p>
 														<h4>{data?.Weight}</h4>
+													</div> */}
+													<div className={scss.div_screen}>
+														<p>
+															процент.......................................
+														</p>
+														<h4>{data?.percent}</h4>
 													</div>
 												</div>
 											</div>
@@ -310,7 +419,7 @@ const CardProductPage = () => {
 				</div>
 
 				<InfoPageForProduct />
-				<ViewedProducts />
+				{/* <ViewedProducts /> */}
 			</section>
 			<ConfigProvider
 				theme={{
@@ -328,11 +437,12 @@ const CardProductPage = () => {
 					open={modal2Open}
 					onOk={() => setModal2Open(false)}
 					onCancel={() => setModal2Open(false)}
+					footer={false}
 				>
 					<img
 						className={scss.modal_img}
 						src={contentIsModal}
-						alt={data?.productName}
+						alt={data?.nameOfGadget}
 					/>
 				</Modal>
 			</ConfigProvider>

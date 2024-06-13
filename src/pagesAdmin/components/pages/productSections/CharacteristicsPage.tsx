@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useGetProductsItemIdQuery } from '@/src/redux/api/product';
 import scss from './CharacteristicsPage.module.scss';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { IconArrowRight } from '@tabler/icons-react';
+import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 export const CharacteristicsPage = () => {
 	const { productId } = useParams();
-	const { data, isLoading } = useGetProductsItemIdQuery(productId!);
+	const { data, isLoading } = useGetCardProductQuery(productId!);
 	const [characteristicsProduct, setCharacteristicsProduct] =
 		useState<boolean>(true);
 	const [memoryAndProcessor, setMemoryAndProcessor] = useState<boolean>(false);

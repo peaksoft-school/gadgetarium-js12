@@ -8,18 +8,16 @@ import { IconRedHeart } from '@/src/assets/icons';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
+import { Link, useNavigate } from 'react-router-dom';
 import { useGetProductsSaleQuery } from '@/src/redux/api/productsSale/index.ts';
-import { useNavigate } from 'react-router-dom';
 
 const ProductsPromotion = () => {
-	const [comparisonPatchProduct] = useComparisonPatchProductsMutation();
+	const { data: productData, isLoading, refetch } = useGetProductsSaleQuery();
+	const [comparisonPutProduct] = useComparisonPatchProductsMutation();
 	const [basketPutProduct] = useBasketPutProductMutation();
 	const [putFavoriteProduct] = useFavoritePutProductMutation();
-	const { data, isLoading, refetch } = useGetProductsSaleQuery();
-
 	const [isVisible, setIsVisible] = useState(5);
 	const [showMore, setShowMore] = useState(false);
-
 	const navigate = useNavigate();
 
 	const handleVisible = () => {
@@ -33,7 +31,7 @@ const ProductsPromotion = () => {
 	};
 
 	const handleScaleClick = async (subGadgetId: number) => {
-		await comparisonPatchProduct(subGadgetId);
+		await comparisonPutProduct(subGadgetId);
 		refetch();
 	};
 
@@ -45,7 +43,6 @@ const ProductsPromotion = () => {
 	const handleBasket = async (subGadgetId: number) => {
 		await basketPutProduct({
 			id: subGadgetId,
-			basket: false
 		});
 		refetch();
 	};
@@ -87,19 +84,21 @@ const ProductsPromotion = () => {
 								</>
 							) : (
 								<>
-									{data?.mainPages.map((el) => (
-										<div className={scss.div_product_map} key={el.id}>
+									{productData?.mainPages.slice(0, isVisible).map((item) => (
+										<div className={scss.div_product_map} key={item.gadgetId}>
 											<div className={scss.div_icons}>
-												<div className={scss.minus_promotion}>
-													<p>{el.percent} %</p>
-												</div>
+												<div className={scss.minus_promotion}> -10%</div>
 												<div className={scss.div_two_icons}>
 													<button
-														onClick={() => handleScaleClick(el.subGadgetId)}
+														onMouseEnter={() => setActiveScaleId(item.gadgetId)}
+														onMouseLeave={() => setActiveScaleId(null)}
+														onClick={() =>
+															handleScaleClick(item.subGadgetId)
+														}
 													>
 														<Tooltip
 															title={
-																!el.comparison
+																item.likes === false
 																	? 'Добавить к сравнению'
 																	: 'Удалить из сравнения'
 															}
@@ -107,7 +106,7 @@ const ProductsPromotion = () => {
 														>
 															<IconScale
 																className={
-																	el.comparison
+																	item.likes === true
 																		? `${scss.scale} ${scss.active}`
 																		: scss.scale
 																}
@@ -116,7 +115,7 @@ const ProductsPromotion = () => {
 													</button>
 													<Tooltip
 														title={
-															!el.likes
+															item.likes === false
 																? 'Добавить в избранное'
 																: 'Удалить из избранного'
 														}
@@ -124,47 +123,53 @@ const ProductsPromotion = () => {
 													>
 														<button
 															className={scss.heart}
-															onClick={() => handleHeartClick(el.subGadgetId)}
+															onClick={() =>
+																handleHeartClick(item.subGadgetId)
+															}
+															onMouseEnter={() => setActiveHeartId(item.gadgetId)}
+															onMouseLeave={() => setActiveHeartId(null)}
 														>
-															{el.likes ? <IconRedHeart /> : <IconHeart />}
+															{item.likes === true ? (
+																<IconRedHeart />
+															) : (
+																<IconHeart />
+															)}
 														</button>
 													</Tooltip>
 												</div>
 											</div>
 											<div className={scss.div_img}>
+												<Link to={`/api/gadget/by-id/${item.gadgetId}`}>
 												<img
 													className={scss.img_product}
-													src={el.image}
-													alt={el.nameOfGadget}
+													src={item.image}
+													alt={item.nameOfGadget}
 												/>
+												</Link>
 											</div>
 											<div className={scss.div_product_contents}>
 												<p className={scss.tag_color_green}>
-													В наличии {el.quantity}
+													В наличии {item.quantity}
 												</p>
-												<h3>{el.nameOfGadget}</h3>
+												<h3>{item.nameOfGadget}</h3>
 												<p>
 													Рейтинг <Rate allowHalf defaultValue={3.5} />
-													{el.rating}
+													{item.rating}
 												</p>
 												<div className={scss.div_buttons_and_price}>
 													<div className={scss.product_price}>
-														<h2>{el.price} c</h2>
+														<h2>{item.price} c</h2>
 													</div>
-													{el.basket === true ? (
-														<button
-															onClick={() => navigate('/basket')}
-															className={scss.add_bas_button_active}
-														>
-															Перейти в корзину
+													{item.basket ? (
+														<button className={scss.active} onClick={() => navigate('/basket')}>
+															В корзине Перейти
 														</button>
 													) : (
 														<AddBasketButton
-															onClick={() => handleBasket(el.subGadgetId)}
+															onClick={() => handleBasket(item.subGadgetId)}
+															children={'В корзину'}
 															className={scss.add_bas_button}
-														>
-															В корзину
-														</AddBasketButton>
+														/>
 													)}
 												</div>
 											</div>

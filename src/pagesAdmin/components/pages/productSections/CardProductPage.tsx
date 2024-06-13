@@ -4,7 +4,6 @@ import scss from './CardProductPage.module.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
 	useDeleteProductsMutation,
-	useGetProductsItemIdQuery,
 	useProductPatchForQuantityMutation
 } from '@/src/redux/api/product';
 import React, { useState } from 'react';
@@ -13,6 +12,7 @@ import { Button, ConfigProvider, InputNumber, Modal, Rate } from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
 import InfoProduct from './InfoProduct';
 import { ProductDetails } from './ProductDetails';
+import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 
 const CardProductPage = () => {
 	const [deleteProducts] = useDeleteProductsMutation();
@@ -23,7 +23,7 @@ const CardProductPage = () => {
 	const [contentIsModal, setContentIsModal] = useState<string>('');
 	const [modal2Open, setModal2Open] = useState(false);
 	const navigate = useNavigate();
-	const { data, refetch, isLoading } = useGetProductsItemIdQuery(productId!);
+	const { data, refetch, isLoading } = useGetCardProductQuery(productId!);
 	const [resultProductPage, setResultProductPage] = useState<boolean>(true);
 	const [productQuantity, setProductQuantity] = useState<number>(
 		data?.quantity!

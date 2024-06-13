@@ -2,10 +2,13 @@
 namespace VIEWEDPRODUCTS {
 	type GetViewedProductsRequest = void;
 	type GetViewedProductsResponse = {
-		_id: number;
+		id: number;
+		discount: number;
 		image: string;
-		productName: string;
-		Rating: number;
+		nameOfGadget: string;
+		rating: number;
+		countOfFeedback: number;
 		price: number;
-	}[]
+		currentPrice: number;
+	}[];
 }

@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useNavigate, useParams } from 'react-router-dom';
 import scss from './EditSections.module.scss';
-import { useGetProductsItemIdQuery } from '@/src/redux/api/product';
 import { Button, Input, Upload } from 'antd';
 import type { GetProp, UploadFile, UploadProps } from 'antd';
 import { useState } from 'react';
 import { cyan, generate, green, presetPalettes, red } from '@ant-design/colors';
 import { Col, ColorPicker, Divider, Row, Space, theme } from 'antd';
 import type { ColorPickerProps } from 'antd';
+import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 
 interface ColorTypes {
 	id: number;
@@ -42,7 +42,7 @@ type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 const EditSections = () => {
 	const { productId } = useParams();
-	const { data, isLoading } = useGetProductsItemIdQuery(productId!);
+	const { data, isLoading } = useGetCardProductQuery(productId!);
 	const navigate = useNavigate();
 	const [formInputs, setFormInputs] = useState<boolean>(false);
 	const [fileList, setFileList] = useState<UploadFile[]>([

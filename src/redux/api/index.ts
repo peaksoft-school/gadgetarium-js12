@@ -36,15 +36,23 @@ export const api = createApi({
 		'slider',
 		'favorite',
 		'comparison',
-		'phones',
+		'filterProductsApi',
 		'personalFavorite',
 		'personalHistory',
 		'adminOrders',
 		'productAdd',
+		'cardProductApi',
+		'catalogApi',
 		'viewedProducts',
+		'CharacteristicsApi',
+		'descriptionApi',
+		'deliveryApi',
+		'reviewsApi',
+		'cardProductsColorsApi',
+		'productMemoryApi',
+		'pdfApi',
 		'addProductApi',
 		'brandApi'
 	],
-
 	endpoints: () => ({})
 });
