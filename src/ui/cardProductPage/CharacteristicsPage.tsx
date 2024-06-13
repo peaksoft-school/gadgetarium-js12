@@ -1,17 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useGetProductsItemIdQuery } from '@/src/redux/api/product';
+
 import scss from './CharacteristicsPage.module.scss';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { IconArrowRight } from '@tabler/icons-react';
+import { useGetCharacteristicsProductQuery } from '@/src/redux/api/characteristicsAPI';
 export const CharacteristicsPage = () => {
 	const { productId } = useParams();
-	const { data, isLoading } = useGetProductsItemIdQuery(productId!);
+	const { data, isLoading } = useGetCharacteristicsProductQuery(productId!);
 	const [characteristicsProduct, setCharacteristicsProduct] =
 		useState<boolean>(true);
 	const [memoryAndProcessor, setMemoryAndProcessor] = useState<boolean>(false);
 	const [additionalFeatures, setAdditionalFeatures] = useState<boolean>(false);
-
+	const [Other, setOther] = useState<boolean>(false);
+	const [Screen, setScreen] = useState<boolean>(false);
+	const [memory, setMemory] = useState<boolean>(false);
+	const [Performance, setPerformance] = useState<boolean>(false);
+	const [FrontCamera, setFrontCamera] = useState<boolean>(false);
+	const [DesignAndBody, setDesignAndBody] = useState<boolean>(false);
+	const [Software, setSoftware] = useState<boolean>(false);
+	const [Sound, setSound] = useState<boolean>(false);
 	useEffect(() => {}, []);
 
 	return (
@@ -24,7 +32,7 @@ export const CharacteristicsPage = () => {
 						onClick={() => setCharacteristicsProduct(!characteristicsProduct)}
 						className={scss.content_characteristics}
 					>
-						<h3>Основные xарактеристики</h3>
+						<h3>Коммуникации</h3>
 						<div
 							className={
 								characteristicsProduct
@@ -38,58 +46,96 @@ export const CharacteristicsPage = () => {
 					{characteristicsProduct && (
 						<div className={scss.render_info_product}>
 							<div className={scss.product_info_text_main}>
-								<p>Тип дорожки:</p>
+								<p>Время полной зарядки:</p>
 								<p className={scss.text_product}>
-									{data?.Characteristics.TrackType}
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации[
+											'Время полной зарядки'
+										]}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Мощность двигателя</p>
+								<p>Быстрая зарядка</p>
 								<p className={scss.text_product}>
-									{data?.Characteristics.enginePower}
-								</p>
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации['Быстрая зарядка']}
+								</p>{' '}
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Тип двигателя</p>
+								<p>Съемный</p>
 								<p className={scss.text_product}>
-									{data?.Characteristics.enginesType}
-								</p>
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации.Съемный}
+								</p>{' '}
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Регулировка скорости</p>
+								<p>Режим ожидания</p>
 								<p className={scss.text_product}>
-									{data?.Characteristics.speedAdjustment}
-								</p>
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации['Режим ожидания']}
+								</p>{' '}
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Беговое полотно</p>
+								<p>Объем</p>
 								<p className={scss.text_product}>
-									{data?.Characteristics.runningBelt}
-								</p>
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации['Объем']}
+								</p>{' '}
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Наклон бегового полотна</p>
+								<p>Беспроводная зарядка</p>
 								<p className={scss.text_product}>
-									{data?.Characteristics.runningBeltIncline}
-								</p>
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации[
+											'Беспроводная зарядка'
+										]}
+								</p>{' '}
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Размер бегового полотна (ДхШ)</p>
+								<p>Тип аккумулятора</p>
 								<p className={scss.text_product}>
-									{data?.Characteristics.runningBeltSize}
-								</p>
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации['Тип аккумулятора']}
+								</p>{' '}
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Диаметр задних валов</p>
+								<p>Просмотр видео</p>
 								<p className={scss.text_product}>
-									{data?.Characteristics.rearShaftDiameter}
-								</p>
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации['Просмотр видео']}
+								</p>{' '}
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Программы тренировки</p>
+								<p>Игры</p>
 								<p className={scss.text_product}>
-									{data?.Characteristics.trainingPrograms}
-								</p>
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации['Игры']}
+								</p>{' '}
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Макс. мощность зарядки</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации[
+											'Макс. мощность зарядки'
+										]}
+								</p>{' '}
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Веб-серфинг</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации['Веб-серфинг']}
+								</p>{' '}
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Реверсивная зарядка</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Коммуникации &&
+										data?.mainCharacteristics.Коммуникации[
+											'Реверсивная зарядка'
+										]}
+								</p>{' '}
 							</div>
 						</div>
 					)}
@@ -97,7 +143,7 @@ export const CharacteristicsPage = () => {
 						onClick={() => setMemoryAndProcessor(!memoryAndProcessor)}
 						className={scss.content_characteristics}
 					>
-						<h3>Память и процессор</h3>
+						<h3>Основная камера</h3>
 						<div
 							className={
 								memoryAndProcessor
@@ -111,57 +157,128 @@ export const CharacteristicsPage = () => {
 					{memoryAndProcessor && (
 						<div className={scss.render_info_product}>
 							<div className={scss.product_info_text_main}>
-								<p>Тип дорожки:</p>
+								<p>Разрешение:</p>
 								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.TrackType}
+									{data?.mainCharacteristics['Основная камера'] &&
+										data?.mainCharacteristics['Основная камера'].Разрешение}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Мощность двигателя</p>
+								<p>Защита дисплея</p>
 								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.enginePower}
+									{data?.mainCharacteristics['Основная камера'] &&
+										data?.mainCharacteristics['Основная камера'][
+											'Защита дисплея'
+										]}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Тип двигателя</p>
+								<p>Макс. заявленная яркость в HDR</p>
 								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.enginesType}
+									{data?.mainCharacteristics['Основная камера'] &&
+										data?.mainCharacteristics['Основная камера'][
+											'Макс. заявленная яркость в HDR'
+										]}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Регулировка скорости</p>
+								<p>Время отклика</p>
 								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.speedAdjustment}
+									{data?.mainCharacteristics['Основная камера'] &&
+										data?.mainCharacteristics['Основная камера'][
+											'Время отклика'
+										]}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Беговое полотно</p>
+								<p>Поддержка HDR</p>
 								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.runningBelt}
+									{data?.mainCharacteristics['Основная камера'] &&
+										data?.mainCharacteristics['Основная камера'][
+											'Поддержка HDR'
+										]}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Наклон бегового полотна</p>
+								<p>Соотношение экрана к корпусу</p>
 								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.runningBeltIncline}
+									{data?.mainCharacteristics['Основная камера'] &&
+										data?.mainCharacteristics['Основная камера'][
+											'Соотношение экрана к корпусу'
+										]}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Размер бегового полотна (ДхШ)</p>
+								<p>Соотношение сторон</p>
 								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.runningBeltSize}
+									{data?.mainCharacteristics['Основная камера'] &&
+										data?.mainCharacteristics['Основная камера'][
+											'Соотношение сторон'
+										]}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Диаметр задних валов</p>
+								<p>Контрастность</p>
 								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.rearShaftDiameter}
+									{data?.mainCharacteristics['Основная камера'] &&
+										data?.mainCharacteristics['Основная камера'][
+											'Контрастность'
+										]}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Программы тренировки</p>
+								<p>Адаптивная частота обновления</p>
 								<p className={scss.text_product}>
-									{data?.MemoryAndProcessor.trainingPrograms}
+									{data?.mainCharacteristics['Основная камера'] &&
+										data?.mainCharacteristics['Основная камера'][
+											'Адаптивная частота обновления'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Частота обновления</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Основная камера'] &&
+										data?.mainCharacteristics['Основная камера'][
+											'Частота обновления'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Тип</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Основная камера'] &&
+										data?.mainCharacteristics['Основная камера']['Тип']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Размер</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Основная камера'] &&
+										data?.mainCharacteristics['Основная камера']['Размер']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>ШИМ (PWM)</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Основная камера'] &&
+										data?.mainCharacteristics['Основная камера']['ШИМ (PWM)']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Макс. заявленная яркость</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Основная камера'] &&
+										data?.mainCharacteristics['Основная камера'][
+											'Макс. заявленная яркость'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Особенности</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Основная камера'] &&
+										data?.mainCharacteristics['Основная камера']['Особенности']}
 								</p>
 							</div>
 						</div>
@@ -170,7 +287,7 @@ export const CharacteristicsPage = () => {
 						onClick={() => setAdditionalFeatures(!additionalFeatures)}
 						className={scss.content_characteristics}
 					>
-						<h3>Память и процессор</h3>
+						<h3>Батарея</h3>
 						<div
 							className={
 								additionalFeatures
@@ -184,57 +301,908 @@ export const CharacteristicsPage = () => {
 					{additionalFeatures && (
 						<div className={scss.render_info_product}>
 							<div className={scss.product_info_text_main}>
-								<p>Тип дорожки:</p>
+								<p>Сенсоры и датчики:</p>
 								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.TrackType}
+									{data?.mainCharacteristics.Батарея &&
+										data?.mainCharacteristics.Батарея['Сенсоры и датчики']}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Мощность двигателя</p>
+								<p>Дата начала продаж</p>
 								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.enginePower}
+									{data?.mainCharacteristics.Батарея &&
+										data?.mainCharacteristics.Батарея['Дата начала продаж']}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Тип двигателя</p>
+								<p>Уровень излучения SAR для головы</p>
 								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.enginesType}
+									{data?.mainCharacteristics.Батарея &&
+										data?.mainCharacteristics.Батарея[
+											'Уровень излучения SAR для головы'
+										]}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Регулировка скорости</p>
+								<p>Уровень излучения SAR для тела</p>
 								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.speedAdjustment}
+									{data?.mainCharacteristics.Батарея &&
+										data?.mainCharacteristics.Батарея[
+											'Уровень излучения SAR для тела'
+										]}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Беговое полотно</p>
+								<p>Класс</p>
 								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.runningBelt}
+									{data?.mainCharacteristics.Батарея &&
+										data?.mainCharacteristics.Батарея['Класс']}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Наклон бегового полотна</p>
+								<p>Дата выхода</p>
 								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.runningBeltIncline}
+									{data?.mainCharacteristics.Батарея &&
+										data?.mainCharacteristics.Батарея['Дата выхода']}
+								</p>
+							</div>
+						</div>
+					)}
+					<div
+						onClick={() => setOther(!Other)}
+						className={scss.content_characteristics}
+					>
+						<h3>Другое</h3>
+						<div
+							className={
+								Other ? `${scss.icon2} ${scss.iconActive2}` : `${scss.icon2}`
+							}
+						>
+							<IconArrowRight style={{ color: ' rgb(203, 17, 171)' }} />
+						</div>
+					</div>
+					{Other && (
+						<div className={scss.render_info_product}>
+							<div className={scss.product_info_text_main}>
+								<p>Сканер отпечатков пальцев:</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Другое &&
+										data?.mainCharacteristics.Другое[
+											'Сканер отпечатков пальцев'
+										]}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Размер бегового полотна (ДхШ)</p>
+								<p>Толщина</p>
 								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.runningBeltSize}
+									{data?.mainCharacteristics.Другое &&
+										data?.mainCharacteristics.Другое.Толщина}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Диаметр задних валов</p>
+								<p>Вес</p>
 								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.rearShaftDiameter}
+									{data?.mainCharacteristics.Другое &&
+										data?.mainCharacteristics.Другое.Вес}
 								</p>
 							</div>
 							<div className={scss.product_info_text_main}>
-								<p>Программы тренировки</p>
+								<p>Доступные цвета</p>
 								<p className={scss.text_product}>
-									{data?.AdditionalFeatures.trainingPrograms}
+									{data?.mainCharacteristics.Другое &&
+										data?.mainCharacteristics.Другое['Доступные цвета']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Водонепроницаемость</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Другое &&
+										data?.mainCharacteristics.Другое.Водонепроницаемость}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Материал рамки</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Другое &&
+										data?.mainCharacteristics.Другое['Материал рамки']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Высота</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Другое &&
+										data?.mainCharacteristics.Другое.Высота}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Материал задней панели</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Другое &&
+										data?.mainCharacteristics.Другое['Материал задней панели']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Ширина</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Другое &&
+										data?.mainCharacteristics.Другое.Ширина}
+								</p>
+							</div>
+						</div>
+					)}
+					<div
+						onClick={() => setScreen(!Screen)}
+						className={scss.content_characteristics}
+					>
+						<h3>Экран</h3>
+						<div
+							className={
+								Screen ? `${scss.icon2} ${scss.iconActive2}` : `${scss.icon2}`
+							}
+						>
+							<IconArrowRight style={{ color: ' rgb(203, 17, 171)' }} />
+						</div>
+					</div>
+					{Screen && (
+						<div className={scss.render_info_product}>
+							<div className={scss.product_info_text_main}>
+								<p>Разрешение фото:</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Экран &&
+										data?.mainCharacteristics.Экран['Разрешение фото']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Датчик глубины (TOF 3D)</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Экран &&
+										data?.mainCharacteristics.Экран['Датчик глубины (TOF 3D)']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Размер сенсора</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Экран &&
+										data?.mainCharacteristics.Экран['Размер сенсора']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Автофокус</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Экран &&
+										data?.mainCharacteristics.Экран.Автофокус}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Количество мегапикселей</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Экран &&
+										data?.mainCharacteristics.Экран['Количество мегапикселей']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Сенсор</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Экран &&
+										data?.mainCharacteristics.Экран.Сенсор}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Photo</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Экран &&
+										data?.mainCharacteristics.Экран.Photo}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Стабилизация</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Экран &&
+										data?.mainCharacteristics.Экран.Стабилизация}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Разрешение видео</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Экран &&
+										data?.mainCharacteristics.Экран['Разрешение видео']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Размер пикселя</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Экран &&
+										data?.mainCharacteristics.Экран['Размер пикселя']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Video</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Экран &&
+										data?.mainCharacteristics.Экран.Video}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Апертура</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Экран &&
+										data?.mainCharacteristics.Экран.Апертура}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Фокусное расстояние</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Экран &&
+										data?.mainCharacteristics.Экран['Фокусное расстояние']}
+								</p>
+							</div>
+						</div>
+					)}
+					<div
+						onClick={() => setMemory(!memory)}
+						className={scss.content_characteristics}
+					>
+						<h3>Память</h3>
+						<div
+							className={
+								memory ? `${scss.icon2} ${scss.iconActive2}` : `${scss.icon2}`
+							}
+						>
+							<IconArrowRight style={{ color: ' rgb(203, 17, 171)' }} />
+						</div>
+					</div>
+					{memory && (
+						<div className={scss.render_info_product}>
+							<div className={scss.product_info_text_main}>
+								<p>GPU-ядер:</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память['GPU-ядер']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Total score</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память['Total score']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Чипсет</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память.Чипсет}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Частота GPU</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память['Частота GPU']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>UX</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память.UX}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Stability</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память.Stability}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Graphics test</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память['Graphics test']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Memory</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память.Memory}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>CPU</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память.CPU}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Производство</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память.Производство}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>GPU</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память.GPU}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Архитектура</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память.Архитектура}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Размер транзистора</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память['Размер транзистора']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Графика</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память.Графика}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>FLOPS</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память.FLOPS}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Нейронный процессор</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память['Нейронный процессор']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>CPU-ядер</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память['CPU-ядер']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Пиковая температура корпуса</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память[
+											'Пиковая температура корпуса'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Макс. частота</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память['Макс. частота']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Graphics score</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Память &&
+										data?.mainCharacteristics.Память['Graphics score']}
+								</p>
+							</div>
+						</div>
+					)}
+					<div
+						onClick={() => setPerformance(!Performance)}
+						className={scss.content_characteristics}
+					>
+						<h3>Производительность</h3>
+						<div
+							className={
+								Performance
+									? `${scss.icon2} ${scss.iconActive2}`
+									: `${scss.icon2}`
+							}
+						>
+							<IconArrowRight style={{ color: ' rgb(203, 17, 171)' }} />
+						</div>
+					</div>
+					{Performance && (
+						<div className={scss.render_info_product}>
+							<div className={scss.product_info_text_main}>
+								<p>Версия Wi-Fi</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность[
+											'Версия Wi-Fi'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Функции USB</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность['Функции USB']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Гибридный слот</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность[
+											'Гибридный слот'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>GPS</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность.GPS}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Количество SIM*</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность[
+											'Количество SIM*'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Версия USB</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность['Версия USB']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Поддержка eSIM*</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность[
+											'Поддержка eSIM*'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>LTE Cat*</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность['LTE Cat*']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>2G сети</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность['2G сети']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Инфракрасный порт</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность[
+											'Инфракрасный порт'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Поддержка 5G</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность[
+											'Поддержка 5G'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Версия Bluetooth</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность[
+											'Версия Bluetooth'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Тип SIM</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность['Тип SIM']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>4G сети</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность['4G сети']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Функции Wi-Fi</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность[
+											'Функции Wi-Fi'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Функции Bluetooth</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность[
+											'Функции Bluetooth'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>NFC*</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность['NFC*']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>3G сети</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Производительность &&
+										data?.mainCharacteristics.Производительность['3G сети']}
+								</p>
+							</div>
+						</div>
+					)}
+					<div
+						onClick={() => setFrontCamera(!FrontCamera)}
+						className={scss.content_characteristics}
+					>
+						<h3>Фронтальная камера</h3>
+						<div
+							className={
+								FrontCamera
+									? `${scss.icon2} ${scss.iconActive2}`
+									: `${scss.icon2}`
+							}
+						>
+							<IconArrowRight style={{ color: ' rgb(203, 17, 171)' }} />
+						</div>
+					</div>
+					{FrontCamera && (
+						<div className={scss.render_info_product}>
+							<div className={scss.product_info_text_main}>
+								<p>FM-Радио</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Фронтальная камера'] &&
+										data?.mainCharacteristics['Фронтальная камера']['FM-Радио']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Dolby Atmos</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Фронтальная камера'] &&
+										data?.mainCharacteristics['Фронтальная камера'][
+											'Dolby Atmos'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Динамики</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Фронтальная камера'] &&
+										data?.mainCharacteristics['Фронтальная камера'].Динамики}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>3.5 мм аудио порт</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Фронтальная камера'] &&
+										data?.mainCharacteristics['Фронтальная камера'][
+											'3.5 мм аудио порт'
+										]}
+								</p>
+							</div>
+						</div>
+					)}
+					<div
+						onClick={() => setDesignAndBody(!DesignAndBody)}
+						className={scss.content_characteristics}
+					>
+						<h3>Дизайн и корпус</h3>
+						<div
+							className={
+								DesignAndBody
+									? `${scss.icon2} ${scss.iconActive2}`
+									: `${scss.icon2}`
+							}
+						>
+							<IconArrowRight style={{ color: ' rgb(203, 17, 171)' }} />
+						</div>
+					</div>
+					{DesignAndBody && (
+						<div className={scss.render_info_product}>
+							<div className={scss.product_info_text_main}>
+								<p>Операционная система:</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Дизайн и корпус'] &&
+										data?.mainCharacteristics['Дизайн и корпус'][
+											'Операционная система'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Размер системы из коробки</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Дизайн и корпус'] &&
+										data?.mainCharacteristics['Дизайн и корпус'][
+											'Размер системы из коробки'
+										]}
+								</p>
+							</div>
+						</div>
+					)}
+					<div
+						onClick={() => setSoftware(!Software)}
+						className={scss.content_characteristics}
+					>
+						<h3>Программное обеспечение</h3>
+						<div
+							className={
+								Software ? `${scss.icon2} ${scss.iconActive2}` : `${scss.icon2}`
+							}
+						>
+							<IconArrowRight style={{ color: ' rgb(203, 17, 171)' }} />
+						</div>
+					</div>
+					{Software && (
+						<div className={scss.render_info_product}>
+							<div className={scss.product_info_text_main}>
+								<p>Тип памяти:</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Программное обеспечение'] &&
+										data?.mainCharacteristics['Программное обеспечение'][
+											'Тип памяти'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Карта памяти</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Программное обеспечение'] &&
+										data?.mainCharacteristics['Программное обеспечение'][
+											'Карта памяти'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Частота памяти</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Программное обеспечение'] &&
+										data?.mainCharacteristics['Программное обеспечение'][
+											'Частота памяти'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Тип накопителя</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Программное обеспечение'] &&
+										data?.mainCharacteristics['Программное обеспечение'][
+											'Тип накопителя'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Объем ОЗУ</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Программное обеспечение'] &&
+										data?.mainCharacteristics['Программное обеспечение'][
+											'Объем ОЗУ'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Количество каналов</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Программное обеспечение'] &&
+										data?.mainCharacteristics['Программное обеспечение'][
+											'Количество каналов'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Объем накопителя</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics['Программное обеспечение'] &&
+										data?.mainCharacteristics['Программное обеспечение'][
+											'Объем накопителя'
+										]}
+								</p>
+							</div>
+						</div>
+					)}
+					<div
+						onClick={() => setSound(!Sound)}
+						className={scss.content_characteristics}
+					>
+						<h3>Звук</h3>
+						<div
+							className={
+								Sound ? `${scss.icon2} ${scss.iconActive2}` : `${scss.icon2}`
+							}
+						>
+							<IconArrowRight style={{ color: ' rgb(203, 17, 171)' }} />
+						</div>
+					</div>
+					{Sound && (
+						<div className={scss.render_info_product}>
+							<div className={scss.product_info_text_main}>
+								<p>Разрешение фото:</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук[
+											'Разрешение фото'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Запись 8K видео</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук[
+											'Запись 8K видео'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Угол широкоугольного объектива</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук[
+											'Угол широкоугольного объектива'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Количество объективов</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук[
+											'Количество объективов'
+										]}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Автофокус</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук.Автофокус}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Размер сенсора</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук['Размер сенсора']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Сенсор</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук.Сенсор}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Вспышка</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук.Вспышка}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Preview</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук.Preview}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Примеры</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук.Примеры}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Стабилизация</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук.Стабилизация}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Матрица</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук.Матрица}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Замедленная съемка</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук['Замедленная съемка']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Размер пикселя</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук['Размер пикселя']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Запись 4K видео</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук['Запись 4K видео']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Bokeh</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук.Bokeh}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Апертура</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук.Апертура}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Zoom</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук.Zoom}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Запись 1080p видео</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук['Запись 1080p видео']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Фокусное расстояние</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук['Фокусное расстояние']}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Особенности</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук.Особенности}
+								</p>
+							</div>
+							<div className={scss.product_info_text_main}>
+								<p>Зум</p>
+								<p className={scss.text_product}>
+									{data?.mainCharacteristics.Звук &&
+										data?.mainCharacteristics.Звук.Зум}
 								</p>
 							</div>
 						</div>

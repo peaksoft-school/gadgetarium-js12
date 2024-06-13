@@ -1,20 +1,19 @@
 import {
 	useEditAdminCommitMutation,
-	useGetProductsItemIdQuery
 } from '@/src/redux/api/product';
 import scss from './ReviewsPage.module.scss';
 import { useParams } from 'react-router-dom';
 import { Rate, Modal, Input, Button, ConfigProvider } from 'antd';
-import { FC, useState } from 'react';
-type User = {
-	adminCommit: string;
-};
-interface AdminCommitTypeObject {
-	reviews: User[];
-}
-const ReviewsPage= () => {
+import { useState } from 'react';
+// type User  = {
+// 	adminCommit: string
+// }
+// interface AdminCommitTypeObject {
+// 	reviews: User[]
+// }
+const ReviewsPage = () => {
 	const { productId } = useParams();
-	const { data, isLoading } = useGetProductsItemIdQuery(productId!);
+	const { data, isLoading } = useGetCardProductQuery(productId!);
 	const [editAdminCommit] = useEditAdminCommitMutation();
 	const [modalForEdit, setModalForEdit] = useState<boolean>(false);
 	const [modal2Open, setModal2Open] = useState<boolean>(false);

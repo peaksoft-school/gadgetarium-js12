@@ -7,6 +7,11 @@ import React from 'react';
 import { usePostLoginMutation } from '@/src/redux/api/auth';
 import { auth, provider } from './config';
 import { signInWithPopup } from 'firebase/auth';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import { Notify } from '@/src/utils/helpers/Notify';
+
+
 const Login = () => {
 	const [passwordVisible, setPasswordVisible] = React.useState(false);
 	const [postRequestLogin] = usePostLoginMutation();
@@ -29,30 +34,31 @@ const Login = () => {
 				const { token } = response.data;
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'true');
+				Notify('Вход выполнен успешно', 'Перейти на главную', '/');
+				navigate('/admin');
+				reset();
+			} else {
+				throw new Error('Invalid response');
 			}
-			console.log('is working ', response);
-			console.log(data);
-			navigate('/admin');
-			reset();
 		} catch (error) {
-			console.log('not working', error);
+			console.log('Ошибка при входе', error);
+			Notify('Ошибка при входе', 'Попробуйте снова', '/auth/login');
 		}
-		console.log(data);
-		reset();
 	};
 	const handleWithGoogle = () => {
 		signInWithPopup(auth, provider)
 			.then(async (result) => {
-				const token = result.user.getIdToken();
-				localStorage.setItem('auth_token', await token);
+				const token = await result.user.getIdToken();
+				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'true');
+				Notify('Вход через Google выполнен успешно', 'Перейти на главную', '/');
 				navigate('/admin');
 			})
 			.catch((error) => {
 				console.error('Ошибка входа через Google:', error);
+				Notify('Ошибка входа через Google', 'Попробуйте снова', '/auth/login');
 			});
 	};
-
 	return (
 		<div className={scss.loginPages}>
 			<div className="container">
@@ -71,7 +77,6 @@ const Login = () => {
 									onSubmit={handleSubmit(onSubmit)}
 								>
 									<Controller
-									
 										name="email"
 										control={control}
 										defaultValue=""
@@ -170,6 +175,7 @@ const Login = () => {
 											Забыли пароль
 										</Link>
 									</div>
+									<ToastContainer />
 								</form>
 							</div>
 						</div>

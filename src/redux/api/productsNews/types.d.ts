@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 interface Root {
 	page: number;
 	size: number;
@@ -20,7 +21,7 @@ interface ProductsNews {
 
 type MainPages = {
 	subGadgetId: SetStateAction<string | number | null>;
-	id: Key | null | undefined;
+	gadgetId: Key | null | undefined;
 	gadgetId: number;
 	percent: number;
 	image: string;

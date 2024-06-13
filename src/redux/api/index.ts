@@ -13,6 +13,7 @@ const baseQuery = fetchBaseQuery({
 		}
 		return headers;
 	},
+	
 });
 
 const baseQueryExtended: BaseQueryFn = async (args, api, extraOptions) => {
@@ -35,12 +36,21 @@ export const api = createApi({
 		'slider',
 		'favorite',
 		'comparison',
-		'phones',
+		'filterProductsApi',
 		'personalFavorite',
 		'personalHistory',
 		'adminOrders',
 		'productAdd',
-		'viewedProducts'
+		'cardProductApi',
+		'catalogApi',
+		'viewedProducts',
+		'CharacteristicsApi',
+		'descriptionApi',
+		'deliveryApi',
+		'reviewsApi',
+		'cardProductsColorsApi',
+		'productMemoryApi',
+		'pdfApi'
 	],
 	endpoints: () => ({})
 });
