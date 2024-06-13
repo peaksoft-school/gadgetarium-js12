@@ -28,4 +28,4 @@ const api = index.injectEndpoints({
 	})
 });
 
-export const { useGetBrandApiQuery } = api;
+export const { useGetBrandApiQuery, useAddBrandApiMutation } = api;

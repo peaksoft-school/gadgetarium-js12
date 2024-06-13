@@ -6,7 +6,8 @@
 		display: flex;
 		flex-direction: column;
 		padding-top: 55px;
-		padding-bottom: 75px;
+		// padding-bottom: 75px;
+		padding-bottom: 1000px;
 		gap: 35px;
 		@media (max-width: 1100px) {
 			padding-top: 40px;
@@ -195,6 +196,7 @@
 						@media (max-width: 700px) {
 							gap: 4px;
 						}
+
 						:global {
 							.ant-select-selector {
 								background: white;
@@ -230,6 +232,71 @@
 							}
 							@media (max-width: 375px) {
 								width: 285px;
+							}
+						}
+						.div_for_brand_content {
+							width: 392px;
+							height: 39px;
+							border-radius: 5px;
+							border: 1px solid #ccc;
+							background-color: #fff;
+							@media (max-width: 853px) {
+								width: 300px;
+							}
+							@media (max-width: 767px) {
+								width: 200px;
+								height: 34px;
+							}
+							@media (max-width: 455px) {
+								width: 384px;
+							}
+							@media (max-width: 438px) {
+								width: 325px;
+							}
+							@media (max-width: 375px) {
+								width: 285px;
+							}
+							.noo_active_brand_div {
+								max-height: 0;
+								overflow: hidden;
+								transition: max-height 1s ease;
+								&.active_brand_div {
+									max-height: 200px;
+									position: relative;
+									top: 40px;
+									z-index: 100;
+									background-color: #fff;
+									overflow: auto;
+								}
+								.card_container {
+									display: flex;
+									flex-direction: column;
+									gap: 15px;
+									align-items: start;
+									padding: 20px;
+									.card_for_brand {
+										display: flex;
+										align-items: center;
+										justify-content: start;
+										gap: 11px;
+										img {
+											width: 100%;
+											max-width: 24px;
+											height: 24px;
+										}
+										p {
+											font-size: clamp(7px, 4vw, 16px);
+											font-weight: 400;
+											color: rgb(41, 41, 41);
+										}
+									}
+								}
+								p {
+									color: rgb(203, 17, 171);
+									font-size: clamp(7px, 4vw, 16px);
+									font-weight: 400;
+									cursor: pointer;
+								}
 							}
 						}
 						.input_for_text {

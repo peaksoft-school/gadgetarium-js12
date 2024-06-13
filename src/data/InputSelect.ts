@@ -10,34 +10,6 @@ interface ForBrandTypes {
 	label: string;
 }
 
-export const BrandForSmartphones: ForBrandTypes[] = [
-	{
-		img: 'https://banner2.cleanpng.com/20180616/yox/kisspng-apple-logo-apple-logo-5b25941fc205b9.8465606115291894077947.jpg',
-		value: '1',
-		label: 'Apple'
-	},
-	{
-		img: 'https://bsmedia.business-standard.com/_media/bs/img/about-page/1562575696.png',
-		value: '2',
-		label: 'Samsung'
-	},
-	{
-		img: 'https://img1.freepng.ru/20181116/xai/kisspng-logo-huawei-font-brand-vector-graphics-5bee62a2972519.6465445315423494746191.jpg',
-		value: '3',
-		label: 'Huawei'
-	},
-	{
-		img: 'https://1000logos.net/wp-content/uploads/2023/07/Honor-Logo.png',
-		value: '4',
-		label: 'Honor'
-	},
-	{
-		img: 'https://xiaomistore.online/upload/CMax/bc6/p3y3dzh5ceqs9xmmnbisba66puhmbloa.svg',
-		value: '5',
-		label: 'Xiaomi'
-	}
-];
-
 export const BrandForLaptop: ForBrandTypes[] = [
 	{
 		img: '',

@@ -2,7 +2,13 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import scss from './AddProductSections.module.scss';
 import { ConfigProvider, Input, Select } from 'antd';
-import { BrandForSmartphones, OptionsForScreenProtection } from '@/src/data/InputSelect';
+import { OptionsForScreenProtection } from '@/src/data/InputSelect';
+import {
+	useGetCatalogProductsQuery,
+	useSubCategoriesQuery
+} from '@/src/redux/api/catalogProducts';
+import { useState } from 'react';
+import { useGetBrandApiQuery } from '@/src/redux/api/brandApi';
 
 interface PagesArrayTypes {
 	id: number;
@@ -32,10 +38,34 @@ const pagesArray: PagesArrayTypes[] = [
 const handleChange = (value: string) => {
 	console.log(`selected ${value}`);
 };
-
+interface ArrayTypes {
+	mainColour: string;
+	memory: string;
+	ram: string;
+	countSim: number;
+	images: string[];
+	materialBracelet?: string;
+	materialBody?: string;
+	sizeWatch?: string;
+	dumas?: string;
+	genderWatch?: string;
+	waterproof?: string;
+	wireless?: string;
+	shapeBody?: string;
+}
 export const AddProductSections = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
+	const { data: brandArray = [] } = useGetBrandApiQuery();
+	const [categoryId, setCategoryId] = useState<string>('');
+	const [idForCategory, setIdForCategory] = useState<number>(0);
+	const [subCategoryValue, setSubCategoryValue] = useState<string>('');
+	const { data } = useGetCatalogProductsQuery();
+	const [brandActive, setBrandActive] = useState<boolean>(false);
+	const { data: subCategoryArray = [] } = useSubCategoriesQuery(
+		Number(categoryId)
+	);
+	const [array, setArray] = useState<ArrayTypes[]>([]);
 	return (
 		<section className={scss.AddProductSections}>
 			<div className="container">
@@ -110,43 +140,77 @@ export const AddProductSections = () => {
 												(option?.label ?? '').includes(input)
 											}
 											style={{ background: 'white' }}
-											filterSort={(optionA, optionB) =>
-												(optionA?.label ?? '')
-													.toLowerCase()
-													.localeCompare((optionB?.label ?? '').toLowerCase())
-											}
-											options={[
-												{
-													value: '1',
-													label: 'Смартфоны'
-												},
-												{
-													value: '2',
-													label: 'Ноутбуки и планшеты'
-												},
-												{
-													value: '3',
-													label: 'Защита экрана'
-												},
-												{
-													value: '4',
-													label: 'Смарт-часы и браслеты'
-												},
-												{
-													value: '5',
-													label: 'Аксессуары'
-												},
-											]}
+											options={data?.map((el) => ({
+												label: (
+													<p onClick={() => setCategoryId(el.id.toString())}>
+														{el.categoryName}
+													</p>
+												),
+												value: el.id.toString()
+											}))}
 										/>
 									</div>
 									<div className={scss.label_and_input_div}>
 										<label>Выберите подкатегорию *</label>
-										<Select
+										{/* <Select
 											className={scss.input}
 											placeholder="Выбрать"
 											onChange={handleChange}
-											options={BrandForSmartphones}
-										/>
+											options={brandArray.map((item) => ({
+												value: item.id.toString(),
+												label: (
+													<div
+														style={{
+															display: 'flex',
+															alignItems: 'center',
+															justifyContent: 'start',
+															gap: '11px'
+														}}
+													>
+														<img
+															style={{
+																width: '100%',
+																maxWidth: '23px',
+																height: '23px'
+															}}
+															src={item.image}
+															alt={item.brandName}
+														/>
+														<p
+															style={{
+																color: 'rgb(41, 41, 41)',
+																fontSize: '16px'
+															}}
+														>
+															{item.brandName}
+														</p>
+													</div>
+												)
+											}
+										))}
+										/> */}
+										<div
+											className={scss.div_for_brand_content}
+											onClick={() => setBrandActive(!brandActive)}
+										>
+											<div
+												className={
+													brandActive
+														? `${scss.noo_active_brand_div} ${scss.active_brand_div}`
+														: scss.noo_active_brand_div
+												}
+											>
+												{brandArray.map((el) => (
+													<div key={el.id} className={scss.card_container}>
+														<div className={scss.card_for_brand}>
+															<img src={el.image} alt={el.brandName} />
+															<p>{el.brandName}</p>
+														</div>
+													</div>
+												))}
+												<p>+ Создать новый бренд</p>
+											</div>
+										</div>
 									</div>
 									<div className={scss.label_and_input_div}>
 										<label>Название товара *</label>
@@ -162,8 +226,22 @@ export const AddProductSections = () => {
 										<Select
 											className={scss.input}
 											placeholder="Выбрать"
-											onChange={handleChange}
-											options={OptionsForScreenProtection}
+											options={
+												subCategoryArray &&
+												subCategoryArray.map((el) => ({
+													value: el.id.toString(),
+													label: (
+														<p
+															onClick={() =>
+																setSubCategoryValue(el.categoryName)
+															}
+														>
+															{el.categoryName}
+														</p>
+													)
+												}))
+											}
+											value={subCategoryValue}
 										/>
 									</div>
 									<div className={scss.label_and_input_div}>
