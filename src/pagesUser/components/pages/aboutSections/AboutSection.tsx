@@ -120,8 +120,8 @@ const AboutSection = () => {
 			<div className="container">
 				<div className={scss.content}>
 					<p className={scss.p} onClick={() => navigate('/')}>
-						Главная » <span>O магазине</span>
-					</p>{' '}
+						Главная » <h3>O магазине</h3>
+					</p>
 					<h1>О магазине</h1>
 					<span className={scss.hr}></span>
 					{isLoading ? (

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+/* eslint-disable prefer-const */
 import scss from './ProductsRecom.module.scss';
 import { Rate, Skeleton, Tooltip } from 'antd';
 import AddBasketButton from '../../../../ui/customButtons/AddBasketButton.tsx';
@@ -9,28 +9,34 @@ import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
 import { useGetProductsRecomQuery } from '@/src/redux/api/productsRecom/index.ts';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const ProductsRecom = () => {
-	const { data, isLoading, refetch } = useGetProductsRecomQuery();
-
 	const [comparisonPatchProduct] = useComparisonPatchProductsMutation();
 	const [basketPutProduct] = useBasketPutProductMutation();
 	const [putFavoriteProduct] = useFavoritePutProductMutation();
-	const [isVisible, setIsVisible] = useState(5);
-	const [showMore, setShowMore] = useState(false);
-
+	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
 
-	const handleVisible = () => {
-		setIsVisible(isVisible + 5);
-		setShowMore(!showMore);
+	const handleShowAllPhones = (page: number) => {
+		let size = 5 + page;
+		searchParams.set('page', '1');
+		searchParams.set('size', size.toString());
+		setSearchParams(searchParams);
+		navigate(`/?${searchParams.toString()}`);
 	};
 
-	const handleShowMore = () => {
-		setIsVisible(isVisible - 5);
-		setShowMore(!showMore);
+	const handlePaginationResult = () => {
+		searchParams.set('page', '1');
+		searchParams.set('size', '5');
+		setSearchParams(searchParams);
+		navigate(`/?${searchParams.toString()}`);
 	};
+
+	const { data, isLoading, refetch } = useGetProductsRecomQuery({
+		page: searchParams.toString(),
+		size: searchParams.toString()
+	});
 
 	const handleScaleClick = async (subGadgetId: number) => {
 		await comparisonPatchProduct(subGadgetId);
@@ -140,7 +146,12 @@ const ProductsRecom = () => {
 												<p className={scss.tag_color_green}>
 													В наличии {el.quantity}
 												</p>
-												<h3>{el.nameOfGadget}</h3>
+												<h3>
+													{' '}
+													{el.nameOfGadget.length >= 28
+														? el.nameOfGadget.slice(0, 22) + '...'
+														: el.nameOfGadget}
+												</h3>
 												<p>
 													Рейтинг <Rate allowHalf defaultValue={3.5} />{' '}
 													{el.rating}
@@ -173,10 +184,18 @@ const ProductsRecom = () => {
 							)}
 						</div>
 						<div className={scss.show_more_button}>
-							<ShowMoreButton
-								onClick={!showMore ? handleVisible : handleShowMore}
-								children={showMore ? 'Скрыть' : 'Показать ещё'}
-							/>
+							{data?.mainPages.length.toString() ===
+							searchParams.get('size') ? (
+								<ShowMoreButton
+									children={'Показать ещё'}
+									onClick={() => handleShowAllPhones(data?.mainPages.length)}
+								/>
+							) : (
+								<ShowMoreButton
+									children={'Скрыть'}
+									onClick={handlePaginationResult}
+								/>
+							)}
 						</div>
 					</div>
 				</div>

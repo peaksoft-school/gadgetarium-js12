@@ -12,8 +12,7 @@ const baseQuery = fetchBaseQuery({
 			headers.set('Authorization', `Bearer ${token}`);
 		}
 		return headers;
-	},
-	
+	}
 });
 
 const baseQueryExtended: BaseQueryFn = async (args, api, extraOptions) => {
@@ -43,8 +42,6 @@ export const api = createApi({
 		'productAdd',
 		'viewedProducts',
 		'searchGlobal'
-
 	],
-
 	endpoints: () => ({})
 });

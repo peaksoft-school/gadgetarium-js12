@@ -13,6 +13,7 @@ interface Description {
 }
 
 type Characteristics = {
+	[x: string]: ReactNode;
 	TrackType: string;
 	enginePower: string;
 	enginesType: string;

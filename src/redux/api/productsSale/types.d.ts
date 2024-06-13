@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 interface Root {
 	page: number;
 	size: number;
@@ -40,7 +41,10 @@ type MainPages = {
 };
 
 namespace PRODUCTSALE {
-	type GetProductsSaleRequest = void;
+	type GetProductsSaleRequest = {
+		page?: string;
+		size?: string;
+	};
 	type GetProductsSaleResponse = {
 		page: number;
 		size: number;

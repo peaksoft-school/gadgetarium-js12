@@ -3,8 +3,8 @@
 	height: auto;
 	background: #f4f4f4;
 	.content {
-		padding-top: 55px;
-		padding-bottom: 110px;
+		padding-top: 3.1rem;
+		padding-bottom: 6.5rem;
 		display: flex;
 		flex-direction: column;
 		gap: 40px;
@@ -21,6 +21,10 @@
 			font-size: clamp(0.5rem, 4vw, 0.8rem);
 			@media (max-width: 850px) {
 				gap: 3px;
+			}
+			h3 {
+				color: rgba(56, 66, 85, 0.6);
+				font-size: clamp(0.5rem, 4vw, 0.8rem);
 			}
 		}
 		h1 {
