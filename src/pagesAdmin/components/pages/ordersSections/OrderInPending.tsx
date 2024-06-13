@@ -30,7 +30,7 @@ const onChange: DatePickerProps['onChange'] = (date, dateString) => {
 };
 
 const OrderInPending = () => {
-	const { data: adminOrders, isLoading } = useGetAdminOrderQuery(0);
+	const { data, isLoading } = useGetAdminOrderQuery("");
 	const [deleteOrder] = useDeleteAdminOrderMutation();
 
 	const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -41,8 +41,8 @@ const OrderInPending = () => {
 	const handleDeleteOrder = async () => {
 		try {
 			await deleteOrder({
-				_id: orderIdToDelete,
-				fullname: '',
+				id: orderIdToDelete,
+				fullName: '',
 				modalName: '',
 				number: '',
 				date: '',
@@ -60,7 +60,7 @@ const OrderInPending = () => {
 			});
 			setModalIsOpen(false);
 		} catch (error) {
-			console.error('Failed to delete order: ', error);
+			console.error(error)
 		}
 	};
 
@@ -99,17 +99,10 @@ const OrderInPending = () => {
 					modalName: "Айзат Жумагуловой",
 					article: "000000-455247",
 					date: "14:33",
-					quantity: 2,
-					totalPrice: "90 000 с",
-					discountPrice: "9 000 с",
-					fullOldPrice: "99 000 с",
+					count: 2,
+					price: "90 000 с",
 					typeOrder: "Самовывоз",
 					status: "Отменены",
-					state: "Отменены",
-					address: "г.Бишкек, Токтоналиева, 145/7 кв 24, дом 5",
-					product: "Samsung Galaxy S21 128gb синий 9(MLP3RU)",
-					phone: "+996 (400) 00-00-00",
-					discount: "15%",
 				}
 			]
 		}
@@ -121,10 +114,9 @@ const OrderInPending = () => {
 		}
 	}
 
-
 	const processingOrders =
-		Array.isArray(adminOrders)
-			? adminOrders.filter((order) => order.status === 'Доставлены')
+		Array.isArray(data)
+			? data.filter((order) => order.status === 'Доставлены')
 			: [];
 
 	const handleOpenModal = (
@@ -146,7 +138,7 @@ const OrderInPending = () => {
 			{}
 		);
 	};
-	const statusCounts = countOrdersByStatus(adminOrders || []);
+	const statusCounts = countOrdersByStatus("" || []);
 
 	const antdThemeConfig = {
 		algorithm: theme.defaultAlgorithm,
@@ -155,6 +147,16 @@ const OrderInPending = () => {
 			colorBgContainer: 'transparent'
 		}
 	};
+
+	const idDate = data?.id ?? 1
+	const fullNameDate = data?.fullName ?? "Айзат Жумагулова"
+	const modalNameDate = data?.modalName ?? "Айзат Жумагуловой"
+	const articleDate = data?.article ?? "000000-455247"
+	const countDate = data?.count ?? 2
+	const priceDate = data?.price ?? "90 000"
+	const typeOrderDate = data?.typeOrder ?? "Самовывоз"
+	const dateDate = data?.date ?? "13.06.2024"
+	const statusDate = data?.status ?? "В ожидании"
 
 	return (
 		<section className={scss.order}>
@@ -261,44 +263,40 @@ const OrderInPending = () => {
 											<h1>IsLoading...</h1>
 										) : (
 											<tr className={scss.tr}>
-																											wd
-
-												{processingOrders?.map((e) => (
-													<Link to={`single-order/${e.orderResponses.id}`}>
+													<Link to={`single-order/${idDate}`}>
 														<div className={scss.tr_div}>
 															<div className={scss.tr_row_1}>
-																<td className={scss.id_col}>{e.orderResponses.id}</td>
-																<td>{e.fullName}</td>
+																<td className={scss.id_col}>{idDate}</td>
+																<td>{fullNameDate}</td>
 															</div>
 															<div className={scss.tr_row_2}>
 																<td className={scss.number_col}>
-																	<h2>{e.number}</h2> <span>{e.date}</span>
+																	<h2>{articleDate}</h2> <span>{dateDate}</span>
 																</td>
 																<td className={scss.quantity_col}>
-																	{e.quantity}
+																	{countDate} шт.
 																</td>
 																<td className={scss.total_price_col}>
-																	{e.totalPrice}
+																	{priceDate}
 																</td>
 																<td className={scss.order_type_col}>
-																	{e.orderType}
+																	{typeOrderDate}
 																</td>
 																<CustomSelect
-																	orderId={e._id}
-																	orderStatus={e.status}
-																	currentColor={statusToColor(e.status)}
+																	orderId={idDate}
+																	orderStatus={statusDate}
+																	currentColor={statusToColor(statusDate)}
 																/>
 																<IconTrash
 																	className={scss.trash}
 																	onClick={(event) => {
-																		handleOpenModal(e._id, event);
-																		setModalName(e.modalName);
+																		handleOpenModal(idDate, event);
+																		setModalName(modalNameDate);
 																	}}
 																/>
 															</div>
 														</div>
 													</Link>
-												))}
 												<CustomModal
 													isModalOpen={modalIsOpen}
 													setIsModalOpen={setModalIsOpen}

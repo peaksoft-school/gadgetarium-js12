@@ -27,12 +27,23 @@ const OrderSinglePage = () => {
 
   useEffect(() => {
     setIsLoading(true)
-    fetch(`https://api-v2.elchocrud.pro/api/v1/5babd4e55530d1ca27208b3cf92e6438/adminOrders/${id}`)
-      .then(res => res.json())
-      .then(data => {
-        setOrder(data)
-        setIsLoading(false);
-      })
+    fetch(` http://3.76.202.126/api/order/by-id/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
+    .then(async res => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+      try {
+        const data = await res.json();
+        setOrder(data);
+      } catch {
+        throw new Error('Invalid JSON response');
+      }
+      setIsLoading(false);
+    })
       .catch(error => {
         console.error('Error fetching data:', error)
         setIsLoading(false)

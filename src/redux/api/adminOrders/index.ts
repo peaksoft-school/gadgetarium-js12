@@ -24,7 +24,7 @@ const api = index.injectEndpoints({
         method: "POST",
         body: products,
         headers: {
-					'Authorization': `Bearer ${localStorage.getItem("token")}` 
+					'Authorization': `Bearer ${localStorage.getItem('token')}` 
 				}
       })
     }),
@@ -33,7 +33,7 @@ const api = index.injectEndpoints({
       ORDERSTORE.PutOrderRequest
     >({
       query: ({ id, ...products }) => ({
-        url: `https://api-v2.elchocrud.pro/api/v1/5babd4e55530d1ca27208b3cf92e6438/adminOrders/${id}`,
+        url: `/api/order/${id}`,
         method: "PATCH",
         body: products
       })
@@ -43,7 +43,7 @@ const api = index.injectEndpoints({
       ORDERSTORE.DeleteOrderRequest
     >({
       query: ({ id }) => ({
-        url: `https://api-v2.elchocrud.pro/api/v1/5babd4e55530d1ca27208b3cf92e6438/adminOrders/${id}`,
+        url: `/api/order${id}`,
         method: "DELETE",
       })
     })

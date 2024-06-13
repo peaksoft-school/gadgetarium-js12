@@ -40,8 +40,8 @@ const OrderDelivered = () => {
 	const handleDeleteOrder = async () => {
 		try {
 			await deleteOrder({
-				_id: orderIdToDelete,
-				fullname: '',
+				id: orderIdToDelete,
+				fullName: '',
 				modalName: '',
 				number: '',
 				date: '',

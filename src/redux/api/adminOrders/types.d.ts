@@ -2,34 +2,50 @@ namespace ORDERSTORE {
   type IOrder = {
     searchWord: string,
     status: string,
-    quantity: 0,
+    quantity: number,
     startDate: string,
     endDate: string,
-    page: 0,
-    size: 0,
+    page: number,
+    size: number,
     orderResponses: [
       {
-        id: 0,
+        id: number,
         fullName: string,
         modalName: string,
-        article: 0,
+        article: number,
         date: string,
-        quantity: 0,
-        totalPrice: 0,
-        discountPrice: 0,
-        fullOldPrice: 0,
+        count: number,
+        price: string,
         typeOrder: string,
         status: string,
-        state: string,
-        address: string,
-        product: string,
-        phone: string,
-        discount: string,        
       }
     ]
   }
 
-  type GetOrderResponse = IOrder[];
+  type GetOrderResponse = IOrder[
+    {
+      searchWord: string,
+      status: string,
+      quantity: number,
+      startDate: string,
+      endDate: string,
+      page: number,
+      size: number,
+      orderResponses: [
+        {
+          id: number,
+          fullName: string,
+          modalName: string,
+          article: number,
+          date: string,
+          count: number,
+          price: number,
+          typeOrder: string,
+          status: string,
+        }
+      ]
+    }
+  ];
   type GetOrderRequest = string;
   type PostOrderRequest = IOrder;
   type PostOrderResponse = IOrder;

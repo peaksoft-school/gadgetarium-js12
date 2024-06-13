@@ -1,6 +1,11 @@
 .Infographics {
 	width: 100%;
 	height: auto;
+	.parts {
+		display: flex;
+		flex-direction: column;
+		gap: 30px;
+	}
 	.content_right {
 		display: flex;
 		flex-direction: column;

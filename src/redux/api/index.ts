@@ -43,7 +43,8 @@ export const api = createApi({
 		'productAdd',
 		'viewedProducts',
 		'adminsOrders',
-		'adminReview'
+		'adminReview',
+		'infoGraphics'
 
 	],
 
