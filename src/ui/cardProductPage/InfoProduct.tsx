@@ -48,7 +48,7 @@ const InfoProduct = () => {
 	const pdfParam = `key=${searchParams.get('key')}`
 
 	const handlePDFApiFunk = (pdfUrl: string) => {
-		searchParams.set('key', pdfUrl);
+		searchParams.set('key', 'aa115f91-4624-46c3-b388-90d108d244f2');
 		setSearchParams(searchParams);
 	};
 	const { data } = useGetUserPostPDSQuery(pdfParam);

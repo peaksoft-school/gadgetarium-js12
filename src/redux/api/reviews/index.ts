@@ -46,12 +46,13 @@ const api = index.injectEndpoints({
 			REVIEWS.EditUserCommitResponse,
 			REVIEWS.EditUserCommitRequest
 		>({
-			query: ({ feedId }) => ({
+			query: ({ feedId, comment, grade, images }) => ({
 				url: `/api/feedback/edit/${feedId}`,
 				method: 'PATCH',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
-				}
+				},
+				body: { comment, grade, images }
 			}),
 			invalidatesTags: ['reviewsApi']
 		}),
