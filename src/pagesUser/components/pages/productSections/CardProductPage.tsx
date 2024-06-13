@@ -19,9 +19,11 @@ import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { IconRedHeart } from '@/src/assets/icons';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
-import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
+// import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
 import { useGetProductsColorsApiQuery } from '@/src/redux/api/productColorApi';
 import { useGetProductMemoryQuery } from '@/src/redux/api/memoryForProductApi';
+// import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
+// import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
 const CardProductPage = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [basketAddProduct] = useBasketPutProductMutation();
@@ -417,7 +419,7 @@ const CardProductPage = () => {
 				</div>
 
 				<InfoPageForProduct />
-				<ViewedProducts />
+				{/* <ViewedProducts /> */}
 			</section>
 			<ConfigProvider
 				theme={{
