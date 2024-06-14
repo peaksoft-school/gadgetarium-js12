@@ -166,18 +166,3 @@ export const optionsSmartWatchesAndBracelets: OptionsTypes[] = [
 		value: '9'
 	}
 ];
-
-export const OptionsForScreenProtection: OptionsTypes[] = [
-	{
-		label: 'Ремешки для часов',
-		value: '7'
-	},
-	{
-		label: 'Ремешки для часов',
-		value: '8'
-	},
-	{
-		label: 'Ремешки для часов',
-		value: '9'
-	}
-];

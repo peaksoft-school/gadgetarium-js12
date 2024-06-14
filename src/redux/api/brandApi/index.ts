@@ -15,13 +15,14 @@ const api = index.injectEndpoints({
 			}),
 			providesTags: ['brandApi']
 		}),
-    addBrandApi: build.mutation({
-      query: () => ({
-        // url: `/api/brand?${}`,
+    addBrandApi: build.mutation<BRANDAPI.addBrandResponse, BRANDAPI.addBrandRequest | FormData>({
+      query: ({brandName, file}) => ({
+        url: `/api/brand?${brandName}`,
         method: 'POST',
         headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
-				}
+				},
+				body: file
       }),
       invalidatesTags: ['brandApi']
     })

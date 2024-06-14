@@ -6,4 +6,13 @@ namespace BRANDAPI {
     image: string;
     brandName: string;
   }[];
+
+  type addBrandRequest = {
+    brandName: string;
+    file: string;
+  }
+  type addBrandResponse = {
+    brandName?: string;
+    file?: string;
+  }
 }
