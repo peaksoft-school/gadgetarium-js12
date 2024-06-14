@@ -364,8 +364,173 @@
 					}
 				}
 			}
-			.card_input_pole{
-				
+			.card_input_pole {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 15px;
+				.card_container_for_forms {
+					display: flex;
+					flex-direction: column;
+					gap: 35px;
+					.product_count_div {
+						display: flex;
+						align-items: center;
+						gap: 24px;
+						.input_for_product_count {
+							box-sizing: border-box;
+							/* Серый txt #91969E */
+							border: 1px solid rgb(145, 150, 158);
+							border-radius: 6px;
+							width: 100%;
+							max-width: 107px;
+							height: 35px;
+							color: rgb(145, 150, 158);
+							font-size: clamp(7px, 3vw, 16px);
+							font-weight: 300;
+						}
+						.input_for_product_count::placeholder {
+							color: rgb(145, 150, 158);
+						}
+						p {
+							display: flex;
+							align-items: center;
+							gap: 5.5px;
+							cursor: pointer;
+							span {
+								color: rgb(203, 17, 171);
+								font-size: clamp(7px, 5vw, 16px);
+								font-weight: 500;
+							}
+						}
+					}
+					.card_inputs {
+						display: flex;
+						flex-direction: column;
+						gap: 15px;
+						.label_and_input_div {
+							display: flex;
+							flex-direction: column;
+							gap: 5px;
+							label {
+								color: rgb(56, 66, 85);
+								font-size: clamp(7px, 4vw, 14px);
+								font-weight: 400;
+							}
+							.input_for_form {
+								box-sizing: border-box;
+								/* Gray Input */
+								border: 1px solid rgb(205, 205, 205);
+								border-radius: 6px;
+								width: 392px;
+								height: 35px;
+								color: rgb(145, 150, 158);
+								font-size: clamp(7px, 3vw, 16px);
+								font-weight: 300;
+								@media (max-width: 853px) {
+									width: 300px;
+								}
+								@media (max-width: 767px) {
+									width: 200px;
+									height: 34px;
+								}
+								@media (max-width: 455px) {
+									width: 384px;
+								}
+								@media (max-width: 438px) {
+									width: 325px;
+								}
+								@media (max-width: 375px) {
+									width: 285px;
+								}
+							}
+							.input_for_form::placeholder {
+								color: rgb(145, 150, 158);
+							}
+							.color_input {
+								box-sizing: border-box;
+								/* Gray Input */
+								border: 1px solid rgb(205, 205, 205);
+								border-radius: 6px;
+								width: 392px;
+								height: 35px;
+
+								display: flex;
+								justify-content: space-between;
+								align-items: center;
+								padding: 10px;
+								p {
+									color: rgb(145, 150, 158);
+									font-size: clamp(7px, 3vw, 16px);
+									font-weight: 300;
+								}
+								@media (max-width: 853px) {
+									width: 300px;
+								}
+								@media (max-width: 767px) {
+									width: 200px;
+									height: 34px;
+								}
+								@media (max-width: 455px) {
+									width: 384px;
+								}
+								@media (max-width: 438px) {
+									width: 325px;
+								}
+								@media (max-width: 375px) {
+									width: 285px;
+								}
+							}
+						}
+					}
+					.file_div {
+						display: flex;
+						flex-direction: column;
+						gap: 5px;
+						label {
+							color: rgb(56, 66, 85);
+							font-size: clamp(7px, 4vw, 14px);
+							font-weight: 400;
+						}
+						.div_for_file {
+							box-sizing: border-box;
+							border: 1px dashed rgb(41, 41, 41);
+							border-radius: 4px;
+							background: rgba(210, 212, 216, 0.5);
+							width: 100%;
+							max-width: 392px;
+							height: 165px;
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							justify-content: center;
+							gap: 22px;
+							.file_div_contents {
+								display: flex;
+								flex-direction: column;
+								gap: 9px;
+								p {
+									color: rgb(41, 41, 41);
+									font-size: clamp(7px, 4vw, 12px);
+									font-weight: 400;
+								}
+							}
+						}
+					}
+					.add_product_button_div {
+						text-align: end;
+						.add_product_button {
+							width: 100%;
+							max-width: 99px;
+							height: 43px;
+							border-radius: 4px;
+							color: rgb(255, 255, 255);
+							font-size: clamp(8px, 6vw, 16px);
+							font-weight: 600;
+							background: rgb(203, 17, 171);
+							border: none;
+						}
+					}
+				}
 			}
 		}
 	}

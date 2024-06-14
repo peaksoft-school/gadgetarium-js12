@@ -6,12 +6,26 @@ import {
 	useGetCatalogProductsQuery,
 	useSubCategoriesQuery
 } from '@/src/redux/api/catalogProducts';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
 	useAddBrandApiMutation,
 	useGetBrandApiQuery
 } from '@/src/redux/api/brandApi';
 import { IconCalendarMinus, IconPhotoPlus } from '@tabler/icons-react';
+import { IconFrame, IconPlus } from '@/src/assets/icons';
+import { generate, green, presetPalettes, red } from '@ant-design/colors';
+import { ColorPicker, theme } from 'antd';
+import type { ColorPickerProps } from 'antd';
+import { gBiteCatalog, moreGBiteCatalog, simCards } from '@/src/data/Catalog';
+import { OptionsForLaptop, optionsSmartWatchesAndBracelets } from '@/src/data/InputSelect';
+
+type Presets = Required<ColorPickerProps>['presets'][number];
+
+const genPresets = (presets = presetPalettes) =>
+	Object.entries(presets).map<Presets>(([label, colors]) => ({
+		label,
+		colors
+	}));
 
 interface PagesArrayTypes {
 	id: number;
@@ -42,6 +56,7 @@ const handleChange = (value: string) => {
 	console.log(`selected ${value}`);
 };
 interface ArrayTypes {
+	id?: number;
 	mainColour: string;
 	memory: string;
 	ram: string;
@@ -56,6 +71,15 @@ interface ArrayTypes {
 	wireless?: string;
 	shapeBody?: string;
 }
+const arrayForm: ArrayTypes[] = [
+	{
+		mainColour: '',
+		memory: '',
+		ram: '',
+		countSim: 0,
+		images: ['']
+	}
+];
 export const AddProductSections = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -74,9 +98,17 @@ export const AddProductSections = () => {
 	const [fileValue, setFileValue] = useState<FormData>();
 	const { data } = useGetCatalogProductsQuery();
 	const [brandActive, setBrandActive] = useState<boolean>(false);
+	const addProductFileRef = useRef<HTMLInputElement>(null);
 	const { data: subCategoryArray = [] } = useSubCategoriesQuery(
 		Number(categoryId)
 	);
+
+	const { token } = theme.useToken();
+	const presets = genPresets({
+		primary: generate(token.colorPrimary),
+		red,
+		green
+	});
 
 	const handleClickRef = () => {
 		if (inputForFileRef.current) {
@@ -127,7 +159,26 @@ export const AddProductSections = () => {
 		}
 	};
 
-	const [array, setArray] = useState<ArrayTypes[]>([]);
+	const handleOpenFileInputForAddProduct = () => {
+		if (addProductFileRef.current) {
+			return addProductFileRef.current.click();
+		}
+	};
+
+	const brandArrayForm = {
+		mainColour: 'Основной цвет',
+		memory: 'Объем памяти',
+		ram: 'Оперативная память',
+		countSim: 'Кол-во SIM-карт',
+		images: 'Добавьте фото',
+		id: Math.floor(Math.random())
+	};
+
+	const [array, setArray] = useState<ArrayTypes[]>(arrayForm);
+	const handleOPen = () => {
+		setArray((arrayState) => [...arrayState, brandArrayForm]);
+	};
+	console.log(array, brandArrayForm, 'value');
 	return (
 		<>
 			<section className={scss.AddProductSections}>
@@ -334,9 +385,9 @@ export const AddProductSections = () => {
 												<DatePicker
 													className={scss.input_for_text}
 													placeholder="Введите дату выпуска"
-													onChange={(
-														e
-													) => setDateOfIssue(Number(e.target.value))}
+													onChange={(e) =>
+														setDateOfIssue(Number(e.target.value))
+													}
 													value={dateOfIssue}
 												/>
 											) : (
@@ -352,9 +403,227 @@ export const AddProductSections = () => {
 										</div>
 									</div>
 								</div>
-								{categoryId === '1' || categoryId === '2' && (
+								{(categoryId === '1' || categoryId === '2') && (
 									<div className={scss.card_input_pole}>
-										
+										{array.map((el, index) => (
+											<div
+												key={el.id}
+												className={scss.card_container_for_forms}
+											>
+												<div className={scss.product_count_div}>
+													<Input
+														placeholder={`Продукт ${index + 1}`}
+														className={scss.input_for_product_count}
+													/>
+													<p onClick={handleOPen}>
+														<IconPlus />
+														<span>Добавить продукт</span>
+													</p>
+												</div>
+												<div className={scss.card_inputs}>
+													<div className={scss.label_and_input_div}>
+														<label>Основной цвет</label>
+
+														<ColorPicker presets={presets}>
+															<div className={scss.color_input} type="primary">
+																<p>Основной цвет</p>
+																<IconFrame />
+															</div>
+														</ColorPicker>
+													</div>
+													<div className={scss.label_and_input_div}>
+														<label>Объем памяти</label>
+
+														<Select
+															className={scss.input_for_form}
+															placeholder="Объем памяти"
+															options={
+																gBiteCatalog &&
+																gBiteCatalog.map((el, index) => ({
+																	value: String(index + 1),
+																	label: <p>{el.gb}</p>
+																}))
+															}
+														/>
+													</div>
+													<div className={scss.label_and_input_div}>
+														<label>Оперативная память</label>
+
+														<Select
+															className={scss.input_for_form}
+															placeholder="Оперативная память"
+															options={
+																moreGBiteCatalog &&
+																moreGBiteCatalog.map((el, index) => ({
+																	value: String(index + 1),
+																	label: <p>{el.gb}</p>
+																}))
+															}
+														/>
+													</div>
+													<div className={scss.label_and_input_div}>
+														<label>Кол-во SIM-карт</label>
+
+														<Select
+															className={scss.input_for_form}
+															placeholder="Кол-во SIM-карт"
+															options={
+																simCards &&
+																simCards.map((el, index) => ({
+																	value: String(index + 1),
+																	label: <p>{el.sumCard}</p>
+																}))
+															}
+														/>
+													</div>
+												</div>
+												<div className={scss.file_div}>
+													<label>Добавьте фото</label>
+													<div
+														className={scss.div_for_file}
+														onClick={handleOpenFileInputForAddProduct}
+													>
+														<input
+															type="file"
+															ref={addProductFileRef}
+															style={{ display: 'none' }}
+															multiple
+														/>
+														<IconPhotoPlus
+															color="rgb(145, 150, 158)"
+															width={'36px'}
+															height={'33px'}
+														/>
+														<div className={scss.file_div_contents}>
+															<p>Нажмите или перетащите сюда файл</p>
+															<p>
+																Минимальное разрешение - 450x600 <br />{' '}
+																максимальное количество - 10 фото
+															</p>
+														</div>
+													</div>
+												</div>
+												<div className={scss.add_product_button_div}>
+													<Button className={scss.add_product_button}>
+														Далее
+													</Button>
+												</div>
+											</div>
+										))}
+									</div>
+								)}
+								{(categoryId === '3' || categoryId === '4') && (
+									<div className={scss.card_input_pole}>
+										{array.map((el, index) => (
+											<div
+												className={scss.card_container_for_forms}
+												key={index}
+											>
+												<div className={scss.product_count_div}>
+													<Input
+														placeholder={`Продукт ${index + 1}`}
+														className={scss.input_for_product_count}
+													/>
+													<p onClick={handleOPen}>
+														<IconPlus />
+														<span>Добавить продукт</span>
+													</p>
+												</div>
+												<div className={scss.card_inputs}>
+													<div className={scss.label_and_input_div}>
+														<label>Основной цвет</label>
+
+														<ColorPicker presets={presets}>
+															<div className={scss.color_input} type="primary">
+																<p>Основной цвет</p>
+																<IconFrame />
+															</div>
+														</ColorPicker>
+													</div>
+													<div className={scss.label_and_input_div}>
+														<label>Объем памяти</label>
+
+														<Select
+															className={scss.input_for_form}
+															placeholder="Объем памяти"
+															options={
+																gBiteCatalog &&
+																gBiteCatalog.map((el, index) => ({
+																	value: String(index + 1),
+																	label: <p>{el.gb}</p>
+																}))
+															}
+														/>
+													</div>
+													<div className={scss.label_and_input_div}>
+														<label>Материал браслета/ремешка</label>
+
+														<Select
+															className={scss.input_for_form}
+															placeholder="Объем памяти"
+															options={
+																optionsSmartWatchesAndBracelets &&
+																optionsSmartWatchesAndBracelets.map((el, index) => ({
+																	value: String(index + 1),
+																	label: <p>{el.label}</p>
+																}))
+															}
+														/>
+													</div>
+													<div className={scss.label_and_input_div}>
+														<label>Материал корпуса</label>
+
+														<Select
+															className={scss.input_for_form}
+															placeholder="Объем памяти"
+															options={
+																optionsSmartWatchesAndBracelets &&
+																optionsSmartWatchesAndBracelets.map((el, index) => ({
+																	value: String(index + 1),
+																	label: <p>{el.label}</p>
+																}))
+															}
+														/>
+													</div>
+													<div className={scss.label_and_input_div}>
+														<label>Размер смарт часов (mm)</label>
+
+														<Select
+															className={scss.input_for_form}
+															placeholder="Объем памяти"
+															options={
+																OptionsForLaptop &&
+																OptionsForLaptop.map((el, index) => ({
+																	value: String(index + 1),
+																	label: <p>{el.label}</p>
+																}))
+															}
+														/>
+													</div>
+													<div className={scss.label_and_input_div}>
+														<label>Диагональ дисплея (дюйм)</label>
+
+														<Select
+															className={scss.input_for_form}
+															placeholder="Объем памяти"
+															options={
+																OptionsForLaptop &&
+																OptionsForLaptop.map((el, index) => ({
+																	value: String(index + 1),
+																	label: <p>{el.label}</p>
+																}))
+															}
+														/>
+													</div>
+													<div className={scss.label_and_input_div}>
+														<label>Пол</label>
+														<div>
+															
+														</div>
+													</div>
+												</div>
+											</div>
+										))}
 									</div>
 								)}
 							</ConfigProvider>

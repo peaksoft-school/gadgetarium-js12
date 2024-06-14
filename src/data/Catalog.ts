@@ -81,3 +81,12 @@ export const moreGBiteCatalog = [
     gb: 'RAM_32'
   },
 ]
+
+export const simCards = [
+  {
+    sumCard: '1'
+  },
+  {
+    sumCard: '2'
+  },
+]
