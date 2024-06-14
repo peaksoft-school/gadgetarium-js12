@@ -18,7 +18,7 @@ const PhonesDropdown = () => {
 		searchParams.append('discount', discount);
 		setSearchParams(searchParams);
 	};
-	const { data } = useGetFiltredGadgetQuery({
+	useGetFiltredGadgetQuery({
 		id: Number(filtredIds),
 		sort: searchParams.toString()
 	});

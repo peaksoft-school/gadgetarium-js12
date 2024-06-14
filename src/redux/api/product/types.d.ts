@@ -34,8 +34,6 @@ namespace PRODUCTSTORE {
 		SIMCards?: string;
 	}[];
 
-<<<<<<< HEAD
-=======
 	type GetProductsItemIdRequest = string;
 	type GetProductsItemIdResponse = {
 		id: number;
@@ -81,7 +79,6 @@ namespace PRODUCTSTORE {
 		deliveryAndPayment: DeliveryAndPayment;
 	};
 
->>>>>>> dev
 	type GetProductDetailsRequest = void;
 	type GetProductDetailsResponse = {
 		id: number;

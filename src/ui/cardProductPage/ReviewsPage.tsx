@@ -18,7 +18,7 @@ import {
 } from '@tabler/icons-react';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import { Notify } from '@/src/utils/helpers/Notify';
+import { notify } from '@/src/utils/helpers/notify';
 const ReviewsPage = () => {
 	const fileUrl = useRef<HTMLInputElement>(null);
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -28,6 +28,7 @@ const ReviewsPage = () => {
 	const [modalForEdit, setModalForEdit] = useState<boolean>(false);
 	const navigate = useNavigate();
 	const [editInputValueCommit, setEditInputValueCommit] = useState<string>('');
+
 	const [postUpload] = usePostUploadMutation();
 	const { productId } = useParams();
 	const [postUserCommitApi] = usePostUsersCommitsMutation();
@@ -35,7 +36,7 @@ const ReviewsPage = () => {
 	const [modal2Open, setModal2Open] = useState<boolean>(false);
 	const [filesUrls, setFilesUrls] = useState<string[]>([]);
 	const [textCommitInput, setTextCommitInput] = useState<string>('');
-	const [rateEdit, setRateEdit] = useState<number>(0);
+	// const [rateEdit, setRateEdit] = useState<number>(0);
 	const [indexProducts, setIndexProducts] = useState<number>(0);
 	const [rateValue, setRateValue] = useState<number>(0);
 	const [deleteModal, setDeleteModal] = useState<boolean>(false);
@@ -78,8 +79,8 @@ const ReviewsPage = () => {
 		try {
 			if (
 				editRateValue === 0 &&
-				editInputValueCommit === '' &&
-				filesUrls === ['']
+				editInputValueCommit === ''
+				// filesUrls === ['']
 			)
 				return alert('input if value not found');
 			await editCommitUserApi({
@@ -111,9 +112,9 @@ const ReviewsPage = () => {
 		};
 		const { comment, grade, images } = DATA;
 		try {
-			if (rateValue === 0 || ('' && textCommitInput === '' && filesUrls === []))
-				return Notify('Ошибка', 'Заполните все поля', '');
-			Notify('success', 'Успешно Комментарий отправлен', '');
+			if (rateValue === 0 || ('' && textCommitInput === ''))
+				return notify('Ошибка', 'Заполните все поля', '');
+			notify('success', 'Успешно Комментарий отправлен', '');
 			await postUserCommitApi({
 				gadgetId: Number(productId && productId),
 				comment,
@@ -125,7 +126,7 @@ const ReviewsPage = () => {
 			setFilesUrls([]);
 		} catch (error) {
 			console.error(error, 'error service');
-			Notify('Ошибка', 'Не удалось отправить комментарий', '');
+			notify('Ошибка', 'Не удалось отправить комментарий', '');
 		}
 	};
 
@@ -243,24 +244,23 @@ const ReviewsPage = () => {
 									</div>
 								</div>
 							))}
-							{data!.length >= 3 && (
+							{data!.length === Number(searchParams.get('size')) ? (
 								<div className={scss.button_div_for_pagination}>
-									{FeedbackStatistics?.quantityFeedbacks.toString() <
-									searchParams.get('size') ? (
-										<Button
-											onClick={handlePaginationFunkCancel}
-											className={scss.button_for_pagination}
-										>
-											Скрыть
-										</Button>
-									) : (
-										<Button
-											onClick={() => handlePaginationFunk(3)}
-											className={scss.button_for_pagination}
-										>
-											Показать ещё
-										</Button>
-									)}
+									<Button
+										onClick={() => handlePaginationFunk(3)}
+										className={scss.button_for_pagination}
+									>
+										Показать ещё
+									</Button>
+								</div>
+							) : (
+								<div className={scss.button_div_for_pagination}>
+									<Button
+										onClick={handlePaginationFunkCancel}
+										className={scss.button_for_pagination}
+									>
+										Скрыть
+									</Button>
 								</div>
 							)}
 						</div>

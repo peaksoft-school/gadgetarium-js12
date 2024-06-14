@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -107,7 +108,7 @@ const ComparisonSection = () => {
 
 	const handleClearAllProductsFunk = async () => {
 		try {
-			await clearAllProducts();
+			await clearAllProducts({});
 		} catch (error) {
 			console.error(error);
 		}
@@ -145,8 +146,8 @@ const ComparisonSection = () => {
 		};
 	}, []);
 
-	const handleAddBasketProducts = async (id: number) => {
-		await addBasketProducts({ id });
+	const handleAddBasketProducts = async (subGadgetId: number) => {
+		await addBasketProducts({ id: subGadgetId, basket: false });
 	};
 
 	const { data, isLoading } = useGetComparisonCompareQuery({

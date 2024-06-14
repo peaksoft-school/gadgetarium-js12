@@ -22,41 +22,44 @@ const Delivery = () => {
 					<div className={scss.cards_and_texts_content_div}>
 						<div className={scss.div_cards_1}>
 							<div className={scss.card_content}>
-								<IconKamazCar />
 								<div className={scss.cards_texts}>
-									<h3>Самовывоз со склада</h3>
-									<p>Забрать в течение 14 дней</p>
+									<IconKamazCar />
+									<div>
+										<h3>Самовывоз со склада</h3>
+										<p>Забрать в течение 14 дней</p>
+									</div>
+								</div>
+								<div className={scss.card_content2}>
+									<IconWallet style={{ color: '#c11bab' }} />
+									<p>Предоплата не требуется</p>
 								</div>
 							</div>
 							<div className={scss.card_content}>
-								<IconKamazCar />
 								<div className={scss.cards_texts}>
-									<h3>Самовывоз со склада</h3>
-									<p>Забрать в течение 14 дней</p>
+									<IconKamazCar />
+									<div>
+										<h3>Самовывоз из магазина</h3>
+										<p>Забрать в течение 14 дней</p>
+									</div>
+								</div>
+								<div className={scss.card_content2}>
+									<IconWallet style={{ color: '#c11bab' }} />
+									<p>Предоплата не требуется</p>
 								</div>
 							</div>
 							<div className={scss.card_content}>
-								<IconKamazCar />
 								<div className={scss.cards_texts}>
-									<h3>Доставка</h3>
-									<p>По городу 200сом, по регионам</p>
-									<p>Бесплатная доставка</p>
-									<p>при покупках свыше — 10 000с.</p>
+									<IconKamazCar />
+									<div>
+										<h3>Доставка</h3>
+										<p>По городу 200сом, по регионам.</p>
+										<p>Бесплатная доставка при покупках свыше — 10 000с.</p>
+									</div>
 								</div>
-							</div>
-						</div>
-						<div className={scss.div_cards_2}>
-							<div className={scss.card_content2}>
-								<IconWallet style={{ color: '#c11bab' }} />
-								<p>Предоплата не требуется</p>
-							</div>
-							<div className={scss.card_content2}>
-								<IconWallet style={{ color: '#c11bab' }} />
-								<p>Предоплата не требуется</p>
-							</div>
-							<div className={scss.card_content3}>
-								<IconWallet style={{ color: '#c11bab' }} />
-								<p>Предоплата не требуется</p>
+								<div className={scss.card_content2}>
+									<IconWallet style={{ color: '#c11bab' }} />
+									<p>Предоплата не требуется</p>
+								</div>
 							</div>
 						</div>
 					</div>

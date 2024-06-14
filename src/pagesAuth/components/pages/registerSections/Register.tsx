@@ -20,6 +20,7 @@ export const Register = () => {
 
 	const onSubmit: SubmitHandler<RegisterForms> = async (data, event) => {
 		event?.preventDefault();
+
 		try {
 			const response = await postRequest(data);
 			if ('data' in response) {

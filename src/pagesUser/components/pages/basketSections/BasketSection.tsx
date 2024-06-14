@@ -45,16 +45,19 @@ const BasketSection = () => {
 			}, 0);
 			setTotalAmount(total);
 		};
- 
+
 		calculateTotalAmount();
 	}, [selectedProducts, orderAmount]);
 
 	const handleBasketProductDelete = async (id: number) => {
-		await basketDeleteProduct({ id });
+		await basketDeleteProduct({
+			id,
+			basket: false
+		});
 	};
 
-	const handleFavoriteAddProduct = async (id: number, likes: boolean) => {
-		await favoriteAddProduct({ id, likes: !likes });
+	const handleFavoriteAddProduct = async (subGadgetId: number) => {
+		await favoriteAddProduct(subGadgetId);
 	};
 
 	const handleSelectProduct = async (productId: number) => {
@@ -313,10 +316,7 @@ const BasketSection = () => {
 																	<div
 																		className={scss.div}
 																		onClick={() =>
-																			handleFavoriteAddProduct(
-																				item.id,
-																				item.likes
-																			)
+																			handleFavoriteAddProduct(item.id)
 																		}
 																	>
 																		{item.likes === true ? (

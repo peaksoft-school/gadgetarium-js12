@@ -9,8 +9,7 @@ import { auth, provider } from './config';
 import { signInWithPopup } from 'firebase/auth';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import { Notify } from '@/src/utils/helpers/Notify';
-
+import { notify } from '@/src/utils/helpers/notify';
 
 const Login = () => {
 	const [passwordVisible, setPasswordVisible] = React.useState(false);
@@ -34,7 +33,7 @@ const Login = () => {
 				const { token } = response.data;
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'true');
-				Notify('Вход выполнен успешно', 'Перейти на главную', '/');
+				notify('Вход выполнен успешно', 'Перейти на главную', '/');
 				navigate('/admin');
 				reset();
 			} else {
@@ -42,7 +41,7 @@ const Login = () => {
 			}
 		} catch (error) {
 			console.log('Ошибка при входе', error);
-			Notify('Ошибка при входе', 'Попробуйте снова', '/auth/login');
+			notify('Ошибка при входе', 'Попробуйте снова', '/auth/login');
 		}
 	};
 	const handleWithGoogle = () => {
@@ -51,12 +50,12 @@ const Login = () => {
 				const token = await result.user.getIdToken();
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'true');
-				Notify('Вход через Google выполнен успешно', 'Перейти на главную', '/');
+				notify('Вход через Google выполнен успешно', 'Перейти на главную', '/');
 				navigate('/admin');
 			})
 			.catch((error) => {
 				console.error('Ошибка входа через Google:', error);
-				Notify('Ошибка входа через Google', 'Попробуйте снова', '/auth/login');
+				notify('Ошибка входа через Google', 'Попробуйте снова', '/auth/login');
 			});
 	};
 	return (

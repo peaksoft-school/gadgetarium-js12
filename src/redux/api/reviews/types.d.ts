@@ -27,6 +27,7 @@ namespace REVIEWS {
 		id: number;
 	};
 	type GetFeedbackStatisticsResponse = {
+		countFeedback: number | undefined;
 		overallRating: number;
 		quantityFeedbacks: number;
 		ratingCounts: RatingCounts;

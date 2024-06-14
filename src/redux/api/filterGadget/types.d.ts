@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 type Responses = {
+	[x: string]: Key | null | undefined;
 	gadgetId: number;
 	subGadgetId: number;
 	image: string;

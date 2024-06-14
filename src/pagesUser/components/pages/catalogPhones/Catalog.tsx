@@ -16,7 +16,7 @@ import {
 	gBiteCatalog,
 	moreGBiteCatalog
 } from '@/src/data/Catalog';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
 import {
 	IconHeart,
@@ -28,8 +28,8 @@ import {
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
 import { Rate } from 'antd';
 import {
-	useBasketPutProductMutation,
-	useGetBasketQuery
+	useBasketPutProductMutation
+	// useGetBasketQuery
 } from '@/src/redux/api/basket';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
@@ -47,7 +47,7 @@ const Catalog = () => {
 	const [addProductBasket] = useBasketPutProductMutation();
 	const [addProductsForFavorite] = useFavoritePutProductMutation();
 	const [addComparisonProducts] = useComparisonPatchProductsMutation();
-	const { data: BasketData = [] } = useGetBasketQuery();
+	// const { data: BasketData = [] } = useGetBasketQuery();
 	const [priceLow, setPriceLow] = useState<string>('');
 	const [priceHigh, setPriceHigh] = useState('');
 	const [categoryArray, setCategoryArray] = useState(() => {
@@ -76,8 +76,8 @@ const Catalog = () => {
 
 	const [hideColours, setHideColours] = useState(false);
 
-	const [allPhones, setAllPhones] = useState(false);
-	const [allPhonesHide, setAllPhonesHide] = useState(false);
+	const [, setAllPhones] = useState<boolean>(false);
+	const [, setAllPhonesHide] = useState(false);
 
 	const handleShowAllPhones = (page: number) => {
 		setAllPhones(true);
@@ -235,7 +235,7 @@ const Catalog = () => {
 	});
 
 	const handleBasketProductsFunk = async (subGadgetId: number) => {
-		await addProductBasket({ id: subGadgetId });
+		await addProductBasket({ id: subGadgetId, basket: false });
 	};
 
 	const handleAddProductsFavoriteFunk = async (subGadgetId: number) => {
@@ -270,7 +270,6 @@ const Catalog = () => {
 							<div className={scss.divBackgroundLeft}>
 								<h4 onClick={handleRemoveCategories}>Сбросить все фильтры</h4>
 								<div className={scss.divLine}></div>
-
 								{reduceOne ? (
 									<div>
 										<div

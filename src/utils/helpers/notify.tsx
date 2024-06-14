@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Zoom, toast } from 'react-toastify';
 import mini_logo from '@/src/assets/mini-logo.png';
 
-export const Notify = (message: string, linkText: string, link: string) => {
+export const notify = (message: string, linkText: string, link: string) => {
 	toast(
 		<div>
 			<img src={mini_logo} alt="logo" style={{ width: 20, marginRight: 5 }} />
