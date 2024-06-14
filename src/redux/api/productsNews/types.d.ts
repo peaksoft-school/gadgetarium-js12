@@ -20,8 +20,9 @@ interface ProductsNews {
 }
 
 type MainPages = {
+	[x: string]: Key | null | undefined;
 	subGadgetId: SetStateAction<string | number | null>;
-	id: Key | null | undefined;
+	gadgetId: Key | null | undefined;
 	gadgetId: number;
 	percent: number;
 	image: string;

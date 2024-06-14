@@ -4,6 +4,8 @@ import LayoutAdmin from './pagesAdmin/components/layout/LayoutAdmin';
 import LayoutAuth from './pagesAuth/components/layout/LayoutAuth';
 import { useEffect, useState } from 'react';
 import Preloader from './ui/preloader/Preloader';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
 	const [isLoading, setIsLoading] = useState(true);
@@ -17,9 +19,7 @@ const App = () => {
 	return (
 		<>
 			{isLoading ? (
-				<>
-					<Preloader />
-				</>
+				<Preloader />
 			) : (
 				<>
 					<Routes>
@@ -27,6 +27,7 @@ const App = () => {
 						<Route path="/auth/*" element={<LayoutAuth />} />
 						<Route path="/admin/*" element={<LayoutAdmin />} />
 					</Routes>
+					<ToastContainer /> {/* Убедитесь, что ToastContainer здесь */}
 				</>
 			)}
 		</>

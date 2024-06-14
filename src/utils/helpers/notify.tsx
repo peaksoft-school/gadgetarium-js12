@@ -6,8 +6,8 @@ export const notify = (message: string, linkText: string, link: string) => {
 	toast(
 		<div>
 			<img src={mini_logo} alt="logo" style={{ width: 20, marginRight: 5 }} />
-			{message}
-			<Link to={link} style={{ color: '#cb11ab' }}>
+			<span>{message} </span>
+			<Link to={link} style={{ color: '#cb11ab', marginLeft: 5 }}>
 				{linkText}
 			</Link>
 		</div>,

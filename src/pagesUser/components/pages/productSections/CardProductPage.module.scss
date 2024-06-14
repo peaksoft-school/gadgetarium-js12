@@ -229,6 +229,7 @@
 							.text_buy_product {
 								color: rgb(47, 197, 9);
 								font-size: clamp(10px, 5vw, 16px);
+								font-weight: 500;
 							}
 							p {
 								color: rgb(41, 41, 41);
@@ -312,16 +313,50 @@
 								@media (max-width: 555px) {
 									gap: 8px;
 								}
-								div {
-									width: 33px;
-									height: 33px;
-									display: flex;
-									align-items: center;
-									justify-content: center;
-									border-radius: 50%;
-									font-size: clamp(8px, 9vw, 12px);
-									color: #fff;
-									background: rgb(245, 59, 73);
+								.noo_active_percent {
+									display: none;
+									&.active_percent_div {
+										width: 33px;
+										height: 33px;
+										display: flex;
+										align-items: center;
+										justify-content: center;
+										border-radius: 50%;
+										font-size: clamp(8px, 9vw, 12px);
+										font-weight: 600;
+										color: #fff;
+										background: rgb(245, 59, 73);
+									}
+								}
+								.new_product {
+									display: none;
+									&.active_new_product {
+										width: 33px;
+										height: 33px;
+										display: flex;
+										align-items: center;
+										justify-content: center;
+										border-radius: 50%;
+										font-size: clamp(8px, 9vw, 12px);
+										font-weight: 600;
+										color: #fff;
+										background: rgb(47, 197, 9);
+									}
+								}
+								.noo_active_percent {
+									display: none;
+									&.active_recommend {
+										width: 33px;
+										height: 33px;
+										display: flex;
+										align-items: center;
+										justify-content: center;
+										border-radius: 50%;
+										font-size: clamp(8px, 9vw, 12px);
+										font-weight: 600;
+										color: #fff;
+										background: #2c68f5;
+									}
 								}
 								h2 {
 									color: rgb(41, 41, 41);
@@ -348,6 +383,7 @@
 								align-items: center;
 								gap: 10px;
 							}
+
 							.div_buttons_counts {
 								display: flex;
 								align-items: center;
@@ -372,9 +408,13 @@
 										color: rgb(255, 255, 255);
 									}
 								}
-								span {
-									color: rgb(144, 156, 181);
-									font-size: clamp(10px, 4vw, 20px);
+								.input_for_quantity {
+									background-color: aliceblue;
+									width: 65px;
+									font-size: clamp(7px, 4vw, 20px);
+									font-weight: 400;
+									border: none;
+									box-shadow: 0px 0px 4px rgb(147, 148, 154);
 								}
 							}
 							.border_div {
@@ -449,6 +489,15 @@
 											cursor: pointer;
 										}
 									}
+									.active_basket_button_navigate {
+										width: 190px;
+										height: 45px;
+										border-radius: 4px;
+										background: rgb(47, 197, 9);
+										color: rgb(255, 255, 255);
+										font-size: clamp(8px, 6vw, 16px);
+										border: none;
+									}
 									.add_bas_button {
 										width: 196px;
 										height: 45px;
@@ -457,16 +506,37 @@
 										color: rgb(255, 255, 255);
 										font-size: clamp(8px, 6vw, 14px);
 										border: none;
-										&.active {
-											border: 1px dashed rgb(151, 71, 255);
-											background: rgb(47, 197, 9);
-										}
 										&:hover {
 											color: white;
 											border: none;
 											border: 1px dashed rgb(151, 71, 255);
 											transition: all 0.5s ease-in;
 										}
+									}
+								}
+							}
+							.buttons_for_memory {
+								display: flex;
+								align-items: center;
+								gap: 7px;
+								.button_for_product_memory {
+									border-radius: 5px;
+									border: 1px solid blue;
+									width: 100px;
+									height: 35px;
+									background-color: #dfcdcd;
+									color: black;
+									font-size: clamp(7px, 5.5vw, 15px);
+									font-weight: 500;
+									&.active_memory_button {
+										border-radius: 5px;
+										border: 1px solid rgb(203, 17, 171);
+										width: 100px;
+										height: 35px;
+										background-color: #fff;
+										color: rgb(203, 17, 171);
+										font-size: clamp(7px, 5.5vw, 15px);
+										font-weight: 500;
 									}
 								}
 							}

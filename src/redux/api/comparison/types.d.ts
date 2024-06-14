@@ -16,7 +16,6 @@ interface UniqueCharacteristics {
 	values_key: string;
 }
 
-
 type SubGadgetResponses = {
 	compareFieldResponse?: CompareFieldResponse;
 	uniqueCharacteristics?: Characteristics[];
@@ -44,10 +43,7 @@ type CompareFieldResponse = {
 	basket?: boolean;
 };
 
-
-interface SubGadgetResponses2 {
-	
-}
+interface SubGadgetResponses2 {}
 namespace COMPARISONPRODUCTS {
 	type GetComparisonProductsRequest = void;
 	type GetComparisonProductsResponse = {
@@ -70,10 +66,12 @@ namespace COMPARISONPRODUCTS {
 		// newProduct: boolean;
 		// recommend: boolean;
 	}[];
-	type PatchComparisonProductRequest = {
-		// gadgetId: number;
-		subGadgetId: number;
-	};
+	type PatchComparisonProductRequest = number;
+	// type PatchComparisonProductRequest = {
+	// 	// gadgetId: number;
+	// 	productId: number;
+	// 	subGadgetId: number;
+	// };
 	type PatchComparisonProductResponse = {
 		subGadgetId: number;
 		// status: string;

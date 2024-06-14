@@ -65,7 +65,7 @@ const api = index.injectEndpoints({
 export const {
 	useGetComparisonQuery,
 	useComparisonPatchProductsMutation,
-	useGetComparisonCompareQuery,
 	useClearAllProductsComparisonMutation,
-	useDeleteByIdProductComparisonMutation
+	useDeleteByIdProductComparisonMutation,
+	useGetComparisonCompareQuery
 } = api;

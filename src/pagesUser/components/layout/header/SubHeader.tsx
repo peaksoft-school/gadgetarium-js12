@@ -1,5 +1,5 @@
 import scss from './SubHeader.module.scss';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IconGadgetarium } from '@/src/assets/icons';
 import {
@@ -10,13 +10,13 @@ import {
 	IconScale,
 	IconShoppingCart
 } from '@tabler/icons-react';
-import { ConfigProvider, Input,  theme } from 'antd';
+import { ConfigProvider, Input, Tooltip, theme } from 'antd';
 import { SearchProps } from 'antd/es/input';
 import CatalogMenu from '@/src/ui/catalogMenu/CatalogMenu';
 import { useGetBasketQuery } from '@/src/redux/api/basket';
 import { useGetFavoriteQuery } from '@/src/redux/api/favorite';
 import { useGetComparisonQuery } from '@/src/redux/api/comparison';
-// import { ProductsForHover } from '@/src/ui/productsForHover/ProductsForHover';
+import { ProductsForHover } from '@/src/ui/productsForHover/ProductsForHover';
 
 interface SubHeaderProps {
 	isMobile: boolean;
@@ -29,9 +29,9 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 	const { data: BasketData = [] } = useGetBasketQuery();
 	const { data: FavoriteData = [] } = useGetFavoriteQuery();
 	const { data: ComparisonData = [] } = useGetComparisonQuery();
-	// const [comparisonProducts, setComparisonProducts] = useState<boolean>(false);
-	// const [favoriteProducts, setFavoriteProducts] = useState<boolean>(false);
-	// const [basketProducts, setBasketProducts] = useState<boolean>(false);
+	const [comparisonProducts, setComparisonProducts] = useState<boolean>(false);
+	const [favoriteProducts, setFavoriteProducts] = useState<boolean>(false);
+	const [basketProducts, setBasketProducts] = useState<boolean>(false);
 	const antdThemeConfig = {
 		algorithm: theme.darkAlgorithm,
 		token: {
@@ -97,8 +97,8 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 					</div>
 					<div className={scss.icon_basket_heart}>
 						<Link
-							// onMouseEnter={() => setComparisonProducts(true)}
-							// onMouseLeave={() => setComparisonProducts(false)}
+							onMouseEnter={() => setComparisonProducts(true)}
+							onMouseLeave={() => setComparisonProducts(false)}
 							to="/comparison"
 							className={scss.icon}
 						>
@@ -114,8 +114,8 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 							<IconScale />
 						</Link>
 						<Link
-							// onMouseEnter={() => setFavoriteProducts(true)}
-							// onMouseLeave={() => setFavoriteProducts(false)}
+							onMouseEnter={() => setFavoriteProducts(true)}
+							onMouseLeave={() => setFavoriteProducts(false)}
 							to="/favorite"
 							className={scss.icon}
 						>
@@ -131,8 +131,8 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 							<IconHeart />
 						</Link>
 						<Link
-							// onMouseEnter={() => setBasketProducts(true)}
-							// onMouseLeave={() => setBasketProducts(false)}..
+							onMouseEnter={() => setBasketProducts(true)}
+							onMouseLeave={() => setBasketProducts(false)}
 							to="/basket"
 							className={scss.icon}
 						>
@@ -150,7 +150,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 					</div>
 				</div>
 			</div>
-			{/* {comparisonProducts && (
+			{comparisonProducts && (
 				<Tooltip
 					children={
 						<ProductsForHover
@@ -159,8 +159,8 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 						/>
 					}
 				/>
-			)} */}
-			{/* {favoriteProducts && (
+			)}
+			{favoriteProducts && (
 				<Tooltip
 					children={
 						<ProductsForHover
@@ -169,8 +169,8 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 						/>
 					}
 				/>
-			)} */}
-			{/* {basketProducts && (
+			)}
+			{basketProducts && (
 				<Tooltip
 					children={
 						<ProductsForHover
@@ -179,7 +179,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 						/>
 					}
 				/>
-			)} */}
+			)}
 		</header>
 	);
 };

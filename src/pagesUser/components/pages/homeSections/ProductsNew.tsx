@@ -1,5 +1,4 @@
 /* eslint-disable prefer-const */
-import { useState } from 'react';
 import scss from './ProductsNew.module.scss';
 import { Rate, Skeleton, Tooltip } from 'antd';
 import AddBasketButton from '../../../../ui/customButtons/AddBasketButton.tsx';
@@ -51,11 +50,11 @@ const ProductsNew = () => {
 
 	const handleBasket = async (subGadgetId: number) => {
 		await basketPutProduct({
-			id: subGadgetId
+			id: subGadgetId,
+			basket: false
 		});
 		refetch();
 	};
-
 	console.log(data?.mainPages);
 
 	return (

@@ -20,7 +20,7 @@ interface ProductsRecom {
 }
 
 type MainPages = {
-	id: number;
+	gadgetId: number;
 	percent: number;
 	image: string;
 	quantity: number;
