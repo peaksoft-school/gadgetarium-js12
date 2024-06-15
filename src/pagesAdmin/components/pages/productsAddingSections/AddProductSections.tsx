@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import scss from './AddProductSections.module.scss';
@@ -61,7 +62,6 @@ const handleChange = (value: string) => {
 	console.log(`selected ${value}`);
 };
 interface ArrayTypes {
-	id?: number;
 	mainColour: string;
 	memory: string;
 	ram: string;
@@ -76,15 +76,13 @@ interface ArrayTypes {
 	wireless?: string;
 	shapeBody?: string;
 }
-const arrayForm: ArrayTypes[] = [
-	{
-		mainColour: '',
-		memory: '',
-		ram: '',
-		countSim: 0,
-		images: ['']
-	}
-];
+const arrayForm: ArrayTypes = {
+	mainColour: '',
+	memory: '',
+	ram: '',
+	countSim: 0,
+	images: ['']
+};
 
 export const AddProductSections = () => {
 	const [addProductApi] = usePostAddProductApiMutation();
@@ -95,7 +93,7 @@ export const AddProductSections = () => {
 	const { data: brandArray = [] } = useGetBrandApiQuery();
 	const [warranty, setWarranty] = useState<number>(0);
 	const [productName, setProductName] = useState<string>('');
-	const [dateOfIssue, setDateOfIssue] = useState<number>();
+	const [dateOfIssue, setDateOfIssue] = useState<string>('');
 	const [categoryId, setCategoryId] = useState<string>('');
 	const [brandInputValue, setBrandInputValue] = useState<string>('');
 	const [brandId, setBrandId] = useState<string>('');
@@ -117,9 +115,11 @@ export const AddProductSections = () => {
 	const [colorValue, setColorValue] = useState<string>('');
 	const [memoryValue, setMemoryValue] = useState<string>('');
 	const [ramValue, setRamValue] = useState<string>('');
-	const [countSimValue, setCountSimValue] = useState<number>();
-	const [filesAddProductsValues, setFilesAddProductsValues] =
-		useState<number>();
+	const [countSimValue, setCountSimValue] = useState<number>(0);
+	const [filesAddProductsValues, setFilesAddProductsValues] = useState<
+		string[]
+	>(['']);
+	const [arrayForFilesValues, setArrayForFilesValues] = useState<[]>([]);
 	const filesAddProductsValuesRef = React.useRef<HTMLInputElement>(null);
 	const [materialBraceletValue, setMaterialBraceletValue] =
 		useState<string>('');
@@ -156,6 +156,7 @@ export const AddProductSections = () => {
 	const changeWarrantyValue = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (categoryId) {
 			setWarranty(Number(e.target.value));
+			console.log(warranty, 'Гарантия');
 		}
 	};
 
@@ -202,32 +203,60 @@ export const AddProductSections = () => {
 		}
 	};
 
+	console.log(colorValue, 'color');
+
 	const brandArrayForm: ArrayTypes = {
-		mainColour: 'Основной цвет',
-		memory: 'Объем памяти',
-		ram: 'Оперативная память',
-		countSim: 'Кол-во SIM-карт',
-		images: 'Добавьте фото'
+		mainColour: '',
+		memory: memoryValue,
+		ram: ramValue,
+		countSim: countSimValue,
+		images: arrayForFilesValues
+	};
+	console.log(brandArrayForm, 'value object');
+
+	const [array, setArray] = useState<ArrayTypes[]>([arrayForm]);
+	const handleOPen = () => {
+		setArray([...array, arrayForm]);
 	};
 
-	const [array, setArray] = useState<ArrayTypes[]>(arrayForm);
-	const handleOPen = () => {
-		setArray((arrayState) => [...arrayState, brandArrayForm]);
+	const handleChangeProductValue = (
+		index: number,
+		key: keyof ArrayTypes,
+		value: any
+	) => {
+		setArray((prevProducts) =>
+			prevProducts.map((product, idx) =>
+				idx === index ? { ...product, [key]: value } : product
+			)
+		);
 	};
 
 	const handleAddProductsFunk = async () => {
+		const productsRequestsResults = array.map((product) => ({
+			mainColour: product.mainColour,
+			memory: product.memory,
+			ram: product.ram,
+			countSim: Number(product.countSim),
+			images: [
+				'https://cdn.alloallo.media/catalog/product/samsung/galaxy-s/galaxy-s10/galaxy-s10-prism-green.jpg'
+			]
+		}));
+		console.log(productsRequestsResults, 'result data');
+
 		const DATA: ADDPRODUCTAPI.PostAddProductRequest = {
 			nameOfGadget: productName,
-			dateOfIssue: dateOfIssue,
+			dateOfIssue: '2024-06-13',
 			warranty: warranty,
-			productsRequests: [...array]
+			productsRequests: productsRequestsResults
 		};
+		console.log(DATA, 'ARRAY FRO DATA');
+
 		const { nameOfGadget, warranty, dateOfIssue, productsRequests } = DATA;
 		try {
 			await addProductApi({
 				subCategoryId: Number(subCategoryValue),
 				brandId: Number(brandId),
-				productsRequests: productsRequests,
+				productsRequests,
 				dateOfIssue,
 				nameOfGadget,
 				warranty
@@ -236,6 +265,8 @@ export const AddProductSections = () => {
 			console.error(error);
 		}
 	};
+
+	console.log(productName, brandId, subCategoryValue, array, 'result');
 
 	return (
 		<>
@@ -471,7 +502,7 @@ export const AddProductSections = () => {
 									<div className={scss.card_input_pole}>
 										{array.map((el, index) => (
 											<div
-												key={el.id}
+												key={index + 1}
 												className={scss.card_container_for_forms}
 											>
 												<div className={scss.product_count_div}>
@@ -487,16 +518,28 @@ export const AddProductSections = () => {
 												<div className={scss.card_inputs}>
 													<div className={scss.label_and_input_div}>
 														<label>Основной цвет</label>
-														<ColorPicker presets={presets}>
+														{/* <ColorPicker presets={presets} value={colorValue} onChange={(e: React.ChangeEvent<ColorPickerProps>) => setColorValue(e.target.value)}>
 															<div className={scss.color_input} type="primary">
 																<p>Основной цвет</p>
 																<IconFrame />
 															</div>
-														</ColorPicker>
+														</ColorPicker> */}
+														<input
+															type="color"
+															className={scss.color_input}
+															// value={colorValue}
+															onChange={(value) =>
+																handleChangeProductValue(
+																	index,
+																	'mainColour',
+																	value.target.value
+																)
+															}
+															value={el.mainColour}
+														/>
 													</div>
 													<div className={scss.label_and_input_div}>
 														<label>Объем памяти</label>
-
 														<Select
 															className={scss.input_for_form}
 															placeholder="Объем памяти"
@@ -507,6 +550,14 @@ export const AddProductSections = () => {
 																	label: <p>{el.gb}</p>
 																}))
 															}
+															onChange={(value) =>
+																handleChangeProductValue(
+																	index,
+																	'memory',
+																	gBiteCatalog[Number(value - 1)].gb
+																)
+															}
+															value={el.memory}
 														/>
 													</div>
 													<div className={scss.label_and_input_div}>
@@ -522,6 +573,14 @@ export const AddProductSections = () => {
 																	label: <p>{el.gb}</p>
 																}))
 															}
+															onChange={(value) =>
+																handleChangeProductValue(
+																	index,
+																	'ram',
+																	moreGBiteCatalog[Number(value - 1)].gb
+																)
+															}
+															value={el.ram}
 														/>
 													</div>
 													<div className={scss.label_and_input_div}>
@@ -537,6 +596,14 @@ export const AddProductSections = () => {
 																	label: <p>{el.sumCard}</p>
 																}))
 															}
+															onChange={(value) =>
+																handleChangeProductValue(
+																	index,
+																	'countSim',
+																	value
+																)
+															}
+															value={el.countSim}
 														/>
 													</div>
 												</div>

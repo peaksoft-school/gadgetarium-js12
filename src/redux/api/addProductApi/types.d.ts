@@ -17,8 +17,8 @@ interface ProductsRequests {
 
 namespace ADDPRODUCTAPI {
 	type PostAddProductRequest = {
-		subCategoryId?: number;
-		brandId?: number;
+		subCategoryId: number;
+		brandId: number;
 		nameOfGadget: string;
 		dateOfIssue: string;
 		warranty: number;

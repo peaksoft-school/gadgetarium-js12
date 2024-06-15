@@ -6,12 +6,13 @@ const api = index.injectEndpoints({
 			ADDPRODUCTAPI.PostAddProductResponse,
 			ADDPRODUCTAPI.PostAddProductRequest
 		>({
-			query: ({ subCategoryId, brandId }) => ({
+			query: ({ subCategoryId, brandId, dateOfIssue, nameOfGadget, productsRequests, warranty}) => ({
 				url: `/api/gadget/${subCategoryId}/${brandId}`,
 				method: 'POST',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
-				}
+				},
+				body: {dateOfIssue, nameOfGadget, productsRequests, warranty}
 			}),
 			invalidatesTags: ['addProductApi']
 		}),
