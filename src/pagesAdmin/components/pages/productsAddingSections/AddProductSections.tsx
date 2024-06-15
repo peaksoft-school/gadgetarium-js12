@@ -116,11 +116,9 @@ export const AddProductSections = () => {
 	const [memoryValue, setMemoryValue] = useState<string>('');
 	const [ramValue, setRamValue] = useState<string>('');
 	const [countSimValue, setCountSimValue] = useState<number>(0);
-	const [filesAddProductsValues, setFilesAddProductsValues] = useState<
-		string[]
-	>(['']);
-	const [arrayForFilesValues, setArrayForFilesValues] = useState<[]>([]);
-	const filesAddProductsValuesRef = React.useRef<HTMLInputElement>(null);
+	const [filesAddProductsValues, setFilesAddProductsValues] =
+		useState<FormData>();
+	const [arrayForFilesValues, setArrayForFilesValues] = useState<string>();
 	const [materialBraceletValue, setMaterialBraceletValue] =
 		useState<string>('');
 	const [materialBodyValue, setMaterialBodyValue] = useState<string>('');
@@ -224,6 +222,8 @@ export const AddProductSections = () => {
 		key: keyof ArrayTypes,
 		value: any
 	) => {
+		console.log(value, 'esentur');
+
 		setArray((prevProducts) =>
 			prevProducts.map((product, idx) =>
 				idx === index ? { ...product, [key]: value } : product
@@ -237,16 +237,13 @@ export const AddProductSections = () => {
 			memory: product.memory,
 			ram: product.ram,
 			countSim: Number(product.countSim),
-			images: [
-				'https://cdn.alloallo.media/catalog/product/samsung/galaxy-s/galaxy-s10/galaxy-s10-prism-green.jpg'
-			]
+			images: product.images
 		}));
-		console.log(productsRequestsResults, 'result data');
 
 		const DATA: ADDPRODUCTAPI.PostAddProductRequest = {
 			nameOfGadget: productName,
 			dateOfIssue: '2024-06-13',
-			warranty: warranty,
+			warranty: 12,
 			productsRequests: productsRequestsResults
 		};
 		console.log(DATA, 'ARRAY FRO DATA');
@@ -265,8 +262,18 @@ export const AddProductSections = () => {
 			console.error(error);
 		}
 	};
-
-	console.log(productName, brandId, subCategoryValue, array, 'result');
+	const changeAddProductsFilesFunk = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		const files = event.target.files;
+		if (files) {
+			const formData = new FormData();
+			for (let i = 0; i < files.length; i++) {
+				formData.append('file', files[i]);
+			}
+			setFilesAddProductsValues(formData);
+		}
+	};
 
 	return (
 		<>
@@ -618,6 +625,16 @@ export const AddProductSections = () => {
 															ref={addProductFileRef}
 															style={{ display: 'none' }}
 															multiple
+															onChange={(e) => {
+																changeAddProductsFilesFunk(e);
+																handleChangeProductValue(
+																	index,
+																	'images',
+																	Array.from(e.target.files).map((file) =>
+																		URL.createObjectURL(file)
+																	)
+																);
+															}}
 														/>
 														<IconPhotoPlus
 															color="rgb(145, 150, 158)"
@@ -628,7 +645,7 @@ export const AddProductSections = () => {
 															<p>Нажмите или перетащите сюда файл</p>
 															<p>
 																Минимальное разрешение - 450x600 <br />{' '}
-																максимальное количество - 10 фото
+																максимальное количество - 6 фото
 															</p>
 														</div>
 													</div>
