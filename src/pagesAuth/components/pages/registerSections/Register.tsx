@@ -23,7 +23,7 @@ export const Register = () => {
 
 		try {
 			const response = await postRequest(data);
-			if ('data' in response) {
+			if ('data' in response && response.data.token) {
 				const { token } = response.data;
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'true');

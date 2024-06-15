@@ -5,7 +5,6 @@ namespace AUTH {
 		password: string;
 	};
 	type PostLoginResponse = {
-		isAuth: Login;
 		token: string;
 	};
 
