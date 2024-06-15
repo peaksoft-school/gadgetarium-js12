@@ -81,7 +81,7 @@ const arrayForm: ArrayTypes = {
 	memory: '',
 	ram: '',
 	countSim: 0,
-	images: ['']
+	images: []
 };
 
 export const AddProductSections = () => {
@@ -104,7 +104,7 @@ export const AddProductSections = () => {
 	const [fileValue, setFileValue] = useState<FormData>();
 	const { data } = useGetCatalogProductsQuery();
 	const [brandActive, setBrandActive] = useState<boolean>(false);
-	const addProductFileRef = useRef<HTMLInputElement>(null);
+	const addProductFileRef = useRef<HTMLInputElement[]>([]);
 	const [brandValue, setBrandValue] = useState<string>('');
 	const { data: subCategoryArray = [] } = useSubCategoriesQuery(
 		Number(categoryId)
@@ -195,22 +195,11 @@ export const AddProductSections = () => {
 		}
 	};
 
-	const handleOpenFileInputForAddProduct = () => {
-		if (addProductFileRef.current) {
-			return addProductFileRef.current.click();
+	const handleOpenFileInputForAddProduct = (index: number) => {
+		if (addProductFileRef.current[index]) {
+			return addProductFileRef.current[index]?.click();
 		}
 	};
-
-	console.log(colorValue, 'color');
-
-	const brandArrayForm: ArrayTypes = {
-		mainColour: '',
-		memory: memoryValue,
-		ram: ramValue,
-		countSim: countSimValue,
-		images: arrayForFilesValues
-	};
-	console.log(brandArrayForm, 'value object');
 
 	const [array, setArray] = useState<ArrayTypes[]>([arrayForm]);
 	const handleOPen = () => {
@@ -263,15 +252,24 @@ export const AddProductSections = () => {
 		}
 	};
 	const changeAddProductsFilesFunk = (
+		index: number,
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
 		const files = event.target.files;
 		if (files) {
-			const formData = new FormData();
-			for (let i = 0; i < files.length; i++) {
-				formData.append('file', files[i]);
-			}
-			setFilesAddProductsValues(formData);
+			// const formData = new FormData();
+			// for(let i = 0 ; i < files.length; i++) {
+			// 	formData.append('files', files[i])
+			// }
+			// setFilesAddProductsValues(formData);
+			setArray((prevValue) => {
+				const newArray = [...prevValue];
+				newArray[index].images = Array.from(files, (file) => URL.createObjectURL(file))
+				// newArray[index].images = newArray[index].images.concat(
+				// 	Array.from(files, (file) => URL.createObjectURL(file))
+				// );
+				return newArray;
+			});
 		}
 	};
 
@@ -618,22 +616,21 @@ export const AddProductSections = () => {
 													<label>Добавьте фото</label>
 													<div
 														className={scss.div_for_file}
-														onClick={handleOpenFileInputForAddProduct}
+														onClick={() =>
+															handleOpenFileInputForAddProduct(index)
+														}
 													>
 														<input
 															type="file"
-															ref={addProductFileRef}
+															ref={(ref) => {
+																if(ref) {
+																	addProductFileRef.current[index] = ref;
+																}
+															}}
 															style={{ display: 'none' }}
 															multiple
 															onChange={(e) => {
-																changeAddProductsFilesFunk(e);
-																handleChangeProductValue(
-																	index,
-																	'images',
-																	Array.from(e.target.files).map((file) =>
-																		URL.createObjectURL(file)
-																	)
-																);
+																changeAddProductsFilesFunk(index, e);
 															}}
 														/>
 														<IconPhotoPlus
