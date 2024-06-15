@@ -17,8 +17,13 @@ import { generate, green, presetPalettes, red } from '@ant-design/colors';
 import { ColorPicker, theme } from 'antd';
 import type { ColorPickerProps } from 'antd';
 import { gBiteCatalog, moreGBiteCatalog, simCards } from '@/src/data/Catalog';
-import { OptionsForLaptop, optionsSmartWatchesAndBracelets } from '@/src/data/InputSelect';
-
+import {
+	OptionsForLaptop,
+	optionsSmartWatchesAndBracelets
+} from '@/src/data/InputSelect';
+import type { RadioChangeEvent } from 'antd';
+import { Radio } from 'antd';
+import { usePostAddProductApiMutation } from '@/src/redux/api/addProductApi';
 type Presets = Required<ColorPickerProps>['presets'][number];
 
 const genPresets = (presets = presetPalettes) =>
@@ -80,7 +85,9 @@ const arrayForm: ArrayTypes[] = [
 		images: ['']
 	}
 ];
+
 export const AddProductSections = () => {
+	const [addProductApi] = usePostAddProductApiMutation();
 	const location = useLocation();
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -91,6 +98,7 @@ export const AddProductSections = () => {
 	const [dateOfIssue, setDateOfIssue] = useState<number>();
 	const [categoryId, setCategoryId] = useState<string>('');
 	const [brandInputValue, setBrandInputValue] = useState<string>('');
+	const [brandId, setBrandId] = useState<string>('');
 	const [idForCategory, setIdForCategory] = useState<number>(0);
 	const [addBrandApi] = useAddBrandApiMutation();
 	const [subCategoryValue, setSubCategoryValue] = useState<string>('');
@@ -99,9 +107,38 @@ export const AddProductSections = () => {
 	const { data } = useGetCatalogProductsQuery();
 	const [brandActive, setBrandActive] = useState<boolean>(false);
 	const addProductFileRef = useRef<HTMLInputElement>(null);
+	const [brandValue, setBrandValue] = useState<string>('');
 	const { data: subCategoryArray = [] } = useSubCategoriesQuery(
 		Number(categoryId)
 	);
+
+	// ! array object values
+
+	const [colorValue, setColorValue] = useState<string>('');
+	const [memoryValue, setMemoryValue] = useState<string>('');
+	const [ramValue, setRamValue] = useState<string>('');
+	const [countSimValue, setCountSimValue] = useState<number>();
+	const [filesAddProductsValues, setFilesAddProductsValues] =
+		useState<number>();
+	const filesAddProductsValuesRef = React.useRef<HTMLInputElement>(null);
+	const [materialBraceletValue, setMaterialBraceletValue] =
+		useState<string>('');
+	const [materialBodyValue, setMaterialBodyValue] = useState<string>('');
+	const [sizeWatchValue, setSizeWatchValue] = useState<string>('');
+	const [dumasValue, setDumasValue] = useState<string>('');
+	const [genderWatchValue, setGenderWatchValue] = useState<string>('');
+	const [waterproofValue, setWaterproofValue] = useState<string>('');
+	const [wirelessValue, setWirelessValue] = useState<string>('');
+	const [shapeBodyValue, setShapeBodyValue] = useState<string>('');
+
+	// ! array object values
+
+	const [value, setValue] = useState(1);
+
+	const onChange = (e: RadioChangeEvent) => {
+		console.log('radio checked', e.target.value);
+		setValue(e.target.value);
+	};
 
 	const { token } = theme.useToken();
 	const presets = genPresets({
@@ -165,20 +202,41 @@ export const AddProductSections = () => {
 		}
 	};
 
-	const brandArrayForm = {
+	const brandArrayForm: ArrayTypes = {
 		mainColour: 'Основной цвет',
 		memory: 'Объем памяти',
 		ram: 'Оперативная память',
 		countSim: 'Кол-во SIM-карт',
-		images: 'Добавьте фото',
-		id: Math.floor(Math.random())
+		images: 'Добавьте фото'
 	};
 
 	const [array, setArray] = useState<ArrayTypes[]>(arrayForm);
 	const handleOPen = () => {
 		setArray((arrayState) => [...arrayState, brandArrayForm]);
 	};
-	console.log(array, brandArrayForm, 'value');
+
+	const handleAddProductsFunk = async () => {
+		const DATA: ADDPRODUCTAPI.PostAddProductRequest = {
+			nameOfGadget: productName,
+			dateOfIssue: dateOfIssue,
+			warranty: warranty,
+			productsRequests: [...array]
+		};
+		const { nameOfGadget, warranty, dateOfIssue, productsRequests } = DATA;
+		try {
+			await addProductApi({
+				subCategoryId: Number(subCategoryValue),
+				brandId: Number(brandId),
+				productsRequests: productsRequests,
+				dateOfIssue,
+				nameOfGadget,
+				warranty
+			});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	return (
 		<>
 			<section className={scss.AddProductSections}>
@@ -265,48 +323,51 @@ export const AddProductSections = () => {
 											/>
 										</div>
 										<div className={scss.label_and_input_div}>
-											<label>Выберите подкатегорию *</label>
-											{/* <Select
-											className={scss.input}
-											placeholder="Выбрать"
-											onChange={handleChange}
-											options={brandArray.map((item) => ({
-												value: item.id.toString(),
-												label: (
-													<div
-														style={{
-															display: 'flex',
-															alignItems: 'center',
-															justifyContent: 'start',
-															gap: '11px'
-														}}
-													>
-														<img
+											<label>Брент *</label>
+											<Select
+												className={scss.input}
+												placeholder="Выбрать"
+												onChange={handleChange}
+												options={brandArray.map((item) => ({
+													value: item.id.toString(),
+													label: (
+														<div
+															onClick={() => setBrandId(item.id.toString())}
 															style={{
-																width: '100%',
-																maxWidth: '23px',
-																height: '23px'
-															}}
-															src={item.image}
-															alt={item.brandName}
-														/>
-														<p
-															style={{
-																color: 'rgb(41, 41, 41)',
-																fontSize: '16px'
+																display: 'flex',
+																alignItems: 'center',
+																justifyContent: 'start',
+																gap: '11px'
 															}}
 														>
-															{item.brandName}
-														</p>
-													</div>
-												)
-											}
-										))}
-										/> */}
-											<div
+															<img
+																style={{
+																	width: '100%',
+																	maxWidth: '23px',
+																	height: '23px'
+																}}
+																src={item.image}
+																alt={item.brandName}
+															/>
+															<p
+																style={{
+																	color: 'rgb(41, 41, 41)',
+																	fontSize: '16px'
+																}}
+															>
+																{item.brandName}
+															</p>
+														</div>
+													)
+												}))}
+											/>
+											{/* <div
 												className={scss.div_for_brand_content}
 												onClick={() => setBrandActive(!brandActive)}
 											>
+												<div>
+													{brandValue && <img src={brandValue} alt="logo" />}
+												</div>
 												{categoryId && (
 													<div
 														className={
@@ -317,7 +378,10 @@ export const AddProductSections = () => {
 													>
 														{brandArray.map((el) => (
 															<div key={el.id} className={scss.card_container}>
-																<div className={scss.card_for_brand}>
+																<div
+																	className={scss.card_for_brand}
+																	onClick={() => setBrandValue(el.image)}
+																>
 																	<img src={el.image} alt={el.brandName} />
 																	<p>{el.brandName}</p>
 																</div>
@@ -328,7 +392,7 @@ export const AddProductSections = () => {
 														</p>
 													</div>
 												)}
-											</div>
+											</div> */}
 										</div>
 										<div className={scss.label_and_input_div}>
 											<label>Название товара *</label>
@@ -359,7 +423,7 @@ export const AddProductSections = () => {
 														label: (
 															<p
 																onClick={() =>
-																	setSubCategoryValue(el.categoryName)
+																	setSubCategoryValue(el.id.toString())
 																}
 															>
 																{el.categoryName}
@@ -423,7 +487,6 @@ export const AddProductSections = () => {
 												<div className={scss.card_inputs}>
 													<div className={scss.label_and_input_div}>
 														<label>Основной цвет</label>
-
 														<ColorPicker presets={presets}>
 															<div className={scss.color_input} type="primary">
 																<p>Основной цвет</p>
@@ -504,7 +567,12 @@ export const AddProductSections = () => {
 													</div>
 												</div>
 												<div className={scss.add_product_button_div}>
-													<Button className={scss.add_product_button}>
+													<Button
+														className={scss.add_product_button}
+														onClick={() => {
+															handleAddProductsFunk();
+														}}
+													>
 														Далее
 													</Button>
 												</div>
@@ -563,10 +631,12 @@ export const AddProductSections = () => {
 															placeholder="Объем памяти"
 															options={
 																optionsSmartWatchesAndBracelets &&
-																optionsSmartWatchesAndBracelets.map((el, index) => ({
-																	value: String(index + 1),
-																	label: <p>{el.label}</p>
-																}))
+																optionsSmartWatchesAndBracelets.map(
+																	(el, index) => ({
+																		value: String(index + 1),
+																		label: <p>{el.label}</p>
+																	})
+																)
 															}
 														/>
 													</div>
@@ -578,10 +648,12 @@ export const AddProductSections = () => {
 															placeholder="Объем памяти"
 															options={
 																optionsSmartWatchesAndBracelets &&
-																optionsSmartWatchesAndBracelets.map((el, index) => ({
-																	value: String(index + 1),
-																	label: <p>{el.label}</p>
-																}))
+																optionsSmartWatchesAndBracelets.map(
+																	(el, index) => ({
+																		value: String(index + 1),
+																		label: <p>{el.label}</p>
+																	})
+																)
 															}
 														/>
 													</div>
@@ -617,10 +689,68 @@ export const AddProductSections = () => {
 													</div>
 													<div className={scss.label_and_input_div}>
 														<label>Пол</label>
-														<div>
-															
+														<Radio.Group onChange={onChange} value={value}>
+															<Radio value={1}>Унисекс</Radio>
+															<Radio value={2}>Женский</Radio>
+															<Radio value={3}>Мужской</Radio>
+														</Radio.Group>
+													</div>
+													<div className={scss.label_and_input_div}>
+														<label>Водонепроницаемые</label>
+														<Radio.Group onChange={onChange} value={value}>
+															<Radio value={1}>Да</Radio>
+															<Radio value={2}>Нет</Radio>
+														</Radio.Group>
+													</div>
+													<div className={scss.label_and_input_div}>
+														<label>Беспроводные интерфейсы</label>
+														<Radio.Group onChange={onChange} value={value}>
+															<Radio value={1}>Bluetooth</Radio>
+															<Radio value={2}>Wi-Fi</Radio>
+															<Radio value={3}>GPS</Radio>
+															<Radio value={4}>NFC</Radio>
+														</Radio.Group>
+													</div>
+													<div className={scss.label_and_input_div}>
+														<label>Форма корпуса</label>
+														<Radio.Group onChange={onChange} value={value}>
+															<Radio value={1}>Квадратная</Radio>
+															<Radio value={2}>Круглая</Radio>
+															<Radio value={3}>Овальная</Radio>
+															<Radio value={4}>Прямоугольная</Radio>
+														</Radio.Group>
+													</div>
+												</div>
+												<div className={scss.file_div}>
+													<label>Добавьте фото</label>
+													<div
+														className={scss.div_for_file}
+														onClick={handleOpenFileInputForAddProduct}
+													>
+														<input
+															type="file"
+															ref={addProductFileRef}
+															style={{ display: 'none' }}
+															multiple
+														/>
+														<IconPhotoPlus
+															color="rgb(145, 150, 158)"
+															width={'36px'}
+															height={'33px'}
+														/>
+														<div className={scss.file_div_contents}>
+															<p>Нажмите или перетащите сюда файл</p>
+															<p>
+																Минимальное разрешение - 450x600 <br />{' '}
+																максимальное количество - 10 фото
+															</p>
 														</div>
 													</div>
+												</div>
+												<div className={scss.add_product_button_div}>
+													<Button className={scss.add_product_button}>
+														Далее
+													</Button>
 												</div>
 											</div>
 										))}
