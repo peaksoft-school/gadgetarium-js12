@@ -1,12 +1,22 @@
 import scss from './AuthDropdown.module.scss';
 import { Link } from 'react-router-dom';
-import { ConfigProvider, Dropdown, MenuProps, theme } from 'antd';
+import { ConfigProvider, Dropdown, Menu, theme } from 'antd'; 
 import { IconUser } from '@tabler/icons-react';
 import { useState } from 'react';
 import LogoutModal from '../logOutModal/LogoutModal';
 
+interface MenuItem {
+	key: string;
+	label: React.ReactNode;
+}
+
 const AuthDropdown = () => {
-	const items: MenuProps['items'] = [
+
+	const showModalLogOut = () => {
+		setOpenModal(true);
+	};
+	
+	const items: MenuItem[] = [
 		{
 			key: '1',
 			label: (
@@ -24,10 +34,8 @@ const AuthDropdown = () => {
 			)
 		}
 	];
-	const showModalLogOut = () => {
-		setOpenModal(true);
-	};
-	const itemsUser: MenuProps['itemsUser'] = [
+
+	const itemsUser: MenuItem[] = [
 		{
 			key: '1',
 			label: (
@@ -48,7 +56,7 @@ const AuthDropdown = () => {
 			)
 		},
 		{
-			key: '2',
+			key: '3', 
 			label: (
 				<Link rel="noopener noreferrer" to="/personal-account/profile">
 					Профиль
@@ -56,7 +64,7 @@ const AuthDropdown = () => {
 			)
 		},
 		{
-			key: '2',
+			key: '4', 
 			label: (
 				<Link rel="noopener noreferrer" to="#" onClick={showModalLogOut}>
 					Выйти
@@ -64,6 +72,7 @@ const AuthDropdown = () => {
 			)
 		}
 	];
+
 	const antdThemeConfig = {
 		algorithm: theme.defaultAlgorithm
 	};
@@ -76,7 +85,17 @@ const AuthDropdown = () => {
 	return (
 		<>
 			<ConfigProvider theme={antdThemeConfig}>
-				<Dropdown menu={{ items: menuItems }} placement="bottomRight">
+				<Dropdown
+					overlay={
+						<Menu>
+							{menuItems.map(
+								(item) =>
+									item && <Menu.Item key={item.key}>{item.label}</Menu.Item>
+							)}
+						</Menu>
+					}
+					placement="bottomRight"
+				>
 					<button className={scss.button}>
 						<IconUser />
 					</button>
