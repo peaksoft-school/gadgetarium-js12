@@ -47,11 +47,11 @@ const InfoProduct = () => {
 	});
 	const pdfParam = `key=${searchParams.get('key')}`
 
-	const handlePDFApiFunk = (pdfUrl: string) => {
+	const handlePDFApiFunk = (_pdfUrl: string) => {
 		searchParams.set('key', 'aa115f91-4624-46c3-b388-90d108d244f2');
 		setSearchParams(searchParams);
 	};
-	const { data } = useGetUserPostPDSQuery(pdfParam);
+	useGetUserPostPDSQuery(pdfParam);
 
 	return (
 		<div className={scss.ContainerInfoProduct}>

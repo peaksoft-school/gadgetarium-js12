@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { ToastContainer } from 'react-toastify';
-import { notify } from '@/src/utils/helpers/Notify';
+import { notify } from '@/src/utils/helpers/notify';
 
 const Notification: FC = () => {
 	const basket = () =>

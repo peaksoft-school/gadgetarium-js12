@@ -3,8 +3,8 @@ import { IconTrash } from '@tabler/icons-react';
 import scss from './OrderInProcessing.module.scss';
 import { Link } from 'react-router-dom';
 import {
-	useDeleteAdminOrderMutation,
-	useGetAdminOrderQuery
+	useGetAdminOrderQuery,
+	useDeleteAdminOrderMutation
 } from '@/src/redux/api/adminOrders';
 import { useState } from 'react';
 import CustomSelect from '@/src/ui/customSelect/CustomSelect';
@@ -29,7 +29,7 @@ const onChange: DatePickerProps['onChange'] = (date, dateString) => {
 };
 
 const OrderDelivered = () => {
-	const { data: adminOrders, isLoading } = useGetAdminOrderQuery(0);
+	const { data, isLoading } = useGetAdminOrderQuery("");
 	const [deleteOrder] = useDeleteAdminOrderMutation();
 
 	const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -40,8 +40,8 @@ const OrderDelivered = () => {
 	const handleDeleteOrder = async () => {
 		try {
 			await deleteOrder({
-				_id: orderIdToDelete,
-				fullname: '',
+				id: orderIdToDelete,
+				fullName: '',
 				modalName: '',
 				number: '',
 				date: '',
@@ -81,7 +81,9 @@ const OrderDelivered = () => {
 	};
 
 	const processingOrders =
-		adminOrders?.filter((order) => order.status === 'Доставлены') || [];
+		Array.isArray(data)
+			? data.filter((order) => order.status === 'Доставлены')
+			: [];
 
 	const handleOpenModal = (
 		orderId: string,
@@ -94,6 +96,7 @@ const OrderDelivered = () => {
 	};
 
 	const countOrdersByStatus = (orders: any[]) => {
+		if (!Array.isArray(orders)) return {};
 		return orders.reduce(
 			(acc: { [x: string]: number }, order: { status: string | number }) => {
 				acc[order.status] = (acc[order.status] || 0) + 1;
@@ -102,7 +105,7 @@ const OrderDelivered = () => {
 			{}
 		);
 	};
-	const statusCounts = countOrdersByStatus(adminOrders || []);
+	const statusCounts = countOrdersByStatus(data || []);
 
 	const antdThemeConfig = {
 		algorithm: theme.defaultAlgorithm,
@@ -217,63 +220,65 @@ const OrderDelivered = () => {
 											<h1>IsLoading...</h1>
 										) : (
 											<tr className={scss.tr}>
-												{processingOrders?.map((e) => (
-													<Link to={`single-order/${e._id}`}>
-														<div className={scss.tr_div}>
-															<div className={scss.tr_row_1}>
-																<td className={scss.id_col}>{e._id}</td>
-																<td>{e.fullname}</td>
+											{processingOrders?.map((e) => (
+													<>
+														<Link to={`single-order/${e.id}`}>
+															<div className={scss.tr_div}>
+																<div className={scss.tr_row_1}>
+																	<td className={scss.id_col}>{e.id}</td>
+																	<td>{e.fullName}</td>
+																</div>
+																<div className={scss.tr_row_2}>
+																	<td className={scss.number_col}>
+																		<h2>{e.article}</h2> <span>{e.date}</span>
+																	</td>
+																	<td className={scss.quantity_col}>
+																		{e.count}
+																	</td>
+																	<td className={scss.total_price_col}>
+																		{e.price}
+																	</td>
+																	<td className={scss.order_type_col}>
+																		{e.typeOrder}
+																	</td>
+																	<CustomSelect
+																		orderId={e.id}
+																		orderStatus={e.status}
+																		currentColor={statusToColor(e.status)}
+																	/>
+																	<IconTrash
+																		onClick={(event) => {
+																			handleOpenModal(e.id, event);
+																			setModalName(e.modalName);
+																		}}
+																	/>
+																</div>
 															</div>
-															<div className={scss.tr_row_2}>
-																<td className={scss.number_col}>
-																	<h2>{e.number}</h2> <span>{e.date}</span>
-																</td>
-																<td className={scss.quantity_col}>
-																	{e.quantity}
-																</td>
-																<td className={scss.total_price_col}>
-																	{e.totalPrice}
-																</td>
-																<td className={scss.order_type_col}>
-																	{e.orderType}
-																</td>
-																<CustomSelect
-																	orderId={e._id}
-																	orderStatus={e.status}
-																	currentColor={statusToColor(e.status)}
-																/>
-																<IconTrash
-																	onClick={(event) => {
-																		handleOpenModal(e._id, event);
-																		setModalName(e.modalName);
-																	}}
-																/>
-															</div>
-														</div>
-													</Link>
-												))}
-												<CustomModal
-													isModalOpen={modalIsOpen}
-													setIsModalOpen={setModalIsOpen}
-												>
-													<div className={scss.modal}>
-														<h2>
-															Вы уверены, что хотите удалить товар
-															<span> {modalName}</span>?
-														</h2>
+														</Link>
+														<CustomModal
+															isModalOpen={modalIsOpen}
+															setIsModalOpen={setModalIsOpen}
+														>
+															<div className={scss.modal}>
+																<h2>
+																	Вы уверены, что хотите удалить товар
+																	<span> {modalName}</span>?
+																</h2>
 
-														<div className={scss.modal_buttons}>
-															<CancelButtonCustom
-																onClick={() => setModalIsOpen(false)}
-															>
-																Отменить
-															</CancelButtonCustom>
-															<CustomButtonAdd onClick={handleDeleteOrder}>
-																Удалить
-															</CustomButtonAdd>
-														</div>
-													</div>
-												</CustomModal>
+																<div className={scss.modal_buttons}>
+																	<CancelButtonCustom
+																		onClick={() => setModalIsOpen(false)}
+																	>
+																		Отменить
+																	</CancelButtonCustom>
+																	<CustomButtonAdd onClick={handleDeleteOrder}>
+																		Удалить
+																	</CustomButtonAdd>
+																</div>
+															</div>
+														</CustomModal>
+													</>
+												))}
 											</tr>
 										)}
 									</>

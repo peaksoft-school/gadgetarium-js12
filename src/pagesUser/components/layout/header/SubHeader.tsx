@@ -111,9 +111,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 							>
 								{ComparisonData.length <= 99 ? ComparisonData.length : '99+'}
 							</span>
-							<IconScale
-								
-							/>
+							<IconScale />
 						</Link>
 						<Link
 							onMouseEnter={() => setFavoriteProducts(true)}
@@ -130,9 +128,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 							>
 								{FavoriteData.length <= 99 ? FavoriteData.length : '99+'}
 							</span>
-							<IconHeart
-							
-							/>
+							<IconHeart />
 						</Link>
 						<Link
 							onMouseEnter={() => setBasketProducts(true)}
@@ -149,9 +145,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 							>
 								{BasketData.length <= 99 ? BasketData.length : '99+'}
 							</span>
-							<IconShoppingCart
-								
-							/>
+							<IconShoppingCart />
 						</Link>
 					</div>
 				</div>

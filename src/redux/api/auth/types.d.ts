@@ -5,24 +5,25 @@ namespace AUTH {
 		password: string;
 	};
 	type PostLoginResponse = {
-		isAuth: Login;
 		token: string;
 	};
 
 	type PostRegisterRequest = {
 		firstName: string;
 		lastName: string;
-		phoneNumber: number | string;
 		email: string;
 		password: string;
-		address: string;
+		address?: string;
+		phoneNumber?: string;
+		image?: string;
+		confirmThePassword: string;
 	};
 	type PostRegisterResponse = {
 		id: string | number;
 		register: Register;
 		token: string;
 	};
-	type POstForgotEmailRequest = {
+	type PostForgotEmailRequest = {
 		email: string;
 	};
 	type PostForgotEmailResponse = {

@@ -28,7 +28,8 @@ const FavoriteSection = () => {
 
 	const handleBasket = async (subGadgetId: number) => {
 		await basketPutProduct({
-			id: subGadgetId
+			id: subGadgetId,
+			basket: false
 		});
 		refetch();
 	};

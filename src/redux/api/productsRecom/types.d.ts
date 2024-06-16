@@ -40,7 +40,10 @@ type MainPages = {
 };
 
 namespace PRODUCTRECOM {
-	type GetProductsRecomRequest = void;
+	type GetProductsRecomRequest = {
+		page?: string;
+		size?: string;
+	};
 	type GetProductsRecomResponse = {
 		page: number;
 		size: number;

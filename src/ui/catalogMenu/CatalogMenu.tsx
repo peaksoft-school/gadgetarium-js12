@@ -29,7 +29,7 @@ const CatalogMenu = () => {
 
 	const searchResults = searchParams.get('brand') || '';
 
-	const { data: filteredData } = useGetFiltredGadgetQuery(
+	useGetFiltredGadgetQuery(
 		{
 			id: idCategory,
 			brand: [searchResults]

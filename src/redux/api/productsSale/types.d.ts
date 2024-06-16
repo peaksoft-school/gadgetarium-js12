@@ -41,7 +41,10 @@ type MainPages = {
 };
 
 namespace PRODUCTSALE {
-	type GetProductsSaleRequest = void;
+	type GetProductsSaleRequest = {
+		page?: string;
+		size?: string;
+	};
 	type GetProductsSaleResponse = {
 		page: number;
 		size: number;

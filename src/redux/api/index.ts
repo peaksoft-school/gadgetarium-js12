@@ -12,8 +12,7 @@ const baseQuery = fetchBaseQuery({
 			headers.set('Authorization', `Bearer ${token}`);
 		}
 		return headers;
-	},
-	
+	}
 });
 
 const baseQueryExtended: BaseQueryFn = async (args, api, extraOptions) => {
@@ -36,23 +35,29 @@ export const api = createApi({
 		'slider',
 		'favorite',
 		'comparison',
-		'filterProductsApi',
+		'phones',
 		'personalFavorite',
 		'personalHistory',
 		'adminOrders',
 		'productAdd',
+		'viewedProducts',
+		'adminsOrders',
+		'adminReview',
+		'infoGraphics',
+		'searchGlobal',
 		'cardProductApi',
 		'catalogApi',
-		'viewedProducts',
 		'CharacteristicsApi',
-		'descriptionApi',
 		'deliveryApi',
-		'reviewsApi',
-		'cardProductsColorsApi',
+		'descriptionApi',
+		'filterProductsApi',
 		'productMemoryApi',
 		'pdfApi',
+		'cardProductsColorsApi',
+		'reviewsApi',
 		'addProductApi',
 		'brandApi'
 	],
 	endpoints: () => ({})
-});
+})
+

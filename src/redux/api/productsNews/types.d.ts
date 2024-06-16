@@ -20,6 +20,7 @@ interface ProductsNews {
 }
 
 type MainPages = {
+	[x: string]: Key | null | undefined;
 	subGadgetId: SetStateAction<string | number | null>;
 	gadgetId: Key | null | undefined;
 	gadgetId: number;
@@ -42,7 +43,10 @@ type MainPages = {
 };
 
 namespace PRODUCTNEW {
-	type GetProductsNewsRequest = void;
+	type GetProductsNewsRequest = {
+		page?: string;
+		size?: string;
+	};
 	type GetProductsNewsResponse = {
 		page: number;
 		size: number;
