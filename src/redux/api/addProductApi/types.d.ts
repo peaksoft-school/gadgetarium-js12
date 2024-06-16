@@ -45,7 +45,7 @@ namespace ADDPRODUCTAPI {
 
 	type GadgetSetPriceByIdRequest = {
 		id: number;
-		price: number;
+		price: string;
 	};
 	type GadgetSetPriceByIdResponse = {
 		id: number;
@@ -75,4 +75,17 @@ namespace ADDPRODUCTAPI {
 		quantity?: string;
 		ids?: number[];
 	};
+
+	type getNewProductsRequest = void;
+	type getNewProductsResponse = {
+		id: number;
+		brandName: string;
+		mainColour: string;
+		memory: string;
+		ram: string;
+		countSim: number;
+		releaseDate: [];
+		price: number | string;
+		quantity: number | string;
+	}[];
 }

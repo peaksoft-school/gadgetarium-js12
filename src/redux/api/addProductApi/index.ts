@@ -6,13 +6,20 @@ const api = index.injectEndpoints({
 			ADDPRODUCTAPI.PostAddProductResponse,
 			ADDPRODUCTAPI.PostAddProductRequest
 		>({
-			query: ({ subCategoryId, brandId, dateOfIssue, nameOfGadget, productsRequests, warranty}) => ({
+			query: ({
+				subCategoryId,
+				brandId,
+				dateOfIssue,
+				nameOfGadget,
+				productsRequests,
+				warranty
+			}) => ({
 				url: `/api/gadget/${subCategoryId}/${brandId}`,
 				method: 'POST',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				},
-				body: {dateOfIssue, nameOfGadget, productsRequests, warranty}
+				body: { dateOfIssue, nameOfGadget, productsRequests, warranty }
 			}),
 			invalidatesTags: ['addProductApi']
 		}),
@@ -68,6 +75,19 @@ const api = index.injectEndpoints({
 				}
 			}),
 			invalidatesTags: ['addProductApi']
+		}),
+		gadgetGetNewProducts: build.query<
+			ADDPRODUCTAPI.getNewProductsResponse,
+			ADDPRODUCTAPI.getNewProductsRequest
+		>({
+			query: () => ({
+				url: `/api/gadget/get-new`,
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			providesTags: ['addProductApi']
 		})
 	})
 });
@@ -77,5 +97,6 @@ export const {
 	useGadgetByIdSetQuantityMutation,
 	useGadgetByIdSetPriceMutation,
 	useGadgetSetDocumentMutation,
-	useSetAllProductsPriceAndQuantityMutation
+	useSetAllProductsPriceAndQuantityMutation,
+	useGadgetGetNewProductsQuery
 } = api;

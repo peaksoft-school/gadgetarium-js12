@@ -247,6 +247,7 @@ export const AddProductSections = () => {
 				nameOfGadget,
 				warranty
 			});
+			navigate('/admin/product-adding/part-2')
 		} catch (error) {
 			console.error(error);
 		}
