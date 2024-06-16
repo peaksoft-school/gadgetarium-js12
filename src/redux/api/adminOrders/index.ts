@@ -1,50 +1,49 @@
 import { api as index } from "../index";
 
-interface IAdminOrders {
-  _id: string;
-  fullname: string;
-  modalName: string;
-  number: string;
-  date: string;
-  quantity: string;
-  totalPrice: string;
-  orderType: string;
-  status: string;
-  product: string;
-  discount: string;
-  discountPrice: string;
-  fullOldPrice: string;
-  state: string;
-  phone: string;
-  address: string;
-}
-
 const api = index.injectEndpoints({
   endpoints: (build) => ({
-    getAdminOrder: build.query<IAdminOrders[], number>({
+    getAdminOrder: build.query<
+      ORDERSTORE.GetOrderResponse,
+      ORDERSTORE.GetOrderRequest
+    >({
       query: () => ({
-        url: 'https://api-v2.elchocrud.pro/api/v1/5babd4e55530d1ca27208b3cf92e6438/adminOrders',
-        method: 'GET'
+        url: '/api/order',
+        method: 'GET',
+        headers: {
+					'Authorization': `Bearer ${localStorage.getItem('token')}` 
+				}
       }),
       providesTags: ['adminOrders']
     }),
-    postAdminOrder: build.mutation<IAdminOrders[], IAdminOrders>({
+    postAdminOrder: build.mutation<
+      ORDERSTORE.PostOrderResponse,
+      ORDERSTORE.PostOrderRequest
+    >({
       query: (products) => ({
-        url: "https://api-v2.elchocrud.pro/api/v1/5babd4e55530d1ca27208b3cf92e6438/adminOrders",
+        url: "/api/order",
         method: "POST",
-        body: products
+        body: products,
+        headers: {
+					'Authorization': `Bearer ${localStorage.getItem('token')}` 
+				}
       })
     }),
-    putAdminOrder: build.mutation<IAdminOrders[], IAdminOrders>({
-      query: ({_id, ...products}) => ({
-        url: `https://api-v2.elchocrud.pro/api/v1/5babd4e55530d1ca27208b3cf92e6438/adminOrders/${_id}`,
+    putAdminOrder: build.mutation<
+      ORDERSTORE.PutOrderResponse,
+      ORDERSTORE.PutOrderRequest
+    >({
+      query: ({ id, ...products }) => ({
+        url: `/api/order/${id}`,
         method: "PATCH",
         body: products
       })
     }),
-    deleteAdminOrder: build.mutation<IAdminOrders[], IAdminOrders>({
-      query: ({_id}) => ({
-        url: `https://api-v2.elchocrud.pro/api/v1/5babd4e55530d1ca27208b3cf92e6438/adminOrders/${_id}`,
+    deleteAdminOrder: build.mutation<
+      ORDERSTORE.DeleteOrderResponse,
+      ORDERSTORE.DeleteOrderRequest
+    >({
+      query: ({ id }) => ({
+        url: `/api/order${id}`,
         method: "DELETE",
       })
     })
