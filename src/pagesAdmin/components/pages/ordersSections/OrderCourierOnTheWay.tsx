@@ -9,7 +9,6 @@ import {
 } from '@/src/redux/api/adminOrders';
 import React, { useState } from 'react';
 import CustomSelect from '@/src/ui/customSelect/CustomSelect';
-import ModalWindow from '@/src/ui/modal/Modal';
 import {
 	ConfigProvider,
 	DatePicker,
@@ -31,23 +30,19 @@ const onChange: DatePickerProps['onChange'] = (date, dateString) => {
 };
 
 const OrderCourierOnTheWay = () => {
-	const { data: adminOrders, isLoading } = useGetAdminOrderQuery(0);
+	const { data, isLoading } = useGetAdminOrderQuery("");
 	const [deleteOrder] = useDeleteAdminOrderMutation();
 
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 	const [modalName, setModalName] = useState('');
-
-	const [day, setDay] = useState(true);
-	const [month, setMonth] = useState(false);
-	const [year, setYear] = useState(false);
 
 	const [orderIdToDelete, setOrderIdToDelete] = useState('');
 
 	const handleDeleteOrder = async () => {
 		try {
 			await deleteOrder({
-				_id: orderIdToDelete,
-				fullname: '',
+				id: orderIdToDelete,
+				fullName: '',
 				modalName: '',
 				number: '',
 				date: '',
@@ -87,7 +82,9 @@ const OrderCourierOnTheWay = () => {
 	};
 
 	const processingOrders =
-		adminOrders?.filter((order) => order.status === 'Курьер в пути') || [];
+		Array.isArray(data)
+			? data.filter((order) => order.status === 'Курьер в пути')
+			: [];
 
 	const handleOpenModal = (
 		orderId: string,
@@ -100,6 +97,7 @@ const OrderCourierOnTheWay = () => {
 	};
 
 	const countOrdersByStatus = (orders: any[]) => {
+		if (!Array.isArray(orders)) return {};
 		return orders.reduce(
 			(acc: { [x: string]: number }, order: { status: string | number }) => {
 				acc[order.status] = (acc[order.status] || 0) + 1;
@@ -108,7 +106,9 @@ const OrderCourierOnTheWay = () => {
 			{}
 		);
 	};
-	const statusCounts = countOrdersByStatus(adminOrders || []);
+
+	const statusCounts = countOrdersByStatus(data || []);
+
 	const antaThemeConfig = {
 		algorithm: theme.defaultAlgorithm,
 		token: {
@@ -223,63 +223,64 @@ const OrderCourierOnTheWay = () => {
 										) : (
 											<tr className={scss.tr}>
 												{processingOrders?.map((e) => (
-													<Link to={`single-order/${e._id}`}>
-														<div className={scss.tr_div}>
-															<div className={scss.tr_row_1}>
-																<td className={scss.id_col}>{e._id}</td>
-																<td>{e.fullname}</td>
+													<>
+														<Link to={`single-order/${e.id}`}>
+															<div className={scss.tr_div}>
+																<div className={scss.tr_row_1}>
+																	<td className={scss.id_col}>{e.id}</td>
+																	<td>{e.fullName}</td>
+																</div>
+																<div className={scss.tr_row_2}>
+																	<td className={scss.number_col}>
+																		<h2>{e.article}</h2> <span>{e.date}</span>
+																	</td>
+																	<td className={scss.quantity_col}>
+																		{e.count}
+																	</td>
+																	<td className={scss.total_price_col}>
+																		{e.price}
+																	</td>
+																	<td className={scss.order_type_col}>
+																		{e.typeOrder}
+																	</td>
+																	<CustomSelect
+																		orderId={e.id}
+																		orderStatus={e.status}
+																		currentColor={statusToColor(e.status)}
+																	/>
+																	<IconTrash
+																		onClick={(event) => {
+																			handleOpenModal(e.id, event);
+																			setModalName(e.modalName);
+																		}}
+																	/>
+																</div>
 															</div>
-															<div className={scss.tr_row_2}>
-																<td className={scss.number_col}>
-																	<h2>{e.number}</h2> <span>{e.date}</span>
-																</td>
-																<td className={scss.quantity_col}>
-																	{e.quantity}
-																</td>
-																<td className={scss.total_price_col}>
-																	{e.totalPrice}
-																</td>
-																<td className={scss.order_type_col}>
-																	{e.orderType}
-																</td>
-																<CustomSelect
-																	orderId={e._id}
-																	orderStatus={e.status}
-																	currentColor={statusToColor(e.status)}
-																/>
-																<IconTrash
-																	onClick={(event) => {
-																		handleOpenModal(e._id, event);
-																		setModalName(e.modalName);
-																	}}
-																/>
-															</div>
-														</div>
-													</Link>
-												))}
-												<ModalWindow open={modalIsOpen}>
-													<div className={scss.modal}>
-														<h2>
-															Вы уверены, что хотите удалить товар
-															<span> {modalName}</span>?
-														</h2>
+														</Link>
+														<CustomModal
+															isModalOpen={modalIsOpen}
+															setIsModalOpen={setModalIsOpen}
+														>
+															<div className={scss.modal}>
+																<h2>
+																	Вы уверены, что хотите удалить товар
+																	<span> {modalName}</span>?
+																</h2>
 
-														<div className={scss.modal_buttons}>
-															<button
-																onClick={() => setModalIsOpen(false)}
-																className={scss.cancel_modal_button}
-															>
-																Отменить
-															</button>
-															<button
-																onClick={handleDeleteOrder}
-																className={scss.delete_modal_button}
-															>
-																Удалить
-															</button>
-														</div>
-													</div>
-												</ModalWindow>
+																<div className={scss.modal_buttons}>
+																	<CancelButtonCustom
+																		onClick={() => setModalIsOpen(false)}
+																	>
+																		Отменить
+																	</CancelButtonCustom>
+																	<CustomButtonAdd onClick={handleDeleteOrder}>
+																		Удалить
+																	</CustomButtonAdd>
+																</div>
+															</div>
+														</CustomModal>
+													</>
+												))}
 											</tr>
 										)}
 									</>

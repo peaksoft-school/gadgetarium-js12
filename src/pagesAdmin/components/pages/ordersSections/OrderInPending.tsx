@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import {
 	useDeleteAdminOrderMutation,
 	useGetAdminOrderQuery,
-	usePostAdminOrderMutation
 } from '@/src/redux/api/adminOrders';
 import { useState } from 'react';
 import CustomSelect from '@/src/ui/customSelect/CustomSelect';
@@ -81,39 +80,6 @@ const OrderInPending = () => {
 		}
 	};
 
-	const [postProduct] = usePostAdminOrderMutation()
-
-	const handlePost = async () => {
-		const newData = {
-			searchWord: "",
-			status: "",
-			quantity: 0,
-			startDate: "2024-06-10",
-			endDate: "2024-06-10",
-			page: 1,
-			size: 1,
-			orderResponses: [
-				{
-					id: 1,
-					fullName: "Айзат Жумагулова",
-					modalName: "Айзат Жумагуловой",
-					article: "000000-455247",
-					date: "14:33",
-					count: 2,
-					price: "90 000 с",
-					typeOrder: "Самовывоз",
-					status: "Отменены",
-				}
-			]
-		}
-	  try {
-			const res = await postProduct(newData)
-			console.log(res);
-		} catch (error) {
-			console.error(error);
-		}
-	}
-
 	const processingOrders =
 		Array.isArray(data)
 			? data.filter((order) => order.status === 'Доставлены')
@@ -147,16 +113,6 @@ const OrderInPending = () => {
 			colorBgContainer: 'transparent'
 		}
 	};
-
-	const idDate = data?.id ?? 1
-	const fullNameDate = data?.fullName ?? "Айзат Жумагулова"
-	const modalNameDate = data?.modalName ?? "Айзат Жумагуловой"
-	const articleDate = data?.article ?? "000000-455247"
-	const countDate = data?.count ?? 2
-	const priceDate = data?.price ?? "90 000"
-	const typeOrderDate = data?.typeOrder ?? "Самовывоз"
-	const dateDate = data?.date ?? "13.06.2024"
-	const statusDate = data?.status ?? "В ожидании"
 
 	return (
 		<section className={scss.order}>
@@ -236,7 +192,6 @@ const OrderInPending = () => {
 
 						<div className={scss.content_left_2}>
 							<h2>Найдено 250 заказов</h2>
-							<button onClick={handlePost}>LET IT GO</button>
 
 							<div className={scss.table_div}>
 								<table>
@@ -263,62 +218,65 @@ const OrderInPending = () => {
 											<h1>IsLoading...</h1>
 										) : (
 											<tr className={scss.tr}>
-													<Link to={`single-order/${idDate}`}>
-														<div className={scss.tr_div}>
-															<div className={scss.tr_row_1}>
-																<td className={scss.id_col}>{idDate}</td>
-																<td>{fullNameDate}</td>
+												{processingOrders?.map((e) => (
+													<>
+														<Link to={`single-order/${e.id}`}>
+															<div className={scss.tr_div}>
+																<div className={scss.tr_row_1}>
+																	<td className={scss.id_col}>{e.id}</td>
+																	<td>{e.fullName}</td>
+																</div>
+																<div className={scss.tr_row_2}>
+																	<td className={scss.number_col}>
+																		<h2>{e.article}</h2> <span>{e.date}</span>
+																	</td>
+																	<td className={scss.quantity_col}>
+																		{e.count}
+																	</td>
+																	<td className={scss.total_price_col}>
+																		{e.price}
+																	</td>
+																	<td className={scss.order_type_col}>
+																		{e.typeOrder}
+																	</td>
+																	<CustomSelect
+																		orderId={e.id}
+																		orderStatus={e.status}
+																		currentColor={statusToColor(e.status)}
+																	/>
+																	<IconTrash
+																		onClick={(event) => {
+																			handleOpenModal(e.id, event);
+																			setModalName(e.modalName);
+																		}}
+																	/>
+																</div>
 															</div>
-															<div className={scss.tr_row_2}>
-																<td className={scss.number_col}>
-																	<h2>{articleDate}</h2> <span>{dateDate}</span>
-																</td>
-																<td className={scss.quantity_col}>
-																	{countDate} шт.
-																</td>
-																<td className={scss.total_price_col}>
-																	{priceDate}
-																</td>
-																<td className={scss.order_type_col}>
-																	{typeOrderDate}
-																</td>
-																<CustomSelect
-																	orderId={idDate}
-																	orderStatus={statusDate}
-																	currentColor={statusToColor(statusDate)}
-																/>
-																<IconTrash
-																	className={scss.trash}
-																	onClick={(event) => {
-																		handleOpenModal(idDate, event);
-																		setModalName(modalNameDate);
-																	}}
-																/>
-															</div>
-														</div>
-													</Link>
-												<CustomModal
-													isModalOpen={modalIsOpen}
-													setIsModalOpen={setModalIsOpen}
-												>
-													<div className={scss.modal}>
-														<h2>
-															Вы уверены, что хотите удалить товар
-															<span> {modalName}</span>?
-														</h2>
+														</Link>
+														<CustomModal
+															isModalOpen={modalIsOpen}
+															setIsModalOpen={setModalIsOpen}
+														>
+															<div className={scss.modal}>
+																<h2>
+																	Вы уверены, что хотите удалить товар
+																	<span> {modalName}</span>?
+																</h2>
 
-														<div className={scss.modal_buttons}>
-															<CancelButtonCustom
-																onClick={() => setModalIsOpen(false)}
-															>
-																Отменить
-															</CancelButtonCustom>
-															<CustomButtonAdd onClick={handleDeleteOrder}>
-																Удалить
-															</CustomButtonAdd>
-														</div>
-													</div>
-												</CustomModal>
+																<div className={scss.modal_buttons}>
+																	<CancelButtonCustom
+																		onClick={() => setModalIsOpen(false)}
+																	>
+																		Отменить
+																	</CancelButtonCustom>
+																	<CustomButtonAdd onClick={handleDeleteOrder}>
+																		Удалить
+																	</CustomButtonAdd>
+																</div>
+															</div>
+														</CustomModal>
+													</>
+												))}
 											</tr>
 										)}
 									</>
