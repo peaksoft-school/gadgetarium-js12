@@ -55,6 +55,7 @@ export const api = createApi({
 		'pdfApi',
 		'cardProductsColorsApi',
 		'reviewsApi',
+		'adminReview',
 		'addProductApi',
 		'brandApi'
 	],
