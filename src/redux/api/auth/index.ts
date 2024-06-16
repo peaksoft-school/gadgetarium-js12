@@ -29,13 +29,29 @@ const api = index.injectEndpoints({
 			AUTH.PostForgotEmailResponse,
 			AUTH.PostForgotEmailRequest
 		>({
-			query: (newData) => (
-				console.log(newData),
-				{
-					url: `/api/reset?email=${newData.email}`,
+			query: (newData) => ({
+				url: `/api/reset?email=${newData.email}`,
+				method: 'POST'
+			}),
+			invalidatesTags: ['auth']
+		}),
+		postGoogle: build.mutation<AUTH.PostGoogleResponse, AUTH.PostGoogleRequest>(
+			{
+				query: (data) => ({
+					url: `/api/auth/google?idToken=${encodeURIComponent(data.idToken)}`,
 					method: 'POST'
-				}
-			),
+				}),
+				invalidatesTags: ['auth']
+			}
+		),
+		patchNewPassword: build.mutation<
+			AUTH.PatchNewPasswordResponse,
+			AUTH.PatchNewPasswordRequest
+		>({
+			query: (data) => ({
+				url: `/api/reset?token=${encodeURIComponent(data.token)}&password=${encodeURIComponent(data.password)}&confirmPassword=${encodeURIComponent(data.confirmPassword)}`,
+				method: 'PATCH'
+			}),
 			invalidatesTags: ['auth']
 		})
 	})
@@ -44,5 +60,7 @@ const api = index.injectEndpoints({
 export const {
 	usePostLoginMutation,
 	usePostRegisterMutation,
-	usePostForgotMutation
+	usePostForgotMutation,
+	usePostGoogleMutation,
+	usePatchNewPasswordMutation
 } = api;

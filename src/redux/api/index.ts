@@ -42,7 +42,6 @@ export const api = createApi({
 		'productAdd',
 		'viewedProducts',
 		'adminsOrders',
-		'adminReview',
 		'infoGraphics',
 		'searchGlobal',
 		'cardProductApi',
@@ -56,9 +55,10 @@ export const api = createApi({
 		'cardProductsColorsApi',
 		'reviewsApi',
 		'adminReview',
+		'payment',
+		'orderUser',
 		'addProductApi',
 		'brandApi'
 	],
 	endpoints: () => ({})
-})
-
+});
