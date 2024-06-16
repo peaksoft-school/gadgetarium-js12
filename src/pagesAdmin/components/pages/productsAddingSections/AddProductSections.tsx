@@ -257,17 +257,11 @@ export const AddProductSections = () => {
 	) => {
 		const files = event.target.files;
 		if (files) {
-			// const formData = new FormData();
-			// for(let i = 0 ; i < files.length; i++) {
-			// 	formData.append('files', files[i])
-			// }
-			// setFilesAddProductsValues(formData);
 			setArray((prevValue) => {
 				const newArray = [...prevValue];
-				newArray[index].images = Array.from(files, (file) => URL.createObjectURL(file))
-				// newArray[index].images = newArray[index].images.concat(
-				// 	Array.from(files, (file) => URL.createObjectURL(file))
-				// );
+				const currentImages = newArray[index].images || [];
+				const newImages = Array.from(files, (file) => URL.createObjectURL(file));
+				newArray[index].images = [...currentImages, ...newImages].slice(0, 6);
 				return newArray;
 			});
 		}
@@ -623,7 +617,7 @@ export const AddProductSections = () => {
 														<input
 															type="file"
 															ref={(ref) => {
-																if(ref) {
+																if (ref) {
 																	addProductFileRef.current[index] = ref;
 																}
 															}}
