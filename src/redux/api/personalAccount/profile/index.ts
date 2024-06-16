@@ -37,7 +37,7 @@ const api = index.injectEndpoints({
     >({
       query: (products) => ({
         url: "/api/personal/add-image",
-        method: "PUT",
+        method: "PATCH",
         body: products,
         headers: {
           'Authorization': `Bearer ${localStorage.getItem("token")}`

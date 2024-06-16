@@ -19,8 +19,8 @@ const api = index.injectEndpoints({
 			BASKETPRODUCTS.GetBasketOrderAmountsResponse,
 			BASKETPRODUCTS.GetBasketOrderAmountsRequest
 		>({
-			query: () => ({
-				url: '/api/basket/order-amounts',
+			query: ({ ids }) => ({
+				url: `/api/basket/all-amount-in-basket?${ids}`,
 				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -32,14 +32,41 @@ const api = index.injectEndpoints({
 			BASKETPRODUCTS.PutProductResponse,
 			BASKETPRODUCTS.PutProductRequest
 		>({
-			query: ({ id }) => ({
+			query: ({ id, basket }) => ({
 				url: `/api/basket/${id}`,
 				method: 'PATCH',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				},
+				body: { basket }
+			}),
+			invalidatesTags: ['basket']
+		}),
+		basketDeleteProduct: build.mutation<
+			BASKETPRODUCTS.BasketDeleteResponse,
+			BASKETPRODUCTS.BasketDeleteRequest
+		>({
+			query: (gadgetId) => ({
+				url: `/api/basket/${gadgetId}`,
+				method: 'DELETE',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				}
 			}),
 			invalidatesTags: ['basket']
+		}),
+		getBasketOrderGadget: build.query<
+			BASKETPRODUCTS.GetBasketOrderGadgetResponse,
+			BASKETPRODUCTS.GetBasketOrderGadgetRequest
+		>({
+			query: (ids) => ({
+				url: `/api/basket/order-amounts?${ids}`,
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			providesTags: ['basket']
 		}),
 		deleteByIdBasketProduct: build.mutation({
 			query: (gadgetId) => ({
@@ -50,38 +77,6 @@ const api = index.injectEndpoints({
 				}
 			}),
 			invalidatesTags: ['basket']
-		}),
-		basketProductDeleteAll: build.mutation<
-			BASKETPRODUCTS.BasketProductsAllItemIdResponse,
-			BASKETPRODUCTS.BasketProductsAllItemIdRequest
-		>({
-			query: ({ id, NumberOfGoods, YourDiscount, Sum, Total }) => ({
-				url: `https://c7c9df01cc80687d.mokky.dev/basket/${id}`,
-				method: 'PATCH',
-				body: { NumberOfGoods, YourDiscount, Sum, Total }
-			}),
-			invalidatesTags: ['basket']
-		}),
-		basketProduct: build.mutation<
-			BASKETPRODUCTS.BasketProductResponse,
-			BASKETPRODUCTS.BasketProductRequest
-		>({
-			query: ({ id }) => ({
-				url: `https://c7c9df01cc80687d.mokky.dev/basket/${id}`,
-				method: 'PATCH'
-			}),
-			invalidatesTags: ['basket']
-		}),
-		basketProductResultQuantity: build.mutation<
-			BASKETPRODUCTS.ProductQuantityResponse,
-			BASKETPRODUCTS.ProductQuantityRequest
-		>({
-			query: ({ id, buyProductQuantity }) => ({
-				url: `https://c7c9df01cc80687d.mokky.dev/basket/${id}`,
-				method: 'PATCH',
-				body: { buyProductQuantity }
-			}),
-			invalidatesTags: ['basket']
 		})
 	})
 });
@@ -90,8 +85,7 @@ export const {
 	useGetBasketQuery,
 	useGetBasketOrderAmountQuery,
 	useBasketPutProductMutation,
-	useDeleteByIdBasketProductMutation,
-	useBasketProductDeleteAllMutation,
-	useBasketProductMutation,
-	useBasketProductResultQuantityMutation
+	useBasketDeleteProductMutation,
+	useGetBasketOrderGadgetQuery,
+	useDeleteByIdBasketProductMutation
 } = api;

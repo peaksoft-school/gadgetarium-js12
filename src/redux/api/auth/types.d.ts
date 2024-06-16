@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 namespace AUTH {
 	type PostLoginRequest = {
@@ -29,5 +30,25 @@ namespace AUTH {
 	type PostForgotEmailResponse = {
 		token: string;
 		email: string;
+	};
+	type PostGoogleRequest = {
+		idToken: string;
+	};
+	type PostGoogleResponse = {
+		idToken: string;
+		token: string;
+		email: string;
+	};
+	type PatchNewPasswordRequest = {
+		// token(token: any): unknown;
+		// idToken: string;
+		token: string;
+		password: string;
+		confirmPassword: string;
+	};
+	type PatchNewPasswordResponse = {
+		token: string;
+		password: string;
+		confirmPassword: string;
 	};
 }

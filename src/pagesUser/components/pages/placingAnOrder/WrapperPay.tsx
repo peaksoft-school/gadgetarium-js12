@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import scss from './WrapperPay.module.scss';
 import {
 	Link,
@@ -6,44 +6,47 @@ import {
 	Routes,
 	useLocation,
 	useNavigate
+	// useSearchParams
 } from 'react-router-dom';
 import Delivery from '@/src/pagesUser/components/pages/placingAnOrder/Delivery.tsx';
-import Payment from '@/src/pagesUser/components/pages/placingAnOrder/Payment.tsx';
+// import Payment from '@/src/pagesUser/components/pages/placingAnOrder/Payment.tsx';
 import Review from '@/src/pagesUser/components/pages/placingAnOrder/Review.tsx';
-
-const iphones = [
-	{
-		image:
-			'https://www.pngmart.com/files/15/Apple-iPhone-12-Transparent-Images-PNG.png',
-		name: 'IPhone 15 pro Max 256gb blue 9(MLP3RU)',
-		articul: 393478,
-		quantity: '3 шт',
-		size: 44,
-		color: 'Blue'
-	},
-	{
-		image:
-			'https://www.pngmart.com/files/15/Apple-iPhone-12-Transparent-Images-PNG.png',
-		name: 'IPhone 15 pro Max 256gb yellow 9(MLP3RU)',
-		articul: 393478,
-		quantity: '3 шт',
-		size: 44,
-		color: 'Yellow'
-	}
-];
+import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
+import Payment from './Payment';
 
 const WrapperPay: FC = () => {
 	const { pathname } = useLocation();
 	const navigate = useNavigate();
+	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
+		window.location.search.substring(1)
+	]);
+	const [isDeliveryComplete, setIsDeliveryComplete] = useState(false);
+	// console.log(basketOrder, 'order for basket');
 
 	const handleMain = () => {
 		navigate('/');
 	};
 	const handleBasket = () => {
-		navigate('/basket');
+		navigate(`/basket?${window.location.search.substring(1)}`);
 	};
 	const handleDecor = () => {
-		navigate('/pay/delivery');
+		navigate(`/pay/delivery`);
+	};
+
+	const handleNavigateEdit = () => {
+		navigate('/basket');
+	};
+
+	const handleDeliveryCompletion = (isComplete: boolean) => {
+		setIsDeliveryComplete(isComplete);
+	};
+
+	const navigateWithValidation = (path: string) => {
+		if (isDeliveryComplete || path === '/pay/delivery') {
+			navigate(path);
+		} else {
+			alert('Please complete the delivery information before proceeding.');
+		}
 	};
 
 	return (
@@ -67,7 +70,7 @@ const WrapperPay: FC = () => {
 									<div className={scss.transition_numbers}>
 										<div className={scss.number_one}>
 											<Link
-												to="/pay/delivery"
+												to={`/pay/delivery`}
 												className={
 													pathname === '/pay/delivery' ||
 													pathname === '/pay/payment' ||
@@ -91,7 +94,12 @@ const WrapperPay: FC = () => {
 										</div>
 										<div className={scss.number_two}>
 											<Link
-												to="/pay/payment"
+												onClick={() =>
+													navigateWithValidation(
+														`/pay/payment?${window.location.search.substring(1)}`
+													)
+												}
+												to={`/pay/payment?${window.location.search.substring(1)}`}
 												className={
 													pathname === '/pay/payment' ||
 													pathname === '/pay/review'
@@ -105,7 +113,12 @@ const WrapperPay: FC = () => {
 										</div>
 										<div className={scss.number_three}>
 											<Link
-												to="/pay/review"
+												onClick={() =>
+													navigateWithValidation(
+														`/pay/review?${window.location.search.substring(1)}`
+													)
+												}
+												to={`/pay/review?${window.location.search.substring(1)}`}
 												className={
 													pathname === '/pay/review'
 														? `${scss.review_link} ${scss.active}`
@@ -127,7 +140,12 @@ const WrapperPay: FC = () => {
 								</div>
 								<div className={scss.content_routes}>
 									<Routes>
-										<Route path="/delivery" element={<Delivery />} />
+										<Route
+											path="/delivery"
+											element={
+												<Delivery onCompletion={handleDeliveryCompletion} />
+											}
+										/>
 										<Route path="/payment" element={<Payment />} />
 										<Route path="/review" element={<Review />} />
 									</Routes>
@@ -139,34 +157,44 @@ const WrapperPay: FC = () => {
 									<div className={scss.card_order_price}>
 										<div className={scss.title}>
 											<p>Сумма заказа</p>
-											<h5>Изменить</h5>
+											<h5
+												style={{ cursor: 'pointer' }}
+												onClick={handleNavigateEdit}
+											>
+												Изменить
+											</h5>
 										</div>
 										<div className={scss.line}>.</div>
 										<div>
 											<p className={scss.quantity_order}>
-												Количество товаров: <span>3 шт</span>
+												Количество товаров:
+												<span> {basketOrder?.basketAmounts.quantity} шт</span>
 											</p>
 											<p className={scss.your_seil}>
-												Ваша скидка: <span>– 20 000 с</span>
+												Ваша скидка:
+												<span>{basketOrder?.basketAmounts.discountPrice}с</span>
 											</p>
 											<p className={scss.sum}>
-												Сумма: <span>220 900 с</span>
+												Сумма:
+												<span>
+													{basketOrder?.basketAmounts.discountPrice} с
+												</span>
 											</p>
 										</div>
 										<h4 className={scss.total}>
-											Итого: <span>200 900 с</span>
+											Итого: <span>{basketOrder?.basketAmounts.price} с</span>
 										</h4>
 									</div>
 									<div className={scss.cards_phones}>
-										{iphones.map((item, index) => (
-											<div key={index} className={scss.phone_card}>
+										{basketOrder?.gadgetResponse.map((item) => (
+											<div key={item.id} className={scss.phone_card}>
 												<img className={scss.image} src={item.image} alt="" />
 												<div className={scss.phone_texts}>
-													<p className={scss.name}>{item.name}</p>
-													<p>Артикул:{item.articul}</p>
+													<p className={scss.name}>{item.nameOfGadget}</p>
+													<p>Артикул:{item.article}</p>
 													<p> Кол-во:{item.quantity}</p>
-													<p>Размер:{item.size}</p>
-													<p>Цвет:{item.color}</p>
+													<p>Размер:{item.memory}</p>
+													<p>Цвет:{item.colour}</p>
 												</div>
 											</div>
 										))}

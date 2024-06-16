@@ -89,7 +89,7 @@ export const ProductsForHover: FC<ProductsForHoverTypes> = ({
 						<div className={scss.overlfow_div}>
 							{ComparisonData?.map((el) => (
 								<div key={el.id} className={scss.display_content}>
-									{el.images.map((e) => (
+									{el.images && el.images.map((e) => (
 										<img src={e} alt={el.nameOfGadget} />
 									))}
 									<div className={scss.product_name_and_price_div}>
