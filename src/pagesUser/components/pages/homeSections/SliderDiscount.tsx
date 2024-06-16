@@ -21,14 +21,17 @@ const SliderDiscount = () => {
 		<div className={scss.slider}>
 			{isLoading ? (
 				<>
-					<Skeleton.Button style={{ width: 1900, height: 550 }} />
+					<Skeleton.Button style={{ width: 1724, height: 550 }} />
 				</>
 			) : (
 				<>
 					<div ref={sliderRef} className="keen-slider">
-						{sliders?.map((item, index) => (
-							<div key={index} className="keen-slider__slide">
-								<div className={scss.background}>
+						{sliders?.map((item) => (
+							<div key={item.id} className="keen-slider__slide">
+								<div>
+									<img src={item.images} alt="" />
+								</div>
+								{/* <div className={scss.background}>
 									<div className={scss.content}>
 										<img
 											className={scss.iphoneImg}
@@ -36,7 +39,7 @@ const SliderDiscount = () => {
 											alt="iPhoneImage"
 										/>
 									</div>
-								</div>
+								</div> */}
 							</div>
 						))}
 					</div>

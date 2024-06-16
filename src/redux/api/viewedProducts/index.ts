@@ -7,8 +7,11 @@ const api = index.injectEndpoints({
 			VIEWEDPRODUCTS.GetViewedProductsRequest
 		>({
 			query: () => ({
-				url: 'https://api-v2.elchocrud.pro/api/v1/dcb39e9f1ace891cbfa41add7fec551a/ViewedProducts',
-				method: 'GET'
+				url: '/api/gadget/viewed-products',
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
 			}),
 			providesTags: ['viewedProducts']
 		})

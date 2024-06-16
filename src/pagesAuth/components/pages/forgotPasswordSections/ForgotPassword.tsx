@@ -50,7 +50,7 @@ export const ForgotPassword = () => {
 								>
 									<Controller
 										// {...register('email')}
-										name='email'
+										name="email"
 										control={control}
 										defaultValue=""
 										rules={{
@@ -85,6 +85,7 @@ export const ForgotPassword = () => {
 										</Button>
 									</div>
 									<div className={scss.divForms}>
+										<p style={{ fontSize: '12px' }}>Нет аккаунта? </p>
 										<Link className={scss.link} to={'/auth/register'}>
 											Зарегистироваться
 										</Link>

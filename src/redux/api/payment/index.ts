@@ -2,31 +2,17 @@ import { api as index } from '../index';
 
 const api = index.injectEndpoints({
 	endpoints: (build) => ({
-		// getOrder: build.query<
-		// 	ORDERPRODUCT.GetBasketProductsResponse,
-		// 	ORDERPRODUCT.GetBasketProductsRequest
-		// >({
-		// 	query: () => ({
-		// 		url: '/api/order',
-		// 		method: 'GET',1111111111111111111111111111111111111111111111111111111
-		// 		headers: {
-		// 			Authorization: `Bearer ${localStorage.getItem('token')}`
-		// 		}
-		// 	}),
-		// 	providesTags: ['orderUser']
-		// }),
 		patchPaymentType: build.mutation<
 			PAYMENTPRODUCT.PatchPaymentProductsResponse,
 			PAYMENTPRODUCT.PatchPaymentProductsRequest
 		>({
-			query: (data) => ({
-				url: `/api/paypal/${data.orderId}`,
-				// params: {
-				// 	payment
-				// },
+			query: ({ orderId, payment }) => ({
+				url: `/api/paypal?${orderId}&${payment}`,
 				method: 'PATCH',
-				body: { payment: data.payment }
-
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				},
+				body: { orderId, payment }
 			}),
 			invalidatesTags: ['payment']
 		})

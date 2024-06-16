@@ -7,7 +7,7 @@
 		padding-bottom: 7.1rem;
 		display: flex;
 		flex-direction: column;
-		gap: 2.3rem;
+		gap: 23px;
 		@media (max-width: 1100px) {
 			padding-top: 2rem;
 			padding-bottom: 4rem;
@@ -68,7 +68,7 @@
 			.div_cards_1 {
 				display: flex;
 				align-items: start;
-				gap: 6.1rem;
+				gap: 96px;
 				@media (max-width: 1100px) {
 					gap: 4rem;
 				}
@@ -86,23 +86,30 @@
 				}
 				.card_content {
 					display: flex;
-					align-items: start;
-					gap: 10px;
+					flex-direction: column;
+					gap: 18px;
 					@media (max-width: 767px) {
-						gap: 7px;
+						gap: 10px;
 					}
 					@media (max-width: 500px) {
 						gap: 8px;
 					}
 					.cards_texts {
 						display: flex;
-						flex-direction: column;
-						align-items: start;
-
+						gap: 11px;
 						h3 {
 							color: rgb(41, 41, 41);
 							font-size: clamp(0.6rem, 4vw, 1rem);
 						}
+						p {
+							color: rgb(41, 41, 41);
+							font-size: clamp(0.6rem, 4vw, 1rem);
+						}
+					}
+					.card_content2 {
+						display: flex;
+						align-items: center;
+						gap: 11px;
 						p {
 							color: rgb(41, 41, 41);
 							font-size: clamp(0.6rem, 4vw, 1rem);
@@ -113,7 +120,7 @@
 			.div_cards_2 {
 				display: flex;
 				align-items: center;
-				gap: 110px;
+				gap: 7.3rem;
 				@media (max-width: 900px) {
 					gap: 4rem;
 				}
@@ -123,10 +130,23 @@
 					align-items: start;
 					gap: 1rem;
 				}
+				@media (max-width: 500px) {
+					gap: 10px;
+				}
 				.card_content2 {
 					display: flex;
 					align-items: center;
 					gap: 11px;
+					p {
+						color: rgb(41, 41, 41);
+						font-size: clamp(0.6rem, 4vw, 1rem);
+					}
+				}
+				.card_content3 {
+					display: flex;
+					align-items: center;
+					gap: 11px;
+					margin-top: 10px;
 					p {
 						color: rgb(41, 41, 41);
 						font-size: clamp(0.6rem, 4vw, 1rem);
@@ -141,7 +161,7 @@
 		.cards_and_texts_content_div_2 {
 			display: flex;
 			align-items: center;
-			gap: 5rem;
+			gap: 6rem;
 			@media (max-width: 780px) {
 				gap: 3rem;
 			}

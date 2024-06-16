@@ -2,7 +2,7 @@ import { Checkbox, ConfigProvider } from 'antd';
 import scss from './Payment.module.scss';
 import { ChangeEvent, useState } from 'react';
 import { usePatchPaymentTypeMutation } from '@/src/redux/api/payment';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+// import { useNavigate, useSearchParams } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 const images = [
@@ -31,17 +31,16 @@ const Payment = () => {
 	const [isPaymentOnline, setIsPaymentOnline] = useState(true);
 	const [isReceipt, setIsReceipt] = useState(false);
 	const [isCash, setIsCash] = useState(false);
-	const [searchParamsOne, setSearchParamsOne] = useSearchParams();
-	const navigate = useNavigate();
+	// const [searchParamsOne, setSearchParamsOne] = useSearchParams();
+	// const navigate = useNavigate();
 
 	const [patchPaymentType] = usePatchPaymentTypeMutation();
 
 	const [cardNumber, setCardNumber] = useState('');
 	const {
-		handleSubmit,
-		reset,
-		control,
-		formState: { errors }
+		handleSubmit
+		// reset,
+		// control,
 	} = useForm<DeliveryPageTypes>({
 		mode: 'onBlur'
 	});
@@ -53,33 +52,16 @@ const Payment = () => {
 		setCardNumber(formattedNumber);
 	};
 
-	const updatePaymentType = async (paymentType: string) => {
-		console.log('updatePaymentType');
-
-		const orderId = searchParamsOne.get('orderId');
-		if (orderId) {
-			await patchPaymentType({
-				orderId: Number(orderId),
-				payment: paymentType
-			});
-		}
-	};
-
 	const handlePaymentOnline = async () => {
 		setIsReceipt(false);
 		setIsCash(false);
 		setIsPaymentOnline(!isPaymentOnline);
 		const paymentType = 'PAYMENT_BY_CARD';
-		searchParamsOne.set('payment', paymentType);
-		setSearchParamsOne(searchParamsOne);
-		const orderId = searchParamsOne.get('orderId');
-		if (orderId) {
-			await patchPaymentType({
-				orderId: Number(orderId),
-				payment: paymentType
-			});
-		}
-		await updatePaymentType(paymentType);
+		const orderId = 1;
+		await patchPaymentType({
+			orderId: Number(orderId),
+			payment: paymentType
+		});
 	};
 
 	const handleReceipt = async () => {
@@ -87,9 +69,11 @@ const Payment = () => {
 		setIsCash(false);
 		setIsReceipt(!isReceipt);
 		const paymentType = 'UPON_RECEIPT_CARD';
-		searchParamsOne.set('payment', paymentType);
-		setSearchParamsOne(searchParamsOne);
-		await updatePaymentType(paymentType);
+		const orderId = 1;
+		await patchPaymentType({
+			orderId: Number(orderId),
+			payment: paymentType
+		});
 	};
 
 	const handleCash = async () => {
@@ -97,9 +81,11 @@ const Payment = () => {
 		setIsReceipt(false);
 		setIsCash(!isCash);
 		const paymentType = 'UPON_RECEIPT_CASH';
-		searchParamsOne.set('payment', paymentType);
-		setSearchParamsOne(searchParamsOne);
-		await updatePaymentType(paymentType);
+		const orderId = 1;
+		await patchPaymentType({
+			orderId: Number(orderId),
+			payment: paymentType
+		});
 	};
 
 	const onSubmit: SubmitHandler<DeliveryPageTypes> = async () => {

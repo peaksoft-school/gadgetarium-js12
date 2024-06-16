@@ -6,8 +6,8 @@ const api = index.injectEndpoints({
 			PRODUCTNEW.GetProductsNewsResponse,
 			PRODUCTNEW.GetProductsNewsRequest
 		>({
-			query: () => ({
-				url: `/api/gadget/new`,
+			query: ({ page, size }) => ({
+				url: `/api/gadget/new?${page}&${size}`,
 				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`

@@ -9,7 +9,6 @@ import {
 } from '@/src/redux/api/adminOrders';
 import React, { useState } from 'react';
 import CustomSelect from '@/src/ui/customSelect/CustomSelect';
-import ModalWindow from '@/src/ui/modal/Modal';
 import {
 	ConfigProvider,
 	DatePicker,
@@ -18,6 +17,9 @@ import {
 	theme
 } from 'antd';
 import { SearchProps } from 'antd/es/input';
+import CustomModal from '@/src/ui/modalAdmin/CustomModal';
+import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
+import CustomButtonAdd from '@/src/ui/adminButtons/CustomButtonAdd';
 import Infographics from '@/src/ui/infographics/Infographics';
 
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
@@ -33,6 +35,10 @@ const OrderCourierOnTheWay = () => {
 
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 	const [modalName, setModalName] = useState('');
+
+	// const [day, setDay] = useState(true);
+	// const [month, setMonth] = useState(false);
+	// const [year, setYear] = useState(false);
 
 	const [orderIdToDelete, setOrderIdToDelete] = useState('');
 
@@ -250,7 +256,10 @@ const OrderCourierOnTheWay = () => {
 														</div>
 													</Link>
 												))}
-												<ModalWindow open={modalIsOpen}>
+												<CustomModal
+													isModalOpen={modalIsOpen}
+													setIsModalOpen={setModalIsOpen}
+												>
 													<div className={scss.modal}>
 														<h2>
 															Вы уверены, что хотите удалить товар
@@ -258,21 +267,17 @@ const OrderCourierOnTheWay = () => {
 														</h2>
 
 														<div className={scss.modal_buttons}>
-															<button
+															<CancelButtonCustom
 																onClick={() => setModalIsOpen(false)}
-																className={scss.cancel_modal_button}
 															>
 																Отменить
-															</button>
-															<button
-																onClick={handleDeleteOrder}
-																className={scss.delete_modal_button}
-															>
+															</CancelButtonCustom>
+															<CustomButtonAdd onClick={handleDeleteOrder}>
 																Удалить
-															</button>
+															</CustomButtonAdd>
 														</div>
 													</div>
-												</ModalWindow>
+												</CustomModal>
 											</tr>
 										)}
 									</>

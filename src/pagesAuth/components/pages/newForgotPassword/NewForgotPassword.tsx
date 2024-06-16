@@ -21,7 +21,7 @@ const NewForgotPassword = () => {
 	} = useForm<NewForgotPassword>({
 		mode: 'onBlur'
 	});
-	const onSubmit: SubmitHandler<NewForgotPassword> = async (data, event) => {
+	const onSubmit: SubmitHandler<NewForgotPassword> = async (data, event) => { 
 		event?.preventDefault();
 
 		try {

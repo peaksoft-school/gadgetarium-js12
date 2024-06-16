@@ -32,7 +32,8 @@ const api = index.injectEndpoints({
 
     putProfilesImageQuery: build.mutation<
       PROFILESTORE.PutProfileImageResponse,
-      PROFILESTORE.PutProfileImageRequest
+      // PROFILESTORE.PutProfileImageRequest
+      FormData
     >({
       query: (products) => ({
         url: "/api/personal/add-image",

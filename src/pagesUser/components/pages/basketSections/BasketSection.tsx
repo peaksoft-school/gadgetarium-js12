@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {
-	useBasketDeleteProductMutation,
-	useBasketPutProductMutation,
+	useDeleteByIdBasketProductMutation,
+	// useBasketPutProductMutation,
 	useGetBasketOrderAmountQuery,
-	useGetBasketOrderGadgetQuery,
 	useGetBasketQuery
 } from '@/src/redux/api/basket';
 import png from '../../../../assets/sammy_shopping_1_1.png';
@@ -21,7 +20,7 @@ import React, { useState } from 'react';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 
 const BasketSection = () => {
-	const [basketDeleteProduct] = useBasketPutProductMutation();
+	// const [basketDeleteProduct] = useBasketPutProductMutation();
 	const [favoriteAddProduct] = useFavoritePutProductMutation();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
@@ -30,14 +29,15 @@ const BasketSection = () => {
 
 	const [inputValueQuantity, setInputValueQuantity] = useState<number>(0);
 	const { data, isLoading } = useGetBasketQuery();
-	const [deleteBasket] = useBasketDeleteProductMutation();
+	const [deleteBasket] = useDeleteByIdBasketProductMutation();
 	const [idsArray, setIdsArray] = useState<string[]>(() => {
 		const ids = searchParams.getAll('ids');
 		return ids.length ? ids : [];
 	});
-	const handleBasketProductDelete = async (id: number) => {
-		await basketDeleteProduct(id);
-	};
+
+	// const handleBasketProductDelete = async (subGadgetId: number) => {
+	// 	await basketDeleteProduct({ id: subGadgetId, basket: false });
+	// };
 	const handleFavoriteAddProduct = async (id: number) => {
 		await favoriteAddProduct(id);
 	};

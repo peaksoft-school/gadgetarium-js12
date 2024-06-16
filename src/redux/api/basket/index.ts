@@ -61,9 +61,22 @@ const api = index.injectEndpoints({
 		>({
 			query: (ids) => ({
 				url: `/api/basket/order-amounts?${ids}`,
-				method: 'GET'
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
 			}),
 			providesTags: ['basket']
+		}),
+		deleteByIdBasketProduct: build.mutation({
+			query: (gadgetId) => ({
+				url: `/api/basket/${gadgetId}`,
+				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			invalidatesTags: ['basket']
 		})
 	})
 });
@@ -73,5 +86,6 @@ export const {
 	useGetBasketOrderAmountQuery,
 	useBasketPutProductMutation,
 	useBasketDeleteProductMutation,
-	useGetBasketOrderGadgetQuery
+	useGetBasketOrderGadgetQuery,
+	useDeleteByIdBasketProductMutation
 } = api;

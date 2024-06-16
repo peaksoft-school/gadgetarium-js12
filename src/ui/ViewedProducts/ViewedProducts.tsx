@@ -91,18 +91,18 @@ export const ViewedProducts = () => {
 									{data?.map((el) => (
 										<>
 											<div
-												key={el._id}
+												key={el.id}
 												className={`keen-slider__slide ${scss.data_maps_content}`}
 											>
 												<div className={scss.content_product_text_and_image}>
-													<img src={el.image} alt={el.productName} />
+													<img src={el.image} alt={el.nameOfGadget} />
 													<div
 														className={scss.product_price_and_product_name_text}
 													>
-														<h3>{el.productName}</h3>
+														<h3>{el.nameOfGadget}</h3>
 														<div>
 															<p>
-																Рейтинг <Rate defaultValue={el.Rating} />
+																Рейтинг <Rate defaultValue={el.rating} />
 																(56)
 															</p>
 															<h2>{el.price} c</h2>

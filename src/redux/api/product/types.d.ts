@@ -2,71 +2,6 @@
 
 type ProductsId = number;
 
-interface Description {
-	intoForTelephone?: string;
-	MainTech?: string;
-	intoText1?: string;
-	intoText2?: string;
-	intoText3?: string;
-	intoText4?: string;
-	TrackType?: string;
-}
-
-type Characteristics = {
-	TrackType: string;
-	enginePower: string;
-	enginesType: string;
-	speedAdjustment: string;
-	runningBelt: string;
-	runningBeltIncline: string;
-	runningBeltSize: string;
-	rearShaftDiameter: string;
-	trainingPrograms: string;
-};
-
-type MemoryAndProcessor = {
-	TrackType: string;
-	enginePower: string;
-	enginesType: string;
-	speedAdjustment: string;
-	runningBelt: string;
-	runningBeltIncline: string;
-	runningBeltSize: string;
-	rearShaftDiameter: string;
-	trainingPrograms: string;
-};
-
-interface AdditionalFeatures {
-	TrackType: string;
-	enginePower: string;
-	enginesType: string;
-	speedAdjustment: string;
-	runningBelt: string;
-	runningBeltIncline: string;
-	runningBeltSize: string;
-	rearShaftDiameter: string;
-	trainingPrograms: string;
-}
-
-interface User {
-	userProfile?: string;
-	userName?: string;
-	Time?: string;
-	scoreRating?: string;
-	userCommit?: string;
-	adminCommit: string;
-}
-
-type Reviews = {
-	user: User[];
-};
-
-interface DeliveryAndPayment {
-	sum: number;
-	sun2: number;
-	sum3: number;
-}
-
 type PhotosProducts = string;
 namespace PRODUCTSTORE {
 	type GetProductsRequest = void;
@@ -97,21 +32,6 @@ namespace PRODUCTSTORE {
 		operatingSystem?: string;
 		Memory?: string;
 		SIMCards?: string;
-		WarrantyMonths?: string | number;
-		CPU?: string;
-		Weight?: number;
-		image2?: string;
-		image3?: string;
-		image4?: string;
-		image5?: string;
-		image6?: string;
-		photos: PhotosProducts[];
-		Description: Description;
-		Characteristics: Characteristics;
-		MemoryAndProcessor: MemoryAndProcessor;
-		AdditionalFeatures: AdditionalFeatures;
-		reviews: Reviews;
-		deliveryAndPayment: DeliveryAndPayment;
 	}[];
 
 	type GetProductsItemIdRequest = string;

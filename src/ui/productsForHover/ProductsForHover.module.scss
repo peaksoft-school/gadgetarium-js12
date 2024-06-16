@@ -1,0 +1,87 @@
+.products_hover_container {
+	width: 100%;
+	max-width: 375px;
+	height: 230px;
+	border-radius: 5px;
+	box-shadow: 0px 10px 30px 0px rgba(133, 143, 164, 0.1);
+	background: rgb(255, 255, 255);
+	position: absolute;
+	top: 60px;
+	right: 25px;
+	@media (max-width: 768px) {
+		right: 12px;
+		height: 200px;
+	}
+	.content_for_hover_products {
+		// padding-block: 25px;
+		// padding-inline: 21px;
+		display: flex;
+		flex-direction: column;
+		gap: 13px;
+		width: 100%;
+		.overlfow_div {
+			height: 170px;
+			overflow: auto;
+			width: 100%;
+			.display_content {
+				display: flex;
+				align-items: start;
+				gap: 20px;
+				padding-block: 15px;
+				padding-inline: 11px;
+				img {
+					width: 100%;
+					max-width: 58px;
+					height: 66px;
+					cursor: pointer;
+					// object-fit: cover;
+					object-position: center;
+				}
+				.product_name_and_price_div {
+					display: grid;
+					grid-template-columns: 4fr 3fr 1fr;
+					margin-top: 4px;
+					width: 100%;
+					p {
+						color: rgb(41, 41, 41);
+						font-size: clamp(7px, 4vw, 14px);
+						font-weight: 500;
+						display: flex;
+						flex-wrap: wrap;
+					}
+					h3 {
+						color: rgb(56, 66, 85);
+						font-size: clamp(6px, 6vw, 13px);
+						font-weight: 700;
+					}
+				}
+			}
+		}
+		.button_div {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			.button {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-wrap: wrap;
+				// width: 100%;
+				width: auto;
+				border: none;
+				height: 35px;
+				border-radius: 4px;
+				color: rgb(255, 255, 255);
+				background: rgb(203, 17, 171);
+			}
+		}
+		h2 {
+			color: rgb(56, 66, 85);
+			font-size: clamp(8px, 6vw, 22px);
+			font-weight: 600;
+			text-align: center;
+			margin-top: 85px;
+		}
+	}
+}

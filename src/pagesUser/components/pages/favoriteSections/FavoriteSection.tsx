@@ -1,30 +1,31 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-	useDeleteFavProductsMutation,
+	useDeleteAllProductMutation,
 	useFavoritePutProductMutation,
 	useGetFavoriteQuery
 } from '@/src/redux/api/favorite';
 import favorite from '../../../../assets/sammy_order_completed_by_a_delivery_girl_1.png';
 import scss from './FavoriteSection.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { IconHeart, IconPlaystationX, IconScale } from '@tabler/icons-react';
+import {
+	IconFileLike,
+	IconHeart,
+	IconPlaystationX,
+	IconScale
+} from '@tabler/icons-react';
 import { Button, Rate, Tooltip } from 'antd';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
-import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
 import { IconRedHeart } from '@/src/assets/icons';
+import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
 const FavoriteSection = () => {
 	const navigate = useNavigate();
 	const { data, isLoading, refetch } = useGetFavoriteQuery();
-	const [basketPutProduct] = useBasketPutProductMutation();
 	const [comparisonPatchProduct] = useComparisonPatchProductsMutation();
 	const [putFavoriteProduct] = useFavoritePutProductMutation();
-	const [handleDeleteIsFavoriteProducts] = useDeleteFavProductsMutation();
+	const [basketPutProduct] = useBasketPutProductMutation();
+	const [deleteAll] = useDeleteAllProductMutation();
 
-	const handleHeartClick = async (subGadgetId: number) => {
-		await putFavoriteProduct(subGadgetId);
-		refetch();
-	};
 	const handleBasket = async (subGadgetId: number) => {
 		await basketPutProduct({
 			id: subGadgetId,
@@ -32,9 +33,19 @@ const FavoriteSection = () => {
 		});
 		refetch();
 	};
+
 	const handleScaleClick = async (subGadgetId: number) => {
 		await comparisonPatchProduct(subGadgetId);
 		refetch();
+	};
+
+	const handleHeartClick = async (subGadgetId: number) => {
+		await putFavoriteProduct(subGadgetId);
+		refetch();
+	};
+
+	const handleDeleteIsFavoriteProducts = async (subGadgetId: number) => {
+		await deleteAll(subGadgetId);
 	};
 	return (
 		<div className={scss.FavoriteSection}>
@@ -87,9 +98,9 @@ const FavoriteSection = () => {
 								</div>
 								<div className={scss.container_products}>
 									{data &&
-										data?.map((el) => (
+										data?.map((item) => (
 											<div
-												key={el.subGadgetId}
+												key={item.subGadgetId}
 												className={scss.container_product}
 											>
 												<div className={scss.content_product}>
@@ -98,18 +109,47 @@ const FavoriteSection = () => {
 															scss.product_basket_and_favorite_buttons_and_photo
 														}
 													>
-														{el.image ? (
-															<img src={el.image} alt={el.nameOfGadget} />
-														) : (
-															<div></div>
+														{item.percent && (
+															<div
+																className={
+																	item.percent
+																		? `${scss.div_for_percent} ${scss.active_div_for_percent}`
+																		: `${scss.div_for_percent}`
+																}
+															>
+																{item.percent}
+															</div>
+														)}
+														{item.newProduct && item.percent === 0 && (
+															<div
+																className={
+																	item.newProduct && item.percent === 0
+																		? `${scss.div_for_new_product} ${scss.active_div_for_new_product}`
+																		: `${scss.div_for_new_product}`
+																}
+															>
+																New
+															</div>
+														)}
+														{item.recommend && item.percent === 0 && (
+															<div
+																className={
+																	item.recommend && item.percent === 0
+																		? `${scss.div_for_recommend} ${scss.active_div_for_recommend}`
+																		: `${scss.div_for_recommend}`
+																}
+															>
+																<IconFileLike />
+															</div>
 														)}
 														<div className={scss.div_icons}>
 															<button
-																onClick={() => handleScaleClick(el.subGadgetId)}
+																className={scss.scale}
+																onClick={() => handleScaleClick(item.id)}
 															>
 																<Tooltip
 																	title={
-																		el.comparison
+																		item.comparison
 																			? 'Удалить из сравнения'
 																			: 'Добавить к сравнению'
 																	}
@@ -117,7 +157,7 @@ const FavoriteSection = () => {
 																>
 																	<IconScale
 																		className={
-																			el.comparison
+																			item.comparison
 																				? `${scss.scale} ${scss.active}`
 																				: scss.scale
 																		}
@@ -126,7 +166,7 @@ const FavoriteSection = () => {
 															</button>
 															<Tooltip
 																title={
-																	el.likes
+																	item.likes
 																		? 'Удалить из избранного'
 																		: 'Добавить в избранное'
 																}
@@ -134,25 +174,27 @@ const FavoriteSection = () => {
 															>
 																<button
 																	className={scss.heart}
-																	onClick={() =>
-																		handleHeartClick(el.subGadgetId)
-																	}
+																	onClick={() => handleHeartClick(item.id)}
 																>
-																	{el.likes ? <IconRedHeart /> : <IconHeart />}
+																	{item.likes ? (
+																		<IconRedHeart />
+																	) : (
+																		<IconHeart />
+																	)}
 																</button>
 															</Tooltip>
 														</div>
 													</div>
 													<div className={scss.photo_div}>
-														<img src={el.image} alt={el.brandName} />
+														<img src={item.image} alt={item.brandName} />
 													</div>
 													<div className={scss.products_name_and_rating}>
-														<p className={scss.text_stock}>{el.price}</p>
+														<p className={scss.text_stock}>{item.price}</p>
 														<p className={scss.product_name}>
-															{el.nameOfGadget}
+															{item.nameOfGadget}
 														</p>
 														<p>
-															Рейтинг <Rate defaultValue={el.rating} />
+															Рейтинг <Rate defaultValue={item.rating} />
 														</p>
 													</div>
 													<div
@@ -161,17 +203,17 @@ const FavoriteSection = () => {
 														}
 													>
 														<div className={scss.prices_div_product}>
-															<h2>{el.price}c</h2>
-															<p>{el.price}c</p>
+															<h2>{item.price}c</h2>
+															<p>{item.price}</p>
 														</div>
 														<div
 															className={
-																!el.price
+																!item.price
 																	? `${scss.button_for_basket_div_noo_active} ${scss.button_for_basket_div_active}`
 																	: `${scss.button_for_basket_div_noo_active}`
 															}
 														>
-															{el.basket === true ? (
+															{item.basket === true ? (
 																<button
 																	onClick={() => navigate('/basket')}
 																	className={scss.add_bas_button_active}
@@ -180,7 +222,7 @@ const FavoriteSection = () => {
 																</button>
 															) : (
 																<AddBasketButton
-																	onClick={() => handleBasket(el.subGadgetId)}
+																	onClick={() => handleBasket(item.id)}
 																	className={scss.add_bas_button}
 																>
 																	В корзину

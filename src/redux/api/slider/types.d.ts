@@ -1,14 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 namespace SLIDER {
 	type GetResponse = {
-		id: string;
-		title: string;
-		description: string;
-		subscription: string;
-		image: string;
-		vector: string;
-		className: string;
-		subDescription: string;
+		id: number;
+		images: string;
 	}[];
 	type GetRequest = void;
 }

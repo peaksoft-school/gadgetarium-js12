@@ -14,29 +14,53 @@ interface CustomSelectProps {
 	currentColor: string;
 }
 
-const CustomSelect: FC<CustomSelectProps> = ({ orderId, orderStatus, currentColor }) => {
+const CustomSelect: FC<CustomSelectProps> = ({
+	orderId,
+	orderStatus,
+	currentColor
+}) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [select, setSelect] = useState(orderStatus);
 	const [selectColor, setSelectColor] = useState(currentColor);
-	const [updateSelect] = usePutAdminOrderMutation()
+	const [updateSelect] = usePutAdminOrderMutation();
 
-	const toggleDropdown = (event) => {
-		event.preventDefault()
-		event.stopPropagation()
+	const toggleDropdown = (event: React.MouseEvent<HTMLDivElement>) => {
+		event.preventDefault();
+		event.stopPropagation();
 		setIsOpen(!isOpen);
 	};
 
-	const handleChange = async (event, { value, color }: handleChangeProps) => {
-		event.stopPropagation()
-		event.preventDefault()
+	const handleChange = async (
+		event: React.MouseEvent<HTMLButtonElement>,
+		{ value, color }: handleChangeProps
+	) => {
+		event.stopPropagation();
+		event.preventDefault();
 		setSelect(value);
 		setSelectColor(color);
 		setIsOpen(false);
 
 		try {
-			await updateSelect({ _id: orderId, status: value, state: value });
+			await updateSelect({
+				_id: orderId,
+				status: value,
+				state: value,
+				fullname: '',
+				modalName: '',
+				number: '',
+				date: '',
+				quantity: '',
+				totalPrice: '',
+				orderType: '',
+				product: '',
+				discount: '',
+				discountPrice: '',
+				fullOldPrice: '',
+				phone: '',
+				address: ''
+			});
 		} catch (error) {
-			console.error("Failed to update order status:", error);
+			console.error('Failed to update order status:', error);
 		}
 	};
 
@@ -70,7 +94,10 @@ const CustomSelect: FC<CustomSelectProps> = ({ orderId, orderStatus, currentColo
 						<button
 							style={{ color: '#08A592' }}
 							onClick={(event) =>
-								handleChange(event, { value: 'Курьер в пути', color: '#08A592' })
+								handleChange(event, {
+									value: 'Курьер в пути',
+									color: '#08A592'
+								})
 							}
 						>
 							Курьер в пути

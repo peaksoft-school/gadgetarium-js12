@@ -6,24 +6,25 @@ namespace AUTH {
 		password: string;
 	};
 	type PostLoginResponse = {
-		isAuth: Login;
 		token: string;
 	};
 
 	type PostRegisterRequest = {
 		firstName: string;
 		lastName: string;
-		phoneNumber: number | string;
 		email: string;
 		password: string;
-		address: string;
+		address?: string;
+		phoneNumber?: string;
+		image?: string;
+		confirmThePassword: string;
 	};
 	type PostRegisterResponse = {
 		id: string | number;
 		register: Register;
 		token: string;
 	};
-	type POstForgotEmailRequest = {
+	type PostForgotEmailRequest = {
 		email: string;
 	};
 	type PostForgotEmailResponse = {
@@ -39,14 +40,15 @@ namespace AUTH {
 		email: string;
 	};
 	type PatchNewPasswordRequest = {
-		token(token: any): unknown;
+		// token(token: any): unknown;
 		// idToken: string;
+		token: string;
 		password: string;
 		confirmPassword: string;
 	};
 	type PatchNewPasswordResponse = {
-		idToken: string;
-		// token: string;
-		// email: string;
+		token: string;
+		password: string;
+		confirmPassword: string;
 	};
 }

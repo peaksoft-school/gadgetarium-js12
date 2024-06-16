@@ -7,7 +7,7 @@ import {
 const baseQuery = fetchBaseQuery({
 	baseUrl: import.meta.env.VITE_PRODUCT_URL,
 	prepareHeaders: (headers) => {
-		const token = localStorage.getItem('token');
+		const token = localStorage.getItem('token-auth');
 		if (token) {
 			headers.set('Authorization', `Bearer ${token}`);
 		}
@@ -41,9 +41,19 @@ export const api = createApi({
 		'adminOrders',
 		'productAdd',
 		'viewedProducts',
-		'orderUser',
-		'payment'
+		'searchGlobal',
+		'cardProductApi',
+		'catalogApi',
+		'CharacteristicsApi',
+		'deliveryApi',
+		'descriptionApi',
+		'filterProductsApi',
+		'productMemoryApi',
+		'pdfApi',
+		'cardProductsColorsApi',
+		'reviewsApi',
+		'payment',
+		'orderUser'
 	],
-
 	endpoints: () => ({})
 });

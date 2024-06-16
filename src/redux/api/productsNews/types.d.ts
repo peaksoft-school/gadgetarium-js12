@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 interface Root {
 	page: number;
 	size: number;
@@ -19,8 +20,9 @@ interface ProductsNews {
 }
 
 type MainPages = {
+	[x: string]: Key | null | undefined;
 	subGadgetId: SetStateAction<string | number | null>;
-	id: Key | null | undefined;
+	gadgetId: Key | null | undefined;
 	gadgetId: number;
 	percent: number;
 	image: string;
@@ -41,7 +43,10 @@ type MainPages = {
 };
 
 namespace PRODUCTNEW {
-	type GetProductsNewsRequest = void;
+	type GetProductsNewsRequest = {
+		page?: string;
+		size?: string;
+	};
 	type GetProductsNewsResponse = {
 		page: number;
 		size: number;

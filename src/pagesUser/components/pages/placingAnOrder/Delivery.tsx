@@ -17,7 +17,7 @@ const Delivery = () => {
 	const [isCheckedPickup, setIsCheckedPickup] = useState(false);
 	const [isCheckedCourier, setIsCheckedPickupCourier] = useState(false);
 	// const [] = useState('true');
-	const [dataIds, setDataIds] = useState([]);
+	// const [dataIds, setDataIds] = useState([]);
 	const navigate = useNavigate();
 	const [postOrderDelivery] = usePostOrderDeliveryMutation();
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -75,14 +75,14 @@ const Delivery = () => {
 		navigate('/pay/payment');
 	};
 
-	const handleCheckboxPickup = () => {
-		setIsCheckedPickup(!isCheckedPickup);
-		setIsCheckedPickupCourier(false);
-	};
-	const handleCheckboxCourier = () => {
-		setIsCheckedPickupCourier(!isCheckedCourier);
-		setIsCheckedPickup(false);
-	};
+	// const handleCheckboxPickup = () => {
+	// 	setIsCheckedPickup(!isCheckedPickup);
+	// 	setIsCheckedPickupCourier(false);
+	// };
+	// const handleCheckboxCourier = () => {
+	// 	setIsCheckedPickupCourier(!isCheckedCourier);
+	// 	setIsCheckedPickup(false);
+	// };
 
 	return (
 		<div className={scss.DeliveryOptions}>

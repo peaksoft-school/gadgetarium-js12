@@ -9,9 +9,10 @@ import {
 	// useSearchParams
 } from 'react-router-dom';
 import Delivery from '@/src/pagesUser/components/pages/placingAnOrder/Delivery.tsx';
-import Payment from '@/src/pagesUser/components/pages/placingAnOrder/Payment.tsx';
+// import Payment from '@/src/pagesUser/components/pages/placingAnOrder/Payment.tsx';
 import Review from '@/src/pagesUser/components/pages/placingAnOrder/Review.tsx';
 import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
+import Payment from './Payment';
 
 const WrapperPay: FC = () => {
 	const { pathname } = useLocation();
@@ -30,6 +31,10 @@ const WrapperPay: FC = () => {
 	};
 	const handleDecor = () => {
 		navigate(`/pay/delivery`);
+	};
+
+	const handleNavigateEdit = () => {
+		navigate('/basket');
 	};
 
 	const handleDeliveryCompletion = (isComplete: boolean) => {
@@ -144,7 +149,7 @@ const WrapperPay: FC = () => {
 										<Route path="/payment" element={<Payment />} />
 										<Route path="/review" element={<Review />} />
 									</Routes>
-								</div> 
+								</div>
 							</div>
 							{/*!right_block*/}
 							<div className={scss.right_block}>
@@ -152,7 +157,12 @@ const WrapperPay: FC = () => {
 									<div className={scss.card_order_price}>
 										<div className={scss.title}>
 											<p>Сумма заказа</p>
-											<h5>Изменить</h5>
+											<h5
+												style={{ cursor: 'pointer' }}
+												onClick={handleNavigateEdit}
+											>
+												Изменить
+											</h5>
 										</div>
 										<div className={scss.line}>.</div>
 										<div>
