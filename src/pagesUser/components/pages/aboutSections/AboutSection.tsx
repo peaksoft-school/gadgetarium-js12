@@ -241,7 +241,7 @@ const AboutSection = () => {
 				</div>
 			</div>
 		</div>
-	);
-};
+	)
+}
 
 export default AboutSection;
