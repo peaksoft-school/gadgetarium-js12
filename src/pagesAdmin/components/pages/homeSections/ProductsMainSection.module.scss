@@ -235,9 +235,15 @@
 						display: flex;
 						flex-direction: column;
 						gap: 10px;
+
+						.link_button {
+							color: #000000;
+						}
+
 						td {
 							@media (max-width: 865px) {
 								font-size: 10px;
+								color: black;
 							}
 						}
 						.card {
@@ -311,6 +317,10 @@
 										width: 10px;
 									}
 								}
+							}
+
+							.price_td {
+								color: #2C68F5;
 							}
 						}
 					}

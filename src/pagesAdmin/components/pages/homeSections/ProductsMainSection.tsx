@@ -9,14 +9,14 @@ import {
 } from 'antd';
 import { IconChartCircles, IconEdit, IconTrash } from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
-import { adminProducts } from '@/src/routes';
 import { useState } from 'react';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal';
 import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
 import CustomButtonAdd from '@/src/ui/adminButtons/CustomButtonAdd';
 import UploadBanner from '@/src/ui/customImageAdd/UploadBanner';
 import Infographics from '@/src/ui/infographics/Infographics';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDeleteGoodsGadgetMutation, useGetGoodGadgetQuery } from '@/src/redux/api/goods';
 
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
 	console.log(info?.source, value);
@@ -30,6 +30,7 @@ const ProductsMainSection = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
 	const [isModalOpenBanner, setIsModalOpenBanner] = useState(false);
+	const [gadgetId, setGadgetId] = useState(0)
 	const navigate = useNavigate();
 
 	const addProduct = () => {
@@ -66,6 +67,18 @@ const ProductsMainSection = () => {
 			colorBgContainer: 'transparent'
 		}
 	};
+
+	const { data } = useGetGoodGadgetQuery("")
+	const [deleteGadget] = useDeleteGoodsGadgetMutation()
+	
+	const handleDeleteGadget = async () => {
+    if (gadgetId !== null) {
+      await deleteGadget(gadgetId)
+      setGadgetId(0);
+      setIsModalOpenDelete(false);
+    }
+  };
+
 	return (
 		<div className={scss.ProductsMainSection}>
 			<div className="container">
@@ -175,46 +188,41 @@ const ProductsMainSection = () => {
 									</div>
 								</tr>
 								<tr className={scss.tr}>
-									{adminProducts?.map((item, index) => (
-										<div key={index} className={scss.card}>
-											<div className={scss.three}>
-												<td>{item.idProduct}</td>
-												<img src={item.image} alt="" />
+									{data?.paginationGadgets?.map((item, index) => (
+										<Link to={`/admin/goodsPage/product-page/${item?.id}`} className={scss.link_button}>
+											<div key={index} className={scss.card}>
+												<div className={scss.three}>
+													<td>{item?.id}</td>
+													<img src={item.images} alt="" />
+												</div>
+												<td>{item?.article}</td>
+												<div className={scss.quantity_name}>
+													<td>Кол-во товара {item?.quantity}шт.</td>
+													<td className={scss.name}>{item?.nameOfGadget}</td>
+												</div>
+												<div className={scss.date_time}>
+													<td>{item?.releaseDate}</td>
+													{/* <td className={scss.time}>{productName.time}</td> */}
+												</div>
+												<td>{item?.quantity}</td>
+												<div className={scss.price_discount}>
+													<td className={scss.price_td}>{item?.price}с</td>
+													<td className={scss.discount}>
+														{item?.percent}%
+													</td>
+												</div>
+												<td className={scss.price_td}>{item?.currentPrice}с</td>
+												<div className={scss.icons}>
+													<IconEdit className={scss.trash} />
+													<IconTrash onClick={(e) => {
+														showModalDelete()
+														e.stopPropagation()
+														e.preventDefault();
+														setGadgetId(item?.id)
+													}} />
+												</div>
 											</div>
-											<td>{item.articul}</td>
-											{item.productName.map((productName, index) => (
-												<>
-													<div key={index} className={scss.quantity_name}>
-														<td>{productName.quantity}</td>
-														<td className={scss.name}>{productName.name}</td>
-													</div>
-												</>
-											))}
-											{item.createDate.map((productName, index) => (
-												<>
-													<div key={index} className={scss.date_time}>
-														<td>{productName.date}</td>
-														<td className={scss.time}>{productName.time}</td>
-													</div>
-												</>
-											))}
-											<td>{item.quantityProduct}</td>
-											{item.priceProduct.map((productName, index) => (
-												<>
-													<div key={index} className={scss.price_discount}>
-														<td>{productName.price}</td>
-														<td className={scss.discount}>
-															{productName.discount}
-														</td>
-													</div>
-												</>
-											))}
-											<td>{item.CurrentPrice}</td>
-											<div className={scss.icons}>
-												<IconEdit className={scss.trash} />
-												<IconTrash onClick={showModalDelete} />
-											</div>
-										</div>
+										</Link>
 									))}
 								</tr>
 							</table>
@@ -306,7 +314,7 @@ const ProductsMainSection = () => {
 						<CancelButtonCustom onClick={() => setIsModalOpenDelete(false)}>
 							Отменить
 						</CancelButtonCustom>
-						<CustomButtonAdd onClick={handleCancel}>Удалить</CustomButtonAdd>
+						<CustomButtonAdd onClick={handleDeleteGadget}>Удалить</CustomButtonAdd>
 					</div>
 				</div>
 			</CustomModal>
