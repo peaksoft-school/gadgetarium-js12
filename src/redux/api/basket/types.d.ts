@@ -22,7 +22,6 @@ namespace BASKETPRODUCTS {
 		article: number;
 		countOfGadget: number;
 		likes: boolean;
-
 	}>;
 
 	type BasketProductsAllItemIdRequest = {
@@ -94,6 +93,5 @@ namespace BASKETPRODUCTS {
 		subGadgetId: number;
 		newProduct: boolean;
 		recommend: boolean;
-
 	}>;
 }

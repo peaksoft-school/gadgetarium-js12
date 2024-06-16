@@ -20,9 +20,10 @@ export const Register = () => {
 
 	const onSubmit: SubmitHandler<RegisterForms> = async (data, event) => {
 		event?.preventDefault();
+
 		try {
 			const response = await postRequest(data);
-			if ('data' in response) {
+			if ('data' in response && response.data.token) {
 				const { token } = response.data;
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'true');

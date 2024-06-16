@@ -124,18 +124,34 @@
 					svg {
 						color: white;
 					}
-					span {
+					.count_for_products {
 						position: absolute;
 						top: -5px;
 						left: 15px;
 						width: 20px;
 						height: 20px;
+						border: 2px solid #1a1a25;
 						border-radius: 50%;
 						background: gray;
 						font-size: 10px;
 						display: flex;
 						justify-content: center;
 						align-items: center;
+						&.count_for_products_active {
+							position: absolute;
+							top: -5px;
+							left: 15px;
+							width: 20px;
+							height: 20px;
+							// border: 2px solid #1a1a25;
+							border-radius: 50%;
+							background: #fff;
+							font-size: 11px;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							color: #cb11ab;
+						}
 					}
 				}
 			}

@@ -5,9 +5,6 @@
 	padding-block: 22px;
 	background: #1a1a25;
 	transition: 0.2s;
-	&.active {
-		padding-block: 16px;
-	}
 	.content {
 		display: flex;
 		justify-content: space-between;
@@ -98,7 +95,7 @@
 						color: #cb11ab;
 					}
 				}
-				span {
+				.count_for_products {
 					position: absolute;
 					top: -5px;
 					left: 15px;
@@ -111,6 +108,21 @@
 					display: flex;
 					justify-content: center;
 					align-items: center;
+					&.count_for_products_active {
+						position: absolute;
+						top: -5px;
+						left: 15px;
+						width: 20px;
+						height: 20px;
+						// border: 2px solid #1a1a25;
+						border-radius: 50%;
+						background: #cb11ab;
+						font-size: 11px;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						color: #fff;
+					}
 				}
 			}
 		}

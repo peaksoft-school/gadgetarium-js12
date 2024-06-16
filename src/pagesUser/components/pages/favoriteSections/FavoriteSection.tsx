@@ -7,7 +7,12 @@ import {
 import favorite from '../../../../assets/sammy_order_completed_by_a_delivery_girl_1.png';
 import scss from './FavoriteSection.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { IconHeart, IconPlaystationX, IconScale } from '@tabler/icons-react';
+import {
+	IconFileLike,
+	IconHeart,
+	IconPlaystationX,
+	IconScale
+} from '@tabler/icons-react';
 import { Button, Rate, Tooltip } from 'antd';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
@@ -104,10 +109,38 @@ const FavoriteSection = () => {
 															scss.product_basket_and_favorite_buttons_and_photo
 														}
 													>
-														{item.image ? (
-															<img src={item.image} alt={item.brandName} />
-														) : (
-															<div></div>
+														{item.percent && (
+															<div
+																className={
+																	item.percent
+																		? `${scss.div_for_percent} ${scss.active_div_for_percent}`
+																		: `${scss.div_for_percent}`
+																}
+															>
+																{item.percent}
+															</div>
+														)}
+														{item.newProduct && item.percent === 0 && (
+															<div
+																className={
+																	item.newProduct && item.percent === 0
+																		? `${scss.div_for_new_product} ${scss.active_div_for_new_product}`
+																		: `${scss.div_for_new_product}`
+																}
+															>
+																New
+															</div>
+														)}
+														{item.recommend && item.percent === 0 && (
+															<div
+																className={
+																	item.recommend && item.percent === 0
+																		? `${scss.div_for_recommend} ${scss.active_div_for_recommend}`
+																		: `${scss.div_for_recommend}`
+																}
+															>
+																<IconFileLike />
+															</div>
 														)}
 														<div className={scss.div_icons}>
 															<button
@@ -141,9 +174,7 @@ const FavoriteSection = () => {
 															>
 																<button
 																	className={scss.heart}
-																	onClick={() =>
-																		handleHeartClick(item.id)
-																	}
+																	onClick={() => handleHeartClick(item.id)}
 																>
 																	{item.likes ? (
 																		<IconRedHeart />

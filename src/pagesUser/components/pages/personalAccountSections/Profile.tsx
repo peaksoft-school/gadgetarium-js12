@@ -4,7 +4,11 @@ import scss from './Profile.module.scss';
 import { useForm } from 'react-hook-form';
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { usePostProfilesInformationQueryMutation, usePostProfilesPasswordQueryMutation, usePutProfilesImageQueryMutation } from '@/src/redux/api/personalAccount/profile';
+import {
+	usePostProfilesInformationQueryMutation,
+	usePostProfilesPasswordQueryMutation,
+	usePutProfilesImageQueryMutation
+} from '@/src/redux/api/personalAccount/profile';
 
 const Profile = () => {
 	const {
@@ -56,42 +60,42 @@ const Profile = () => {
 		}
 	];
 
-	const [isShown, setIsShown] = useState(false)
+	const [isShown, setIsShown] = useState(false);
 	const [passwordVisibility, setPasswordVisibility] = useState<{
-		[key: string]: boolean
-	}>({})
+		[key: string]: boolean;
+	}>({});
 
-	const [oldPassword, setOldPassword] = useState('')
-	const [newPassword, setNewPassword] = useState('')
-	const [confirmPassword, setConfirmPassword] = useState('')
-	const [firstName, setFirstName] = useState('')
-	const [lastName, setLastName] = useState('')
-	const [email, setEmail] = useState('')
-	const [phone, setPhone] = useState('')
-	const [address, setAddress] = useState('')
+	const [oldPassword, setOldPassword] = useState('');
+	const [newPassword, setNewPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
+	const [firstName, setFirstName] = useState('');
+	const [lastName, setLastName] = useState('');
+	const [email, setEmail] = useState('');
+	const [phone, setPhone] = useState('');
+	const [address, setAddress] = useState('');
 
-	const [profilePasswords] = usePostProfilesPasswordQueryMutation()
-	const [profileInformation] = usePostProfilesInformationQueryMutation()
-	const [profileImage] = usePutProfilesImageQueryMutation()
+	const [profilePasswords] = usePostProfilesPasswordQueryMutation();
+	const [profileInformation] = usePostProfilesInformationQueryMutation();
+	const [profileImage] = usePutProfilesImageQueryMutation();
 
 	const handlePostNewPassword = async () => {
 		const passwords = {
 			oldPassword: oldPassword,
 			newPassword: newPassword,
 			confirmationPassword: confirmPassword
-		}
+		};
 
-		if (oldPassword == "" || newPassword == "" || confirmPassword == "") {
-			return
+		if (oldPassword == '' || newPassword == '' || confirmPassword == '') {
+			return;
 		} else {
 			try {
-				const res = await profilePasswords(passwords)
+				const res = await profilePasswords(passwords);
 				console.log(res);
 			} catch (error) {
 				console.error(error);
 			}
 		}
-	}
+	};
 
 	const handlePostNewInformation = async () => {
 		const informations = {
@@ -100,21 +104,21 @@ const Profile = () => {
 			email: email,
 			phoneNumber: phone,
 			address: address
-		}
+		};
 		try {
-			const res = await profileInformation(informations)
+			const res = await profileInformation(informations);
 			console.log(res);
 		} catch (error) {
 			console.error(error);
 		}
-	}
-	
-	const onSubmit = () => {
-		handlePostNewInformation()
-		handlePostNewPassword()
 	};
 
-	const fileInputRef = useRef(null);
+	const onSubmit = () => {
+		handlePostNewInformation();
+		handlePostNewPassword();
+	};
+
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const handleImageClick = () => {
 		if (fileInputRef.current) {
@@ -122,17 +126,18 @@ const Profile = () => {
 		}
 	};
 
-	const handleFileChange = async (event: any) => {
-		const file = event.target.files[0];
+	const handleFileChange = async (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		const file = event.target.files?.[0];
 		if (file) {
 			const formData = new FormData();
-			formData.append('file', file);
-
+			formData.append('image', file);
 			try {
 				const res = await profileImage(formData);
 				console.log(res);
 			} catch (error) {
-				console.error("Error uploading profile image:", error);
+				console.error('Error uploading profile image:', error);
 			}
 		}
 	};
@@ -247,21 +252,18 @@ const Profile = () => {
 															passwordVisibility[e.error] ? 'text' : 'password'
 														}
 														placeholder={e.placeholder}
-
 														{...register(`${e.error}`, {
 															required: 'Это поле обьязательна для заполнения!'
 														})}
-
 														onChange={(event) => {
 															if (e.error === 'old') {
-																setOldPassword(event.target.value)
+																setOldPassword(event.target.value);
 															} else if (e.error === 'new') {
-																setNewPassword(event.target.value)
+																setNewPassword(event.target.value);
 															} else if (e.error === 'confirm') {
-																setConfirmPassword(event.target.value)
+																setConfirmPassword(event.target.value);
 															}
 														}}
-
 														value={
 															e.error === 'old'
 																? oldPassword

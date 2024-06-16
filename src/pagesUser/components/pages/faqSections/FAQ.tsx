@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useState } from 'react';
 import scss from './FAQ.module.scss';
 import { useNavigate } from 'react-router-dom';
@@ -7,46 +8,48 @@ const faqData = [
 	{
 		question: 'Как можно оплатить заказ?',
 		answer: [
-			'Urna aliquet dignissim pharetra consectetur commodo pellentesque at tellus. Odio eget scelerisque faucibus ut. Cras amet, diam vel, sollicitudin gravida quis augue.',
-			'Bibendum et nulla accumsan sollicitudin aliquet velit viverra risus. Eget molestie enim quisque sodales habitant nulla tincidunt. Ullamcorper tincidunt purus sed facilisis.',
-			'Ullamcorper aliquam gravida aliquet felis iaculis urna diam dui id. Consectetur in sagittis, sagittis, diam fames ac morbi convallis. Convallis vitae vel luctus erat tempus. Proin feugiat nisl egestas neque facilisi porta ipsum. At',
-			'diam ut diam euismod sit fames tellus amet. In tortor placerat dictum faucibus id. Amet facilisis blandit dignissim sed nisl fermentum molestie pretium non.'
+			'Вы можете оплатить ваш заказ в проекте Gadgetarium следующими способами:',
+			'Оплата картой онлайн: Вы можете использовать вашу банковскую карту для моментальной онлайн-оплаты нашего товара.',
+			'	Наличными при получении: Вы можете оплатить заказ наличными деньгами, когда получите его. Этот способ оплаты доступен для самовывоза из магазина и при доставке по городу.',
+			'Оплата картой при получении: Если вы предпочитаете оплату банковской картой, вы можете сделать это при получении заказа. Этот вариант также доступен для самовывоза из магазина и при доставке.',
+			'	Помимо этого, мы также предоставляем удобные варианты доставки в городе Бишкек и регионах. В городе доставка стоит 200 сомов, но при покупке свыше 10 000 сомов она бесплатна.',
+			'Примечание: Предоплата не требуется, что делает процесс заказа удобным и безопасным для наших клиентов.'
 		]
 	},
 	{
 		question: 'Какой минимальный заказ?',
 		answer: [
-			'Urna aliquet dignissim pharetra consectetur commodo pellentesque at tellus. Odio eget scelerisque faucibus ut. Cras amet, diam vel, sollicitudin gravida quis augue.',
-			'Bibendum et nulla accumsan sollicitudin aliquet velit viverra risus. Eget molestie enim quisque sodales habitant nulla tincidunt. Ullamcorper tincidunt purus sed facilisis.',
-			'Ullamcorper aliquam gravida aliquet felis iaculis urna diam dui id. Consectetur in sagittis, sagittis, diam fames ac morbi convallis. Convallis vitae vel luctus erat tempus. Proin feugiat nisl egestas neque facilisi porta ipsum. At',
-			'diam ut diam euismod sit fames tellus amet. In tortor placerat dictum faucibus id. Amet facilisis blandit dignissim sed nisl fermentum molestie pretium non.'
+			'Минимальный заказ не установлен. Вы можете делать заказы на любую сумму, которая соответствует',
+			'вашим потребностям и предпочтениям. Мы не накладываем ограничений на минимальную сумму',
+			'заказа, чтобы сделать покупки у нас максимально удобными для наших клиентов.'
 		]
 	},
 	{
-		question: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+		question:
+			'Moгy ли я вернуть или обменять товар, если он не удовлетворяет моим ожиданиям?',
 		answer: [
-			'Urna aliquet dignissim pharetra consectetur commodo pellentesque at tellus. Odio eget scelerisque faucibus ut. Cras amet, diam vel, sollicitudin gravida quis augue.',
-			'Bibendum et nulla accumsan sollicitudin aliquet velit viverra risus. Eget molestie enim quisque sodales habitant nulla tincidunt. Ullamcorper tincidunt purus sed facilisis.',
-			'Ullamcorper aliquam gravida aliquet felis iaculis urna diam dui id. Consectetur in sagittis, sagittis, diam fames ac morbi convallis. Convallis vitae vel luctus erat tempus. Proin feugiat nisl egestas neque facilisi porta ipsum. At',
-			'diam ut diam euismod sit fames tellus amet. In tortor placerat dictum faucibus id. Amet facilisis blandit dignissim sed nisl fermentum molestie pretium non.'
+			'Да, конечно. Если вы обнаружите какие-либо дефекты или неудовлетворительное качество товара,',
+			'свяжитесь с нашей службой поддержки клиентов в течение 14 дней после получения заказа. Мы',
+			'рассмотрим ваш запрос на возврат или обмен и предоставим вам необходимую помощь. Убедитесь, что',
+			' товар остается в исходной упаковке и имеет все заводские ярлыки.'
 		]
 	},
 	{
-		question: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+		question: 'Каковы сроки доставки заказов?',
 		answer: [
-			'Urna aliquet dignissim pharetra consectetur commodo pellentesque at tellus. Odio eget scelerisque faucibus ut. Cras amet, diam vel, sollicitudin gravida quis augue.',
-			'Bibendum et nulla accumsan sollicitudin aliquet velit viverra risus. Eget molestie enim quisque sodales habitant nulla tincidunt. Ullamcorper tincidunt purus sed facilisis.',
-			'Ullamcorper aliquam gravida aliquet felis iaculis urna diam dui id. Consectetur in sagittis, sagittis, diam fames ac morbi convallis. Convallis vitae vel luctus erat tempus. Proin feugiat nisl egestas neque facilisi porta ipsum. At',
-			'diam ut diam euismod sit fames tellus amet. In tortor placerat dictum faucibus id. Amet facilisis blandit dignissim sed nisl fermentum molestie pretium non.'
+			'Мы стремимся обеспечить быструю доставку вашего заказа. Время доставки может варьироваться в ',
+			'зависимости от вашего местоположения. В городе Бишкек мы обычно доставляем заказы в течение 1-2',
+			'рабочих дней. Для регионов Кыргызстана сроки могут быть немного дольше. Мы также предоставляем',
+			' бесплатную доставку при покупках свыше 10 000 сомов.'
 		]
 	},
 	{
-		question: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+		question: 'Как связаться c вашей службой поддержки клиентов?',
 		answer: [
-			'Urna aliquet dignissim pharetra consectetur commodo pellentesque at tellus. Odio eget scelerisque faucibus ut. Cras amet, diam vel, sollicitudin gravida quis augue.',
-			'Bibendum et nulla accumsan sollicitudin aliquet velit viverra risus. Eget molestie enim quisque sodales habitant nulla tincidunt. Ullamcorper tincidunt purus sed facilisis.',
-			'Ullamcorper aliquam gravida aliquet felis iaculis urna diam dui id. Consectetur in sagittis, sagittis, diam fames ac morbi convallis. Convallis vitae vel luctus erat tempus. Proin feugiat nisl egestas neque facilisi porta ipsum. At',
-			'diam ut diam euismod sit fames tellus amet. In tortor placerat dictum faucibus id. Amet facilisis blandit dignissim sed nisl fermentum molestie pretium non.'
+			'Вы можете связаться c нашей службой поддержки клиентов по следующим контактам:',
+			'Телефон: +996 (500) 34 44 33',
+			'Электронная почта: gadgetarium.kg',
+			'Наши специалисты готовы ответить на ваши вопросы и предоставить необходимую помощь c понедельника по пятницу c 10:00 до 21:00.'
 		]
 	}
 ];

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { api as index } from '../index.ts';
 
 const api = index.injectEndpoints({
@@ -14,16 +15,19 @@ const api = index.injectEndpoints({
 			AUTH.PostRegisterResponse,
 			AUTH.PostRegisterRequest
 		>({
-			query: (newData) => ({
-				url: '/api/auth/sign-up',
-				method: 'POST',
-				body: newData
-			}),
+			query: (newData) => {
+				const { confirmThePassword, ...validData } = newData;
+				return {
+					url: '/api/auth/sign-up',
+					method: 'POST',
+					body: validData
+				};
+			},
 			invalidatesTags: ['auth']
 		}),
 		postForgot: build.mutation<
 			AUTH.PostForgotEmailResponse,
-			AUTH.POstForgotEmailRequest
+			AUTH.PostForgotEmailRequest
 		>({
 			query: (newData) => (
 				console.log(newData),

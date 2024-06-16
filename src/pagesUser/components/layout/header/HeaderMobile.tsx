@@ -16,6 +16,9 @@ import { userLinks } from '@/src/routes';
 import { ConfigProvider, Input, theme } from 'antd';
 import { SearchProps } from 'antd/es/input';
 import BurgerButton from '@/src/ui/burgerButton/BurgerButton.tsx';
+import { useGetBasketQuery } from '@/src/redux/api/basket';
+import { useGetFavoriteQuery } from '@/src/redux/api/favorite';
+import { useGetComparisonQuery } from '@/src/redux/api/comparison';
 
 interface HeaderMobileProps {
 	isOpenMobileMenu: boolean;
@@ -26,6 +29,9 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 	isOpenMobileMenu,
 	setIsOpenMobileMenu
 }) => {
+	const { data: BasketData = [] } = useGetBasketQuery();
+	const { data: FavoriteData = [] } = useGetFavoriteQuery();
+	const { data: ComparisonData = [] } = useGetComparisonQuery();
 	const { pathname } = useLocation();
 
 	const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
@@ -43,7 +49,6 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 			colorBgContainer: '#1a1a25'
 		}
 	};
-
 	return (
 		<>
 			<header className={scss.HeaderMobile}>
@@ -132,16 +137,58 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 						<hr />
 						<div className={scss.icon_basket_heart}>
 							<Link to="/comparison" className={scss.icon}>
-								<span>0</span>
-								<IconScale />
+								<span
+									className={
+										ComparisonData.length !== 0
+											? `${scss.count_for_products} ${scss.count_for_products_active}`
+											: `${scss.count_for_products}`
+									}
+								>
+									{ComparisonData.length <= 99 ? ComparisonData.length : '99+'}
+								</span>
+								<IconScale
+									style={
+										ComparisonData.length !== 0
+											? { color: '#ff00d4' }
+											: { color: '' }
+									}
+								/>
 							</Link>
 							<Link to="/favorite" className={scss.icon}>
-								<span>0</span>
-								<IconHeart />
+								<span
+									className={
+										FavoriteData.length !== 0
+											? `${scss.count_for_products} ${scss.count_for_products_active}`
+											: `${scss.count_for_products}`
+									}
+								>
+									{FavoriteData.length <= 99 ? FavoriteData.length : '99+'}
+								</span>
+								<IconHeart
+									style={
+										FavoriteData.length !== 0
+											? { color: '#ff00d4' }
+											: { color: '' }
+									}
+								/>
 							</Link>
 							<Link to="/basket" className={scss.icon}>
-								<span>0</span>
-								<IconShoppingCart />
+								<span
+									className={
+										BasketData.length !== 0
+											? `${scss.count_for_products} ${scss.count_for_products_active}`
+											: `${scss.count_for_products}`
+									}
+								>
+									{BasketData.length <= 99 ? BasketData.length : '99+'}
+								</span>
+								<IconShoppingCart
+									style={
+										BasketData.length !== 0
+											? { color: '#ff00d4' }
+											: { color: '' }
+									}
+								/>
 							</Link>
 						</div>
 					</div>

@@ -1,95 +1,83 @@
-export const phoneCatalog = [
-  {
-    phone: "Apple"
-  },
-  {
-    phone: "Samsung"
-  },
-  {
-    phone: "Huawei"
-  },
-  {
-    phone: "Honor"
-  },
-  {
-    phone: "Xiaomi"
-  },
-]
-
 export const coloursCatalog = [
   {
-    colour: "Черный",
+    colour: "black",
     quantity: "14840"  
   },
   {
-    colour: "Синий",
+    colour: "blue",
     quantity: "22544"
   },
   {
-    colour: "Золотой",
+    colour: "yellow",
     quantity: "3044"
   },
   {
-    colour: "Графитовый",
+    colour: "Graphite",
     quantity: "2544"
   },
   {
-    colour: "Зеленый",
+    colour: "green",
     quantity: "7005"
   },
   {
-    colour: "Розовое золото ",
+    colour: "pink",
     quantity: "2500"
   },
   {
-    colour: "Красный",
+    colour: "red",
     quantity: "2444"
   },
   {
-    colour: "Серебро ",
+    colour: "Silver",
     quantity: "14000"
   },
   {
-    colour: "Белый",
+    colour: "White",
     quantity: "5000"
   },
 ]
 
 export const gBiteCatalog = [
   {
-    gb: "8"
+    gb: "GB_16"
   },
   {
-    gb: "16"
+    gb: "GB_32"
   },
   {
-    gb: "32"
+    gb: "GB_64"
   },
   {
-    gb: "64"
+    gb: "GB_128"
   },
   {
-    gb: "128"
+    gb: "GB_256"
   },
   {
-    gb: "256"
+    gb: "GB_512"
+  },
+  {
+    gb: 'TB_1'
   },
 ]
 
 export const moreGBiteCatalog = [
   {
-    gb: "3"
+    gb: "RAM_4"
   },
   {
-    gb: "4"
+    gb: "RAM_6"
   },
   {
-    gb: "6"
+    gb: "RAM_8"
   },
   {
-    gb: "8"
+    gb: "RAM_12"
   },
   {
-    gb: "12"
+    gb: "RAM_16"
+  },
+  {
+    gb: 'RAM_32'
   },
 ]
