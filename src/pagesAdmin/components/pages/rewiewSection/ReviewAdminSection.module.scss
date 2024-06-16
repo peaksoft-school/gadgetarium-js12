@@ -9,7 +9,7 @@
 		padding-bottom: 200px;
 		display: flex;
 		justify-content: space-between;
-		@media (max-width:1400px) {
+		@media (max-width: 1400px) {
 			display: flex;
 			flex-direction: column-reverse;
 		}
@@ -296,6 +296,48 @@
 									@media (max-width: 800px) {
 										width: 100%;
 									}
+									.noo_active {
+										color: #2e2c34;
+										font-size: clamp(7px, 4vw, 14px);
+										font-weight: 400;
+
+										@media (max-width: 1000px) {
+											color: #2e2c34;
+											font-size: clamp(12px, 6vw, 16px);
+											font-weight: 400;
+										}
+										@media (max-width: 800px) {
+											color: #2e2c34;
+											font-size: clamp(12px, 6vw, 16px);
+											font-weight: 400;
+										}
+										@media (max-width: 500px) {
+											color: #2e2c34;
+											font-size: clamp(8px, 3vw, 10px);
+											font-weight: 500;
+										}
+										&.active {
+											color: #171618;
+											font-size: clamp(7px, 7vw, 14px);
+											font-weight: 700;
+
+											@media (max-width: 1000px) {
+												color: #2e2c34;
+												font-size: clamp(12px, 6vw, 16px);
+												font-weight: 400;
+											}
+											@media (max-width: 800px) {
+												color: #2e2c34;
+												font-size: clamp(12px, 6vw, 16px);
+												font-weight: 400;
+											}
+											@media (max-width: 500px) {
+												color: #2e2c34;
+												font-size: clamp(8px, 3vw, 10px);
+												font-weight: 500;
+											}
+										}
+									}
 									p {
 										color: #2e2c34;
 										font-size: clamp(7px, 4vw, 14px);
@@ -446,6 +488,7 @@
 								.form_of_commit_div {
 									display: flex;
 									flex-direction: column;
+									position: relative;
 									@media (max-width: 500px) {
 										display: flex;
 										flex-direction: column;
@@ -474,6 +517,18 @@
 											height: 30px;
 										}
 									}
+									.two_buttons {
+										display: flex;
+									}
+									.button_save {
+										color: #fff;
+										font-size: clamp(8px, 5vw, 15px);
+										font-weight: 500;
+										width: 100%;
+										max-width: 180px;
+										background: #cb11ab;
+										border: none;
+									}
 									div {
 										display: flex;
 										justify-content: space-between;
@@ -486,8 +541,12 @@
 											max-width: 180px;
 											background: #cb11ab;
 											border: none;
+											// position: relative;
+											// left: 300px;
+											// top: 0px;
 										}
-										.none {
+
+										.one {
 											display: none;
 										}
 
@@ -509,6 +568,61 @@
 						}
 					}
 				}
+			}
+		}
+		// !MODAL STYLE
+	}
+}
+.modal {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 15px;
+	text-align: center;
+
+	h2 {
+		font-weight: 500;
+
+		span {
+			font-weight: 700;
+		}
+	}
+
+	.modal_buttons {
+		display: flex;
+		justify-content: center;
+		align-content: center;
+		gap: 20px;
+
+		.cancel_modal_button {
+			color: #cb11ab;
+			border: 2px solid #cb11ab;
+			padding: 5px 15px;
+			background-color: transparent;
+			font-weight: 600;
+			border-radius: 4px;
+			cursor: pointer;
+
+			&:hover {
+				color: #e638c9;
+				border: 2px solid #e638c9;
+				transition: 0.3s;
+			}
+		}
+
+		.delete_modal_button {
+			color: #ffffff;
+			background-color: #cb11ab;
+			padding: 6px 18px;
+			border-radius: 4px;
+			font-weight: 600;
+			border: none;
+			cursor: pointer;
+
+			&:hover {
+				background-color: #e638c9;
+				transition: 0.3s;
 			}
 		}
 	}

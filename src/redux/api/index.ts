@@ -51,7 +51,8 @@ export const api = createApi({
 		'productMemoryApi',
 		'pdfApi',
 		'cardProductsColorsApi',
-		'reviewsApi'
+		'reviewsApi',
+		'adminReview'
 	],
 	endpoints: () => ({})
 });
