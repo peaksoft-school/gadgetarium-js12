@@ -1,9 +1,10 @@
-import ReviewAdminSection from './reviewSections/ReviewAdminSection';
+import ReviewAdminSection from "./rewiewSection/ReviewAdminSection";
+
 
 const ReviewAdminPage = () => {
 	return (
 		<>
-			<ReviewAdminSection />
+			<ReviewAdminSection/>
 		</>
 	);
 };
