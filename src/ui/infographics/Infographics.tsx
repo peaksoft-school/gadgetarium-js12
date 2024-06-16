@@ -1,29 +1,34 @@
 import { useState } from 'react';
 import scss from './Infographics.module.scss';
-import { useGetInfoDay, useGetInfoMonth, useGetInfoOrder, useGetInfoYear } from '@/src/redux/api/admin/infoGraphics';
+import {
+	useGetInfoDay,
+	useGetInfoMonth,
+	useGetInfoOrder,
+	useGetInfoYear
+} from '@/src/redux/api/admin/infoGraphics';
 
 const Infographics = () => {
 	const [day, setDay] = useState(true);
 	const [month, setMonth] = useState(false);
 	const [year, setYear] = useState(false);
-	const { data, isLoading } = useGetInfoOrder("")
-	const { data: dataDay } = useGetInfoDay(0)
-	const { data: dataMonth } = useGetInfoMonth(0)
-	const { data: dataYear } = useGetInfoYear(0)
+	const { data, isLoading } = useGetInfoOrder('');
+	const { data: dataDay } = useGetInfoDay(0);
+	const { data: dataMonth } = useGetInfoMonth(0);
+	const { data: dataYear } = useGetInfoYear(0);
 
-	const buyPrice = data?.buyPrice ?? 0
-	const orderPrice = data?.orderPrice ?? 0
-	const buyCount = data?.buyCount ?? 0
-	const orderCount = data?.orderCount ?? 0
+	const buyPrice = data?.buyPrice ?? 0;
+	const orderPrice = data?.orderPrice ?? 0;
+	const buyCount = data?.buyCount ?? 0;
+	const orderCount = data?.orderCount ?? 0;
 
-	const dayCurrentPeriod = dataDay?.currentPeriod ?? 0
-	const dayPreviousPeriod = dataDay?.previousPeriod ?? 0
+	const dayCurrentPeriod = dataDay?.currentPeriod ?? 0;
+	const dayPreviousPeriod = dataDay?.previousPeriod ?? 0;
 
-	const monthCurrentPeriod = dataMonth?.currentPeriod ?? 0
-	const monthPreviousPeriod = dataMonth?.previousPeriod ?? 0
+	const monthCurrentPeriod = dataMonth?.currentPeriod ?? 0;
+	const monthPreviousPeriod = dataMonth?.previousPeriod ?? 0;
 
-	const yearCurrentPeriod = dataYear?.currentPeriod ?? 0
-	const yearPreviousPeriod = dataYear?.previousPeriod ?? 0
+	const yearCurrentPeriod = dataYear?.currentPeriod ?? 0;
+	const yearPreviousPeriod = dataYear?.previousPeriod ?? 0;
 
 	return (
 		<div className={scss.Infographics}>
@@ -97,7 +102,7 @@ const Infographics = () => {
 										<div className={scss.periods_div}>
 											<div className={scss.present_period_div}>
 												<h2>
-													 {dayCurrentPeriod} <span>с</span>
+													{dayCurrentPeriod} <span>с</span>
 												</h2>
 												<h3>Текущий период</h3>
 											</div>

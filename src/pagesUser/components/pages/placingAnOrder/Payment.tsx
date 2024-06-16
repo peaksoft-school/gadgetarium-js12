@@ -1,7 +1,9 @@
 import { Checkbox, ConfigProvider } from 'antd';
 import scss from './Payment.module.scss';
-import { useState } from 'react';
-import PaymentInputs from '@/src/ui/paymentInputs/PaymentInputs';
+import { ChangeEvent, useState } from 'react';
+import { usePatchPaymentTypeMutation } from '@/src/redux/api/payment';
+// import { useNavigate, useSearchParams } from 'react-router-dom';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 const images = [
 	{
@@ -20,28 +22,85 @@ const images = [
 	}
 ];
 
+type DeliveryPageTypes = {
+	orderId: number;
+	payment: string;
+};
+
 const Payment = () => {
 	const [isPaymentOnline, setIsPaymentOnline] = useState(true);
 	const [isReceipt, setIsReceipt] = useState(false);
 	const [isCash, setIsCash] = useState(false);
+	// const [searchParamsOne, setSearchParamsOne] = useSearchParams();
+	// const navigate = useNavigate();
 
-	const handlePaymentOnline = () => {
+	const [patchPaymentType] = usePatchPaymentTypeMutation();
+
+	const [cardNumber, setCardNumber] = useState('');
+	const {
+		handleSubmit
+		// reset,
+		// control,
+	} = useForm<DeliveryPageTypes>({
+		mode: 'onBlur'
+	});
+
+	const handleCardNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
+		let formattedNumber = event.target.value.replace(/\s/g, '');
+		formattedNumber = formattedNumber.replace(/(\d{4})/g, '$1 ').trim();
+		formattedNumber = formattedNumber.slice(0, 19);
+		setCardNumber(formattedNumber);
+	};
+
+	const handlePaymentOnline = async () => {
+		setIsReceipt(false);
+		setIsCash(false);
 		setIsPaymentOnline(!isPaymentOnline);
-		setIsReceipt(false);
-		setIsCash(false);
+		const paymentType = 'PAYMENT_BY_CARD';
+		const orderId = 1;
+		await patchPaymentType({
+			orderId: Number(orderId),
+			payment: paymentType
+		});
 	};
 
-	const handleReceipt = () => {
+	const handleReceipt = async () => {
+		setIsPaymentOnline(false);
+		setIsCash(false);
 		setIsReceipt(!isReceipt);
-		setIsPaymentOnline(false);
-		setIsCash(false);
+		const paymentType = 'UPON_RECEIPT_CARD';
+		const orderId = 1;
+		await patchPaymentType({
+			orderId: Number(orderId),
+			payment: paymentType
+		});
 	};
 
-	const handleCash = () => {
-		setIsCash(!isCash);
+	const handleCash = async () => {
 		setIsPaymentOnline(false);
 		setIsReceipt(false);
+		setIsCash(!isCash);
+		const paymentType = 'UPON_RECEIPT_CASH';
+		const orderId = 1;
+		await patchPaymentType({
+			orderId: Number(orderId),
+			payment: paymentType
+		});
 	};
+
+	const onSubmit: SubmitHandler<DeliveryPageTypes> = async () => {
+		// console.log('onSubmit');
+		// const orderId = searchParamsOne.get('orderId');
+		// const payment = searchParamsOne.get('payment');
+		// if (orderId && payment) {
+		// 	await patchPaymentType({
+		// 		orderId: Number(orderId),
+		// 		payment
+		// 	});
+		// 	reset();
+		// }
+	};
+
 	return (
 		<div className={scss.Payment}>
 			<div className={scss.content}>
@@ -51,7 +110,7 @@ const Payment = () => {
 						className={scss.card_payment_onLine}
 						style={{
 							border: isPaymentOnline
-								? '2px solid  rgb(203, 17, 171)'
+								? '2px solid rgb(203, 17, 171)'
 								: '2px solid transparent'
 						}}
 					>
@@ -89,7 +148,7 @@ const Payment = () => {
 						className={scss.card_upon_receipt}
 						style={{
 							border: isReceipt
-								? '2px solid  rgb(203, 17, 171)'
+								? '2px solid rgb(203, 17, 171)'
 								: '2px solid transparent'
 						}}
 					>
@@ -125,7 +184,7 @@ const Payment = () => {
 						className={scss.card_cash}
 						style={{
 							border: isCash
-								? '2px solid  rgb(203, 17, 171)'
+								? '2px solid rgb(203, 17, 171)'
 								: '2px solid transparent'
 						}}
 					>
@@ -161,9 +220,66 @@ const Payment = () => {
 							</div>
 						))}
 					</div>
-					<div className={scss.inputs_number}>
-						<PaymentInputs />
-					</div>
+					{/* //!PAYMENT CARD */}
+					<form
+						className={scss.inputs_number}
+						onSubmit={handleSubmit(onSubmit)}
+					>
+						<div className={scss.number_card_input}>
+							<input
+								required
+								type="text"
+								className={scss.input}
+								value={cardNumber}
+								onChange={handleCardNumberChange}
+								maxLength={19}
+							/>
+							<label>Номер карты</label>
+						</div>
+						<div className={scss.year_card_input}>
+							<div className={scss.inputs_cvc_mm_yy}>
+								<div className={scss.inputs_mm_yy}>
+									<div className={scss.input_month}>
+										<input
+											required
+											type="text"
+											className={scss.input_mm}
+											maxLength={2}
+										/>
+										<label className={scss.label_mm}>MM</label>
+									</div>
+									<div style={{ color: 'blue' }}>/</div>
+									<div className={scss.input_year}>
+										<input
+											required
+											type="text"
+											className={scss.input_yy}
+											maxLength={2}
+										/>
+										<label className={scss.label_yy}>YY</label>
+									</div>
+								</div>
+								<div className={scss.input_cvc}>
+									<input
+										required
+										type="text"
+										className={scss.input_cvc}
+										maxLength={3}
+									/>
+									<label className={scss.label_cvc}>CVC</label>
+								</div>
+							</div>
+							<div className={scss.first_name_input}>
+								<input
+									required
+									type="text"
+									className={scss.input_name}
+									maxLength={19}
+								/>
+								<label>Имя владельца</label>
+							</div>
+						</div>
+					</form>
 				</div>
 				<button>Продолжить</button>
 			</div>

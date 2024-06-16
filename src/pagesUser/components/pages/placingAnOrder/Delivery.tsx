@@ -2,19 +2,29 @@ import { useState } from 'react';
 import scss from './Delivery.module.scss';
 import { Checkbox, ConfigProvider } from 'antd';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-
+import { usePostOrderDeliveryMutation } from '@/src/redux/api/order';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
 type DeliveryPageTypes = {
-	email: string;
-	firsName: string;
+	ids: [];
+	firstName: string;
 	lastName: string;
+	email: string;
 	phoneNumber: string;
+	deliveryAddress: string;
 };
 const Delivery = () => {
-	const [isCheckedPickup, setIsCheckedPickup] = useState(true);
+	const [isCheckedPickup, setIsCheckedPickup] = useState(false);
 	const [isCheckedCourier, setIsCheckedPickupCourier] = useState(false);
+	// const [] = useState('true');
+	// const [dataIds, setDataIds] = useState([]);
 	const navigate = useNavigate();
-
+	const [postOrderDelivery] = usePostOrderDeliveryMutation();
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [inputValue, setInputValue] = useState('');
+	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
+		window.location.search.substring(1)
+	]);
 	const {
 		handleSubmit,
 		reset,
@@ -24,20 +34,55 @@ const Delivery = () => {
 		mode: 'onBlur'
 	});
 
-	const onSubmit: SubmitHandler<DeliveryPageTypes> = (data) => {
-		console.log(data);
-		navigate('/auth/register');
-		reset();
+	const handleOpenChecbox = (ids: number) => {
+		setIsCheckedPickup(true);
+		setIsCheckedPickupCourier(false);
+		searchParams.set('deliveryType', String(isCheckedPickup));
+		searchParams.set('subGadgetId', ids.toString());
+		setSearchParams(searchParams);
+		// postOrderDelivery({
+		// 	subGadgetId: [searchParams.toString()],
+		// 	deliveryType: searchParams.toString()
+		// });/	1`1
 	};
 
-	const handleCheckboxPickup = () => {
-		setIsCheckedPickup(!isCheckedPickup);
-		setIsCheckedPickupCourier(false);
-	};
-	const handleCheckboxCourier = () => {
-		setIsCheckedPickupCourier(!isCheckedCourier);
+	const handleOpenCheckbox2 = (ids: number) => {
 		setIsCheckedPickup(false);
+		setIsCheckedPickupCourier(true);
+		searchParams.set('deliveryType', String(!isCheckedCourier));
+		searchParams.set('subGadgetId', ids.toString());
+		setSearchParams(searchParams);
+		// postOrderDelivery({
+		// 	subGadgetId: [searchParams.toString()],
+		// 	deliveryType: searchParams.toString()
+		// });
 	};
+
+	const onSubmit: SubmitHandler<DeliveryPageTypes> = async (data) => {
+		const responseObject = {
+			deliveryAddress: inputValue,
+			email: data.email,
+			phoneNumber: data.phoneNumber,
+			firstName: data.firstName,
+			lastName: data.lastName
+		};
+		postOrderDelivery({
+			subGadgetId: [searchParams.toString()],
+			deliveryType: searchParams.toString(),
+			...responseObject
+		});
+		reset();
+		navigate('/pay/payment');
+	};
+
+	// const handleCheckboxPickup = () => {
+	// 	setIsCheckedPickup(!isCheckedPickup);
+	// 	setIsCheckedPickupCourier(false);
+	// };
+	// const handleCheckboxCourier = () => {
+	// 	setIsCheckedPickupCourier(!isCheckedCourier);
+	// 	setIsCheckedPickup(false);
+	// };
 
 	return (
 		<div className={scss.DeliveryOptions}>
@@ -46,6 +91,11 @@ const Delivery = () => {
 					<h2> {isCheckedPickup ? 'Варианты доставки' : 'Доставка'}</h2>
 					<div className={scss.cards_pickup_courier_delivery}>
 						<div
+							onClick={() =>
+								basketOrder?.gadgetResponse.forEach((c) =>
+									handleOpenChecbox(c.id)
+								)
+							}
 							className={scss.checkbox_pickup}
 							style={{
 								border: isCheckedPickup
@@ -66,8 +116,18 @@ const Delivery = () => {
 									}}
 								>
 									<Checkbox
-										checked={isCheckedPickup}
-										onChange={handleCheckboxPickup}
+										checked={
+											searchParams
+												.getAll('deliveryType')
+												.some((el) => el === 'false')
+												? true
+												: false
+										}
+										onChange={() =>
+											basketOrder?.gadgetResponse.forEach((c) =>
+												handleOpenChecbox(c.id)
+											)
+										}
 									/>
 								</ConfigProvider>
 							</div>
@@ -79,6 +139,11 @@ const Delivery = () => {
 							</div>
 						</div>
 						<div
+							onClick={() =>
+								basketOrder?.gadgetResponse.forEach((c) =>
+									handleOpenCheckbox2(c.id)
+								)
+							}
 							className={scss.checkbox_courier_delivery}
 							style={{
 								border: isCheckedCourier
@@ -99,8 +164,18 @@ const Delivery = () => {
 									}}
 								>
 									<Checkbox
-										checked={isCheckedCourier}
-										onChange={handleCheckboxCourier}
+										checked={
+											searchParams
+												.getAll('deliveryType')
+												.some((el) => el === 'true')
+												? true
+												: false
+										}
+										onChange={() =>
+											basketOrder?.gadgetResponse.forEach((c) =>
+												handleOpenCheckbox2(c.id)
+											)
+										}
 									/>
 								</ConfigProvider>
 							</div>
@@ -124,7 +199,7 @@ const Delivery = () => {
 							<div className={scss.label_input}>
 								<label htmlFor="name">Имя *</label>
 								<Controller
-									name="firsName"
+									name="firstName"
 									control={control}
 									defaultValue=""
 									rules={{
@@ -137,7 +212,7 @@ const Delivery = () => {
 									}}
 									render={({ field }) => (
 										<input
-											style={errors.firsName && { border: '1px solid red' }}
+											style={errors.firstName && { border: '1px solid red' }}
 											type="text"
 											placeholder="Напишите ваше имя"
 											id="firsName"
@@ -228,8 +303,8 @@ const Delivery = () => {
 						{(errors.email && (
 							<p style={{ color: 'red' }}>{errors.email.message}</p>
 						)) ||
-							(errors.firsName && (
-								<p style={{ color: 'red' }}>{errors.firsName.message}</p>
+							(errors.firstName && (
+								<p style={{ color: 'red' }}>{errors.firstName.message}</p>
 							)) ||
 							(errors.lastName && (
 								<p style={{ color: 'red' }}>{errors.lastName.message}</p>
@@ -249,7 +324,7 @@ const Delivery = () => {
 							<div className={scss.label_input}>
 								<label htmlFor="name">Имя *</label>
 								<Controller
-									name="firsName"
+									name="firstName"
 									control={control}
 									defaultValue=""
 									rules={{
@@ -262,7 +337,7 @@ const Delivery = () => {
 									}}
 									render={({ field }) => (
 										<input
-											style={errors.firsName && { border: '1px solid red' }}
+											style={errors.firstName && { border: '1px solid red' }}
 											type="text"
 											placeholder="Напишите ваше имя"
 											id="firsName"
@@ -325,13 +400,36 @@ const Delivery = () => {
 							</div>
 							<div className={scss.label_input}>
 								<label htmlFor="name">Телефон *</label>
-								<input type="text" placeholder="+996 (_ _ _) _ _  _ _  _ _" />
+								<Controller
+									name="phoneNumber"
+									control={control}
+									defaultValue=""
+									rules={{
+										required: 'Телефон номер обязателен для заполнения',
+										minLength: {
+											value: 9,
+											message:
+												'Телефон номер должен содержать минимум 9 символов'
+										}
+									}}
+									render={({ field }) => (
+										<input
+											{...field}
+											id="phoneNumber"
+											type="text"
+											placeholder="+996 (_ _ _) _ _  _ _  _ _"
+											style={errors.phoneNumber && { border: '1px solid red' }}
+										/>
+									)}
+								/>
 							</div>
 						</div>
 						<div className={scss.label_input}>
 							<label htmlFor="name">Адрес доставки *</label>
 							<input
 								className={scss.adress_input}
+								value={inputValue}
+								onChange={(e) => setInputValue(e.target.value)}
 								type="text"
 								placeholder="ул.Гражданская 119, кв 4, дом 9"
 							/>
@@ -339,8 +437,8 @@ const Delivery = () => {
 						{(errors.email && (
 							<p style={{ color: 'red' }}>{errors.email.message}</p>
 						)) ||
-							(errors.firsName && (
-								<p style={{ color: 'red' }}>{errors.firsName.message}</p>
+							(errors.firstName && (
+								<p style={{ color: 'red' }}>{errors.firstName.message}</p>
 							)) ||
 							(errors.lastName && (
 								<p style={{ color: 'red' }}>{errors.lastName.message}</p>

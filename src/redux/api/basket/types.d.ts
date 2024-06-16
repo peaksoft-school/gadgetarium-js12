@@ -7,6 +7,23 @@ type OrderPrice = {
 	Total: number;
 };
 
+type BasketAmounts = {
+	quantity: number;
+	discountPrice: number;
+	price: number;
+	currentPrice: number;
+};
+
+interface GadgetResponse {
+	id: number;
+	image: string;
+	nameOfGadget: string;
+	memory: string;
+	colour: string;
+	article: number;
+	quantity: number;
+}
+
 namespace BASKETPRODUCTS {
 	type GetBasketProductsRequest = void;
 	type GetBasketProductsResponse = Array<{
@@ -73,25 +90,40 @@ namespace BASKETPRODUCTS {
 		Total?: number;
 	};
 
-	type GetBasketOrderAmountsRequest = void;
-	type GetBasketOrderAmountsResponse = Array<{
-		id: number;
-		image: string;
-		nameOfGadget: string;
-		memory: string;
-		colour: string;
-		article: number;
-		quantity: number;
+	// type GetBasketOrderAmountsRequest = {
+	// 		ids: number[];
+	// 	};
+	// 	type GetBasketOrderAmountsResponse = {
+	// 		basketAmounts: BasketAmounts;
+	// 		gadgetResponse: GadgetResponse[];
+	// 	};
+	type GetBasketOrderAmountsRequest = {
+		ids: string[];
+	};
+
+	type Basket = {
 		quantity: number;
 		discountPrice: number;
 		price: number;
 		currentPrice: number;
-		likes: boolean;
-		comparison: boolean;
-		basket: boolean;
+	};
+	type GetBasketOrderAmountsResponse = {
+		quantity: number;
+		discountPrice: number;
+		price: number;
 		currentPrice: number;
-		subGadgetId: number;
-		newProduct: boolean;
-		recommend: boolean;
-	}>;
+	};
+	type BasketDeleteRequest = {
+		gadgetId: number;
+	};
+	type BasketDeleteResponse = {
+		gadgetId: number;
+	};
+
+	type GetBasketOrderGadgetRequest = string[];
+
+	type GetBasketOrderGadgetResponse = {
+		basketAmounts: BasketAmounts;
+		gadgetResponse: GadgetResponse[];
+	};
 }

@@ -57,7 +57,8 @@ export const api = createApi({
 		'reviewsApi',
 		'adminReview',
 		'adminGoods'
+		'payment',
+		'orderUser'
 	],
 	endpoints: () => ({})
-})
-
+});

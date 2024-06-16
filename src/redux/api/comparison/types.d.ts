@@ -49,7 +49,7 @@ namespace COMPARISONPRODUCTS {
 	type GetComparisonProductsResponse = {
 		id: number;
 		// subGadgetId: number;
-		images: [];
+		images: string[];
 		// category: string;
 		// brandName: string;
 		nameOfGadget: string;
