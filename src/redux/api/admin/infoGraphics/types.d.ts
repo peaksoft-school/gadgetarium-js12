@@ -58,5 +58,4 @@ namespace INFOGRAPHICS {
     }
   ]
   type GetInfoYearRequest = string;
-
 }

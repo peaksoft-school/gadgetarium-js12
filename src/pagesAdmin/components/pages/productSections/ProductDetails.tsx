@@ -1,10 +1,11 @@
-import { useGetProductDetailsQuery } from '@/src/redux/api/product';
 import scss from './ProductDetails.module.scss';
 import { useState } from 'react';
 import { Checkbox, ConfigProvider } from 'antd';
+import { useGetGoodsDetailsGadgetQuery } from '@/src/redux/api/goods';
 export const ProductDetails = () => {
 	const [indexResult, setIndexResult] = useState<null | number>(null);
-	const { data, isLoading } = useGetProductDetailsQuery();
+	const { data, isLoading } = useGetGoodsDetailsGadgetQuery("");
+
 	return (
 		<section className={scss.ProductDetails}>
 				<div className={scss.content}>
@@ -48,13 +49,13 @@ export const ProductDetails = () => {
 											<Checkbox />
 										</ConfigProvider>
 									) : (
-										<p>{index + 1}</p>
+										<p>{el.id}</p>
 									)}
 									<img src={el.image} alt={el.nameOfGadget} />
 									<p className={scss.product_name}>{el.nameOfGadget}</p>
-									<p>{el.colour}</p>
-									<p>{el.memory}</p>
-									<p>{el.rating}</p>
+									<p>{el.colour ? el.colour : "none"}</p>
+									<p>{el.countSim}</p>
+									<p>{el.ram}</p>
 									<p>{el.memory}</p>
 									<p>{el.quantity}</p>
 									<p className={scss.products_prices}>{el.price}</p>
