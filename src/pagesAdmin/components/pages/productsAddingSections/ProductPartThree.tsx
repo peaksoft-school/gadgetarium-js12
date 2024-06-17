@@ -1,10 +1,49 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Link, useNavigate } from 'react-router-dom';
 import scss from './ProductPartThree.module.scss';
 import { IconFileDownload } from '@tabler/icons-react';
 import Textarea from '@/src/ui/textarea/Textarea';
+import { useGadgetSetDocumentMutation } from '@/src/redux/api/addProductApi';
+import React, { useState } from 'react';
+import ReactQuill from 'react-quill';
 
 const ProductPartThree = () => {
+	const [addProductsSetDocument] = useGadgetSetDocumentMutation();
+	const [text, setText] = useState<string>('');
+	const [urlVidoeValue, setUrlVidoeValue] = useState<string>('');
 	const navigate = useNavigate();
+	const stripHtmlTags = (html: string) => {
+		const doc = new DOMParser().parseFromString(html, 'text/html');
+		return doc.body.textContent || '';
+	};
+	const handleSetDocumentForGadget = async () => {
+		const DATA: ADDPRODUCTAPI.gadgetSetDocumentRequest = {
+			description: stripHtmlTags(text),
+			videoUrl: urlVidoeValue,
+			pdf: ''
+		};
+		const { description, pdf, videoUrl } = DATA;
+		if (text !== '' && urlVidoeValue !== '') {
+			try {
+				await addProductsSetDocument({
+					gadgetId: 1,
+					description,
+					pdf,
+					videoUrl
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	};
+	const changeUrlVidoeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setUrlVidoeValue(e.target.value);
+	};
+	const changeTextValueFunk = (e: string) => {
+		setText(e);
+	};
+	
+
 	return (
 		<section className={scss.product}>
 			<div className="container">
@@ -51,8 +90,10 @@ const ProductPartThree = () => {
 								<p>Загрузите видеообзор</p>
 								<div className={scss.part}>
 									<input
-										type="text"
+										type="url"
 										placeholder="Вставьте ссылку на видеообзор"
+										onChange={changeUrlVidoeValue}
+										value={urlVidoeValue}
 									/>
 									<IconFileDownload />
 								</div>
@@ -69,7 +110,7 @@ const ProductPartThree = () => {
 								</div>
 							</div>
 						</div>
-						<Textarea />
+						<Textarea text={text} setText={changeTextValueFunk} funk={handleSetDocumentForGadget}/>
 					</div>
 				</div>
 			</div>

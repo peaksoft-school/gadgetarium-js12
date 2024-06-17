@@ -3,6 +3,7 @@ import scss from './ProductPartTwo.module.scss';
 import React, { useState } from 'react';
 import {
 	useGadgetByIdSetPriceMutation,
+	useGadgetByIdSetQuantityMutation,
 	useGadgetGetNewProductsQuery,
 	useSetAllProductsPriceAndQuantityMutation
 } from '@/src/redux/api/addProductApi';
@@ -14,6 +15,7 @@ const ProductPartTwo = () => {
 	const [setPriceById] = useGadgetByIdSetPriceMutation();
 	const [setAllProductsPriceAndQuantity] =
 		useSetAllProductsPriceAndQuantityMutation();
+	const [setQuantityById] = useGadgetByIdSetQuantityMutation();
 	const navigate = useNavigate();
 	const [price, setPrice] = useState('');
 	const [priceItemIdInput, setPriceItemIdInput] = useState<number | null>(null);
@@ -26,7 +28,6 @@ const ProductPartTwo = () => {
 
 	const handlePatchNewPrice = async (ids: number) => {
 		console.log(ids, 'ids');
-
 		const idsIsString = ids.toString();
 		searchParams.set('price', price);
 		searchParams.set('quantity', quantity);
@@ -69,7 +70,23 @@ const ProductPartTwo = () => {
 		}
 	};
 
-	
+	const handleByIdProductQuantityNew = async (id: string) => {
+		searchParams.set('quantity', quantityInputValueById);
+		searchParams.delete('ids');
+		setSearchParams(searchParams);
+		if (quantityInputValueById === '') return;
+		else {
+			try {
+				await setQuantityById({
+					id: Number(id),
+					quantity: searchParams.toString()
+				});
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	};
+
 	const changeQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setQuantity(event.target.value);
 	};
@@ -204,6 +221,13 @@ const ProductPartTwo = () => {
 															onChange={(
 																e: React.ChangeEvent<HTMLInputElement>
 															) => setQuantityInputValueById(e.target.value)}
+															onKeyPress={(
+																event: React.KeyboardEvent<HTMLInputElement>
+															) => {
+																if (event.key === 'Enter') {
+																	handleByIdProductQuantityNew(e.id.toString());
+																}
+															}}
 														/>
 													) : (
 														<p
@@ -212,7 +236,7 @@ const ProductPartTwo = () => {
 															}
 															className={scss.product_e}
 														>
-															{e.quantity} 45
+															{e.quantity}
 														</p>
 													)}
 													{priceItemIdInput === e.id ? (
@@ -235,7 +259,7 @@ const ProductPartTwo = () => {
 															onClick={() => handleItemIdPriceInputActive(e.id)}
 															className={scss.price_e}
 														>
-															{e.price}100 c
+															{e.price} c
 														</p>
 													)}
 												</div>
