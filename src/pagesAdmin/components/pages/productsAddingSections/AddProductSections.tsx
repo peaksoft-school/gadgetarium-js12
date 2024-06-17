@@ -67,21 +67,29 @@ interface ArrayTypes {
 	ram: string;
 	countSim: number;
 	images: string[];
-	materialBracelet?: string;
-	materialBody?: string;
-	sizeWatch?: string;
-	dumas?: string;
-	genderWatch?: string;
-	waterproof?: string;
-	wireless?: string;
-	shapeBody?: string;
+	materialBracelet: string;
+	materialBody: string;
+	sizeWatch: string;
+	dumas: string;
+	genderWatch: string;
+	waterproof: string;
+	wireless: string;
+	shapeBody: string;
 }
 const arrayForm: ArrayTypes = {
 	mainColour: '',
 	memory: '',
 	ram: '',
 	countSim: 0,
-	images: []
+	images: [],
+	materialBracelet: '',
+	materialBody: '',
+	sizeWatch: '',
+	dumas: '',
+	genderWatch: '',
+	waterproof: '',
+	wireless: '',
+	shapeBody: ''
 };
 
 export const AddProductSections = () => {
@@ -226,7 +234,15 @@ export const AddProductSections = () => {
 			memory: product.memory,
 			ram: product.ram,
 			countSim: Number(product.countSim),
-			images: product.images
+			images: product.images,
+			materialBracelet: product.materialBracelet,
+			materialBody: product.materialBody,
+			sizeWatch: product.sizeWatch,
+			dumas: product.dumas,
+			genderWatch: product.genderWatch,
+			waterproof: product.waterproof,
+			wireless: product.wireless,
+			shapeBody: product.shapeBody
 		}));
 
 		const DATA: ADDPRODUCTAPI.PostAddProductRequest = {
@@ -247,7 +263,7 @@ export const AddProductSections = () => {
 				nameOfGadget,
 				warranty
 			});
-			navigate('/admin/product-adding/part-2')
+			navigate('/admin/product-adding/part-2');
 		} catch (error) {
 			console.error(error);
 		}
@@ -261,7 +277,9 @@ export const AddProductSections = () => {
 			setArray((prevValue) => {
 				const newArray = [...prevValue];
 				const currentImages = newArray[index].images || [];
-				const newImages = Array.from(files, (file) => URL.createObjectURL(file));
+				const newImages = Array.from(files, (file) =>
+					URL.createObjectURL(file)
+				);
 				newArray[index].images = [...currentImages, ...newImages].slice(0, 6);
 				return newArray;
 			});
@@ -677,12 +695,24 @@ export const AddProductSections = () => {
 													<div className={scss.label_and_input_div}>
 														<label>Основной цвет</label>
 
-														<ColorPicker presets={presets}>
+														{/* <ColorPicker presets={presets}>
 															<div className={scss.color_input} type="primary">
 																<p>Основной цвет</p>
 																<IconFrame />
 															</div>
-														</ColorPicker>
+														</ColorPicker> */}
+														<input
+															type="color"
+															className={scss.color_input}
+															onChange={(value) =>
+																handleChangeProductValue(
+																	index,
+																	'mainColour',
+																	value.target.value
+																)
+															}
+															value={el.mainColour}
+														/>
 													</div>
 													<div className={scss.label_and_input_div}>
 														<label>Объем памяти</label>
@@ -697,6 +727,14 @@ export const AddProductSections = () => {
 																	label: <p>{el.gb}</p>
 																}))
 															}
+															onChange={(event) =>
+																handleChangeProductValue(
+																	index,
+																	'memory',
+																	gBiteCatalog[Number(event - 1)].gb
+																)
+															}
+															value={el.memory}
 														/>
 													</div>
 													<div className={scss.label_and_input_div}>
@@ -704,7 +742,7 @@ export const AddProductSections = () => {
 
 														<Select
 															className={scss.input_for_form}
-															placeholder="Объем памяти"
+															placeholder="Материал браслета/ремешка"
 															options={
 																optionsSmartWatchesAndBracelets &&
 																optionsSmartWatchesAndBracelets.map(
@@ -714,6 +752,16 @@ export const AddProductSections = () => {
 																	})
 																)
 															}
+															onChange={(value) =>
+																handleChangeProductValue(
+																	index,
+																	'materialBracelet',
+																	optionsSmartWatchesAndBracelets[
+																		Number(value - 1)
+																	].label
+																)
+															}
+															value={el.materialBracelet}
 														/>
 													</div>
 													<div className={scss.label_and_input_div}>
@@ -731,6 +779,16 @@ export const AddProductSections = () => {
 																	})
 																)
 															}
+															onChange={(value) =>
+																handleChangeProductValue(
+																	index,
+																	'materialBody',
+																	optionsSmartWatchesAndBracelets[
+																		Number(value - 1)
+																	].label
+																)
+															}
+															value={el.materialBody}
 														/>
 													</div>
 													<div className={scss.label_and_input_div}>
@@ -738,7 +796,7 @@ export const AddProductSections = () => {
 
 														<Select
 															className={scss.input_for_form}
-															placeholder="Объем памяти"
+															placeholder="Размер смарт часов (mm)"
 															options={
 																OptionsForLaptop &&
 																OptionsForLaptop.map((el, index) => ({
@@ -746,6 +804,14 @@ export const AddProductSections = () => {
 																	label: <p>{el.label}</p>
 																}))
 															}
+															onChange={(value) =>
+																handleChangeProductValue(
+																	index,
+																	'sizeWatch',
+																	OptionsForLaptop[Number(value - 1)].label
+																)
+															}
+															value={el.sizeWatch}
 														/>
 													</div>
 													<div className={scss.label_and_input_div}>
@@ -761,39 +827,85 @@ export const AddProductSections = () => {
 																	label: <p>{el.label}</p>
 																}))
 															}
+															onChange={(value) =>
+																handleChangeProductValue(
+																	index,
+																	'dumas',
+																	OptionsForLaptop[Number(value - 1)].label
+																)
+															}
+															value={el.dumas}
 														/>
 													</div>
 													<div className={scss.label_and_input_div}>
 														<label>Пол</label>
-														<Radio.Group onChange={onChange} value={value}>
-															<Radio value={1}>Унисекс</Radio>
-															<Radio value={2}>Женский</Radio>
-															<Radio value={3}>Мужской</Radio>
+														<Radio.Group
+															onChange={(e) =>
+																handleChangeProductValue(
+																	index,
+																	'genderWatch',
+																	e.target.value
+																)
+															}
+															value={el.genderWatch}
+														>
+															<Radio value={'Унисекс'}>Унисекс</Radio>
+															<Radio value={'Женский'}>Женский</Radio>
+															<Radio value={'Мужской'}>Мужской</Radio>
 														</Radio.Group>
 													</div>
 													<div className={scss.label_and_input_div}>
 														<label>Водонепроницаемые</label>
-														<Radio.Group onChange={onChange} value={value}>
-															<Radio value={1}>Да</Radio>
-															<Radio value={2}>Нет</Radio>
+														<Radio.Group
+															onChange={(e) =>
+																handleChangeProductValue(
+																	index,
+																	'waterproof',
+																	e.target.value
+																)
+															}
+															value={el.waterproof}
+														>
+															<Radio value={'Да'}>Да</Radio>
+															<Radio value={'Нет'}>Нет</Radio>
 														</Radio.Group>
 													</div>
 													<div className={scss.label_and_input_div}>
 														<label>Беспроводные интерфейсы</label>
-														<Radio.Group onChange={onChange} value={value}>
-															<Radio value={1}>Bluetooth</Radio>
-															<Radio value={2}>Wi-Fi</Radio>
-															<Radio value={3}>GPS</Radio>
-															<Radio value={4}>NFC</Radio>
+														<Radio.Group
+															onChange={(e) =>
+																handleChangeProductValue(
+																	index,
+																	'wireless',
+																	e.target.value
+																)
+															}
+															value={el.wireless}
+														>
+															<Radio value={'Bluetooth'}>Bluetooth</Radio>
+															<Radio value={'Wi-Fi'}>Wi-Fi</Radio>
+															<Radio value={'GPS'}>GPS</Radio>
+															<Radio value={'NFC'}>NFC</Radio>
 														</Radio.Group>
 													</div>
 													<div className={scss.label_and_input_div}>
 														<label>Форма корпуса</label>
-														<Radio.Group onChange={onChange} value={value}>
-															<Radio value={1}>Квадратная</Radio>
-															<Radio value={2}>Круглая</Radio>
-															<Radio value={3}>Овальная</Radio>
-															<Radio value={4}>Прямоугольная</Radio>
+														<Radio.Group
+															onChange={(e) =>
+																handleChangeProductValue(
+																	index,
+																	'shapeBody',
+																	e.target.value
+																)
+															}
+															value={el.shapeBody}
+														>
+															<Radio value={'Квадратная'}>Квадратная</Radio>
+															<Radio value={'Круглая'}>Круглая</Radio>
+															<Radio value={'Овальная'}>Овальная</Radio>
+															<Radio value={'Прямоугольная'}>
+																Прямоугольная
+															</Radio>
 														</Radio.Group>
 													</div>
 												</div>
@@ -801,13 +913,22 @@ export const AddProductSections = () => {
 													<label>Добавьте фото</label>
 													<div
 														className={scss.div_for_file}
-														onClick={handleOpenFileInputForAddProduct}
+														onClick={() =>
+															handleOpenFileInputForAddProduct(index)
+														}
 													>
 														<input
 															type="file"
-															ref={addProductFileRef}
+															ref={(ref) => {
+																if (ref) {
+																	addProductFileRef.current[index] = ref;
+																}
+															}}
 															style={{ display: 'none' }}
 															multiple
+															onChange={(e) => {
+																changeAddProductsFilesFunk(index, e);
+															}}
 														/>
 														<IconPhotoPlus
 															color="rgb(145, 150, 158)"
@@ -818,7 +939,7 @@ export const AddProductSections = () => {
 															<p>Нажмите или перетащите сюда файл</p>
 															<p>
 																Минимальное разрешение - 450x600 <br />{' '}
-																максимальное количество - 10 фото
+																максимальное количество - 6 фото
 															</p>
 														</div>
 													</div>
