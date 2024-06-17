@@ -11,7 +11,8 @@ import { IconBurgerMenu } from '@/src/assets/icons';
 import { useGetUserPostPDSQuery } from '@/src/redux/api/pdf';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 import { useParams, useSearchParams } from 'react-router-dom';
-import ReviewsPage from '@/src/pagesAdmin/components/pages/productSections/ReviewsPage';
+import ReviewsPage from './ReviewsPage';
+// import ReviewsPage from '@/src/pagesAdmin/components/pages/productSections/ReviewsPage';
 
 interface ComponentsTypesArray {
 	children?: ReactNode;

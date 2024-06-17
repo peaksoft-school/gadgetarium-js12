@@ -6,8 +6,8 @@ const api = index.injectEndpoints({
 			CARTPRODUCT.GetCardProductResponse,
 			CARTPRODUCT.GetCardProductRequest
 		>({
-			query: ({id, color, memory}) => ({
-				url: `/api/gadget/by-id/${id}?${color![0]}&${memory}`,
+			query: ({ id, color, memory, quantity }) => ({
+				url: `/api/gadget/by-id/${id}?${color}&${memory}&${quantity}`,
 				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -18,4 +18,4 @@ const api = index.injectEndpoints({
 	})
 });
 
-export  const { useGetCardProductQuery } = api;
+export const { useGetCardProductQuery } = api;

@@ -12,7 +12,14 @@ import {
 	IconFileLike,
 	IconHeart
 } from '@tabler/icons-react';
-import { Button, ConfigProvider, InputNumber, Modal, Rate } from 'antd';
+import {
+	Button,
+	ConfigProvider,
+	InputNumber,
+	InputNumberProps,
+	Modal,
+	Rate
+} from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
@@ -27,13 +34,20 @@ const CardProductPage = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const [basketAddProduct] = useBasketPutProductMutation();
+	const [countIsProduct, setCountIsProduct] = useState<string>('1');
 	const [favoriteAddProduct] = useFavoritePutProductMutation();
 	const { productId } = useParams();
+	const [countInputValue, setCountInputValue] = useState<string>('');
 	const { data: productColor } = useGetProductsColorsApiQuery(productId!);
 	const { data, isLoading } = useGetCardProductQuery({
 		id: Number(productId && productId),
-		color: searchParams.toString() || '',
-		memory: searchParams.toString() || ''
+		color: searchParams.get('color') ? searchParams.toString() : '',
+		memory: searchParams.get('memory')
+			? `memory=${searchParams.get('memory')}`
+			: '',
+		quantity: searchParams.get('quantity')
+			? `quantity=${searchParams.get('quantity')}`
+			: ''
 	});
 
 	const [isSlider, setIsSlider] = useState<number>(1);
@@ -83,7 +97,7 @@ const CardProductPage = () => {
 		setSearchParams(searchParams);
 		// navigate(`/api/gadget/by-id/${productId}?${searchParams.toString()}`);
 	};
-	console.log(window.location.search.substring(1));
+	// console.log(window.location.search.substring(1));
 
 	const addBasketProduct = async (subGadgetId: number) => {
 		await basketAddProduct({ id: subGadgetId, basket: false });
@@ -98,6 +112,30 @@ const CardProductPage = () => {
 		gadgetId: Number(productId),
 		color: `color=${data?.mainColour}`
 	});
+
+	const handleCountProduct = (count: string) => {
+		
+		setCountIsProduct((prevValue) => prevValue + count);
+		searchParams.set('quantity', countIsProduct);
+		setSearchParams(searchParams);
+		// if (count === '1') {
+		// 	searchParams.delete('quantity');
+		// 	setSearchParams(searchParams);
+		// 	setCountIsProduct('1');
+		// }
+	};
+
+	const handleMinuesProductQuantity = (count: string) => {
+		setCountIsProduct((prevValue) => prevValue - count);
+		searchParams.set('quantity', countIsProduct);
+		setSearchParams(searchParams);
+		if (countIsProduct === '1') {
+			setCountIsProduct('1');
+		}
+	};
+
+	console.log(countIsProduct, 'count text');
+	
 
 	return (
 		<>
@@ -267,7 +305,11 @@ const CardProductPage = () => {
 													))}
 												</div>
 												<div className={scss.div_buttons_counts}>
-													<button>-</button>
+													<button
+														onClick={() => handleMinuesProductQuantity('1')}
+													>
+														-
+													</button>
 													<ConfigProvider
 														theme={{
 															components: {
@@ -281,16 +323,30 @@ const CardProductPage = () => {
 														<InputNumber
 															className={scss.input_for_quantity}
 															min={1}
-															max={100}
+															max={data?.quantity}
 															// defaultValue={data?.quantity}
-															defaultValue={data?.quantity}
-															type="number"
+															defaultValue={Number(
+																searchParams.get('quantity')
+																	? searchParams.get('quantity')
+																	: countIsProduct
+															)}
+															type="text"
 															onKeyPress={(
 																e: React.KeyboardEvent<HTMLInputElement>
-															) => {}}
+															) => {
+																if (e.key === 'Enter') {
+																	handleCountProduct(countIsProduct);
+																}
+															}}
+															onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+																setCountIsProduct(e.target.value)
+															}
+															value={Number(searchParams.get('quantity') || 1)}
 														/>
 													</ConfigProvider>
-													<button>+</button>
+													<button onClick={() => handleCountProduct('1')}>
+														+
+													</button>
 												</div>
 												<div className={scss.border_div}></div>
 											</div>
