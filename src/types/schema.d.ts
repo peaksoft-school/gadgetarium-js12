@@ -39,6 +39,7 @@ type Login = {
 type LoginForms = {
 	email: string;
 	password: string;
+	role: string;
 };
 
 type NewForgotPassword = {

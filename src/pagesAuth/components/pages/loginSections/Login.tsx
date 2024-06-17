@@ -27,21 +27,29 @@ const Login = () => {
 
 	const onSubmit: SubmitHandler<LoginForms> = async (data, event) => {
 		event?.preventDefault();
-		try {
-			const response = await postRequestLogin(data);
-			if ('data' in response && response.data.token) {
-				const { token } = response.data;
-				localStorage.setItem('token', token);
-				localStorage.setItem('isAuth', 'true');
-				notify('Вход выполнен успешно', 'Перейти на главную', '/');
-				navigate('/admin');
-				reset();
-			} else {
-				throw new Error('Invalid response');
+		const response = await postRequestLogin(data);
+		if ('data' in response) {
+			try {
+				if (response.data.role === 'USER') {
+					const { token } = response.data;
+					localStorage.setItem('token', token);
+					localStorage.setItem('isAuth', 'true');
+					localStorage.setItem('user', 'true');
+					localStorage.setItem('admin', 'false');
+					notify('Вход выполнен успешно', 'Перейти на главную', '/');
+					navigate('/');
+					reset();
+				} else if (response.data.role === 'ADMIN') {
+					const { token } = response.data;
+					localStorage.setItem('token', token);
+					localStorage.setItem('isAuth', 'false');
+					localStorage.setItem('admin', 'true');
+					navigate('/admin');
+				}
+			} catch (error) {
+				console.log('Ошибка при входе', error);
+				notify('Ошибка при входе', 'Попробуйте снова', '/auth/login');
 			}
-		} catch (error) {
-			console.log('Ошибка при входе', error);
-			notify('Ошибка при входе', 'Попробуйте снова', '/auth/login');
 		}
 	};
 	const handleWithGoogle = () => {

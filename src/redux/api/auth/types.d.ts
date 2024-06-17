@@ -6,6 +6,7 @@ namespace AUTH {
 		password: string;
 	};
 	type PostLoginResponse = {
+		role: string;
 		token: string;
 	};
 
