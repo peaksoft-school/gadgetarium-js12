@@ -3,13 +3,6 @@ import scss from './ReviewsPage.module.scss';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import { Rate, Button, Modal, Input, ConfigProvider } from 'antd';
 import React, { useRef, useState } from 'react';
-import {
-	useApiFeedbackStatisticsQuery,
-	useDeleteByIdUserCommitMutation,
-	useEditUserCommitMutation,
-	useGetReviewsQuery,
-	usePostUsersCommitsMutation
-} from '@/src/redux/api/reviews';
 import { usePostUploadMutation } from '@/src/redux/api/pdf';
 import {
 	IconCameraPlus,
@@ -19,6 +12,13 @@ import {
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { notify } from '@/src/utils/helpers/notify';
+import {
+	useApiFeedbackStatisticsQuery,
+	useDeleteByIdUserCommitMutation,
+	useEditUserCommitMutation,
+	useGetReviewsQuery,
+	usePostUsersCommitsMutation
+} from '@/src/redux/api/review';
 const ReviewsPage = () => {
 	const fileUrl = useRef<HTMLInputElement>(null);
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -206,42 +206,58 @@ const ReviewsPage = () => {
 						<div className={scss.contents_and_commits_users}>
 							<h2>Отзывы</h2>
 							{data?.map((e, index) => (
-								<div key={e.id} className={scss.div_users_commits}>
-									<img src={e.image} alt={e.fullName} />
-									<div className={scss.commits_for_users_div}>
-										<div className={scss.user_info}>
-											<h2>{e.fullName}</h2>
-											<p>{e.dateTime}</p>
-										</div>
-										<div className={scss.grade_div}>
-											<Rate allowHalf defaultValue={e.rating} />
-										</div>
-										<p className={scss.commit_user}>
-											Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-											Excepturi totam ab beatae ad eum ratione quod assumenda,
-											temporibus quos? Repudiandae inventore quia asperiores
-											excepturi nemo, voluptates dolorem porro ducimus
-											voluptatibus! Nostrum ipsum quod deleniti ex.
-										</p>
-										<div className={scss.icons_div}>
-											<IconPencilMinus
-												color="rgb(145, 150, 158)"
-												width={'17px'}
-												height={'17px'}
-												cursor={'pointer'}
-												onClick={() => {
-													handleOpenModal(index, e.id);
-												}}
-											/>
-											<IconTrash
-												color="rgb(145, 150, 158)"
-												width={'17px'}
-												height={'17px'}
-												cursor={'pointer'}
-												onClick={() => handleOpenModalForDelete(e.id)}
-											/>
+								<div className={scss.admin_and_users_commits}>
+									<div key={e.id} className={scss.div_users_commits}>
+										<img src={e.image} alt={e.fullName} />
+										<div className={scss.commits_for_users_div}>
+											<div className={scss.user_info}>
+												<h2>{e.fullName}</h2>
+												<p>{e.dateTime}</p>
+											</div>
+											<div className={scss.grade_div}>
+												<Rate allowHalf defaultValue={e.rating} />
+											</div>
+											<p className={scss.commit_user}>
+												{/* Lorem ipsum dolor sit, amet consectetur adipisicing
+												elit. Excepturi totam ab beatae ad eum ratione quod
+												assumenda, temporibus quos? Repudiandae inventore quia
+												asperiores excepturi nemo, voluptates dolorem porro
+												ducimus voluptatibus! Nostrum ipsum quod deleniti ex. */}
+												{e.description}
+											</p>
+
+											{!e.responseAdmin && (
+												<div className={scss.icons_div}>
+													<IconPencilMinus
+														color="rgb(145, 150, 158)"
+														width={'17px'}
+														height={'17px'}
+														cursor={'pointer'}
+														onClick={() => {
+															handleOpenModal(index, e.id);
+														}}
+													/>
+													<IconTrash
+														color="rgb(145, 150, 158)"
+														width={'17px'}
+														height={'17px'}
+														cursor={'pointer'}
+														onClick={() => handleOpenModalForDelete(e.id)}
+													/>
+												</div>
+											)}
 										</div>
 									</div>
+									{e.responseAdmin && (
+										<div className={scss.div_admin_commit}>
+											<div className={scss.content_admin_commit_div}>
+												<h3>Ответ от представителя</h3>
+												<p>
+													{e.responseAdmin} 
+												</p>
+											</div>
+										</div>
+									)}
 								</div>
 							))}
 							{data!.length === Number(searchParams.get('size')) ? (

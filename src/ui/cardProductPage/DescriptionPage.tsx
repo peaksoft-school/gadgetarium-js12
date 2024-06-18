@@ -14,7 +14,7 @@ const DescriptionPage = () => {
 					<>
 						<iframe src={data?.videoUrl}></iframe>
 						<div className={scss.product_content_image_info}>
-							<h2>Main Text</h2>
+							{/* <h2>Main Text</h2> */}
 							<div className={scss.product_info_text}>
 								<p>{data?.description}</p>
 								<p>{data?.description}</p>
