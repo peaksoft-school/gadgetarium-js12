@@ -11,6 +11,7 @@ import { Input } from 'antd';
 
 const ProductPartTwo = () => {
 	const { data: products = [], isLoading } = useGadgetGetNewProductsQuery();
+	console.log(products, 'array is result');
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [setPriceById] = useGadgetByIdSetPriceMutation();
 	const [setAllProductsPriceAndQuantity] =
@@ -42,10 +43,18 @@ const ProductPartTwo = () => {
 			if (products && products.length > 0) {
 				try {
 					await setAllProductsPriceAndQuantity({
-						ids: [Number(searchParams)],
-						price: Number(searchParams),
-						quantity: searchParams.toString()
+						ids: [String(searchParams)],
+						price: searchParams.get('price')
+							? Number(`price=${searchParams.get('price')}`)
+							: 0,
+						quantity: searchParams.get('quantity')
+							? `quantity=${searchParams.get('quantity')}`
+							: ''
 					});
+					searchParams.delete('ids');
+					searchParams.delete('quantity');
+					searchParams.delete('price');
+					setSearchParams(searchParams);
 				} catch (error) {
 					console.error(error);
 				}
@@ -236,7 +245,7 @@ const ProductPartTwo = () => {
 															}
 															className={scss.product_e}
 														>
-															{e.quantity}
+															{e.quantity === 0 ? 0 : e.quantity}
 														</p>
 													)}
 													{priceItemIdInput === e.id ? (
@@ -259,7 +268,7 @@ const ProductPartTwo = () => {
 															onClick={() => handleItemIdPriceInputActive(e.id)}
 															className={scss.price_e}
 														>
-															{e.price} c
+															{e.price === null ? 0 : e.price} c
 														</p>
 													)}
 												</div>

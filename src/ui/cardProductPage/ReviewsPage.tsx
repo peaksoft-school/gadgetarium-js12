@@ -260,7 +260,7 @@ const ReviewsPage = () => {
 									)}
 								</div>
 							))}
-							{data!.length === Number(searchParams.get('size')) ? (
+							{data && data!.length === Number(searchParams.get('size')) ? (
 								<div className={scss.button_div_for_pagination}>
 									<Button
 										onClick={() => handlePaginationFunk(3)}

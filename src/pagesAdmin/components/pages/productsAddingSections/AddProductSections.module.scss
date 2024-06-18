@@ -367,6 +367,8 @@
 				display: flex;
 				flex-wrap: wrap;
 				gap: 15px;
+				width: 100%;
+				// flex-direction: column;
 				.card_container_for_forms {
 					display: flex;
 					flex-direction: column;
@@ -389,17 +391,6 @@
 						}
 						.input_for_product_count::placeholder {
 							color: rgb(145, 150, 158);
-						}
-						p {
-							display: flex;
-							align-items: center;
-							gap: 5.5px;
-							cursor: pointer;
-							span {
-								color: rgb(203, 17, 171);
-								font-size: clamp(7px, 5vw, 16px);
-								font-weight: 500;
-							}
 						}
 					}
 					.card_inputs {
@@ -515,19 +506,41 @@
 							}
 						}
 					}
-					.add_product_button_div {
-						text-align: end;
-						.add_product_button {
-							width: 100%;
-							max-width: 99px;
-							height: 43px;
-							border-radius: 4px;
-							color: rgb(255, 255, 255);
-							font-size: clamp(8px, 6vw, 16px);
-							font-weight: 600;
-							background: rgb(203, 17, 171);
-							border: none;
+				}
+				.button_add_div_object {
+					display: flex;
+					align-items: start;
+					position: relative;
+					right: 275px;
+					top: 5px;
+					.button_add_object {
+						display: flex;
+						align-items: center;
+						gap: 5.5px;
+						cursor: pointer;
+						span {
+							color: rgb(203, 17, 171);
+							font-size: clamp(7px, 5vw, 16px);
+							font-weight: 500;
 						}
+					}
+				}
+				.add_product_button_div {
+					// text-align: end;
+					position: relative;
+					right: 185px;
+					display: flex;
+					align-items: end;
+					.add_product_button {
+						width: 100%;
+						max-width: 99px;
+						height: 43px;
+						border-radius: 4px;
+						color: rgb(255, 255, 255);
+						font-size: clamp(8px, 6vw, 16px);
+						font-weight: 600;
+						background: rgb(203, 17, 171);
+						border: none;
 					}
 				}
 			}

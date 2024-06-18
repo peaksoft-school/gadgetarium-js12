@@ -25,6 +25,7 @@ import {
 import type { RadioChangeEvent } from 'antd';
 import { Radio } from 'antd';
 import { usePostAddProductApiMutation } from '@/src/redux/api/addProductApi';
+import { usePostUploadMutation } from '@/src/redux/api/pdf';
 type Presets = Required<ColorPickerProps>['presets'][number];
 
 const genPresets = (presets = presetPalettes) =>
@@ -96,6 +97,8 @@ export const AddProductSections = () => {
 	const [addProductApi] = usePostAddProductApiMutation();
 	const location = useLocation();
 	const navigate = useNavigate();
+	const [postUpload] = usePostUploadMutation();
+
 	const [searchParams, setSearchParams] = useSearchParams();
 	const inputForFileRef = React.useRef<HTMLInputElement>(null);
 	const { data: brandArray = [] } = useGetBrandApiQuery();
@@ -244,6 +247,7 @@ export const AddProductSections = () => {
 			wireless: product.wireless,
 			shapeBody: product.shapeBody
 		}));
+		console.log(productsRequestsResults, 'url result');
 
 		const DATA: ADDPRODUCTAPI.PostAddProductRequest = {
 			nameOfGadget: productName,
@@ -268,21 +272,34 @@ export const AddProductSections = () => {
 			console.error(error);
 		}
 	};
-	const changeAddProductsFilesFunk = (
+	const changeAddProductsFilesFunk = async (
 		index: number,
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
 		const files = event.target.files;
 		if (files) {
-			setArray((prevValue) => {
-				const newArray = [...prevValue];
-				const currentImages = newArray[index].images || [];
-				const newImages = Array.from(files, (file) =>
-					URL.createObjectURL(file)
-				);
-				newArray[index].images = [...currentImages, ...newImages].slice(0, 6);
-				return newArray;
-			});
+			const formData = new FormData();
+			for (let i = 0; i < files.length; i++) {
+				formData.append('files', files[i]);
+			}
+
+			try {
+				const response = await postUpload(formData).unwrap();
+				const uploadedFiles = response.data; // Adjust this based on your server response structure
+				console.log(uploadedFiles, 'esentur');
+
+				setArray((prevValue) => {
+					const newArray = [...prevValue];
+					const currentImages = newArray[index].images || [];
+					newArray[index].images = [...currentImages, ...uploadedFiles].slice(
+						0,
+						6
+					);
+					return newArray;
+				});
+			} catch (error) {
+				console.error('Failed to upload files', error);
+			}
 		}
 	};
 
@@ -528,10 +545,6 @@ export const AddProductSections = () => {
 														placeholder={`Продукт ${index + 1}`}
 														className={scss.input_for_product_count}
 													/>
-													<p onClick={handleOPen}>
-														<IconPlus />
-														<span>Добавить продукт</span>
-													</p>
 												</div>
 												<div className={scss.card_inputs}>
 													<div className={scss.label_and_input_div}>
@@ -660,18 +673,27 @@ export const AddProductSections = () => {
 														</div>
 													</div>
 												</div>
-												<div className={scss.add_product_button_div}>
-													<Button
-														className={scss.add_product_button}
-														onClick={() => {
-															handleAddProductsFunk();
-														}}
-													>
-														Далее
-													</Button>
-												</div>
 											</div>
 										))}
+										<div className={scss.button_add_div_object}>
+											<p
+												className={scss.button_add_object}
+												onClick={handleOPen}
+											>
+												<IconPlus />
+												<span>Добавить продукт</span>
+											</p>
+										</div>
+										<div className={scss.add_product_button_div}>
+											<Button
+												className={scss.add_product_button}
+												onClick={() => {
+													handleAddProductsFunk();
+												}}
+											>
+												Далее
+											</Button>
+										</div>
 									</div>
 								)}
 								{(categoryId === '3' || categoryId === '4') && (
@@ -686,10 +708,6 @@ export const AddProductSections = () => {
 														placeholder={`Продукт ${index + 1}`}
 														className={scss.input_for_product_count}
 													/>
-													<p onClick={handleOPen}>
-														<IconPlus />
-														<span>Добавить продукт</span>
-													</p>
 												</div>
 												<div className={scss.card_inputs}>
 													<div className={scss.label_and_input_div}>
@@ -944,13 +962,25 @@ export const AddProductSections = () => {
 														</div>
 													</div>
 												</div>
-												<div className={scss.add_product_button_div}>
-													<Button className={scss.add_product_button}>
-														Далее
-													</Button>
-												</div>
 											</div>
 										))}
+										<div className={scss.button_add_div_object}>
+											<p
+												className={scss.button_add_object}
+												onClick={handleOPen}
+											>
+												<IconPlus />
+												<span>Добавить продукт</span>
+											</p>
+										</div>
+										<div className={scss.add_product_button_div}>
+											<Button
+												onClick={handleAddProductsFunk}
+												className={scss.add_product_button}
+											>
+												Далее
+											</Button>
+										</div>
 									</div>
 								)}
 							</ConfigProvider>

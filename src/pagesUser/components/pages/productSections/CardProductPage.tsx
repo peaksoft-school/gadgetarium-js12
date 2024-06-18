@@ -205,7 +205,7 @@ const CardProductPage = () => {
 												}
 											}}
 										/>
-										{data?.images.map((item, index) => (
+										{data?.images.slice(0,6).map((item, index) => (
 											<>
 												<div
 													className={

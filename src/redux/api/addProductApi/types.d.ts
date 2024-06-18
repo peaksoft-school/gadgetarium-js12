@@ -68,7 +68,7 @@ namespace ADDPRODUCTAPI {
 	type setAllProductsPriceAndQuantityRequest = {
 		price: number;
 		quantity: string;
-		ids: number[];
+		ids: string[];
 	};
 	type setAllProductsPriceAndQuantityResponse = {
 		price?: number;
@@ -85,7 +85,7 @@ namespace ADDPRODUCTAPI {
 		ram: string;
 		countSim: number;
 		releaseDate: [];
-		price: number | string;
-		quantity: number | string;
+		price: number;
+		quantity: number;
 	}[];
 }
