@@ -6,8 +6,8 @@ const api = index.injectEndpoints({
 			PRODUCTMEMORY.GetProductMemoryResponse,
 			PRODUCTMEMORY.GetProductMemoryRequest
 		>({
-			query: (id) => ({
-				url: `/api/gadget/memories/${id}`,
+			query: ({gadgetId, color}) => ({
+				url: `/api/gadget/memories/${gadgetId}?${color}`,
 				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
