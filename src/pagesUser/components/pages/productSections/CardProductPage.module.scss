@@ -519,25 +519,16 @@
 								display: flex;
 								align-items: center;
 								gap: 7px;
-								.button_for_product_memory {
+
+								.active_memory_button {
 									border-radius: 5px;
-									border: 1px solid blue;
+									border: 1px solid rgb(203, 17, 171);
 									width: 100px;
 									height: 35px;
-									background-color: #dfcdcd;
-									color: black;
+									background-color: #fff;
+									color: rgb(203, 17, 171);
 									font-size: clamp(7px, 5.5vw, 15px);
 									font-weight: 500;
-									&.active_memory_button {
-										border-radius: 5px;
-										border: 1px solid rgb(203, 17, 171);
-										width: 100px;
-										height: 35px;
-										background-color: #fff;
-										color: rgb(203, 17, 171);
-										font-size: clamp(7px, 5.5vw, 15px);
-										font-weight: 500;
-									}
 								}
 							}
 							.info_product {

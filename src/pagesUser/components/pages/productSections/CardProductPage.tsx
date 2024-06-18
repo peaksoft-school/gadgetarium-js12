@@ -37,7 +37,7 @@ const CardProductPage = () => {
 	const [countIsProduct, setCountIsProduct] = useState<string>('1');
 	const [favoriteAddProduct] = useFavoritePutProductMutation();
 	const { productId } = useParams();
-	const [countInputValue, setCountInputValue] = useState<string>('');
+	const [countInput, setCountInput] = useState<string>('1');
 	const { data: productColor } = useGetProductsColorsApiQuery(productId!);
 	const { data, isLoading } = useGetCardProductQuery({
 		id: Number(productId && productId),
@@ -53,6 +53,7 @@ const CardProductPage = () => {
 	const [isSlider, setIsSlider] = useState<number>(1);
 	const [sliderResult, setSliderresult] = useState<number>(0);
 	const [contentIsModal, setContentIsModal] = useState<string>('');
+	const [countInputValue, setCountInputValue] = useState<string>('');
 	const [modal2Open, setModal2Open] = useState(false);
 	const navigate = useNavigate();
 
@@ -100,7 +101,12 @@ const CardProductPage = () => {
 	// console.log(window.location.search.substring(1));
 
 	const addBasketProduct = async (subGadgetId: number) => {
-		await basketAddProduct({ id: subGadgetId, basket: false });
+		await basketAddProduct({
+			id: subGadgetId,
+			quantity: searchParams.get('quantity')
+				? `quantity=${searchParams.get('quantity')}`
+				: ''
+		});
 		// refetch();
 	};
 	const addFavoriteProduct = async (subGadgetId: number) => {
@@ -113,29 +119,38 @@ const CardProductPage = () => {
 		color: `color=${data?.mainColour}`
 	});
 
-	const handleCountProduct = (count: string) => {
-		
-		setCountIsProduct((prevValue) => prevValue + count);
-		searchParams.set('quantity', countIsProduct);
-		setSearchParams(searchParams);
-		// if (count === '1') {
-		// 	searchParams.delete('quantity');
-		// 	setSearchParams(searchParams);
-		// 	setCountIsProduct('1');
-		// }
+	const handleCountProduct = () => {
+		setCountInput((prevValue) => {
+			const newValue = (parseInt(prevValue) || 0) + 1;
+			searchParams.set('quantity', newValue.toString());
+			setSearchParams(searchParams);
+			return newValue.toString();
+		});
 	};
 
-	const handleMinuesProductQuantity = (count: string) => {
-		setCountIsProduct((prevValue) => prevValue - count);
-		searchParams.set('quantity', countIsProduct);
+	const handleEnterCountProduct = () => {
+		searchParams.set('quantity', countInput);
 		setSearchParams(searchParams);
-		if (countIsProduct === '1') {
-			setCountIsProduct('1');
+	};
+
+	const handleMinuesProductQuantity = () => {
+		setCountInput((prevValue) => {
+			const newValue = Math.max((parseInt(prevValue) || 0) - 1, 1);
+			searchParams.set('quantity', newValue.toString());
+			setSearchParams(searchParams);
+			return newValue.toString();
+		});
+	};
+
+	console.log(countInput, 'count text');
+	const changeCountInputFunk = (event: string | number | null) => {
+		if(event !== null) {
+			const newValue = event.toString();
+			setCountInput(newValue);
+			searchParams.set('quantity', newValue);
+			setSearchParams(searchParams);
 		}
 	};
-
-	console.log(countIsProduct, 'count text');
-	
 
 	return (
 		<>
@@ -231,7 +246,7 @@ const CardProductPage = () => {
 										<div className={scss.border_and_contents}>
 											<div className={scss.product_rating_and_numbers}>
 												<p className={scss.text_buy_product}>
-													({data?.quantity})
+													количество ({data?.quantity})
 												</p>
 												<p>
 													Артикул: <span>{data?.articleNumber}</span>
@@ -305,12 +320,10 @@ const CardProductPage = () => {
 													))}
 												</div>
 												<div className={scss.div_buttons_counts}>
-													<button
-														onClick={() => handleMinuesProductQuantity('1')}
-													>
+													<button onClick={handleMinuesProductQuantity}>
 														-
 													</button>
-													<ConfigProvider
+													{/* <ConfigProvider
 														theme={{
 															components: {
 																InputNumber: {
@@ -319,34 +332,34 @@ const CardProductPage = () => {
 																}
 															}
 														}}
-													>
-														<InputNumber
-															className={scss.input_for_quantity}
-															min={1}
-															max={data?.quantity}
-															// defaultValue={data?.quantity}
-															defaultValue={Number(
-																searchParams.get('quantity')
-																	? searchParams.get('quantity')
-																	: countIsProduct
-															)}
-															type="text"
-															onKeyPress={(
-																e: React.KeyboardEvent<HTMLInputElement>
-															) => {
-																if (e.key === 'Enter') {
-																	handleCountProduct(countIsProduct);
-																}
-															}}
-															onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-																setCountIsProduct(e.target.value)
+													> */}
+													<InputNumber
+														className={scss.input_for_quantity}
+														min={1}
+														max={data?.quantity}
+														// defaultValue={data?.quantity}
+														defaultValue={Number(
+															searchParams.get('quantity')
+																? searchParams.get('quantity')
+																: countIsProduct
+														)}
+														type="text"
+														onChange={changeCountInputFunk}
+														value={Number(
+															searchParams.get('quantity')
+																? searchParams.get('quantity')
+																: countInput
+														)}
+														onKeyPress={(
+															e: React.KeyboardEvent<HTMLInputElement>
+														) => {
+															if (e.key === 'Enter') {
+																handleEnterCountProduct();
 															}
-															value={Number(searchParams.get('quantity') || 1)}
-														/>
-													</ConfigProvider>
-													<button onClick={() => handleCountProduct('1')}>
-														+
-													</button>
+														}}
+													/>
+													{/* </ConfigProvider> */}
+													<button onClick={handleCountProduct}>+</button>
 												</div>
 												<div className={scss.border_div}></div>
 											</div>
@@ -397,11 +410,7 @@ const CardProductPage = () => {
 																onClick={() => {
 																	handleMemoryProductFunk(el);
 																}}
-																className={
-																	el.includes(data?.memory!)
-																		? `${scss.button_for_product_memory} ${scss.active_memory_button}`
-																		: `${scss.button_for_product_memory}`
-																}
+																className={scss.active_memory_button}
 																key={index}
 															>
 																{el}
