@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom';
 import scss from './ProductPartThree.module.scss';
 import { IconFileDownload } from '@tabler/icons-react';
 import Textarea from '@/src/ui/textarea/Textarea';
-import {
-	useGadgetSetDocumentMutation
-} from '@/src/redux/api/addProductApi';
+import { useGadgetSetDocumentMutation } from '@/src/redux/api/addProductApi';
 import React, { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
