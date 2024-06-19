@@ -53,7 +53,7 @@ namespace ADDPRODUCTAPI {
 	};
 
 	type gadgetSetDocumentRequest = {
-		gadgetId?: number;
+		subGadgetId?: number;
 		pdf: string;
 		videoUrl: string;
 		description: string;

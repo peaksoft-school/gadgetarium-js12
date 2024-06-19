@@ -53,8 +53,8 @@ const api = index.injectEndpoints({
 			ADDPRODUCTAPI.gadgetSetDocumentResponse,
 			ADDPRODUCTAPI.gadgetSetDocumentRequest
 		>({
-			query: ({ gadgetId, description, pdf, videoUrl }) => ({
-				url: `/api/gadget/set-document/${gadgetId}`,
+			query: ({ subGadgetId, description, pdf, videoUrl }) => ({
+				url: `/api/gadget/set-document/${subGadgetId}`,
 				method: 'PATCH',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`

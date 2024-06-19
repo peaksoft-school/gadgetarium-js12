@@ -26,7 +26,7 @@ const ProductPartThree = () => {
 		if (text !== '' && urlVidoeValue !== '') {
 			try {
 				await addProductsSetDocument({
-					gadgetId: 1,
+					subGadgetId: Math.floor(Math.random(Math.max(4))),
 					description,
 					pdf,
 					videoUrl
@@ -42,7 +42,6 @@ const ProductPartThree = () => {
 	const changeTextValueFunk = (e: string) => {
 		setText(e);
 	};
-	
 
 	return (
 		<section className={scss.product}>
@@ -60,7 +59,6 @@ const ProductPartThree = () => {
 							<div></div>
 						</div>
 					</div>
-
 					<div className={scss.page_content_2}>
 						<div className={scss.nav_div}>
 							<div
@@ -110,7 +108,11 @@ const ProductPartThree = () => {
 								</div>
 							</div>
 						</div>
-						<Textarea text={text} setText={changeTextValueFunk} funk={handleSetDocumentForGadget}/>
+						<Textarea
+							text={text}
+							setText={changeTextValueFunk}
+							funk={handleSetDocumentForGadget}
+						/>
 					</div>
 				</div>
 			</div>

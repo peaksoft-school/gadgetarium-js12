@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import dayjs from 'dayjs';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import scss from './AddProductSections.module.scss';
 import { Button, ConfigProvider, DatePicker, Input, Modal, Select } from 'antd';
@@ -13,9 +14,9 @@ import {
 	useGetBrandApiQuery
 } from '@/src/redux/api/brandApi';
 import { IconCalendarMinus, IconPhotoPlus } from '@tabler/icons-react';
-import { IconFrame, IconPlus } from '@/src/assets/icons';
+import { IconPlus } from '@/src/assets/icons';
 import { generate, green, presetPalettes, red } from '@ant-design/colors';
-import { ColorPicker, theme } from 'antd';
+import { theme } from 'antd';
 import type { ColorPickerProps } from 'antd';
 import { gBiteCatalog, moreGBiteCatalog, simCards } from '@/src/data/Catalog';
 import {
@@ -26,6 +27,7 @@ import type { RadioChangeEvent } from 'antd';
 import { Radio } from 'antd';
 import { usePostAddProductApiMutation } from '@/src/redux/api/addProductApi';
 import { usePostUploadMutation } from '@/src/redux/api/pdf';
+
 type Presets = Required<ColorPickerProps>['presets'][number];
 
 const genPresets = (presets = presetPalettes) =>
@@ -104,50 +106,21 @@ export const AddProductSections = () => {
 	const { data: brandArray = [] } = useGetBrandApiQuery();
 	const [warranty, setWarranty] = useState<number>(0);
 	const [productName, setProductName] = useState<string>('');
-	const [dateOfIssue, setDateOfIssue] = useState<string>('');
 	const [categoryId, setCategoryId] = useState<string>('');
+	const [dateOfIssue, setDateOfIssue] = useState<string>('');
 	const [brandInputValue, setBrandInputValue] = useState<string>('');
 	const [brandId, setBrandId] = useState<string>('');
-	const [idForCategory, setIdForCategory] = useState<number>(0);
 	const [addBrandApi] = useAddBrandApiMutation();
 	const [subCategoryValue, setSubCategoryValue] = useState<string>('');
 	const [modalForBrand, setModalForBrand] = useState<boolean>(false);
 	const [fileValue, setFileValue] = useState<FormData>();
 	const { data } = useGetCatalogProductsQuery();
-	const [brandActive, setBrandActive] = useState<boolean>(false);
 	const addProductFileRef = useRef<HTMLInputElement[]>([]);
-	const [brandValue, setBrandValue] = useState<string>('');
+	const dateOfIssueString = dayjs(dateOfIssue).format('YYYY-MM-DD');
+
 	const { data: subCategoryArray = [] } = useSubCategoriesQuery(
 		Number(categoryId)
 	);
-
-	// ! array object values
-
-	const [colorValue, setColorValue] = useState<string>('');
-	const [memoryValue, setMemoryValue] = useState<string>('');
-	const [ramValue, setRamValue] = useState<string>('');
-	const [countSimValue, setCountSimValue] = useState<number>(0);
-	const [filesAddProductsValues, setFilesAddProductsValues] =
-		useState<FormData>();
-	const [arrayForFilesValues, setArrayForFilesValues] = useState<string>();
-	const [materialBraceletValue, setMaterialBraceletValue] =
-		useState<string>('');
-	const [materialBodyValue, setMaterialBodyValue] = useState<string>('');
-	const [sizeWatchValue, setSizeWatchValue] = useState<string>('');
-	const [dumasValue, setDumasValue] = useState<string>('');
-	const [genderWatchValue, setGenderWatchValue] = useState<string>('');
-	const [waterproofValue, setWaterproofValue] = useState<string>('');
-	const [wirelessValue, setWirelessValue] = useState<string>('');
-	const [shapeBodyValue, setShapeBodyValue] = useState<string>('');
-
-	// ! array object values
-
-	const [value, setValue] = useState(1);
-
-	const onChange = (e: RadioChangeEvent) => {
-		console.log('radio checked', e.target.value);
-		setValue(e.target.value);
-	};
 
 	const { token } = theme.useToken();
 	const presets = genPresets({
@@ -163,10 +136,8 @@ export const AddProductSections = () => {
 	};
 
 	const changeWarrantyValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (categoryId) {
-			setWarranty(Number(e.target.value));
-			console.log(warranty, 'Гарантия');
-		}
+		setWarranty(Number(e.target.value));
+		console.log(warranty, 'Гарантия');
 	};
 
 	const changeBrandInputValue = (
@@ -251,13 +222,18 @@ export const AddProductSections = () => {
 
 		const DATA: ADDPRODUCTAPI.PostAddProductRequest = {
 			nameOfGadget: productName,
-			dateOfIssue: '2024-06-13',
-			warranty: 12,
+			dateOfIssue: dateOfIssueString,
+			warranty: warranty,
 			productsRequests: productsRequestsResults
 		};
 		console.log(DATA, 'ARRAY FRO DATA');
 
-		const { nameOfGadget, warranty, dateOfIssue, productsRequests } = DATA;
+		const {
+			nameOfGadget,
+			warranty: number,
+			dateOfIssue,
+			productsRequests
+		} = DATA;
 		try {
 			await addProductApi({
 				subCategoryId: Number(subCategoryValue),
@@ -265,7 +241,7 @@ export const AddProductSections = () => {
 				productsRequests,
 				dateOfIssue,
 				nameOfGadget,
-				warranty
+				warranty: number
 			});
 			navigate('/admin/product-adding/part-2');
 		} catch (error) {
@@ -302,6 +278,8 @@ export const AddProductSections = () => {
 			}
 		}
 	};
+
+	
 
 	return (
 		<>
@@ -515,10 +493,10 @@ export const AddProductSections = () => {
 												<DatePicker
 													className={scss.input_for_text}
 													placeholder="Введите дату выпуска"
-													onChange={(e) =>
-														setDateOfIssue(Number(e.target.value))
+													onChange={(momentDate) =>
+														setDateOfIssue(momentDate.format('YYYY-MM-DD'))
 													}
-													value={dateOfIssue}
+													value={dateOfIssue ? dayjs(dateOfIssue) : null} // Check if `dateOfIssue` is valid
 												/>
 											) : (
 												<div className={scss.noo_active_date_input}>
