@@ -9,7 +9,7 @@ import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
 import { useGetProductsNewsQuery } from '@/src/redux/api/productsNews/index.ts';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 const ProductsNew = () => {
 	const [comparisonPatchProduct] = useComparisonPatchProductsMutation();
@@ -139,11 +139,18 @@ const ProductsNew = () => {
 												</div>
 											</div>
 											<div className={scss.div_img}>
-												<img
-													className={scss.img_product}
-													src={el.image}
-													alt={el.nameOfGadget}
-												/>
+												{/* <Link to={`/api/gadget/by-id/${el.gadgetId}`}>
+													<img
+														className={scss.img_product}
+														src={el.image}
+														alt={el.nameOfGadget}
+													/>
+												</Link> */}
+												<img onClick={() => navigate(`/api/gadget/by-id/${el.gadgetId}`)}
+														className={scss.img_product}
+														src={el.image}
+														alt={el.nameOfGadget}
+													/>
 											</div>
 											<div className={scss.div_product_contents}>
 												<p className={scss.tag_color_green}>

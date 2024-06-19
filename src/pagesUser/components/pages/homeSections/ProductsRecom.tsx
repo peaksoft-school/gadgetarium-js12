@@ -136,7 +136,7 @@ const ProductsRecom = () => {
 												</div>
 											</div>
 											<div className={scss.div_img}>
-												<img
+												<img onClick={() => navigate(`/api/gadget/by-id/${el.gadgetId}`)}
 													className={scss.img_product}
 													src={el.image}
 													alt={el.nameOfGadget}
