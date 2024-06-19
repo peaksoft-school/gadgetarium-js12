@@ -118,6 +118,7 @@ const CardProductPage = () => {
 		gadgetId: Number(productId),
 		color: `color=${data?.mainColour}`
 	});
+console.log(data, 'pdf url');
 
 	const handleCountProduct = () => {
 		setCountInput((prevValue) => {

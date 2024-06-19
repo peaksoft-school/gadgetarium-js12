@@ -47,6 +47,7 @@ const Textarea: FC<TextAreaTypes> = ({ text, setText, funk }) => {
 					<button
 						onClick={() => {
 							funk();
+							localStorage.removeItem('gadgetId');
 							navigate('/admin');
 						}}
 						className={scss.add_b}

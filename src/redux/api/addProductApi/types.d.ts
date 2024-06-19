@@ -78,7 +78,8 @@ namespace ADDPRODUCTAPI {
 
 	type getNewProductsRequest = void;
 	type getNewProductsResponse = {
-		id: number;
+		subGadgetId: number;
+		gadgetId: number;
 		brandName: string;
 		mainColour: string;
 		memory: string;

@@ -1,6 +1,6 @@
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import scss from './ProductPartTwo.module.scss';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	useGadgetByIdSetPriceMutation,
 	useGadgetByIdSetQuantityMutation,
@@ -26,7 +26,11 @@ const ProductPartTwo = () => {
 	const [quantity, setQuantity] = useState('');
 	const [priceInputValueById, setPriceInputValueById] = useState('');
 	const [quantityInputValueById, setQuantityInputValueById] = useState('');
-
+	useEffect(() => {
+		if (products.length > 0) {
+			localStorage.setItem('gadgetId', JSON.stringify(products[0].gadgetId));
+		}
+	}, [products]);
 	const handlePatchNewPrice = async (ids: number) => {
 		console.log(ids, 'ids');
 		const idsIsString = ids.toString();
@@ -112,12 +116,12 @@ const ProductPartTwo = () => {
 	};
 
 	const handleOpenInputsNooActive = () => {
-		if (priceItemIdInput) {
-			setPriceItemIdInput(null);
-		}
-		if (quantityItemIdInput) {
-			setQuantityItemIdInput(null);
-		}
+		// if (priceItemIdInput) {
+		// 	setPriceItemIdInput(null);
+		// }
+		// if (quantityItemIdInput) {
+		// 	setQuantityItemIdInput(null);
+		// }
 	};
 	console.log(products);
 	return (
@@ -137,7 +141,10 @@ const ProductPartTwo = () => {
 						</div>
 					</div>
 
-					<div className={scss.page_content_2} onClick={handleOpenInputsNooActive}>
+					<div
+						className={scss.page_content_2}
+						onClick={handleOpenInputsNooActive}
+					>
 						<div className={scss.nav_div}>
 							<div className={scss.nav_one}>
 								<h3>1</h3>
@@ -167,7 +174,7 @@ const ProductPartTwo = () => {
 									onChange={(e) => setPrice(e.target.value)}
 									onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
 										if (e.key === 'Enter') {
-											products.map((el) => handlePatchNewPrice(el.id));
+											products.map((el) => handlePatchNewPrice(el.subGadgetId));
 										}
 									}}
 								/>
@@ -177,13 +184,13 @@ const ProductPartTwo = () => {
 									onChange={changeQuantity}
 									onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
 										if (e.key === 'Enter') {
-											products.map((el) => handlePatchNewPrice(el.id));
+											products.map((el) => handlePatchNewPrice(el.subGadgetId));
 										}
 									}}
 								/>
 								<button
 									onClick={() =>
-										products.map((el) => handlePatchNewPrice(el.id))
+										products.map((el) => handlePatchNewPrice(el.subGadgetId))
 									}
 								>
 									Установить цену
@@ -227,10 +234,8 @@ const ProductPartTwo = () => {
 															</p>
 														))}
 												</div>
-												<div
-													className={scss.col_two}
-												>
-													{quantityItemIdInput === e.id ? (
+												<div className={scss.col_two}>
+													{quantityItemIdInput === e.subGadgetId ? (
 														<Input
 															className={scss.input_for_price_and_quantity}
 															value={quantityInputValueById}
@@ -241,21 +246,23 @@ const ProductPartTwo = () => {
 																event: React.KeyboardEvent<HTMLInputElement>
 															) => {
 																if (event.key === 'Enter') {
-																	handleByIdProductQuantityNew(e.id.toString());
+																	handleByIdProductQuantityNew(
+																		e.subGadgetId.toString()
+																	);
 																}
 															}}
 														/>
 													) : (
 														<p
 															onClick={() =>
-																handleItemIdQuantityInputActive(e.id)
+																handleItemIdQuantityInputActive(e.subGadgetId)
 															}
 															className={scss.product_e}
 														>
 															{e.quantity === 0 ? 0 : e.quantity}
 														</p>
 													)}
-													{priceItemIdInput === e.id ? (
+													{priceItemIdInput === e.subGadgetId ? (
 														<Input
 															className={scss.input_for_price_and_quantity}
 															value={priceInputValueById}
@@ -266,13 +273,17 @@ const ProductPartTwo = () => {
 																event: React.KeyboardEvent<HTMLInputElement>
 															) => {
 																if (event.key === 'Enter') {
-																	handleByIdProductPriceNew(e.id.toString());
+																	handleByIdProductPriceNew(
+																		e.subGadgetId.toString()
+																	);
 																}
 															}}
 														/>
 													) : (
 														<p
-															onClick={() => handleItemIdPriceInputActive(e.id)}
+															onClick={() =>
+																handleItemIdPriceInputActive(e.subGadgetId)
+															}
 															className={scss.price_e}
 														>
 															{e.price === null ? 0 : e.price} c

@@ -1,26 +1,29 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import scss from './ProductPartThree.module.scss';
 import { IconFileDownload } from '@tabler/icons-react';
 import Textarea from '@/src/ui/textarea/Textarea';
 import {
-	useGadgetGetNewProductsQuery,
 	useGadgetSetDocumentMutation
 } from '@/src/redux/api/addProductApi';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
+import { usePostS3UploadMutation } from '@/src/redux/api/pdf';
 
 const ProductPartThree = () => {
 	const [addProductsSetDocument] = useGadgetSetDocumentMutation();
-	const { data: products = [] } = useGadgetGetNewProductsQuery();
-	const gadgetId = products.length > 0 ? products[0].gadgetId : undefined;
+	const [PostS3Upload] = usePostS3UploadMutation();
+	const [filesUrls, setFilesUrls] = useState<string>('');
+	const fileInputRef = React.useRef<HTMLInputElement>(null);
+	const gadgetId = localStorage.getItem('gadgetId');
 	const { data } = useGetCardProductQuery({
-		id: gadgetId!
+		id: Number(gadgetId)
 	});
+	console.log(data, 'data array');
 	const [text, setText] = useState<string>('');
 	const [urlVidoeValue, setUrlVidoeValue] = useState<string>('');
-	const navigate = useNavigate();
 	const stripHtmlTags = (html: string) => {
 		const doc = new DOMParser().parseFromString(html, 'text/html');
 		return doc.body.textContent || '';
@@ -29,13 +32,13 @@ const ProductPartThree = () => {
 		const DATA: ADDPRODUCTAPI.gadgetSetDocumentRequest = {
 			description: stripHtmlTags(text),
 			videoUrl: urlVidoeValue,
-			pdf: String(data?.pdfUrl)
+			pdf: filesUrls.toString()
 		};
 		const { description, pdf, videoUrl } = DATA;
 		if (text !== '' && urlVidoeValue !== '') {
 			try {
 				await addProductsSetDocument({
-					subGadgetId: products![0].gadgetId,
+					subGadgetId: Number(gadgetId),
 					description,
 					pdf,
 					videoUrl
@@ -45,11 +48,33 @@ const ProductPartThree = () => {
 			}
 		}
 	};
+	const changeInputFileFunk = async (
+		e: React.ChangeEvent<HTMLInputElement>
+	) => {
+		const file = e.target.files;
+		if (file && file[0]) {
+			const formData = new FormData();
+			formData.append('file', file[0]);
+			try {
+				const response: any = await PostS3Upload(formData).unwrap();
+				setFilesUrls(response.data);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	};
+	useEffect(() => {}, []);
 	const changeUrlVidoeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setUrlVidoeValue(e.target.value);
 	};
 	const changeTextValueFunk = (e: string) => {
 		setText(e);
+	};
+
+	const handleClickInputRef = () => {
+		if (fileInputRef.current) {
+			return fileInputRef.current.click();
+		}
 	};
 
 	return (
@@ -100,13 +125,20 @@ const ProductPartThree = () => {
 								</div>
 							</div>
 
-							<div className={scss.button_part_2}>
+							<div className={scss.button_part_2} onClick={handleClickInputRef}>
 								<p>Загрузите документ PDF</p>
 								<div className={scss.part}>
 									<input
 										type="text"
 										placeholder="Вставьте документ в PDF файле"
-										value={data?.pdfUrl}
+										value={filesUrls}
+									/>
+									<input
+										type="file"
+										ref={fileInputRef}
+										style={{ display: 'none' }}
+										accept="application/pdf"
+										onChange={changeInputFileFunk}
 									/>
 									<IconFileDownload />
 								</div>
