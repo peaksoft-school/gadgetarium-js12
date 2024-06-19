@@ -57,7 +57,7 @@ const pagesArray: PagesArrayTypes[] = [
 	},
 	{
 		id: 3,
-		link: '',
+		link: '/admin/product-adding/part-3',
 		title: 'Описание и обзор'
 	}
 ];
@@ -112,6 +112,8 @@ export const AddProductSections = () => {
 	const [brandId, setBrandId] = useState<string>('');
 	const [addBrandApi] = useAddBrandApiMutation();
 	const [subCategoryValue, setSubCategoryValue] = useState<string>('');
+	console.log(subCategoryValue, 'ids category');
+
 	const [modalForBrand, setModalForBrand] = useState<boolean>(false);
 	const [fileValue, setFileValue] = useState<FormData>();
 	const { data } = useGetCatalogProductsQuery();
@@ -262,7 +264,6 @@ export const AddProductSections = () => {
 			try {
 				const response = await postUpload(formData).unwrap();
 				const uploadedFiles = response.data; // Adjust this based on your server response structure
-				console.log(uploadedFiles, 'esentur');
 
 				setArray((prevValue) => {
 					const newArray = [...prevValue];
@@ -278,8 +279,6 @@ export const AddProductSections = () => {
 			}
 		}
 	};
-
-	
 
 	return (
 		<>

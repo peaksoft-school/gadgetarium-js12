@@ -3,7 +3,7 @@ import { FC } from 'react';
 import scss from './Textarea.module.scss';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 interface TextAreaTypes {
 	text: string;
 	setText: (text: string) => void;
@@ -11,6 +11,7 @@ interface TextAreaTypes {
 }
 
 const Textarea: FC<TextAreaTypes> = ({ text, setText, funk }) => {
+	const navigate = useNavigate();
 	const modules = {
 		toolbar: [
 			['bold', 'italic', 'underline'],
@@ -43,10 +44,15 @@ const Textarea: FC<TextAreaTypes> = ({ text, setText, funk }) => {
 					<Link to={'/admin/product-adding/part-2'}>
 						<button className={scss.cancel_b}>Отменить</button>
 					</Link>
-					<button onClick={funk} className={scss.add_b}>
+					<button
+						onClick={() => {
+							funk();
+							navigate('/admin');
+						}}
+						className={scss.add_b}
+					>
 						Добавить
 					</button>
-			
 				</div>
 			</div>
 		</div>

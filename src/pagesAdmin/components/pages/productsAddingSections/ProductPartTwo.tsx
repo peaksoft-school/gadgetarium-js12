@@ -110,8 +110,16 @@ const ProductPartTwo = () => {
 			? setQuantityItemIdInput(null)
 			: setQuantityItemIdInput(id);
 	};
-	console.log(products);
 
+	const handleOpenInputsNooActive = () => {
+		if (priceItemIdInput) {
+			setPriceItemIdInput(null);
+		}
+		if (quantityItemIdInput) {
+			setQuantityItemIdInput(null);
+		}
+	};
+	console.log(products);
 	return (
 		<section className={scss.product}>
 			<div className="container">
@@ -129,12 +137,9 @@ const ProductPartTwo = () => {
 						</div>
 					</div>
 
-					<div className={scss.page_content_2}>
+					<div className={scss.page_content_2} onClick={handleOpenInputsNooActive}>
 						<div className={scss.nav_div}>
-							<div
-								className={scss.nav_one}
-								onClick={() => navigate('/admin/product-adding/part-1')}
-							>
+							<div className={scss.nav_one}>
 								<h3>1</h3>
 								<p>Добавление товара</p>
 							</div>
@@ -222,7 +227,9 @@ const ProductPartTwo = () => {
 															</p>
 														))}
 												</div>
-												<div className={scss.col_two}>
+												<div
+													className={scss.col_two}
+												>
 													{quantityItemIdInput === e.id ? (
 														<Input
 															className={scss.input_for_price_and_quantity}
@@ -279,7 +286,11 @@ const ProductPartTwo = () => {
 							</div>
 
 							<div className={scss.button}>
-								<Link to={'/admin/product-adding/part-3'}>
+								<Link
+									to={
+										products.length === 0 ? '/admin/product-adding/part-3' : ''
+									}
+								>
 									<button>Далее</button>
 								</Link>
 							</div>

@@ -492,6 +492,9 @@
 							color: rgb(41, 41, 41);
 							font-size: clamp(7px, 4vw, 16px);
 							font-weight: 400;
+							margin-left: 15px;
+							position: relative;
+							z-index: 50;
 							@media (max-width: 1231.2px) {
 								border: none;
 								padding-left: 0;

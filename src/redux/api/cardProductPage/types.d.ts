@@ -3,9 +3,9 @@
 namespace CARTPRODUCT {
 	type GetCardProductRequest = {
 		id: number;
-		color: string;
-		memory: string;
-		quantity: string;
+		color?: string;
+		memory?: string;
+		quantity?: string;
 	};
 	type GetCardProductResponse = {
 		gadgetId: number;

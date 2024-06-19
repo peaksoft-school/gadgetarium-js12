@@ -3,12 +3,21 @@ import { Link, useNavigate } from 'react-router-dom';
 import scss from './ProductPartThree.module.scss';
 import { IconFileDownload } from '@tabler/icons-react';
 import Textarea from '@/src/ui/textarea/Textarea';
-import { useGadgetSetDocumentMutation } from '@/src/redux/api/addProductApi';
+import {
+	useGadgetGetNewProductsQuery,
+	useGadgetSetDocumentMutation
+} from '@/src/redux/api/addProductApi';
 import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
+import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 
 const ProductPartThree = () => {
 	const [addProductsSetDocument] = useGadgetSetDocumentMutation();
+	const { data: products = [] } = useGadgetGetNewProductsQuery();
+	const gadgetId = products.length > 0 ? products[0].gadgetId : undefined;
+	const { data } = useGetCardProductQuery({
+		id: gadgetId!
+	});
 	const [text, setText] = useState<string>('');
 	const [urlVidoeValue, setUrlVidoeValue] = useState<string>('');
 	const navigate = useNavigate();
@@ -20,13 +29,13 @@ const ProductPartThree = () => {
 		const DATA: ADDPRODUCTAPI.gadgetSetDocumentRequest = {
 			description: stripHtmlTags(text),
 			videoUrl: urlVidoeValue,
-			pdf: ''
+			pdf: String(data?.pdfUrl)
 		};
 		const { description, pdf, videoUrl } = DATA;
 		if (text !== '' && urlVidoeValue !== '') {
 			try {
 				await addProductsSetDocument({
-					subGadgetId: Math.floor(Math.random(Math.max(4))),
+					subGadgetId: products![0].gadgetId,
 					description,
 					pdf,
 					videoUrl
@@ -61,18 +70,12 @@ const ProductPartThree = () => {
 					</div>
 					<div className={scss.page_content_2}>
 						<div className={scss.nav_div}>
-							<div
-								className={scss.nav_one}
-								onClick={() => navigate('/admin/product-adding/part-1')}
-							>
+							<div className={scss.nav_one}>
 								<h3>1</h3>
 								<p>Добавление товара</p>
 							</div>
 							<div className={scss.line}></div>
-							<div
-								className={scss.nav_two}
-								onClick={() => navigate('/admin/product-adding/part-2')}
-							>
+							<div className={scss.nav_two}>
 								<h3>2</h3>
 								<p>Установка цены и количества товара</p>
 							</div>
@@ -103,6 +106,7 @@ const ProductPartThree = () => {
 									<input
 										type="text"
 										placeholder="Вставьте документ в PDF файле"
+										value={data?.pdfUrl}
 									/>
 									<IconFileDownload />
 								</div>

@@ -86,6 +86,7 @@ namespace ADDPRODUCTAPI {
 		countSim: number;
 		releaseDate: [];
 		price: number;
+		gadgetId: number;
 		quantity: number;
 	}[];
 }
