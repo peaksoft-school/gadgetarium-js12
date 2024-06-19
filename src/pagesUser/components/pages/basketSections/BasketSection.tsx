@@ -3,7 +3,9 @@ import {
 	useDeleteByIdBasketProductMutation,
 	// useBasketPutProductMutation,
 	useGetBasketOrderAmountQuery,
-	useGetBasketQuery
+	useGetBasketQuery,
+	useDeleteAllBasketMutation,
+	useBasketPutProductMutation
 } from '@/src/redux/api/basket';
 import png from '../../../../assets/sammy_shopping_1_1.png';
 import scss from './BasketSection.module.scss';
@@ -17,12 +19,18 @@ import {
 } from '@tabler/icons-react';
 import { Button, Checkbox, ConfigProvider, Rate, InputNumber } from 'antd';
 import React, { useState } from 'react';
-import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
+import {
+	useAddAllFavoritesProductsMutation,
+	useFavoritePutProductMutation
+} from '@/src/redux/api/favorite';
 
 const BasketSection = () => {
-	// const [basketDeleteProduct] = useBasketPutProductMutation();
+	const [basketAddApi] = useBasketPutProductMutation();
+	const [deleteAllProductsForBasket] = useDeleteAllBasketMutation();
 	const [favoriteAddProduct] = useFavoritePutProductMutation();
+	const [addAllFavoriteProducts] = useAddAllFavoritesProductsMutation();
 	const [searchParams, setSearchParams] = useSearchParams();
+	const [countInput, setCountInput] = useState<string>('');
 	const navigate = useNavigate();
 	// const [arrayNumbers, setArrayNumbers] = useState<number[]>([]);
 	const [inputValueItemId, setInputValueItemId] = useState<number>();
@@ -74,9 +82,80 @@ const BasketSection = () => {
 		ids: [searchParams.toString()]
 	});
 
-	const handleInputValueForProductQuantity = (value: number | null) => {
-		if (value !== null) {
-			setInputValueQuantity(value);
+	async function handleDeleteAllProducts() {
+		try {
+			await deleteAllProductsForBasket({
+				ids: searchParams.get('ids') ? [searchParams.toString()] : []
+			});
+			// searchParams.delete('ids');
+			// setSearchParams(searchParams);
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	const handleAddAllFavoriteProducts = async () => {
+		try {
+			await addAllFavoriteProducts({
+				gadgetIds: searchParams.get('ids')
+					? [`gadgetIds=${searchParams.getAll('ids')}`]
+					: []
+			});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const handleInputValueForProductQuantity = async (id: number) => {
+		searchParams.set('quantity', countInput);
+		setSearchParams(searchParams);
+		try {
+			await basketAddApi({
+				id,
+				quantity: searchParams.get('quantity')
+					? `quantity=${searchParams.get('quantity')}`
+					: ''
+			});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const handlePluesCountProduct = async (id: number) => {
+		setCountInput((prevValue) => {
+			const newValue = (parseInt(prevValue) || 0) + 1;
+			searchParams.set('quantity', newValue.toString());
+			setSearchParams(searchParams);
+			return newValue.toString();
+		});
+		try {
+			await basketAddApi({
+				id,
+				quantity: searchParams.get('quantity')
+					? `quantity=${searchParams.get('quantity')}`
+					: ''
+			});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const handleMinuesProduct = async (id: number) => {
+		setCountInput((prevValue) => {
+			const newValue = Math.max((parseInt(prevValue) || 0) - 1, 1);
+			searchParams.set('quantity', newValue.toString());
+			setSearchParams(searchParams);
+			return newValue.toString();
+		});
+		try {
+			await basketAddApi({
+				id,
+				quantity: searchParams.get('quantity')
+					? `quantity=${searchParams.get('quantity')}`
+					: ''
+			});
+		} catch (error) {
+			console.error(error);
 		}
 	};
 
@@ -94,6 +173,13 @@ const BasketSection = () => {
 			return `${scss.nooActiveButton} ${scss.activeButton}`;
 		} else {
 			return `${scss.nooActiveButton}`;
+		}
+	};
+
+	const changeCountBasketProducts = (event: string | number | null) => {
+		if (event !== null) {
+			const newValue = event.toString();
+			setCountInput(newValue);
 		}
 	};
 
@@ -149,7 +235,10 @@ const BasketSection = () => {
 											</Checkbox>
 										</ConfigProvider>
 									</div>
-									<div className={scss.button_is_basket_results_div}>
+									<div
+										className={scss.button_is_basket_results_div}
+										onClick={handleDeleteAllProducts}
+									>
 										<IconTrash
 											color="rgb(144, 156, 181)"
 											width={'24px'}
@@ -160,7 +249,7 @@ const BasketSection = () => {
 									</div>
 									<div
 										className={scss.button_is_basket_results_div}
-										onClick={() => navigate('/favorite')}
+										onClick={handleAddAllFavoriteProducts}
 									>
 										<IconHeart
 											color="rgb(144, 156, 181)"
@@ -219,7 +308,13 @@ const BasketSection = () => {
 																	}
 																>
 																	<div>
-																		<button>-</button>
+																		<button
+																			onClick={() =>
+																				handleMinuesProduct(item.id)
+																			}
+																		>
+																			-
+																		</button>
 																		<ConfigProvider
 																			theme={{
 																				components: {
@@ -236,19 +331,10 @@ const BasketSection = () => {
 																				id="inputValueQuantity"
 																				className={scss.input_number}
 																				min={1}
-																				max={300}
+																				max={item.quantity}
 																				defaultValue={item.quantity}
-																				onChange={
-																					handleInputValueForProductQuantity
-																				}
-																				onClick={() =>
-																					setInputValueItemId(item.id)
-																				}
-																				value={
-																					inputValueItemId === item.id
-																						? inputValueQuantity
-																						: null
-																				}
+																				onChange={changeCountBasketProducts}
+																				value={Number(countInput)}
 																				onKeyPress={(
 																					e: React.KeyboardEvent<HTMLInputElement>
 																				) => {
@@ -260,7 +346,13 @@ const BasketSection = () => {
 																				}}
 																			/>
 																		</ConfigProvider>
-																		<button>+</button>
+																		<button
+																			onClick={() =>
+																				handlePluesCountProduct(item.id)
+																			}
+																		>
+																			+
+																		</button>
 																	</div>
 																	<h3>{item.price} c</h3>
 																</div>

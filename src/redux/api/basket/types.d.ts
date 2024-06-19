@@ -127,4 +127,12 @@ namespace BASKETPRODUCTS {
 		basketAmounts: BasketAmounts;
 		gadgetResponse: GadgetResponse[];
 	};
+
+	type DeleteAllRequest = {
+		ids: string[];
+	};
+	type DeleteAllResponse = {
+		status: string;
+		message: string;
+	}
 }
