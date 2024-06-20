@@ -4,6 +4,8 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { Button, Input } from 'antd';
 import logo from '@/src/assets/logo.png';
 import { usePostForgotMutation } from '@/src/redux/api/auth';
+import { ToastContainer } from 'react-toastify';
+import { notify } from '@/src/utils/helpers/notify';
 
 export const ForgotPassword = () => {
 	const [postForgot] = usePostForgotMutation();
@@ -19,16 +21,21 @@ export const ForgotPassword = () => {
 	});
 	const onSubmit: SubmitHandler<ForgotPasswordForms> = async (data) => {
 		try {
-			await postForgot(data);
-			// if ('data' in response) {
-			// 	const { token } = response.data;
-			// 	localStorage.setItem('token', token);
-			// }
-			console.log(data);
-			navigate('/auth/login');
-			reset();
-		} catch (error) {
-			console.log('not working', error);
+			const response = await postForgot(data).unwrap();
+			if (response.success) {
+				notify('Ссылка отправлено в почту', 'Войти', '/auth/login');
+				reset();
+				navigate('/auth/login');
+			} else {
+				throw new Error(response.message || 'Email не существует!');
+			}
+		} catch (error: any) {
+			notify(
+				error.message || 'Email не существует!',
+				'Регистрация',
+				'/auth/register'
+			);
+			console.log('Ошибка:', error);
 		}
 	};
 	return (
@@ -90,6 +97,7 @@ export const ForgotPassword = () => {
 											Зарегистироваться
 										</Link>
 									</div>
+									<ToastContainer />
 								</form>
 							</div>
 						</div>

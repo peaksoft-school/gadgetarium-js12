@@ -46,7 +46,7 @@ const InfoProduct = () => {
 	const { data: cardProductData } = useGetCardProductQuery({
 		id: Number(useparams.productId!)
 	});
-	const pdfParam = `key=${searchParams.get('key')}`
+	const pdfParam = `key=${searchParams.get('key')}`;
 
 	const handlePDFApiFunk = (_pdfUrl: string) => {
 		searchParams.set('key', 'aa115f91-4624-46c3-b388-90d108d244f2');

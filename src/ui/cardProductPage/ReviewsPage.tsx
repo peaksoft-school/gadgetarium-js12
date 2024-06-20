@@ -252,15 +252,13 @@ const ReviewsPage = () => {
 										<div className={scss.div_admin_commit}>
 											<div className={scss.content_admin_commit_div}>
 												<h3>Ответ от представителя</h3>
-												<p>
-													{e.responseAdmin} 
-												</p>
+												<p>{e.responseAdmin}</p>
 											</div>
 										</div>
 									)}
 								</div>
 							))}
-							{data!.length === Number(searchParams.get('size')) ? (
+							{data && data!.length === Number(searchParams.get('size')) ? (
 								<div className={scss.button_div_for_pagination}>
 									<Button
 										onClick={() => handlePaginationFunk(3)}

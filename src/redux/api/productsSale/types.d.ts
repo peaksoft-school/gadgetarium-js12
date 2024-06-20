@@ -46,8 +46,8 @@ namespace PRODUCTSALE {
 		size?: string;
 	};
 	type GetProductsSaleResponse = {
-		page: number;
-		size: number;
+		page: string;
+		size: string;
 		mainPages: MainPages[];
 	};
 }

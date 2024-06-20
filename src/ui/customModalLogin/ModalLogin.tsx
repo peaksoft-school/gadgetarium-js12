@@ -1,17 +1,29 @@
 import { Link, useNavigate } from 'react-router-dom';
-import scss from './Login.module.scss';
-import logo from '@/src/assets/logo.png';
+import scss from './ModalLogin.module.scss';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Button, ConfigProvider, Input } from 'antd';
-import React from 'react';
+import React, { FC } from 'react';
 import { usePostLoginMutation } from '@/src/redux/api/auth';
-import { auth, provider } from './config';
+import {
+	auth,
+	provider
+} from '@/src/pagesAuth/components/pages/loginSections/config';
 import { signInWithPopup } from 'firebase/auth';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { notify } from '@/src/utils/helpers/notify';
 
-const Login = ({ setOpenModal }) => {
+interface ModalLoginProps {
+	setOpenModal: (open: boolean) => void;
+}
+
+interface ErrorData {
+	data?: {
+		message?: string;
+	};
+}
+
+const ModalLogin: FC<ModalLoginProps> = ({ setOpenModal }) => {
 	const [passwordVisible, setPasswordVisible] = React.useState(false);
 	const [postRequestLogin] = usePostLoginMutation();
 	const navigate = useNavigate();
@@ -48,7 +60,8 @@ const Login = ({ setOpenModal }) => {
 			reset();
 			setOpenModal(false);
 		} catch (error) {
-			notify(error.data?.message || 'Ошибка при входе', '', '');
+			const err = error as ErrorData;
+			notify(err.data?.message || 'Ошибка при входе', '', '');
 			setOpenModal(true);
 			console.log('Ошибка при входе', error);
 		}
@@ -74,9 +87,9 @@ const Login = ({ setOpenModal }) => {
 			<div className="container">
 				<div className={scss.content}>
 					<div className={scss.logo}>
-						<Link to="/">
+						{/* <Link to="/">
 							<img src={logo} alt="logo" />
-						</Link>
+						</Link> */}
 					</div>
 					<div className={scss.displayFormDiv}>
 						<div className={scss.formsDiv}>
@@ -196,4 +209,4 @@ const Login = ({ setOpenModal }) => {
 	);
 };
 
-export default Login;
+export default ModalLogin;

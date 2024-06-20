@@ -108,7 +108,6 @@ const OrderCourierOnTheWay = () => {
 	};
 
 	const statusCounts = countOrdersByStatus(data || []);
-
 	const antaThemeConfig = {
 		algorithm: theme.defaultAlgorithm,
 		token: {

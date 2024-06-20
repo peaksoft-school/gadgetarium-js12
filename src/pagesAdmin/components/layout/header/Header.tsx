@@ -2,7 +2,7 @@ import { IconGadgetarium } from '@/src/assets/icons';
 import scss from './Header.module.scss';
 import { FC, useEffect, useState } from 'react';
 import { IconChevronDown } from '@tabler/icons-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import BurgerButton from '@/src/ui/burgerButton/BurgerButton';
 import BurgerMenu from '@/src/ui/burgerMenu/BurgerMenu';
 import { DatePicker, Dropdown, MenuProps } from 'antd/es';
@@ -34,6 +34,7 @@ const Header: FC = () => {
 	const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isModalLogOut, setIsModalLogOut] = useState<boolean>(false);
+	const navigate = useNavigate();
 
 	const showModal = () => {
 		setIsModalOpen(true);
@@ -44,6 +45,8 @@ const Header: FC = () => {
 	};
 
 	const showModalLogOut = () => {
+		localStorage.getItem('isAuth');
+		navigate('/login');
 		setIsModalLogOut(true);
 	};
 	const items: MenuProps['items'] = [

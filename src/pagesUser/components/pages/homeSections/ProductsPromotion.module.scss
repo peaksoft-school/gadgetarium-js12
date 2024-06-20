@@ -118,12 +118,12 @@
 						justify-content: center;
 						align-items: center;
 						.img_product {
-							width: 180px;
+							width: 220px;
 							height: 260px;
 							cursor: pointer;
 							@media (max-width: 600px) {
-								width: 184px;
-								height: auto;
+								width: 190px;
+								height: 200px;
 							}
 						}
 					}

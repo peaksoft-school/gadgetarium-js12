@@ -17,6 +17,7 @@ import { useGetBasketQuery } from '@/src/redux/api/basket';
 import { useGetFavoriteQuery } from '@/src/redux/api/favorite';
 import { useGetComparisonQuery } from '@/src/redux/api/comparison';
 import { ProductsForHover } from '@/src/ui/productsForHover/ProductsForHover';
+// import { useGetGlobalSearchQuery } from '@/src/redux/api/globalSearch';
 
 interface SubHeaderProps {
 	isMobile: boolean;
@@ -32,6 +33,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 	const [comparisonProducts, setComparisonProducts] = useState<boolean>(false);
 	const [favoriteProducts, setFavoriteProducts] = useState<boolean>(false);
 	const [basketProducts, setBasketProducts] = useState<boolean>(false);
+	// const { data: globalSearch = [], isLoading } = useGetGlobalSearchQuery();
 	const antdThemeConfig = {
 		algorithm: theme.darkAlgorithm,
 		token: {
@@ -180,6 +182,13 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 					}
 				/>
 			)}
+			{/* <div>
+				{globalSearch?.map((e) => (
+					<div>
+						<h4>{e.brandNameOfGadget}</h4>
+					</div>
+				))}
+			</div> */}
 		</header>
 	);
 };

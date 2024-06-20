@@ -1,20 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IconEye, IconEyeOff, IconPhotoPlus } from '@tabler/icons-react';
 import scss from './Profile.module.scss';
 import { useForm } from 'react-hook-form';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	usePostProfilesInformationQueryMutation,
 	usePostProfilesPasswordQueryMutation,
-	usePutProfilesImageQueryMutation
+	usePutProfilesImageQueryMutation,
+	useGetProfilesQuery
 } from '@/src/redux/api/personalAccount/profile';
 
 const Profile = () => {
 	const {
 		register,
 		formState: { errors },
-		handleSubmit
+		handleSubmit,
+		setValue
 	} = useForm({
 		mode: 'onSubmit'
 	});
@@ -22,13 +25,13 @@ const Profile = () => {
 	const profiles = [
 		{
 			label: 'Имя',
-			error: 'FirstName',
+			error: 'firstName',
 			placeholder: 'Введите ваше имя'
 		},
 		{
 			label: 'Фамилия',
-			error: 'LastName',
-			placeholder: 'Введите вашу фамилия'
+			error: 'lastName',
+			placeholder: 'Введите вашу фамилию'
 		},
 		{
 			label: 'E-mail',
@@ -77,6 +80,24 @@ const Profile = () => {
 	const [profilePasswords] = usePostProfilesPasswordQueryMutation();
 	const [profileInformation] = usePostProfilesInformationQueryMutation();
 	const [profileImage] = usePutProfilesImageQueryMutation();
+	const { data: profileData, refetch } = useGetProfilesQuery({});
+
+	useEffect(() => {
+		if (profileData) {
+			setValue('firstName', profileData.firsName);
+			setValue('lastName', profileData.lastName);
+			setValue('email', profileData.email);
+			setValue('phone', profileData.phoneNumber);
+			setValue('address', profileData.address);
+
+			setFirstName(profileData.firsName);
+			setLastName(profileData.lastName);
+			setEmail(profileData.email);
+			setPhone(profileData.phoneNumber);
+			setAddress(profileData.address);
+		}
+		refetch();
+	}, [profileData, setValue]);
 
 	const handlePostNewPassword = async () => {
 		const passwords = {
@@ -85,7 +106,7 @@ const Profile = () => {
 			confirmationPassword: confirmPassword
 		};
 
-		if (oldPassword == '' || newPassword == '' || confirmPassword == '') {
+		if (oldPassword === '' || newPassword === '' || confirmPassword === '') {
 			return;
 		} else {
 			try {
@@ -180,11 +201,10 @@ const Profile = () => {
 						</div>
 						<div className={scss.div_right}>
 							<h1>Личные данные</h1>
-
 							<div className={scss.div_fields}>
 								<form onSubmit={handleSubmit(onSubmit)}>
 									{profiles.map((e) => (
-										<div className={scss.fields}>
+										<div className={scss.fields} key={e.error}>
 											<label>
 												{e.label} <span>*</span>
 											</label>
@@ -192,12 +212,12 @@ const Profile = () => {
 												type="text"
 												placeholder={e.placeholder}
 												{...register(`${e.error}`, {
-													required: 'Это поле обьязательна для заполнения!'
+													required: 'Это поле обязательно для заполнения!'
 												})}
 												onChange={(event) => {
-													if (e.error === 'FirstName') {
+													if (e.error === 'firstName') {
 														setFirstName(event.target.value);
-													} else if (e.error === 'LastName') {
+													} else if (e.error === 'lastName') {
 														setLastName(event.target.value);
 													} else if (e.error === 'email') {
 														setEmail(event.target.value);
@@ -206,9 +226,9 @@ const Profile = () => {
 													}
 												}}
 												value={
-													e.error === 'FirstName'
+													e.error === 'firstName'
 														? firstName
-														: e.error === 'LastName'
+														: e.error === 'lastName'
 															? lastName
 															: e.error === 'email'
 																? email
@@ -230,7 +250,7 @@ const Profile = () => {
 											type="text"
 											placeholder="Введите ваш адрес"
 											{...register('address', {
-												required: 'Это поле обьязательна для заполнения!'
+												required: 'Это поле обязательно для заполнения!'
 											})}
 											value={address}
 											onChange={(event) => setAddress(event.target.value)}
@@ -243,7 +263,7 @@ const Profile = () => {
 									{isShown ? (
 										<div className={scss.password_buttons}>
 											{passwords.map((e) => (
-												<div className={scss.password_fields}>
+												<div className={scss.password_fields} key={e.error}>
 													<label>
 														{e.label} <span>*</span>
 													</label>
@@ -253,7 +273,7 @@ const Profile = () => {
 														}
 														placeholder={e.placeholder}
 														{...register(`${e.error}`, {
-															required: 'Это поле обьязательна для заполнения!'
+															required: 'Это поле обязательно для заполнения!'
 														})}
 														onChange={(event) => {
 															if (e.error === 'old') {

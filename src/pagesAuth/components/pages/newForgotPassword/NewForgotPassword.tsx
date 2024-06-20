@@ -5,6 +5,8 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Button, ConfigProvider, Input } from 'antd';
 import React from 'react';
 import { usePatchNewPasswordMutation } from '@/src/redux/api/auth';
+import { ToastContainer } from 'react-toastify';
+import { notify } from '@/src/utils/helpers/notify';
 
 const NewForgotPassword = () => {
 	const [passwordVisible, setPasswordVisible] = React.useState(false);
@@ -21,7 +23,7 @@ const NewForgotPassword = () => {
 	} = useForm<NewForgotPassword>({
 		mode: 'onBlur'
 	});
-	const onSubmit: SubmitHandler<NewForgotPassword> = async (data, event) => { 
+	const onSubmit: SubmitHandler<NewForgotPassword> = async (data, event) => {
 		event?.preventDefault();
 
 		try {
@@ -33,6 +35,7 @@ const NewForgotPassword = () => {
 			await patchNewPassword(newData);
 
 			console.log('onSubmit', data);
+			notify('Пароль успешно изменён', 'Войти', '/auth/login');
 			reset();
 		} catch (error) {
 			console.log('not patch response', error);
@@ -133,6 +136,7 @@ const NewForgotPassword = () => {
 											Сменит пароль
 										</Button>
 									</div>
+									<ToastContainer />
 								</form>
 							</div>
 						</div>

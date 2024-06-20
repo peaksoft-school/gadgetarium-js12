@@ -15,4 +15,12 @@ namespace PDFAPI {
 		data: string[];
 		// httpResponse: HttpResponse;
 	};
+
+	type PostS3UploadResponse = {
+		data: string;
+		httpResponse: {
+			status: string;
+			message: string;
+		}
+	}
 }

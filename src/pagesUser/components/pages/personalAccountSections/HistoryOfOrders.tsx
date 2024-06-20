@@ -62,28 +62,19 @@ const HistoryOfOrders = () => {
 								<div className={scss.orders}>
 									{isLoading && <h1>Loading...</h1>}
 									{orders?.map((e) => (
-										<Link to={`my-orders/${e._id}`}>
+										<Link to={`my-orders/${e.id}`} key={e.id}>
 											<div className={scss.order}>
 												<div className={scss.order_information}>
-													<p className={scss.order_date}>{e.date}</p>
-													<p className={scss.order_number}>{e.orderNumber}</p>
+													<p className={scss.order_date}>{e.createdAt}</p>
+													<p className={scss.order_number}>{e.number}</p>
 													<div className={scss.all}>
 														<span className={scss.order_delivered}>
-															{e.statusDelivered}
-														</span>
-														<span className={scss.order_cancelled}>
-															{e.statusCancelled}
-														</span>
-														<span className={scss.order_processing}>
-															{e.statusProcessing}
-														</span>
-														<span className={scss.order_on_the_way}>
-															{e.statusOnTheWay}
+															{e.status || 'Статус не указан'}
 														</span>
 													</div>
 												</div>
 												<div className={scss.order_total}>
-													<h3>{e.total}</h3>
+													<h3>{e.deliveryPrice}</h3>
 												</div>
 											</div>
 										</Link>

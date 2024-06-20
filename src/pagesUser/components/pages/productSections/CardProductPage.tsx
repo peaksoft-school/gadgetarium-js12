@@ -118,6 +118,7 @@ const CardProductPage = () => {
 		gadgetId: Number(productId),
 		color: `color=${data?.mainColour}`
 	});
+	console.log(data, 'pdf url');
 
 	const handleCountProduct = () => {
 		setCountInput((prevValue) => {
@@ -144,7 +145,7 @@ const CardProductPage = () => {
 
 	console.log(countInput, 'count text');
 	const changeCountInputFunk = (event: string | number | null) => {
-		if(event !== null) {
+		if (event !== null) {
 			const newValue = event.toString();
 			setCountInput(newValue);
 			searchParams.set('quantity', newValue);
@@ -205,7 +206,7 @@ const CardProductPage = () => {
 												}
 											}}
 										/>
-										{data?.images.map((item, index) => (
+										{data?.images.slice(0, 6).map((item, index) => (
 											<>
 												<div
 													className={
@@ -390,7 +391,7 @@ const CardProductPage = () => {
 																className={scss.active_basket_button_navigate}
 																onClick={() => navigate('/basket')}
 															>
-																В корзине Перейти
+																Перейти в корзину
 															</Button>
 														) : (
 															<AddBasketButton

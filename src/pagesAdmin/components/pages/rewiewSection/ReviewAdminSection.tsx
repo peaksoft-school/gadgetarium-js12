@@ -144,6 +144,8 @@ const ReviewAdminSection = () => {
 	}, [searchParams]);
 	console.log(reviews?.feedbackResponseList, 'array');
 
+	console.log(reviews, 'array');
+
 	return (
 		<section className={scss.ReviewAdminSection}>
 			<div className="container">
@@ -195,7 +197,7 @@ const ReviewAdminSection = () => {
 									<div className={scss.category_text_2}>
 										<Dropdown menu={{ items }} placement="bottomRight">
 											<p className={scss.yourParagraphClass}>
-												Все оценки (1775)
+												Все оценки ({reviews?.totalRatings})
 												<IconChevronDown className={scss.iconChevronDown} />
 											</p>
 										</Dropdown>

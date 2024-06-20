@@ -9,12 +9,16 @@ import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
 import { useGetProductsNewsQuery } from '@/src/redux/api/productsNews/index.ts';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import CustomModal from '@/src/ui/modalAdmin/CustomModal.tsx';
+import { useState } from 'react';
+import ModalLogin from '@/src/ui/customModalLogin/ModalLogin.tsx';
 
 const ProductsNew = () => {
 	const [comparisonPatchProduct] = useComparisonPatchProductsMutation();
 	const [basketPutProduct] = useBasketPutProductMutation();
 	const [putFavoriteProduct] = useFavoritePutProductMutation();
+	const [openModal, setOpenModal] = useState(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
 
@@ -39,20 +43,33 @@ const ProductsNew = () => {
 	});
 
 	const handleScaleClick = async (subGadgetId: number) => {
-		await comparisonPatchProduct(subGadgetId);
+		if (localStorage.getItem('isAuth') === 'true') {
+			await comparisonPatchProduct(subGadgetId);
+		} else {
+			setOpenModal(true);
+		}
 		refetch();
 	};
 
 	const handleHeartClick = async (subGadgetId: number) => {
-		await putFavoriteProduct(subGadgetId);
+		if (localStorage.getItem('isAuth') === 'true') {
+			await putFavoriteProduct(subGadgetId);
+		} else {
+			setOpenModal(true);
+		}
 		refetch();
 	};
 
 	const handleBasket = async (subGadgetId: number) => {
-		await basketPutProduct({
-			id: subGadgetId,
-			basket: false
-		});
+		if (localStorage.getItem('isAuth') === 'true') {
+			await basketPutProduct({
+				id: subGadgetId,
+				basket: false
+			});
+		} else {
+			setOpenModal(true);
+		}
+
 		refetch();
 	};
 	console.log(data?.mainPages);
@@ -139,18 +156,11 @@ const ProductsNew = () => {
 												</div>
 											</div>
 											<div className={scss.div_img}>
-												{/* <Link to={`/api/gadget/by-id/${el.gadgetId}`}>
-													<img
-														className={scss.img_product}
-														src={el.image}
-														alt={el.nameOfGadget}
-													/>
-												</Link> */}
 												<img onClick={() => navigate(`/api/gadget/by-id/${el.gadgetId}`)}
-														className={scss.img_product}
-														src={el.image}
-														alt={el.nameOfGadget}
-													/>
+													className={scss.img_product}
+													src={el.image}
+													alt={el.nameOfGadget}
+												/>
 											</div>
 											<div className={scss.div_product_contents}>
 												<p className={scss.tag_color_green}>
@@ -162,7 +172,7 @@ const ProductsNew = () => {
 														: el.nameOfGadget}
 												</h3>
 												<p>
-													Рейтинг <Rate allowHalf defaultValue={3.5} />
+													Рейтинг <Rate allowHalf defaultValue={el.rating} />
 													{el.rating}
 												</p>
 												<div className={scss.div_buttons_and_price}>
@@ -206,6 +216,11 @@ const ProductsNew = () => {
 							)}
 						</div>
 					</div>
+				</div>
+				<div>
+					<CustomModal isModalOpen={openModal} setIsModalOpen={setOpenModal}>
+						<ModalLogin setOpenModal={setOpenModal} />
+					</CustomModal>
 				</div>
 			</div>
 		</div>

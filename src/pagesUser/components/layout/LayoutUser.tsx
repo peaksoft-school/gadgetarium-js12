@@ -112,7 +112,7 @@ const LayoutUser = () => {
 						<Route
 							path="personal-account/history-of-orders/my-orders/:id"
 							element={<HistorySinglePage />}
-						></Route>
+						/>
 						<Route path="/homePraktike" element={<HomePraktike />} />
 					</Routes>
 				</main>
