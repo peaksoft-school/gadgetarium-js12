@@ -6,11 +6,11 @@ const api = index.injectEndpoints({
 			PRODUCTSALE.GetProductsSaleResponse,
 			PRODUCTSALE.GetProductsSaleRequest
 		>({
-			query: ({page, size}) => ({
+			query: ({ page, size }) => ({
 				url: `/api/gadget/discounts?${page}&${size}`,
 				method: 'GET',
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('token')}`
+					Authorization: `Bearer ${localStorage.getItem('token') || ''} `
 				}
 			}),
 			providesTags: ['products']

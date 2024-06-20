@@ -8,6 +8,7 @@ namespace AUTH {
 	type PostLoginResponse = {
 		role: string;
 		token: string;
+		password: string;
 	};
 
 	type PostRegisterRequest = {
@@ -31,6 +32,8 @@ namespace AUTH {
 	type PostForgotEmailResponse = {
 		token: string;
 		email: string;
+		success: string;
+		message: string;
 	};
 	type PostGoogleRequest = {
 		idToken: string;

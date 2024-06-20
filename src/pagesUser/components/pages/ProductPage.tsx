@@ -1,9 +1,9 @@
-// import CardProductPage from "./productSections/CardProductPage";
+import CardProductPage from './productSections/CardProductPage';
 
 export const ProductPage = () => {
 	return (
 		<>
-			{/* < CardProductPage/> */}
+			<CardProductPage />
 		</>
 	);
 };

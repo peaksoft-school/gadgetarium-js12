@@ -1,13 +1,16 @@
 import scss from './Register.module.scss';
 import logo from '@/src/assets/logo.png';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, ConfigProvider, Input } from 'antd';
 import { usePostRegisterMutation } from '@/src/redux/api/auth';
 import PhoneInputWrapper from '@/src/ui/phoneNumberValidation/PhoneNumberValidation';
+import { notify } from '@/src/utils/helpers/notify';
+import { ToastContainer } from 'react-toastify';
 
 export const Register = () => {
 	const [postRequest] = usePostRegisterMutation();
+	const navigate = useNavigate();
 
 	const {
 		handleSubmit,
@@ -21,20 +24,37 @@ export const Register = () => {
 	const onSubmit: SubmitHandler<RegisterForms> = async (data, event) => {
 		event?.preventDefault();
 
+		if (data.password !== data.confirmThePassword) {
+			notify('Некоректный пароль или email ', '', '');
+			return;
+		}
+
 		try {
 			const response = await postRequest(data);
 			if ('data' in response && response.data.token) {
 				const { token } = response.data;
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'true');
+				notify('Вход выполнен успешно', 'Перейти на главную', '/');
+				navigate('/');
+				reset();
+			} else {
+				throw new Error('Unexpected response structure');
 			}
-			console.log('is working ', response);
-			console.log(data);
-			reset();
-		} catch {
-			console.log('not working');
+		} catch (error) {
+			if (error?.data?.message?.includes('User already registered')) {
+			} else {
+				console.log('Registration failed', error);
+				notify(
+					'Пользователь уже зарегистрирован',
+					'Пожалуйста, войдите',
+					'/auth/login'
+				);
+				// notify('Ошибка при регистрации', 'Попробуйте снова', '/auth/register');
+			}
 		}
 	};
+
 	return (
 		<div className={scss.registerPages}>
 			<div className="container">
@@ -261,6 +281,7 @@ export const Register = () => {
 											</Link>
 										</p>
 									</div>
+									<ToastContainer />
 								</form>
 							</div>
 						</div>

@@ -123,6 +123,17 @@ const BasketSection = () => {
 									</Link>
 								</div>
 							</>
+						) : !localStorage.getItem('token') ? (
+							<>
+								<img src={png} alt="png" />
+								<div className={scss.text_after_img}>
+									<h2>Ваша корзина пуста</h2>
+									<p>Но вы всегда можете ее наполнить </p>
+									<Link to="/">
+										<button>К покупкам</button>
+									</Link>
+								</div>
+							</>
 						) : (
 							<div className={scss.basket_product_container_div}>
 								<div className={scss.basket_product_result_div}>
