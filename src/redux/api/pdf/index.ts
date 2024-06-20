@@ -25,8 +25,23 @@ const api = index.injectEndpoints({
 				body: formData
 			}),
 			invalidatesTags: ['pdfApi']
+		}),
+		postS3Upload: build.mutation<PDFAPI.PostS3UploadResponse, FormData>({
+			query: (file) => ({
+				url: `/api/s3`,
+				method: 'POST',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				},
+				body: file
+			}),
+			invalidatesTags: ['pdfApi']
 		})
 	})
 });
 
-export const { useGetUserPostPDSQuery, usePostUploadMutation } = api;
+export const {
+	useGetUserPostPDSQuery,
+	usePostUploadMutation,
+	usePostS3UploadMutation
+} = api;
