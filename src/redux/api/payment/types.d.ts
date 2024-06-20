@@ -38,4 +38,12 @@ namespace PAYMENTPRODUCT {
 		orderId: number;
 		payment: string;
 	};
+	type PostPaymentRequest = {
+		cart: Array<{ id: string; quantity: number }>;
+	};
+	type PostPaymentResponse = {
+		id: string;
+		details?: Array<{ issue: string; description: string }>;
+		debug_id?: string;
+	};
 }

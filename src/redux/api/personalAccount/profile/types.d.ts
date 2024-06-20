@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 namespace PROFILESTORE {
-	type GetProfileRequest = object
+	type GetProfileRequest = object;
 	type GetProfileResponse = {
+		id: number | undefined;
 		firsName: string;
 		lastName: string;
 		email: string;
