@@ -1,36 +1,135 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import scss from './ProductPartTwo.module.scss';
+import React, { useEffect, useState } from 'react';
 import {
-	useGetNewProductsQuery,
-	usePatchNewProductsQueryMutation
-} from '@/src/redux/api/productAddingPartTwo';
-import React, { useState } from 'react';
+	useGadgetByIdSetPriceMutation,
+	useGadgetByIdSetQuantityMutation,
+	useGadgetGetNewProductsQuery,
+	useSetAllProductsPriceAndQuantityMutation
+} from '@/src/redux/api/addProductApi';
+import { Input } from 'antd';
 
 const ProductPartTwo = () => {
-	const { data: products, isLoading } = useGetNewProductsQuery(0);
-	const [patchProduct] = usePatchNewProductsQueryMutation();
+	const { data: products = [], isLoading } = useGadgetGetNewProductsQuery();
+	console.log(products, 'array is result');
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [setPriceById] = useGadgetByIdSetPriceMutation();
+	const [setAllProductsPriceAndQuantity] =
+		useSetAllProductsPriceAndQuantityMutation();
+	const [setQuantityById] = useGadgetByIdSetQuantityMutation();
 	const navigate = useNavigate();
 	const [price, setPrice] = useState('');
-
-	const handlePatchNewPrice = async () => {
+	const [priceItemIdInput, setPriceItemIdInput] = useState<number | null>(null);
+	const [quantityItemIdInput, setQuantityItemIdInput] = useState<number | null>(
+		null
+	);
+	const [quantity, setQuantity] = useState('');
+	const [priceInputValueById, setPriceInputValueById] = useState('');
+	const [quantityInputValueById, setQuantityInputValueById] = useState('');
+	useEffect(() => {
+		if (products.length > 0) {
+			localStorage.setItem('gadgetId', JSON.stringify(products[0].gadgetId));
+		}
+	}, [products]);
+	const handlePatchNewPrice = async (ids: number) => {
+		console.log(ids, 'ids');
+		const idsIsString = ids.toString();
+		searchParams.set('price', price);
+		searchParams.set('quantity', quantity);
+		searchParams.append('ids', idsIsString);
+		setSearchParams(searchParams);
+		navigate(
+			`/admin/product-adding/part-2?${window.location.search.substring(1)}`
+		);
 		if (price === '') {
 			console.log('Please enter a valid price');
 		} else {
 			if (products && products.length > 0) {
 				try {
-					const promises = products.map((product) =>
-						patchProduct({ productId: product._id, productPrice: price })
-					);
-					await Promise.all(promises);
-					console.log('Prices updated successfully!');
-					setPrice('');
+					await setAllProductsPriceAndQuantity({
+						ids: [String(searchParams)],
+						price: searchParams.get('price')
+							? Number(`price=${searchParams.get('price')}`)
+							: 0,
+						quantity: searchParams.get('quantity')
+							? `quantity=${searchParams.get('quantity')}`
+							: ''
+					});
+					searchParams.delete('ids');
+					searchParams.delete('quantity');
+					searchParams.delete('price');
+					setSearchParams(searchParams);
 				} catch (error) {
-					console.error('Error updating prices:', error);
+					console.error(error);
 				}
 			}
 		}
 	};
+	const handleByIdProductPriceNew = async (id: string) => {
+		searchParams.set('price', priceInputValueById);
+		searchParams.delete('ids');
+		setSearchParams(searchParams);
+		if (priceInputValueById === '') return;
+		else {
+			try {
+				await setPriceById({
+					id: Number(id),
+					price: searchParams.toString()
+				});
+				setPriceItemIdInput(null);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	};
 
+	const handleByIdProductQuantityNew = async (id: string) => {
+		searchParams.set('quantity', quantityInputValueById);
+		searchParams.delete('ids');
+		setSearchParams(searchParams);
+		if (quantityInputValueById === '') return;
+		else {
+			try {
+				await setQuantityById({
+					id: Number(id),
+					quantity: searchParams.toString()
+				});
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	};
+
+	// useEffect(() => {
+	// 	if (products.length === 0) {
+	// 		return navigate('/admin/product-adding/part-3');
+	// 	}
+	// }, []);
+
+	const changeQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setQuantity(event.target.value);
+	};
+
+	const handleItemIdPriceInputActive = (id: number) => {
+		id === priceItemIdInput
+			? setPriceItemIdInput(null)
+			: setPriceItemIdInput(id);
+	};
+	const handleItemIdQuantityInputActive = (id: number) => {
+		id === quantityItemIdInput
+			? setQuantityItemIdInput(null)
+			: setQuantityItemIdInput(id);
+	};
+
+	const handleOpenInputsNooActive = () => {
+		// if (priceItemIdInput) {
+		// 	setPriceItemIdInput(null);
+		// }
+		// if (quantityItemIdInput) {
+		// 	setQuantityItemIdInput(null);
+		// }
+	};
+	console.log(products);
 	return (
 		<section className={scss.product}>
 			<div className="container">
@@ -48,12 +147,12 @@ const ProductPartTwo = () => {
 						</div>
 					</div>
 
-					<div className={scss.page_content_2}>
+					<div
+						className={scss.page_content_2}
+						onClick={handleOpenInputsNooActive}
+					>
 						<div className={scss.nav_div}>
-							<div
-								className={scss.nav_one}
-								onClick={() => navigate('/admin/product-adding/part-1')}
-							>
+							<div className={scss.nav_one}>
 								<h3>1</h3>
 								<p>Добавление товара</p>
 							</div>
@@ -70,8 +169,10 @@ const ProductPartTwo = () => {
 						</div>
 
 						<div className={scss.price_div}>
-							<p>Общая цена</p>
-
+							<div className={scss.price_and_quantity_labels}>
+								<p>Общая цена</p>
+								<p>Общая Кол-во товара</p>
+							</div>
 							<div className={scss.buttons_div}>
 								<input
 									type="number"
@@ -79,22 +180,38 @@ const ProductPartTwo = () => {
 									onChange={(e) => setPrice(e.target.value)}
 									onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
 										if (e.key === 'Enter') {
-											handlePatchNewPrice();
+											products.map((el) => handlePatchNewPrice(el.subGadgetId));
 										}
 									}}
 								/>
-								<button onClick={handlePatchNewPrice}>Установить цену</button>
+								<input
+									type="number"
+									value={quantity}
+									onChange={changeQuantity}
+									onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+										if (e.key === 'Enter') {
+											products.map((el) => handlePatchNewPrice(el.subGadgetId));
+										}
+									}}
+								/>
+								<button
+									onClick={() =>
+										products.map((el) => handlePatchNewPrice(el.subGadgetId))
+									}
+								>
+									Установить цену
+								</button>
 							</div>
 						</div>
 
 						<div className={scss.full_table_div}>
 							<div className={scss.table_div}>
 								<div className={scss.col_one}>
-									<p >Бренд</p>
-									<p >Цвет</p>
+									<p>Бренд</p>
+									<p>Цвет</p>
 									<p>Объем памяти</p>
-									<p >Оперативная память</p>
-									<p >Кол-во SIM-карт</p>
+									<p>Оперативная память</p>
+									<p>Кол-во SIM-карт</p>
 									<p>Дата выпуска</p>
 								</div>
 								<div className={scss.col_two}>
@@ -111,16 +228,73 @@ const ProductPartTwo = () => {
 										{products?.map((e, index) => (
 											<div key={index} className={scss.products_list}>
 												<div className={scss.col_one}>
-													<p className={scss.brand_e}>{e.brand}</p>
-													<p className={scss.colour_e}>{e.colour}</p>
-													<p className={scss.gb_e}>{e.gb}</p>
+													<p className={scss.brand_e}>{e.brandName}</p>
+													<p className={scss.colour_e}>{e.mainColour}</p>
+													<p className={scss.gb_e}>{e.memory}</p>
 													<p className={scss.ram_e}>{e.ram}</p>
-													<p className={scss.sim_e}>{e.simCard}</p>
-													<p className={scss.date_e}>{e.date}</p>
+													<p className={scss.sim_e}>{e.countSim}</p>
+													{e.releaseDate &&
+														e.releaseDate.map((el, index) => (
+															<p className={scss.date_e} key={index + 1}>
+																{el}
+															</p>
+														))}
 												</div>
 												<div className={scss.col_two}>
-													<p className={scss.product_e}>{e.productQuantity}</p>
-													<p className={scss.price_e}>{e.productPrice}c</p>
+													{quantityItemIdInput === e.subGadgetId ? (
+														<Input
+															className={scss.input_for_price_and_quantity}
+															value={quantityInputValueById}
+															onChange={(
+																e: React.ChangeEvent<HTMLInputElement>
+															) => setQuantityInputValueById(e.target.value)}
+															onKeyPress={(
+																event: React.KeyboardEvent<HTMLInputElement>
+															) => {
+																if (event.key === 'Enter') {
+																	handleByIdProductQuantityNew(
+																		e.subGadgetId.toString()
+																	);
+																}
+															}}
+														/>
+													) : (
+														<p
+															onClick={() =>
+																handleItemIdQuantityInputActive(e.subGadgetId)
+															}
+															className={scss.product_e}
+														>
+															{e.quantity === 0 ? 0 : e.quantity}
+														</p>
+													)}
+													{priceItemIdInput === e.subGadgetId ? (
+														<Input
+															className={scss.input_for_price_and_quantity}
+															value={priceInputValueById}
+															onChange={(
+																e: React.ChangeEvent<HTMLInputElement>
+															) => setPriceInputValueById(e.target.value)}
+															onKeyPress={(
+																event: React.KeyboardEvent<HTMLInputElement>
+															) => {
+																if (event.key === 'Enter') {
+																	handleByIdProductPriceNew(
+																		e.subGadgetId.toString()
+																	);
+																}
+															}}
+														/>
+													) : (
+														<p
+															onClick={() =>
+																handleItemIdPriceInputActive(e.subGadgetId)
+															}
+															className={scss.price_e}
+														>
+															{e.price === null ? 0 : e.price} c
+														</p>
+													)}
 												</div>
 											</div>
 										))}
@@ -129,7 +303,11 @@ const ProductPartTwo = () => {
 							</div>
 
 							<div className={scss.button}>
-								<Link to={'/admin/product-adding/part-3'}>
+								<Link
+									to={
+										products.length === 0 ? '/admin/product-adding/part-3' : ''
+									}
+								>
 									<button>Далее</button>
 								</Link>
 							</div>
