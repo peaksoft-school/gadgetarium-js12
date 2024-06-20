@@ -13,10 +13,14 @@ import {
 	useAddBrandApiMutation,
 	useGetBrandApiQuery
 } from '@/src/redux/api/brandApi';
-import { IconCalendarMinus, IconPhotoPlus } from '@tabler/icons-react';
-import { IconPlus } from '@/src/assets/icons';
+import {
+	IconCalendarMinus,
+	IconColorPicker,
+	IconPhotoPlus
+} from '@tabler/icons-react';
+import { IconColor, IconPlus } from '@/src/assets/icons';
 import { generate, green, presetPalettes, red } from '@ant-design/colors';
-import { theme } from 'antd';
+import { ColorPicker, theme } from 'antd';
 import type { ColorPickerProps } from 'antd';
 import { gBiteCatalog, moreGBiteCatalog, simCards } from '@/src/data/Catalog';
 import {
@@ -51,13 +55,13 @@ const pagesArray: PagesArrayTypes[] = [
 	},
 	{
 		id: 2,
-		link: '/admin/product-adding/part-2',
+		link: '',
 		title: 'Установка цены и количества товара',
 		border: ' '
 	},
 	{
 		id: 3,
-		link: '/admin/product-adding/part-3',
+		link: '',
 		title: 'Описание и обзор'
 	}
 ];
@@ -113,6 +117,7 @@ export const AddProductSections = () => {
 	const [addBrandApi] = useAddBrandApiMutation();
 	const [subCategoryValue, setSubCategoryValue] = useState<string>('');
 	console.log(subCategoryValue, 'ids category');
+	const colorInputRef = React.useRef<HTMLInputElement>(null);
 
 	const [modalForBrand, setModalForBrand] = useState<boolean>(false);
 	const [fileValue, setFileValue] = useState<FormData>();
@@ -250,6 +255,11 @@ export const AddProductSections = () => {
 			console.error(error);
 		}
 	};
+	const handleClickInputColorRef = () => {
+		if (colorInputRef.current) {
+			colorInputRef.current.click();
+		}
+	};
 	const changeAddProductsFilesFunk = async (
 		index: number,
 		event: React.ChangeEvent<HTMLInputElement>
@@ -279,6 +289,14 @@ export const AddProductSections = () => {
 			}
 		}
 	};
+
+	const styleAddProductFormDiv = () => {
+		if((categoryId === '1' || categoryId === '2')) {
+			return `${scss.forms_for_add_product} ${scss.forms_for_add_product_active}`;
+		}else {
+			return `${scss.forms_for_add_product}`
+		}
+	}
 
 	return (
 		<>
@@ -329,7 +347,7 @@ export const AddProductSections = () => {
 								</div>
 							))}
 						</div>
-						<div className={scss.forms_for_add_product}>
+						<div className={styleAddProductFormDiv()}>
 							<ConfigProvider
 								theme={{
 									components: {
@@ -357,7 +375,10 @@ export const AddProductSections = () => {
 												style={{ background: 'white' }}
 												options={data?.map((el) => ({
 													label: (
-														<p onClick={() => setCategoryId(el.id.toString())}>
+														<p
+															className={scss.color}
+															onClick={() => setCategoryId(el.id.toString())}
+														>
 															{el.categoryName}
 														</p>
 													),
@@ -532,19 +553,31 @@ export const AddProductSections = () => {
 																<IconFrame />
 															</div>
 														</ColorPicker> */}
-														<input
-															type="color"
-															className={scss.color_input}
-															// value={colorValue}
-															onChange={(value) =>
-																handleChangeProductValue(
-																	index,
-																	'mainColour',
-																	value.target.value
-																)
-															}
-															value={el.mainColour}
-														/>
+														<div
+															onClick={handleClickInputColorRef}
+															className={scss.color_div}
+														>
+															<p>{el.mainColour}</p>
+
+															<ColorPicker
+																presets={presets}
+																// ref={colorInputRef}
+																onChange={(color) =>
+																	handleChangeProductValue(
+																		index,
+																		'mainColour',
+																		color.toHexString()
+																	)
+																}
+																defaultValue="#1677ff"
+																value={el.mainColour}
+															/>
+															<IconColorPicker
+																width={'19px'}
+																height={'19px'}
+																color="rgb(145, 150, 158)"
+															/>
+														</div>
 													</div>
 													<div className={scss.label_and_input_div}>
 														<label>Объем памяти</label>
@@ -661,7 +694,13 @@ export const AddProductSections = () => {
 												<span>Добавить продукт</span>
 											</p>
 										</div>
-										<div className={scss.add_product_button_div}>
+										<div
+											className={
+												categoryId === '1' || categoryId === '2'
+													? `${scss.open_buttno_for_category_noo_active} ${scss.add_product_button_div}`
+													: `${scss.open_buttno_for_category_noo_active}`
+											}
+										>
 											<Button
 												className={scss.add_product_button}
 												onClick={() => {
@@ -696,18 +735,27 @@ export const AddProductSections = () => {
 																<IconFrame />
 															</div>
 														</ColorPicker> */}
-														<input
-															type="color"
-															className={scss.color_input}
-															onChange={(value) =>
-																handleChangeProductValue(
-																	index,
-																	'mainColour',
-																	value.target.value
-																)
-															}
-															value={el.mainColour}
-														/>
+														<div className={scss.color_div}>
+															<p>{el.mainColour}</p>
+															<ColorPicker
+																presets={presets}
+																// ref={colorInputRef}
+																onChange={(color) =>
+																	handleChangeProductValue(
+																		index,
+																		'mainColour',
+																		color.toHexString()
+																	)
+																}
+																defaultValue="#1677ff"
+																value={el.mainColour}
+															/>
+															<IconColorPicker
+																width={'19px'}
+																height={'19px'}
+																color="rgb(145, 150, 158)"
+															/>
+														</div>
 													</div>
 													<div className={scss.label_and_input_div}>
 														<label>Объем памяти</label>
@@ -950,7 +998,13 @@ export const AddProductSections = () => {
 												<span>Добавить продукт</span>
 											</p>
 										</div>
-										<div className={scss.add_product_button_div}>
+										<div
+											className={
+												categoryId === '3' || categoryId === '4' && array.length  === 3
+													? `${scss.open_buttno_for_category_noo_active_watch} ${scss.add_product_button_div_watch}`
+													: `${scss.open_buttno_for_category_noo_active_watch}`
+											}
+										>
 											<Button
 												onClick={handleAddProductsFunk}
 												className={scss.add_product_button}
