@@ -26,7 +26,7 @@ import {
 	IconFileLike
 } from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
-import { Rate } from 'antd';
+import { Rate, Skeleton } from 'antd';
 import {
 	useBasketPutProductMutation
 	// useGetBasketQuery
@@ -569,7 +569,55 @@ const Catalog = () => {
 							</div>
 							<div className={scss.cardss}>
 								{isLoading ? (
-									<h1>IsLoading...</h1>
+									<>
+										<div className={scss.skeleton_cards}>
+											<Skeleton.Button
+												active
+												block
+												style={{ width: 275, height: 450 }}
+											/>
+											<Skeleton.Button
+												active
+												block
+												style={{ width: 275, height: 450 }}
+											/>
+											<Skeleton.Button
+												active
+												block
+												style={{ width: 275, height: 450 }}
+											/>
+											<Skeleton.Button
+												active
+												block
+												style={{ width: 275, height: 450 }}
+											/>
+											<Skeleton.Button
+												active
+												block
+												style={{ width: 275, height: 450 }}
+											/>
+											<Skeleton.Button
+												active
+												block
+												style={{ width: 275, height: 450 }}
+											/>
+											<Skeleton.Button
+												active
+												block
+												style={{ width: 275, height: 450 }}
+											/>
+											<Skeleton.Button
+												active
+												block
+												style={{ width: 275, height: 450 }}
+											/>
+											<Skeleton.Button
+												active
+												block
+												style={{ width: 275, height: 450 }}
+											/>
+										</div>
+									</>
 								) : (
 									<>
 										{posts?.responses.map((e) => (
@@ -584,16 +632,16 @@ const Catalog = () => {
 																: `${scss.top_card}`
 														}
 													>
-														<p
-															className={
-																e.percent === 0
-																	? `${scss.p} ${scss.percent}`
-																	: `${scss.p}`
-															}
-														>
-															{e.percent !== 0 && e.percent}{' '}
-														</p>{' '}
-														{e.newProduct === true && e.percent === 0 && (
+														<>
+															<p
+																className={
+																	e.percent
+																		? `${scss.p} ${scss.percent}`
+																		: `${scss.p}`
+																}
+															>
+																{e.percent}%
+															</p>{' '}
 															<div
 																className={
 																	e.newProduct && e.percent === 0
@@ -603,8 +651,6 @@ const Catalog = () => {
 															>
 																New
 															</div>
-														)}
-														{e.recommend && e.percent === 0 && (
 															<div
 																className={
 																	e.recommend && e.percent === 0
@@ -614,7 +660,7 @@ const Catalog = () => {
 															>
 																<IconFileLike />
 															</div>
-														)}
+														</>
 														<div className={scss.top_icons}>
 															<IconScale
 																className={
@@ -645,7 +691,11 @@ const Catalog = () => {
 													</div>
 													<div className={scss.middle_image_card}>
 														<Link to={`/api/gadget/by-id/${e.gadgetId}`}>
-															<img src={e.image} alt="Phone" />
+															{e.image ? (
+																<img src={e.image} alt="Phone" />
+															) : (
+																<div>phohe</div>
+															)}
 														</Link>
 													</div>
 													<div className={scss.middle_card}>

@@ -17,6 +17,7 @@ interface UniqueCharacteristics {
 }
 
 type SubGadgetResponses = {
+	[x: string]: any;
 	compareFieldResponse?: CompareFieldResponse;
 	uniqueCharacteristics?: Characteristics[];
 	uniFiled: [];

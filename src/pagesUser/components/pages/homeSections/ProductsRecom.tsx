@@ -2,7 +2,7 @@
 import scss from './ProductsRecom.module.scss';
 import { Rate, Skeleton, Tooltip } from 'antd';
 import AddBasketButton from '../../../../ui/customButtons/AddBasketButton.tsx';
-import { IconHeart, IconScale } from '@tabler/icons-react';
+import { IconFileLike, IconHeart, IconScale } from '@tabler/icons-react';
 import ShowMoreButton from '@/src/ui/customButtons/ShowMoreButton.tsx';
 import { IconRedHeart } from '@/src/assets/icons';
 import { useBasketPutProductMutation } from '@/src/redux/api/basket';
@@ -10,11 +10,15 @@ import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
 import { useGetProductsRecomQuery } from '@/src/redux/api/productsRecom/index.ts';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
+import CustomModal from '@/src/ui/modalAdmin/CustomModal.tsx';
+import ModalLogin from '@/src/ui/customModalLogin/ModalLogin.tsx';
 
 const ProductsRecom = () => {
 	const [comparisonPatchProduct] = useComparisonPatchProductsMutation();
 	const [basketPutProduct] = useBasketPutProductMutation();
 	const [putFavoriteProduct] = useFavoritePutProductMutation();
+	const [openModal, setOpenModal] = useState(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
 
@@ -39,20 +43,33 @@ const ProductsRecom = () => {
 	});
 
 	const handleScaleClick = async (subGadgetId: number) => {
-		await comparisonPatchProduct(subGadgetId);
+		if (localStorage.getItem('isAuth') === 'true') {
+			await comparisonPatchProduct(subGadgetId);
+		} else {
+			setOpenModal(true);
+		}
 		refetch();
 	};
 
 	const handleHeartClick = async (subGadgetId: number) => {
-		await putFavoriteProduct(subGadgetId);
+		if (localStorage.getItem('isAuth') === 'true') {
+			await putFavoriteProduct(subGadgetId);
+		} else {
+			setOpenModal(true);
+		}
 		refetch();
 	};
 
 	const handleBasket = async (subGadgetId: number) => {
-		await basketPutProduct({
-			id: subGadgetId,
-			basket: false
-		});
+		if (localStorage.getItem('isAuth') === 'true') {
+			await basketPutProduct({
+				id: subGadgetId,
+				basket: false
+			});
+		} else {
+			setOpenModal(true);
+		}
+
 		refetch();
 	};
 
@@ -96,7 +113,9 @@ const ProductsRecom = () => {
 									{data?.mainPages.map((el) => (
 										<div className={scss.div_product_map} key={el.id}>
 											<div className={scss.div_icons}>
-												<div className={scss.minus_promotion}>New</div>
+												<div className={scss.minus_promotion}>
+													<IconFileLike />
+												</div>
 												<div className={scss.div_two_icons}>
 													<button
 														onClick={() => handleScaleClick(el.subGadgetId)}
@@ -153,7 +172,7 @@ const ProductsRecom = () => {
 														: el.nameOfGadget}
 												</h3>
 												<p>
-													Рейтинг <Rate allowHalf defaultValue={3.5} />{' '}
+													Рейтинг <Rate allowHalf defaultValue={el.rating} />
 													{el.rating}
 												</p>
 												<div className={scss.div_buttons_and_price}>
@@ -198,6 +217,11 @@ const ProductsRecom = () => {
 							)}
 						</div>
 					</div>
+				</div>
+				<div>
+					<CustomModal isModalOpen={openModal} setIsModalOpen={setOpenModal}>
+						<ModalLogin setOpenModal={setOpenModal} />
+					</CustomModal>
 				</div>
 			</div>
 		</div>

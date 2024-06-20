@@ -28,18 +28,9 @@ const SliderDiscount = () => {
 					<div ref={sliderRef} className="keen-slider">
 						{sliders?.map((item) => (
 							<div key={item.id} className="keen-slider__slide">
-								<div>
-									<img src={item.images} alt="" />
+								<div className={scss.image_slider}>
+									<img src={item.images} alt="Banner" />
 								</div>
-								{/* <div className={scss.background}>
-									<div className={scss.content}>
-										<img
-											className={scss.iphoneImg}
-											src={item.image}
-											alt="iPhoneImage"
-										/>
-									</div>
-								</div> */}
 							</div>
 						))}
 					</div>

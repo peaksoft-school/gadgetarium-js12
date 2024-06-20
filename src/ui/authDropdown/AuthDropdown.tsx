@@ -13,6 +13,7 @@ interface MenuItem {
 const AuthDropdown = () => {
 
 	const showModalLogOut = () => {
+		
 		setOpenModal(true);
 	};
 	
