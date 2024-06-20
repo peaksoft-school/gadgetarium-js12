@@ -535,8 +535,8 @@
 					display: flex;
 					align-items: start;
 					position: relative;
-					right: 275px;
-					top: 5px;
+					// right: 275px;
+					// top: 5px;
 					max-height: 35px;
 					.button_add_object {
 						display: flex;
@@ -552,15 +552,15 @@
 				}
 				.open_buttno_for_category_noo_active {
 					position: relative;
-					right: 358px;
+					// right: 358px;
 					display: flex;
-					top: 960px;
+					// top: 960px;
 					max-height: 35px;
 					&.add_product_button_div {
 						position: relative;
-						right: 305px;
+						// right: 305px;
 						display: flex;
-						top: 580px;
+						// top: 580px;
 						max-height: 35px;
 					}
 					.add_product_button {

@@ -100,11 +100,11 @@ const ProductPartTwo = () => {
 		}
 	};
 
-	useEffect(() => {
-		if (products.length === 0) {
-			return navigate('/admin/product-adding/part-3');
-		}
-	}, [searchParams, products]);
+	// useEffect(() => {
+	// 	if (products.length === 0) {
+	// 		return navigate('/admin/product-adding/part-3');
+	// 	}
+	// }, []);
 
 	const changeQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setQuantity(event.target.value);

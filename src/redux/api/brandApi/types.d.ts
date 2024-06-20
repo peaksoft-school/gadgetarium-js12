@@ -9,10 +9,10 @@ namespace BRANDAPI {
 
   type addBrandRequest = {
     brandName: string;
-    file: string;
+    file: FormData;
   }
   type addBrandResponse = {
     brandName?: string;
-    file?: string;
+    file?: FormData;
   }
 }

@@ -15,7 +15,7 @@ const api = index.injectEndpoints({
 			}),
 			providesTags: ['brandApi']
 		}),
-    addBrandApi: build.mutation<BRANDAPI.addBrandResponse, BRANDAPI.addBrandRequest | FormData>({
+    addBrandApi: build.mutation<BRANDAPI.addBrandResponse, BRANDAPI.addBrandRequest>({
       query: ({brandName, file}) => ({
         url: `/api/brand?${brandName}`,
         method: 'POST',

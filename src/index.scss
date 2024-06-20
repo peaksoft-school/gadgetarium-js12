@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-
+::-webkit-scrollbar {
+   width: 1px !important;
+   height: 1px !important;
+   overflow-y: auto !important;
+}
+::-webkit-scrollbar-track {
+   background: #fff !important;
+}
+::-webkit-scrollbar-thumb {
+   background: #928F8F !important;
+}	
 * {
 	box-sizing: border-box;
 	margin: 0;

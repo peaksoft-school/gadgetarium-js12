@@ -18,7 +18,7 @@ import {
 	IconColorPicker,
 	IconPhotoPlus
 } from '@tabler/icons-react';
-import { IconColor, IconPlus } from '@/src/assets/icons';
+import { IconPlus } from '@/src/assets/icons';
 import { generate, green, presetPalettes, red } from '@ant-design/colors';
 import { ColorPicker, theme } from 'antd';
 import type { ColorPickerProps } from 'antd';
@@ -27,7 +27,7 @@ import {
 	OptionsForLaptop,
 	optionsSmartWatchesAndBracelets
 } from '@/src/data/InputSelect';
-import type { RadioChangeEvent } from 'antd';
+// import type { RadioChangeEvent } from 'antd';
 import { Radio } from 'antd';
 import { usePostAddProductApiMutation } from '@/src/redux/api/addProductApi';
 import { usePostUploadMutation } from '@/src/redux/api/pdf';
@@ -171,14 +171,15 @@ export const AddProductSections = () => {
 		const DATA = {
 			file: fileValue
 		};
+		const { file } = DATA;
 		try {
 			console.log('test');
 			await addBrandApi({
 				brandName: searchParams.toString(),
-				file: DATA.file && DATA.file
+				file: file!
 			});
 			setBrandInputValue('');
-			setFileValue({});
+			// setFileValue();
 		} catch (error) {
 			console.error(error);
 		}
@@ -291,12 +292,12 @@ export const AddProductSections = () => {
 	};
 
 	const styleAddProductFormDiv = () => {
-		if((categoryId === '1' || categoryId === '2')) {
+		if (categoryId === '1' || categoryId === '2') {
 			return `${scss.forms_for_add_product} ${scss.forms_for_add_product_active}`;
-		}else {
-			return `${scss.forms_for_add_product}`
+		} else {
+			return `${scss.forms_for_add_product}`;
 		}
-	}
+	};
 
 	return (
 		<>
@@ -369,9 +370,6 @@ export const AddProductSections = () => {
 												className={scss.input}
 												placeholder="Выбрать"
 												optionFilterProp="children"
-												filterOption={(input, option) =>
-													(option?.label ?? '').includes(input)
-												}
 												style={{ background: 'white' }}
 												options={data?.map((el) => ({
 													label: (
@@ -595,7 +593,7 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'memory',
-																	gBiteCatalog[Number(value - 1)].gb
+																	gBiteCatalog[Number(Number(value) - 1)].gb
 																)
 															}
 															value={el.memory}
@@ -618,7 +616,7 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'ram',
-																	moreGBiteCatalog[Number(value - 1)].gb
+																	moreGBiteCatalog[Number(Number(value) - 1 )].gb
 																)
 															}
 															value={el.ram}
@@ -641,7 +639,7 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'countSim',
-																	value
+																	simCards[Number(Number(value) - 1)].sumCard 
 																)
 															}
 															value={el.countSim}
@@ -774,7 +772,7 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'memory',
-																	gBiteCatalog[Number(event - 1)].gb
+																	gBiteCatalog[Number(Number(event) - 1)].gb
 																)
 															}
 															value={el.memory}
@@ -799,9 +797,8 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'materialBracelet',
-																	optionsSmartWatchesAndBracelets[
-																		Number(value - 1)
-																	].label
+																	optionsSmartWatchesAndBracelets[Number(Number(event) - 1)].label
+
 																)
 															}
 															value={el.materialBracelet}
@@ -826,9 +823,7 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'materialBody',
-																	optionsSmartWatchesAndBracelets[
-																		Number(value - 1)
-																	].label
+																	optionsSmartWatchesAndBracelets[Number(Number(value) - 1)].label
 																)
 															}
 															value={el.materialBody}
@@ -851,7 +846,7 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'sizeWatch',
-																	OptionsForLaptop[Number(value - 1)].label
+																	OptionsForLaptop[Number(Number(value) - 1)].label
 																)
 															}
 															value={el.sizeWatch}
@@ -874,7 +869,7 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'dumas',
-																	OptionsForLaptop[Number(value - 1)].label
+																	OptionsForLaptop[Number(Number(value) - 1)].label
 																)
 															}
 															value={el.dumas}
@@ -1000,7 +995,8 @@ export const AddProductSections = () => {
 										</div>
 										<div
 											className={
-												categoryId === '3' || categoryId === '4' && array.length  === 3
+												categoryId === '3' ||
+												(categoryId === '4' && array.length === 3)
 													? `${scss.open_buttno_for_category_noo_active_watch} ${scss.add_product_button_div_watch}`
 													: `${scss.open_buttno_for_category_noo_active_watch}`
 											}
