@@ -96,7 +96,7 @@
 					cursor: pointer;
 					animation: fade 1s ease-in-out;
 					// max-height: 255px;
-					gap: 1rem;
+					// gap: 1rem;
 
 					width: 61.5rem;
 					height: auto;
@@ -191,6 +191,7 @@
 						flex-direction: column;
 						gap: 16px;
 						&.divActive {
+							margin-top: 15px;
 							// transition: max-height 1s ease;
 							// display: block;
 							display: flex;

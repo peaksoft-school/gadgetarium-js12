@@ -10,11 +10,15 @@ import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
 import { useGetProductsSaleQuery } from '@/src/redux/api/productsSale/index.ts';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
+import CustomModal from '@/src/ui/modalAdmin/CustomModal.tsx';
+import ModalLogin from '@/src/ui/customModalLogin/ModalLogin.tsx';
 
 const ProductsPromotion = () => {
 	const [comparisonPatchProduct] = useComparisonPatchProductsMutation();
 	const [basketPutProduct] = useBasketPutProductMutation();
 	const [putFavoriteProduct] = useFavoritePutProductMutation();
+	const [openModal, setOpenModal] = useState(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const navigate = useNavigate();
@@ -40,20 +44,32 @@ const ProductsPromotion = () => {
 	});
 
 	const handleScaleClick = async (subGadgetId: number) => {
-		await comparisonPatchProduct(subGadgetId);
+		if (localStorage.getItem('isAuth') === 'true') {
+			await comparisonPatchProduct(subGadgetId);
+		} else {
+			setOpenModal(true);
+		}
 		refetch();
 	};
 
 	const handleHeartClick = async (subGadgetId: number) => {
-		await putFavoriteProduct(subGadgetId);
+		if (localStorage.getItem('isAuth') === 'true') {
+			await putFavoriteProduct(subGadgetId);
+		} else {
+			setOpenModal(true);
+		}
 		refetch();
 	};
 
 	const handleBasket = async (subGadgetId: number) => {
-		await basketPutProduct({
-			id: subGadgetId,
-			basket: false
-		});
+		if (localStorage.getItem('isAuth') === 'true') {
+			await basketPutProduct({
+				id: subGadgetId,
+				basket: false
+			});
+		} else {
+			setOpenModal(true);
+		}
 		refetch();
 	};
 
@@ -155,7 +171,7 @@ const ProductsPromotion = () => {
 														: el.nameOfGadget}
 												</h3>
 												<p>
-													Рейтинг <Rate allowHalf defaultValue={3.5} />
+													Рейтинг <Rate allowHalf defaultValue={el.rating} />
 													{el.rating}
 												</p>
 												<div className={scss.div_buttons_and_price}>
@@ -199,6 +215,11 @@ const ProductsPromotion = () => {
 							)}
 						</div>
 					</div>
+				</div>
+				<div>
+					<CustomModal isModalOpen={openModal} setIsModalOpen={setOpenModal}>
+						<ModalLogin setOpenModal={setOpenModal} />
+					</CustomModal>
 				</div>
 			</div>
 		</div>

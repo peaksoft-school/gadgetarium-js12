@@ -6,6 +6,10 @@ import { ReactNode, useState } from 'react';
 // import type { TabsProps } from 'antd';
 import { CharacteristicsPage } from './CharacteristicsPage';
 import DescriptionPage from './DescriptionPage';
+<<<<<<< HEAD
+// import ReviewsPage from './ReviewsPage';
+=======
+>>>>>>> dev
 import { ShippingAndPaymentPage } from './ShippingAndPaymentPage';
 import { IconBurgerMenu } from '@/src/assets/icons';
 import { useGetUserPostPDSQuery } from '@/src/redux/api/pdf';
@@ -29,8 +33,8 @@ const ComponentArray: ComponentsTypesArray[] = [
 		children: <CharacteristicsPage />
 	},
 	{
-		id: 3,
-		children: <ReviewsPage />
+		id: 3
+		// children: <ReviewsPage />
 	},
 	{
 		id: 4,
@@ -46,7 +50,7 @@ const InfoProduct = () => {
 	const { data: cardProductData } = useGetCardProductQuery({
 		id: Number(useparams.productId!)
 	});
-	const pdfParam = `key=${searchParams.get('key')}`
+	const pdfParam = `key=${searchParams.get('key')}`;
 
 	const handlePDFApiFunk = (_pdfUrl: string) => {
 		searchParams.set('key', 'aa115f91-4624-46c3-b388-90d108d244f2');
