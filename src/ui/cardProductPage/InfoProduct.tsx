@@ -6,12 +6,17 @@ import { ReactNode, useState } from 'react';
 // import type { TabsProps } from 'antd';
 import { CharacteristicsPage } from './CharacteristicsPage';
 import DescriptionPage from './DescriptionPage';
+<<<<<<< HEAD
 // import ReviewsPage from './ReviewsPage';
+=======
+>>>>>>> dev
 import { ShippingAndPaymentPage } from './ShippingAndPaymentPage';
 import { IconBurgerMenu } from '@/src/assets/icons';
 import { useGetUserPostPDSQuery } from '@/src/redux/api/pdf';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 import { useParams, useSearchParams } from 'react-router-dom';
+import ReviewsPage from './ReviewsPage';
+// import ReviewsPage from '@/src/pagesAdmin/components/pages/productSections/ReviewsPage';
 
 interface ComponentsTypesArray {
 	children?: ReactNode;

@@ -46,55 +46,89 @@
 			flex-direction: column;
 			align-items: start;
 			gap: 55px;
+			width: 100%;
 			h2 {
 				color: rgb(41, 41, 41);
 				font-size: clamp(15px, 5vw, 27.2px);
 			}
-			.div_users_commits {
+			.admin_and_users_commits {
 				display: flex;
-				align-items: start;
-				gap: 10px;
-				img {
-					width: 32px;
-					height: 32px;
-					border-radius: 50%;
-				}
-				.commits_for_users_div {
+				flex-direction: column;
+				gap: 18px;
+				width: 100%;
+
+				.div_users_commits {
 					display: flex;
-					flex-direction: column;
-					// align-items: start;
-					gap: 12px;
-					.user_info {
+					align-items: start;
+					gap: 10px;
+					width: 100%;
+
+					img {
+						width: 32px;
+						height: 32px;
+						border-radius: 50%;
+					}
+					.commits_for_users_div {
+						display: flex;
+						flex-direction: column;
+						// align-items: start;
+						gap: 12px;
+						width: 100%;
+						.user_info {
+							display: flex;
+							flex-direction: column;
+							align-items: start;
+							h2 {
+								color: rgb(41, 41, 41);
+								font-size: clamp(10px, 7vw, 16px);
+							}
+							p {
+								color: rgba(0, 0, 0, 0.5);
+								font-size: clamp(8px, 7vw, 12.8px);
+							}
+						}
+						.grade_div {
+							display: flex;
+							align-items: center;
+							gap: 4px;
+							p {
+								color: rgb(41, 41, 41);
+								font-size: clamp(8px, 7vw, 12.8px);
+							}
+						}
+						.commit_user {
+							color: rgb(56, 66, 85);
+							font-size: clamp(10px, 7vw, 16px);
+						}
+						.icons_div {
+							display: flex;
+							justify-content: flex-end;
+							align-items: center;
+							gap: 18px;
+						}
+					}
+				}
+				.div_admin_commit {
+					border-radius: 6px;
+					background: rgb(232, 232, 232);
+					margin-left: 47px;
+					width: 100%;
+					.content_admin_commit_div {
+						padding: 19px;
 						display: flex;
 						flex-direction: column;
 						align-items: start;
-						h2 {
-							color: rgb(41, 41, 41);
-							font-size: clamp(10px, 7vw, 16px);
-						}
-						p {
-							color: rgba(0, 0, 0, 0.5);
-							font-size: clamp(8px, 7vw, 12.8px);
-						}
-					}
-					.grade_div {
-						display: flex;
-						align-items: center;
 						gap: 4px;
-						p {
-							color: rgb(41, 41, 41);
-							font-size: clamp(8px, 7vw, 12.8px);
+						h3 {
+							color: rgb(0, 0, 0);
+							font-size: clamp(8px, 7vw, 16px);
+							font-weight: 700;
 						}
-					}
-					.commit_user {
-						color: rgb(56, 66, 85);
-						font-size: clamp(10px, 7vw, 16px);
-					}
-					.icons_div {
-						display: flex;
-						justify-content: flex-end;
-						align-items: center;
-						gap: 18px;
+						p {
+							color: rgb(56, 66, 85);
+							font-size: clamp(8px, 4vw, 16px);
+							font-weight: 400;
+						}
 					}
 				}
 			}

@@ -32,13 +32,12 @@ const api = index.injectEndpoints({
 			BASKETPRODUCTS.PutProductResponse,
 			BASKETPRODUCTS.PutProductRequest
 		>({
-			query: ({ id, basket }) => ({
-				url: `/api/basket/${id}`,
+			query: ({ id, quantity }) => ({
+				url: `/api/basket/${id}?${quantity}`,
 				method: 'PATCH',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				},
-				body: { basket }
 			}),
 			invalidatesTags: ['basket']
 		}),
