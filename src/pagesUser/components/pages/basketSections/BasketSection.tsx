@@ -275,7 +275,7 @@ const BasketSection = () => {
 									<div className={scss.container_basket_product}>
 										{data?.map((item) => (
 											<div
-												key={item.id}
+												key={item.subGadgetId}
 												className={scss.basket_product_content}
 											>
 												<ConfigProvider
@@ -290,13 +290,13 @@ const BasketSection = () => {
 													}}
 												>
 													<Checkbox
-														checked={idsArray.includes(item.id.toString())}
-														onChange={() => handleIdsProducts(item.id)}
+														checked={idsArray.includes(item.subGadgetId.toString())}
+														onChange={() => handleIdsProducts(item.subGadgetId)}
 													/>
 												</ConfigProvider>
 												<div className={scss.content_product_div}>
 													<div className={scss.contents_product}>
-														<img src={item.image} alt={item.nameOfGadget} />
+														<img onClick={() => navigate(`/api/gadget/by-id/${item.gadgetId}`)} src={item.image} alt={item.nameOfGadget} />
 														<div className={scss.product_info_text_div}>
 															<p>{item.nameOfGadget}</p>
 															<div className={scss.product_content}>
@@ -306,7 +306,7 @@ const BasketSection = () => {
 																	}
 																>
 																	<p>
-																		Рейтинг <Rate defaultValue={5} />
+																		Рейтинг <Rate defaultValue={item.rating} />
 																		{item.rating}
 																	</p>
 																	<p className={scss.buy_product_text}>
@@ -321,7 +321,7 @@ const BasketSection = () => {
 																	<div>
 																		<button
 																			onClick={() =>
-																				handleMinuesProduct(item.id)
+																				handleMinuesProduct(item.subGadgetId)
 																			}
 																		>
 																			-
@@ -351,7 +351,7 @@ const BasketSection = () => {
 																				) => {
 																					if (e.key === 'Enter') {
 																						handleInputValueForProductQuantity(
-																							item.id
+																							item.subGadgetId
 																						);
 																					}
 																				}}
@@ -359,7 +359,7 @@ const BasketSection = () => {
 																		</ConfigProvider>
 																		<button
 																			onClick={() =>
-																				handlePluesCountProduct(item.id)
+																				handlePluesCountProduct(item.subGadgetId)
 																			}
 																		>
 																			+
@@ -376,7 +376,7 @@ const BasketSection = () => {
 																	<div
 																		className={scss.div}
 																		onClick={() =>
-																			handleFavoriteAddProduct(item.id)
+																			handleFavoriteAddProduct(item.subGadgetId)
 																		}
 																	>
 																		{item.likes === true ? (
@@ -398,7 +398,7 @@ const BasketSection = () => {
 																	</div>
 																	<div
 																		className={scss.div}
-																		onClick={() => handleDeleteBasket(item.id)}
+																		onClick={() => handleDeleteBasket(item.subGadgetId)}
 																	>
 																		<IconX width={'16px'} height={'16px'} />
 																		<p>Удалить</p>

@@ -27,7 +27,8 @@ interface GadgetResponse {
 namespace BASKETPRODUCTS {
 	type GetBasketProductsRequest = void;
 	type GetBasketProductsResponse = Array<{
-		id: number;
+		gadgetId: number;
+		subGadgetId: number;
 		image: string;
 		nameOfGadget: string;
 		price: number;

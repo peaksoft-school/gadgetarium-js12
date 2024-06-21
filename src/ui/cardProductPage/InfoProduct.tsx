@@ -42,17 +42,19 @@ const InfoProduct = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const useparams = useParams<{ productId: string }>();
 	const [component, setComponent] = useState<number>(1);
+	const [pdfUrl, setPdfUrl] = useState<string>('')
 	const [result, setResult] = useState<number>(0);
 	const { data: cardProductData } = useGetCardProductQuery({
 		id: Number(useparams.productId!)
 	});
-	const pdfParam = `key=${searchParams.get('key')}`;
+	const pdfParam = `key=${pdfUrl}` || '';
 
-	const handlePDFApiFunk = (_pdfUrl: string) => {
-		searchParams.set('key', 'aa115f91-4624-46c3-b388-90d108d244f2');
-		setSearchParams(searchParams);
+	const handlePDFApiFunk = (pdfUrlProduct: string) => {
+		setPdfUrl(pdfUrlProduct.slice(54, 100))
+		console.log(pdfUrlProduct.slice(54, 100));
+		
 	};
-	useGetUserPostPDSQuery(pdfParam);
+	const {data: pdfData} =  useGetUserPostPDSQuery(pdfParam);
 
 	return (
 		<div className={scss.ContainerInfoProduct}>
