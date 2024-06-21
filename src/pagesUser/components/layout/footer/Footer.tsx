@@ -10,6 +10,7 @@ import {
 	IconMapPin,
 	IconPhone
 } from '@tabler/icons-react';
+import { Link } from 'react-router-dom';
 
 interface InputType {
 	email: string;
@@ -63,10 +64,10 @@ const Footer = () => {
 						<div className={scss.third_footer_div}>
 							<p>Помощь и сервисы</p>
 							<div className={scss.hh5}>
-								<a href="#">О магазине</a>
-								<a href="#">Доставка</a>
-								<a href="#">FAQ</a>
-								<a href="#">Контакты </a>
+								<Link to="/aboutstore">О магазине</Link>
+								<Link to="/delivery">Доставка</Link>
+								<Link to="/faq">FAQ</Link>
+								<Link to="/contacts">Контакты</Link>
 							</div>
 						</div>
 					</div>
@@ -108,13 +109,13 @@ const Footer = () => {
 						</div>
 						<div className={scss.fifth_footer_div}>
 							<a className={scss.icon} href="https://wa.me/996706215289">
-								<IconPhone /> +996 (706) 21 52 89
+								<IconPhone /> +996 (400) 00 00 00
 							</a>
 							<a
 								className={scss.icon}
-								href="https://mail.google.com/mail/u/0/#inbox"
+								href="https://myaccount.google.com/?utm_source=account-marketing-page&utm_medium=go-to-account-button&pli=1"
 							>
-								<IconMail /> boss.armsport@gmail.com
+								<IconMail /> gadgetariumjs12@gmail.com
 							</a>
 							<a
 								className={scss.icon}
