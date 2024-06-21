@@ -6,10 +6,6 @@ import { ReactNode, useState } from 'react';
 // import type { TabsProps } from 'antd';
 import { CharacteristicsPage } from './CharacteristicsPage';
 import DescriptionPage from './DescriptionPage';
-<<<<<<< HEAD
-// import ReviewsPage from './ReviewsPage';
-=======
->>>>>>> dev
 import { ShippingAndPaymentPage } from './ShippingAndPaymentPage';
 import { IconBurgerMenu } from '@/src/assets/icons';
 import { useGetUserPostPDSQuery } from '@/src/redux/api/pdf';
@@ -33,8 +29,8 @@ const ComponentArray: ComponentsTypesArray[] = [
 		children: <CharacteristicsPage />
 	},
 	{
-		id: 3
-		// children: <ReviewsPage />
+		id: 3,
+		children: <ReviewsPage />
 	},
 	{
 		id: 4,

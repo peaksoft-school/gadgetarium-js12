@@ -691,7 +691,7 @@ const Catalog = () => {
 															{e.image ? (
 																<img src={e.image} alt="Phone" />
 															) : (
-																<div>phohe</div>
+																<div>phone</div>
 															)}
 														</Link>
 													</div>
@@ -708,7 +708,7 @@ const Catalog = () => {
 													</div>
 													<div className={scss.bottom_card}>
 														<div className={scss.phone_prices}>
-															<p className={scss.phone_price}>{e.price}</p>
+															<p className={scss.phone_price}>{e.price}c</p>
 															{e.percent !== 0 && (
 																<p className={scss.phone_old_price}>
 																	{e.currentPrice}
@@ -720,7 +720,7 @@ const Catalog = () => {
 																className={scss.active_basket_button}
 																onClick={() => navigate('/basket')}
 															>
-																В корзине Перейти
+																Перейти в корзину
 															</button>
 														) : (
 															<AddBasketButton

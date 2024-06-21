@@ -37,16 +37,16 @@ export const Contacts = () => {
 							<p>Магазин Gadgetarium</p>
 							<div className={scss.texts_center_contents}>
 								<div className={scss.text_div_1}>
-									<h3>АДРЕС:</h3>
+									<h3>Адрес:</h3>
 									<p>г. Бишкек, ул. Гражданская 119</p>
 								</div>
 								<div className={scss.text_div_1}>
 									<h3>Телефон:</h3>
-									<p>г+996(400) 00-00-00</p>
+									<p>+996(400) 00-00-00</p>
 								</div>
 								<div className={scss.text_div_1}>
 									<h3>Почта:</h3>
-									<p>Gadgetarium.kg</p>
+									<p>gadgetariumjs12@gmail.com</p>
 								</div>
 								<div className={scss.text_div_1}>
 									<h3>Режим работы:</h3>
