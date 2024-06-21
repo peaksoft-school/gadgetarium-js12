@@ -291,6 +291,19 @@ export const AddProductSections = () => {
 		}
 	};
 
+	const styleResultContainer = () => {
+		if (
+		(	categoryId === '1' ||
+			categoryId === '2' ||
+			categoryId === '3' ||
+			categoryId === '4')
+		) {
+			return `${scss.AddProductSections} ${scss.AddProductSectionsActive}`;
+		} else {
+			return `${scss.AddProductSections}`;
+		}
+	};
+
 	const styleAddProductFormDiv = () => {
 		if (categoryId === '1' || categoryId === '2') {
 			return `${scss.forms_for_add_product} ${scss.forms_for_add_product_active}`;
@@ -301,7 +314,7 @@ export const AddProductSections = () => {
 
 	return (
 		<>
-			<section className={scss.AddProductSections}>
+			<section className={styleResultContainer()}>
 				<div className="container">
 					<div className={scss.content}>
 						<div className={scss.main_text_for_pages}>
@@ -616,7 +629,7 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'ram',
-																	moreGBiteCatalog[Number(Number(value) - 1 )].gb
+																	moreGBiteCatalog[Number(Number(value) - 1)].gb
 																)
 															}
 															value={el.ram}
@@ -639,7 +652,7 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'countSim',
-																	simCards[Number(Number(value) - 1)].sumCard 
+																	simCards[Number(Number(value) - 1)].sumCard
 																)
 															}
 															value={el.countSim}
@@ -797,8 +810,9 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'materialBracelet',
-																	optionsSmartWatchesAndBracelets[Number(Number(event) - 1)].label
-
+																	optionsSmartWatchesAndBracelets[
+																		Number(Number(event) - 1)
+																	].label
 																)
 															}
 															value={el.materialBracelet}
@@ -823,7 +837,9 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'materialBody',
-																	optionsSmartWatchesAndBracelets[Number(Number(value) - 1)].label
+																	optionsSmartWatchesAndBracelets[
+																		Number(Number(value) - 1)
+																	].label
 																)
 															}
 															value={el.materialBody}
@@ -846,7 +862,8 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'sizeWatch',
-																	OptionsForLaptop[Number(Number(value) - 1)].label
+																	OptionsForLaptop[Number(Number(value) - 1)]
+																		.label
 																)
 															}
 															value={el.sizeWatch}
@@ -869,7 +886,8 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'dumas',
-																	OptionsForLaptop[Number(Number(value) - 1)].label
+																	OptionsForLaptop[Number(Number(value) - 1)]
+																		.label
 																)
 															}
 															value={el.dumas}

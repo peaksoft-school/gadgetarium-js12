@@ -11,7 +11,6 @@ export const ForgotPassword = () => {
 	const [postForgot] = usePostForgotMutation();
 	const navigate = useNavigate();
 	const {
-		// register,
 		reset,
 		handleSubmit,
 		control,
@@ -23,18 +22,27 @@ export const ForgotPassword = () => {
 		try {
 			const response = await postForgot(data).unwrap();
 			if (response.success) {
+				console.log('Notify for success');
 				notify('Ссылка отправлено в почту', 'Войти', '/auth/login');
-				reset();
-				navigate('/auth/login');
+				setTimeout(() => {
+					console.log('Navigating to /auth/login');
+					navigate('/auth/login');
+					reset();
+				}, 2000); 
 			} else {
 				throw new Error(response.message || 'Email не существует!');
 			}
 		} catch (error: any) {
+			console.log('Notify for error');
 			notify(
 				error.message || 'Email не существует!',
 				'Регистрация',
-				'/auth/register'
+				'/auth/login'
 			);
+			setTimeout(() => {
+				console.log('Navigating to /auth/register');
+				navigate('/auth/login');
+			}, 2000); 
 			console.log('Ошибка:', error);
 		}
 	};
@@ -56,7 +64,6 @@ export const ForgotPassword = () => {
 									onSubmit={handleSubmit(onSubmit)}
 								>
 									<Controller
-										// {...register('email')}
 										name="email"
 										control={control}
 										defaultValue=""

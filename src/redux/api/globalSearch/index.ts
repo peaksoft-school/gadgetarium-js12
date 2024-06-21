@@ -17,5 +17,5 @@ const api = index.injectEndpoints({
 		})
 	})
 });
-
+	
 export const { useGetGlobalSearchQuery } = api;

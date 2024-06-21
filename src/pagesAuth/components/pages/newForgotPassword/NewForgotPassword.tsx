@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import scss from './NewForgotPassword.module.scss';
 import logo from '@/src/assets/logo.png';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
@@ -13,6 +13,7 @@ const NewForgotPassword = () => {
 	const [patchNewPassword] = usePatchNewPasswordMutation();
 	const location = useLocation();
 	const token = new URLSearchParams(location.search).get('token');
+	const navigate = useNavigate();
 
 	const {
 		register,
@@ -33,9 +34,12 @@ const NewForgotPassword = () => {
 				token
 			};
 			await patchNewPassword(newData);
-
 			console.log('onSubmit', data);
 			notify('Пароль успешно изменён', 'Войти', '/auth/login');
+			setTimeout(() => {
+				navigate('/auth/login');
+			}, 3000);
+
 			reset();
 		} catch (error) {
 			console.log('not patch response', error);

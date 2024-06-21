@@ -184,7 +184,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 			)}
 			<div>
 				{globalSearch?.map((e) => (
-					<div>
+					<div key={e.id}>
 						<h4>{e.brandNameOfGadget}</h4>
 					</div>
 				))}

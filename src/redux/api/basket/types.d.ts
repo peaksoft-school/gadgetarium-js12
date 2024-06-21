@@ -58,7 +58,7 @@ namespace BASKETPRODUCTS {
 
 	type PutProductRequest = {
 		id: number;
-		// basket: boolean;
+		basket: boolean;
 		quantity?: string;
 	};
 	type PutProductResponse = {
