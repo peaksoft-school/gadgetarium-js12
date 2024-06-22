@@ -84,8 +84,8 @@ const BasketSection = () => {
 			await deleteAllProductsForBasket({
 				ids: searchParams.get('ids') ? [searchParams.toString()] : []
 			});
-			// searchParams.delete('ids');
-			// setSearchParams(searchParams);
+			searchParams.delete('ids');
+			setSearchParams(searchParams);
 		} catch (error) {
 			console.error(error);
 		}
@@ -103,38 +103,42 @@ const BasketSection = () => {
 		}
 	};
 
-	const handleInputValueForProductQuantity = async (id: number, newState: Record<number, string>) => {
-		const quantity = newState[id];
-		searchParams.set('quantity', quantity);
-		setSearchParams(searchParams);
+	const handleInputValueForProductQuantity = async (
+		id: number,
+		quantity: string
+	) => {
 		try {
+			const searchParams = new URLSearchParams();
+			searchParams.set('quantity', String(quantity));
+
 			await basketAddApi({
 				id,
-				quantity: searchParams.get('quantity')
-					? `quantity=${searchParams.get('quantity')}`
-					: ''
+				quantity: `quantity=${searchParams.get('quantity')}`
 			});
+
+			setCountInputs((prev) => ({
+				...prev,
+				[id]: String(quantity)
+			}));
 		} catch (error) {
-			console.error(error);
+			console.error('Error updating product quantity:', error);
 		}
 	};
 
-	const handlePluesCountProduct = async (id: number) => {
+	const handlePluesCountProduct = (id: number) => {
 		setCountInputs((prev) => {
 			const newValue = (parseInt(prev[id]) || 0) + 1;
-			const newState = { ...prev, [id]: newValue.toString() };
-			handleInputValueForProductQuantity(id, newState);
-			return newState;
+			handleInputValueForProductQuantity(id, newValue.toString());
+			return { ...prev, [id]: newValue.toString() };
 		});
 	};
 
-	const handleMinuesProduct = async (id: number) => {
+	const handleMinuesProduct = (id: number) => {
 		setCountInputs((prev) => {
 			const newValue = Math.max((parseInt(prev[id]) || 0) - 1, 1);
-			const newState = { ...prev, [id]: newValue.toString() };
-			handleInputValueForProductQuantity(id, newState);
-			return newState;
-		});	
+			handleInputValueForProductQuantity(id, newValue.toString());
+			return { ...prev, [id]: newValue.toString() };
+		});
 	};
 
 	const handleDeleteBasket = async (gadgetId: number) => {
@@ -156,11 +160,15 @@ const BasketSection = () => {
 
 	const changeCountBasketProducts = (
 		id: number,
-		event: string | number | null
+		value: string | number | null
 	) => {
-		if (event !== null) {
-			const newValue = event.toString();
-			setCountInputs((prev) => ({ ...prev, [id]: newValue }));
+		if (value !== null) {
+			const newValue = value.toString();
+			handleInputValueForProductQuantity(id, newValue);
+			setCountInputs((prev) => ({
+				...prev,
+				[id]: newValue
+			}));
 		}
 	};
 
@@ -339,15 +347,19 @@ const BasketSection = () => {
 																						value
 																					)
 																				}
-																				value={parseInt(
-																					countInputs[item.subGadgetId]
-																				)}
+																				value={
+																					parseInt(
+																						countInputs[item.subGadgetId]
+																					) || 1
+																				}
 																				onKeyPress={(
 																					e: React.KeyboardEvent<HTMLInputElement>
 																				) => {
 																					if (e.key === 'Enter') {
+																						e.preventDefault();
 																						handleInputValueForProductQuantity(
-																							item.subGadgetId, countInputs
+																							item.subGadgetId,
+																							countInputs[item.subGadgetId]
 																						);
 																					}
 																				}}

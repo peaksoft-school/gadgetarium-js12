@@ -308,6 +308,38 @@
 														background: rgb(56, 66, 85);
 													}
 												}
+												.button_plues_active {
+													width: 28px;
+													height: 28px;
+													border-radius: 50%;
+													border: 1px solid rgb(144, 156, 181);
+													background: transparent;
+													color: rgb(56, 66, 85);
+													font-size: clamp(8px, 5vw, 16px);
+													cursor: pointer;
+													@media (max-width: 700px) {
+														width: 28px;
+														height: 28px;
+													}
+													&:hover {
+														transition: all 0.5s ease;
+														color: aliceblue;
+														background: rgb(56, 66, 85);
+													}
+													&.button_plues_noo_active {
+														width: 28px;
+														height: 28px;
+														border-radius: 50%;
+														border: none;
+														background: rgba(59, 63, 72, 0.258);
+														color: rgba(56, 58, 62, 0.656);
+														font-size: clamp(8px, 5vw, 16px);
+														@media (max-width: 700px) {
+															width: 28px;
+															height: 28px;
+														}
+													}
+												}
 												.input_number {
 													color: black;
 													font-size: clamp(10px, 4vw, 18px);
