@@ -148,4 +148,28 @@ namespace GOODSSTORE {
     description: string,
     responseAdmin: string
   }
+
+  type GetGoodsBannerRequest = string;
+
+  type GetGoodsBannerResponse = {
+    images: []
+  }
+
+  type GetGoodsDiscountRequest = string;
+  type GetGoodsDiscountResponse = {
+    gadgetId: [],
+    discountSize: number,
+    startDay: string,
+    endDay: string,
+  }
+  
+  type PostNewslaterResponse = string;
+  type PostNewslaterRequest= {
+    image: string,
+    nameOfNewsLetter: string,
+    description: string,
+    startDateOfDiscount: string,
+    endDateOfDiscount: string
+  }
 }
+
