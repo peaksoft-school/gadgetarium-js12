@@ -213,7 +213,11 @@ const ProductsMainSection = () => {
 												</div>
 												<td className={scss.price_td}>{item?.currentPrice}с</td>
 												<div className={scss.icons}>
-													<IconEdit className={scss.trash} />
+													<IconEdit className={scss.trash} onClick={(e) => {
+														navigate(`/admin/edit-page/${item.id}`)
+														e.preventDefault()
+														e.stopPropagation()
+													}}/>
 													<IconTrash onClick={(e) => {
 														showModalDelete()
 														e.stopPropagation()

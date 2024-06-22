@@ -59,7 +59,8 @@ export const api = createApi({
 		'payment',
 		'orderUser',
 		'addProductApi',
-		'brandApi'
+		'brandApi',
+		'editProductById'
 	],
 	endpoints: () => ({})
 });
