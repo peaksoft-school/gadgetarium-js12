@@ -22,12 +22,15 @@ const ProductsNew = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
 
+	const { data, isLoading, refetch } = useGetProductsNewsQuery({
+		page: searchParams.toString(),
+		size: searchParams.toString()
+	});
+
 	const handleShowAllPhones = (page: number) => {
 		let size = 5 + page;
-		searchParams.set('page', '1');
-		searchParams.set('size', size.toString());
-		setSearchParams(searchParams);
-		navigate(`/?${searchParams.toString()}`);
+		const params = new URLSearchParams({ page: '1', size: size.toString() });
+		navigate(`/?${params.toString()}`);
 	};
 
 	const handlePaginationResult = () => {
@@ -36,11 +39,6 @@ const ProductsNew = () => {
 		setSearchParams(searchParams);
 		navigate(`/?${searchParams.toString()}`);
 	};
-
-	const { data, isLoading, refetch } = useGetProductsNewsQuery({
-		page: searchParams.toString(),
-		size: searchParams.toString()
-	});
 
 	const handleScaleClick = async (subGadgetId: number) => {
 		if (localStorage.getItem('isAuth') === 'true') {
@@ -184,7 +182,8 @@ const ProductsNew = () => {
 													)}
 												</h3>
 												<p>
-													Рейтинг <Rate allowHalf defaultValue={el.rating} />(
+													Рейтинг
+													<Rate allowHalf disabled defaultValue={el.rating} />(
 													{el.rating})
 												</p>
 												<div className={scss.div_buttons_and_price}>
@@ -214,8 +213,7 @@ const ProductsNew = () => {
 							)}
 						</div>
 						<div className={scss.show_more_button}>
-							{data?.mainPages.length.toString() ===
-							searchParams.get('size') ? (
+							{data?.mainPages.length === 5 ? (
 								<ShowMoreButton
 									children={'Показать ещё'}
 									onClick={() => handleShowAllPhones(data?.mainPages.length)}

@@ -6,9 +6,10 @@ import logo from '@/src/assets/logo.png';
 import { usePostForgotMutation } from '@/src/redux/api/auth';
 import { ToastContainer } from 'react-toastify';
 import { notify } from '@/src/utils/helpers/notify';
+import { IconLoader } from '@tabler/icons-react';
 
 export const ForgotPassword = () => {
-	const [postForgot] = usePostForgotMutation();
+	const [postForgot, { isLoading }] = usePostForgotMutation();
 	const navigate = useNavigate();
 	const {
 		reset,
@@ -28,7 +29,7 @@ export const ForgotPassword = () => {
 					console.log('Navigating to /auth/login');
 					navigate('/auth/login');
 					reset();
-				}, 3000); 
+				}, 3000);
 			} else {
 				throw new Error(response.message || 'Email не существует!');
 			}
@@ -42,7 +43,7 @@ export const ForgotPassword = () => {
 			setTimeout(() => {
 				console.log('Navigating to /auth/register');
 				navigate('/auth/register');
-			}, 3000); 
+			}, 3000);
 			console.log('Ошибка:', error);
 		}
 	};
@@ -95,7 +96,7 @@ export const ForgotPassword = () => {
 											htmlType="submit"
 											className={scss.buttonSubmit}
 										>
-											Отправить
+											{isLoading ? <IconLoader /> : 'Отправить'}
 										</Button>
 									</div>
 									<div className={scss.divForms}>

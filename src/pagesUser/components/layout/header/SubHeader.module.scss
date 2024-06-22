@@ -163,16 +163,18 @@
 	// !search
 	.main_search {
 		.search_global {
+			.loader {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
 			position: absolute;
-			top: 50px;
+			top: 70px;
 			left: 205px;
 			display: flex;
-			flex-wrap: wrap;
-			// flex-direction: column;
-			gap: 40px;
+			flex-direction: column;
 			width: 100%;
 			max-width: 823px;
-			// height: auto;
 			background-color: white;
 			box-shadow: 0px 0px 8px #ddd;
 			border-radius: 10px;
@@ -180,16 +182,16 @@
 			max-height: 300px;
 			padding: auto;
 			overflow: scroll;
-			padding: 25px 50px;
+			// padding: 25px 50px;
 			.div_product_map {
 				cursor: pointer;
-				box-shadow: 0px 0px 3.5px black;
+				box-shadow: 0px 0px 1px black;
 				background-color: #ffffff;
 				border-radius: 4px;
-				width: 150px;
-				height: 250px;
+				width: 820px;
+				height: 100px;
 				display: flex;
-				flex-direction: column;
+				align-items: center;
 				padding-block: 12px;
 				padding-inline: 12px;
 				gap: 15px;
@@ -206,13 +208,17 @@
 				// 	height: auto;
 				// 	width: 300px;
 				// }
+				&:hover {
+					box-shadow: 0px 0px 1px black;
+					background-color: rgba(128, 128, 128, 0.144);
+				}
 				.div_img {
 					display: flex;
-					justify-content: center;
+					// justify-content: center;
 					align-items: center;
 					.img_product {
-						width: 90px;
-						height: 110px;
+						width: 60px;
+						height: 70px;
 						font-size: 10px;
 						@media (max-width: 600px) {
 							width: 50px;
@@ -221,33 +227,33 @@
 					}
 				}
 				.div_product_contents {
-					margin-top: 10px;
+					// margin-top: 10px;
+					width: 100%;
 					display: flex;
-					flex-direction: column;
-					align-items: start;
-					gap: 7px;
+					justify-content: space-between;
 					@media (max-width: 600px) {
 						gap: 28px;
 						margin-top: 0;
 					}
-					.tag_color_green {
-						color: #2fc509;
-						font-size: 12px;
-					}
-					h3 {
-						color: #292929;
-						font-size: 14px;
-					}
-					.rating_search {
+					.one_products {
 						display: flex;
-						align-items: center;
-						gap: 2px;
-						color: #909cb5;
-						font-size: 10px;
-						.rate {
+						flex-direction: column;
+						gap: 20px;
+						h3 {
+							color: #292929;
+							font-size: 17px;
+						}
+						.rating_search {
 							display: flex;
 							align-items: center;
-							font-size: 9px;
+							gap: 2px;
+							color: #909cb5;
+							font-size: 14px;
+							.rate {
+								display: flex;
+								align-items: center;
+								font-size: 14px;
+							}
 						}
 					}
 					.div_buttons_and_price {
@@ -269,7 +275,7 @@
 							}
 							h2 {
 								color: #292929;
-								font-size: 15px;
+								font-size: 17px;
 							}
 						}
 					}

@@ -792,6 +792,29 @@ export const AddProductSections = () => {
 														/>
 													</div>
 													<div className={scss.label_and_input_div}>
+														<label>Оперативная память</label>
+
+														<Select
+															className={scss.input_for_form}
+															placeholder="Оперативная память"
+															options={
+																moreGBiteCatalog &&
+																moreGBiteCatalog.map((el, index) => ({
+																	value: String(index + 1),
+																	label: <p>{el.gb}</p>
+																}))
+															}
+															onChange={(value) =>
+																handleChangeProductValue(
+																	index,
+																	'ram',
+																	moreGBiteCatalog[Number(Number(value) - 1)].gb
+																)
+															}
+															value={el.ram}
+														/>
+													</div>
+													<div className={scss.label_and_input_div}>
 														<label>Материал браслета/ремешка</label>
 
 														<Select
@@ -811,7 +834,7 @@ export const AddProductSections = () => {
 																	index,
 																	'materialBracelet',
 																	optionsSmartWatchesAndBracelets[
-																		Number(Number(event) - 1)
+																		Number(Number(value) - 1)
 																	].label
 																)
 															}

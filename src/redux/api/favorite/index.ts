@@ -48,6 +48,19 @@ const api = index.injectEndpoints({
 				}
 			}),
 			invalidatesTags: ['favorite']
+		}),
+		addAllFavoritesProducts: build.mutation<
+			FAVORITEPRODUCTS.AddAllFavoriteProductsResponse,
+			FAVORITEPRODUCTS.AddAllFavoriteProductsRequest
+		>({
+			query: ({ gadgetIds  }) => ({
+				url: `/api/favorites/add-all?${gadgetIds}`,
+				method: 'POST',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			invalidatesTags: ['favorite']
 		})
 	})
 });
@@ -56,5 +69,6 @@ export const {
 	useGetFavoriteQuery,
 	useFavoritePutProductMutation,
 	useDeleteAllProductMutation,
-	useDeleteByIdFavoriteProductMutation
+	useDeleteByIdFavoriteProductMutation,
+	useAddAllFavoritesProductsMutation
 } = api;

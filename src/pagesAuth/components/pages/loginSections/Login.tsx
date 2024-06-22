@@ -10,10 +10,11 @@ import { signInWithPopup } from 'firebase/auth';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { notify } from '@/src/utils/helpers/notify';
+import { IconLoader } from '@tabler/icons-react';
 
 const Login = ({ setOpenModal }) => {
 	const [passwordVisible, setPasswordVisible] = React.useState(false);
-	const [postRequestLogin] = usePostLoginMutation();
+	const [postRequestLogin, { isLoading }] = usePostLoginMutation();
 	const navigate = useNavigate();
 	const {
 		handleSubmit,
@@ -27,7 +28,7 @@ const Login = ({ setOpenModal }) => {
 	const onSubmit: SubmitHandler<LoginForms> = async (data, event) => {
 		event?.preventDefault();
 		try {
-			const response = await postRequestLogin(data).unwrap()
+			const response = await postRequestLogin(data).unwrap();
 			if (response.role === 'USER') {
 				const { token } = response;
 				localStorage.setItem('token', token);
@@ -168,7 +169,7 @@ const Login = ({ setOpenModal }) => {
 											type="primary"
 											htmlType="submit"
 										>
-											Войти
+											{isLoading ? <IconLoader /> : 'Войти'}
 										</Button>
 									</div>
 									<button

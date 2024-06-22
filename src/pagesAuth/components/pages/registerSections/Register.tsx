@@ -7,9 +7,10 @@ import { usePostRegisterMutation } from '@/src/redux/api/auth';
 import PhoneInputWrapper from '@/src/ui/phoneNumberValidation/PhoneNumberValidation';
 import { notify } from '@/src/utils/helpers/notify';
 import { ToastContainer } from 'react-toastify';
+import { IconLoader } from '@tabler/icons-react';
 
 export const Register = () => {
-	const [postRequest] = usePostRegisterMutation();
+	const [postRequest, { isLoading }] = usePostRegisterMutation();
 	const navigate = useNavigate();
 
 	const {
@@ -273,7 +274,7 @@ export const Register = () => {
 											type="primary"
 											htmlType="submit"
 										>
-											Создать аккаунт
+											{isLoading ? <IconLoader /> : 'Создать аккаунт'}
 										</Button>
 									</div>
 									<div className={scss.divForms}>

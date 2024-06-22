@@ -7,10 +7,11 @@ import React from 'react';
 import { usePatchNewPasswordMutation } from '@/src/redux/api/auth';
 import { ToastContainer } from 'react-toastify';
 import { notify } from '@/src/utils/helpers/notify';
+import { IconLoader } from '@tabler/icons-react';
 
 const NewForgotPassword = () => {
 	const [passwordVisible, setPasswordVisible] = React.useState(false);
-	const [patchNewPassword] = usePatchNewPasswordMutation();
+	const [patchNewPassword, { isLoading }] = usePatchNewPasswordMutation();
 	const location = useLocation();
 	const token = new URLSearchParams(location.search).get('token');
 	const navigate = useNavigate();
@@ -137,7 +138,7 @@ const NewForgotPassword = () => {
 											type="primary"
 											htmlType="submit"
 										>
-											Сменит пароль
+											{isLoading ? <IconLoader /> : '			Сменит пароль'}
 										</Button>
 									</div>
 									<ToastContainer />

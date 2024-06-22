@@ -183,7 +183,8 @@ const ProductsPromotion = () => {
 													)}
 												</h3>
 												<p>
-													Рейтинг <Rate allowHalf defaultValue={el.rating} />(
+													Рейтинг{' '}
+													<Rate allowHalf disabled defaultValue={el.rating} />(
 													{el.rating})
 												</p>
 												<div className={scss.div_buttons_and_price}>
@@ -218,8 +219,7 @@ const ProductsPromotion = () => {
 							)}
 						</div>
 						<div className={scss.show_more_button}>
-							{data?.mainPages.length.toString() ===
-							searchParams.get('size') ? (
+							{data?.mainPages.length === 5 ? (
 								<ShowMoreButton
 									children={'Показать ещё'}
 									onClick={() => handleShowAllPhones(data?.mainPages.length)}

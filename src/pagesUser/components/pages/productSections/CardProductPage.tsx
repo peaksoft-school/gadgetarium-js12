@@ -172,7 +172,9 @@ const CardProductPage = () => {
 							<div className={scss.content_main_text_page}>
 								<div className={scss.div_content_product_and_pages}>
 									<p onClick={() => navigate('/')}>Главная »</p>
-									<p onClick={() => navigate('')}> Смартфоны »</p>
+									<p onClick={() => navigate('/catalog/1/filtred')}>
+										Смартфоны »
+									</p>
 									<p>
 										{data?.nameOfGadget.length! > 28 ? (
 											<>
@@ -185,7 +187,7 @@ const CardProductPage = () => {
 									</p>
 								</div>
 								<div className={scss.div_brad_product}>
-									<h2>APPLE</h2>
+									<img src={data?.brandLogo} alt="brand" />
 									<div></div>
 								</div>
 							</div>
@@ -281,7 +283,7 @@ const CardProductPage = () => {
 													Артикул: <span>{data?.articleNumber}</span>
 												</p>
 												<div>
-													<Rate defaultValue={data?.rating} />
+													<Rate disabled defaultValue={data?.rating} />
 													<p>{data?.rating}</p>
 												</div>
 											</div>

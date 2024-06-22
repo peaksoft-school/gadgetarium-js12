@@ -19,6 +19,8 @@ import {
 	useGetReviewsQuery,
 	usePostUsersCommitsMutation
 } from '@/src/redux/api/review';
+import CustomModal from '../modalAdmin/CustomModal';
+import ModalLogin from '../customModalLogin/ModalLogin';
 const ReviewsPage = () => {
 	const fileUrl = useRef<HTMLInputElement>(null);
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -40,6 +42,7 @@ const ReviewsPage = () => {
 	const [indexProducts, setIndexProducts] = useState<number>(0);
 	const [rateValue, setRateValue] = useState<number>(0);
 	const [deleteModal, setDeleteModal] = useState<boolean>(false);
+	const [openModal, setOpenModal] = useState(false);
 	const { data: FeedbackStatistics } = useApiFeedbackStatisticsQuery({
 		id: Number(productId)
 	});
@@ -204,78 +207,93 @@ const ReviewsPage = () => {
 				) : (
 					<div className={scss.reviews_contents_div}>
 						<div className={scss.contents_and_commits_users}>
-							<h2>Отзывы</h2>
-							{data?.map((e, index) => (
-								<div className={scss.admin_and_users_commits}>
-									<div key={e.id} className={scss.div_users_commits}>
-										<img src={e.image} alt={e.fullName} />
-										<div className={scss.commits_for_users_div}>
-											<div className={scss.user_info}>
-												<h2>{e.fullName}</h2>
-												<p>{e.dateTime}</p>
-											</div>
-											<div className={scss.grade_div}>
-												<Rate allowHalf defaultValue={e.rating} />
-											</div>
-											<p className={scss.commit_user}>
-												{/* Lorem ipsum dolor sit, amet consectetur adipisicing
-												elit. Excepturi totam ab beatae ad eum ratione quod
-												assumenda, temporibus quos? Repudiandae inventore quia
-												asperiores excepturi nemo, voluptates dolorem porro
-												ducimus voluptatibus! Nostrum ipsum quod deleniti ex. */}
-												{e.description}
-											</p>
-
-											{!e.responseAdmin && (
-												<div className={scss.icons_div}>
-													<IconPencilMinus
-														color="rgb(145, 150, 158)"
-														width={'17px'}
-														height={'17px'}
-														cursor={'pointer'}
-														onClick={() => {
-															handleOpenModal(index, e.id);
-														}}
-													/>
-													<IconTrash
-														color="rgb(145, 150, 158)"
-														width={'17px'}
-														height={'17px'}
-														cursor={'pointer'}
-														onClick={() => handleOpenModalForDelete(e.id)}
-													/>
+							{data?.length === 0 ? (
+								<>
+									<h4>Нет отзывов об этом товаре.</h4>
+								</>
+							) : (
+								<>
+									{localStorage.getItem('isAuth') === 'true' ? (
+										<>
+											<h2>Отзывы</h2>
+											{data?.map((e, index) => (
+												<div className={scss.admin_and_users_commits}>
+													<div key={e.id} className={scss.div_users_commits}>
+														<img src={e.image} alt={e.fullName} />
+														<div className={scss.commits_for_users_div}>
+															<div className={scss.user_info}>
+																<h2>{e.fullName}</h2>
+																<p>{e.dateTime}</p>
+															</div>
+															<div className={scss.grade_div}>
+																<Rate allowHalf defaultValue={e.rating} />
+															</div>
+															<p className={scss.commit_user}>
+																{e.description}
+															</p>
+															{!e.responseAdmin && (
+																<div className={scss.icons_div}>
+																	<IconPencilMinus
+																		color="rgb(145, 150, 158)"
+																		width={'17px'}
+																		height={'17px'}
+																		cursor={'pointer'}
+																		onClick={() => {
+																			handleOpenModal(index, e.id);
+																		}}
+																	/>
+																	<IconTrash
+																		color="rgb(145, 150, 158)"
+																		width={'17px'}
+																		height={'17px'}
+																		cursor={'pointer'}
+																		onClick={() =>
+																			handleOpenModalForDelete(e.id)
+																		}
+																	/>
+																</div>
+															)}
+														</div>
+													</div>
+													{e.responseAdmin && (
+														<div className={scss.div_admin_commit}>
+															<div className={scss.content_admin_commit_div}>
+																<h3>Ответ от представителя</h3>
+																<p>{e.responseAdmin}</p>
+															</div>
+														</div>
+													)}
+												</div>
+											))}
+											{data &&
+											data!.length === Number(searchParams.get('size')) ? (
+												<div className={scss.button_div_for_pagination}>
+													<Button
+														onClick={() => handlePaginationFunk(3)}
+														className={scss.button_for_pagination}
+													>
+														Показать ещё
+													</Button>
+												</div>
+											) : (
+												<div className={scss.button_div_for_pagination}>
+													<Button
+														onClick={handlePaginationFunkCancel}
+														className={scss.button_for_pagination}
+													>
+														Скрыть
+													</Button>
 												</div>
 											)}
-										</div>
-									</div>
-									{e.responseAdmin && (
-										<div className={scss.div_admin_commit}>
-											<div className={scss.content_admin_commit_div}>
-												<h3>Ответ от представителя</h3>
-												<p>{e.responseAdmin}</p>
-											</div>
-										</div>
+										</>
+									) : (
+										<>
+											<h4>
+												Чтобы оставить отзыв войдите или зарегистирируйтесь
+											</h4>
+										</>
 									)}
-								</div>
-							))}
-							{data && data!.length === Number(searchParams.get('size')) ? (
-								<div className={scss.button_div_for_pagination}>
-									<Button
-										onClick={() => handlePaginationFunk(3)}
-										className={scss.button_for_pagination}
-									>
-										Показать ещё
-									</Button>
-								</div>
-							) : (
-								<div className={scss.button_div_for_pagination}>
-									<Button
-										onClick={handlePaginationFunkCancel}
-										className={scss.button_for_pagination}
-									>
-										Скрыть
-									</Button>
-								</div>
+								</>
 							)}
 						</div>
 						<div className={scss.div_rating_results_content}>
@@ -288,6 +306,7 @@ const ReviewsPage = () => {
 												<Rate
 													className={scss.rate}
 													allowHalf
+													disabled
 													defaultValue={FeedbackStatistics?.overallRating}
 												/>{' '}
 											</>
@@ -297,6 +316,7 @@ const ReviewsPage = () => {
 									<div className={scss.div_all_contents_results_rating}>
 										<div className={scss.userReviews}>
 											<Rate
+												disabled
 												allowHalf
 												defaultValue={FeedbackStatistics?.ratingCounts[1]}
 											/>
@@ -304,6 +324,7 @@ const ReviewsPage = () => {
 										</div>
 										<div className={scss.userReviews}>
 											<Rate
+												disabled
 												allowHalf
 												defaultValue={FeedbackStatistics?.ratingCounts[2]}
 											/>
@@ -311,6 +332,7 @@ const ReviewsPage = () => {
 										</div>
 										<div className={scss.userReviews}>
 											<Rate
+												disabled
 												allowHalf
 												defaultValue={FeedbackStatistics?.ratingCounts[3]}
 											/>
@@ -318,6 +340,7 @@ const ReviewsPage = () => {
 										</div>
 										<div className={scss.userReviews}>
 											<Rate
+												disabled
 												allowHalf
 												defaultValue={FeedbackStatistics?.ratingCounts[4]}
 											/>
@@ -325,6 +348,7 @@ const ReviewsPage = () => {
 										</div>
 										<div className={scss.userReviews}>
 											<Rate
+												disabled	
 												allowHalf
 												defaultValue={FeedbackStatistics?.ratingCounts[5]}
 											/>
@@ -333,7 +357,11 @@ const ReviewsPage = () => {
 									</div>
 								</div>
 								<Button
-									onClick={() => setModal2Open(!modal2Open)}
+									onClick={() => {
+										localStorage.getItem('isAuth') === 'true'
+											? setModal2Open(!modal2Open)
+											: setOpenModal(true);
+									}}
 									className={scss.button_rating}
 								>
 									Оставить отзыв
@@ -477,7 +505,7 @@ const ReviewsPage = () => {
 									className={scss.button_for_edit_and_delete}
 									onClick={() => setModalForEdit(false)}
 								>
-									отмена
+									Отмена
 								</Button>
 							</div>
 						</div>
@@ -492,7 +520,7 @@ const ReviewsPage = () => {
 				>
 					<div className={scss.content_modal}>
 						<h3 className={scss.delete_text}>
-							вы уверены что хотите удалить этот комментарий
+							Вы уверены что хотите удалить этот комментарий
 						</h3>
 						<div className={scss.delete_buttons_div}>
 							<Button
@@ -511,6 +539,11 @@ const ReviewsPage = () => {
 					</div>
 				</Modal>
 			</ConfigProvider>
+			<div>
+				<CustomModal isModalOpen={openModal} setIsModalOpen={setOpenModal}>
+					<ModalLogin setOpenModal={setOpenModal} />
+				</CustomModal>
+			</div>
 		</>
 	);
 };
