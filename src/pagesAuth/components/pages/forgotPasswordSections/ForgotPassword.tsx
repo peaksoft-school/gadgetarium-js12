@@ -21,14 +21,14 @@ export const ForgotPassword = () => {
 	const onSubmit: SubmitHandler<ForgotPasswordForms> = async (data) => {
 		try {
 			const response = await postForgot(data).unwrap();
-			if (response.success) {
+			if (response.message) {
 				console.log('Notify for success');
 				notify('Ссылка отправлено в почту', 'Войти', '/auth/login');
 				setTimeout(() => {
 					console.log('Navigating to /auth/login');
 					navigate('/auth/login');
 					reset();
-				}, 2000); 
+				}, 3000); 
 			} else {
 				throw new Error(response.message || 'Email не существует!');
 			}
@@ -37,12 +37,12 @@ export const ForgotPassword = () => {
 			notify(
 				error.message || 'Email не существует!',
 				'Регистрация',
-				'/auth/login'
+				'/auth/register'
 			);
 			setTimeout(() => {
 				console.log('Navigating to /auth/register');
-				navigate('/auth/login');
-			}, 2000); 
+				navigate('/auth/register');
+			}, 3000); 
 			console.log('Ошибка:', error);
 		}
 	};

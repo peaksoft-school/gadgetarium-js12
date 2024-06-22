@@ -18,15 +18,9 @@ import {
 } from '@/src/data/Catalog';
 import React, { useState } from 'react';
 import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
-import {
-	IconHeart,
-	IconScale,
-	IconX,
-	IconHeartFilled,
-	IconFileLike
-} from '@tabler/icons-react';
+import { IconHeart, IconScale, IconX, IconFileLike } from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
-import { Rate, Skeleton } from 'antd';
+import { Rate, Skeleton, Tooltip } from 'antd';
 import {
 	useBasketPutProductMutation
 	// useGetBasketQuery
@@ -35,6 +29,9 @@ import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
 import { useSubCategoriesQuery } from '@/src/redux/api/catalogProducts';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
+import { IconRedHeart } from '@/src/assets/icons';
+import CustomModal from '@/src/ui/modalAdmin/CustomModal';
+import ModalLogin from '@/src/ui/customModalLogin/ModalLogin';
 // import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
 // import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
 const Catalog = () => {
@@ -71,6 +68,7 @@ const Catalog = () => {
 	const [reduceThree, setReduceThree] = useState(false);
 	const [reduceFour, setReduceFour] = useState(false);
 	const [reduceFive, setReduceFive] = useState(false);
+	const [openModal, setOpenModal] = useState(false);
 
 	// !
 
@@ -235,21 +233,32 @@ const Catalog = () => {
 	});
 
 	console.log(posts, 'array');
-	
 
 	const handleBasketProductsFunk = async (subGadgetId: number) => {
-		await addProductBasket({ id: subGadgetId, basket: false });
+		if (localStorage.getItem('isAuth') === 'true') {
+			await addProductBasket({ id: subGadgetId, basket: false });
+		} else {
+			setOpenModal(true);
+		}
 	};
 
 	const handleAddProductsFavoriteFunk = async (subGadgetId: number) => {
 		try {
-			await addProductsForFavorite(subGadgetId);
+			if (localStorage.getItem('isAuth') === 'true') {
+				await addProductsForFavorite(subGadgetId);
+			} else {
+				setOpenModal(true);
+			}
 		} catch (error) {
 			console.error(error);
 		}
 	};
 	const handleAddProductsComparisonFunk = async (subGadgetId: number) => {
-		await addComparisonProducts(subGadgetId);
+		if (localStorage.getItem('isAuth') === 'true') {
+			await addComparisonProducts(subGadgetId);
+		} else {
+			setOpenModal(true);
+		}
 	};
 
 	return (
@@ -641,7 +650,7 @@ const Catalog = () => {
 																}
 															>
 																{e.percent}%
-															</p>{' '}
+															</p>
 															<div
 																className={
 																	e.newProduct && e.percent === 0
@@ -662,31 +671,46 @@ const Catalog = () => {
 															</div>
 														</>
 														<div className={scss.top_icons}>
-															<IconScale
-																className={
-																	e.compression
-																		? `${scss.icon_comparison} ${scss.active_icon_comparison}`
-																		: `${scss.icon_comparison}`
-																}
-																onClick={() =>
-																	handleAddProductsComparisonFunk(e.gadgetId)
-																}
-															/>
-															{e.likes ? (
-																<IconHeartFilled
-																	color="red"
-																	onClick={() =>
-																		handleAddProductsFavoriteFunk(e.subGadgetId)
+															<button>
+																<Tooltip
+																	title={
+																		e.comparison
+																			? 'Удалить из сравнения'
+																			: 'Добавить к сравнению'
 																	}
-																/>
-															) : (
-																<IconHeart
+																	color="#c11bab"
+																>
+																	<IconScale
+																		className={
+																			e.comparison
+																				? `${scss.icon_comparison} ${scss.active_icon_comparison}`
+																				: `${scss.icon_comparison}`
+																		}
+																		onClick={() =>
+																			handleAddProductsComparisonFunk(
+																				e.gadgetId
+																			)
+																		}
+																	/>
+																</Tooltip>
+															</button>
+															<Tooltip
+																title={
+																	e.likes
+																		? 'Удалить из избранного'
+																		: 'Добавить в избранное'
+																}
+																color="#c11bab"
+															>
+																<button
 																	className={scss.icon_heart}
 																	onClick={() =>
 																		handleAddProductsFavoriteFunk(e.subGadgetId)
 																	}
-																/>
-															)}
+																>
+																	{e.likes ? <IconRedHeart /> : <IconHeart />}
+																</button>
+															</Tooltip>
 														</div>
 													</div>
 													<div className={scss.middle_image_card}>
@@ -700,9 +724,25 @@ const Catalog = () => {
 													</div>
 													<div className={scss.middle_card}>
 														<p className={scss.phone_quantity}>
-															В наличии {e.quantity}
+															В наличии ({e.quantity})
 														</p>
-														<h3>{e.brandNameOfGadget}</h3>
+														<h3>
+															{e.brandNameOfGadget.length > 28 ? (
+																<>
+																	{e.brandNameOfGadget.slice(0, 22)}
+																	<Tooltip
+																		title={e.brandNameOfGadget}
+																		color="#c11bab"
+																	>
+																		<span style={{ cursor: 'pointer' }}>
+																			...
+																		</span>
+																	</Tooltip>
+																</>
+															) : (
+																e.brandNameOfGadget
+															)}
+														</h3>
 														<div className={scss.phone_rating}>
 															<p>Рейтинг</p>
 															<Rate defaultValue={e.rating} />
@@ -711,10 +751,10 @@ const Catalog = () => {
 													</div>
 													<div className={scss.bottom_card}>
 														<div className={scss.phone_prices}>
-															<p className={scss.phone_price}>{e.price}c</p>
+															<p className={scss.phone_price}>{e.price} c</p>
 															{e.percent !== 0 && (
 																<p className={scss.phone_old_price}>
-																	{e.currentPrice}
+																	{e.currentPrice} c
 																</p>
 															)}
 														</div>
@@ -730,9 +770,10 @@ const Catalog = () => {
 																onClick={() =>
 																	handleBasketProductsFunk(e.subGadgetId)
 																}
-																children={'В корзину'}
 																className={scss.bottom_cart}
-															/>
+															>
+																В корзину
+															</AddBasketButton>
 														)}
 													</div>
 												</div>
@@ -762,6 +803,11 @@ const Catalog = () => {
 						</div>
 					</div>
 					{/* <ViewedProducts /> */}
+					<div>
+						<CustomModal isModalOpen={openModal} setIsModalOpen={setOpenModal}>
+							<ModalLogin setOpenModal={setOpenModal} />
+						</CustomModal>
+					</div>
 				</div>
 			</div>
 		</section>

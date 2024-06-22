@@ -1,6 +1,6 @@
 import scss from './SubHeader.module.scss';
 import { FC, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { IconGadgetarium } from '@/src/assets/icons';
 import {
 	IconBrandFacebook,
@@ -10,8 +10,7 @@ import {
 	IconScale,
 	IconShoppingCart
 } from '@tabler/icons-react';
-import { ConfigProvider, Input, Tooltip, theme } from 'antd';
-import { SearchProps } from 'antd/es/input';
+import { ConfigProvider, Input, Rate, Tooltip, theme } from 'antd';
 import CatalogMenu from '@/src/ui/catalogMenu/CatalogMenu';
 import { useGetBasketQuery } from '@/src/redux/api/basket';
 import { useGetFavoriteQuery } from '@/src/redux/api/favorite';
@@ -24,8 +23,6 @@ interface SubHeaderProps {
 	isScrolled: boolean;
 }
 
-const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
-	console.log(info?.source, value);
 const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 	const { data: BasketData = [] } = useGetBasketQuery();
 	const { data: FavoriteData = [] } = useGetFavoriteQuery();
@@ -33,7 +30,31 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 	const [comparisonProducts, setComparisonProducts] = useState<boolean>(false);
 	const [favoriteProducts, setFavoriteProducts] = useState<boolean>(false);
 	const [basketProducts, setBasketProducts] = useState<boolean>(false);
-	const { data: globalSearch = [], isLoading } = useGetGlobalSearchQuery('');
+	const [inputValue, setInputValue] = useState('');
+	const navigate = useNavigate();
+	const [searchParams, setSearchParams] = useSearchParams();
+	const {
+		data: globalSearch = [],
+		refetch,
+
+		isLoading
+	} = useGetGlobalSearchQuery({ request: inputValue }, { skip: !inputValue });
+	const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		console.log(value);
+
+		setInputValue(value);
+		setSearchParams({ request: value });
+		refetch();
+		if (value) {
+			refetch();
+		}
+		if (value === '') {
+			searchParams.delete('request');
+			setSearchParams(searchParams);
+		}
+	};
+
 	const antdThemeConfig = {
 		algorithm: theme.darkAlgorithm,
 		token: {
@@ -65,9 +86,68 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 								className={scss.search}
 								size="large"
 								placeholder="Поиск по каталогу магазина"
+								value={inputValue}
+								onChange={handleChangeSearch}
 								allowClear
-								onSearch={onSearch}
 							/>
+							{searchParams.get('request') && (
+								<div className={scss.main_search}>
+									<div className={scss.search_global}>
+										{globalSearch.length === 0 ? (
+											<>
+												<div className={scss.not_found}>
+													<h3>Нет результатов...</h3>
+												</div>
+											</>
+										) : (
+											<>
+												{globalSearch?.map((el) => (
+													<div
+														onClick={() => {
+															navigate(`/api/gadget/by-id/${el.gadgetId}`);
+															setInputValue('');
+														}}
+														className={scss.div_product_map}
+														key={el.subGadgetId}
+													>
+														<div className={scss.div_img}>
+															<img
+																className={scss.img_product}
+																src={el.image}
+																alt={el.brandNameOfGadget}
+															/>
+														</div>
+														<div className={scss.div_product_contents}>
+															<p className={scss.tag_color_green}>
+																В наличии ({el.quantity})
+															</p>
+															<h3>
+																{el.brandNameOfGadget.length >= 28
+																	? el.brandNameOfGadget.slice(0, 22) + '...'
+																	: el.brandNameOfGadget}
+															</h3>
+															<p className={scss.rating_search}>
+																Рейтинг
+																<Rate
+																	className={scss.rate}
+																	allowHalf
+																	defaultValue={el.rating}
+																/>
+																({el.rating})
+															</p>
+															<div className={scss.div_buttons_and_price}>
+																<div className={scss.product_price}>
+																	<h2>{el.price} c</h2>
+																</div>
+															</div>
+														</div>
+													</div>
+												))}
+											</>
+										)}
+									</div>
+								</div>
+							)}
 						</ConfigProvider>
 					</div>
 					<div className={scss.icon_networks}>
@@ -152,7 +232,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 					</div>
 				</div>
 			</div>
-			{comparisonProducts && (
+			{localStorage.getItem('isAuth') === 'true' && comparisonProducts && (
 				<Tooltip
 					children={
 						<ProductsForHover
@@ -162,7 +242,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 					}
 				/>
 			)}
-			{favoriteProducts && (
+			{localStorage.getItem('isAuth') === 'true' && favoriteProducts && (
 				<Tooltip
 					children={
 						<ProductsForHover
@@ -172,7 +252,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 					}
 				/>
 			)}
-			{basketProducts && (
+			{localStorage.getItem('isAuth') === 'true' && basketProducts && (
 				<Tooltip
 					children={
 						<ProductsForHover
@@ -182,13 +262,6 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 					}
 				/>
 			)}
-			<div>
-				{globalSearch?.map((e) => (
-					<div key={e.id}>
-						<h4>{e.brandNameOfGadget}</h4>
-					</div>
-				))}
-			</div>
 		</header>
 	);
 };

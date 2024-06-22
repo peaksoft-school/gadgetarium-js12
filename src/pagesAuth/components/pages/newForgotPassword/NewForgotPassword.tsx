@@ -39,10 +39,10 @@ const NewForgotPassword = () => {
 			setTimeout(() => {
 				navigate('/auth/login');
 			}, 3000);
-
 			reset();
 		} catch (error) {
 			console.log('not patch response', error);
+			notify('Неправильно вели пароль', '', '');
 		}
 	};
 	return (

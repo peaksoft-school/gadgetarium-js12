@@ -10,7 +10,7 @@ const api = index.injectEndpoints({
 				url: `/api/gadget/memories/${gadgetId}?${color}`,
 				method: 'GET',
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('token')}`
+					Authorization: `Bearer ${localStorage.getItem('token') || ''}`
 				}
 			}),
 			providesTags: ['productMemoryApi']

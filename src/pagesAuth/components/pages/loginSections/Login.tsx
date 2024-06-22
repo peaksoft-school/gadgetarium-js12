@@ -27,8 +27,7 @@ const Login = ({ setOpenModal }) => {
 	const onSubmit: SubmitHandler<LoginForms> = async (data, event) => {
 		event?.preventDefault();
 		try {
-			const response = await postRequestLogin(data).unwrap();
-
+			const response = await postRequestLogin(data).unwrap()
 			if (response.role === 'USER') {
 				const { token } = response;
 				localStorage.setItem('token', token);
@@ -36,19 +35,25 @@ const Login = ({ setOpenModal }) => {
 				localStorage.setItem('user', 'true');
 				localStorage.setItem('admin', 'false');
 				notify('Вход выполнен успешно', 'Перейти на главную', '/');
-				navigate('/');
+				setTimeout(() => {
+					console.log('Navigating to /auth/register');
+					navigate('/');
+				}, 3000);
 			} else if (response.role === 'ADMIN') {
 				const { token } = response;
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'false');
 				localStorage.setItem('admin', 'true');
 				notify('Вход выполнен успешно', 'Перейти на главную', '/');
-				navigate('/admin');
+				setTimeout(() => {
+					console.log('Navigating to /auth/register');
+					navigate('/admin');
+				}, 3000);
 			}
 			reset();
 			setOpenModal(false);
 		} catch (error) {
-			notify(error.data?.message || 'Ошибка при входе', '', '');
+			notify('Ошибка при входе', '', '');
 			setOpenModal(true);
 			console.log('Ошибка при входе', error);
 		}
@@ -61,7 +66,10 @@ const Login = ({ setOpenModal }) => {
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'true');
 				notify('Вход через Google выполнен успешно', 'Перейти на главную', '/');
-				navigate('/');
+				setTimeout(() => {
+					console.log('Navigating to /auth/register');
+					navigate('/');
+				}, 2000);
 			})
 			.catch((error) => {
 				console.error('Ошибка входа через Google:', error);

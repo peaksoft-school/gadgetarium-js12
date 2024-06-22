@@ -35,9 +35,12 @@ export const Register = () => {
 				const { token } = response.data;
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'true');
-				notify('Вход выполнен успешно', 'Перейти на главную', '/');
-				navigate('/');
-				reset();
+				notify('Регистрация выполнен успешно', '', '');
+				setTimeout(() => {
+					console.log('Navigating to /auth/login');
+					navigate('/');
+					reset();
+				}, 3000);
 			} else {
 				throw new Error('Unexpected response structure');
 			}

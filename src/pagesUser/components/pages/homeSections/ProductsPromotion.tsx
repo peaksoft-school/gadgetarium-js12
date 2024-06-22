@@ -18,8 +18,8 @@ const ProductsPromotion = () => {
 	const [comparisonPatchProduct] = useComparisonPatchProductsMutation();
 	const [basketPutProduct] = useBasketPutProductMutation();
 	const [putFavoriteProduct] = useFavoritePutProductMutation();
-	const [openModal, setOpenModal] = useState(false);
 	const [searchParams, setSearchParams] = useSearchParams();
+	const [openModal, setOpenModal] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -154,7 +154,12 @@ const ProductsPromotion = () => {
 													</Tooltip>
 												</div>
 											</div>
-											<div className={scss.div_img}>
+											<div
+												onClick={() =>
+													navigate(`/api/gadget/by-id/${el.gadgetId}`)
+												}
+												className={scss.div_img}
+											>
 												<img
 													className={scss.img_product}
 													src={el.image}
@@ -163,20 +168,32 @@ const ProductsPromotion = () => {
 											</div>
 											<div className={scss.div_product_contents}>
 												<p className={scss.tag_color_green}>
-													В наличии {el.quantity}
+													В наличии ({el.quantity})
 												</p>
 												<h3>
-													{el.nameOfGadget.length >= 28
-														? el.nameOfGadget.slice(0, 22) + '...'
-														: el.nameOfGadget}
+													{el.nameOfGadget.length > 28 ? (
+														<>
+															{el.nameOfGadget.slice(0, 22)}
+															<Tooltip title={el.nameOfGadget} color="#c11bab">
+																<span style={{ cursor: 'pointer' }}>...</span>
+															</Tooltip>
+														</>
+													) : (
+														el.nameOfGadget
+													)}
 												</h3>
 												<p>
-													Рейтинг <Rate allowHalf defaultValue={el.rating} />
-													{el.rating}
+													Рейтинг <Rate allowHalf defaultValue={el.rating} />(
+													{el.rating})
 												</p>
 												<div className={scss.div_buttons_and_price}>
 													<div className={scss.product_price}>
 														<h2>{el.price} c</h2>
+														{el.percent !== 0 && (
+															<h3 className={scss.previous_price}>
+																{el.currentPrice} c
+															</h3>
+														)}
 													</div>
 													{el.basket === true ? (
 														<button
