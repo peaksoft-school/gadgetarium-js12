@@ -30,12 +30,8 @@ const BasketSection = () => {
 	const [favoriteAddProduct] = useFavoritePutProductMutation();
 	const [addAllFavoriteProducts] = useAddAllFavoritesProductsMutation();
 	const [searchParams, setSearchParams] = useSearchParams();
-	const [countInput, setCountInput] = useState<string>('');
 	const navigate = useNavigate();
-	// const [arrayNumbers, setArrayNumbers] = useState<number[]>([]);
-	const [inputValueItemId, setInputValueItemId] = useState<number>();
-
-	const [inputValueQuantity, setInputValueQuantity] = useState<number>(0);
+	const [countInputs, setCountInputs] = useState<Record<number, string>>({});
 	const { data, isLoading } = useGetBasketQuery();
 	const [deleteBasket] = useDeleteByIdBasketProductMutation();
 	const [idsArray, setIdsArray] = useState<string[]>(() => {
@@ -73,6 +69,7 @@ const BasketSection = () => {
 		} else {
 			setIdsArray([]);
 			searchParams.delete('ids');
+			searchParams.delete('quantity');
 			setSearchParams(searchParams);
 			navigate(`/basket?${searchParams.toString()}`);
 		}
@@ -106,8 +103,9 @@ const BasketSection = () => {
 		}
 	};
 
-	const handleInputValueForProductQuantity = async (id: number) => {
-		searchParams.set('quantity', countInput);
+	const handleInputValueForProductQuantity = async (id: number, newState: Record<number, string>) => {
+		const quantity = newState[id];
+		searchParams.set('quantity', quantity);
 		setSearchParams(searchParams);
 		try {
 			await basketAddApi({
@@ -122,41 +120,21 @@ const BasketSection = () => {
 	};
 
 	const handlePluesCountProduct = async (id: number) => {
-		setCountInput((prevValue) => {
-			const newValue = (parseInt(prevValue) || 0) + 1;
-			searchParams.set('quantity', newValue.toString());
-			setSearchParams(searchParams);
-			return newValue.toString();
+		setCountInputs((prev) => {
+			const newValue = (parseInt(prev[id]) || 0) + 1;
+			const newState = { ...prev, [id]: newValue.toString() };
+			handleInputValueForProductQuantity(id, newState);
+			return newState;
 		});
-		try {
-			await basketAddApi({
-				id,
-				quantity: searchParams.get('quantity')
-					? `quantity=${searchParams.get('quantity')}`
-					: ''
-			});
-		} catch (error) {
-			console.error(error);
-		}
 	};
 
 	const handleMinuesProduct = async (id: number) => {
-		setCountInput((prevValue) => {
-			const newValue = Math.max((parseInt(prevValue) || 0) - 1, 1);
-			searchParams.set('quantity', newValue.toString());
-			setSearchParams(searchParams);
-			return newValue.toString();
-		});
-		try {
-			await basketAddApi({
-				id,
-				quantity: searchParams.get('quantity')
-					? `quantity=${searchParams.get('quantity')}`
-					: ''
-			});
-		} catch (error) {
-			console.error(error);
-		}
+		setCountInputs((prev) => {
+			const newValue = Math.max((parseInt(prev[id]) || 0) - 1, 1);
+			const newState = { ...prev, [id]: newValue.toString() };
+			handleInputValueForProductQuantity(id, newState);
+			return newState;
+		});	
 	};
 
 	const handleDeleteBasket = async (gadgetId: number) => {
@@ -176,10 +154,13 @@ const BasketSection = () => {
 		}
 	};
 
-	const changeCountBasketProducts = (event: string | number | null) => {
+	const changeCountBasketProducts = (
+		id: number,
+		event: string | number | null
+	) => {
 		if (event !== null) {
 			const newValue = event.toString();
-			setCountInput(newValue);
+			setCountInputs((prev) => ({ ...prev, [id]: newValue }));
 		}
 	};
 
@@ -237,7 +218,7 @@ const BasketSection = () => {
 										>
 											<Checkbox
 												onChange={() =>
-													data?.forEach((c) => handleProductsIds(c.id))
+													data?.forEach((c) => handleProductsIds(c.subGadgetId))
 												}
 												checked={allSelected && someSelected}
 												// checked={idsArray.}
@@ -290,13 +271,21 @@ const BasketSection = () => {
 													}}
 												>
 													<Checkbox
-														checked={idsArray.includes(item.subGadgetId.toString())}
+														checked={idsArray.includes(
+															item.subGadgetId.toString()
+														)}
 														onChange={() => handleIdsProducts(item.subGadgetId)}
 													/>
 												</ConfigProvider>
 												<div className={scss.content_product_div}>
 													<div className={scss.contents_product}>
-														<img onClick={() => navigate(`/api/gadget/by-id/${item.gadgetId}`)} src={item.image} alt={item.nameOfGadget} />
+														<img
+															onClick={() =>
+																navigate(`/api/gadget/by-id/${item.gadgetId}`)
+															}
+															src={item.image}
+															alt={item.nameOfGadget}
+														/>
 														<div className={scss.product_info_text_div}>
 															<p>{item.nameOfGadget}</p>
 															<div className={scss.product_content}>
@@ -343,15 +332,22 @@ const BasketSection = () => {
 																				className={scss.input_number}
 																				min={1}
 																				max={item.quantity}
-																				defaultValue={item.quantity}
-																				onChange={changeCountBasketProducts}
-																				value={Number(countInput)}
+																				// defaultValue={item.quantity}
+																				onChange={(value) =>
+																					changeCountBasketProducts(
+																						item.subGadgetId,
+																						value
+																					)
+																				}
+																				value={parseInt(
+																					countInputs[item.subGadgetId]
+																				)}
 																				onKeyPress={(
 																					e: React.KeyboardEvent<HTMLInputElement>
 																				) => {
 																					if (e.key === 'Enter') {
 																						handleInputValueForProductQuantity(
-																							item.subGadgetId
+																							item.subGadgetId, countInputs
 																						);
 																					}
 																				}}
@@ -359,7 +355,9 @@ const BasketSection = () => {
 																		</ConfigProvider>
 																		<button
 																			onClick={() =>
-																				handlePluesCountProduct(item.subGadgetId)
+																				handlePluesCountProduct(
+																					item.subGadgetId
+																				)
 																			}
 																		>
 																			+
@@ -398,7 +396,9 @@ const BasketSection = () => {
 																	</div>
 																	<div
 																		className={scss.div}
-																		onClick={() => handleDeleteBasket(item.subGadgetId)}
+																		onClick={() =>
+																			handleDeleteBasket(item.subGadgetId)
+																		}
 																	>
 																		<IconX width={'16px'} height={'16px'} />
 																		<p>Удалить</p>
