@@ -334,6 +334,10 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+
+	.discount {
+		color: rgb(23, 29, 41);
+	}
 	gap: 30px;
 	.size_sale {
 		display: flex;
@@ -366,6 +370,8 @@
 				font-size: 11px;
 			}
 		}
+
+		
 		.date {
 			display: flex;
 			justify-content: center;
