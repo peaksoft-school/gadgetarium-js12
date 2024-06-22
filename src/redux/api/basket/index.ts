@@ -37,7 +37,7 @@ const api = index.injectEndpoints({
 				method: 'PATCH',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
-				},
+				}
 			}),
 			invalidatesTags: ['basket']
 		}),
@@ -76,6 +76,19 @@ const api = index.injectEndpoints({
 				}
 			}),
 			invalidatesTags: ['basket']
+		}),
+		deleteAllBasket: build.mutation<
+			BASKETPRODUCTS.DeleteAllResponse,
+			BASKETPRODUCTS.DeleteAllRequest
+		>({
+			query: ({ids}) => ({
+				url: `/api/basket/delete-all?${ids}`,
+				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			invalidatesTags: ['basket']
 		})
 	})
 });
@@ -86,5 +99,6 @@ export const {
 	useBasketPutProductMutation,
 	useBasketDeleteProductMutation,
 	useGetBasketOrderGadgetQuery,
-	useDeleteByIdBasketProductMutation
+	useDeleteByIdBasketProductMutation,
+	useDeleteAllBasketMutation
 } = api;

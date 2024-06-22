@@ -105,12 +105,14 @@
 				}
 				p {
 					color: rgb(56, 66, 85);
-					font-size: clamp(8px, 4vw, 16px);
+					font-size: clamp(8px, 7vw, 16px);
+					font-weight: 700;
 				}
 				.text_product {
 					color: rgb(41, 41, 41);
 					font-size: clamp(0.7rem, 4vw, 1rem);
 					padding-right: 176px;
+					font-weight: 400;
 					@media (max-width: 925px) {
 						padding-right: 0;
 					}

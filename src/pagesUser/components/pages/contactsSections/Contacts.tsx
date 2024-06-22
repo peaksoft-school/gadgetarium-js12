@@ -192,7 +192,14 @@ export const Contacts = () => {
 									(errors.email && <p>{errors.email.message}</p>) ||
 									(errors.phoneNumber && <p>{errors.phoneNumber.message}</p>) ||
 									(errors.message && <p>{errors.message.message}</p>)}
-								<Button className={scss.buttonSubmit} type="primary">
+								<Button
+									className={
+										scss.buttonSubmit
+											// ? `${scss.buttonSubmit} ${scss.active_buttonSubmit}`
+											// : `${scss.buttonSubmit}`
+									}
+									type="primary"
+								>
 									Отправить
 								</Button>
 							</div>

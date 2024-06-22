@@ -33,4 +33,12 @@ namespace FAVORITEPRODUCTS {
 		status: string;
 		message: string;
 	};
+
+	type AddAllFavoriteProductsRequest = {
+		gadgetIds: string[];
+	}
+	type AddAllFavoriteProductsResponse = {
+		status: string;
+		message: string;
+	}
 }

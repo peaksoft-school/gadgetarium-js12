@@ -9,7 +9,7 @@ import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
 import { useGetProductsNewsQuery } from '@/src/redux/api/productsNews/index.ts';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal.tsx';
 import { useState } from 'react';
 import ModalLogin from '@/src/ui/customModalLogin/ModalLogin.tsx';
@@ -156,7 +156,7 @@ const ProductsNew = () => {
 												</div>
 											</div>
 											<div className={scss.div_img}>
-												<img
+												<img onClick={() => navigate(`/api/gadget/by-id/${el.gadgetId}`)}
 													className={scss.img_product}
 													src={el.image}
 													alt={el.nameOfGadget}
