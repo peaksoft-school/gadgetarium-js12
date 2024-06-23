@@ -6,7 +6,7 @@ const api = index.injectEndpoints({
 			EDITPRODUCTBYID.EditProductByIdResponse,
 			EDITPRODUCTBYID.EditProductByIdRequest
 		>({
-			query: ({ subGadgetId }) => ({
+			query: ({ subGadgetId  }) => ({
 				url: `/api/gadget/update/${subGadgetId}`,
 				method: 'PATCH',
 				headers: {
