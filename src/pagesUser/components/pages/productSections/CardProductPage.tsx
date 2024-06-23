@@ -284,7 +284,7 @@ const CardProductPage = () => {
 												</p>
 												<div>
 													<Rate disabled defaultValue={data?.rating} />
-													<p>{data?.rating}</p>
+													<p>({data?.rating})</p>
 												</div>
 											</div>
 											<div></div>
@@ -302,7 +302,7 @@ const CardProductPage = () => {
 																	: `${scss.noo_active_percent}`
 															}
 														>
-															{data?.percent}
+															{data?.percent} %
 														</div>
 													)}
 													{data?.newProduct && data.percent === 0 && (
@@ -531,7 +531,7 @@ const CardProductPage = () => {
 				}}
 			>
 				<Modal
-					title="Iphones"
+					title={data?.nameOfGadget}
 					centered
 					open={modal2Open}
 					onOk={() => setModal2Open(false)}

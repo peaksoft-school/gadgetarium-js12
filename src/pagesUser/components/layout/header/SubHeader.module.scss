@@ -168,13 +168,18 @@
 				justify-content: center;
 				align-items: center;
 			}
+			.not_found {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 80px;
+			}
 			position: absolute;
-			top: 70px;
-			left: 205px;
+			top: 65px;
 			display: flex;
 			flex-direction: column;
+			max-width: 850px;
 			width: 100%;
-			max-width: 823px;
 			background-color: white;
 			box-shadow: 0px 0px 8px #ddd;
 			border-radius: 10px;
@@ -188,7 +193,8 @@
 				box-shadow: 0px 0px 1px black;
 				background-color: #ffffff;
 				border-radius: 4px;
-				width: 820px;
+				width: 100%;
+				max-width: 850px;
 				height: 100px;
 				display: flex;
 				align-items: center;
@@ -283,4 +289,9 @@
 			}
 		}
 	}
+}
+
+.test {
+	width: 100%;
+	position: relative;
 }

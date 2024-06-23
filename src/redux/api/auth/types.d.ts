@@ -9,6 +9,12 @@ namespace AUTH {
 		id: number;
 		role: string;
 		token: string;
+		response: {
+			httpStatus: string;
+			message: string;
+			status: string;
+		};
+		error: string;
 		password: string;
 	};
 

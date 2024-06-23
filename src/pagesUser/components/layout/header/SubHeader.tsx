@@ -18,6 +18,8 @@ import { useGetFavoriteQuery } from '@/src/redux/api/favorite';
 import { useGetComparisonQuery } from '@/src/redux/api/comparison';
 import { ProductsForHover } from '@/src/ui/productsForHover/ProductsForHover';
 import { useGetGlobalSearchQuery } from '@/src/redux/api/globalSearch';
+import CustomModal from '@/src/ui/modalAdmin/CustomModal';
+import ModalLogin from '@/src/ui/customModalLogin/ModalLogin';
 
 interface SubHeaderProps {
 	isMobile: boolean;
@@ -33,6 +35,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 	const [basketProducts, setBasketProducts] = useState<boolean>(false);
 	const [inputValue, setInputValue] = useState('');
 	const navigate = useNavigate();
+	const [openModal, setOpenModal] = useState(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const {
 		data: globalSearch = [],
@@ -52,6 +55,29 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 		if (value === '') {
 			searchParams.delete('request');
 			setSearchParams(searchParams);
+			refetch();
+		}
+	};
+
+	const handleComparison = () => {
+		if (localStorage.getItem('isAuth') === 'true') {
+			navigate('/comparison');
+		} else {
+			setOpenModal(true);
+		}
+	};
+	const handleFavorite = () => {
+		if (localStorage.getItem('isAuth') === 'true') {
+			navigate('/favorite');
+		} else {
+			setOpenModal(true);
+		}
+	};
+	const handleBasket = () => {
+		if (localStorage.getItem('isAuth') === 'true') {
+			navigate('/basket');
+		} else {
+			setOpenModal(true);
 		}
 	};
 
@@ -82,83 +108,87 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 						<CatalogMenu />
 						<span className={scss.hr_line}></span>
 						<ConfigProvider theme={antdThemeConfig}>
-							<Input.Search
-								className={scss.search}
-								size="large"
-								placeholder="Поиск по каталогу магазина"
-								value={inputValue}
-								onChange={handleChangeSearch}
-								allowClear
-							/>
-							{searchParams.get('request') && (
-								<div className={scss.main_search}>
-									<div className={scss.search_global}>
-										{isLoading ? (
-											<>
-												<div className={scss.loader}>
-													<IconLoader />
-												</div>
-											</>
-										) : (
-											<>
-												{globalSearch.length === 0 ? (
-													<>
-														<div className={scss.not_found}>
-															<h3>Нет результатов...</h3>
-														</div>
-													</>
-												) : (
-													<>
-														{globalSearch?.map((el) => (
-															<div
-																onClick={() => {
-																	navigate(`/api/gadget/by-id/${el.gadgetId}`);
-																	setInputValue('');
-																}}
-																className={scss.div_product_map}
-																key={el.subGadgetId}
-															>
-																<div className={scss.div_img}>
-																	<img
-																		className={scss.img_product}
-																		src={el.image}
-																		alt={el.brandNameOfGadget}
-																	/>
-																</div>
-																<div className={scss.div_product_contents}>
-																	<div className={scss.one_products}>
-																		<h3>
-																			{el.brandNameOfGadget.length >= 28
-																				? el.brandNameOfGadget.slice(0, 22) +
-																					'...'
-																				: el.brandNameOfGadget}
-																		</h3>
-																		<p className={scss.rating_search}>
-																			Рейтинг
-																			<Rate
-																				className={scss.rate}
-																				allowHalf
-																				disabled
-																				defaultValue={el.rating}
-																			/>
-																			({el.rating})
-																		</p>
+							<div className={scss.test}>
+								<Input.Search
+									className={scss.search}
+									size="large"
+									placeholder="Поиск по каталогу магазина"
+									value={inputValue}
+									onChange={handleChangeSearch}
+									allowClear
+								/>
+								{searchParams.get('request') && (
+									<div className={scss.main_search}>
+										<div className={scss.search_global}>
+											{isLoading ? (
+												<>
+													<div className={scss.loader}>
+														<IconLoader />
+													</div>
+												</>
+											) : (
+												<>
+													{globalSearch.length === 0 ? (
+														<>
+															<div className={scss.not_found}>
+																<h3>Нет результатов...</h3>
+															</div>
+														</>
+													) : (
+														<>
+															{globalSearch?.map((el) => (
+																<div
+																	onClick={() => {
+																		navigate(
+																			`/api/gadget/by-id/${el.gadgetId}`
+																		);
+																		setInputValue('');
+																	}}
+																	className={scss.div_product_map}
+																	key={el.subGadgetId}
+																>
+																	<div className={scss.div_img}>
+																		<img
+																			className={scss.img_product}
+																			src={el.image}
+																			alt={el.brandNameOfGadget}
+																		/>
 																	</div>
-																	<div className={scss.div_buttons_and_price}>
-																		<div className={scss.product_price}>
-																			<h2>{el.price} c</h2>
+																	<div className={scss.div_product_contents}>
+																		<div className={scss.one_products}>
+																			<h3>
+																				{el.brandNameOfGadget.length >= 28
+																					? el.brandNameOfGadget.slice(0, 22) +
+																						'...'
+																					: el.brandNameOfGadget}
+																			</h3>
+																			<p className={scss.rating_search}>
+																				Рейтинг
+																				<Rate
+																					className={scss.rate}
+																					allowHalf
+																					disabled
+																					defaultValue={el.rating}
+																				/>
+																				({el.rating})
+																			</p>
+																		</div>
+																		<div className={scss.div_buttons_and_price}>
+																			<div className={scss.product_price}>
+																				<h2>{el.price} c</h2>
+																			</div>
 																		</div>
 																	</div>
 																</div>
-															</div>
-														))}
-													</>
-												)}
-											</>
-										)}
+															))}
+														</>
+													)}
+												</>
+											)}
+										</div>
 									</div>
-								</div>
-							)}
+								)}
+							</div>
 						</ConfigProvider>
 					</div>
 					<div className={scss.icon_networks}>
@@ -189,10 +219,10 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 						)}
 					</div>
 					<div className={scss.icon_basket_heart}>
-						<Link
+						<p
 							onMouseEnter={() => setComparisonProducts(true)}
 							onMouseLeave={() => setComparisonProducts(false)}
-							to="/comparison"
+							onClick={handleComparison}
 							className={scss.icon}
 						>
 							<span
@@ -205,11 +235,11 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 								{ComparisonData.length <= 99 ? ComparisonData.length : '99+'}
 							</span>
 							<IconScale />
-						</Link>
-						<Link
+						</p>
+						<p
 							onMouseEnter={() => setFavoriteProducts(true)}
 							onMouseLeave={() => setFavoriteProducts(false)}
-							to="/favorite"
+							onClick={handleFavorite}
 							className={scss.icon}
 						>
 							<span
@@ -222,11 +252,11 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 								{FavoriteData.length <= 99 ? FavoriteData.length : '99+'}
 							</span>
 							<IconHeart />
-						</Link>
-						<Link
+						</p>
+						<p
 							onMouseEnter={() => setBasketProducts(true)}
 							onMouseLeave={() => setBasketProducts(false)}
-							to="/basket"
+							onClick={handleBasket}
 							className={scss.icon}
 						>
 							<span
@@ -239,7 +269,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 								{BasketData.length <= 99 ? BasketData.length : '99+'}
 							</span>
 							<IconShoppingCart />
-						</Link>
+						</p>
 					</div>
 				</div>
 			</div>
@@ -273,6 +303,11 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 					}
 				/>
 			)}
+			<div>
+				<CustomModal isModalOpen={openModal} setIsModalOpen={setOpenModal}>
+					<ModalLogin setOpenModal={setOpenModal} />
+				</CustomModal>
+			</div>
 		</header>
 	);
 };

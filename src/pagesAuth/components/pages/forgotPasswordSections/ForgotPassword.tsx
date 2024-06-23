@@ -1,7 +1,7 @@
 import scss from './ForgotPasswordPages.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { Button, Input } from 'antd';
+import { Button, Input, message } from 'antd';
 import logo from '@/src/assets/logo.png';
 import { usePostForgotMutation } from '@/src/redux/api/auth';
 import { ToastContainer } from 'react-toastify';
@@ -24,26 +24,21 @@ export const ForgotPassword = () => {
 			const response = await postForgot(data).unwrap();
 			if (response.message) {
 				console.log('Notify for success');
-				notify('Ссылка отправлено в почту', 'Войти', '/auth/login');
+				message.success('Ссылка отправлено в почту');
 				setTimeout(() => {
 					console.log('Navigating to /auth/login');
 					navigate('/auth/login');
 					reset();
-				}, 3000);
+				}, 2000);
 			} else {
 				throw new Error(response.message || 'Email не существует!');
 			}
 		} catch (error: any) {
 			console.log('Notify for error');
-			notify(
-				error.message || 'Email не существует!',
-				'Регистрация',
-				'/auth/register'
-			);
+			message.warning(error.message || 'Email не существует!');
 			setTimeout(() => {
-				console.log('Navigating to /auth/register');
 				navigate('/auth/register');
-			}, 3000);
+			}, 2000);
 			console.log('Ошибка:', error);
 		}
 	};

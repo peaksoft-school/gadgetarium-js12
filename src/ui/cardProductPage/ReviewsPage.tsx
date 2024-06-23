@@ -1,7 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import scss from './ReviewsPage.module.scss';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
-import { Rate, Button, Modal, Input, ConfigProvider } from 'antd';
+import {
+	Rate,
+	Button,
+	Modal,
+	Input,
+	ConfigProvider,
+	Skeleton,
+	Empty
+} from 'antd';
 import React, { useRef, useState } from 'react';
 import { usePostUploadMutation } from '@/src/redux/api/pdf';
 import {
@@ -12,6 +20,7 @@ import {
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { notify } from '@/src/utils/helpers/notify';
+import reviewsimg from '@/src/assets/sammy-the-man-trying-to-find-the-right-document 1.png';
 import {
 	useApiFeedbackStatisticsQuery,
 	useDeleteByIdUserCommitMutation,
@@ -46,6 +55,8 @@ const ReviewsPage = () => {
 	const { data: FeedbackStatistics } = useApiFeedbackStatisticsQuery({
 		id: Number(productId)
 	});
+
+	// const [avatarShape, setAvatarShape] = useState<AvatarShapeType>('circle');
 
 	const handleOpenFileFunk = () => {
 		if (fileUrl.current) {
@@ -203,13 +214,64 @@ const ReviewsPage = () => {
 		<>
 			<section className={scss.ReviewsPage}>
 				{isLoading ? (
-					<h1>IsLoading...</h1>
+					<>
+						<div>
+							<div className={scss.avatar_skeleton}>
+								<Skeleton.Avatar active size={50} />
+								<Skeleton.Button
+									active
+									block
+									style={{ width: 200, height: 20 }}
+								/>
+							</div>
+							<div className={scss.review_skeleton_two}>
+								<Skeleton.Button
+									active
+									block
+									style={{ width: 480, height: 100 }}
+								/>
+							</div>
+							<div className={scss.avatar_skeleton}>
+								<Skeleton.Avatar active size={50} />
+								<Skeleton.Button
+									active
+									block
+									style={{ width: 200, height: 20 }}
+								/>
+							</div>
+							<div className={scss.review_skeleton_two}>
+								<Skeleton.Button
+									active
+									block
+									style={{ width: 480, height: 100 }}
+								/>
+							</div>
+							<div className={scss.avatar_skeleton}>
+								<Skeleton.Avatar active size={50} />
+								<Skeleton.Button
+									active
+									block
+									style={{ width: 200, height: 20 }}
+								/>
+							</div>
+							<div className={scss.review_skeleton_two}>
+								<Skeleton.Button
+									active
+									block
+									style={{ width: 480, height: 100 }}
+								/>
+							</div>
+						</div>
+					</>
 				) : (
 					<div className={scss.reviews_contents_div}>
 						<div className={scss.contents_and_commits_users}>
 							{data?.length === 0 ? (
 								<>
-									<h4>Нет отзывов об этом товаре.</h4>
+									<div className={scss.not_reviews}>
+										<Empty description={false} />
+										<p>Нет отзывов об этом товаре... </p>
+									</div>
 								</>
 							) : (
 								<>
@@ -288,9 +350,25 @@ const ReviewsPage = () => {
 										</>
 									) : (
 										<>
-											<h4>
-												Чтобы оставить отзыв войдите или зарегистирируйтесь
-											</h4>
+											<div className={scss.not_reviews}>
+												<img src={reviewsimg} alt="" />
+												<p>Вы не зарегистирировались или не вошли </p>
+												<div className={scss.login_and_register}>
+													<span
+														className={scss.one}
+														onClick={() => navigate('/auth/login')}
+													>
+														Войти
+													</span>
+													<span>или</span>
+													<span
+														className={scss.one}
+														onClick={() => navigate('/auth/register')}
+													>
+														Зарегистрироваться
+													</span>
+												</div>
+											</div>
 										</>
 									)}
 								</>
@@ -348,7 +426,7 @@ const ReviewsPage = () => {
 										</div>
 										<div className={scss.userReviews}>
 											<Rate
-												disabled	
+												disabled
 												allowHalf
 												defaultValue={FeedbackStatistics?.ratingCounts[5]}
 											/>

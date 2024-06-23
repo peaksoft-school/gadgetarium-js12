@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import scss from './Login.module.scss';
 import logo from '@/src/assets/logo.png';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { Button, ConfigProvider, Input } from 'antd';
+import { Button, ConfigProvider, Input, message } from 'antd';
 import React from 'react';
 import { usePostLoginMutation } from '@/src/redux/api/auth';
 import { auth, provider } from './config';
@@ -10,11 +10,10 @@ import { signInWithPopup } from 'firebase/auth';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { notify } from '@/src/utils/helpers/notify';
-import { IconLoader } from '@tabler/icons-react';
 
 const Login = ({ setOpenModal }) => {
 	const [passwordVisible, setPasswordVisible] = React.useState(false);
-	const [postRequestLogin, { isLoading }] = usePostLoginMutation();
+	const [postRequestLogin] = usePostLoginMutation();
 	const navigate = useNavigate();
 	const {
 		handleSubmit,
@@ -29,32 +28,27 @@ const Login = ({ setOpenModal }) => {
 		event?.preventDefault();
 		try {
 			const response = await postRequestLogin(data).unwrap();
+
 			if (response.role === 'USER') {
 				const { token } = response;
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'true');
 				localStorage.setItem('user', 'true');
 				localStorage.setItem('admin', 'false');
-				notify('Вход выполнен успешно', 'Перейти на главную', '/');
-				setTimeout(() => {
-					console.log('Navigating to /auth/register');
-					navigate('/');
-				}, 3000);
+				message.success('Вход выполнен успешно');
+				navigate('/');
 			} else if (response.role === 'ADMIN') {
 				const { token } = response;
 				localStorage.setItem('token', token);
-				localStorage.setItem('isAuth', 'false');
+				localStorage.setItem('isAuth', 'false');	
 				localStorage.setItem('admin', 'true');
-				notify('Вход выполнен успешно', 'Перейти на главную', '/');
-				setTimeout(() => {
-					console.log('Navigating to /auth/register');
-					navigate('/admin');
-				}, 3000);
+				message.warning('Вход выполнен успешно');
+				navigate('/admin');
 			}
 			reset();
 			setOpenModal(false);
 		} catch (error) {
-			notify('Ошибка при входе', '', '');
+			message.warning('Ошибка при входе');
 			setOpenModal(true);
 			console.log('Ошибка при входе', error);
 		}
@@ -67,10 +61,7 @@ const Login = ({ setOpenModal }) => {
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'true');
 				notify('Вход через Google выполнен успешно', 'Перейти на главную', '/');
-				setTimeout(() => {
-					console.log('Navigating to /auth/register');
-					navigate('/');
-				}, 2000);
+				navigate('/');
 			})
 			.catch((error) => {
 				console.error('Ошибка входа через Google:', error);
@@ -169,7 +160,7 @@ const Login = ({ setOpenModal }) => {
 											type="primary"
 											htmlType="submit"
 										>
-											{isLoading ? <IconLoader /> : 'Войти'}
+											Войти
 										</Button>
 									</div>
 									<button

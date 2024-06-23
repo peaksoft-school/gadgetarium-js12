@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import scss from './NewForgotPassword.module.scss';
 import logo from '@/src/assets/logo.png';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { Button, ConfigProvider, Input } from 'antd';
+import { Button, ConfigProvider, Input, message } from 'antd';
 import React from 'react';
 import { usePatchNewPasswordMutation } from '@/src/redux/api/auth';
 import { ToastContainer } from 'react-toastify';
@@ -36,14 +36,14 @@ const NewForgotPassword = () => {
 			};
 			await patchNewPassword(newData);
 			console.log('onSubmit', data);
-			notify('Пароль успешно изменён', 'Войти', '/auth/login');
+			message.success('Пароль успешно изменён');
 			setTimeout(() => {
 				navigate('/auth/login');
 			}, 3000);
 			reset();
 		} catch (error) {
 			console.log('not patch response', error);
-			notify('Неправильно вели пароль', '', '');
+			message.warning('Неправильно вели пароль');
 		}
 	};
 	return (
