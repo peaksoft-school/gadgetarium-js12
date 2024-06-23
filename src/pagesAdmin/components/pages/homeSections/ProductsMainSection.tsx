@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import scss from './ProductsMainSection.module.scss';
 import Input, { SearchProps } from 'antd/es/input';
 import {
@@ -9,14 +10,20 @@ import {
 } from 'antd';
 import { IconChartCircles, IconEdit, IconTrash } from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
-import { useState } from 'react';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal';
 import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
 import CustomButtonAdd from '@/src/ui/adminButtons/CustomButtonAdd';
 import UploadBanner from '@/src/ui/customImageAdd/UploadBanner';
 import Infographics from '@/src/ui/infographics/Infographics';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDeleteGoodsGadgetMutation, useGetGoodGadgetQuery } from '@/src/redux/api/goods';
+import {
+	useDeleteGoodsGadgetMutation,
+	useGetGoodGadgetQuery,
+	usePostGoodsBannerMutation,
+	usePostGoodsDiscountMutation
+} from '@/src/redux/api/goods';
+import type { UploadFile } from 'antd';
+import moment from 'moment';
 
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
 	console.log(info?.source, value);
@@ -30,7 +37,24 @@ const ProductsMainSection = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
 	const [isModalOpenBanner, setIsModalOpenBanner] = useState(false);
-	const [gadgetId, setGadgetId] = useState(0)
+	const [gadgetId, setGadgetId] = useState<number | null>(null);
+	const [hoveredItemId, setHoveredItemId] = useState<number | null>(null);
+	const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+
+	const initialFileList: UploadFile[] = [
+		{
+			uid: '-1',
+			name: 'image.png',
+			status: 'done',
+			url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+		}
+	];
+
+	const [fileList, setFileList] = useState<UploadFile[]>(initialFileList);
+	const [discountSize, setDiscountSize] = useState('');
+	const [discountStartDay, setDiscountStartDay] = useState('');
+	const [discountEndDay, setDiscountEndDay] = useState('');
+
 	const navigate = useNavigate();
 
 	const addProduct = () => {
@@ -60,6 +84,7 @@ const ProductsMainSection = () => {
 	const handleFiltered = () => {
 		setFiltered(!filtered);
 	};
+
 	const antdThemeConfig = {
 		algorithm: theme.defaultAlgorithm,
 		token: {
@@ -68,16 +93,56 @@ const ProductsMainSection = () => {
 		}
 	};
 
-	const { data } = useGetGoodGadgetQuery("")
-	const [deleteGadget] = useDeleteGoodsGadgetMutation()
-	
+	const { data } = useGetGoodGadgetQuery('');
+	console.log(data);
+	const [deleteGadget] = useDeleteGoodsGadgetMutation();
+	const [postBanner] = usePostGoodsBannerMutation();
+
 	const handleDeleteGadget = async () => {
-    if (gadgetId !== null) {
-      await deleteGadget(gadgetId)
-      setGadgetId(0);
-      setIsModalOpenDelete(false);
-    }
-  };
+		if (gadgetId !== null) {
+			await deleteGadget(gadgetId);
+			setGadgetId(null);
+			setIsModalOpenDelete(false);
+		}
+	};
+
+	const handlePostBanner = async () => {
+		const bannerData = {
+			images: fileList.map((file) => file.url)
+		};
+		const res = await postBanner(bannerData);
+		console.log(res);
+	};
+
+	const [postDiscount] = usePostGoodsDiscountMutation();
+
+	const handlePostDiscount = async () => {
+		const discountData = {
+			gadgetId: [selectedItemId],
+			discountSize: discountSize,
+			startDay: discountStartDay,
+			endDay: discountEndDay
+		};
+		const res = await postDiscount(discountData);
+		console.log(res);
+		setIsModalOpen(false);
+	};
+
+	const handleHover = (id: number | null) => {
+		setHoveredItemId(id);
+	};
+
+	const handleSelect = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
+		e.stopPropagation();
+		e.preventDefault();
+		setSelectedItemId(id);
+		setGadgetId(id);
+	};
+
+	const handleCheckboxClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		e.preventDefault();
+	};
 
 	return (
 		<div className={scss.ProductsMainSection}>
@@ -153,12 +218,12 @@ const ProductsMainSection = () => {
 						<div className={scss.inputs_date}>
 							<DatePicker
 								className={scss.input_date}
-								onChange={onChange}
+								onChange={(date, dateString) => setDiscountStartDay(dateString)}
 								placeholder="От"
 							/>
 							<DatePicker
 								className={scss.input_date}
-								onChange={onChange}
+								onChange={(date, dateString) => setDiscountEndDay(dateString)}
 								placeholder="До"
 							/>
 						</div>
@@ -168,63 +233,89 @@ const ProductsMainSection = () => {
 								<PhonesDropdown />
 							</div>
 							<table className={scss.cards}>
-								<tr className={scss.card_title}>
-									<div className={scss.row_1}>
-										<th>ID</th>
-										<th>Фото</th>
-									</div>
-									<div className={scss.rows}>
-										<div className={scss.row_2}>
-											<th>Артикул</th>
-											<th>Наименование товара</th>
-											<th>Дата создания</th>
-											<th>Кол-во</th>
-											<th>Цена товара</th>
+								<thead>
+									<tr className={scss.card_title}>
+										<div className={scss.row_1}>
+											<th>ID</th>
+											<th>Фото</th>
 										</div>
-										<div className={scss.row_3}>
-											<th>Текущая цена</th>
-											<th>Действия</th>
-										</div>
-									</div>
-								</tr>
-								<tr className={scss.tr}>
-									{data?.paginationGadgets?.map((item, index) => (
-										<Link to={`/admin/goodsPage/product-page/${item?.id}`} className={scss.link_button}>
-											<div key={index} className={scss.card}>
-												<div className={scss.three}>
-													<td>{item?.id}</td>
-													<img src={item.images} alt="" />
-												</div>
-												<td>{item?.article}</td>
-												<div className={scss.quantity_name}>
-													<td>Кол-во товара {item?.quantity}шт.</td>
-													<td className={scss.name}>{item?.nameOfGadget}</td>
-												</div>
-												<div className={scss.date_time}>
-													<td>{item?.releaseDate}</td>
-													{/* <td className={scss.time}>{productName.time}</td> */}
-												</div>
-												<td>{item?.quantity}</td>
-												<div className={scss.price_discount}>
-													<td className={scss.price_td}>{item?.price}с</td>
-													<td className={scss.discount}>
-														{item?.percent}%
-													</td>
-												</div>
-												<td className={scss.price_td}>{item?.currentPrice}с</td>
-												<div className={scss.icons}>
-													<IconEdit className={scss.trash} />
-													<IconTrash onClick={(e) => {
-														showModalDelete()
-														e.stopPropagation()
-														e.preventDefault();
-														setGadgetId(item?.id)
-													}} />
-												</div>
+										<div className={scss.rows}>
+											<div className={scss.row_2}>
+												<th>Артикул</th>
+												<th>Наименование товара</th>
+												<th>Дата создания</th>
+												<th>Кол-во</th>
+												<th>Цена товара</th>
 											</div>
-										</Link>
+											<div className={scss.row_3}>
+												<th>Текущая цена</th>
+												<th>Действия</th>
+											</div>
+										</div>
+									</tr>
+								</thead>
+								<tbody>
+									{data?.paginationGadgets?.map((item, index) => (
+										<tr
+											key={index}
+											className={scss.tr}
+											onMouseEnter={() => handleHover(item.id)}
+											onMouseLeave={() => handleHover(null)}
+										>
+											<Link
+												to={`/admin/goodsPage/product-page/${item?.id}`}
+												className={scss.link_button}
+											>
+												<div className={scss.card}>
+													<div className={scss.three}>
+														<td>
+															{hoveredItemId === item.id ||
+															selectedItemId === item.id ? (
+																<input
+																	type="checkbox"
+																	checked={selectedItemId === item.id}
+																	onClick={handleCheckboxClick}
+																	onChange={(e) => handleSelect(e, item.id)}
+																/>
+															) : (
+																item.id
+															)}
+														</td>
+														<img src={item.images} alt="" />
+													</div>
+													<td>{item?.article}</td>
+													<div className={scss.quantity_name}>
+														<td>Кол-во товара {item?.quantity}шт.</td>
+														<td className={scss.name}>{item?.nameOfGadget}</td>
+													</div>
+													<div className={scss.date_time}>
+														<td>{item?.releaseDate}</td>
+														{/* <td className={scss.time}>{productName.time}</td> */}
+													</div>
+													<td>{item?.quantity}</td>
+													<div className={scss.price_discount}>
+														<td className={scss.price_td}>{item?.price}с</td>
+														<td className={scss.discount}>{item?.percent}%</td>
+													</div>
+													<td className={scss.price_td}>
+														{item?.currentPrice}с
+													</td>
+													<div className={scss.icons}>
+														<IconEdit className={scss.trash} />
+														<IconTrash
+															onClick={(e) => {
+																showModalDelete();
+																e.stopPropagation();
+																e.preventDefault();
+																setGadgetId(item?.id);
+															}}
+														/>
+													</div>
+												</div>
+											</Link>
+										</tr>
 									))}
-								</tr>
+								</tbody>
 							</table>
 						</div>
 						<div>
@@ -246,7 +337,14 @@ const ProductsMainSection = () => {
 								<label className={scss.label} htmlFor="name">
 									Размер скидки *
 								</label>
-								<input type="text" name="name" placeholder="0%  " />
+								<input
+									className={scss.discount}
+									value={discountSize}
+									onChange={(e) => setDiscountSize(e.target.value)}
+									type="number"
+									name="name"
+									placeholder="0%  "
+								/>
 							</div>
 							<div className={scss.dates}>
 								<div>
@@ -256,7 +354,10 @@ const ProductsMainSection = () => {
 									<DatePicker
 										name="name"
 										className={scss.date}
-										onChange={onChange}
+										value={discountStartDay ? moment(discountStartDay) : null}
+										onChange={(date, dateString) =>
+											setDiscountStartDay(dateString)
+										}
 										placeholder="От"
 									/>
 								</div>
@@ -267,7 +368,10 @@ const ProductsMainSection = () => {
 									<DatePicker
 										name="name"
 										className={scss.date}
-										onChange={onChange}
+										value={discountEndDay ? moment(discountEndDay) : null}
+										onChange={(date, dateString) =>
+											setDiscountEndDay(dateString)
+										}
 										placeholder="Выберите дату"
 									/>
 								</div>
@@ -276,7 +380,7 @@ const ProductsMainSection = () => {
 								<CancelButtonCustom onClick={handleCancel}>
 									ОТМЕНИТЬ
 								</CancelButtonCustom>
-								<CustomButtonAdd onClick={handleCancel}>
+								<CustomButtonAdd onClick={handlePostDiscount}>
 									ОТПРАВИТЬ
 								</CustomButtonAdd>
 							</div>
@@ -288,12 +392,12 @@ const ProductsMainSection = () => {
 					>
 						<div className={scss.add_banner}>
 							<h1>Загрузить баннер</h1>
-							<UploadBanner />
+							<UploadBanner fileList={fileList} setFileList={setFileList} />
 							<div className={scss.buttons_banner}>
 								<CancelButtonCustom onClick={handleCancelBanner}>
 									ОТМЕНИТЬ
 								</CancelButtonCustom>
-								<CustomButtonAdd onClick={handleCancelBanner}>
+								<CustomButtonAdd onClick={handlePostBanner}>
 									ОТПРАВИТЬ
 								</CustomButtonAdd>
 							</div>
@@ -306,15 +410,15 @@ const ProductsMainSection = () => {
 				setIsModalOpen={setIsModalOpenDelete}
 			>
 				<div className={scss.modal}>
-					<h2>
-						Вы уверены, что хотите удалить товар?
-					</h2>
+					<h2>Вы уверены, что хотите удалить товар?</h2>
 
 					<div className={scss.modal_buttons}>
 						<CancelButtonCustom onClick={() => setIsModalOpenDelete(false)}>
 							Отменить
 						</CancelButtonCustom>
-						<CustomButtonAdd onClick={handleDeleteGadget}>Удалить</CustomButtonAdd>
+						<CustomButtonAdd onClick={handleDeleteGadget}>
+							Удалить
+						</CustomButtonAdd>
 					</div>
 				</div>
 			</CustomModal>

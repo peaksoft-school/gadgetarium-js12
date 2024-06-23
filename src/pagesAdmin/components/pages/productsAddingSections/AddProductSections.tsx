@@ -616,7 +616,7 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'ram',
-																	moreGBiteCatalog[Number(Number(value) - 1 )].gb
+																	moreGBiteCatalog[Number(Number(value) - 1)].gb
 																)
 															}
 															value={el.ram}
@@ -639,7 +639,7 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'countSim',
-																	simCards[Number(Number(value) - 1)].sumCard 
+																	simCards[Number(Number(value) - 1)].sumCard
 																)
 															}
 															value={el.countSim}
@@ -779,6 +779,29 @@ export const AddProductSections = () => {
 														/>
 													</div>
 													<div className={scss.label_and_input_div}>
+														<label>Оперативная память</label>
+
+														<Select
+															className={scss.input_for_form}
+															placeholder="Оперативная память"
+															options={
+																moreGBiteCatalog &&
+																moreGBiteCatalog.map((el, index) => ({
+																	value: String(index + 1),
+																	label: <p>{el.gb}</p>
+																}))
+															}
+															onChange={(value) =>
+																handleChangeProductValue(
+																	index,
+																	'ram',
+																	moreGBiteCatalog[Number(Number(value) - 1)].gb
+																)
+															}
+															value={el.ram}
+														/>
+													</div>
+													<div className={scss.label_and_input_div}>
 														<label>Материал браслета/ремешка</label>
 
 														<Select
@@ -797,8 +820,9 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'materialBracelet',
-																	optionsSmartWatchesAndBracelets[Number(Number(event) - 1)].label
-
+																	optionsSmartWatchesAndBracelets[
+																		Number(Number(value) - 1)
+																	].label
 																)
 															}
 															value={el.materialBracelet}
@@ -823,7 +847,9 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'materialBody',
-																	optionsSmartWatchesAndBracelets[Number(Number(value) - 1)].label
+																	optionsSmartWatchesAndBracelets[
+																		Number(Number(value) - 1)
+																	].label
 																)
 															}
 															value={el.materialBody}
@@ -846,7 +872,8 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'sizeWatch',
-																	OptionsForLaptop[Number(Number(value) - 1)].label
+																	OptionsForLaptop[Number(Number(value) - 1)]
+																		.label
 																)
 															}
 															value={el.sizeWatch}
@@ -869,7 +896,8 @@ export const AddProductSections = () => {
 																handleChangeProductValue(
 																	index,
 																	'dumas',
-																	OptionsForLaptop[Number(Number(value) - 1)].label
+																	OptionsForLaptop[Number(Number(value) - 1)]
+																		.label
 																)
 															}
 															value={el.dumas}

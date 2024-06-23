@@ -27,7 +27,8 @@ interface GadgetResponse {
 namespace BASKETPRODUCTS {
 	type GetBasketProductsRequest = void;
 	type GetBasketProductsResponse = Array<{
-		id: number;
+		gadgetId: number;
+		subGadgetId: number;
 		image: string;
 		nameOfGadget: string;
 		price: number;
@@ -58,7 +59,7 @@ namespace BASKETPRODUCTS {
 
 	type PutProductRequest = {
 		id: number;
-		basket: boolean;
+		basket?: boolean;
 		quantity?: string;
 	};
 	type PutProductResponse = {
@@ -127,4 +128,12 @@ namespace BASKETPRODUCTS {
 		basketAmounts: BasketAmounts;
 		gadgetResponse: GadgetResponse[];
 	};
+
+	type DeleteAllRequest = {
+		ids: string[];
+	};
+	type DeleteAllResponse = {
+		status: string;
+		message: string;
+	}
 }

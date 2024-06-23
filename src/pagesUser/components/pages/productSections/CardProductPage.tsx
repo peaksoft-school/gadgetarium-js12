@@ -118,7 +118,8 @@ const CardProductPage = () => {
 		gadgetId: Number(productId),
 		color: `color=${data?.mainColour}`
 	});
-	console.log(data, 'pdf url');
+	console.log(productMemoryData, 'memory data');
+	
 
 	const handleCountProduct = () => {
 		setCountInput((prevValue) => {
@@ -164,7 +165,7 @@ const CardProductPage = () => {
 							<div className={scss.content_main_text_page}>
 								<div className={scss.div_content_product_and_pages}>
 									<p onClick={() => navigate('/')}>Главная »</p>
-									<p onClick={() => navigate('')}> Смартфоны »</p>
+									<p onClick={() => navigate('/catalog/1/filtred')}> Смартфоны »</p>
 									<p>{data?.nameOfGadget}</p>
 								</div>
 								<div className={scss.div_brad_product}>
@@ -391,7 +392,7 @@ const CardProductPage = () => {
 																className={scss.active_basket_button_navigate}
 																onClick={() => navigate('/basket')}
 															>
-																В корзине Перейти
+																Перейти в корзину
 															</Button>
 														) : (
 															<AddBasketButton
