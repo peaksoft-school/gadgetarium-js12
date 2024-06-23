@@ -6,7 +6,7 @@ const api = index.injectEndpoints({
       GOODSSTORE.GetGoodsResponse,
       GOODSSTORE.GetGoodsRequest
     >({
-      query: ({page, size}) => ({
+      query: ({ page, size }) => ({
         url: '/api/gadget',
         method: 'GET',
         headers: {
@@ -100,7 +100,50 @@ const api = index.injectEndpoints({
       providesTags: ['adminGoods']
     }),
 
+    postGoodsBanner: build.mutation<
+      GOODSSTORE.GetGoodsBannerResponse,
+      GOODSSTORE.GetGoodsBannerRequest
+    >({
+      query: (banner) => ({
+        url: `/api/banner`,
+        method: 'POST',
+        body: { images: [banner] },
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      }),
+      invalidatesTags: ['adminGoods']
+    }),
 
+    postGoodsDiscount: build.mutation<
+      GOODSSTORE.GetGoodsDiscountResponse,
+      GOODSSTORE.GetGoodsDiscountRequest
+    >({
+      query: (discount) => ({
+        url: `/api/discount`,
+        method: 'POST',
+        body: discount,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      }),
+      invalidatesTags: ['adminGoods']
+    }),
+
+    postNewslater: build.mutation<
+      GOODSSTORE.PostNewslaterRequest,
+      GOODSSTORE.PostNewslaterResponse
+    >({
+      query: (newNewslater) => ({
+        url: `/api/news-letter`,
+        method: 'POST',
+        body: newNewslater,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      }),
+      invalidatesTags: ['adminGoods']
+    }),
   })
 });
 
@@ -111,6 +154,9 @@ export const {
   useDeleteGoodsGadgetMutation,
   useGetCharacteristicsGoodGadgetQuery: useGetCharacteristicsGoodGadgetQuery,
   useGetDescriptionGoodGadgetQuery: useGetDescriptionGoodGadgetQuery,
-  useGetReviewGadgetGoodQuery: useGetReviewGadgetGoodQuery
+  useGetReviewGadgetGoodQuery: useGetReviewGadgetGoodQuery,
+  usePostGoodsBannerMutation,
+  usePostGoodsDiscountMutation,
+  usePostNewslaterMutation
 
 } = api;

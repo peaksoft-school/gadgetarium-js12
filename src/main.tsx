@@ -13,9 +13,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<ReduxProvider>
-				<PrivateRoute>
-					<App />
-				</PrivateRoute>
+					<PrivateRoute>
+						<App />
+					</PrivateRoute>
 			</ReduxProvider>
 		</BrowserRouter>
 	</React.StrictMode>
