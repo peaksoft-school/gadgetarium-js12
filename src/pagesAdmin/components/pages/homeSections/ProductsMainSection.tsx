@@ -228,7 +228,7 @@ const ProductsMainSection = () => {
 							</table>
 						</div>
 						<div>
-							<Pagination defaultCurrent={10} total={40} />;
+							<Pagination defaultCurrent={10} total={40} />
 						</div>
 					</div>
 					<div className={scss.right_content}>

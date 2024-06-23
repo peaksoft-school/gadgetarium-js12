@@ -235,7 +235,6 @@ const Catalog = () => {
 	});
 
 	console.log(posts, 'array');
-	
 
 	const handleBasketProductsFunk = async (subGadgetId: number) => {
 		await addProductBasket({ id: subGadgetId, basket: false });

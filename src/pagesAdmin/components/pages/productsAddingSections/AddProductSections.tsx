@@ -385,7 +385,7 @@ export const AddProductSections = () => {
 											/>
 										</div>
 										<div className={scss.label_and_input_div}>
-											<label>Брент *</label>
+											<label>Бренд *</label>
 											<Select
 												className={scss.input}
 												placeholder="Выбрать"
