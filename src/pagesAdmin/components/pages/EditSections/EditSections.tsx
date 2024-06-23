@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useNavigate, useParams } from 'react-router-dom';
 import scss from './EditSections.module.scss';
-import { Button, Input, Upload } from 'antd';
+import { Button, Input, Radio, Select, Upload } from 'antd';
 import type { GetProp, UploadFile, UploadProps } from 'antd';
 import React, { useState } from 'react';
 import { generate, green, presetPalettes, red } from '@ant-design/colors';
@@ -21,6 +21,11 @@ import {
 	usePostUploadMutation
 } from '@/src/redux/api/pdf';
 import { IconColorPicker, IconPhotoPlus } from '@tabler/icons-react';
+import { gBiteCatalog, moreGBiteCatalog, simCards } from '@/src/data/Catalog';
+import {
+	OptionsForLaptop,
+	optionsSmartWatchesAndBracelets
+} from '@/src/data/InputSelect';
 
 type Presets = Required<ColorPickerProps>['presets'][number];
 
@@ -41,16 +46,20 @@ const EditSections = () => {
 	const [priceEdit, setPriceEdit] = useState<string>('');
 	const [ramEdit, setRamEdit] = useState<string>('');
 	const [memoryEdit, setMemoryEdit] = useState<string>('');
+	const [countSimEdit, setCountSimEdit] = useState<string>('');
 	const [editProductById] = useEditProductByIdApiMutation();
 	const [deleteUploadApi] = useDeleteS3UploadMutation();
 	const [quantityEdit, setQuantityEdit] = useState<string>('');
 	const [postUploadApi] = usePostUploadMutation();
 	const [warrantyEdit, setWarrantyEdit] = useState<number>(0);
-	const [releaseDateEdit, setReleaseDateEdit] = useState<string>('');
 	const [materialBraceletEdit, setMaterialBraceletEdit] = useState<string>('');
 	const [materialBodyEdit, setMaterialBodyEdit] = useState<string>('');
 	const [sizeWatchEdit, setSizeWatchEdit] = useState<string>('');
 	const [dumasEdit, setDumasEdit] = useState<string>('');
+	const [genderWatchEdit, setGenderWatchEdit] = useState<string>('');
+	const [waterproofEdit, setWaterproofEdit] = useState<string>('');
+	const [wirelessEdit, setWirelessEdit] = useState<string>('');
+	const [shapeBodyEdit, setShapeBodyEdit] = useState<string>('');
 	const { data, isLoading } = useGetCardProductQuery({
 		id: Number(productId)
 	});
@@ -84,17 +93,17 @@ const EditSections = () => {
 			quantity: quantityEdit,
 			price: priceEdit,
 			colour: colorEdit,
-			images: formDataFile,
-		}
+			images: formDataFile
+		};
 
 		try {
 			await editProductById({
 				...DATA
-			})
+			});
 		} catch (error) {
 			console.error(error);
 		}
-	}
+	};
 
 	const onPreview = async (file: UploadFile) => {
 		let src = file.url as string;
@@ -151,7 +160,6 @@ const EditSections = () => {
 			}
 		}
 	};
-	console.log(formDataFile, 'array is uploaded');
 
 	return (
 		<section className={scss.EditSections}>
@@ -260,17 +268,6 @@ const EditSections = () => {
 										/>
 									</div>
 								</div>
-								<div className={scss.label_and_input_div}>
-									<label>Дата выпуска</label>
-									<Input
-										className={scss.input}
-										defaultValue={data?.releaseDate}
-										value={releaseDateEdit}
-										onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-											setReleaseDateEdit(e.target.value)
-										}
-									/>
-								</div>
 								{/* <div className={scss.label_and_input_div}>
 									<label>Количество</label>
 									<Input className={scss.input} defaultValue={data?.quantity} />
@@ -320,21 +317,61 @@ const EditSections = () => {
 									</div>
 
 									<div className={scss.label_and_input_div}>
-										<label>Память</label>
-										<Input
+										<label>Объем памяти</label>
+										<Select
 											className={scss.input}
-											value={memoryEdit}
-											defaultValue={data?.memory}
-											onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-												setMemoryEdit(e.target.value)
+											placeholder="Объем памяти"
+											options={
+												gBiteCatalog &&
+												gBiteCatalog.map((el, index) => ({
+													value: String(index + 1),
+													label: <p>{el.gb}</p>
+												}))
 											}
+											onChange={(value) =>
+												setMemoryEdit(
+													gBiteCatalog[Number(Number(value) - 1)].gb
+												)
+											}
+											value={memoryEdit}
 										/>
 									</div>
 									<div className={scss.label_and_input_div}>
-										<label>SIM-карты</label>
-										<Input
+										<label>Оперативная память</label>
+										<Select
 											className={scss.input}
-											defaultValue={data?.countSim}
+											placeholder="Оперативная память"
+											options={
+												moreGBiteCatalog &&
+												moreGBiteCatalog.map((el, index) => ({
+													value: String(index + 1),
+													label: <p>{el.gb}</p>
+												}))
+											}
+											onChange={(value) =>
+												setRamEdit(gBiteCatalog[Number(Number(value) - 1)].gb)
+											}
+											value={ramEdit}
+										/>
+									</div>
+									<div className={scss.label_and_input_div}>
+										<label>Кол-во SIM-карт</label>
+										<Select
+											className={scss.input}
+											placeholder="Кол-во SIM-карт"
+											options={
+												simCards &&
+												simCards.map((el, index) => ({
+													value: String(index + 1),
+													label: <p>{el.sumCard}</p>
+												}))
+											}
+											onChange={(value) =>
+												setCountSimEdit(
+													simCards[Number(Number(value) - 1)].sumCard
+												)
+											}
+											value={countSimEdit}
 										/>
 									</div>
 									<div className={scss.label_and_input_div}>
@@ -342,15 +379,146 @@ const EditSections = () => {
 										<Input
 											className={scss.input}
 											defaultValue={data?.warranty}
+											placeholder="Гарантия (месяцев)"
+											onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+												setWarrantyEdit(Number(e.target.value))
+											}
 										/>
 									</div>
 								</div>
-								{/* <div className={scss.form_2}>
-									<div className={scss.label_and_input_div}>
-										<label>Описание фото</label>
-										<Input className={scss.input} type="url" />
+								{data && data?.uniField === null && (
+									<div className={scss.form_2}>
+										<div className={scss.label_and_input_div}>
+											<label>Материал браслета/ремешка</label>
+											<Select
+												className={scss.input_for_form}
+												placeholder="Материал браслета/ремешка"
+												options={
+													optionsSmartWatchesAndBracelets &&
+													optionsSmartWatchesAndBracelets.map((el, index) => ({
+														value: String(index + 1),
+														label: <p>{el.label}</p>
+													}))
+												}
+												onChange={(value) =>
+													setMaterialBraceletEdit(
+														optionsSmartWatchesAndBracelets[
+															Number(Number(value) - 1)
+														].label
+													)
+												}
+												value={materialBraceletEdit}
+											/>
+										</div>
+										<div className={scss.label_and_input_div}>
+											<label>Материал корпуса</label>
+											<Select
+												className={scss.input_for_form}
+												placeholder="Материал корпуса"
+												options={
+													optionsSmartWatchesAndBracelets &&
+													optionsSmartWatchesAndBracelets.map((el, index) => ({
+														value: String(index + 1),
+														label: <p>{el.label}</p>
+													}))
+												}
+												onChange={(value) =>
+													setMaterialBodyEdit(
+														optionsSmartWatchesAndBracelets[
+															Number(Number(value) - 1)
+														].label
+													)
+												}
+												value={materialBodyEdit}
+											/>
+										</div>
+										<div className={scss.label_and_input_div}>
+											<label>Размер смарт часов (mm)</label>
+											<Select
+												className={scss.input_for_form}
+												placeholder="Размер смарт часов (mm)"
+												options={
+													OptionsForLaptop &&
+													OptionsForLaptop.map((el, index) => ({
+														value: String(index + 1),
+														label: <p>{el.label}</p>
+													}))
+												}
+												onChange={(value) =>
+													setSizeWatchEdit(
+														OptionsForLaptop[Number(Number(value) - 1)].label
+													)
+												}
+												value={sizeWatchEdit}
+											/>
+										</div>
+										<div className={scss.label_and_input_div}>
+											<label>Диагональ дисплея (дюйм)</label>
+											<Select
+												className={scss.input_for_form}
+												placeholder="Диагональ дисплея (дюйм)"
+												options={
+													OptionsForLaptop &&
+													OptionsForLaptop.map((el, index) => ({
+														value: String(index + 1),
+														label: <p>{el.label}</p>
+													}))
+												}
+												onChange={(value) =>
+													setDumasEdit(
+														OptionsForLaptop[Number(Number(value) - 1)].label
+													)
+												}
+												value={dumasEdit}
+											/>
+										</div>
+										<div className={scss.label_and_input_div}>
+											<label>Пол</label>
+											<Radio.Group
+												onChange={(e) => setGenderWatchEdit(e.target.value)}
+												value={genderWatchEdit}
+											>
+												<Radio value={'Унисекс'}>Унисекс</Radio>
+												<Radio value={'Женский'}>Женский</Radio>
+												<Radio value={'Мужской'}>Мужской</Radio>
+											</Radio.Group>
+										</div>
+										<div className={scss.label_and_input_div}>
+											<label>Водонепроницаемые</label>
+											<Radio.Group
+												onChange={(e) => setWaterproofEdit(e.target.value)}
+												value={waterproofEdit}
+											>
+												<Radio value={'Да'}>Да</Radio>
+												<Radio value={'Нет'}>Нет</Radio>
+											</Radio.Group>
+										</div>
+										<div className={scss.label_and_input_div}>
+											<label>Беспроводные интерфейсы</label>
+											<Radio.Group
+												onChange={(e) => setWirelessEdit(e.target.value)}
+												value={wirelessEdit}
+											>
+												<Radio value={'Bluetooth'}>Bluetooth</Radio>
+												<Radio value={'Wi-Fi'}>Wi-Fi</Radio>
+												<Radio value={'GPS'}>GPS</Radio>
+												<Radio value={'NFC'}>NFC</Radio>
+											</Radio.Group>
+										</div>
+										<div className={scss.label_and_input_div}>
+											<label>Форма корпуса</label>
+											<Radio.Group
+												onChange={(e) => setShapeBodyEdit(e.target.value)}
+												value={shapeBodyEdit}
+											>
+												<Radio value={'Квадратная'}>Квадратная</Radio>
+												<Radio value={'Круглая'}>Круглая</Radio>
+												<Radio value={'Овальная'}>Овальная</Radio>
+												<Radio value={'Прямоугольная'}>Прямоугольная</Radio>
+											</Radio.Group>
+										</div>
 									</div>
-								</div> */}
+								)}
 							</div>
 						)}
 						<div className={scss.button_div}>
