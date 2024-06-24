@@ -8,7 +8,7 @@ import {
 	useGetCatalogProductsQuery,
 	useSubCategoriesQuery
 } from '@/src/redux/api/catalogProducts';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
 	useAddBrandApiMutation,
 	useGetBrandApiQuery
@@ -16,7 +16,8 @@ import {
 import {
 	IconCalendarMinus,
 	IconColorPicker,
-	IconPhotoPlus
+	IconPhotoPlus,
+	IconX
 } from '@tabler/icons-react';
 import { IconPlus } from '@/src/assets/icons';
 import { generate, green, presetPalettes, red } from '@ant-design/colors';
@@ -148,8 +149,10 @@ export const AddProductSections = () => {
 	};
 
 	const changeWarrantyValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setWarranty(Number(e.target.value));
-		console.log(warranty, 'Гарантия');
+		if (localStorage.getItem('categoryIdForAddProduct')) {
+			setWarranty(Number(e.target.value));
+			console.log(warranty, 'Гарантия');
+		}
 	};
 
 	const changeBrandInputValue = (
@@ -306,6 +309,11 @@ export const AddProductSections = () => {
 		} else {
 			return `${scss.forms_for_add_product}`;
 		}
+	};
+
+	const handleDeleteByIdArray = (id: number) => {
+		const newArray = array.filter((c, index) => index + 1 !== id);
+		setArray(newArray);
 	};
 
 	console.log(categoryId, 'catelog id');
@@ -522,7 +530,7 @@ export const AddProductSections = () => {
 										</div>
 										<div className={scss.label_and_input_div}>
 											<label>Дата выпуска *</label>
-											{categoryId ? (
+											{localStorage.getItem('categoryIdForAddProduct') ? (
 												<DatePicker
 													className={scss.input_for_text}
 													placeholder="Введите дату выпуска"
@@ -561,6 +569,12 @@ export const AddProductSections = () => {
 														placeholder={`Продукт ${index + 1}`}
 														className={scss.input_for_product_count}
 													/>
+													{array.length >= 2 && (
+														<IconX
+															style={{ margin: '50px' }}
+															onClick={() => handleDeleteByIdArray(index + 1)}
+														/>
+													)}
 												</div>
 												<div className={scss.card_inputs}>
 													<div className={scss.label_and_input_div}>

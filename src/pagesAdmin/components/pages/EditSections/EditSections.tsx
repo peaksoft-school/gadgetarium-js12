@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useNavigate, useParams } from 'react-router-dom';
 import scss from './EditSections.module.scss';
@@ -13,16 +14,14 @@ import {
 } from 'antd';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 import { useEditProductByIdApiMutation } from '@/src/redux/api/editProductById';
-import {
-	useDeleteS3UploadMutation,
-	usePostUploadMutation
-} from '@/src/redux/api/pdf';
+import { usePostUploadMutation } from '@/src/redux/api/pdf';
 import { IconColorPicker, IconPhotoPlus } from '@tabler/icons-react';
 import { gBiteCatalog, moreGBiteCatalog, simCards } from '@/src/data/Catalog';
 import {
 	OptionsForLaptop,
 	optionsSmartWatchesAndBracelets
 } from '@/src/data/InputSelect';
+import { useDeleteByIdGadgetApiMutation } from '@/src/redux/api/updateImageApi';
 
 type Presets = Required<ColorPickerProps>['presets'][number];
 
@@ -34,7 +33,6 @@ const genPresets = (presets = presetPalettes) =>
 
 const EditSections = () => {
 	const { productId } = useParams();
-	const editInputFileRef = React.useRef<HTMLInputElement>(null);
 	const [formDataFile, setFormDataFile] = useState<string[]>([]);
 	const [productName, setProductName] = useState<string>('');
 	const [colorEdit, setColorEdit] = useState<string>('');
@@ -43,7 +41,7 @@ const EditSections = () => {
 	const [memoryEdit, setMemoryEdit] = useState<string>('');
 	const [countSimEdit, setCountSimEdit] = useState<number>(0);
 	const [editProductById] = useEditProductByIdApiMutation();
-	const [deleteUploadApi] = useDeleteS3UploadMutation();
+	const [updateImage] = useDeleteByIdGadgetApiMutation();
 	const [quantityEdit, setQuantityEdit] = useState<number>(0);
 	const [postUploadApi] = usePostUploadMutation();
 	const [materialBraceletEdit, setMaterialBraceletEdit] = useState<string>('');
@@ -54,6 +52,7 @@ const EditSections = () => {
 	const [waterproofEdit, setWaterproofEdit] = useState<string>('');
 	const [wirelessEdit, setWirelessEdit] = useState<string>('');
 	const [shapeBodyEdit, setShapeBodyEdit] = useState<string>('');
+	const updateImageRef = React.useRef<HTMLInputElement>(null);
 	const { data } = useGetCardProductQuery({
 		id: Number(productId)
 	});
@@ -69,38 +68,39 @@ const EditSections = () => {
 
 	const handleEditApiFunk = async () => {
 		const DATA = {
-			quantity: quantityEdit,
-			price: priceEdit,
-			colour: colorEdit,
-			images: formDataFile,
-			countSim: countSimEdit,
-			memory: memoryEdit,
-			ram: ramEdit,
-			materialBracelet: materialBraceletEdit,
-			materialBody: materialBodyEdit,
-			sizeWatch: sizeWatchEdit,
-			dumas: dumasEdit,
-			genderWatch: genderWatchEdit,
-			waterproof: waterproofEdit,
-			wireless: wirelessEdit,
-			shapeBody: shapeBodyEdit
+			quantity: quantityEdit ? quantityEdit : data?.quantity && data?.quantity,
+			price: priceEdit ? priceEdit : data?.price && data.price,
+			colour: colorEdit ? colorEdit : data?.mainColour && data.mainColour,
+			// images: formDataFile ? formDataFile : data?.images && data.images,
+			countSim: Number(
+				countSimEdit ? countSimEdit : data?.countSim && data.countSim
+			),
+			memory: memoryEdit ? memoryEdit : data?.memory && data.memory,
+			ram: ramEdit ? ramEdit : data?.ram && data.ram,
+			materialBracelet: materialBraceletEdit || '',
+			materialBody: materialBodyEdit || '',
+			sizeWatch: sizeWatchEdit || '',
+			genderWatch: genderWatchEdit || '',
+			waterproof: waterproofEdit || '',
+			wireless: wirelessEdit || '',
+			shapeBody: shapeBodyEdit || ''
 		};
+		console.log(DATA, 'DATA');
+
 		try {
 			await editProductById({
-				subGadgetId: Number(productId),
+				subGadgetId: data?.subGadgetId!,
 				...DATA
 			});
 		} catch (error) {
 			console.error(error);
 		}
 	};
-
-	function editFileRefClick() {
-		if (editInputFileRef.current) {
-			editInputFileRef.current.click();
+	function updateImageRefClick() {
+		if (updateImageRef.current) {
+			return updateImageRef.current.click();
 		}
 	}
-
 	function changeProductNameFunk(event: React.ChangeEvent<HTMLInputElement>) {
 		setProductName(event.target.value);
 	}
@@ -114,18 +114,26 @@ const EditSections = () => {
 	};
 
 	const changeEditFileFunk = async (
-		file: React.ChangeEvent<HTMLInputElement>
+		file: React.ChangeEvent<HTMLInputElement>,
+		keyForDeleteUpload: string
 	) => {
+		console.log(file, 'and', keyForDeleteUpload);
 		const files = file.target.files;
 		if (files) {
 			const formData = new FormData();
-			for (let i = 0; i < files.length; i++) {
-				formData.append('files', files[i]);
-			}
+			formData.append('files', files[0]);
 			try {
 				const response = await postUploadApi(formData).unwrap();
-				const uploadedFiles = response.data.slice(0, 6);
-				setFormDataFile(uploadedFiles);
+				const uploadedFiles = response.data;
+				const UPDATEIMAGE = {
+					newImage: uploadedFiles[0],
+					oldImage: keyForDeleteUpload,
+					oldKey: keyForDeleteUpload.slice(54, 100)
+				};
+				await updateImage({
+					subGadgetId: data?.subGadgetId!,
+					...UPDATEIMAGE
+				});
 			} catch (error) {
 				console.error('Failed to upload files:', error);
 			}
@@ -156,7 +164,7 @@ const EditSections = () => {
 							<div className={scss.form_1}>
 								<div className={scss.label_and_input_div}>
 									<label>Фото</label>
-									{formDataFile.length >= 1 ? (
+									{/* {formDataFile.length !== 0 ? (
 										<div className={scss.edit_images}>
 											{formDataFile.map((el, index) => (
 												<>
@@ -170,7 +178,9 @@ const EditSections = () => {
 												type="file"
 												ref={editInputFileRef}
 												style={{ display: 'none' }}
-												onChange={changeEditFileFunk}
+												onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+													changeEditFileFunk(e, data?.images!)
+												}
 												multiple
 											/>
 											<div className={scss.divplay_file_contents}>
@@ -188,7 +198,27 @@ const EditSections = () => {
 												</div>
 											</div>
 										</div>
-									)}
+									)} */}
+									<div className={scss.div_images}>
+										{data?.images.slice(0, 6).map((c, index) => (
+											<>
+												<img
+													onClick={updateImageRefClick}
+													key={index}
+													src={c}
+													alt="logo"
+												/>
+												<input
+													type="file"
+													onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+														changeEditFileFunk(e, c)
+													}
+													ref={updateImageRef}
+													style={{ display: 'none' }}
+												/>
+											</>
+										))}
+									</div>
 									{/* <div onClick={editFileRefClick} className={scss.file_div}>
 										<input
 											type="file"

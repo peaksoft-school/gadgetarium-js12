@@ -12,7 +12,7 @@ const api = index.injectEndpoints({
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				},
-				body: { res }
+				body:  res 
 			}),
 			invalidatesTags: ['editProductById']
 		})

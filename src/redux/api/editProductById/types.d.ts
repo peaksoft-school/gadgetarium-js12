@@ -8,7 +8,6 @@ namespace EDITPRODUCTBYID {
 		countSim: number;
 		memory: string;
 		ram: string;
-		images: string[];
 		materialBracelet?: string;
 		materialBody?: string;
 		sizeWatch?: string;

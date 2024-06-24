@@ -99,6 +99,20 @@
 							font-size: clamp(7px, 4vw, 14px);
 							font-weight: 400;
 						}
+						.div_images {
+							display: flex;
+							flex-wrap: wrap;
+							width: 100%;
+							max-width: 320px;
+							min-width: 250px;
+							height: auto;
+							gap: 10px;
+							img {
+								width: 100%;
+								max-width: 75px;
+								height: 100px;
+							}
+						}
 						.edit_images {
 							display: flex;
 							flex-wrap: wrap;
