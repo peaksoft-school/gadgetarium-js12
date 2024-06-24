@@ -103,14 +103,27 @@
 							display: flex;
 							flex-wrap: wrap;
 							width: 100%;
-							max-width: 320px;
+							max-width: 392px;
 							min-width: 250px;
 							height: auto;
 							gap: 10px;
-							img {
-								width: 100%;
-								max-width: 75px;
-								height: 100px;
+							.images_div {
+								position: relative;
+								img {
+									width: 100%;
+									max-width: 75px;
+									height: 100px;
+								}
+								p {
+									position: relative;
+									top: 350px;
+									right: 650px;
+									z-index: 50;
+									color: purple;
+									font-size: clamp(6px, 4vw, 14px);
+									font-weight: 400;
+									cursor: pointer;
+								}
 							}
 						}
 						.edit_images {
@@ -181,6 +194,15 @@
 							color: black;
 						}
 					}
+					
+				}
+				.form_2 {
+					display: flex;
+					flex-direction: column;
+					gap: 10px;
+					@media (max-width: 768px) {
+						gap: 4px;
+					}
 					.colors_div {
 						display: flex;
 						flex-direction: column;
@@ -189,6 +211,9 @@
 						@media (max-width: 785px) {
 							gap: 5px;
 						}
+						// width: 100%;
+						width: 392px;
+						// height: 39px;
 						label {
 							color: rgb(56, 66, 85);
 							font-size: clamp(7px, 4vw, 14px);
@@ -215,14 +240,6 @@
 								height: 34px;
 							}
 						}
-					}
-				}
-				.form_2 {
-					display: flex;
-					flex-direction: column;
-					gap: 10px;
-					@media (max-width: 768px) {
-						gap: 4px;
 					}
 					.label_and_input_div {
 						display: flex;
@@ -257,12 +274,16 @@
 				}
 			}
 			.button_div {
-				text-align: center;
+				display: flex;
+				align-items: center;
+				gap: 20px;
 				.button {
 					display: flex;
 					align-items: center;
 					justify-content: center;
-					width: 150px;
+					width: 100%;
+					max-width: 187px;
+
 					height: 40px;
 					border-radius: 5px;
 					border: none;

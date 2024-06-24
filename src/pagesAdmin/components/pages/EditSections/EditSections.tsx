@@ -34,6 +34,7 @@ const genPresets = (presets = presetPalettes) =>
 const EditSections = () => {
 	const { productId } = useParams();
 	const [formDataFile, setFormDataFile] = useState<string[]>([]);
+	const [hoverEditIcon, setHoverEditIcon] = useState<number | null>(null);
 	const [productName, setProductName] = useState<string>('');
 	const [colorEdit, setColorEdit] = useState<string>('');
 	const [priceEdit, setPriceEdit] = useState<number>(0);
@@ -85,7 +86,6 @@ const EditSections = () => {
 			wireless: wirelessEdit || '',
 			shapeBody: shapeBodyEdit || ''
 		};
-		console.log(DATA, 'DATA');
 
 		try {
 			await editProductById({
@@ -201,13 +201,16 @@ const EditSections = () => {
 									)} */}
 									<div className={scss.div_images}>
 										{data?.images.slice(0, 6).map((c, index) => (
-											<>
+											<div className={scss.images_div}>
 												<img
+													onMouseEnter={() => setHoverEditIcon(index)}
+													onMouseLeave={() => setHoverEditIcon(null)}
 													onClick={updateImageRefClick}
 													key={index}
 													src={c}
 													alt="logo"
 												/>
+												{hoverEditIcon === index && <p>изменить</p>}
 												<input
 													type="file"
 													onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -216,7 +219,7 @@ const EditSections = () => {
 													ref={updateImageRef}
 													style={{ display: 'none' }}
 												/>
-											</>
+											</div>
 										))}
 									</div>
 									{/* <div onClick={editFileRefClick} className={scss.file_div}>
@@ -243,32 +246,7 @@ const EditSections = () => {
 										</div>
 									</div> */}
 								</div>
-								<div className={scss.colors_div}>
-									<label>Цвет товара</label>
-									<div className={scss.color_div}>
-										{/* <Space direction="vertical">
-											<ColorPicker
-												defaultValue={token.colorPrimary}
-												styles={{ popupOverlayInner: { width: 480 } }}
-												presets={presets}
-												panelRender={customPanelRender}
-											/>
-										</Space> */}
-										<p>{colorEdit ? colorEdit : data?.mainColour}</p>
-										<ColorPicker
-											presets={presets}
-											onChange={(color) =>
-												changeColorPicker(color.toHexString())
-											}
-											value={colorEdit}
-										/>
-										<IconColorPicker
-											width={'19px'}
-											height={'19px'}
-											color="rgb(145, 150, 158)"
-										/>
-									</div>
-								</div>
+
 								{/* <div className={scss.label_and_input_div}>
 									<label>Количество</label>
 									<Input className={scss.input} defaultValue={data?.quantity} />
@@ -305,249 +283,271 @@ const EditSections = () => {
 								</div>
 							</div>
 						</div>
-						{formInputs && (
-							<div className={scss.form_content_1}>
-								<div className={scss.form_2}>
-									<div className={scss.label_and_input_div}>
-										<label>Объем памяти</label>
-										<Select
-											className={scss.input}
-											placeholder="Объем памяти"
-											options={
-												gBiteCatalog &&
-												gBiteCatalog.map((el, index) => ({
-													value: String(index + 1),
-													label: <p>{el.gb}</p>
-												}))
+						<div className={scss.form_content_1}>
+							<div className={scss.form_2}>
+								<div className={scss.colors_div}>
+									<label>Цвет товара</label>
+									<div className={scss.color_div}>
+										{/* <Space direction="vertical">
+											<ColorPicker
+												defaultValue={token.colorPrimary}
+												styles={{ popupOverlayInner: { width: 480 } }}
+												presets={presets}
+												panelRender={customPanelRender}
+											/>
+										</Space> */}
+										<p>{colorEdit ? colorEdit : data?.mainColour}</p>
+										<ColorPicker
+											presets={presets}
+											onChange={(color) =>
+												changeColorPicker(color.toHexString())
 											}
-											onChange={(value) =>
-												setMemoryEdit(
-													gBiteCatalog[Number(Number(value) - 1)].gb
-												)
-											}
-											value={memoryEdit ? memoryEdit : data?.memory}
+											value={colorEdit}
 										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Оперативная память</label>
-										<Select
-											className={scss.input}
-											placeholder="Оперативная память"
-											options={
-												moreGBiteCatalog &&
-												moreGBiteCatalog.map((el, index) => ({
-													value: String(index + 1),
-													label: <p>{el.gb}</p>
-												}))
-											}
-											onChange={(value) =>
-												setRamEdit(
-													moreGBiteCatalog[Number(Number(value) - 1)].gb
-												)
-											}
-											value={ramEdit ? ramEdit : data?.ram}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Кол-во SIM-карт</label>
-										<Select
-											className={scss.input}
-											placeholder="Кол-во SIM-карт"
-											options={
-												simCards &&
-												simCards.map((el, index) => ({
-													value: String(index + 1),
-													label: <p>{el.sumCard}</p>
-												}))
-											}
-											onChange={(value) =>
-												setCountSimEdit(
-													simCards[Number(Number(value) - 1)].sumCard
-												)
-											}
-											value={countSimEdit ? countSimEdit : data?.countSim}
+										<IconColorPicker
+											width={'19px'}
+											height={'19px'}
+											color="rgb(145, 150, 158)"
 										/>
 									</div>
 								</div>
-								{data && data?.uniField === null && (
-									<div className={scss.form_2}>
-										<div className={scss.label_and_input_div}>
-											<label>Материал браслета/ремешка</label>
-											<Select
-												className={scss.input_for_form}
-												// placeholder="Материал браслета/ремешка"
-												placeholder={`${(data.uniField && data.uniField[0]) || 'Материал браслета/ремешка'}`}
-												options={
-													optionsSmartWatchesAndBracelets &&
-													optionsSmartWatchesAndBracelets.map((el, index) => ({
-														value: String(index + 1),
-														label: <p>{el.label}</p>
-													}))
-												}
-												onChange={(value) =>
-													setMaterialBraceletEdit(
-														optionsSmartWatchesAndBracelets[
-															Number(Number(value) - 1)
-														].label
-													)
-												}
-												value={
-													materialBraceletEdit
-														? materialBraceletEdit
-														: data.uniField && data.uniField[0]
-												}
-											/>
-										</div>
-										<div className={scss.label_and_input_div}>
-											<label>Материал корпуса</label>
-											<Select
-												className={scss.input_for_form}
-												placeholder={`${(data.uniField && data.uniField[1]) || 'Материал корпуса'}`}
-												options={
-													optionsSmartWatchesAndBracelets &&
-													optionsSmartWatchesAndBracelets.map((el, index) => ({
-														value: String(index + 1),
-														label: <p>{el.label}</p>
-													}))
-												}
-												onChange={(value) =>
-													setMaterialBodyEdit(
-														optionsSmartWatchesAndBracelets[
-															Number(Number(value) - 1)
-														].label
-													)
-												}
-												value={
-													materialBodyEdit
-														? materialBodyEdit
-														: data.uniField && data.uniField[1]
-												}
-											/>
-										</div>
-										<div className={scss.label_and_input_div}>
-											<label>Размер смарт часов (mm)</label>
-											<Select
-												className={scss.input_for_form}
-												// placeholder="Размер смарт часов (mm)"
-												placeholder={`${(data.uniField && data.uniField[2]) || 'Размер смарт часов (mm)'}`}
-												options={
-													OptionsForLaptop &&
-													OptionsForLaptop.map((el, index) => ({
-														value: String(index + 1),
-														label: <p>{el.label}</p>
-													}))
-												}
-												onChange={(value) =>
-													setSizeWatchEdit(
-														OptionsForLaptop[Number(Number(value) - 1)].label
-													)
-												}
-												value={
-													sizeWatchEdit
-														? sizeWatchEdit
-														: data.uniField && data.uniField[2]
-												}
-											/>
-										</div>
-										<div className={scss.label_and_input_div}>
-											<label>Диагональ дисплея (дюйм)</label>
-											<Select
-												className={scss.input_for_form}
-												// placeholder="Диагональ дисплея (дюйм)"
-												placeholder={`${(data.uniField && data.uniField[3]) || 'Диагональ дисплея (дюйм)'}`}
-												options={
-													OptionsForLaptop &&
-													OptionsForLaptop.map((el, index) => ({
-														value: String(index + 1),
-														label: <p>{el.label}</p>
-													}))
-												}
-												onChange={(value) =>
-													setDumasEdit(
-														OptionsForLaptop[Number(Number(value) - 1)].label
-													)
-												}
-												value={
-													dumasEdit
-														? dumasEdit
-														: data.uniField && data.uniField[3]
-												}
-											/>
-										</div>
-										<div className={scss.label_and_input_div}>
-											<label>Пол</label>
-											<Radio.Group
-												onChange={(e) => setGenderWatchEdit(e.target.value)}
-												value={
-													genderWatchEdit
-														? genderWatchEdit
-														: data.uniField && data.uniField[4]
-												}
-											>
-												<Radio value={'Унисекс'}>Унисекс</Radio>
-												<Radio value={'Женский'}>Женский</Radio>
-												<Radio value={'Мужской'}>Мужской</Radio>
-											</Radio.Group>
-										</div>
-										<div className={scss.label_and_input_div}>
-											<label>Водонепроницаемые</label>
-											<Radio.Group
-												onChange={(e) => setWaterproofEdit(e.target.value)}
-												value={
-													waterproofEdit
-														? waterproofEdit
-														: data.uniField && data.uniField[5]
-												}
-											>
-												<Radio value={'Да'}>Да</Radio>
-												<Radio value={'Нет'}>Нет</Radio>
-											</Radio.Group>
-										</div>
-										<div className={scss.label_and_input_div}>
-											<label>Беспроводные интерфейсы</label>
-											<Radio.Group
-												onChange={(e) => setWirelessEdit(e.target.value)}
-												value={
-													wirelessEdit
-														? wirelessEdit
-														: data.uniField && data.uniField[6]
-												}
-											>
-												<Radio value={'Bluetooth'}>Bluetooth</Radio>
-												<Radio value={'Wi-Fi'}>Wi-Fi</Radio>
-												<Radio value={'GPS'}>GPS</Radio>
-												<Radio value={'NFC'}>NFC</Radio>
-											</Radio.Group>
-										</div>
-										<div className={scss.label_and_input_div}>
-											<label>Форма корпуса</label>
-											<Radio.Group
-												onChange={(e) => setShapeBodyEdit(e.target.value)}
-												value={
-													shapeBodyEdit
-														? shapeBodyEdit
-														: data.uniField && data.uniField[7]
-												}
-											>
-												<Radio value={'Квадратная'}>Квадратная</Radio>
-												<Radio value={'Круглая'}>Круглая</Radio>
-												<Radio value={'Овальная'}>Овальная</Radio>
-												<Radio value={'Прямоугольная'}>Прямоугольная</Radio>
-											</Radio.Group>
-										</div>
-									</div>
-								)}
+								<div className={scss.label_and_input_div}>
+									<label>Объем памяти</label>
+									<Select
+										className={scss.input}
+										placeholder="Объем памяти"
+										options={
+											gBiteCatalog &&
+											gBiteCatalog.map((el, index) => ({
+												value: String(index + 1),
+												label: <p>{el.gb}</p>
+											}))
+										}
+										onChange={(value) =>
+											setMemoryEdit(gBiteCatalog[Number(Number(value) - 1)].gb)
+										}
+										value={memoryEdit ? memoryEdit : data?.memory}
+									/>
+								</div>
+								<div className={scss.label_and_input_div}>
+									<label>Оперативная память</label>
+									<Select
+										className={scss.input}
+										placeholder="Оперативная память"
+										options={
+											moreGBiteCatalog &&
+											moreGBiteCatalog.map((el, index) => ({
+												value: String(index + 1),
+												label: <p>{el.gb}</p>
+											}))
+										}
+										onChange={(value) =>
+											setRamEdit(moreGBiteCatalog[Number(Number(value) - 1)].gb)
+										}
+										value={ramEdit ? ramEdit : data?.ram}
+									/>
+								</div>
+								<div className={scss.label_and_input_div}>
+									<label>Кол-во SIM-карт</label>
+									<Select
+										className={scss.input}
+										placeholder="Кол-во SIM-карт"
+										options={
+											simCards &&
+											simCards.map((el, index) => ({
+												value: String(index + 1),
+												label: <p>{el.sumCard}</p>
+											}))
+										}
+										onChange={(value) =>
+											setCountSimEdit(
+												simCards[Number(Number(value) - 1)].sumCard
+											)
+										}
+										value={countSimEdit ? countSimEdit : data?.countSim}
+									/>
+								</div>
 							</div>
-						)}
+							{data && data?.uniField === null && (
+								<div className={scss.form_2}>
+									<div className={scss.label_and_input_div}>
+										<label>Материал браслета/ремешка</label>
+										<Select
+											className={scss.input_for_form}
+											// placeholder="Материал браслета/ремешка"
+											placeholder={`${(data.uniField && data.uniField[0]) || 'Материал браслета/ремешка'}`}
+											options={
+												optionsSmartWatchesAndBracelets &&
+												optionsSmartWatchesAndBracelets.map((el, index) => ({
+													value: String(index + 1),
+													label: <p>{el.label}</p>
+												}))
+											}
+											onChange={(value) =>
+												setMaterialBraceletEdit(
+													optionsSmartWatchesAndBracelets[
+														Number(Number(value) - 1)
+													].label
+												)
+											}
+											value={
+												materialBraceletEdit
+													? materialBraceletEdit
+													: data.uniField && data.uniField[0]
+											}
+										/>
+									</div>
+									<div className={scss.label_and_input_div}>
+										<label>Материал корпуса</label>
+										<Select
+											className={scss.input_for_form}
+											placeholder={`${(data.uniField && data.uniField[1]) || 'Материал корпуса'}`}
+											options={
+												optionsSmartWatchesAndBracelets &&
+												optionsSmartWatchesAndBracelets.map((el, index) => ({
+													value: String(index + 1),
+													label: <p>{el.label}</p>
+												}))
+											}
+											onChange={(value) =>
+												setMaterialBodyEdit(
+													optionsSmartWatchesAndBracelets[
+														Number(Number(value) - 1)
+													].label
+												)
+											}
+											value={
+												materialBodyEdit
+													? materialBodyEdit
+													: data.uniField && data.uniField[1]
+											}
+										/>
+									</div>
+									<div className={scss.label_and_input_div}>
+										<label>Размер смарт часов (mm)</label>
+										<Select
+											className={scss.input_for_form}
+											// placeholder="Размер смарт часов (mm)"
+											placeholder={`${(data.uniField && data.uniField[2]) || 'Размер смарт часов (mm)'}`}
+											options={
+												OptionsForLaptop &&
+												OptionsForLaptop.map((el, index) => ({
+													value: String(index + 1),
+													label: <p>{el.label}</p>
+												}))
+											}
+											onChange={(value) =>
+												setSizeWatchEdit(
+													OptionsForLaptop[Number(Number(value) - 1)].label
+												)
+											}
+											value={
+												sizeWatchEdit
+													? sizeWatchEdit
+													: data.uniField && data.uniField[2]
+											}
+										/>
+									</div>
+									<div className={scss.label_and_input_div}>
+										<label>Диагональ дисплея (дюйм)</label>
+										<Select
+											className={scss.input_for_form}
+											// placeholder="Диагональ дисплея (дюйм)"
+											placeholder={`${(data.uniField && data.uniField[3]) || 'Диагональ дисплея (дюйм)'}`}
+											options={
+												OptionsForLaptop &&
+												OptionsForLaptop.map((el, index) => ({
+													value: String(index + 1),
+													label: <p>{el.label}</p>
+												}))
+											}
+											onChange={(value) =>
+												setDumasEdit(
+													OptionsForLaptop[Number(Number(value) - 1)].label
+												)
+											}
+											value={
+												dumasEdit
+													? dumasEdit
+													: data.uniField && data.uniField[3]
+											}
+										/>
+									</div>
+									<div className={scss.label_and_input_div}>
+										<label>Пол</label>
+										<Radio.Group
+											onChange={(e) => setGenderWatchEdit(e.target.value)}
+											value={
+												genderWatchEdit
+													? genderWatchEdit
+													: data.uniField && data.uniField[4]
+											}
+										>
+											<Radio value={'Унисекс'}>Унисекс</Radio>
+											<Radio value={'Женский'}>Женский</Radio>
+											<Radio value={'Мужской'}>Мужской</Radio>
+										</Radio.Group>
+									</div>
+									<div className={scss.label_and_input_div}>
+										<label>Водонепроницаемые</label>
+										<Radio.Group
+											onChange={(e) => setWaterproofEdit(e.target.value)}
+											value={
+												waterproofEdit
+													? waterproofEdit
+													: data.uniField && data.uniField[5]
+											}
+										>
+											<Radio value={'Да'}>Да</Radio>
+											<Radio value={'Нет'}>Нет</Radio>
+										</Radio.Group>
+									</div>
+									<div className={scss.label_and_input_div}>
+										<label>Беспроводные интерфейсы</label>
+										<Radio.Group
+											onChange={(e) => setWirelessEdit(e.target.value)}
+											value={
+												wirelessEdit
+													? wirelessEdit
+													: data.uniField && data.uniField[6]
+											}
+										>
+											<Radio value={'Bluetooth'}>Bluetooth</Radio>
+											<Radio value={'Wi-Fi'}>Wi-Fi</Radio>
+											<Radio value={'GPS'}>GPS</Radio>
+											<Radio value={'NFC'}>NFC</Radio>
+										</Radio.Group>
+									</div>
+									<div className={scss.label_and_input_div}>
+										<label>Форма корпуса</label>
+										<Radio.Group
+											onChange={(e) => setShapeBodyEdit(e.target.value)}
+											value={
+												shapeBodyEdit
+													? shapeBodyEdit
+													: data.uniField && data.uniField[7]
+											}
+										>
+											<Radio value={'Квадратная'}>Квадратная</Radio>
+											<Radio value={'Круглая'}>Круглая</Radio>
+											<Radio value={'Овальная'}>Овальная</Radio>
+											<Radio value={'Прямоугольная'}>Прямоугольная</Radio>
+										</Radio.Group>
+									</div>
+								</div>
+							)}
+						</div>
 						<div className={scss.button_div}>
-							<Button
-								className={scss.button}
-								onClick={() => setFormInputs(!formInputs)}
-							>
-								{formInputs ? 'Скрыть' : 'Показать ещё'}
-							</Button>
 							<Button onClick={handleEditApiFunk} className={scss.button}>
 								Редактировать
+							</Button>
+							<Button
+								onClick={() =>
+									navigate(`/admin/goodsPage/product-page/${data?.gadgetId}`)
+								}
+								className={scss.button}
+							>
+								отмена
 							</Button>
 						</div>
 					</div>
