@@ -1,16 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useNavigate, useParams } from 'react-router-dom';
 import scss from './EditSections.module.scss';
-import { Button, Input, Radio, Select, Upload } from 'antd';
-import type { GetProp, UploadFile, UploadProps } from 'antd';
+import { Button, Input, Radio, Select } from 'antd';
 import React, { useState } from 'react';
 import { generate, green, presetPalettes, red } from '@ant-design/colors';
 import {
-	Col,
+	// Col,
 	ColorPicker,
-	Divider,
-	Row,
-	Space,
+	// Space,
 	theme,
 	ColorPickerProps
 } from 'antd';
@@ -35,23 +32,20 @@ const genPresets = (presets = presetPalettes) =>
 		colors
 	}));
 
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
-
 const EditSections = () => {
 	const { productId } = useParams();
 	const editInputFileRef = React.useRef<HTMLInputElement>(null);
 	const [formDataFile, setFormDataFile] = useState<string[]>([]);
 	const [productName, setProductName] = useState<string>('');
 	const [colorEdit, setColorEdit] = useState<string>('');
-	const [priceEdit, setPriceEdit] = useState<string>('');
+	const [priceEdit, setPriceEdit] = useState<number>(0);
 	const [ramEdit, setRamEdit] = useState<string>('');
 	const [memoryEdit, setMemoryEdit] = useState<string>('');
-	const [countSimEdit, setCountSimEdit] = useState<string>('');
+	const [countSimEdit, setCountSimEdit] = useState<number>(0);
 	const [editProductById] = useEditProductByIdApiMutation();
 	const [deleteUploadApi] = useDeleteS3UploadMutation();
-	const [quantityEdit, setQuantityEdit] = useState<string>('');
+	const [quantityEdit, setQuantityEdit] = useState<number>(0);
 	const [postUploadApi] = usePostUploadMutation();
-	const [warrantyEdit, setWarrantyEdit] = useState<number>(0);
 	const [materialBraceletEdit, setMaterialBraceletEdit] = useState<string>('');
 	const [materialBodyEdit, setMaterialBodyEdit] = useState<string>('');
 	const [sizeWatchEdit, setSizeWatchEdit] = useState<string>('');
@@ -60,7 +54,7 @@ const EditSections = () => {
 	const [waterproofEdit, setWaterproofEdit] = useState<string>('');
 	const [wirelessEdit, setWirelessEdit] = useState<string>('');
 	const [shapeBodyEdit, setShapeBodyEdit] = useState<string>('');
-	const { data, isLoading } = useGetCardProductQuery({
+	const { data } = useGetCardProductQuery({
 		id: Number(productId)
 	});
 	const navigate = useNavigate();
@@ -73,55 +67,32 @@ const EditSections = () => {
 		green
 	});
 
-	const customPanelRender: ColorPickerProps['panelRender'] = (
-		_,
-		{ components: { Picker, Presets } }
-	) => (
-		<Row justify="space-between" wrap={false}>
-			<Col span={12}>
-				<Presets />
-			</Col>
-			<Divider type="vertical" style={{ height: 'auto' }} />
-			<Col flex="auto">
-				<Picker />
-			</Col>
-		</Row>
-	);
-
 	const handleEditApiFunk = async () => {
 		const DATA = {
 			quantity: quantityEdit,
 			price: priceEdit,
 			colour: colorEdit,
-			images: formDataFile
+			images: formDataFile,
+			countSim: countSimEdit,
+			memory: memoryEdit,
+			ram: ramEdit,
+			materialBracelet: materialBraceletEdit,
+			materialBody: materialBodyEdit,
+			sizeWatch: sizeWatchEdit,
+			dumas: dumasEdit,
+			genderWatch: genderWatchEdit,
+			waterproof: waterproofEdit,
+			wireless: wirelessEdit,
+			shapeBody: shapeBodyEdit
 		};
-
 		try {
 			await editProductById({
+				subGadgetId: Number(productId),
 				...DATA
 			});
 		} catch (error) {
 			console.error(error);
 		}
-	};
-
-	const onPreview = async (file: UploadFile) => {
-		let src = file.url as string;
-		if (!src) {
-			src = await new Promise((resolve) => {
-				const reader = new FileReader();
-				reader.readAsDataURL(file.originFileObj as FileType);
-				reader.onload = () => resolve(reader.result as string);
-			});
-		}
-		const image = new Image();
-		image.src = src;
-		const imgWindow = window.open(src);
-		imgWindow?.document.write(image.outerHTML);
-	};
-
-	const changeRamFunk = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setRamEdit(event.target.value);
 	};
 
 	function editFileRefClick() {
@@ -135,7 +106,7 @@ const EditSections = () => {
 	}
 
 	const changePrice = function (e: React.ChangeEvent<HTMLInputElement>) {
-		setPriceEdit(e.target.value);
+		setPriceEdit(Number(e.target.value));
 	};
 
 	const changeColorPicker = (value: string) => {
@@ -280,7 +251,7 @@ const EditSections = () => {
 										onChange={changeProductNameFunk}
 										defaultValue={data?.nameOfGadget}
 										className={scss.input}
-										value={productName}
+										value={productName ? productName : data?.nameOfGadget}
 									/>
 								</div>
 								<div className={scss.label_and_input_div}>
@@ -288,7 +259,7 @@ const EditSections = () => {
 									<Input
 										defaultValue={data?.price}
 										onChange={changePrice}
-										value={priceEdit}
+										value={priceEdit ? priceEdit : data?.price}
 										className={scss.input}
 									/>
 								</div>
@@ -296,10 +267,9 @@ const EditSections = () => {
 									<label>количество</label>
 									<Input
 										onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-											setQuantityEdit(event.target.value)
+											setQuantityEdit(Number(event.target.value))
 										}
-										value={quantityEdit}
-										defaultValue={data?.quantity}
+										value={quantityEdit ? quantityEdit : data?.quantity}
 										className={scss.input}
 									/>
 								</div>
@@ -308,14 +278,6 @@ const EditSections = () => {
 						{formInputs && (
 							<div className={scss.form_content_1}>
 								<div className={scss.form_2}>
-									<div className={scss.label_and_input_div}>
-										<label>Цвет</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.mainColour}
-										/>
-									</div>
-
 									<div className={scss.label_and_input_div}>
 										<label>Объем памяти</label>
 										<Select
@@ -333,7 +295,7 @@ const EditSections = () => {
 													gBiteCatalog[Number(Number(value) - 1)].gb
 												)
 											}
-											value={memoryEdit}
+											value={memoryEdit ? memoryEdit : data?.memory}
 										/>
 									</div>
 									<div className={scss.label_and_input_div}>
@@ -349,9 +311,11 @@ const EditSections = () => {
 												}))
 											}
 											onChange={(value) =>
-												setRamEdit(gBiteCatalog[Number(Number(value) - 1)].gb)
+												setRamEdit(
+													moreGBiteCatalog[Number(Number(value) - 1)].gb
+												)
 											}
-											value={ramEdit}
+											value={ramEdit ? ramEdit : data?.ram}
 										/>
 									</div>
 									<div className={scss.label_and_input_div}>
@@ -371,18 +335,7 @@ const EditSections = () => {
 													simCards[Number(Number(value) - 1)].sumCard
 												)
 											}
-											value={countSimEdit}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Гарантия (месяцев)</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.warranty}
-											placeholder="Гарантия (месяцев)"
-											onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-												setWarrantyEdit(Number(e.target.value))
-											}
+											value={countSimEdit ? countSimEdit : data?.countSim}
 										/>
 									</div>
 								</div>
@@ -392,7 +345,8 @@ const EditSections = () => {
 											<label>Материал браслета/ремешка</label>
 											<Select
 												className={scss.input_for_form}
-												placeholder="Материал браслета/ремешка"
+												// placeholder="Материал браслета/ремешка"
+												placeholder={`${(data.uniField && data.uniField[0]) || 'Материал браслета/ремешка'}`}
 												options={
 													optionsSmartWatchesAndBracelets &&
 													optionsSmartWatchesAndBracelets.map((el, index) => ({
@@ -407,14 +361,18 @@ const EditSections = () => {
 														].label
 													)
 												}
-												value={materialBraceletEdit}
+												value={
+													materialBraceletEdit
+														? materialBraceletEdit
+														: data.uniField && data.uniField[0]
+												}
 											/>
 										</div>
 										<div className={scss.label_and_input_div}>
 											<label>Материал корпуса</label>
 											<Select
 												className={scss.input_for_form}
-												placeholder="Материал корпуса"
+												placeholder={`${(data.uniField && data.uniField[1]) || 'Материал корпуса'}`}
 												options={
 													optionsSmartWatchesAndBracelets &&
 													optionsSmartWatchesAndBracelets.map((el, index) => ({
@@ -429,14 +387,19 @@ const EditSections = () => {
 														].label
 													)
 												}
-												value={materialBodyEdit}
+												value={
+													materialBodyEdit
+														? materialBodyEdit
+														: data.uniField && data.uniField[1]
+												}
 											/>
 										</div>
 										<div className={scss.label_and_input_div}>
 											<label>Размер смарт часов (mm)</label>
 											<Select
 												className={scss.input_for_form}
-												placeholder="Размер смарт часов (mm)"
+												// placeholder="Размер смарт часов (mm)"
+												placeholder={`${(data.uniField && data.uniField[2]) || 'Размер смарт часов (mm)'}`}
 												options={
 													OptionsForLaptop &&
 													OptionsForLaptop.map((el, index) => ({
@@ -449,14 +412,19 @@ const EditSections = () => {
 														OptionsForLaptop[Number(Number(value) - 1)].label
 													)
 												}
-												value={sizeWatchEdit}
+												value={
+													sizeWatchEdit
+														? sizeWatchEdit
+														: data.uniField && data.uniField[2]
+												}
 											/>
 										</div>
 										<div className={scss.label_and_input_div}>
 											<label>Диагональ дисплея (дюйм)</label>
 											<Select
 												className={scss.input_for_form}
-												placeholder="Диагональ дисплея (дюйм)"
+												// placeholder="Диагональ дисплея (дюйм)"
+												placeholder={`${(data.uniField && data.uniField[3]) || 'Диагональ дисплея (дюйм)'}`}
 												options={
 													OptionsForLaptop &&
 													OptionsForLaptop.map((el, index) => ({
@@ -469,14 +437,22 @@ const EditSections = () => {
 														OptionsForLaptop[Number(Number(value) - 1)].label
 													)
 												}
-												value={dumasEdit}
+												value={
+													dumasEdit
+														? dumasEdit
+														: data.uniField && data.uniField[3]
+												}
 											/>
 										</div>
 										<div className={scss.label_and_input_div}>
 											<label>Пол</label>
 											<Radio.Group
 												onChange={(e) => setGenderWatchEdit(e.target.value)}
-												value={genderWatchEdit}
+												value={
+													genderWatchEdit
+														? genderWatchEdit
+														: data.uniField && data.uniField[4]
+												}
 											>
 												<Radio value={'Унисекс'}>Унисекс</Radio>
 												<Radio value={'Женский'}>Женский</Radio>
@@ -487,7 +463,11 @@ const EditSections = () => {
 											<label>Водонепроницаемые</label>
 											<Radio.Group
 												onChange={(e) => setWaterproofEdit(e.target.value)}
-												value={waterproofEdit}
+												value={
+													waterproofEdit
+														? waterproofEdit
+														: data.uniField && data.uniField[5]
+												}
 											>
 												<Radio value={'Да'}>Да</Radio>
 												<Radio value={'Нет'}>Нет</Radio>
@@ -497,7 +477,11 @@ const EditSections = () => {
 											<label>Беспроводные интерфейсы</label>
 											<Radio.Group
 												onChange={(e) => setWirelessEdit(e.target.value)}
-												value={wirelessEdit}
+												value={
+													wirelessEdit
+														? wirelessEdit
+														: data.uniField && data.uniField[6]
+												}
 											>
 												<Radio value={'Bluetooth'}>Bluetooth</Radio>
 												<Radio value={'Wi-Fi'}>Wi-Fi</Radio>
@@ -509,7 +493,11 @@ const EditSections = () => {
 											<label>Форма корпуса</label>
 											<Radio.Group
 												onChange={(e) => setShapeBodyEdit(e.target.value)}
-												value={shapeBodyEdit}
+												value={
+													shapeBodyEdit
+														? shapeBodyEdit
+														: data.uniField && data.uniField[7]
+												}
 											>
 												<Radio value={'Квадратная'}>Квадратная</Radio>
 												<Radio value={'Круглая'}>Круглая</Radio>
@@ -528,7 +516,9 @@ const EditSections = () => {
 							>
 								{formInputs ? 'Скрыть' : 'Показать ещё'}
 							</Button>
-							<Button className={scss.button}>Редактировать</Button>
+							<Button onClick={handleEditApiFunk} className={scss.button}>
+								Редактировать
+							</Button>
 						</div>
 					</div>
 				</div>

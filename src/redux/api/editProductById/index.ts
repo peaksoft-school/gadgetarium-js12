@@ -6,12 +6,13 @@ const api = index.injectEndpoints({
 			EDITPRODUCTBYID.EditProductByIdResponse,
 			EDITPRODUCTBYID.EditProductByIdRequest
 		>({
-			query: ({ subGadgetId  }) => ({
+			query: ({ subGadgetId, ...res }) => ({
 				url: `/api/gadget/update/${subGadgetId}`,
 				method: 'PATCH',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
-				}
+				},
+				body: { res }
 			}),
 			invalidatesTags: ['editProductById']
 		})

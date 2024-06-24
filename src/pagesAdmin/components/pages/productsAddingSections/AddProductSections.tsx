@@ -110,7 +110,9 @@ export const AddProductSections = () => {
 	const { data: brandArray = [] } = useGetBrandApiQuery();
 	const [warranty, setWarranty] = useState<number>(0);
 	const [productName, setProductName] = useState<string>('');
-	const [categoryId, setCategoryId] = useState<string>('');
+	const [categoryId, setCategoryId] = useState<number>(
+		JSON.parse(localStorage.getItem('categoryIdForAddProduct')!)
+	);
 	const [dateOfIssue, setDateOfIssue] = useState<string>('');
 	const [brandInputValue, setBrandInputValue] = useState<string>('');
 	const [brandId, setBrandId] = useState<string>('');
@@ -125,9 +127,7 @@ export const AddProductSections = () => {
 	const addProductFileRef = useRef<HTMLInputElement[]>([]);
 	const dateOfIssueString = dayjs(dateOfIssue).format('YYYY-MM-DD');
 
-	const { data: subCategoryArray = [] } = useSubCategoriesQuery(
-		Number(categoryId)
-	);
+	const { data: subCategoryArray = [] } = useSubCategoriesQuery(categoryId!);
 
 	const { token } = theme.useToken();
 	const presets = genPresets({
@@ -140,6 +140,11 @@ export const AddProductSections = () => {
 		if (inputForFileRef.current) {
 			return inputForFileRef.current.click();
 		}
+	};
+
+	const handleSetLocalStorageCategoryId = (id: string) => {
+		localStorage.setItem('categoryIdForAddProduct', JSON.stringify(id));
+		setCategoryId(JSON.parse(localStorage.getItem('categoryIdForAddProduct')!));
 	};
 
 	const changeWarrantyValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -252,6 +257,7 @@ export const AddProductSections = () => {
 				warranty: number
 			});
 			navigate('/admin/product-adding/part-2');
+			localStorage.removeItem('categoryIdForAddProduct');
 		} catch (error) {
 			console.error(error);
 		}
@@ -292,12 +298,17 @@ export const AddProductSections = () => {
 	};
 
 	const styleAddProductFormDiv = () => {
-		if (categoryId === '1' || categoryId === '2') {
+		if (
+			localStorage.getItem('categoryIdForAddProduct')?.includes('1') ||
+			localStorage.getItem('categoryIdForAddProduct')?.includes('2')
+		) {
 			return `${scss.forms_for_add_product} ${scss.forms_for_add_product_active}`;
 		} else {
 			return `${scss.forms_for_add_product}`;
 		}
 	};
+
+	console.log(categoryId, 'catelog id');
 
 	return (
 		<>
@@ -375,7 +386,11 @@ export const AddProductSections = () => {
 													label: (
 														<p
 															className={scss.color}
-															onClick={() => setCategoryId(el.id.toString())}
+															onClick={() =>
+																handleSetLocalStorageCategoryId(
+																	el.id.toString()
+																)
+															}
 														>
 															{el.categoryName}
 														</p>
@@ -529,7 +544,12 @@ export const AddProductSections = () => {
 										</div>
 									</div>
 								</div>
-								{(categoryId === '1' || categoryId === '2') && (
+								{(localStorage
+									.getItem('categoryIdForAddProduct')
+									?.includes('1') ||
+									localStorage
+										.getItem('categoryIdForAddProduct')
+										?.includes('2')) && (
 									<div className={scss.card_input_pole}>
 										{array.map((el, index) => (
 											<div
@@ -692,13 +712,7 @@ export const AddProductSections = () => {
 												<span>Добавить продукт</span>
 											</p>
 										</div>
-										<div
-											className={
-												categoryId === '1' || categoryId === '2'
-													? `${scss.open_buttno_for_category_noo_active} ${scss.add_product_button_div}`
-													: `${scss.open_buttno_for_category_noo_active}`
-											}
-										>
+										<div className={scss.open_buttno_for_category_noo_active}>
 											<Button
 												className={scss.add_product_button}
 												onClick={() => {
@@ -710,7 +724,12 @@ export const AddProductSections = () => {
 										</div>
 									</div>
 								)}
-								{(categoryId === '3' || categoryId === '4') && (
+								{(localStorage
+									.getItem('categoryIdForAddProduct')
+									?.includes('3') ||
+									localStorage
+										.getItem('categoryIdForAddProduct')
+										?.includes('4')) && (
 									<div className={scss.card_input_pole}>
 										{array.map((el, index) => (
 											<div
@@ -1022,12 +1041,7 @@ export const AddProductSections = () => {
 											</p>
 										</div>
 										<div
-											className={
-												categoryId === '3' ||
-												(categoryId === '4' && array.length === 3)
-													? `${scss.open_buttno_for_category_noo_active_watch} ${scss.add_product_button_div_watch}`
-													: `${scss.open_buttno_for_category_noo_active_watch}`
-											}
+											className={scss.open_buttno_for_category_noo_active_watch}
 										>
 											<Button
 												onClick={handleAddProductsFunk}
