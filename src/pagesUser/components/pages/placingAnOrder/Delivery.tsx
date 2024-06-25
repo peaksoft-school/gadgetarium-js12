@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import scss from './Delivery.module.scss';
 import { Checkbox, ConfigProvider } from 'antd';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { usePostOrderDeliveryMutation } from '@/src/redux/api/order';
+import {
+	useGetDeliveryDataQuery,
+	usePostOrderDeliveryMutation
+} from '@/src/redux/api/order';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
 type DeliveryPageTypes = {
@@ -11,7 +14,7 @@ type DeliveryPageTypes = {
 	lastName: string;
 	email: string;
 	phoneNumber: string;
-	deliveryAddress: string;
+	address: string;
 };
 const Delivery = () => {
 	const [isCheckedPickup, setIsCheckedPickup] = useState(false);
@@ -22,6 +25,12 @@ const Delivery = () => {
 	const [postOrderDelivery] = usePostOrderDeliveryMutation();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [inputValue, setInputValue] = useState('');
+	const { data: returnData } = useGetDeliveryDataQuery({});
+	const [firstName, setFirstName] = useState('');
+	const [lastName, setLastName] = useState('');
+	const [email, setEmail] = useState('');
+	const [phone, setPhone] = useState('');
+	const [address, setAddress] = useState('');
 	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
 		window.location.search.substring(1)
 	]);
@@ -29,10 +38,28 @@ const Delivery = () => {
 		handleSubmit,
 		reset,
 		control,
+		setValue,
 		formState: { errors }
 	} = useForm<DeliveryPageTypes>({
 		mode: 'onBlur'
 	});
+
+	useEffect(() => {
+		if (returnData) {
+			setValue('firstName', returnData.firsName);
+			setValue('lastName', returnData.lastName);
+			setValue('email', returnData.email);
+			setValue('phoneNumber', returnData.phoneNumber);
+			setValue('address', returnData.address);
+
+			setFirstName(returnData.firsName);
+			setLastName(returnData.lastName);
+			setEmail(returnData.email);
+			setPhone(returnData.phoneNumber);
+			setAddress(returnData.address);
+		}
+		// refetch();
+	}, [returnData, setValue]);
 
 	const handleOpenChecbox = (ids: number) => {
 		setIsCheckedPickup(true);
@@ -60,7 +87,7 @@ const Delivery = () => {
 
 	const onSubmit: SubmitHandler<DeliveryPageTypes> = async (data) => {
 		const responseObject = {
-			deliveryAddress: inputValue,
+			address: data.address,
 			email: data.email,
 			phoneNumber: data.phoneNumber,
 			firstName: data.firstName,
@@ -427,12 +454,20 @@ const Delivery = () => {
 						<div className={scss.label_input}>
 							<label htmlFor="name">Адрес доставки *</label>
 							<input
-								className={scss.adress_input}
-								value={inputValue}
-								onChange={(e) => setInputValue(e.target.value)}
+								// {...field}
+								id="address"
 								type="text"
+								className={scss.adress_input}
 								placeholder="ул.Гражданская 119, кв 4, дом 9"
+								style={errors.address && { border: '1px solid red' }}
 							/>
+							{/* <Controller
+								name="address"
+								control={control}
+								defaultValue=""
+								render={({ field }) => (
+								)}
+							/> */}
 						</div>
 						{(errors.email && (
 							<p style={{ color: 'red' }}>{errors.email.message}</p>

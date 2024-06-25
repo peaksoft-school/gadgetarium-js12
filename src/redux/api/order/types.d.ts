@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 namespace ORDERPRODUCT {
-	type GetBasketProductsRequest = {
-		deliveryType: boolean;
-	};
-	type GetBasketProductsResponse = Array<{
-		firstName: string;
+	type GetBasketProductsRequest = object;
+	type GetBasketProductsResponse = {
+		firsName: string;
 		lastName: string;
 		email: string;
 		phoneNumber: string;
-		deliveryAddress: string;
-	}>;
+		address: string;
+	};
 
 	type PostBasketProductsRequest = {
 		subGadgetId?: string[];

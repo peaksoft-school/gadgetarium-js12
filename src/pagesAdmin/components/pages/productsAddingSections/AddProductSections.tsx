@@ -271,6 +271,7 @@ export const AddProductSections = () => {
 			colorInputRef.current.click();
 		}
 	};
+	
 	const changeAddProductsFilesFunk = async (
 		index: number,
 		event: React.ChangeEvent<HTMLInputElement>
@@ -301,6 +302,19 @@ export const AddProductSections = () => {
 		}
 	};
 
+	const styleResultContainer = () => {
+		if (
+		(	categoryId === '1' ||
+			categoryId === '2' ||
+			categoryId === '3' ||
+			categoryId === '4')
+		) {
+			return `${scss.AddProductSections} ${scss.AddProductSectionsActive}`;
+		} else {
+			return `${scss.AddProductSections}`;
+		}
+	};
+
 	const styleAddProductFormDiv = () => {
 		if (
 			localStorage.getItem('categoryIdForAddProduct')?.includes('1') ||
@@ -319,7 +333,7 @@ export const AddProductSections = () => {
 
 	return (
 		<>
-			<section className={scss.AddProductSections}>
+			<section className={styleResultContainer()}>
 				<div className="container">
 					<div className={scss.content}>
 						<div className={scss.main_text_for_pages}>

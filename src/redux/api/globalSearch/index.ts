@@ -7,10 +7,11 @@ const api = index.injectEndpoints({
 			GLOBALSEARCH.GetGlobalSearchRequest
 		>({
 			query: ({ request }) => ({
-				url: `/api/gadget/global-search?keydown=${request}`,
+				url: `/api/gadget/global-search`,
 				method: 'GET',
+				params: { request },
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('token')}`
+					Authorization: `Bearer ${localStorage.getItem('token') || ''}`
 				}
 			}),
 			providesTags: ['searchGlobal']

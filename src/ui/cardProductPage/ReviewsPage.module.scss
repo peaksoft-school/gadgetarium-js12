@@ -4,6 +4,18 @@
 	align-items: start;
 	gap: 48px;
 	width: 100%;
+	.avatar_skeleton {
+		display: grid;
+		align-items: center;
+		grid-template-columns: repeat(2, 0fr);
+		gap: 10px;
+	}
+	.review_skeleton_two {
+		margin-left: 80px;
+		display: grid;
+		align-items: center;
+		gap: 13px;
+	}
 	.reviews_contents_div {
 		display: flex;
 		align-items: start;
@@ -47,6 +59,24 @@
 			align-items: start;
 			gap: 55px;
 			width: 100%;
+			.not_reviews {
+				display: flex;
+				align-items: center;
+				flex-direction: column;
+				gap: 7px;
+				img {
+					width: 200px;
+				}
+				.login_and_register {
+					display: flex;
+					gap: 7px;
+					.one {
+						cursor: pointer;
+						color: blue;
+						font-weight: 600;
+					}
+				}
+			}
 			h2 {
 				color: rgb(41, 41, 41);
 				font-size: clamp(15px, 5vw, 27.2px);

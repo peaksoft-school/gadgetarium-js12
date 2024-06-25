@@ -18,7 +18,8 @@ import {
 	InputNumber,
 	InputNumberProps,
 	Modal,
-	Rate
+	Rate,
+	Tooltip
 } from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
 import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
@@ -30,6 +31,8 @@ import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 import { useGetProductsColorsApiQuery } from '@/src/redux/api/productColorApi';
 import { useGetProductMemoryQuery } from '@/src/redux/api/memoryForProductApi';
 import { ViewedProducts } from '@/src/ui/ViewedProducts/ViewedProducts';
+import CustomModal from '@/src/ui/modalAdmin/CustomModal';
+import ModalLogin from '@/src/ui/customModalLogin/ModalLogin';
 const CardProductPage = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 
@@ -39,7 +42,7 @@ const CardProductPage = () => {
 	const { productId } = useParams();
 	const [countInput, setCountInput] = useState<string>('1');
 	const { data: productColor } = useGetProductsColorsApiQuery(productId!);
-	const { data, isLoading } = useGetCardProductQuery({
+	const { data, refetch, isLoading } = useGetCardProductQuery({
 		id: Number(productId && productId),
 		color: searchParams.get('color') ? searchParams.toString() : '',
 		memory: searchParams.get('memory')
@@ -55,6 +58,7 @@ const CardProductPage = () => {
 	const [contentIsModal, setContentIsModal] = useState<string>('');
 	const [countInputValue, setCountInputValue] = useState<string>('');
 	const [modal2Open, setModal2Open] = useState(false);
+	const [openModal, setOpenModal] = useState(false);
 	const navigate = useNavigate();
 
 	// const handleIndexSlider = (index: number) => {
@@ -101,25 +105,28 @@ const CardProductPage = () => {
 	// console.log(window.location.search.substring(1));
 
 	const addBasketProduct = async (subGadgetId: number) => {
-		await basketAddProduct({
-			id: subGadgetId,
-			quantity: searchParams.get('quantity')
-				? `quantity=${searchParams.get('quantity')}`
-				: ''
-		});
-		// refetch();
+		if (localStorage.getItem('isAuth') === 'true') {
+			await basketAddProduct({
+				id: subGadgetId,
+				quantity: searchParams.get('quantity')
+					? `quantity=${searchParams.get('quantity')}`
+					: ''
+			});
+		} else setOpenModal(true);
+		refetch();
 	};
 	const addFavoriteProduct = async (subGadgetId: number) => {
-		await favoriteAddProduct(subGadgetId);
-		// refetch();
+		if (localStorage.getItem('isAuth') === 'true') {
+			await favoriteAddProduct(subGadgetId);
+		} else setOpenModal(true);
+		refetch();
 	};
 
 	const { data: productMemoryData } = useGetProductMemoryQuery({
 		gadgetId: Number(productId),
 		color: `color=${data?.mainColour}`
 	});
-	console.log(productMemoryData, 'memory data');
-	
+	console.log(data, 'pdf url');
 
 	const handleCountProduct = () => {
 		setCountInput((prevValue) => {
@@ -165,11 +172,22 @@ const CardProductPage = () => {
 							<div className={scss.content_main_text_page}>
 								<div className={scss.div_content_product_and_pages}>
 									<p onClick={() => navigate('/')}>Главная »</p>
-									<p onClick={() => navigate('/catalog/1/filtred')}> Смартфоны »</p>
-									<p>{data?.nameOfGadget}</p>
+									<p onClick={() => navigate('/catalog/1/filtred')}>
+										Смартфоны »
+									</p>
+									<p>
+										{data?.nameOfGadget.length! > 28 ? (
+											<>
+												{data?.nameOfGadget.slice(0, 22)}
+												<span style={{ cursor: 'pointer' }}>...</span>
+											</>
+										) : (
+											data?.nameOfGadget
+										)}
+									</p>
 								</div>
 								<div className={scss.div_brad_product}>
-									<h2>APPLE</h2>
+									<img src={data?.brandLogo} alt="brand" />
 									<div></div>
 								</div>
 							</div>
@@ -243,19 +261,30 @@ const CardProductPage = () => {
 									</div>
 								</div>
 								<div className={scss.product_info}>
-									<h3>{data?.nameOfGadget}</h3>
+									<h3>
+										{data?.nameOfGadget.length! > 28 ? (
+											<>
+												{data?.nameOfGadget.slice(0, 22)}
+												<Tooltip title={data?.nameOfGadget} color="#c11bab">
+													<span style={{ cursor: 'pointer' }}>...</span>
+												</Tooltip>
+											</>
+										) : (
+											data?.nameOfGadget
+										)}
+									</h3>
 									<div className={scss.product_content}>
 										<div className={scss.border_and_contents}>
 											<div className={scss.product_rating_and_numbers}>
 												<p className={scss.text_buy_product}>
-													количество ({data?.quantity})
+													Количество ({data?.quantity})
 												</p>
 												<p>
 													Артикул: <span>{data?.articleNumber}</span>
 												</p>
 												<div>
-													<Rate defaultValue={data?.rating} />
-													<p>{data?.rating}</p>
+													<Rate disabled defaultValue={data?.rating} />
+													<p>({data?.rating})</p>
 												</div>
 											</div>
 											<div></div>
@@ -273,7 +302,7 @@ const CardProductPage = () => {
 																	: `${scss.noo_active_percent}`
 															}
 														>
-															{data?.percent}
+															{data?.percent} %
 														</div>
 													)}
 													{data?.newProduct && data.percent === 0 && (
@@ -298,10 +327,10 @@ const CardProductPage = () => {
 															<IconFileLike />
 														</div>
 													)}
-													<h2>{data?.price}</h2>
+													<h2>{data?.price} c</h2>
 													{data?.percent !== 0 && (
 														<h3 className={scss.previous_price}>
-															{data?.currentPrice}
+															{data?.currentPrice} c
 														</h3>
 													)}
 												</div>
@@ -399,9 +428,10 @@ const CardProductPage = () => {
 																onClick={() =>
 																	data && addBasketProduct(data.subGadgetId)
 																}
-																children={'В корзину'}
 																className={scss.add_bas_button}
-															/>
+															>
+																В корзину
+															</AddBasketButton>
 														)}
 													</div>
 												</div>
@@ -466,7 +496,7 @@ const CardProductPage = () => {
 													</div> */}
 													<div className={scss.div_screen}>
 														<p>
-															процент.......................................
+															Процент.......................................
 														</p>
 														<h4>{data?.percent}</h4>
 													</div>
@@ -476,10 +506,17 @@ const CardProductPage = () => {
 									</div>
 								</div>
 							</div>
+							<div>
+								<CustomModal
+									isModalOpen={openModal}
+									setIsModalOpen={setOpenModal}
+								>
+									<ModalLogin setOpenModal={setOpenModal} />
+								</CustomModal>
+							</div>
 						</div>
 					)}
 				</div>
-
 				<InfoPageForProduct />
 				<ViewedProducts />
 			</section>
@@ -494,7 +531,7 @@ const CardProductPage = () => {
 				}}
 			>
 				<Modal
-					title="Iphones"
+					title={data?.nameOfGadget}
 					centered
 					open={modal2Open}
 					onOk={() => setModal2Open(false)}

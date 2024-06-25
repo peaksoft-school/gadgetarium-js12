@@ -1,17 +1,17 @@
 import scss from './ForgotPasswordPages.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { Button, Input } from 'antd';
+import { Button, Input, message } from 'antd';
 import logo from '@/src/assets/logo.png';
 import { usePostForgotMutation } from '@/src/redux/api/auth';
 import { ToastContainer } from 'react-toastify';
 import { notify } from '@/src/utils/helpers/notify';
+import { IconLoader } from '@tabler/icons-react';
 
 export const ForgotPassword = () => {
-	const [postForgot] = usePostForgotMutation();
+	const [postForgot, { isLoading }] = usePostForgotMutation();
 	const navigate = useNavigate();
 	const {
-		// register,
 		reset,
 		handleSubmit,
 		control,
@@ -22,19 +22,23 @@ export const ForgotPassword = () => {
 	const onSubmit: SubmitHandler<ForgotPasswordForms> = async (data) => {
 		try {
 			const response = await postForgot(data).unwrap();
-			if (response.success) {
-				notify('Ссылка отправлено в почту', 'Войти', '/auth/login');
-				reset();
-				navigate('/auth/login');
+			if (response.message) {
+				console.log('Notify for success');
+				message.success('Ссылка отправлено в почту');
+				setTimeout(() => {
+					console.log('Navigating to /auth/login');
+					navigate('/auth/login');
+					reset();
+				}, 2000);
 			} else {
 				throw new Error(response.message || 'Email не существует!');
 			}
 		} catch (error: any) {
-			notify(
-				error.message || 'Email не существует!',
-				'Регистрация',
-				'/auth/register'
-			);
+			console.log('Notify for error');
+			message.warning(error.message || 'Email не существует!');
+			setTimeout(() => {
+				navigate('/auth/register');
+			}, 2000);
 			console.log('Ошибка:', error);
 		}
 	};
@@ -56,7 +60,6 @@ export const ForgotPassword = () => {
 									onSubmit={handleSubmit(onSubmit)}
 								>
 									<Controller
-										// {...register('email')}
 										name="email"
 										control={control}
 										defaultValue=""
@@ -88,7 +91,7 @@ export const ForgotPassword = () => {
 											htmlType="submit"
 											className={scss.buttonSubmit}
 										>
-											Отправить
+											{isLoading ? <IconLoader /> : 'Отправить'}
 										</Button>
 									</div>
 									<div className={scss.divForms}>

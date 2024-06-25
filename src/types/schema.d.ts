@@ -40,6 +40,8 @@ type LoginForms = {
 	email: string;
 	password: string;
 	role: string;
+	httpStatus: string;
+	message: string;
 };
 
 type NewForgotPassword = {

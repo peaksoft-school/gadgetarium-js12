@@ -46,9 +46,8 @@
 				@media (max-width: 800px) {
 					gap: 10px;
 				}
-				h2 {
-					color: rgb(55, 55, 241);
-					font-size: clamp(18px, 8vw, 29px);
+				img {
+					width: 60px;
 				}
 				div {
 					width: 100%;
@@ -269,9 +268,10 @@
 						}
 					}
 					.colors_and_price_info_div_product {
+						width: 100%;
 						display: flex;
 						flex-direction: column;
-						gap: 11px;
+						gap: 13px;
 						@media (max-width: 555px) {
 							gap: 7px;
 						}
@@ -282,7 +282,6 @@
 							display: flex;
 							align-items: center;
 							justify-content: space-between;
-							// gap: 160px;
 							@media (max-width: 815px) {
 								justify-content: space-around;
 							}
@@ -370,9 +369,12 @@
 							}
 						}
 						.product_colors_and_content {
+							width: 100%;
+							// max-width: 600px;
 							display: flex;
 							align-items: center;
-							gap: 100px;
+							justify-content: space-between;
+							// gap: 200px;
 							@media (max-width: 390px) {
 								gap: 0;
 								justify-content: space-between;
@@ -418,11 +420,8 @@
 								}
 							}
 							.border_div {
-								// text-align: end;
-								margin-left: 5rem;
 								width: 220px;
 								border: 1px solid rgba(133, 143, 164, 0.2);
-								margin-top: -15px;
 								@media (max-width: 600px) {
 									display: none;
 								}
@@ -564,8 +563,13 @@
 	}
 }
 .modal_img {
-	width: 470px;
-	height: 264px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	max-width: 280px;
+	height: 340px;
+	margin-left: 102px;
 	@media (max-width: 600px) {
 		width: 100%;
 		height: 245px;

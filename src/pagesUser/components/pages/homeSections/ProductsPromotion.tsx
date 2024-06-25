@@ -18,29 +18,29 @@ const ProductsPromotion = () => {
 	const [comparisonPatchProduct] = useComparisonPatchProductsMutation();
 	const [basketPutProduct] = useBasketPutProductMutation();
 	const [putFavoriteProduct] = useFavoritePutProductMutation();
-	const [openModal, setOpenModal] = useState(false);
 	const [searchParams, setSearchParams] = useSearchParams();
+	const [openModal, setOpenModal] = useState(false);
 
 	const navigate = useNavigate();
 
 	const handleShowAllPhones = (page: number) => {
 		let size = 5 + page;
-		searchParams.set('page', '1');
-		searchParams.set('size', size.toString());
+		searchParams.set('PromotionPage', '1');
+		searchParams.set('PromotionSize', size.toString());
 		setSearchParams(searchParams);
 		navigate(`/?${searchParams.toString()}`);
 	};
 
 	const handlePaginationResult = () => {
-		searchParams.set('page', '1');
-		searchParams.set('size', '5');
+		searchParams.set('PromotionPage', '1');
+		searchParams.set('PromotionSize', '5');
 		setSearchParams(searchParams);
 		navigate(`/?${searchParams.toString()}`);
 	};
 
 	const { data, isLoading, refetch } = useGetProductsSaleQuery({
-		page: searchParams.toString(),
-		size: searchParams.toString()
+		page: `page=${searchParams.get('PromotionPage') || ''}`,
+		size: `size=${searchParams.get('PromotionSize') || ''}`
 	});
 
 	const handleScaleClick = async (subGadgetId: number) => {
@@ -154,8 +154,13 @@ const ProductsPromotion = () => {
 													</Tooltip>
 												</div>
 											</div>
-											<div className={scss.div_img}>
-												<img onClick={() => navigate(`/api/gadget/by-id/${el.gadgetId}`)}
+											<div
+												onClick={() =>
+													navigate(`/api/gadget/by-id/${el.gadgetId}`)
+												}
+												className={scss.div_img}
+											>
+												<img
 													className={scss.img_product}
 													src={el.image}
 													alt={el.nameOfGadget}
@@ -163,20 +168,33 @@ const ProductsPromotion = () => {
 											</div>
 											<div className={scss.div_product_contents}>
 												<p className={scss.tag_color_green}>
-													В наличии {el.quantity}
+													В наличии ({el.quantity})
 												</p>
 												<h3>
-													{el.nameOfGadget.length >= 28
-														? el.nameOfGadget.slice(0, 22) + '...'
-														: el.nameOfGadget}
+													{el.nameOfGadget.length > 28 ? (
+														<>
+															{el.nameOfGadget.slice(0, 22)}
+															<Tooltip title={el.nameOfGadget} color="#c11bab">
+																<span style={{ cursor: 'pointer' }}>...</span>
+															</Tooltip>
+														</>
+													) : (
+														el.nameOfGadget
+													)}
 												</h3>
 												<p>
-													Рейтинг <Rate allowHalf defaultValue={el.rating} />
-													{el.rating}
+													Рейтинг{' '}
+													<Rate allowHalf disabled defaultValue={el.rating} />(
+													{el.rating})
 												</p>
 												<div className={scss.div_buttons_and_price}>
 													<div className={scss.product_price}>
 														<h2>{el.price} c</h2>
+														{el.percent !== 0 && (
+															<h3 className={scss.previous_price}>
+																{el.currentPrice} c
+															</h3>
+														)}
 													</div>
 													{el.basket === true ? (
 														<button
@@ -202,7 +220,7 @@ const ProductsPromotion = () => {
 						</div>
 						<div className={scss.show_more_button}>
 							{data?.mainPages.length.toString() ===
-							searchParams.get('size') ? (
+							(searchParams.get('PromotionSize') || '5') ? (
 								<ShowMoreButton
 									children={'Показать ещё'}
 									onClick={() => handleShowAllPhones(data?.mainPages.length)}

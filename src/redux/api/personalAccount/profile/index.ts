@@ -15,13 +15,13 @@ const api = index.injectEndpoints({
 				}
 			})
 		}),
-		postProfilesPasswordQuery: build.mutation<
+		patchProfilesPassword: build.mutation<
 			PROFILESTORE.PostProfilePasswordResponse,
 			PROFILESTORE.PostProfilePasswordRequest
 		>({
 			query: (products) => ({
 				url: '/api/personal/change-password',
-				method: 'POST',
+				method: 'PATCH',
 				body: products,
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -61,7 +61,7 @@ const api = index.injectEndpoints({
 });
 
 export const {
-	usePostProfilesPasswordQueryMutation,
+	usePatchProfilesPasswordMutation,
 	usePostProfilesInformationQueryMutation,
 	usePutProfilesImageQueryMutation,
 	useGetProfilesQuery
