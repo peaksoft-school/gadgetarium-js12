@@ -119,11 +119,20 @@ const Header: FC = () => {
 		}
 	};
 
+	function handleRemoveLocalStorageCategoryId() {
+		localStorage.removeItem('categoryIdForAddProduct');
+	}
+
 	return (
 		<header className={scss.Header}>
 			<div className="container">
 				<div className={scss.content}>
-					<div className={scss.logo} onClick={() => navigate('/admin')}>
+					<div
+						className={scss.logo}
+						onClick={() => {
+							navigate('/admin'), handleRemoveLocalStorageCategoryId();
+						}}
+					>
 						<IconGadgetarium />
 					</div>
 					{!isMobile ? (
@@ -139,6 +148,7 @@ const Header: FC = () => {
 														: `${scss.link}`
 												}
 												to={item.link}
+												onClick={handleRemoveLocalStorageCategoryId}
 											>
 												{item.name}
 											</Link>

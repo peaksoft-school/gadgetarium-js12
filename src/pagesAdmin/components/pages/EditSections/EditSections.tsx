@@ -5,11 +5,7 @@ import scss from './EditSections.module.scss';
 import { Button, Input, Radio, Select } from 'antd';
 import React, { useState } from 'react';
 import { generate, green, presetPalettes, red } from '@ant-design/colors';
-import {
-	ColorPicker,
-	theme,
-	ColorPickerProps
-} from 'antd';
+import { ColorPicker, theme, ColorPickerProps } from 'antd';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 import { useEditProductByIdApiMutation } from '@/src/redux/api/editProductById';
 import { usePostUploadMutation } from '@/src/redux/api/pdf';

@@ -316,7 +316,6 @@ export const AddProductSections = () => {
 		setArray(newArray);
 	};
 
-	console.log(categoryId, 'catelog id');
 
 	return (
 		<>
@@ -326,7 +325,10 @@ export const AddProductSections = () => {
 						<div className={scss.main_text_for_pages}>
 							<p
 								className={scss.product_page_text}
-								onClick={() => navigate('/admin/productsAdmin')}
+								onClick={() => (
+									navigate('/admin/productsAdmin'),
+									localStorage.removeItem('categoryIdForAddProduct')
+								)}
 							>
 								Товары »
 							</p>
