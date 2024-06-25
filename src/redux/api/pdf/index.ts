@@ -36,6 +36,16 @@ const api = index.injectEndpoints({
 				body: file
 			}),
 			invalidatesTags: ['pdfApi']
+		}),
+		deleteS3Upload: build.mutation({
+			query: (key) => ({
+				url: `/api/s3?${key}`,
+				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			invalidatesTags: ['pdfApi']
 		})
 	})
 });
@@ -43,5 +53,6 @@ const api = index.injectEndpoints({
 export const {
 	useGetUserPostPDSQuery,
 	usePostUploadMutation,
-	usePostS3UploadMutation
+	usePostS3UploadMutation,
+	useDeleteS3UploadMutation
 } = api;

@@ -41,7 +41,7 @@ const ProductPartTwo = () => {
 		navigate(
 			`/admin/product-adding/part-2?${window.location.search.substring(1)}`
 		);
-		if (price === '') {
+		if (price === '' && quantity === '') {
 			console.log('Please enter a valid price');
 		} else {
 			if (products && products.length > 0) {
@@ -59,6 +59,8 @@ const ProductPartTwo = () => {
 					searchParams.delete('quantity');
 					searchParams.delete('price');
 					setSearchParams(searchParams);
+					setPrice('');
+					setQuantity('');
 				} catch (error) {
 					console.error(error);
 				}
@@ -76,6 +78,7 @@ const ProductPartTwo = () => {
 					id: Number(id),
 					price: searchParams.toString()
 				});
+				setPriceInputValueById('');
 				setPriceItemIdInput(null);
 			} catch (error) {
 				console.error(error);
@@ -94,6 +97,8 @@ const ProductPartTwo = () => {
 					id: Number(id),
 					quantity: searchParams.toString()
 				});
+				setQuantityInputValueById('');
+				setQuantityItemIdInput(null);
 			} catch (error) {
 				console.error(error);
 			}
@@ -112,13 +117,19 @@ const ProductPartTwo = () => {
 
 	const handleItemIdPriceInputActive = (id: number) => {
 		id === priceItemIdInput
-			? setPriceItemIdInput(null)
-			: setPriceItemIdInput(id);
+			? (setPriceItemIdInput(null), setPriceInputValueById(''))
+			: (setPriceItemIdInput(id), setPriceInputValueById(''));
+		if (quantityItemIdInput !== id) {
+			setQuantityItemIdInput(null);
+		}
 	};
 	const handleItemIdQuantityInputActive = (id: number) => {
 		id === quantityItemIdInput
-			? setQuantityItemIdInput(null)
-			: setQuantityItemIdInput(id);
+			? (setQuantityItemIdInput(null), setQuantityInputValueById(''))
+			: (setQuantityItemIdInput(id), setQuantityInputValueById(''));
+		if (priceItemIdInput !== id) {
+			setPriceItemIdInput(null);
+		}
 	};
 
 	const handleOpenInputsNooActive = () => {

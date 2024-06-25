@@ -760,7 +760,7 @@ const Catalog = () => {
 							</div>
 						</div>
 					</div>
-					{/* <ViewedProducts /> */}
+					<ViewedProducts />
 				</div>
 			</div>
 		</section>

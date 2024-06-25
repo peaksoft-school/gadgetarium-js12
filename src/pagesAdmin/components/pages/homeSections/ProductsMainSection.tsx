@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import scss from './ProductsMainSection.module.scss';
 import Input, { SearchProps } from 'antd/es/input';
@@ -15,7 +16,7 @@ import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
 import CustomButtonAdd from '@/src/ui/adminButtons/CustomButtonAdd';
 import UploadBanner from '@/src/ui/customImageAdd/UploadBanner';
 import Infographics from '@/src/ui/infographics/Infographics';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import {
 	useDeleteGoodsGadgetMutation,
 	useGetGoodGadgetQuery,
@@ -24,6 +25,7 @@ import {
 } from '@/src/redux/api/goods';
 import type { UploadFile } from 'antd';
 import moment from 'moment';
+import dayjs from 'dayjs';
 
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
 	console.log(info?.source, value);
@@ -33,6 +35,8 @@ const onChange: DatePickerProps['onChange'] = (date, dateString) => {
 };
 
 const ProductsMainSection = () => {
+	const buttonStyleRef = React.useRef<boolean>(false);
+	const [searchParams, setSearchParams] = useSearchParams();
 	const [filtered, setFiltered] = useState<boolean>(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
@@ -40,7 +44,7 @@ const ProductsMainSection = () => {
 	const [gadgetId, setGadgetId] = useState<number | null>(null);
 	const [hoveredItemId, setHoveredItemId] = useState<number | null>(null);
 	const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-
+	const [searchInput, setSearchInput] = useState<string>('');
 	const initialFileList: UploadFile[] = [
 		{
 			uid: '-1',
@@ -54,11 +58,37 @@ const ProductsMainSection = () => {
 	const [discountSize, setDiscountSize] = useState('');
 	const [discountStartDay, setDiscountStartDay] = useState('');
 	const [discountEndDay, setDiscountEndDay] = useState('');
+	const changeDateFunk = (date: moment.Moment | null) => {
+		if (date) {
+			const formattedDate = date.format('YYYY-MM-DD');
+			searchParams.set('startDate', formattedDate);
+			setSearchParams(searchParams); // Update searchParams after setting
+		} else return;
+	};
+
+	const changeDateFunk2 = (date: moment.Moment | null) => {
+		if (date) {
+			const formattedDate = date.format('YYYY-MM-DD');
+			searchParams.set('endDate', formattedDate);
+			setSearchParams(searchParams); // Update searchParams after setting
+		} else return;
+	};
 
 	const navigate = useNavigate();
 
 	const addProduct = () => {
 		navigate('/admin/product-adding/part-1');
+	};
+
+	const changeSearchInputValueFunk = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		searchParams.set('keyword', event.target.value);
+		setSearchParams(searchParams);
+		if (event.target.value === '') {
+			searchParams.delete('keyword');
+			setSearchParams(searchParams);
+		}
 	};
 
 	const showModal = () => {
@@ -93,11 +123,23 @@ const ProductsMainSection = () => {
 		}
 	};
 
-	const { data } = useGetGoodGadgetQuery();
-	console.log(data);
+	const { data } = useGetGoodGadgetQuery({
+		page: `page=${searchParams.get('page') || ''}`,
+		size: `size=${searchParams.get('size') || ''}`,
+		keyword: `keyword=${searchParams.get('keyword') || ''}`,
+		discount: `discount=${searchParams.get('discount') || ''}`,
+		endDate: `endDate=${searchParams.get('endDate') || ''}`,
+		getType: `getType=${searchParams.get('getType') || ''}`,
+		sort: `sort=${searchParams.get('sort') || ''}`,
+		startDate: `startDate=${searchParams.get('startDate') || ''}`
+	});
 	const [deleteGadget] = useDeleteGoodsGadgetMutation();
 	const [postBanner] = usePostGoodsBannerMutation();
 
+	const handleProductsCategoryButtons = (categoryText: string) => {
+		searchParams.set('getType', categoryText);
+		setSearchParams(searchParams);
+	};
 	const handleDeleteGadget = async () => {
 		if (gadgetId !== null) {
 			await deleteGadget(gadgetId);
@@ -144,6 +186,14 @@ const ProductsMainSection = () => {
 		e.preventDefault();
 	};
 
+	React.useEffect(() => {
+		if (searchParams.get('getType')) {
+			buttonStyleRef.current = true;
+		} else {
+			buttonStyleRef.current = false;
+		}
+	}, [searchParams]);
+
 	return (
 		<div className={scss.ProductsMainSection}>
 			<div className="container">
@@ -157,7 +207,13 @@ const ProductsMainSection = () => {
 										size="large"
 										placeholder="Поиск по артикулу или ..."
 										allowClear
-										onSearch={onSearch}
+										// onSearch={onSearch}
+										onChange={changeSearchInputValueFunk}
+										value={
+											searchParams.get('keyword')
+												? searchParams.get('keyword')
+												: ''
+										}
 									/>
 								</ConfigProvider>
 							</div>
@@ -169,9 +225,10 @@ const ProductsMainSection = () => {
 						<div className={scss.product_buttons}>
 							<div className={scss.buttons}>
 								<button
-									onClick={handleFiltered}
+									onClick={() => handleProductsCategoryButtons('ALL_PRODUCTS')}
 									className={
-										filtered
+										searchParams.getAll('getType')?.includes('ALL_PRODUCTS') ||
+										buttonStyleRef.current === false
 											? `${scss.all_product} ${scss.active}`
 											: `${scss.all_product}`
 									}
@@ -179,9 +236,9 @@ const ProductsMainSection = () => {
 									Все товары
 								</button>
 								<button
-									onClick={handleFiltered}
+									onClick={() => handleProductsCategoryButtons('ON_SALE')}
 									className={
-										filtered
+										searchParams.getAll('getType')?.includes('ON_SALE')
 											? `${scss.all_product} ${scss.active}`
 											: `${scss.all_product}`
 									}
@@ -189,9 +246,9 @@ const ProductsMainSection = () => {
 									В продаже
 								</button>
 								<button
-									onClick={handleFiltered}
+									onClick={() => handleProductsCategoryButtons('IN_FAVORITES')}
 									className={
-										filtered
+										searchParams.getAll('getType')?.includes('IN_FAVORITES')
 											? `${scss.all_product} ${scss.active}`
 											: `${scss.all_product}`
 									}
@@ -199,9 +256,9 @@ const ProductsMainSection = () => {
 									В избранном
 								</button>
 								<button
-									onClick={handleFiltered}
+									onClick={() => handleProductsCategoryButtons('IN_BASKET')}
 									className={
-										filtered
+										searchParams.getAll('getType')?.includes('IN_BASKET')
 											? `${scss.all_product} ${scss.active}`
 											: `${scss.all_product}`
 									}
@@ -218,13 +275,23 @@ const ProductsMainSection = () => {
 						<div className={scss.inputs_date}>
 							<DatePicker
 								className={scss.input_date}
-								onChange={(date, dateString) => setDiscountStartDay(dateString)}
+								onChange={(date) => changeDateFunk(date)}
+								value={
+									searchParams.get('startDate')
+										? moment(searchParams.get('startDate'))
+										: undefined
+								}
 								placeholder="От"
 							/>
 							<DatePicker
 								className={scss.input_date}
-								onChange={(date, dateString) => setDiscountEndDay(dateString)}
+								onChange={(date) => changeDateFunk2(date)}
 								placeholder="До"
+								value={
+									searchParams.get('endDate')
+										? moment(searchParams.get('endDate'))
+										: undefined
+								}
 							/>
 						</div>
 						<div className={scss.products_card}>
@@ -259,26 +326,28 @@ const ProductsMainSection = () => {
 										<tr
 											key={index}
 											className={scss.tr}
-											onMouseEnter={() => handleHover(item.id)}
+											onMouseEnter={() => handleHover(item.subGadgetId)}
 											onMouseLeave={() => handleHover(null)}
 										>
 											<Link
-												to={`/admin/goodsPage/product-page/${item?.id}`}
+												to={`/admin/goodsPage/product-page/${item?.gadgetId}`}
 												className={scss.link_button}
 											>
 												<div className={scss.card}>
 													<div className={scss.three}>
 														<td>
-															{hoveredItemId === item.id ||
-															selectedItemId === item.id ? (
+															{hoveredItemId === item.subGadgetId ||
+															selectedItemId === item.subGadgetId ? (
 																<input
 																	type="checkbox"
-																	checked={selectedItemId === item.id}
+																	checked={selectedItemId === item.subGadgetId}
 																	onClick={handleCheckboxClick}
-																	onChange={(e) => handleSelect(e, item.id)}
+																	onChange={(e) =>
+																		handleSelect(e, item.subGadgetId)
+																	}
 																/>
 															) : (
-																item.id
+																item.subGadgetId
 															)}
 														</td>
 														<img src={item.images} alt="" />
@@ -301,13 +370,20 @@ const ProductsMainSection = () => {
 														{item?.currentPrice}с
 													</td>
 													<div className={scss.icons}>
-														<IconEdit className={scss.trash} />
+														<IconEdit
+															className={scss.trash}
+															onClick={(e) => {
+																navigate(`/admin/edit-page/${item.gadgetId}`);
+																e.preventDefault();
+																e.stopPropagation();
+															}}
+														/>
 														<IconTrash
 															onClick={(e) => {
 																showModalDelete();
 																e.stopPropagation();
 																e.preventDefault();
-																setGadgetId(item?.id);
+																setGadgetId(item?.subGadgetId);
 															}}
 														/>
 													</div>
@@ -322,9 +398,7 @@ const ProductsMainSection = () => {
 							<Pagination defaultCurrent={10} total={40} />
 						</div>
 					</div>
-					<div className={scss.right_content}>
-						<Infographics />
-					</div>
+					<div className={scss.right_content}>{/* <Infographics /> */}</div>
 				</div>
 				<div className={scss.modal_create_newsletter}>
 					<CustomModal

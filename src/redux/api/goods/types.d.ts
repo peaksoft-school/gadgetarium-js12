@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 type PaginationGadgets = {
-  gadgetId: number;
-  subGadgetId: number,
+  gadgetId: number,
+  subGadgetId: number
   images: string,
   article: number,
   nameOfGadget: string,
@@ -52,8 +52,8 @@ namespace GOODSSTORE {
   type GetGoodsRequest = {
     sort: string;
     discount: string;
-    page: number;
-    size: number;
+    page: string;
+    size: string;
     getType: string;
     keyword: string;
     startDate: string;
