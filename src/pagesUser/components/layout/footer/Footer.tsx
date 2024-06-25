@@ -11,6 +11,7 @@ import {
 	IconPhone
 } from '@tabler/icons-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { usePostFollowMutation } from '@/src/redux/api/follow';
 
 interface InputType {
 	email: string;
@@ -26,6 +27,7 @@ const schema = yup.object().shape({
 // const navigate = useNavigate();
 const Footer = () => {
 	const navigate = useNavigate();
+	const [postFollow] = usePostFollowMutation();
 	const top = () => {
 		window.scrollTo(0, 0);
 	};
@@ -37,6 +39,7 @@ const Footer = () => {
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: { errors }
 	} = useForm<InputType>({
 		resolver: yupResolver(schema)
@@ -45,8 +48,14 @@ const Footer = () => {
 	const [isSubscribed, setIsSubscribed] = useState<string | boolean>(false);
 
 	const onSubmit = (data: InputType) => {
+		postFollow({ email: data.email });
 		console.log(data);
 		setIsSubscribed(true);
+   setTimeout(() => {
+      setIsSubscribed(false); 
+      reset(); 
+    }, 3000);
+  
 	};
 
 	return (
@@ -175,5 +184,7 @@ const Footer = () => {
 		</footer>
 	);
 };
-
+// const postFollow = ({ email }: { email: string }) => {
+// 	console.log(`Subscribed with email: ${email}`);
+// };
 export default Footer;
