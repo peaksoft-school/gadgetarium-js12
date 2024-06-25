@@ -11,21 +11,20 @@ import {
 	IconPhone
 } from '@tabler/icons-react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { usePostFollowMutation } from '@/src/redux/api/follow';
 interface InputType {
 	email: string;
 }
-
 const schema = yup.object().shape({
 	email: yup
 		.string()
 		.email('Введите корректный email')
 		.required('Email обязателен для заполнения')
 });
-
 // const navigate = useNavigate();
 const Footer = () => {
 	const navigate = useNavigate();
+	const [postFollow] = usePostFollowMutation();
 	const top = () => {
 		window.scrollTo(0, 0);
 	};
@@ -33,22 +32,24 @@ const Footer = () => {
 		window.scrollTo(0, 0);
 		navigate('/');
 	};
-
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: { errors }
 	} = useForm<InputType>({
 		resolver: yupResolver(schema)
 	});
-
 	const [isSubscribed, setIsSubscribed] = useState<string | boolean>(false);
-
 	const onSubmit = (data: InputType) => {
+		postFollow({ email: data.email });
 		console.log(data);
 		setIsSubscribed(true);
+		setTimeout(() => {
+			setIsSubscribed(false);
+			reset();
+		}, 3000);
 	};
-
 	return (
 		<footer className={scss.Footer}>
 			<div className="container">
