@@ -148,7 +148,7 @@ const api = index.injectEndpoints({
 });
 
 export const {
-  useGetGoodGadgetQuery: useGetGoodGadgetQuery,
+  useGetGoodGadgetQuery,
   useGetSingleGoodGadgetQuery: useGetSingleGoodGadgetQuery,
   useGetGoodsDetailsGadgetQuery: useGetGoodsDetailsGadgetQuery,
   useDeleteGoodsGadgetMutation,
@@ -158,5 +158,4 @@ export const {
   usePostGoodsBannerMutation,
   usePostGoodsDiscountMutation,
   usePostNewslaterMutation
-
 } = api;

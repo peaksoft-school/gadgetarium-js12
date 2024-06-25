@@ -93,7 +93,7 @@ const ProductsMainSection = () => {
 		}
 	};
 
-	const { data } = useGetGoodGadgetQuery('');
+	const { data } = useGetGoodGadgetQuery();
 	console.log(data);
 	const [deleteGadget] = useDeleteGoodsGadgetMutation();
 	const [postBanner] = usePostGoodsBannerMutation();
