@@ -312,10 +312,10 @@ export const AddProductSections = () => {
 		}
 	};
 
-	const handleDeleteByIdArray = (id: number) => {
-		const newArray = array.filter((c, index) => index + 1 !== id);
-		setArray(newArray);
-	};
+	// const handleDeleteByIdArray = (id: number) => {
+	// 	const newArray = array.filter((c, index) => index + 1 !== id);
+	// 	setArray(newArray);
+	// };
 
 	return (
 		<>
@@ -415,38 +415,41 @@ export const AddProductSections = () => {
 												className={scss.input}
 												placeholder="Выбрать"
 												onChange={handleChange}
-												options={brandArray.map((item) => ({
-													value: item.id.toString(),
-													label: (
-														<div
-															onClick={() => setBrandId(item.id.toString())}
-															style={{
-																display: 'flex',
-																alignItems: 'center',
-																justifyContent: 'start',
-																gap: '11px'
-															}}
-														>
-															<img
+												options={
+													subCategoryArray.length! >= 1 ?
+													brandArray.map((item) => ({
+														value: item.id.toString(),
+														label: (
+															<div
+																onClick={() => setBrandId(item.id.toString())}
 																style={{
-																	width: '100%',
-																	maxWidth: '23px',
-																	height: '23px'
-																}}
-																src={item.image}
-																alt={item.brandName}
-															/>
-															<p
-																style={{
-																	color: 'rgb(41, 41, 41)',
-																	fontSize: '16px'
+																	display: 'flex',
+																	alignItems: 'center',
+																	justifyContent: 'start',
+																	gap: '11px'
 																}}
 															>
-																{item.brandName}
-															</p>
-														</div>
-													)
-												}))}
+																<img
+																	style={{
+																		width: '100%',
+																		maxWidth: '23px',
+																		height: '23px'
+																	}}
+																	src={item.image}
+																	alt={item.brandName}
+																/>
+																<p
+																	style={{
+																		color: 'rgb(41, 41, 41)',
+																		fontSize: '16px'
+																	}}
+																>
+																	{item.brandName}
+																</p>
+															</div>
+														)
+													})) : undefined
+												}
 											/>
 											{/* <div
 												className={scss.div_for_brand_content}
