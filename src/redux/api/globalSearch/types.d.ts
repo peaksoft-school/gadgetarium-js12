@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 namespace GLOBALSEARCH {
 	type GetGlobalSearchResponse = {
-    id: number;
+    gadgetId: number;
+		subGadgetId: number;
 		image: string;
 		brandNameOfGadget: string;
 		price: number;

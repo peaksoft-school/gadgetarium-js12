@@ -2,19 +2,19 @@ import { api as index } from '../index';
 
 const api = index.injectEndpoints({
 	endpoints: (build) => ({
-		// getOrder: build.query<
-		// 	ORDERPRODUCT.GetBasketProductsResponse,
-		// 	ORDERPRODUCT.GetBasketProductsRequest
-		// >({
-		// 	query: () => ({
-		// 		url: '/api/order',
-		// 		method: 'GET',
-		// 		headers: {
-		// 			Authorization: `Bearer ${localStorage.getItem('token')}`
-		// 		}
-		// 	}),
-		// 	providesTags: ['orderUser']
-		// }),
+		getDeliveryData: build.query<
+			ORDERPRODUCT.GetBasketProductsResponse,
+			ORDERPRODUCT.GetBasketProductsRequest
+		>({
+			query: () => ({
+				url: '/api/order/data-return',
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			providesTags: ['orderUser']
+		}),
 		postOrderDelivery: build.mutation<
 			ORDERPRODUCT.PostBasketProductsResponse,
 			ORDERPRODUCT.PostBasketProductsRequest
@@ -40,4 +40,4 @@ const api = index.injectEndpoints({
 	})
 });
 
-export const { usePostOrderDeliveryMutation } = api;
+export const { usePostOrderDeliveryMutation, useGetDeliveryDataQuery } = api;

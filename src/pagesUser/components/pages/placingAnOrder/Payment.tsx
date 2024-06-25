@@ -4,6 +4,7 @@ import { ChangeEvent, useState } from 'react';
 import { usePatchPaymentTypeMutation } from '@/src/redux/api/payment';
 // import { useNavigate, useSearchParams } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
+// import Paypal from './Paypal';
 
 const images = [
 	{
@@ -282,6 +283,10 @@ const Payment = () => {
 					</form>
 				</div>
 				<button>Продолжить</button>
+				<div>
+					<h2>Paypal</h2>
+					{/* <Paypal /> */}
+				</div>
 			</div>
 		</div>
 	);

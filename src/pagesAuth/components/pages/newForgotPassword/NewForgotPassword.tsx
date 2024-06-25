@@ -1,18 +1,20 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import scss from './NewForgotPassword.module.scss';
 import logo from '@/src/assets/logo.png';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { Button, ConfigProvider, Input } from 'antd';
+import { Button, ConfigProvider, Input, message } from 'antd';
 import React from 'react';
 import { usePatchNewPasswordMutation } from '@/src/redux/api/auth';
 import { ToastContainer } from 'react-toastify';
 import { notify } from '@/src/utils/helpers/notify';
+import { IconLoader } from '@tabler/icons-react';
 
 const NewForgotPassword = () => {
 	const [passwordVisible, setPasswordVisible] = React.useState(false);
-	const [patchNewPassword] = usePatchNewPasswordMutation();
+	const [patchNewPassword, { isLoading }] = usePatchNewPasswordMutation();
 	const location = useLocation();
 	const token = new URLSearchParams(location.search).get('token');
+	const navigate = useNavigate();
 
 	const {
 		register,
@@ -33,12 +35,15 @@ const NewForgotPassword = () => {
 				token
 			};
 			await patchNewPassword(newData);
-
 			console.log('onSubmit', data);
-			notify('Пароль успешно изменён', 'Войти', '/auth/login');
+			message.success('Пароль успешно изменён');
+			setTimeout(() => {
+				navigate('/auth/login');
+			}, 3000);
 			reset();
 		} catch (error) {
 			console.log('not patch response', error);
+			message.warning('Неправильно вели пароль');
 		}
 	};
 	return (
@@ -133,7 +138,7 @@ const NewForgotPassword = () => {
 											type="primary"
 											htmlType="submit"
 										>
-											Сменит пароль
+											{isLoading ? <IconLoader /> : '			Сменит пароль'}
 										</Button>
 									</div>
 									<ToastContainer />

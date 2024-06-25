@@ -22,7 +22,7 @@ const api = index.injectEndpoints({
 				url: `/api/gadget/${id}/filter?${brand}&${sort}&${discount}&${colour}&${costFrom}&${costUpTo}&${page}&${size}&${memory}&${ram}`,
 				method: 'GET',
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('token')}`
+					Authorization: `Bearer ${localStorage.getItem('token') || ''}`
 				}
 			}),
 			providesTags: ['filterProductsApi']

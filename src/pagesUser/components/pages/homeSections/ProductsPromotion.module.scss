@@ -40,7 +40,7 @@
 					gap: 20px;
 				}
 				.div_product_map {
-					box-shadow: 0px 0px 3.5px black;
+					box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.527);
 					background-color: #ffffff;
 					border-radius: 4px;
 					width: 290px;
@@ -51,6 +51,9 @@
 					padding-inline: 12px;
 					gap: 17px;
 					position: relative;
+					&:hover {
+						box-shadow: 0px 0px 3.5px rgb(0, 0, 0);
+					}
 					@media (max-width: 330px) {
 						height: auto;
 						width: 1vw;
@@ -114,6 +117,7 @@
 						}
 					}
 					.div_img {
+						cursor: pointer;
 						display: flex;
 						justify-content: center;
 						align-items: center;
@@ -153,9 +157,10 @@
 							font-size: 12px;
 						}
 						.div_buttons_and_price {
+							width: 100%;
 							display: flex;
+							justify-content: space-between;
 							align-items: center;
-							gap: 44px;
 							@media (max-width: 600px) {
 								display: flex;
 								flex-direction: column;
@@ -177,6 +182,10 @@
 									text-decoration: line-through;
 									color: #909cb5;
 									font-size: 14px;
+								}
+								.previous_price {
+									text-decoration: line-through;
+									color: gray;
 								}
 							}
 							.add_bas_button_active {

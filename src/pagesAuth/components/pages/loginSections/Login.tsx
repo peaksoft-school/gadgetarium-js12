@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import scss from './Login.module.scss';
 import logo from '@/src/assets/logo.png';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { Button, ConfigProvider, Input } from 'antd';
+import { Button, ConfigProvider, Input, message } from 'antd';
 import React from 'react';
 import { usePostLoginMutation } from '@/src/redux/api/auth';
 import { auth, provider } from './config';
@@ -35,20 +35,20 @@ const Login = ({ setOpenModal }) => {
 				localStorage.setItem('isAuth', 'true');
 				localStorage.setItem('user', 'true');
 				localStorage.setItem('admin', 'false');
-				notify('Вход выполнен успешно', 'Перейти на главную', '/');
+				message.success('Вход выполнен успешно');
 				navigate('/');
 			} else if (response.role === 'ADMIN') {
 				const { token } = response;
 				localStorage.setItem('token', token);
-				localStorage.setItem('isAuth', 'false');
+				localStorage.setItem('isAuth', 'false');	
 				localStorage.setItem('admin', 'true');
-				notify('Вход выполнен успешно', 'Перейти на главную', '/');
+				message.success('Вход выполнен успешно');
 				navigate('/admin');
 			}
 			reset();
 			setOpenModal(false);
 		} catch (error) {
-			notify(error.data?.message || 'Ошибка при входе', '', '');
+			message.warning('Ошибка при входе');
 			setOpenModal(true);
 			console.log('Ошибка при входе', error);
 		}

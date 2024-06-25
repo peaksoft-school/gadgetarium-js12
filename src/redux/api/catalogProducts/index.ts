@@ -10,7 +10,7 @@ const api = index.injectEndpoints({
 				url: '/api/gadget/categories',
 				method: 'GET',
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('token')}`
+					Authorization: `Bearer ${localStorage.getItem('token') || ''}`
 				}
 			}),
 			providesTags: ['catalogApi']
@@ -23,7 +23,7 @@ const api = index.injectEndpoints({
 				url: `/api/gadget/${id}/sub-categories`,
 				method: 'GET',
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('token')}`
+					Authorization: `Bearer ${localStorage.getItem('token') || ''}`
 				}
 			}),
 			providesTags: ['catalogApi']

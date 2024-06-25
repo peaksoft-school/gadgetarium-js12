@@ -18,28 +18,28 @@ const ProductsRecom = () => {
 	const [comparisonPatchProduct] = useComparisonPatchProductsMutation();
 	const [basketPutProduct] = useBasketPutProductMutation();
 	const [putFavoriteProduct] = useFavoritePutProductMutation();
-	const [openModal, setOpenModal] = useState(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
+	const [openModal, setOpenModal] = useState(false);
 
 	const handleShowAllPhones = (page: number) => {
 		let size = 5 + page;
-		searchParams.set('page', '1');
-		searchParams.set('size', size.toString());
+		searchParams.set('RecomPage', '1');
+		searchParams.set('RecomSize', size.toString());
 		setSearchParams(searchParams);
 		navigate(`/?${searchParams.toString()}`);
 	};
 
 	const handlePaginationResult = () => {
-		searchParams.set('page', '1');
-		searchParams.set('size', '5');
+		searchParams.set('RecomPage', '1');
+		searchParams.set('RecomSize', '5');
 		setSearchParams(searchParams);
 		navigate(`/?${searchParams.toString()}`);
 	};
 
 	const { data, isLoading, refetch } = useGetProductsRecomQuery({
-		page: searchParams.toString(),
-		size: searchParams.toString()
+		page: `page=${searchParams.get('RecomPage') || ''}`,
+		size: `size=${searchParams.get('RecomSize') || ''}`
 	});
 
 	const handleScaleClick = async (subGadgetId: number) => {
@@ -154,8 +154,13 @@ const ProductsRecom = () => {
 													</Tooltip>
 												</div>
 											</div>
-											<div className={scss.div_img}>
-												<img onClick={() => navigate(`/api/gadget/by-id/${el.gadgetId}`)}
+											<div
+												onClick={() =>
+													navigate(`/api/gadget/by-id/${el.gadgetId}`)
+												}
+												className={scss.div_img}
+											>
+												<img
 													className={scss.img_product}
 													src={el.image}
 													alt={el.nameOfGadget}
@@ -163,23 +168,29 @@ const ProductsRecom = () => {
 											</div>
 											<div className={scss.div_product_contents}>
 												<p className={scss.tag_color_green}>
-													В наличии {el.quantity}
+													В наличии ({el.quantity})
 												</p>
 												<h3>
-													{' '}
-													{el.nameOfGadget.length >= 28
-														? el.nameOfGadget.slice(0, 22) + '...'
-														: el.nameOfGadget}
+													{el.nameOfGadget.length > 28 ? (
+														<>
+															{el.nameOfGadget.slice(0, 22)}
+															<Tooltip title={el.nameOfGadget} color="#c11bab">
+																<span style={{ cursor: 'pointer' }}>...</span>
+															</Tooltip>
+														</>
+													) : (
+														el.nameOfGadget
+													)}
 												</h3>
 												<p>
-													Рейтинг <Rate allowHalf defaultValue={el.rating} />
-													{el.rating}
+													Рейтинг{' '}
+													<Rate allowHalf disabled defaultValue={el.rating} />(
+													{el.rating})
 												</p>
 												<div className={scss.div_buttons_and_price}>
 													<div className={scss.product_price}>
 														<h2>{el.price} c</h2>
 													</div>
-
 													{el.basket === true ? (
 														<button
 															onClick={() => navigate('/basket')}
@@ -204,7 +215,7 @@ const ProductsRecom = () => {
 						</div>
 						<div className={scss.show_more_button}>
 							{data?.mainPages.length.toString() ===
-							searchParams.get('size') ? (
+							(searchParams.get('RecomSize') || '5') ? (
 								<ShowMoreButton
 									children={'Показать ещё'}
 									onClick={() => handleShowAllPhones(data?.mainPages.length)}

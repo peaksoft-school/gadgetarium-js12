@@ -9,7 +9,7 @@ import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { useComparisonPatchProductsMutation } from '@/src/redux/api/comparison';
 import { useGetProductsNewsQuery } from '@/src/redux/api/productsNews/index.ts';
-import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal.tsx';
 import { useState } from 'react';
 import ModalLogin from '@/src/ui/customModalLogin/ModalLogin.tsx';
@@ -24,6 +24,7 @@ const ProductsNew = () => {
 
 	const handleShowAllPhones = (page: number) => {
 		let size = 5 + page;
+		// const params = new URLSearchParams({ page: '1', size: size.toString() });
 		searchParams.set('page', '1');
 		searchParams.set('size', size.toString());
 		setSearchParams(searchParams);
@@ -36,12 +37,10 @@ const ProductsNew = () => {
 		setSearchParams(searchParams);
 		navigate(`/?${searchParams.toString()}`);
 	};
-
 	const { data, isLoading, refetch } = useGetProductsNewsQuery({
-		page: searchParams.toString(),
-		size: searchParams.toString()
+		page: `page=${searchParams.get('page') || ''}`,
+		size: `size=${searchParams.get('size') || ''}`
 	});
-
 	const handleScaleClick = async (subGadgetId: number) => {
 		if (localStorage.getItem('isAuth') === 'true') {
 			await comparisonPatchProduct(subGadgetId);
@@ -155,8 +154,13 @@ const ProductsNew = () => {
 													</Tooltip>
 												</div>
 											</div>
-											<div className={scss.div_img}>
-												<img onClick={() => navigate(`/api/gadget/by-id/${el.gadgetId}`)}
+											<div
+												onClick={() =>
+													navigate(`/api/gadget/by-id/${el.gadgetId}`)
+												}
+												className={scss.div_img}
+											>
+												<img
 													className={scss.img_product}
 													src={el.image}
 													alt={el.nameOfGadget}
@@ -164,16 +168,24 @@ const ProductsNew = () => {
 											</div>
 											<div className={scss.div_product_contents}>
 												<p className={scss.tag_color_green}>
-													В наличии {el.quantity}
+													В наличии ({el.quantity})
 												</p>
 												<h3>
-													{el.nameOfGadget.length >= 28
-														? el.nameOfGadget.slice(0, 22) + '...'
-														: el.nameOfGadget}
+													{el.nameOfGadget.length > 28 ? (
+														<>
+															{el.nameOfGadget.slice(0, 22)}
+															<Tooltip title={el.nameOfGadget} color="#c11bab">
+																<span style={{ cursor: 'pointer' }}>...</span>
+															</Tooltip>
+														</>
+													) : (
+														el.nameOfGadget
+													)}
 												</h3>
 												<p>
-													Рейтинг <Rate allowHalf defaultValue={el.rating} />
-													{el.rating}
+													Рейтинг
+													<Rate allowHalf disabled defaultValue={el.rating} />(
+													{el.rating})
 												</p>
 												<div className={scss.div_buttons_and_price}>
 													<div className={scss.product_price}>
@@ -202,8 +214,7 @@ const ProductsNew = () => {
 							)}
 						</div>
 						<div className={scss.show_more_button}>
-							{data?.mainPages.length.toString() ===
-							searchParams.get('size') ? (
+							{data?.mainPages.length.toString() === (searchParams.get('size') || '5') ? (
 								<ShowMoreButton
 									children={'Показать ещё'}
 									onClick={() => handleShowAllPhones(data?.mainPages.length)}

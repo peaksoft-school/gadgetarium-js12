@@ -7,7 +7,7 @@ const api = index.injectEndpoints({
 			PAYMENTPRODUCT.PatchPaymentProductsRequest
 		>({
 			query: ({ orderId, payment }) => ({
-				url: `/api/paypal?${orderId}&${payment}`,
+				url: `/api/paypal/${orderId}&${payment}`,
 				method: 'PATCH',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -15,8 +15,23 @@ const api = index.injectEndpoints({
 				body: { orderId, payment }
 			}),
 			invalidatesTags: ['payment']
+		}),
+		postCreatePayment: build.mutation<
+			PAYMENTPRODUCT.PostPaymentResponse,
+			PAYMENTPRODUCT.PostPaymentRequest
+		>({
+			query: (order) => ({
+				url: `/api/paypal/create-payment`,
+				method: 'POST	',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				},
+				body: order
+			}),
+			invalidatesTags: ['payment']
 		})
 	})
 });
 
-export const { usePatchPaymentTypeMutation } = api;
+export const { usePatchPaymentTypeMutation, usePostCreatePaymentMutation } =
+	api;

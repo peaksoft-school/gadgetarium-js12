@@ -4,13 +4,14 @@ import { IconEye, IconEyeOff, IconPhotoPlus } from '@tabler/icons-react';
 import scss from './Profile.module.scss';
 import { useForm } from 'react-hook-form';
 import { useRef, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
 	usePostProfilesInformationQueryMutation,
-	usePostProfilesPasswordQueryMutation,
 	usePutProfilesImageQueryMutation,
-	useGetProfilesQuery
+	useGetProfilesQuery,
+	usePatchProfilesPasswordMutation
 } from '@/src/redux/api/personalAccount/profile';
+import { message } from 'antd';
 
 const Profile = () => {
 	const {
@@ -77,10 +78,11 @@ const Profile = () => {
 	const [phone, setPhone] = useState('');
 	const [address, setAddress] = useState('');
 
-	const [profilePasswords] = usePostProfilesPasswordQueryMutation();
+	const [profilePasswords] = usePatchProfilesPasswordMutation();
 	const [profileInformation] = usePostProfilesInformationQueryMutation();
 	const [profileImage] = usePutProfilesImageQueryMutation();
 	const { data: profileData, refetch } = useGetProfilesQuery({});
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (profileData) {
@@ -99,6 +101,10 @@ const Profile = () => {
 		refetch();
 	}, [profileData, setValue]);
 
+	const navigateForgot = () => {
+		navigate('/auth/forgotPassword');
+	};
+
 	const handlePostNewPassword = async () => {
 		const passwords = {
 			oldPassword: oldPassword,
@@ -114,6 +120,7 @@ const Profile = () => {
 				console.log(res);
 			} catch (error) {
 				console.error(error);
+				message.warning('Вы неправильно ввели старый пароль')
 			}
 		}
 	};
@@ -321,6 +328,7 @@ const Profile = () => {
 												</div>
 											))}
 											<p
+												onClick={navigateForgot}
 												style={{
 													color: 'blue',
 													cursor: 'pointer',
