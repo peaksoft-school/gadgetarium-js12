@@ -61,7 +61,6 @@ const ProductPartThree = () => {
 			}
 		}
 	};
-	useEffect(() => {}, []);
 	const changeUrlVidoeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setUrlVidoeValue(e.target.value);
 	};

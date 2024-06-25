@@ -259,26 +259,26 @@ const ProductsMainSection = () => {
 										<tr
 											key={index}
 											className={scss.tr}
-											onMouseEnter={() => handleHover(item.id)}
+											onMouseEnter={() => handleHover(item.subGadgetId)}
 											onMouseLeave={() => handleHover(null)}
 										>
 											<Link
-												to={`/admin/goodsPage/product-page/${item?.id}`}
+												to={`/admin/goodsPage/product-page/${item?.gadgetId}`}
 												className={scss.link_button}
 											>
 												<div className={scss.card}>
 													<div className={scss.three}>
 														<td>
-															{hoveredItemId === item.id ||
-															selectedItemId === item.id ? (
+															{hoveredItemId === item.subGadgetId ||
+															selectedItemId === item.subGadgetId ? (
 																<input
 																	type="checkbox"
-																	checked={selectedItemId === item.id}
+																	checked={selectedItemId === item.subGadgetId}
 																	onClick={handleCheckboxClick}
-																	onChange={(e) => handleSelect(e, item.id)}
+																	onChange={(e) => handleSelect(e, item.subGadgetId)}
 																/>
 															) : (
-																item.id
+																item.subGadgetId
 															)}
 														</td>
 														<img src={item.images} alt="" />
@@ -301,13 +301,17 @@ const ProductsMainSection = () => {
 														{item?.currentPrice}с
 													</td>
 													<div className={scss.icons}>
-														<IconEdit className={scss.trash} />
+														<IconEdit className={scss.trash} onClick={(e) => {
+														navigate(`/admin/edit-page/${item.gadgetId}`)
+														e.preventDefault()
+														e.stopPropagation()
+													}}/>
 														<IconTrash
 															onClick={(e) => {
 																showModalDelete();
 																e.stopPropagation();
 																e.preventDefault();
-																setGadgetId(item?.id);
+																setGadgetId(item?.subGadgetId);
 															}}
 														/>
 													</div>

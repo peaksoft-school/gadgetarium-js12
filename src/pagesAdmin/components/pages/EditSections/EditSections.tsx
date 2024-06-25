@@ -1,35 +1,22 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useNavigate, useParams } from 'react-router-dom';
 import scss from './EditSections.module.scss';
-import { Button, Input, Upload } from 'antd';
-import type { GetProp, UploadFile, UploadProps } from 'antd';
-import { useState } from 'react';
-import { cyan, generate, green, presetPalettes, red } from '@ant-design/colors';
-import { Col, ColorPicker, Divider, Row, Space, theme } from 'antd';
-import type { ColorPickerProps } from 'antd';
+import { Button, Input, Radio, Select } from 'antd';
+import React, { useState } from 'react';
+import { generate, green, presetPalettes, red } from '@ant-design/colors';
+import { ColorPicker, theme, ColorPickerProps } from 'antd';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
+import { useEditProductByIdApiMutation } from '@/src/redux/api/editProductById';
+import { usePostUploadMutation } from '@/src/redux/api/pdf';
+import { IconColorPicker, IconPhotoPlus } from '@tabler/icons-react';
+import { gBiteCatalog, moreGBiteCatalog, simCards } from '@/src/data/Catalog';
+import {
+	OptionsForLaptop,
+	optionsSmartWatchesAndBracelets
+} from '@/src/data/InputSelect';
+import { useDeleteByIdGadgetApiMutation } from '@/src/redux/api/updateImageApi';
 
-interface ColorTypes {
-	id: number;
-}
-
-const arrayColors: ColorTypes[] = [
-	{
-		id: 1
-	},
-	{
-		id: 2
-	},
-	{
-		id: 3
-	},
-	{
-		id: 4
-	},
-	{
-		id: 5
-	}
-];
 type Presets = Required<ColorPickerProps>['presets'][number];
 
 const genPresets = (presets = presetPalettes) =>
@@ -38,63 +25,110 @@ const genPresets = (presets = presetPalettes) =>
 		colors
 	}));
 
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
-
 const EditSections = () => {
 	const { productId } = useParams();
-	const { data, isLoading } = useGetCardProductQuery(productId!);
+	const { data, isLoading } = useGetCardProductQuery({
+		id: Number(productId)
+	});
+	const [hoverEditIcon, setHoverEditIcon] = useState<number | null>(null);
+	const [productName, setProductName] = useState<string>(data?.nameOfGadget!);
+	const [colorEdit, setColorEdit] = useState<string>(data?.mainColour!);
+	const [priceEdit, setPriceEdit] = useState<number>(data?.price!);
+	const [ramEdit, setRamEdit] = useState<string>(data?.ram!);
+	const [memoryEdit, setMemoryEdit] = useState<string>(data?.memory!);
+	const [countSimEdit, setCountSimEdit] = useState<string>(data?.countSim.toString()!);
+	const [editProductById] = useEditProductByIdApiMutation();
+	const [updateImage] = useDeleteByIdGadgetApiMutation();
+	const [quantityEdit, setQuantityEdit] = useState<number>(data?.quantity!);
+	const [postUploadApi] = usePostUploadMutation();
+	const [materialBraceletEdit, setMaterialBraceletEdit] = useState<string>('');
+	const [materialBodyEdit, setMaterialBodyEdit] = useState<string>('');
+	const [sizeWatchEdit, setSizeWatchEdit] = useState<string>('');
+	const [dumasEdit, setDumasEdit] = useState<string>('');
+	const [genderWatchEdit, setGenderWatchEdit] = useState<string>('');
+	const [waterproofEdit, setWaterproofEdit] = useState<string>('');
+	const [wirelessEdit, setWirelessEdit] = useState<string>('');
+	const [shapeBodyEdit, setShapeBodyEdit] = useState<string>('');
+	const updateImageRef = React.useRef<(HTMLInputElement | null)[]>([]);
+	
 	const navigate = useNavigate();
-	const [formInputs, setFormInputs] = useState<boolean>(false);
-	const [fileList, setFileList] = useState<UploadFile[]>([
-		{
-			uid: '-1',
-			name: 'image.png',
-			status: 'done',
-			url: `${data?.image}`
-		}
-	]);
 
 	const { token } = theme.useToken();
-
 	const presets = genPresets({
 		primary: generate(token.colorPrimary),
 		red,
-		green,
-		cyan
+		green
 	});
 
-	const customPanelRender: ColorPickerProps['panelRender'] = (
-		_,
-		{ components: { Picker, Presets } }
-	) => (
-		<Row justify="space-between" wrap={false}>
-			<Col span={12}>
-				<Presets />
-			</Col>
-			<Divider type="vertical" style={{ height: 'auto' }} />
-			<Col flex="auto">
-				<Picker />
-			</Col>
-		</Row>
-	);
+	const handleEditApiFunk = async () => {
+		const DATA = {
+			quantity: quantityEdit,
+			price: priceEdit,
+			colour: colorEdit,
+			countSim: Number(
+				countSimEdit
+			),
+			memory: memoryEdit,
+			ram: ramEdit,
+			materialBracelet: materialBraceletEdit || '',
+			materialBody: materialBodyEdit || '',
+			sizeWatch: sizeWatchEdit || '',
+			genderWatch: genderWatchEdit || '',
+			waterproof: waterproofEdit || '',
+			wireless: wirelessEdit || '',
+			shapeBody: shapeBodyEdit || ''
+		};
 
-	const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-		setFileList(newFileList);
+		try {
+			await editProductById({
+				subGadgetId: data?.subGadgetId!,
+				...DATA
+			});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+	function updateImageRefClick(index: number) {
+		if (updateImageRef.current[index]) {
+			return updateImageRef.current[index]?.click();
+		}
+	}
+	function changeProductNameFunk(event: React.ChangeEvent<HTMLInputElement>) {
+		setProductName(event.target.value);
+	}
+
+	const changePrice = function (e: React.ChangeEvent<HTMLInputElement>) {
+		setPriceEdit(Number(e.target.value));
 	};
 
-	const onPreview = async (file: UploadFile) => {
-		let src = file.url as string;
-		if (!src) {
-			src = await new Promise((resolve) => {
-				const reader = new FileReader();
-				reader.readAsDataURL(file.originFileObj as FileType);
-				reader.onload = () => resolve(reader.result as string);
-			});
+	const changeColorPicker = (value: string) => {
+		setColorEdit(value);
+	};
+
+	const changeEditFileFunk = async (
+		file: React.ChangeEvent<HTMLInputElement>,
+		keyForDeleteUpload: string
+	) => {
+		const files = file.target.files;
+		if (files) {
+			const formData = new FormData();
+			formData.append('files', files[0]);
+			try {
+				const response = await postUploadApi(formData).unwrap();
+				const uploadedFiles = response.data;
+				const UPDATEIMAGE = {
+					newImage: uploadedFiles[0],
+					oldImage: keyForDeleteUpload,
+					oldKey: keyForDeleteUpload.slice(54, 100)
+				};
+				await updateImage({
+					subGadgetId: data?.subGadgetId!,
+					...UPDATEIMAGE
+				});
+			} catch (error) {
+				console.error('Failed to upload files:', error);
+			}
 		}
-		const image = new Image();
-		image.src = src;
-		const imgWindow = window.open(src);
-		imgWindow?.document.write(image.outerHTML);
 	};
 
 	return (
@@ -105,10 +139,10 @@ const EditSections = () => {
 						<p onClick={() => navigate('/admin')}>Товары »</p>
 						<p
 							onClick={() =>
-								navigate(`/admin/goodsPage/product-page/${data?.id}`)
+								navigate(`/admin/goodsPage/product-page/${data?.gadgetId}`)
 							}
 						>
-							{data?.productName}
+							{data?.nameOfGadget}
 						</p>
 						<p className={scss.edit_page_text}>Редактировать</p>
 					</div>
@@ -116,243 +150,457 @@ const EditSections = () => {
 						<h2>Редактировать</h2>
 						<div className={scss.border}></div>
 					</div>
-					<div className={scss.form_container}>
-						<div className={scss.form_content_1}>
-							<div className={scss.form_1}>
-								<div className={scss.label_and_input_div}>
-									<label>Фото</label>
-									<Upload
-										action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-										listType="picture-card"
-										fileList={fileList}
-										onChange={onChange}
-										onPreview={onPreview}
-									>
-										{fileList.length < 6 && '+ Upload'}
-									</Upload>
-								</div>
-								<div className={scss.colors_div}>
-									<label>Цвет товара</label>
-									<div>
-										{arrayColors.map((el) => (
-											<Space direction="vertical" key={el.id}>
-												<ColorPicker
-													defaultValue={token.colorPrimary}
-													styles={{ popupOverlayInner: { width: 480 } }}
-													presets={presets}
-													panelRender={customPanelRender}
-												/>
-											</Space>
-										))}
+					{isLoading ? (
+						<h1>isLoading...</h1>
+					) : (
+						<div className={scss.form_container}>
+							<div className={scss.form_content_1}>
+								<div className={scss.form_1}>
+									<div className={scss.label_and_input_div}>
+										<label>Фото</label>
+										<div className={scss.div_images}>
+											{data?.images.slice(0, 6).map((c, index) => (
+												<div
+													className={scss.images_div}
+													key={index}
+													onMouseEnter={() => setHoverEditIcon(index)}
+													onMouseLeave={() => setHoverEditIcon(null)}
+												>
+													<img src={c} alt="logo" />
+													{hoverEditIcon === index && (
+														<p
+															onClick={(e) => {
+																e.stopPropagation();
+																updateImageRefClick(index);
+															}}
+															className={scss.edit_text}
+														>
+															изменить
+														</p>
+													)}
+													<input
+														type="file"
+														onChange={(
+															e: React.ChangeEvent<HTMLInputElement>
+														) => changeEditFileFunk(e, c)}
+														ref={(el) => (updateImageRef.current[index] = el)}
+														style={{ display: 'none' }}
+													/>
+												</div>
+											))}
+										</div>
 									</div>
 								</div>
-								<div className={scss.label_and_input_div}>
-									<label>рейтинг</label>
-									<Input className={scss.input} defaultValue={data?.Rating} />
-								</div>
-								<div className={scss.label_and_input_div}>
-									<label>Количество</label>
-									<Input className={scss.input} defaultValue={data?.quantity} />
+								<div className={scss.form_2}>
+									<div className={scss.label_and_input_div}>
+										<label>Название товара</label>
+										<Input
+											onChange={changeProductNameFunk}
+											defaultValue={data?.nameOfGadget}
+											className={scss.input}
+											value={productName}
+										/>
+									</div>
+									<div className={scss.label_and_input_div}>
+										<label>цена</label>
+										<Input
+											defaultValue={data?.price}
+											onChange={changePrice}
+											value={priceEdit}
+											className={scss.input}
+										/>
+									</div>
+									<div className={scss.label_and_input_div}>
+										<label>количество</label>
+										<Input
+											onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+												setQuantityEdit(Number(event.target.value))
+											}
+											value={quantityEdit}
+											className={scss.input}
+										/>
+									</div>
+									{data && data?.uniField === null && (
+										<>
+											<div className={scss.label_and_input_div}>
+												<label>Материал браслета/ремешка</label>
+												<Select
+													className={scss.input_for_form}
+													// placeholder="Материал браслета/ремешка"
+													placeholder={`${(data.uniField && data.uniField[0]) || 'Материал браслета/ремешка'}`}
+													options={
+														optionsSmartWatchesAndBracelets &&
+														optionsSmartWatchesAndBracelets.map(
+															(el, index) => ({
+																value: String(index + 1),
+																label: <p>{el.label}</p>
+															})
+														)
+													}
+													onChange={(value) =>
+														setMaterialBraceletEdit(
+															optionsSmartWatchesAndBracelets[
+																Number(Number(value) - 1)
+															].label
+														)
+													}
+													value={
+														materialBraceletEdit
+															
+													}
+												/>
+											</div>
+											<div className={scss.label_and_input_div}>
+												<label>Материал корпуса</label>
+												<Select
+													className={scss.input_for_form}
+													placeholder={`${(data.uniField && data.uniField[1]) || 'Материал корпуса'}`}
+													options={
+														optionsSmartWatchesAndBracelets &&
+														optionsSmartWatchesAndBracelets.map(
+															(el, index) => ({
+																value: String(index + 1),
+																label: <p>{el.label}</p>
+															})
+														)
+													}
+													onChange={(value) =>
+														setMaterialBodyEdit(
+															optionsSmartWatchesAndBracelets[
+																Number(Number(value) - 1)
+															].label
+														)
+													}
+													value={
+														materialBodyEdit
+														
+													}
+												/>
+											</div>
+											<div className={scss.label_and_input_div}>
+												<label>Размер смарт часов (mm)</label>
+												<Select
+													className={scss.input_for_form}
+													// placeholder="Размер смарт часов (mm)"
+													placeholder={`${(data.uniField && data.uniField[2]) || 'Размер смарт часов (mm)'}`}
+													options={
+														OptionsForLaptop &&
+														OptionsForLaptop.map((el, index) => ({
+															value: String(index + 1),
+															label: <p>{el.label}</p>
+														}))
+													}
+													onChange={(value) =>
+														setSizeWatchEdit(
+															OptionsForLaptop[Number(Number(value) - 1)].label
+														)
+													}
+													value={
+														sizeWatchEdit
+															
+													}
+												/>
+											</div>
+											<div className={scss.label_and_input_div}>
+												<label>Диагональ дисплея (дюйм)</label>
+												<Select
+													className={scss.input_for_form}
+													// placeholder="Диагональ дисплея (дюйм)"
+													placeholder={`${(data.uniField && data.uniField[3]) || 'Диагональ дисплея (дюйм)'}`}
+													options={
+														OptionsForLaptop &&
+														OptionsForLaptop.map((el, index) => ({
+															value: String(index + 1),
+															label: <p>{el.label}</p>
+														}))
+													}
+													onChange={(value) =>
+														setDumasEdit(
+															OptionsForLaptop[Number(Number(value) - 1)].label
+														)
+													}
+													value={
+														dumasEdit
+															
+													}
+												/>
+											</div>
+											<div className={scss.label_and_input_div}>
+												<label>Пол</label>
+												<Radio.Group
+													onChange={(e) => setGenderWatchEdit(e.target.value)}
+													value={
+														genderWatchEdit
+															
+													}
+												>
+													<Radio value={'Унисекс'}>Унисекс</Radio>
+													<Radio value={'Женский'}>Женский</Radio>
+													<Radio value={'Мужской'}>Мужской</Radio>
+												</Radio.Group>
+											</div>
+											<div className={scss.label_and_input_div}>
+												<label>Водонепроницаемые</label>
+												<Radio.Group
+													onChange={(e) => setWaterproofEdit(e.target.value)}
+													value={
+														waterproofEdit
+															
+													}
+												>
+													<Radio value={'Да'}>Да</Radio>
+													<Radio value={'Нет'}>Нет</Radio>
+												</Radio.Group>
+											</div>
+											<div className={scss.label_and_input_div}>
+												<label>Беспроводные интерфейсы</label>
+												<Radio.Group
+													onChange={(e) => setWirelessEdit(e.target.value)}
+													value={
+														wirelessEdit
+														
+													}
+												>
+													<Radio value={'Bluetooth'}>Bluetooth</Radio>
+													<Radio value={'Wi-Fi'}>Wi-Fi</Radio>
+													<Radio value={'GPS'}>GPS</Radio>
+													<Radio value={'NFC'}>NFC</Radio>
+												</Radio.Group>
+											</div>
+											<div className={scss.label_and_input_div}>
+												<label>Форма корпуса</label>
+												<Radio.Group
+													onChange={(e) => setShapeBodyEdit(e.target.value)}
+													value={
+														shapeBodyEdit
+															
+													}
+												>
+													<Radio value={'Квадратная'}>Квадратная</Radio>
+													<Radio value={'Круглая'}>Круглая</Radio>
+													<Radio value={'Овальная'}>Овальная</Radio>
+													<Radio value={'Прямоугольная'}>Прямоугольная</Radio>
+												</Radio.Group>
+											</div>
+										</>
+									)}
+									{data && data.uniField !== null && (
+										<>
+											<div className={scss.colors_div}>
+												<label>Цвет товара</label>
+												<div className={scss.color_div}>
+													{/* <Space direction="vertical">
+											<ColorPicker
+												defaultValue={token.colorPrimary}
+												styles={{ popupOverlayInner: { width: 480 } }}
+												presets={presets}
+												panelRender={customPanelRender}
+											/>
+										</Space> */}
+													<p>{colorEdit ? colorEdit : data?.mainColour}</p>
+													<ColorPicker
+														presets={presets}
+														onChange={(color) =>
+															changeColorPicker(color.toHexString())
+														}
+														defaultValue={`${colorEdit}`}
+														value={colorEdit}
+													/>
+													<IconColorPicker
+														width={'19px'}
+														height={'19px'}
+														color="rgb(145, 150, 158)"
+													/>
+												</div>
+											</div>
+											<div className={scss.label_and_input_div}>
+												<label>Объем памяти</label>
+												<Select
+													className={scss.input}
+													placeholder="Объем памяти"
+													options={
+														gBiteCatalog &&
+														gBiteCatalog.map((el, index) => ({
+															value: String(index + 1),
+															label: <p>{el.gb}</p>
+														}))
+													}
+													onChange={(value) =>
+														setMemoryEdit(
+															gBiteCatalog[Number(Number(value) - 1)].gb
+														)
+													}
+													value={memoryEdit}
+												/>
+											</div>
+											<div className={scss.label_and_input_div}>
+												<label>Оперативная память</label>
+												<Select
+													className={scss.input}
+													placeholder="Оперативная память"
+													options={
+														moreGBiteCatalog &&
+														moreGBiteCatalog.map((el, index) => ({
+															value: String(index + 1),
+															label: <p>{el.gb}</p>
+														}))
+													}
+													onChange={(value) =>
+														setRamEdit(
+															moreGBiteCatalog[Number(Number(value) - 1)].gb
+														)
+													}
+													value={ramEdit}
+												/>
+											</div>
+											<div className={scss.label_and_input_div}>
+												<label>Кол-во SIM-карт</label>
+												<Select
+													className={scss.input}
+													placeholder="Кол-во SIM-карт"
+													options={
+														simCards &&
+														simCards.map((el, index) => ({
+															value: String(index + 1),
+															label: <p>{el.sumCard}</p>
+														}))
+													}
+													onChange={(value) =>
+														setCountSimEdit(
+															simCards[Number(Number(value) - 1)].sumCard
+														)
+													}
+													value={countSimEdit}
+												/>
+											</div>
+											<div className={scss.buttons_div}>
+												<Button
+													onClick={handleEditApiFunk}
+													className={scss.button}
+												>
+													Редактировать
+												</Button>
+												<Button
+													onClick={() =>
+														navigate(
+															`/admin/goodsPage/product-page/${data?.gadgetId}`
+														)
+													}
+													className={scss.button}
+												>
+													отмена
+												</Button>
+											</div>
+										</>
+									)}
 								</div>
 							</div>
-							<div className={scss.form_2}>
-								<div className={scss.label_and_input_div}>
-									<label>Product Name</label>
-									<Input
-										defaultValue={data?.productName}
-										className={scss.input}
-									/>
-								</div>
-								<div className={scss.label_and_input_div}>
-									<label>цена</label>
-									<Input defaultValue={data?.price} className={scss.input} />
-								</div>
-								<div className={scss.label_and_input_div}>
-									<label>Предыдущий Цена</label>
-									<Input
-										defaultValue={data?.previousPrice}
-										className={scss.input}
-									/>
-								</div>
-								<div className={scss.label_and_input_div}>
-									<label>buyProduc</label>
-									<Input
-										defaultValue={data?.buyProduc}
-										className={scss.input}
-									/>
-								</div>
-								<div
-									className={scss.label_and_input_div}
-									style={{ marginTop: '12px' }}
-								>
-									<label>Брент</label>
-									<Input defaultValue={data?.brand} className={scss.input} />
-								</div>
-							</div>
-						</div>
-						{formInputs && (
 							<div className={scss.form_content_1}>
 								<div className={scss.form_2}>
-									<div className={scss.label_and_input_div}>
-										<label>Экран</label>
-										<Input className={scss.input} defaultValue={data?.Screen} />
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Цвет</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.colorProduct}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Дата выпуска</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.DateOfIssue}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Операционная система</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.operatingSystem}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Память</label>
-										<Input className={scss.input} defaultValue={data?.Memory} />
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>SIM-карты</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.SIMCards}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>SIM-карты</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.SIMCards}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Гарантия (месяцев)</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.WarrantyMonths}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Процессор</label>
-										<Input className={scss.input} defaultValue={data?.CPU} />
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Вес</label>
-										<Input className={scss.input} defaultValue={data?.Weight} />
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Характеристики Размер бегового полотна (ДхШ)</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.Characteristics.runningBeltSize}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Характеристики Диаметр задних валов</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.Characteristics.rearShaftDiameter}
-										/>
-									</div>
-								</div>
-								<div className={scss.form_2}>
-									<div className={scss.label_and_input_div}>
-										<label>Описание фото</label>
-										<Input className={scss.input} type="url" />
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Описание text</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.Description.intoText1}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Описание text</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.Description.intoText2}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Описание text</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.Description.intoText3}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Описание text</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.Description.intoText4}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Характеристики Тип дорожки:</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.Characteristics.TrackType}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Характеристики Мощность двигателя</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.Characteristics.enginePower}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Характеристики Регулировка скорости</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.Characteristics.speedAdjustment}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Характеристики Беговое полотно</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.Characteristics.runningBelt}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Характеристики Наклон бегового полотна</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.Characteristics.runningBeltIncline}
-										/>
-									</div>
-									<div className={scss.label_and_input_div}>
-										<label>Характеристики Программы тренировки</label>
-										<Input
-											className={scss.input}
-											defaultValue={data?.Characteristics.trainingPrograms}
-										/>
-									</div>
+									{data && data.uniField === null && (
+										<>
+											<div className={scss.colors_div}>
+												<label>Цвет товара</label>
+												<div className={scss.color_div}>
+													<p>{colorEdit}</p>
+													<ColorPicker
+														presets={presets}
+														onChange={(color) =>
+															changeColorPicker(color.toHexString())
+														}
+														defaultValue={`${colorEdit}`}
+														value={colorEdit}
+													/>
+													<IconColorPicker
+														width={'19px'}
+														height={'19px'}
+														color="rgb(145, 150, 158)"
+													/>
+												</div>
+											</div>
+											<div className={scss.label_and_input_div}>
+												<label>Объем памяти</label>
+												<Select
+													className={scss.input}
+													placeholder="Объем памяти"
+													options={
+														gBiteCatalog &&
+														gBiteCatalog.map((el, index) => ({
+															value: String(index + 1),
+															label: <p>{el.gb}</p>
+														}))
+													}
+													onChange={(value) =>
+														setMemoryEdit(
+															gBiteCatalog[Number(Number(value) - 1)].gb
+														)
+													}
+													value={memoryEdit}
+												/>
+											</div>
+											<div className={scss.label_and_input_div}>
+												<label>Оперативная память</label>
+												<Select
+													className={scss.input}
+													placeholder="Оперативная память"
+													options={
+														moreGBiteCatalog &&
+														moreGBiteCatalog.map((el, index) => ({
+															value: String(index + 1),
+															label: <p>{el.gb}</p>
+														}))
+													}
+													onChange={(value) =>
+														setRamEdit(
+															moreGBiteCatalog[Number(Number(value) - 1)].gb
+														)
+													}
+													value={ramEdit}
+												/>
+											</div>
+											<div className={scss.label_and_input_div}>
+												<label>Кол-во SIM-карт</label>
+												<Select
+													className={scss.input}
+													placeholder="Кол-во SIM-карт"
+													options={
+														simCards &&
+														simCards.map((el, index) => ({
+															value: String(index + 1),
+															label: <p>{el.sumCard}</p>
+														}))
+													}
+													onChange={(value) =>
+														setCountSimEdit(
+															simCards[Number(Number(value) - 1)].sumCard
+														)
+													}
+													value={countSimEdit}
+												/>
+											</div>
+										</>
+									)}
 								</div>
 							</div>
-						)}
-						<div className={scss.button_div}>
-							<Button
-								className={scss.button}
-								onClick={() => setFormInputs(!formInputs)}
-							>
-								{formInputs ? 'Скрыть' : 'Показать ещё'}
-							</Button>
+							{data && data.uniField === null && (
+								<div className={scss.button_div}>
+									<Button onClick={handleEditApiFunk} className={scss.button}>
+										Редактировать
+									</Button>
+									<Button
+										onClick={() =>
+											navigate(
+												`/admin/goodsPage/product-page/${data?.gadgetId}`
+											)
+										}
+										className={scss.button}
+									>
+										отмена
+									</Button>
+								</div>
+							)}
 						</div>
-					</div>
+					)}
 				</div>
 			</div>
 		</section>

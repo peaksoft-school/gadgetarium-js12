@@ -8,7 +8,7 @@ import {
 	useGetCatalogProductsQuery,
 	useSubCategoriesQuery
 } from '@/src/redux/api/catalogProducts';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
 	useAddBrandApiMutation,
 	useGetBrandApiQuery
@@ -16,7 +16,8 @@ import {
 import {
 	IconCalendarMinus,
 	IconColorPicker,
-	IconPhotoPlus
+	IconPhotoPlus,
+	IconX
 } from '@tabler/icons-react';
 import { IconPlus } from '@/src/assets/icons';
 import { generate, green, presetPalettes, red } from '@ant-design/colors';
@@ -110,7 +111,9 @@ export const AddProductSections = () => {
 	const { data: brandArray = [] } = useGetBrandApiQuery();
 	const [warranty, setWarranty] = useState<number>(0);
 	const [productName, setProductName] = useState<string>('');
-	const [categoryId, setCategoryId] = useState<string>('');
+	const [categoryId, setCategoryId] = useState<number>(
+		JSON.parse(localStorage.getItem('categoryIdForAddProduct')!)
+	);
 	const [dateOfIssue, setDateOfIssue] = useState<string>('');
 	const [brandInputValue, setBrandInputValue] = useState<string>('');
 	const [brandId, setBrandId] = useState<string>('');
@@ -125,9 +128,7 @@ export const AddProductSections = () => {
 	const addProductFileRef = useRef<HTMLInputElement[]>([]);
 	const dateOfIssueString = dayjs(dateOfIssue).format('YYYY-MM-DD');
 
-	const { data: subCategoryArray = [] } = useSubCategoriesQuery(
-		Number(categoryId)
-	);
+	const { data: subCategoryArray = [] } = useSubCategoriesQuery(categoryId!);
 
 	const { token } = theme.useToken();
 	const presets = genPresets({
@@ -142,9 +143,16 @@ export const AddProductSections = () => {
 		}
 	};
 
+	const handleSetLocalStorageCategoryId = (id: string) => {
+		localStorage.setItem('categoryIdForAddProduct', JSON.stringify(id));
+		setCategoryId(JSON.parse(localStorage.getItem('categoryIdForAddProduct')!));
+	};
+
 	const changeWarrantyValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setWarranty(Number(e.target.value));
-		console.log(warranty, 'Гарантия');
+		if (localStorage.getItem('categoryIdForAddProduct')) {
+			setWarranty(Number(e.target.value));
+			console.log(warranty, 'Гарантия');
+		}
 	};
 
 	const changeBrandInputValue = (
@@ -252,7 +260,9 @@ export const AddProductSections = () => {
 				warranty: number
 			});
 			navigate('/admin/product-adding/part-2');
+			localStorage.removeItem('categoryIdForAddProduct');
 		} catch (error) {
+			navigate('/admin/product-adding/part-1');
 			console.error(error);
 		}
 	};
@@ -292,12 +302,20 @@ export const AddProductSections = () => {
 	};
 
 	const styleAddProductFormDiv = () => {
-		if (categoryId === '1' || categoryId === '2') {
+		if (
+			localStorage.getItem('categoryIdForAddProduct')?.includes('1') ||
+			localStorage.getItem('categoryIdForAddProduct')?.includes('2')
+		) {
 			return `${scss.forms_for_add_product} ${scss.forms_for_add_product_active}`;
 		} else {
 			return `${scss.forms_for_add_product}`;
 		}
 	};
+
+	// const handleDeleteByIdArray = (id: number) => {
+	// 	const newArray = array.filter((c, index) => index + 1 !== id);
+	// 	setArray(newArray);
+	// };
 
 	return (
 		<>
@@ -307,7 +325,10 @@ export const AddProductSections = () => {
 						<div className={scss.main_text_for_pages}>
 							<p
 								className={scss.product_page_text}
-								onClick={() => navigate('/admin/productsAdmin')}
+								onClick={() => (
+									navigate('/admin/productsAdmin'),
+									localStorage.removeItem('categoryIdForAddProduct')
+								)}
 							>
 								Товары »
 							</p>
@@ -375,7 +396,11 @@ export const AddProductSections = () => {
 													label: (
 														<p
 															className={scss.color}
-															onClick={() => setCategoryId(el.id.toString())}
+															onClick={() =>
+																handleSetLocalStorageCategoryId(
+																	el.id.toString()
+																)
+															}
 														>
 															{el.categoryName}
 														</p>
@@ -390,38 +415,41 @@ export const AddProductSections = () => {
 												className={scss.input}
 												placeholder="Выбрать"
 												onChange={handleChange}
-												options={brandArray.map((item) => ({
-													value: item.id.toString(),
-													label: (
-														<div
-															onClick={() => setBrandId(item.id.toString())}
-															style={{
-																display: 'flex',
-																alignItems: 'center',
-																justifyContent: 'start',
-																gap: '11px'
-															}}
-														>
-															<img
+												options={
+													subCategoryArray.length! >= 1 ?
+													brandArray.map((item) => ({
+														value: item.id.toString(),
+														label: (
+															<div
+																onClick={() => setBrandId(item.id.toString())}
 																style={{
-																	width: '100%',
-																	maxWidth: '23px',
-																	height: '23px'
-																}}
-																src={item.image}
-																alt={item.brandName}
-															/>
-															<p
-																style={{
-																	color: 'rgb(41, 41, 41)',
-																	fontSize: '16px'
+																	display: 'flex',
+																	alignItems: 'center',
+																	justifyContent: 'start',
+																	gap: '11px'
 																}}
 															>
-																{item.brandName}
-															</p>
-														</div>
-													)
-												}))}
+																<img
+																	style={{
+																		width: '100%',
+																		maxWidth: '23px',
+																		height: '23px'
+																	}}
+																	src={item.image}
+																	alt={item.brandName}
+																/>
+																<p
+																	style={{
+																		color: 'rgb(41, 41, 41)',
+																		fontSize: '16px'
+																	}}
+																>
+																	{item.brandName}
+																</p>
+															</div>
+														)
+													})) : undefined
+												}
 											/>
 											{/* <div
 												className={scss.div_for_brand_content}
@@ -507,7 +535,7 @@ export const AddProductSections = () => {
 										</div>
 										<div className={scss.label_and_input_div}>
 											<label>Дата выпуска *</label>
-											{categoryId ? (
+											{localStorage.getItem('categoryIdForAddProduct') ? (
 												<DatePicker
 													className={scss.input_for_text}
 													placeholder="Введите дату выпуска"
@@ -529,7 +557,12 @@ export const AddProductSections = () => {
 										</div>
 									</div>
 								</div>
-								{(categoryId === '1' || categoryId === '2') && (
+								{(localStorage
+									.getItem('categoryIdForAddProduct')
+									?.includes('1') ||
+									localStorage
+										.getItem('categoryIdForAddProduct')
+										?.includes('2')) && (
 									<div className={scss.card_input_pole}>
 										{array.map((el, index) => (
 											<div
@@ -541,6 +574,12 @@ export const AddProductSections = () => {
 														placeholder={`Продукт ${index + 1}`}
 														className={scss.input_for_product_count}
 													/>
+													{/* {array.length >= 2 && (
+														<IconX
+															style={{ margin: '50px' }}
+															onClick={() => handleDeleteByIdArray(index + 1)}
+														/>
+													)} */}
 												</div>
 												<div className={scss.card_inputs}>
 													<div className={scss.label_and_input_div}>
@@ -692,13 +731,7 @@ export const AddProductSections = () => {
 												<span>Добавить продукт</span>
 											</p>
 										</div>
-										<div
-											className={
-												categoryId === '1' || categoryId === '2'
-													? `${scss.open_buttno_for_category_noo_active} ${scss.add_product_button_div}`
-													: `${scss.open_buttno_for_category_noo_active}`
-											}
-										>
+										<div className={scss.open_buttno_for_category_noo_active}>
 											<Button
 												className={scss.add_product_button}
 												onClick={() => {
@@ -710,7 +743,12 @@ export const AddProductSections = () => {
 										</div>
 									</div>
 								)}
-								{(categoryId === '3' || categoryId === '4') && (
+								{(localStorage
+									.getItem('categoryIdForAddProduct')
+									?.includes('3') ||
+									localStorage
+										.getItem('categoryIdForAddProduct')
+										?.includes('4')) && (
 									<div className={scss.card_input_pole}>
 										{array.map((el, index) => (
 											<div
@@ -1022,12 +1060,7 @@ export const AddProductSections = () => {
 											</p>
 										</div>
 										<div
-											className={
-												categoryId === '3' ||
-												(categoryId === '4' && array.length === 3)
-													? `${scss.open_buttno_for_category_noo_active_watch} ${scss.add_product_button_div_watch}`
-													: `${scss.open_buttno_for_category_noo_active_watch}`
-											}
+											className={scss.open_buttno_for_category_noo_active_watch}
 										>
 											<Button
 												onClick={handleAddProductsFunk}
