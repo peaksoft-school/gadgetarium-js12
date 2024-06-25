@@ -11,6 +11,7 @@ import {
 	useGetProfilesQuery,
 	usePatchProfilesPasswordMutation
 } from '@/src/redux/api/personalAccount/profile';
+import { message } from 'antd';
 
 const Profile = () => {
 	const {
@@ -119,6 +120,7 @@ const Profile = () => {
 				console.log(res);
 			} catch (error) {
 				console.error(error);
+				message.warning('Вы неправильно ввели старый пароль')
 			}
 		}
 	};

@@ -198,11 +198,11 @@ export const Register = () => {
 										control={control}
 										defaultValue=""
 										rules={{
-											required: 'Подтвердите пароль обязателен для заполнения',
+											required: 'Пароль обязателен для заполнения',
 											minLength: {
 												value: 8,
 												message:
-													'Подтвердите пароль должен содержать минимум 8 символов'
+													'Пароль должен содержать минимум 8 символов'
 											}
 										}}
 										render={({ field }) => (

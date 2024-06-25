@@ -8,6 +8,7 @@ namespace PROFILESTORE {
 		email: string;
 		phoneNumber: string;
 		address: string;
+		password: string;
 	};
 	type IProfile = {
 		oldPassword: string;

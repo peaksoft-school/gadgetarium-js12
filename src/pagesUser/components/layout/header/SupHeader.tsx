@@ -1,18 +1,24 @@
 import scss from './SupHeader.module.scss';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { IconGadgetarium } from '@/src/assets/icons';
 import AuthDropdown from '@/src/ui/authDropdown/AuthDropdown.tsx';
 import { userLinks } from '@/src/routes';
 const SupHeader = () => {
 	const { pathname } = useLocation();
+	const navigate = useNavigate();
+
+	const top = () => {
+		navigate('/');
+		window.scrollTo(0, 0);
+	};
 
 	return (
 		<header className={scss.Header}>
 			<div className="container">
 				<div className={scss.content}>
-					<Link className={scss.logo} to="/">
+					<div onClick={top}>
 						<IconGadgetarium />
-					</Link>
+					</div>
 					<nav className={scss.nav}>
 						<ul>
 							{userLinks.map((item, index) => (
@@ -22,7 +28,7 @@ const SupHeader = () => {
 											pathname === item.link
 												? `${scss.link} ${scss.active}`
 												: `${scss.link}`
-										}
+										} 
 										to={item.link}
 									>
 										{item.label}

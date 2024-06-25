@@ -156,12 +156,12 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 																	</div>
 																	<div className={scss.div_product_contents}>
 																		<div className={scss.one_products}>
-																			<h3>
+																			<p>
 																				{el.brandNameOfGadget.length >= 28
 																					? el.brandNameOfGadget.slice(0, 22) +
 																						'...'
 																					: el.brandNameOfGadget}
-																			</h3>
+																			</p>
 																			<p className={scss.rating_search}>
 																				Рейтинг
 																				<Rate

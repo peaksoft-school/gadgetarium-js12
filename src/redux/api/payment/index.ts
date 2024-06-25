@@ -7,7 +7,7 @@ const api = index.injectEndpoints({
 			PAYMENTPRODUCT.PatchPaymentProductsRequest
 		>({
 			query: ({ orderId, payment }) => ({
-				url: `/api/paypal?${orderId}&${payment}`,
+				url: `/api/paypal/${orderId}&${payment}`,
 				method: 'PATCH',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`

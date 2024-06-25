@@ -24,22 +24,22 @@ const ProductsRecom = () => {
 
 	const handleShowAllPhones = (page: number) => {
 		let size = 5 + page;
-		searchParams.set('page', '1');
-		searchParams.set('size', size.toString());
+		searchParams.set('RecomPage', '1');
+		searchParams.set('RecomSize', size.toString());
 		setSearchParams(searchParams);
 		navigate(`/?${searchParams.toString()}`);
 	};
 
 	const handlePaginationResult = () => {
-		searchParams.set('page', '1');
-		searchParams.set('size', '5');
+		searchParams.set('RecomPage', '1');
+		searchParams.set('RecomSize', '5');
 		setSearchParams(searchParams);
 		navigate(`/?${searchParams.toString()}`);
 	};
 
 	const { data, isLoading, refetch } = useGetProductsRecomQuery({
-		page: searchParams.toString(),
-		size: searchParams.toString()
+		page: `page=${searchParams.get('RecomPage') || ''}`,
+		size: `size=${searchParams.get('RecomSize') || ''}`
 	});
 
 	const handleScaleClick = async (subGadgetId: number) => {
@@ -214,7 +214,8 @@ const ProductsRecom = () => {
 							)}
 						</div>
 						<div className={scss.show_more_button}>
-							{data?.mainPages.length === 5 ? (
+							{data?.mainPages.length.toString() ===
+							(searchParams.get('RecomSize') || '5') ? (
 								<ShowMoreButton
 									children={'Показать ещё'}
 									onClick={() => handleShowAllPhones(data?.mainPages.length)}

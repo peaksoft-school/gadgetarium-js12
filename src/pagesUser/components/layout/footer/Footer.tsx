@@ -10,7 +10,7 @@ import {
 	IconMapPin,
 	IconPhone
 } from '@tabler/icons-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface InputType {
 	email: string;
@@ -23,7 +23,17 @@ const schema = yup.object().shape({
 		.required('Email обязателен для заполнения')
 });
 
+// const navigate = useNavigate();
 const Footer = () => {
+	const navigate = useNavigate();
+	const top = () => {
+		window.scrollTo(0, 0);
+	};
+	const topp = () => {
+		window.scrollTo(0, 0);
+		navigate('/');
+	};
+
 	const {
 		register,
 		handleSubmit,
@@ -47,27 +57,49 @@ const Footer = () => {
 						<div className={scss.first_footer_div}>
 							<p>Каталог</p>
 							<div className={scss.hh5}>
-								<a href="#">Смартфоны</a>
-								<a href="#">Ноутбуки и планшеты</a>
-								<a href="#">Смарт-часы и браслеты</a>
-								<a href="#">Аксессуары </a>
+								<Link onClick={top} to={'/catalog/1/filtred'}>
+									Смартфоны
+								</Link>
+								<Link onClick={top} to={'/catalog/2/filtred'}>
+									Ноутбуки и планшеты
+								</Link>
+								<Link onClick={top} to={'/catalog/3/filtred'}>
+									Смарт-часы и браслеты
+								</Link>
+								<Link onClick={top} to={'/catalog/4/filtred'}>
+									Аксессуары{' '}
+								</Link>
 							</div>
 						</div>
 						<div className={scss.second_footer_div}>
 							<p>Будь с нами</p>
 							<div className={scss.hh5}>
-								<a href="#">Акции</a>
-								<a href="#">Новинки</a>
-								<a href="#">Популярные категории </a>
+								<a onClick={top} href="#">
+									Акции
+								</a>
+								<a onClick={top} href="#">
+									Новинки
+								</a>
+								<a onClick={top} href="#">
+									Популярные категории{' '}
+								</a>
 							</div>
 						</div>
 						<div className={scss.third_footer_div}>
 							<p>Помощь и сервисы</p>
 							<div className={scss.hh5}>
-								<Link to="/aboutstore">О магазине</Link>
-								<Link to="/delivery">Доставка</Link>
-								<Link to="/faq">FAQ</Link>
-								<Link to="/contacts">Контакты</Link>
+								<Link onClick={top} to="/aboutstore">
+									О магазине
+								</Link>
+								<Link onClick={top} to="/delivery">
+									Доставка
+								</Link>
+								<Link onClick={top} to="/faq">
+									FAQ
+								</Link>
+								<Link onClick={top} to="/contacts">
+									Контакты
+								</Link>
 							</div>
 						</div>
 					</div>
@@ -131,7 +163,7 @@ const Footer = () => {
 				</div>
 				<div className={scss.gadget}>
 					<div className={scss.rectangle_hr}></div>
-					<div className={scss.gadgetIcon}>
+					<div onClick={topp} className={scss.gadgetIcon}>
 						<IconGadgetarium />
 						<div className={scss.div}>
 							<p>© 2024 Gadgetarium. Интернет магазин </p>

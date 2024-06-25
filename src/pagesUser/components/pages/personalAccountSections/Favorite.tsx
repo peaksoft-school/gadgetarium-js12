@@ -2,9 +2,12 @@ import { Link } from 'react-router-dom';
 import scss from './Favorite.module.scss';
 import favorite from '@/src/assets/sammy_order_completed_by_a_delivery_girl_1.png';
 import { useGetProductsQuery } from '@/src/redux/api/personalAccount/favorite';
+import { useGetFavoriteQuery } from '@/src/redux/api/favorite';
+import { Rate } from 'antd';
 
 const Favorite = () => {
-	const { data: products, isLoading } = useGetProductsQuery('');
+	// const { data: products, isLoading } = useGetProductsQuery('');
+	const { data: products, isLoading, refetch } = useGetFavoriteQuery();
 
 	return (
 		<section className={scss.favorite}>
@@ -52,13 +55,13 @@ const Favorite = () => {
 										products.map((e, index) => (
 											<div className={scss.card} key={index}>
 												<img src={e.image} alt="Product" />
-												<h3>{e.productName}</h3>
+												<h3>{e.nameOfGadget}</h3>
 												<div className={scss.card_rating}>
 													<p>Рейтинг</p>
-													<img src={e.rating} alt="RatingStars" />
-													<p>({e.ratingNumber})</p>
+													<Rate defaultValue={e.rating} />
+													<p>({e.rating})</p>
 												</div>
-												<h2>{e.price}</h2>
+												<h2>{e.price} c</h2>
 											</div>
 										))}
 								</div>

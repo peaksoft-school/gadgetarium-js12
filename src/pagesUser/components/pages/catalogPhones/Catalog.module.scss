@@ -893,7 +893,7 @@
 						flex-direction: column;
 						background-color: #ffffff;
 						box-shadow: 0px 0px 3.5px rgba(0, 0, 0, 0.192);
-						padding: 10px 10px 25px 10px;
+						padding: 2px 10px 8px 10px;
 						width: 275px;
 						border-radius: 8px;
 						transition: box-shadow 0.3s ease;
@@ -924,6 +924,7 @@
 									display: flex;
 									align-items: center;
 									justify-content: center;
+									// padding-top: 20px;
 									// padding: 7px 10px 7px 10px;
 									width: 33px;
 									height: 33px;
@@ -1008,12 +1009,12 @@
 							justify-content: center;
 							align-items: center;
 							padding: 30px;
-							max-width: 230px;
-							height: 230px;
+							max-width: 254px;
+							height: 245px;
 							img {
 								width: 100%;
 								max-width: 230px;
-								height: 230px;
+								// height: 230px;
 								// object-fit: cover;
 								object-position: center;
 							}

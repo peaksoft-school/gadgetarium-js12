@@ -42,7 +42,7 @@ const Login = ({ setOpenModal }) => {
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'false');	
 				localStorage.setItem('admin', 'true');
-				message.warning('Вход выполнен успешно');
+				message.success('Вход выполнен успешно');
 				navigate('/admin');
 			}
 			reset();

@@ -252,7 +252,11 @@ const FavoriteSection = () => {
 														>
 															<div className={scss.prices_div_product}>
 																<h2>{item.price}c</h2>
-																<p>{item.price}</p>
+																{item.percent && (
+																	<>
+																		<p>{item.price} c</p>
+																	</>
+																)}
 															</div>
 															<div
 																className={
