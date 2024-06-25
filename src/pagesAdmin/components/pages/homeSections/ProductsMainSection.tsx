@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import scss from './ProductsMainSection.module.scss';
 import Input, { SearchProps } from 'antd/es/input';
 import {
@@ -26,6 +26,7 @@ import {
 import type { UploadFile } from 'antd';
 import moment from 'moment';
 import dayjs from 'dayjs';
+import { usePostUploadMutation } from '@/src/redux/api/pdf';
 
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
 	console.log(info?.source, value);
@@ -38,11 +39,13 @@ const ProductsMainSection = () => {
 	const buttonStyleRef = React.useRef<boolean>(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [filtered, setFiltered] = useState<boolean>(false);
+	const bannerInputFileRef = useRef<HTMLInputElement>(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
 	const [isModalOpenBanner, setIsModalOpenBanner] = useState(false);
 	const [gadgetId, setGadgetId] = useState<number | null>(null);
 	const [hoveredItemId, setHoveredItemId] = useState<number | null>(null);
+	const [postUploadForBanner] = usePostUploadMutation();
 	const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 	const [searchInput, setSearchInput] = useState<string>('');
 	const initialFileList: UploadFile[] = [
@@ -78,6 +81,12 @@ const ProductsMainSection = () => {
 
 	const addProduct = () => {
 		navigate('/admin/product-adding/part-1');
+	};
+
+	const handleClickBannerInputRef = () => {
+		if (bannerInputFileRef.current) {
+			bannerInputFileRef.current.click();
+		}
 	};
 
 	const changeSearchInputValueFunk = (
@@ -466,7 +475,15 @@ const ProductsMainSection = () => {
 					>
 						<div className={scss.add_banner}>
 							<h1>Загрузить баннер</h1>
-							<UploadBanner fileList={fileList} setFileList={setFileList} />
+							{/* <UploadBanner fileList={fileList} setFileList={setFileList} /> */}
+							<div onClick={handleClickBannerInputRef}>
+								<input
+									type="file"
+									ref={bannerInputFileRef}
+									style={{ display: 'none' }}
+								/>
+								
+							</div>
 							<div className={scss.buttons_banner}>
 								<CancelButtonCustom onClick={handleCancelBanner}>
 									ОТМЕНИТЬ
