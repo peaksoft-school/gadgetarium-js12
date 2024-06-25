@@ -60,7 +60,10 @@ export const api = createApi({
 		'orderUser',
 		'addProductApi',
 		'brandApi',
+		'editProductById',
+		'updateImageApi',
 		'banner'
+
 	],
 	endpoints: () => ({})
 });

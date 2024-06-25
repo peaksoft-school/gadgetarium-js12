@@ -6,8 +6,10 @@ import {
 	Routes,
 	useLocation,
 	useNavigate
+	// useSearchParams
 } from 'react-router-dom';
 import Delivery from '@/src/pagesUser/components/pages/placingAnOrder/Delivery.tsx';
+// import Payment from '@/src/pagesUser/components/pages/placingAnOrder/Payment.tsx';
 import Review from '@/src/pagesUser/components/pages/placingAnOrder/Review.tsx';
 import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
 import Payment from './Payment';
@@ -19,16 +21,7 @@ const WrapperPay: FC = () => {
 		window.location.search.substring(1)
 	]);
 	const [isDeliveryComplete, setIsDeliveryComplete] = useState(false);
-	const [requests, setRequests] = useState<(() => void)[]>([]);
-
-	const addRequest = (request: () => void) => {
-		setRequests((prev) => [...prev, request]);
-	};
-
-	const executeRequests = () => {
-		requests.forEach((request) => request());
-		setRequests([]); // Clear requests after execution
-	};
+	// console.log(basketOrder, 'order for basket');
 
 	const handleMain = () => {
 		navigate('/');
@@ -54,13 +47,6 @@ const WrapperPay: FC = () => {
 		} else {
 			alert('Please complete the delivery information before proceeding.');
 		}
-	};
-
-	const handleReview = () => {
-		navigateWithValidation(
-			`/pay/review?${window.location.search.substring(1)}`
-		);
-		executeRequests(); // Execute all requests when navigating to the review page
 	};
 
 	return (
@@ -127,7 +113,11 @@ const WrapperPay: FC = () => {
 										</div>
 										<div className={scss.number_three}>
 											<Link
-												onClick={handleReview}
+												onClick={() =>
+													navigateWithValidation(
+														`/pay/review?${window.location.search.substring(1)}`
+													)
+												}
 												to={`/pay/review?${window.location.search.substring(1)}`}
 												className={
 													pathname === '/pay/review'
@@ -153,16 +143,10 @@ const WrapperPay: FC = () => {
 										<Route
 											path="/delivery"
 											element={
-												<Delivery
-													onCompletion={handleDeliveryCompletion}
-													addRequest={addRequest}
-												/>
+												<Delivery onCompletion={handleDeliveryCompletion} />
 											}
 										/>
-										<Route
-											path="/payment"
-											element={<Payment addRequest={addRequest} />}
-										/>
+										<Route path="/payment" element={<Payment />} />
 										<Route path="/review" element={<Review />} />
 									</Routes>
 								</div>
@@ -224,5 +208,4 @@ const WrapperPay: FC = () => {
 		</>
 	);
 };
-
 export default WrapperPay;

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import scss from './ProductsMainSection.module.scss';
 import Input, { SearchProps } from 'antd/es/input';
 import {
@@ -6,15 +6,9 @@ import {
 	DatePicker,
 	DatePickerProps,
 	Pagination,
-	message,
 	theme
 } from 'antd';
-import {
-	IconChartCircles,
-	IconEdit,
-	IconPhotoPlus,
-	IconTrash
-} from '@tabler/icons-react';
+import { IconChartCircles, IconEdit, IconTrash } from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal';
 import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
@@ -30,8 +24,6 @@ import {
 } from '@/src/redux/api/goods';
 import type { UploadFile } from 'antd';
 import moment from 'moment';
-import { useDispatch } from 'react-redux';
-import CustomImageAdd from '@/src/ui/customImageAdd/CustomImageAdd';
 
 const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
 	console.log(info?.source, value);
@@ -48,7 +40,6 @@ const ProductsMainSection = () => {
 	const [gadgetId, setGadgetId] = useState<number | null>(null);
 	const [hoveredItemId, setHoveredItemId] = useState<number | null>(null);
 	const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-	const addBannerFileRef = useRef<HTMLInputElement[]>([]);
 
 	const initialFileList: UploadFile[] = [
 		{
@@ -94,12 +85,6 @@ const ProductsMainSection = () => {
 		setFiltered(!filtered);
 	};
 
-	const handleOpenFileInputForAddProduct = (index: number) => {
-		if (addBannerFileRef.current[index]) {
-			return addBannerFileRef.current[index]?.click();
-		}
-	};
-
 	const antdThemeConfig = {
 		algorithm: theme.defaultAlgorithm,
 		token: {
@@ -112,7 +97,6 @@ const ProductsMainSection = () => {
 	console.log(data);
 	const [deleteGadget] = useDeleteGoodsGadgetMutation();
 	const [postBanner] = usePostGoodsBannerMutation();
-	const dispatch = useDispatch();
 
 	const handleDeleteGadget = async () => {
 		if (gadgetId !== null) {
@@ -126,28 +110,8 @@ const ProductsMainSection = () => {
 		const bannerData = {
 			images: fileList.map((file) => file.url)
 		};
-		try {
-			const response = await postBanner(bannerData).unwrap();
-			console.log('Response:', response);
-			if (response.id) {
-				setIsModalOpenBanner(false);
-				alert('Баннер успешно загружен.');
-			} else {
-				alert('Ошибка: не удалось получить ID баннера.');
-			}
-			setIsModalOpenBanner(false);
-		} catch (error: any) {
-			console.error('Error:', error);
-			if (error.status === 400) {
-				alert('Ошибка: акция на данный товар уже существует.');
-			} else if (error.status === 503) {
-				alert('Ошибка 503: Сервер временно недоступен. Попробуйте позже.');
-			} else {
-				alert(
-					`Ошибка ${error.status}: ${error.data ? error.data.message : 'Произошла ошибка при отправке баннера.'}`
-				);
-			}
-		}
+		const res = await postBanner(bannerData);
+		console.log(res);
 	};
 
 	const [postDiscount] = usePostGoodsDiscountMutation();
@@ -295,62 +259,64 @@ const ProductsMainSection = () => {
 										<tr
 											key={index}
 											className={scss.tr}
-											onMouseEnter={() => handleHover(item.id)}
+											onMouseEnter={() => handleHover(item.subGadgetId)}
 											onMouseLeave={() => handleHover(null)}
 										>
-											<div className={scss.card}>
-												<div className={scss.three}>
-													<td>
-														{hoveredItemId === item.id ||
-														selectedItemId === item.id ? (
-															<input
-																type="checkbox"
-																checked={selectedItemId === item.id}
-																onClick={handleCheckboxClick}
-																onChange={(e) => handleSelect(e, item.id)}
-															/>
-														) : (
-															item.id
-														)}
+											<Link
+												to={`/admin/goodsPage/product-page/${item?.gadgetId}`}
+												className={scss.link_button}
+											>
+												<div className={scss.card}>
+													<div className={scss.three}>
+														<td>
+															{hoveredItemId === item.subGadgetId ||
+															selectedItemId === item.subGadgetId ? (
+																<input
+																	type="checkbox"
+																	checked={selectedItemId === item.subGadgetId}
+																	onClick={handleCheckboxClick}
+																	onChange={(e) => handleSelect(e, item.subGadgetId)}
+																/>
+															) : (
+																item.subGadgetId
+															)}
+														</td>
+														<img src={item.images} alt="" />
+													</div>
+													<td>{item?.article}</td>
+													<div className={scss.quantity_name}>
+														<td>Кол-во товара {item?.quantity}шт.</td>
+														<td className={scss.name}>{item?.nameOfGadget}</td>
+													</div>
+													<div className={scss.date_time}>
+														<td>{item?.releaseDate}</td>
+														{/* <td className={scss.time}>{productName.time}</td> */}
+													</div>
+													<td>{item?.quantity}</td>
+													<div className={scss.price_discount}>
+														<td className={scss.price_td}>{item?.price}с</td>
+														<td className={scss.discount}>{item?.percent}%</td>
+													</div>
+													<td className={scss.price_td}>
+														{item?.currentPrice}с
 													</td>
-													<img
-														style={{ cursor: 'pointer' }}
-														src={item.images}
-														alt=""
-														onClick={() =>
-															navigate(
-																`/admin/goodsPage/product-page/${item?.id}`
-															)
-														}
-													/>
+													<div className={scss.icons}>
+														<IconEdit className={scss.trash} onClick={(e) => {
+														navigate(`/admin/edit-page/${item.gadgetId}`)
+														e.preventDefault()
+														e.stopPropagation()
+													}}/>
+														<IconTrash
+															onClick={(e) => {
+																showModalDelete();
+																e.stopPropagation();
+																e.preventDefault();
+																setGadgetId(item?.subGadgetId);
+															}}
+														/>
+													</div>
 												</div>
-												<td>{item?.article}</td>
-												<div className={scss.quantity_name}>
-													<td>Кол-во товара {item?.quantity}шт.</td>
-													<td className={scss.name}>{item?.nameOfGadget}</td>
-												</div>
-												<div className={scss.date_time}>
-													<td>{item?.releaseDate}</td>
-													{/* <td className={scss.time}>{productName.time}</td> */}
-												</div>
-												<td>{item?.quantity}</td>
-												<div className={scss.price_discount}>
-													<td className={scss.price_td}>{item?.price}с</td>
-													<td className={scss.discount}>{item?.percent}%</td>
-												</div>
-												<td className={scss.price_td}>{item?.currentPrice}с</td>
-												<div className={scss.icons}>
-													<IconEdit className={scss.trash} />
-													<IconTrash
-														onClick={(e) => {
-															showModalDelete();
-															e.stopPropagation();
-															e.preventDefault();
-															setGadgetId(item?.id);
-														}}
-													/>
-												</div>
-											</div>
+											</Link>
 										</tr>
 									))}
 								</tbody>
@@ -387,7 +353,7 @@ const ProductsMainSection = () => {
 							<div className={scss.dates}>
 								<div>
 									<label className={scss.label} htmlFor="name">
-										Дата начала скидки *
+										Дата начала скидки *{' '}
 									</label>
 									<DatePicker
 										name="name"
@@ -430,36 +396,6 @@ const ProductsMainSection = () => {
 					>
 						<div className={scss.add_banner}>
 							<h1>Загрузить баннер</h1>
-							{/* <div
-								className={scss.div_for_file}
-								onClick={() => handleOpenFileInputForAddProduct(index)}
-							>
-								<input
-									type="file"
-									ref={(ref) => {
-										if (ref) {
-											addBannerFileRef.current[index] = ref;
-										}
-									}}
-									style={{ display: 'none' }}
-									multiple
-									onChange={(e) => {
-										changeAddProductsFilesFunk(index, e);
-									}}
-								/>
-								<IconPhotoPlus
-									color="rgb(145, 150, 158)"
-									width={'36px'}
-									height={'33px'}
-								/>
-								<div className={scss.file_div_contents}>
-									<p>Нажмите или перетащите сюда файл</p>
-									<p>
-										Минимальное разрешение - 450x600 <br /> максимальное
-										количество - 6 фото
-									</p>
-								</div>
-							</div> */}
 							<UploadBanner fileList={fileList} setFileList={setFileList} />
 							<div className={scss.buttons_banner}>
 								<CancelButtonCustom onClick={handleCancelBanner}>

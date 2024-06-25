@@ -718,7 +718,7 @@ const Catalog = () => {
 															{e.image ? (
 																<img src={e.image} alt="Phone" />
 															) : (
-																<div>phone</div>
+																<div>Phone</div>
 															)}
 														</Link>
 													</div>
