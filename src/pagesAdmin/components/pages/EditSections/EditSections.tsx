@@ -27,16 +27,19 @@ const genPresets = (presets = presetPalettes) =>
 
 const EditSections = () => {
 	const { productId } = useParams();
+	const { data, isLoading } = useGetCardProductQuery({
+		id: Number(productId)
+	});
 	const [hoverEditIcon, setHoverEditIcon] = useState<number | null>(null);
-	const [productName, setProductName] = useState<string>('');
-	const [colorEdit, setColorEdit] = useState<string>('');
-	const [priceEdit, setPriceEdit] = useState<number>(0);
-	const [ramEdit, setRamEdit] = useState<string>('');
-	const [memoryEdit, setMemoryEdit] = useState<string>('');
-	const [countSimEdit, setCountSimEdit] = useState<number>(0);
+	const [productName, setProductName] = useState<string>(data?.nameOfGadget!);
+	const [colorEdit, setColorEdit] = useState<string>(data?.mainColour!);
+	const [priceEdit, setPriceEdit] = useState<number>(data?.price!);
+	const [ramEdit, setRamEdit] = useState<string>(data?.ram!);
+	const [memoryEdit, setMemoryEdit] = useState<string>(data?.memory!);
+	const [countSimEdit, setCountSimEdit] = useState<string>(data?.countSim.toString()!);
 	const [editProductById] = useEditProductByIdApiMutation();
 	const [updateImage] = useDeleteByIdGadgetApiMutation();
-	const [quantityEdit, setQuantityEdit] = useState<number>(0);
+	const [quantityEdit, setQuantityEdit] = useState<number>(data?.quantity!);
 	const [postUploadApi] = usePostUploadMutation();
 	const [materialBraceletEdit, setMaterialBraceletEdit] = useState<string>('');
 	const [materialBodyEdit, setMaterialBodyEdit] = useState<string>('');
@@ -46,10 +49,8 @@ const EditSections = () => {
 	const [waterproofEdit, setWaterproofEdit] = useState<string>('');
 	const [wirelessEdit, setWirelessEdit] = useState<string>('');
 	const [shapeBodyEdit, setShapeBodyEdit] = useState<string>('');
-	const updateImageRef = React.useRef<HTMLInputElement>(null);
-	const { data, isLoading } = useGetCardProductQuery({
-		id: Number(productId)
-	});
+	const updateImageRef = React.useRef<(HTMLInputElement | null)[]>([]);
+	
 	const navigate = useNavigate();
 
 	const { token } = theme.useToken();
@@ -61,14 +62,14 @@ const EditSections = () => {
 
 	const handleEditApiFunk = async () => {
 		const DATA = {
-			quantity: quantityEdit ? quantityEdit : data?.quantity && data?.quantity,
-			price: priceEdit ? priceEdit : data?.price && data.price,
-			colour: colorEdit ? colorEdit : data?.mainColour && data.mainColour,
+			quantity: quantityEdit,
+			price: priceEdit,
+			colour: colorEdit,
 			countSim: Number(
-				countSimEdit ? countSimEdit : data?.countSim && data.countSim
+				countSimEdit
 			),
-			memory: memoryEdit ? memoryEdit : data?.memory && data.memory,
-			ram: ramEdit ? ramEdit : data?.ram && data.ram,
+			memory: memoryEdit,
+			ram: ramEdit,
 			materialBracelet: materialBraceletEdit || '',
 			materialBody: materialBodyEdit || '',
 			sizeWatch: sizeWatchEdit || '',
@@ -87,9 +88,9 @@ const EditSections = () => {
 			console.error(error);
 		}
 	};
-	function updateImageRefClick() {
-		if (updateImageRef.current) {
-			return updateImageRef.current.click();
+	function updateImageRefClick(index: number) {
+		if (updateImageRef.current[index]) {
+			return updateImageRef.current[index]?.click();
 		}
 	}
 	function changeProductNameFunk(event: React.ChangeEvent<HTMLInputElement>) {
@@ -108,7 +109,6 @@ const EditSections = () => {
 		file: React.ChangeEvent<HTMLInputElement>,
 		keyForDeleteUpload: string
 	) => {
-		console.log(file, 'and', keyForDeleteUpload);
 		const files = file.target.files;
 		if (files) {
 			const formData = new FormData();
@@ -158,44 +158,21 @@ const EditSections = () => {
 								<div className={scss.form_1}>
 									<div className={scss.label_and_input_div}>
 										<label>Фото</label>
-										{/* ! */}
-										{/* <div className={scss.div_images}>
-											{data?.images.slice(0, 6).map((c, index) => (
-												<div className={scss.images_div}>
-													<img
-														onMouseEnter={() => setHoverEditIcon(index)}
-														onMouseLeave={() => setHoverEditIcon(null)}
-														onClick={updateImageRefClick}
-														key={index}
-														src={c}
-														
-														alt="logo"
-													/>
-													{hoverEditIcon === index && <p>изменить</p>}
-													<input
-														type="file"
-														onChange={(
-															e: React.ChangeEvent<HTMLInputElement>
-														) => changeEditFileFunk(e, c)}
-														ref={updateImageRef}
-														style={{ display: 'none' }}
-													/>
-												</div>
-											))}
-										</div> */}
-										{/* ! */}
 										<div className={scss.div_images}>
 											{data?.images.slice(0, 6).map((c, index) => (
-												<div className={scss.images_div} key={index}>
-													<img
-														onMouseEnter={() => setHoverEditIcon(index)}
-														onMouseLeave={() => setHoverEditIcon(null)}
-														src={c}
-														alt="logo"
-													/>
+												<div
+													className={scss.images_div}
+													key={index}
+													onMouseEnter={() => setHoverEditIcon(index)}
+													onMouseLeave={() => setHoverEditIcon(null)}
+												>
+													<img src={c} alt="logo" />
 													{hoverEditIcon === index && (
 														<p
-															onClick={updateImageRefClick}
+															onClick={(e) => {
+																e.stopPropagation();
+																updateImageRefClick(index);
+															}}
 															className={scss.edit_text}
 														>
 															изменить
@@ -206,7 +183,7 @@ const EditSections = () => {
 														onChange={(
 															e: React.ChangeEvent<HTMLInputElement>
 														) => changeEditFileFunk(e, c)}
-														ref={updateImageRef}
+														ref={(el) => (updateImageRef.current[index] = el)}
 														style={{ display: 'none' }}
 													/>
 												</div>
@@ -221,7 +198,7 @@ const EditSections = () => {
 											onChange={changeProductNameFunk}
 											defaultValue={data?.nameOfGadget}
 											className={scss.input}
-											value={productName ? productName : data?.nameOfGadget}
+											value={productName}
 										/>
 									</div>
 									<div className={scss.label_and_input_div}>
@@ -229,7 +206,7 @@ const EditSections = () => {
 										<Input
 											defaultValue={data?.price}
 											onChange={changePrice}
-											value={priceEdit ? priceEdit : data?.price}
+											value={priceEdit}
 											className={scss.input}
 										/>
 									</div>
@@ -239,7 +216,7 @@ const EditSections = () => {
 											onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
 												setQuantityEdit(Number(event.target.value))
 											}
-											value={quantityEdit ? quantityEdit : data?.quantity}
+											value={quantityEdit}
 											className={scss.input}
 										/>
 									</div>
@@ -269,8 +246,7 @@ const EditSections = () => {
 													}
 													value={
 														materialBraceletEdit
-															? materialBraceletEdit
-															: data.uniField && data.uniField[0]
+															
 													}
 												/>
 											</div>
@@ -297,8 +273,7 @@ const EditSections = () => {
 													}
 													value={
 														materialBodyEdit
-															? materialBodyEdit
-															: data.uniField && data.uniField[1]
+														
 													}
 												/>
 											</div>
@@ -322,8 +297,7 @@ const EditSections = () => {
 													}
 													value={
 														sizeWatchEdit
-															? sizeWatchEdit
-															: data.uniField && data.uniField[2]
+															
 													}
 												/>
 											</div>
@@ -347,8 +321,7 @@ const EditSections = () => {
 													}
 													value={
 														dumasEdit
-															? dumasEdit
-															: data.uniField && data.uniField[3]
+															
 													}
 												/>
 											</div>
@@ -358,8 +331,7 @@ const EditSections = () => {
 													onChange={(e) => setGenderWatchEdit(e.target.value)}
 													value={
 														genderWatchEdit
-															? genderWatchEdit
-															: data.uniField && data.uniField[4]
+															
 													}
 												>
 													<Radio value={'Унисекс'}>Унисекс</Radio>
@@ -373,8 +345,7 @@ const EditSections = () => {
 													onChange={(e) => setWaterproofEdit(e.target.value)}
 													value={
 														waterproofEdit
-															? waterproofEdit
-															: data.uniField && data.uniField[5]
+															
 													}
 												>
 													<Radio value={'Да'}>Да</Radio>
@@ -387,8 +358,7 @@ const EditSections = () => {
 													onChange={(e) => setWirelessEdit(e.target.value)}
 													value={
 														wirelessEdit
-															? wirelessEdit
-															: data.uniField && data.uniField[6]
+														
 													}
 												>
 													<Radio value={'Bluetooth'}>Bluetooth</Radio>
@@ -403,8 +373,7 @@ const EditSections = () => {
 													onChange={(e) => setShapeBodyEdit(e.target.value)}
 													value={
 														shapeBodyEdit
-															? shapeBodyEdit
-															: data.uniField && data.uniField[7]
+															
 													}
 												>
 													<Radio value={'Квадратная'}>Квадратная</Radio>
@@ -434,6 +403,7 @@ const EditSections = () => {
 														onChange={(color) =>
 															changeColorPicker(color.toHexString())
 														}
+														defaultValue={`${colorEdit}`}
 														value={colorEdit}
 													/>
 													<IconColorPicker
@@ -460,7 +430,7 @@ const EditSections = () => {
 															gBiteCatalog[Number(Number(value) - 1)].gb
 														)
 													}
-													value={memoryEdit ? memoryEdit : data?.memory}
+													value={memoryEdit}
 												/>
 											</div>
 											<div className={scss.label_and_input_div}>
@@ -480,7 +450,7 @@ const EditSections = () => {
 															moreGBiteCatalog[Number(Number(value) - 1)].gb
 														)
 													}
-													value={ramEdit ? ramEdit : data?.ram}
+													value={ramEdit}
 												/>
 											</div>
 											<div className={scss.label_and_input_div}>
@@ -500,7 +470,7 @@ const EditSections = () => {
 															simCards[Number(Number(value) - 1)].sumCard
 														)
 													}
-													value={countSimEdit ? countSimEdit : data?.countSim}
+													value={countSimEdit}
 												/>
 											</div>
 											<div className={scss.buttons_div}>
@@ -532,20 +502,13 @@ const EditSections = () => {
 											<div className={scss.colors_div}>
 												<label>Цвет товара</label>
 												<div className={scss.color_div}>
-													{/* <Space direction="vertical">
-											<ColorPicker
-												defaultValue={token.colorPrimary}
-												styles={{ popupOverlayInner: { width: 480 } }}
-												presets={presets}
-												panelRender={customPanelRender}
-											/>
-										</Space> */}
-													<p>{colorEdit ? colorEdit : data?.mainColour}</p>
+													<p>{colorEdit}</p>
 													<ColorPicker
 														presets={presets}
 														onChange={(color) =>
 															changeColorPicker(color.toHexString())
 														}
+														defaultValue={`${colorEdit}`}
 														value={colorEdit}
 													/>
 													<IconColorPicker
@@ -572,7 +535,7 @@ const EditSections = () => {
 															gBiteCatalog[Number(Number(value) - 1)].gb
 														)
 													}
-													value={memoryEdit ? memoryEdit : data?.memory}
+													value={memoryEdit}
 												/>
 											</div>
 											<div className={scss.label_and_input_div}>
@@ -592,7 +555,7 @@ const EditSections = () => {
 															moreGBiteCatalog[Number(Number(value) - 1)].gb
 														)
 													}
-													value={ramEdit ? ramEdit : data?.ram}
+													value={ramEdit}
 												/>
 											</div>
 											<div className={scss.label_and_input_div}>
@@ -612,7 +575,7 @@ const EditSections = () => {
 															simCards[Number(Number(value) - 1)].sumCard
 														)
 													}
-													value={countSimEdit ? countSimEdit : data?.countSim}
+													value={countSimEdit}
 												/>
 											</div>
 										</>

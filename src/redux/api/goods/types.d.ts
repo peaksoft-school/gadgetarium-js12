@@ -1,5 +1,6 @@
 type PaginationGadgets = {
-  id: 0,
+  gadgetId: number,
+  subGadgetId: number
   images: string,
   article: 0,
   nameOfGadget: string,

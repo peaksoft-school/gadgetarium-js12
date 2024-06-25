@@ -262,6 +262,7 @@ export const AddProductSections = () => {
 			navigate('/admin/product-adding/part-2');
 			localStorage.removeItem('categoryIdForAddProduct');
 		} catch (error) {
+			navigate('/admin/product-adding/part-1');
 			console.error(error);
 		}
 	};
@@ -315,7 +316,6 @@ export const AddProductSections = () => {
 		const newArray = array.filter((c, index) => index + 1 !== id);
 		setArray(newArray);
 	};
-
 
 	return (
 		<>
@@ -571,12 +571,12 @@ export const AddProductSections = () => {
 														placeholder={`Продукт ${index + 1}`}
 														className={scss.input_for_product_count}
 													/>
-													{array.length >= 2 && (
+													{/* {array.length >= 2 && (
 														<IconX
 															style={{ margin: '50px' }}
 															onClick={() => handleDeleteByIdArray(index + 1)}
 														/>
-													)}
+													)} */}
 												</div>
 												<div className={scss.card_inputs}>
 													<div className={scss.label_and_input_div}>
