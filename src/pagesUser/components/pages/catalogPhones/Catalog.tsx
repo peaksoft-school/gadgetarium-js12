@@ -763,7 +763,7 @@ const Catalog = () => {
 																className={scss.active_basket_button}
 																onClick={() => navigate('/basket')}
 															>
-																Перейти в корзину
+																Перейти в <br /> корзину
 															</button>
 														) : (
 															<AddBasketButton
