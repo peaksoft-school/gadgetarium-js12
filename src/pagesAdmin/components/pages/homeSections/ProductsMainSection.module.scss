@@ -36,17 +36,23 @@
 					display: flex;
 					align-items: center;
 					gap: 13px;
-
 					button {
+						transition: all 0.4s ease;
 						cursor: pointer;
 						width: 150px;
 						height: 43px;
 						background: transparent;
 						color: rgb(203, 17, 171);
-						border: 2px solid rgb(203, 17, 171);
+						border: 1.8px solid rgb(203, 17, 171);
 						border-radius: 4px;
 						font-size: 16px;
 						font-weight: 600;
+						&:hover {
+							transition: all 0.4s ease;
+							background: rgb(203, 17, 171);
+							color: #fff;
+							border: none;
+						}
 					}
 				}
 			}
@@ -63,6 +69,7 @@
 					flex-wrap: wrap;
 					gap: 15px;
 					.all_product {
+						transition: all 0.5s ease;
 						cursor: pointer;
 						padding: 8px 17px;
 						border: none;
@@ -72,6 +79,7 @@
 						font-size: 14px;
 						font-weight: 600;
 						&:hover {
+							transition: all 0.5s ease;
 							background: rgb(56, 66, 85);
 							color: rgb(224, 226, 231);
 						}
@@ -96,13 +104,14 @@
 				display: flex;
 				gap: 15px;
 				.input_date {
+					cursor: pointer;
 					display: flex;
 					justify-content: center;
 					align-items: center;
 					width: 139px;
 					height: 35px;
 					background: transparent;
-					border: 1px solid rgb(205, 205, 205);
+					border: 1ps solid rgb(203, 17, 171);
 					border-radius: 6px;
 					color: rgb(56, 66, 85);
 				}
@@ -320,7 +329,7 @@
 							}
 
 							.price_td {
-								color: #2C68F5;
+								color: #2c68f5;
 							}
 						}
 					}
@@ -371,7 +380,6 @@
 			}
 		}
 
-		
 		.date {
 			display: flex;
 			justify-content: center;
@@ -401,6 +409,55 @@
 	justify-content: center;
 	align-items: center;
 	gap: 30px;
+	.noo_active {
+		width: 100%;
+		max-width: 300px;
+		height: 220px;
+		border-radius: 4px;
+		background: rgba(144, 156, 181, 0.2);
+		display: flex;
+		// flex-direction: column;
+		padding-block: 45px;
+		// padding-inline: 10px;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		&.container_add_banner_div {
+			display: flex;
+			flex-wrap: wrap;
+			width: 100%;
+			height: auto;
+			max-width: 400px;
+			gap: 25px;
+		}
+		.icon_and_text_div {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 14px;
+			&.display_nome_icon_and_text_add_file {
+				display: none;
+			}
+			p {
+				text-align: center;
+				color: rgb(145, 150, 158);
+				font-size: clamp(7px, 4vw, 12px);
+				font-weight: 400;
+			}
+		}
+		.banner_contents {
+			width: 100%;
+			max-width: 120px;
+			height: 131px;
+			display: flex;
+			align-items: start;
+			img {
+				width: 100%;
+				height: 131px;
+			}
+		}
+	}
+
 	.buttons_banner {
 		display: flex;
 		gap: 30px;
@@ -459,4 +516,4 @@
 			}
 		}
 	}
-}	
+}
