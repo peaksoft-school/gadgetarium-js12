@@ -278,7 +278,7 @@ const Catalog = () => {
 
 					<div className={scss.divGlobal}>
 						<div className={scss.divLeft}>
-							<p>Найдено 167... Товаров</p>
+							<p>Найдено {posts?.responses.length} Товаров</p>
 							<div className={scss.divBackgroundLeft}>
 								<h4 onClick={handleRemoveCategories}>Сбросить все фильтры</h4>
 								<div className={scss.divLine}></div>

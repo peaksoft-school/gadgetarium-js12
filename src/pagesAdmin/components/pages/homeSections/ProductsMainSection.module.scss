@@ -277,6 +277,9 @@
 										width: 25px;
 									}
 								}
+								.id_for_product {
+									width: 16px;
+								}
 							}
 							.quantity_name {
 								display: flex;
@@ -403,7 +406,7 @@
 
 .add_banner {
 	width: 100%;
-	max-width: 450px;
+	max-width: 550px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -411,24 +414,26 @@
 	gap: 30px;
 	.noo_active {
 		width: 100%;
-		max-width: 300px;
-		height: 220px;
+		max-width: 200px;
+		height: 200px;
 		border-radius: 4px;
 		background: rgba(144, 156, 181, 0.2);
 		display: flex;
 		// flex-direction: column;
-		padding-block: 45px;
+		padding-block: 25px;
 		// padding-inline: 10px;
 		justify-content: center;
 		align-items: center;
-		cursor: pointer;
+		// cursor: pointer;
 		&.container_add_banner_div {
 			display: flex;
 			flex-wrap: wrap;
 			width: 100%;
 			height: auto;
-			max-width: 400px;
-			gap: 25px;
+			max-width: 450px;
+			gap: 18px;
+			justify-content: space-between;
+			padding-inline: 15px;
 		}
 		.icon_and_text_div {
 			display: flex;
@@ -438,11 +443,14 @@
 			&.display_nome_icon_and_text_add_file {
 				display: none;
 			}
-			p {
+			.noo_active_p {
 				text-align: center;
 				color: rgb(145, 150, 158);
 				font-size: clamp(7px, 4vw, 12px);
 				font-weight: 400;
+				&.active_p {
+					max-width: 120px;
+				}
 			}
 		}
 		.banner_contents {
@@ -453,7 +461,7 @@
 			align-items: start;
 			img {
 				width: 100%;
-				height: 131px;
+				height: 130px;
 			}
 		}
 	}
@@ -478,7 +486,25 @@
 			font-weight: 700;
 		}
 	}
-
+	.container_banners {
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+		overflow: auto;
+		height: 450px;
+		width: 100%;
+		.image_and_icon_delete_div{
+			display: flex;
+			gap: 20px;
+			align-items: start;
+			padding-right: 15px;
+			img {
+				width: 100%;
+				height: 100px;
+				border-radius: 5px;
+			}
+		}
+	}
 	.modal_buttons {
 		display: flex;
 		justify-content: center;

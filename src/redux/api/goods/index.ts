@@ -113,10 +113,10 @@ const api = index.injectEndpoints({
 			GOODSSTORE.GetGoodsBannerResponse,
 			GOODSSTORE.GetGoodsBannerRequest
 		>({
-			query: (banner) => ({
+			query: ({images}) => ({
 				url: `/api/banner`,
 				method: 'POST',
-				body: { images: [banner] },
+				body: { images },
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				}
@@ -128,10 +128,10 @@ const api = index.injectEndpoints({
 			GOODSSTORE.GetGoodsDiscountResponse,
 			GOODSSTORE.GetGoodsDiscountRequest
 		>({
-			query: (discount) => ({
+			query: ({...spret}) => ({
 				url: `/api/discount`,
 				method: 'POST',
-				body: discount,
+				body: spret,
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				}
