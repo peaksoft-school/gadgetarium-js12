@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 type PaginationGadgets = {
   gadgetId: number,
   subGadgetId: number
   images: string,
-  article: 0,
+  article: number,
   nameOfGadget: string,
-  releaseDate: string,
-  quantity: 0,
-  price: 0,
-  percent: 0,
-  currentPrice: 0
+  createdAt: string;
+  // releaseDate: string,
+  quantity: number,
+  price: number,
+  percent: number,
+  currentPrice: number
 }
 
 namespace GOODSSTORE {
@@ -39,12 +41,23 @@ namespace GOODSSTORE {
     page: number;
     size: number;
     paginationGadgets: PaginationGadgets[]
+    startDate: string;
+    endDate: string;
+    keyword: string;
+    allProduct: number;
+    onSale: number;
+    inFavorites: number;
+    inBasket: number;
   }
   type GetGoodsRequest = {
     sort: string;
     discount: string;
-    page: number;
-    size: number;
+    page: string;
+    size: string;
+    getType: string;
+    keyword: string;
+    startDate: string;
+    endDate: string;
   }
 
 
