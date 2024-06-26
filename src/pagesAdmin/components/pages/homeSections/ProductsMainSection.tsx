@@ -9,7 +9,12 @@ import {
 	Pagination,
 	theme
 } from 'antd';
-import { IconChartCircles, IconEdit, IconTrash } from '@tabler/icons-react';
+import {
+	IconChartCircles,
+	IconEdit,
+	IconPhotoPlus,
+	IconTrash
+} from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal';
 import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
@@ -35,12 +40,23 @@ const onChange: DatePickerProps['onChange'] = (date, dateString) => {
 	console.log(date, dateString);
 };
 
+const photos = [
+	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
+	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
+	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
+	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
+	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
+	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg'
+];
+
 const ProductsMainSection = () => {
 	const buttonStyleRef = React.useRef<boolean>(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [filtered, setFiltered] = useState<boolean>(false);
 	const bannerInputFileRef = useRef<HTMLInputElement>(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [bannerFormResponse, setBannerFormResponse] =
+		useState<string[]>(photos);
 	const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
 	const [isModalOpenBanner, setIsModalOpenBanner] = useState(false);
 	const [gadgetId, setGadgetId] = useState<number | null>(null);
@@ -476,13 +492,49 @@ const ProductsMainSection = () => {
 						<div className={scss.add_banner}>
 							<h1>Загрузить баннер</h1>
 							{/* <UploadBanner fileList={fileList} setFileList={setFileList} /> */}
-							<div onClick={handleClickBannerInputRef}>
+							<div
+								onClick={handleClickBannerInputRef}
+								className={
+									bannerFormResponse.length > 0
+										? `${scss.noo_active} ${scss.container_add_banner_div}`
+										: `${scss.noo_active}`
+								}
+							>
 								<input
 									type="file"
 									ref={bannerInputFileRef}
 									style={{ display: 'none' }}
 								/>
-								
+								<div
+									className={
+										bannerFormResponse.length >= 6
+											? `${scss.icon_and_text_div} ${scss.display_nome_icon_and_text_add_file}`
+											: `${scss.icon_and_text_div}`
+									}
+								>
+									<IconPhotoPlus
+										color="rgb(145, 150, 158)"
+										width={'36px'}
+										height={'33px'}
+									/>
+									<p>Нажмите для добавления фотографии</p>
+								</div>
+								{bannerFormResponse.length > 0 &&
+									bannerFormResponse.map((el, index) => (
+										<div key={index} className={scss.banner_contents}>
+											<img src={el} alt="banner photo" />
+											<IconTrash
+												style={{
+													background: 'rgb(144, 156, 181)',
+													padding: '10px',
+													borderRadius: '2px'
+												}}
+												color="rgb(255, 255, 255)"
+												width={'18px'}
+												height={'18px'}
+											/>
+										</div>
+									))}
 							</div>
 							<div className={scss.buttons_banner}>
 								<CancelButtonCustom onClick={handleCancelBanner}>

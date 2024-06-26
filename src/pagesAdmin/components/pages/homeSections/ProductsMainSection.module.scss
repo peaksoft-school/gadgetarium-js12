@@ -409,6 +409,55 @@
 	justify-content: center;
 	align-items: center;
 	gap: 30px;
+	.noo_active {
+		width: 100%;
+		max-width: 300px;
+		height: 220px;
+		border-radius: 4px;
+		background: rgba(144, 156, 181, 0.2);
+		display: flex;
+		// flex-direction: column;
+		padding-block: 45px;
+		// padding-inline: 10px;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		&.container_add_banner_div {
+			display: flex;
+			flex-wrap: wrap;
+			width: 100%;
+			height: auto;
+			max-width: 400px;
+			gap: 25px;
+		}
+		.icon_and_text_div {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 14px;
+			&.display_nome_icon_and_text_add_file {
+				display: none;
+			}
+			p {
+				text-align: center;
+				color: rgb(145, 150, 158);
+				font-size: clamp(7px, 4vw, 12px);
+				font-weight: 400;
+			}
+		}
+		.banner_contents {
+			width: 100%;
+			max-width: 120px;
+			height: 131px;
+			display: flex;
+			align-items: start;
+			img {
+				width: 100%;
+				height: 131px;
+			}
+		}
+	}
+
 	.buttons_banner {
 		display: flex;
 		gap: 30px;
