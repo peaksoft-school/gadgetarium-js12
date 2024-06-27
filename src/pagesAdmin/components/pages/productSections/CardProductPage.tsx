@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import scss from './CardProductPage.module.scss';
@@ -26,7 +27,6 @@ import InfoProduct from './InfoProduct';
 import { ProductDetails } from './ProductDetails';
 import {
 	useDeleteGoodsGadgetMutation,
-	useGetSingleGoodGadgetQuery
 } from '@/src/redux/api/goods';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 import { useGetProductsColorsApiQuery } from '@/src/redux/api/productColorApi';
@@ -38,11 +38,10 @@ const CardProductPage = () => {
 	const [deleteModal, setDeleteModal] = useState<boolean>(false);
 	const [deleteByIdApi] = useDeleteGoodsGadgetMutation();
 	const [subGadgetId, setSubGadgetId] = useState<number>(0);
-	const [countIsProduct, setCountIsProduct] = useState<string>('1');
+	const [countIsProduct, _] = useState<string>('1');
 	const [countInput, setCountInput] = useState<string>('1');
 	const { productId } = useParams();
 	const [isSlider, setIsSlider] = useState<number>(1);
-	const [productPatchForQuantity] = useProductPatchForQuantityMutation();
 	const [sliderResult, setSliderresult] = useState<number>(0);
 	const [contentIsModal, setContentIsModal] = useState<string>('');
 	const [modal2Open, setModal2Open] = useState(false);
@@ -63,9 +62,6 @@ const CardProductPage = () => {
 		color: `color=${data?.mainColour}`
 	});
 	const [resultProductPage, setResultProductPage] = useState<boolean>(true);
-	const [productQuantity, setProductQuantity] = useState<number>(
-		data?.quantity!
-	);
 	const handleIndexSlider = (index: number) => {
 		if (index === 0) {
 			setIsSlider(1);
@@ -89,18 +85,6 @@ const CardProductPage = () => {
 			setIsSlider(7);
 			setSliderresult(6);
 		}
-	};
-	const changeInputValue = (value: number | null) => {
-		if (value !== null) {
-			setProductQuantity(value);
-		}
-	};
-	const handleProductPatchForQuantity = async (id: number) => {
-		await productPatchForQuantity({ id, quantity: productQuantity });
-	};
-	const handleDeleteProducts = async (id: number) => {
-		await deleteProducts(id);
-		refetch();
 	};
 
 	const hnadleModalDelete = (id: number) => {
