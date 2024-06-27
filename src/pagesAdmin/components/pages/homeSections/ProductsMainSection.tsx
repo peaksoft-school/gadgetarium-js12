@@ -25,6 +25,7 @@ import UploadBanner from '@/src/ui/customImageAdd/UploadBanner';
 import Infographics from '@/src/ui/infographics/Infographics';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import {
+	useDeleteByIdBannerMutation,
 	useDeleteGoodsGadgetMutation,
 	useGetGoodGadgetQuery,
 	usePostGoodsBannerMutation,
@@ -38,12 +39,12 @@ import { IconDeleteForBanner } from '@/src/assets/icons';
 import { useGetSlidersQuery } from '@/src/redux/api/slider';
 
 const ProductsMainSection = () => {
+	const [deleteBanner] = useDeleteByIdBannerMutation()
 	const [postDiscount] = usePostGoodsDiscountMutation();
-
 	const buttonStyleRef = React.useRef<boolean>(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [modalForBanner, setModalForBanner] = useState<boolean>(false);
-	const { data: banner = [] } = useGetSlidersQuery();
+	const { data: banner = [], refetch:Refetch  } = useGetSlidersQuery();
 	const [filtered, setFiltered] = useState<boolean>(false);
 	const bannerInputFileRef = useRef<HTMLInputElement>(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -140,7 +141,7 @@ const ProductsMainSection = () => {
 		}
 	};
 
-	const { data } = useGetGoodGadgetQuery({
+	const { data, refetch } = useGetGoodGadgetQuery({
 		page: `page=${searchParams.get('page') || ''}`,
 		size: `size=${searchParams.get('size') || ''}`,
 		keyword: `keyword=${searchParams.get('keyword') || ''}`,
@@ -194,6 +195,7 @@ const ProductsMainSection = () => {
 			setDiscountSize(0);
 			setDiscountEndDay('');
 			setDiscountStartDay('');
+			refetch()
 		} catch (error) {
 			console.error(error);
 		}
@@ -236,6 +238,7 @@ const ProductsMainSection = () => {
 			await postBanner({
 				images: response.data.slice(0, 6)
 			});
+			refetch()
 		}
 	};
 
@@ -247,6 +250,15 @@ const ProductsMainSection = () => {
 			setGadgetIds(filtred);
 		}
 	};
+
+	const handleDeleteBannerById = async (bannerId: number) => {
+		try {
+			await deleteBanner(bannerId)
+			Refetch();
+		} catch (error) {
+			console.error(error);
+		}
+	}
 
 	return (
 		<div className={scss.ProductsMainSection}>
@@ -470,7 +482,7 @@ const ProductsMainSection = () => {
 							</table>
 						</div>
 						<div>
-							<Pagination defaultCurrent={10} total={40} />
+							{/* <Pagination defaultCurrent={10} size={'default'} pageSize={5}  total={data?.paginationGadgets.length} /> */}
 						</div>
 					</div>
 					<div className={scss.right_content}>
@@ -547,7 +559,7 @@ const ProductsMainSection = () => {
 							{/* <UploadBanner fileList={fileList} setFileList={setFileList} /> */}
 							<div
 								className={
-									bannerFormResponse.length > 0
+									banner.length > 0
 										? `${scss.noo_active} ${scss.container_add_banner_div}`
 										: `${scss.noo_active}`
 								}
@@ -561,7 +573,7 @@ const ProductsMainSection = () => {
 								/>
 								<div
 									className={
-										bannerFormResponse.length >= 6
+										banner.length >= 6
 											? `${scss.icon_and_text_div} ${scss.display_nome_icon_and_text_add_file}`
 											: `${scss.icon_and_text_div}`
 									}
@@ -574,7 +586,7 @@ const ProductsMainSection = () => {
 									/>
 									<p
 										className={
-											bannerFormResponse.length >= 1
+											banner.length >= 1
 												? `${scss.noo_active_p} ${scss.active_p}`
 												: `${scss.noo_active_p}`
 										}
@@ -582,12 +594,12 @@ const ProductsMainSection = () => {
 										Нажмите для добавления фотографии
 									</p>
 								</div>
-								{bannerFormResponse.length > 0 &&
-									bannerFormResponse.map((el, index) => (
+								{banner.length > 0 &&
+									banner.map((el, index) => (
 										<div key={index} className={scss.banner_contents}>
-											<img src={el} alt="banner photo" />
+											<img src={el.images} alt="banner photo" />
 											<div style={{ position: 'relative', right: '25px' }}>
-												<IconDeleteForBanner />
+												<div onClick={() => handleDeleteBannerById(el.id)}><IconDeleteForBanner /></div>
 											</div>
 										</div>
 									))}
@@ -631,7 +643,7 @@ const ProductsMainSection = () => {
 						{banner.map((el) => (
 							<div key={el.id} className={scss.image_and_icon_delete_div}>
 								<img src={el.images} alt="logo" />
-								<IconX style={{ cursor: 'pointer' }} />
+								<IconX style={{ cursor: 'pointer' }} onClick={() => handleDeleteBannerById(el.id)}/>
 							</div>
 						))}
 					</div>

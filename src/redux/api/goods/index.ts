@@ -152,6 +152,16 @@ const api = index.injectEndpoints({
 				}
 			}),
 			invalidatesTags: ['adminGoods']
+		}),
+		deleteByIdBanner: build.mutation({
+			query: (bannerId) => ({
+				url: `/api/banner/${bannerId}`,
+				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			invalidatesTags: ['adminGoods']
 		})
 	})
 });
@@ -166,5 +176,6 @@ export const {
 	useGetReviewGadgetGoodQuery: useGetReviewGadgetGoodQuery,
 	usePostGoodsBannerMutation,
 	usePostGoodsDiscountMutation,
-	usePostNewslaterMutation
+	usePostNewslaterMutation,
+	useDeleteByIdBannerMutation
 } = api;
