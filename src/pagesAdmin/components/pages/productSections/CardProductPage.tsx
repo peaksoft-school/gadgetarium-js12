@@ -12,10 +12,16 @@ import { Button, ConfigProvider, InputNumber, Modal, Rate } from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
 import InfoProduct from './InfoProduct';
 import { ProductDetails } from './ProductDetails';
-import { useGetSingleGoodGadgetQuery } from '@/src/redux/api/goods';
+import {
+	useDeleteGoodsGadgetMutation,
+	useGetSingleGoodGadgetQuery
+} from '@/src/redux/api/goods';
 
 const CardProductPage = () => {
 	const [deleteProducts] = useDeleteProductsMutation();
+	const [deleteModal, setDeleteModal] = useState<boolean>(false);
+	const [deleteByIdApi] = useDeleteGoodsGadgetMutation();
+	const [subGadgetId, setSubGadgetId] = useState<number>(0);
 	const { productId } = useParams();
 	const [isSlider, setIsSlider] = useState<number>(1);
 	const [productPatchForQuantity] = useProductPatchForQuantityMutation();
@@ -23,7 +29,7 @@ const CardProductPage = () => {
 	const [contentIsModal, setContentIsModal] = useState<string>('');
 	const [modal2Open, setModal2Open] = useState(false);
 	const navigate = useNavigate();
-	const { data, refetch, isLoading } = useGetSingleGoodGadgetQuery(productId)
+	const { data, refetch, isLoading } = useGetSingleGoodGadgetQuery(productId);
 	const [resultProductPage, setResultProductPage] = useState<boolean>(true);
 	const [productQuantity, setProductQuantity] = useState<number>(
 		data?.quantity!
@@ -64,7 +70,21 @@ const CardProductPage = () => {
 		await deleteProducts(id);
 		refetch();
 	};
-	
+
+	const hnadleModalDelete = (id: number) => {
+		setSubGadgetId(id);
+		setDeleteModal(true);
+	};
+	async function handleDeleteProductById() {
+		try {
+			await deleteByIdApi(subGadgetId);
+			setDeleteModal(false);
+			refetch();
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
 	return (
 		<>
 			<section className={scss.CardProductPage}>
@@ -188,7 +208,7 @@ const CardProductPage = () => {
 											<div className={scss.border_and_contents}>
 												<div className={scss.product_rating_and_numbers}>
 													<p className={scss.text_buy_product}>
-													В наличии {data?.quantity}
+														В наличии {data?.quantity}
 													</p>
 													<p>
 														Артикул: <span>{data?.articleNumber}</span>
@@ -208,7 +228,7 @@ const CardProductPage = () => {
 														<div>-{data?.percent}%</div>
 														<h2>{data?.currentPrice} с</h2>
 														<h3 className={scss.previous_price}>
-															{data?.price} с 
+															{data?.price} с
 														</h3>
 													</div>
 												</div>
@@ -264,7 +284,9 @@ const CardProductPage = () => {
 																	e: React.KeyboardEvent<HTMLInputElement>
 																) => {
 																	if (e.key === 'Enter') {
-																		handleProductPatchForQuantity(data?.subGadgetId);
+																		handleProductPatchForQuantity(
+																			data?.subGadgetId
+																		);
 																	}
 																}}
 															/>
@@ -284,13 +306,15 @@ const CardProductPage = () => {
 															<button
 																className={scss.nooActiveButton}
 																onClick={() =>
-																	data && handleDeleteProducts(data?.gadgetId)
+																	data && hnadleModalDelete(data?.subGadgetId)
 																}
 															>
 																<IconTrash color="rgb(144, 156, 181)" />
 															</button>
 															<Button
-																onClick={() => navigate(`/admin/edit-page/${data?.gadgetId}`)}
+																onClick={() =>
+																	navigate(`/admin/edit-page/${data?.gadgetId}`)
+																}
 																className={scss.add_bas_button}
 															>
 																редактировать
@@ -302,7 +326,9 @@ const CardProductPage = () => {
 															<p>
 																Экран............................................
 															</p>
-															<h4>{data?.Screen ? data?.Screen : "*unknown*"}</h4>
+															<h4>
+																{data?.Screen ? data?.Screen : '*unknown*'}
+															</h4>
 														</div>
 														<div className={scss.div_screen}>
 															<p>
@@ -336,13 +362,17 @@ const CardProductPage = () => {
 														</div>
 														<div className={scss.div_screen}>
 															<p>Процессор..................................</p>
-															<h4>{data?.Screen ? data?.Screen : "*unknown*"}</h4>
+															<h4>
+																{data?.Screen ? data?.Screen : '*unknown*'}
+															</h4>
 														</div>
 														<div className={scss.div_screen}>
 															<p>
 																Вес...............................................
 															</p>
-															<h4>{data?.Weight ? data?.Weight : "*unknown*"}</h4>
+															<h4>
+																{data?.Weight ? data?.Weight : '*unknown*'}
+															</h4>
 														</div>
 													</div>
 												</div>
@@ -381,6 +411,17 @@ const CardProductPage = () => {
 							src={contentIsModal}
 							alt={data?.nameOfGadget}
 						/>
+					</div>
+				</Modal>
+				<Modal centered open={deleteModal} footer={false}>
+					<div className={scss.container_modal_img}>
+						<div>
+							<h3>Вы уверены, что хотите удалить товар?</h3>
+							<div>
+								<Button onClick={() => setDeleteModal(false)}>Отменить</Button>
+								<Button onClick={handleDeleteProductById}>Удалить</Button>
+							</div>
+						</div>
 					</div>
 				</Modal>
 			</ConfigProvider>
