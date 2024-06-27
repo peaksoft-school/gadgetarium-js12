@@ -133,8 +133,8 @@ const ComparisonSection = () => {
 	};
 
 	const { data, isLoading } = useGetComparisonCompareQuery({
-		gadgetType: searchParams.toString(),
-		isDifferences: searchParams.toString()
+		gadgetType: `gadgetType=${searchParams.get('gadgetType') || ''}`,
+		isDifferences: `isDifferences=${searchParams.get('isDifferences') || ''}`
 	});
 
 	useEffect(() => {
