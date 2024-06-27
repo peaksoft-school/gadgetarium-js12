@@ -514,11 +514,11 @@
 									}
 								}
 							}
+							// !
 							.buttons_for_memory {
 								display: flex;
 								align-items: center;
 								gap: 7px;
-
 								.active_memory_button {
 									border-radius: 5px;
 									border: 1px solid rgb(203, 17, 171);
@@ -530,6 +530,7 @@
 									font-weight: 500;
 								}
 							}
+							// !
 							.info_product {
 								display: flex;
 								flex-direction: column;
