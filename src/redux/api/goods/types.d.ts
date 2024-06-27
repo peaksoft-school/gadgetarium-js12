@@ -95,16 +95,17 @@ namespace GOODSSTORE {
 
 
   type GetGoodsDetailsResponse = {
-    id: 0,
+    gadgetId: number;
+    subGadgetId: number,
     image: string,
     nameOfGadget: string,
     colour: string,
-    countSim: 0,
+    countSim: number,
     ram: string,
     memory: string,
-    quantity: 0,
-    price: 0
-  }
+    quantity: number,
+    price: number;
+  }[];
   type GetGoodsDetailsRequest = string;
 
 
