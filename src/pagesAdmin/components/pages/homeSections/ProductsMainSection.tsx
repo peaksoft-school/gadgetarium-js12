@@ -81,7 +81,7 @@ const ProductsMainSection = () => {
 		if (date) {
 			const formattedDate = date.format('YYYY-MM-DD');
 			searchParams.set('startDate', formattedDate);
-			setSearchParams(searchParams); // Update searchParams after setting
+			setSearchParams(searchParams); 
 		} else return;
 	};
 
@@ -89,7 +89,7 @@ const ProductsMainSection = () => {
 		if (date) {
 			const formattedDate = date.format('YYYY-MM-DD');
 			searchParams.set('endDate', formattedDate);
-			setSearchParams(searchParams); // Update searchParams after setting
+			setSearchParams(searchParams);
 		} else return;
 	};
 

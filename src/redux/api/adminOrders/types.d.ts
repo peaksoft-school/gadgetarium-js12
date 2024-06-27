@@ -1,32 +1,12 @@
 namespace ORDERSTORE {
   type IOrder = {
-    searchWord: string,
-    status: string,
-    quantity: number,
-    startDate: string,
-    endDate: string,
-    page: number,
-    size: number,
-    orderResponses: [
-      {
-        id: number,
-        fullName: string,
-        modalName: string,
-        article: number,
-        date: string,
-        count: number,
-        price: string,
-        typeOrder: string,
-        status: string,
-      }
-    ]
-  }
-
-  type GetOrderResponse = IOrder[
-    {
       searchWord: string,
       status: string,
-      quantity: number,
+      waiting: number,
+      progress: number,
+      onTheWay: number,
+      delivered: number,
+      canceled: number,
       startDate: string,
       endDate: string,
       page: number,
@@ -35,7 +15,33 @@ namespace ORDERSTORE {
         {
           id: number,
           fullName: string,
-          modalName: string,
+          article: number,
+          date: string,
+          count: number,
+          price: number,
+          typeOrder: string,
+          status: string,
+        }
+      ]
+  }
+
+  type GetOrderResponse = IOrder[
+    {
+      searchWord: string,
+      status: string,
+      waiting: number,
+      progress: number,
+      onTheWay: number,
+      delivered: number,
+      canceled: number,
+      startDate: string,
+      endDate: string,
+      page: number,
+      size: number,
+      orderResponses: [
+        {
+          id: number,
+          fullName: string,
           article: number,
           date: string,
           count: number,
@@ -47,16 +53,17 @@ namespace ORDERSTORE {
     }
   ];
   type GetOrderRequest = string;
+
+  
   type PostOrderRequest = IOrder;
   type PostOrderResponse = IOrder;
   type PutOrderRequest = {
-    id: string;
+    orderId: number;
     status: string;
-    state: string;
   };
   type PutOrderResponse = IOrder;
   type DeleteOrderRequest = {
-    id: string;
+    orderId: number;
   };
-  type DeleteOrderResponse = IOrder;
+  type DeleteOrderResponse = number;
 }

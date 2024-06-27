@@ -6,8 +6,8 @@ const api = index.injectEndpoints({
 			ORDERSTORE.GetOrderResponse,
 			ORDERSTORE.GetOrderRequest
 		>({
-			query: () => ({
-				url: '/api/order',
+			query: ({status, keyword, page, size, startDate, endDate}) => ({
+				url: `/api/order?keyword=${keyword}&status=${status}&startDate=${startDate}&endDate=${endDate}&page=${page}&size=${size}`,
 				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -33,20 +33,26 @@ const api = index.injectEndpoints({
 			ORDERSTORE.PutOrderResponse,
 			ORDERSTORE.PutOrderRequest
 		>({
-			query: ({ id, ...products }) => ({
-				url: `/api/order/${id}`,
+			query: ({ orderId, status }) => ({
+				url: `/api/order/${orderId}?status=${status}`,
 				method: 'PATCH',
-				body: products
+				body: { status },
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
 			}),
-			invalidatesTags: ['adminOrders']
+			invalidatesTags: ['adminOrders'],
 		}),
 		deleteAdminOrder: build.mutation<
 			ORDERSTORE.DeleteOrderResponse,
 			ORDERSTORE.DeleteOrderRequest
 		>({
-			query: ({ id }) => ({
-				url: `/api/order${id}`,
-				method: 'DELETE'
+			query: (orderId) => ({
+				url: `/api/order/${orderId}`,
+				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
 			}),
 			invalidatesTags: ['adminOrders']
 		})
