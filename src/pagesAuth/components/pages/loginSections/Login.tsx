@@ -3,7 +3,7 @@ import scss from './Login.module.scss';
 import logo from '@/src/assets/logo.png';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Button, ConfigProvider, Input, message } from 'antd';
-import React from 'react';
+import React, { FC } from 'react';
 import { usePostLoginMutation } from '@/src/redux/api/auth';
 import { auth, provider } from './config';
 import { signInWithPopup } from 'firebase/auth';
@@ -11,7 +11,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { notify } from '@/src/utils/helpers/notify';
 
-const Login = ({ setOpenModal }) => {
+interface OpenModalProps {
+	setOpenModal: (isOpen: boolean) => void;
+}
+
+const Login: FC<OpenModalProps> = ({ setOpenModal }) => {
 	const [passwordVisible, setPasswordVisible] = React.useState(false);
 	const [postRequestLogin] = usePostLoginMutation();
 	const navigate = useNavigate();
@@ -26,31 +30,58 @@ const Login = ({ setOpenModal }) => {
 
 	const onSubmit: SubmitHandler<LoginForms> = async (data, event) => {
 		event?.preventDefault();
-		try {
-			const response = await postRequestLogin(data).unwrap();
+		const response = (await postRequestLogin(data)) as AUTH.PostLoginResponse;
 
-			if (response.role === 'USER') {
-				const { token } = response;
+		if (response.error === undefined) {
+			if (response.data.role === 'USER') {
+				console.log(response.data);
+				const { token } = response.data;
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'true');
 				localStorage.setItem('user', 'true');
 				localStorage.setItem('admin', 'false');
 				message.success('Вход выполнен успешно');
 				navigate('/');
-			} else if (response.role === 'ADMIN') {
+			} else if (response.data.role === 'ADMIN') {
 				const { token } = response;
 				localStorage.setItem('token', token);
-				localStorage.setItem('isAuth', 'false');	
+				localStorage.setItem('isAuth', 'false');
 				localStorage.setItem('admin', 'true');
 				message.success('Вход выполнен успешно');
 				navigate('/admin');
 			}
 			reset();
+		}
+		if (response.error.data) {
+			console.log(response.error.data);
+			console.log(response.error.status === 404);
+			console.log(response.error.data);
+			if (response.error.status === 400) {
+				message.warning('Длина пароля должна быть больше или равна 6.');
+			}
+			if (response.error.status === 401) {
+				message.warning('Неправильный адрес электронной почты и/или пароль.');
+			}
+			if (response.error.status === 403) {
+				message.warning('Нет токена');
+			}
+			if (response.error.status === 404) {
+				message.warning(
+					`Пользователь с адресом электронной почты: ${data.email} не найден.`
+				);
+			}
+			if (response.error.status === 409) {
+				message.warning('Конфликт');
+			}
+			if (response.error.status === 500) {
+				message.warning(response.error.data.message);
+			}
+		}
+
+		if (localStorage.getItem('isAuth') === 'true') {
 			setOpenModal(false);
-		} catch (error) {
-			message.warning('Ошибка при входе');
+		} else {
 			setOpenModal(true);
-			console.log('Ошибка при входе', error);
 		}
 	};
 

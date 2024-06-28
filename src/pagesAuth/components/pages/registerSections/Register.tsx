@@ -28,7 +28,6 @@ export const Register = () => {
 			message.warning('Некоректный пароль или email ');
 			return;
 		}
-
 		try {
 			const response = await postRequest(data);
 			if ('data' in response && response.data.token) {

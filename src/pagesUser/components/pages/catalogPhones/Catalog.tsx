@@ -20,7 +20,7 @@ import React, { useState } from 'react';
 import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
 import { IconHeart, IconScale, IconX, IconFileLike } from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
-import { Rate, Skeleton, Tooltip } from 'antd';
+import { Empty, Rate, Skeleton, Tooltip } from 'antd';
 import {
 	useBasketPutProductMutation
 	// useGetBasketQuery
@@ -32,6 +32,9 @@ import AddBasketButton from '@/src/ui/customButtons/AddBasketButton';
 import { IconRedHeart } from '@/src/assets/icons';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal';
 import ModalLogin from '@/src/ui/customModalLogin/ModalLogin';
+import ShowMoreButton from '@/src/ui/customButtons/ShowMoreButton';
+import emptyImg from '@/src/assets/sammy-the-man-trying-to-find-the-right-document 1.png';
+import { ViewedProducts } from '@/src/ui/ViewedProducts/ViewedProducts';
 // import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
 // import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
 const Catalog = () => {
@@ -226,8 +229,8 @@ const Catalog = () => {
 		colour: [searchParams.toString()],
 		costFrom: Number(searchParams),
 		costUpTo: Number(searchParams),
-		page: Number(searchParams),
-		size: Number(searchParams),
+		page: `page=${searchParams.get('page') || ''}`,
+		size: `size=${searchParams.get('size') || ''}`,
 		memory: [searchParams.toString()],
 		ram: [searchParams.toString()]
 	});
@@ -278,7 +281,7 @@ const Catalog = () => {
 
 					<div className={scss.divGlobal}>
 						<div className={scss.divLeft}>
-							<p>Найдено 167... Товаров</p>
+							<p>Найдено {posts?.responses.length} Товаров</p>
 							<div className={scss.divBackgroundLeft}>
 								<h4 onClick={handleRemoveCategories}>Сбросить все фильтры</h4>
 								<div className={scss.divLine}></div>
@@ -629,180 +632,203 @@ const Catalog = () => {
 									</>
 								) : (
 									<>
-										{posts?.responses.map((e) => (
-											<div className={scss.cards} key={e.id}>
-												<div className={scss.card}>
-													<div
-														className={
-															e.percent === 0 &&
-															e.newProduct === true &&
-															e.recommend === true
-																? `${scss.top_card} ${scss.active_top_card}`
-																: `${scss.top_card}`
-														}
-													>
-														<>
-															<p
-																className={
-																	e.percent
-																		? `${scss.p} ${scss.percent}`
-																		: `${scss.p}`
-																}
-															>
-																{e.percent}%
-															</p>
-															<div
-																className={
-																	e.newProduct && e.percent === 0
-																		? `${scss.new_product_nome} ${scss.active_new_product}`
-																		: `${scss.new_product_nome}`
-																}
-															>
-																New
-															</div>
-															<div
-																className={
-																	e.recommend && e.percent === 0
-																		? `${scss.recommend_nome} ${scss.active_recommend}`
-																		: `${scss.recommend_nome}`
-																}
-															>
-																<IconFileLike />
-															</div>
-														</>
-														<div className={scss.top_icons}>
-															<button>
-																<Tooltip
-																	title={
-																		e.comparison
-																			? 'Удалить из сравнения'
-																			: 'Добавить к сравнению'
-																	}
-																	color="#c11bab"
-																>
-																	<IconScale
-																		className={
-																			e.comparison
-																				? `${scss.icon_comparison} ${scss.active_icon_comparison}`
-																				: `${scss.icon_comparison}`
-																		}
-																		onClick={() =>
-																			handleAddProductsComparisonFunk(
-																				e.gadgetId
-																			)
-																		}
-																	/>
-																</Tooltip>
-															</button>
-															<Tooltip
-																title={
-																	e.likes
-																		? 'Удалить из избранного'
-																		: 'Добавить в избранное'
-																}
-																color="#c11bab"
-															>
-																<button
-																	className={scss.icon_heart}
-																	onClick={() =>
-																		handleAddProductsFavoriteFunk(e.subGadgetId)
-																	}
-																>
-																	{e.likes ? <IconRedHeart /> : <IconHeart />}
-																</button>
-															</Tooltip>
-														</div>
-													</div>
-													<div className={scss.middle_image_card}>
-														<Link to={`/api/gadget/by-id/${e.gadgetId}`}>
-															{e.image ? (
-																<img src={e.image} alt="Phone" />
-															) : (
-																<div>Phone</div>
-															)}
-														</Link>
-													</div>
-													<div className={scss.middle_card}>
-														<p className={scss.phone_quantity}>
-															В наличии ({e.quantity})
-														</p>
-														<h3>
-															{e.brandNameOfGadget.length > 28 ? (
-																<>
-																	{e.brandNameOfGadget.slice(0, 22)}
-																	<Tooltip
-																		title={e.brandNameOfGadget}
-																		color="#c11bab"
-																	>
-																		<span style={{ cursor: 'pointer' }}>
-																			...
-																		</span>
-																	</Tooltip>
-																</>
-															) : (
-																e.brandNameOfGadget
-															)}
-														</h3>
-														<div className={scss.phone_rating}>
-															<p>Рейтинг</p>
-															<Rate disabled defaultValue={e.rating} />
-															<p>({e.rating})</p>
-														</div>
-													</div>
-													<div className={scss.bottom_card}>
-														<div className={scss.phone_prices}>
-															<p className={scss.phone_price}>{e.price} c</p>
-															{e.percent !== 0 && (
-																<p className={scss.phone_old_price}>
-																	{e.currentPrice} c
-																</p>
-															)}
-														</div>
-														{e.basked ? (
-															<button
-																className={scss.active_basket_button}
-																onClick={() => navigate('/basket')}
-															>
-																Перейти в <br /> корзину
-															</button>
-														) : (
-															<AddBasketButton
-																onClick={() =>
-																	handleBasketProductsFunk(e.subGadgetId)
-																}
-																className={scss.bottom_cart}
-															>
-																В корзину
-															</AddBasketButton>
-														)}
+										{posts?.responses.length === 0 ? (
+											<>
+												<div className={scss.length_n}>
+													<div className={scss.not_found_cards}>
+														<img src={emptyImg} alt="" />
+														<p>Нет товаров</p>
 													</div>
 												</div>
-											</div>
-										))}
+											</>
+										) : (
+											<>
+												{posts?.responses.map((e) => (
+													<div className={scss.cards} key={e.id}>
+														<div className={scss.card}>
+															<div
+																className={
+																	e.percent === 0 &&
+																	e.newProduct === true &&
+																	e.recommend === true
+																		? `${scss.top_card} ${scss.active_top_card}`
+																		: `${scss.top_card}`
+																}
+															>
+																<>
+																	<p
+																		className={
+																			e.percent
+																				? `${scss.p} ${scss.percent}`
+																				: `${scss.p}`
+																		}
+																	>
+																		{e.percent}%
+																	</p>
+																	<div
+																		className={
+																			e.newProduct && e.percent === 0
+																				? `${scss.new_product_nome} ${scss.active_new_product}`
+																				: `${scss.new_product_nome}`
+																		}
+																	>
+																		New
+																	</div>
+																	<div
+																		className={
+																			e.recommend && e.percent === 0
+																				? `${scss.recommend_nome} ${scss.active_recommend}`
+																				: `${scss.recommend_nome}`
+																		}
+																	>
+																		<IconFileLike />
+																	</div>
+																</>
+																<div className={scss.top_icons}>
+																	<button>
+																		<Tooltip
+																			title={
+																				e.comparison
+																					? 'Удалить из сравнения'
+																					: 'Добавить к сравнению'
+																			}
+																			color="#c11bab"
+																		>
+																			<IconScale
+																				className={
+																					e.comparison
+																						? `${scss.icon_comparison} ${scss.active_icon_comparison}`
+																						: `${scss.icon_comparison}`
+																				}
+																				onClick={() =>
+																					handleAddProductsComparisonFunk(
+																						e.gadgetId
+																					)
+																				}
+																			/>
+																		</Tooltip>
+																	</button>
+																	<Tooltip
+																		title={
+																			e.likes
+																				? 'Удалить из избранного'
+																				: 'Добавить в избранное'
+																		}
+																		color="#c11bab"
+																	>
+																		<button
+																			className={scss.icon_heart}
+																			onClick={() =>
+																				handleAddProductsFavoriteFunk(
+																					e.subGadgetId
+																				)
+																			}
+																		>
+																			{e.likes ? (
+																				<IconRedHeart />
+																			) : (
+																				<IconHeart />
+																			)}
+																		</button>
+																	</Tooltip>
+																</div>
+															</div>
+															<div className={scss.middle_image_card}>
+																<Link to={`/api/gadget/by-id/${e.gadgetId}`}>
+																	{e.image ? (
+																		<img src={e.image} alt="Phone" />
+																	) : (
+																		<div>Phone</div>
+																	)}
+																</Link>
+															</div>
+															<div className={scss.middle_card}>
+																<p className={scss.phone_quantity}>
+																	В наличии ({e.quantity})
+																</p>
+																<h3>
+																	{e.brandNameOfGadget.length > 28 ? (
+																		<>
+																			{e.brandNameOfGadget.slice(0, 22)}
+																			<Tooltip
+																				title={e.brandNameOfGadget}
+																				color="#c11bab"
+																			>
+																				<span style={{ cursor: 'pointer' }}>
+																					...
+																				</span>
+																			</Tooltip>
+																		</>
+																	) : (
+																		e.brandNameOfGadget
+																	)}
+																</h3>
+																<div className={scss.phone_rating}>
+																	<p>Рейтинг</p>
+																	<Rate disabled defaultValue={e.rating} />
+																	<p>({e.rating})</p>
+																</div>
+															</div>
+															<div className={scss.bottom_card}>
+																<div className={scss.phone_prices}>
+																	<p className={scss.phone_price}>
+																		{e.price} c
+																	</p>
+																	{e.percent !== 0 && (
+																		<p className={scss.phone_old_price}>
+																			{e.currentPrice} c
+																		</p>
+																	)}
+																</div>
+																{e.basked ? (
+																	<button
+																		className={scss.active_basket_button}
+																		onClick={() => navigate('/basket')}
+																	>
+																		Перейти в <br /> корзину
+																	</button>
+																) : (
+																	<AddBasketButton
+																		onClick={() =>
+																			handleBasketProductsFunk(e.subGadgetId)
+																		}
+																		className={scss.bottom_cart}
+																	>
+																		В корзину
+																	</AddBasketButton>
+																)}
+															</div>
+														</div>
+													</div>
+												))}
+											</>
+										)}
 									</>
 								)}
 							</div>
-							<div className={scss.showButtons}>
-								{posts?.responses.length.toString() ===
-								searchParams.get('size') ? (
-									<button
-										onClick={() => handleShowAllPhones(posts?.responses.length)}
-										className={scss.moreButton}
-									>
-										Показать ещё
-									</button>
-								) : (
-									<button
-										onClick={handleHideAllPhones}
-										className={scss.moreButton}
-									>
-										Скрыть
-									</button>
-								)}
-							</div>
+							{posts?.responses.length !== 0 && (
+								<>
+									<div className={scss.showButtons}>
+										{posts?.responses.length.toString() ===
+										(searchParams.get('size') || '12') ? (
+											<ShowMoreButton
+												children={'Показать ещё'}
+												onClick={() =>
+													handleShowAllPhones(posts?.responses.length)
+												}
+											/>
+										) : (
+											<ShowMoreButton
+												children={'Скрыть'}
+												onClick={handleHideAllPhones}
+											/>
+										)}
+									</div>
+								</>
+							)}
 						</div>
 					</div>
-					{/* <ViewedProducts /> */}
+					<ViewedProducts />
 					<div>
 						<CustomModal isModalOpen={openModal} setIsModalOpen={setOpenModal}>
 							<ModalLogin setOpenModal={setOpenModal} />

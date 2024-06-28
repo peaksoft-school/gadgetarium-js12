@@ -883,6 +883,18 @@
 				display: flex;
 				flex-wrap: wrap;
 				gap: 10px;
+				.length_n {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					.not_found_cards {
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+						align-items: center;
+						width: 200px;
+					}
+				}
 				.skeleton_cards {
 					display: grid;
 					grid-template-columns: repeat(4, 1fr);

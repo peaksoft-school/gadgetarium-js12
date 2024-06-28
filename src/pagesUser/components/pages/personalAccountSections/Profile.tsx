@@ -18,6 +18,7 @@ const Profile = () => {
 		register,
 		formState: { errors },
 		handleSubmit,
+		reset,
 		setValue
 	} = useForm({
 		mode: 'onSubmit'
@@ -84,6 +85,8 @@ const Profile = () => {
 	const { data: profileData, refetch } = useGetProfilesQuery({});
 	const navigate = useNavigate();
 
+	const [messageApi, contextHolder] = message.useMessage();
+
 	useEffect(() => {
 		if (profileData) {
 			setValue('firstName', profileData.firsName);
@@ -106,23 +109,43 @@ const Profile = () => {
 	};
 
 	const handlePostNewPassword = async () => {
-		const passwords = {
-			oldPassword: oldPassword,
-			newPassword: newPassword,
-			confirmationPassword: confirmPassword
-		};
-
+		try {
+			const passwords = {
+				oldPassword: oldPassword,
+				newPassword: newPassword,
+				confirmationPassword: confirmPassword
+			};
+			const res = await profilePasswords(passwords);
+			reset();
+			console.log(res);
+		} catch (error) {
+			message.warning('Вы неправильно ввели старый пароль');
+			console.error(error, 'Вы неправильно ввели старый пароль');
+		}
 		if (oldPassword === '' || newPassword === '' || confirmPassword === '') {
 			return;
 		} else {
-			try {
-				const res = await profilePasswords(passwords);
-				console.log(res);
-			} catch (error) {
-				console.error(error);
-				message.warning('Вы неправильно ввели старый пароль')
-			}
 		}
+	};
+
+	const handleMessage = () => {
+		messageApi.open({
+			type: 'success',
+			content: 'Вы неправильно ввели старый пароль',
+			className: 'custom-class',
+			style: {
+				marginTop: '6vh',
+				marginLeft: '80vh',
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				width: '300px',
+				height: '50x',
+				// fontWeight: 'bold',
+				color: 'black',
+				borderRadius: '10px'
+			}
+		});
 	};
 
 	const handlePostNewInformation = async () => {
@@ -178,7 +201,8 @@ const Profile = () => {
 						<p className={scss.navigation_p}>
 							Личный кабинет » <h3>Учетная запись</h3>
 						</p>
-
+						{contextHolder}
+						<button onClick={handleMessage}>Message </button>
 						<div className={scss.div_heading}>
 							<h3>Профиль</h3>
 							<div></div>
