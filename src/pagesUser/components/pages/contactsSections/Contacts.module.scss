@@ -193,6 +193,9 @@
 							color: rgb(255, 255, 255);
 							border-radius: 4px;
 							background: rgb(203, 17, 171);
+							border: none;
+							font-size: clamp(7px, 5vw, 15px);
+							font-weight: 500;
 						// &.active_buttonSubmit {
 						// 	height: 2.7rem;
 						// 	color: rgb(255, 255, 255);

@@ -114,14 +114,18 @@ const ComparisonSection = () => {
 	};
 
 	const handleDeleteByIdProductFunk = async (subGadgetId: number) => {
-		await deleteByIdProduct(subGadgetId);
-		refetch()
+		try {
+			await deleteByIdProduct(subGadgetId);
+			refetch();
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const handleChangeIsDifferencesResultFunk = (checked: boolean) => {
 		searchParams.set('isDifferences', checked.toString());
 		setSearchParams(searchParams);
-		refetch()
+		refetch();
 	};
 
 	useEffect(() => {
@@ -138,10 +142,8 @@ const ComparisonSection = () => {
 
 	const handleAddBasketProducts = async (subGadgetId: number) => {
 		await addBasketProducts({ id: subGadgetId, basket: false });
-		refetch()
+		refetch();
 	};
-
-	
 
 	useEffect(() => {
 		if (searchParams.get('isDifferences') || searchParams.get('gadgetType')) {
@@ -381,11 +383,7 @@ const ComparisonSection = () => {
 																			<div className={scss.card}>
 																				<div className={scss.card_content_div}>
 																					<button
-																						onClick={() =>
-																							handleDeleteByIdProductFunk(
-																								item!.subGadgetId
-																							)
-																						}
+																						
 																						className={scss.delete_button}
 																					>
 																						{/* <IconDelete /> */}

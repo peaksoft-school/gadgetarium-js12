@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import scss from './Contacts.module.scss';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { Input, Button } from 'antd';
+import { Input } from 'antd';
 import { MapComponent } from './MapComponent';
 import { usePostNewsLetterContactUsMutation } from '@/src/redux/api/follow';
 
@@ -213,16 +213,16 @@ export const Contacts = () => {
 									(errors.email && <p>{errors.email.message}</p>) ||
 									(errors.phoneNumber && <p>{errors.phoneNumber.message}</p>) ||
 									(errors.message && <p>{errors.message.message}</p>)}
-								<Button
+								<button
 									className={
 										scss.buttonSubmit
 											// ? `${scss.buttonSubmit} ${scss.active_buttonSubmit}`
 											// : `${scss.buttonSubmit}`
 									}
-									type="primary"
+									type="submit"
 								>
 									Отправить
-								</Button>
+								</button>
 							</div>
 						</form>
 					</div>
