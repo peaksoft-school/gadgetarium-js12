@@ -9,13 +9,25 @@ namespace AUTH {
 		id: number;
 		role: string;
 		token: string;
+		data: {
+			role: string;
+			token: string;
+			httpStatus: string;
+			password: string;
+		};
 		response: {
 			httpStatus: string;
 			message: string;
 			status: string;
 		};
-		error: string;
-		password: string;
+		error: {
+			data: {
+				httpStatus: string;
+				password: string;
+				message: string;
+			};
+			status: number;
+		};
 	};
 
 	type PostRegisterRequest = {

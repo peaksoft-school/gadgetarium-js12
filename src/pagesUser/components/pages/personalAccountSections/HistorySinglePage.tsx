@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import scss from './HistorySinglePage.module.scss';
 import { useEffect, useState } from 'react';
 import { useGetPersonalByIdQuery } from '@/src/redux/api/personalAccount/orderHistory';
@@ -7,6 +7,7 @@ import { Rate } from 'antd';
 const HistorySinglePage = () => {
 	const { id } = useParams<{ id: string }>();
 	const { data: orderPersonalId, isLoading } = useGetPersonalByIdQuery(id);
+	const navigate = useNavigate();
 	const [status1, setStatus1] = useState(true);
 	const [status2, setStatus2] = useState(true);
 	const [status3, setStatus3] = useState(true);
@@ -30,7 +31,12 @@ const HistorySinglePage = () => {
 							<Link to="/personal-account/history-of-orders">
 								<p>Личный кабинет »</p>
 							</Link>
-							<h3>История заказов</h3>
+							<h3
+								onClick={() => navigate('/personal-account/history-of-orders')}
+							>
+								История заказов »
+							</h3>
+							<h3>{orderPersonalId?.number}</h3>
 						</p>
 						<div className={scss.div_heading}>
 							<h3>История заказов</h3>

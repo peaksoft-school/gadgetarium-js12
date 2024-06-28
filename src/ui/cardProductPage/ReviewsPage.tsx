@@ -20,7 +20,6 @@ import {
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { notify } from '@/src/utils/helpers/notify';
-import reviewsimg from '@/src/assets/sammy-the-man-trying-to-find-the-right-document 1.png';
 import {
 	useApiFeedbackStatisticsQuery,
 	useDeleteByIdUserCommitMutation,
@@ -30,6 +29,7 @@ import {
 } from '@/src/redux/api/review';
 import CustomModal from '../modalAdmin/CustomModal';
 import ModalLogin from '../customModalLogin/ModalLogin';
+import ShowMoreButton from '../customButtons/ShowMoreButton';
 const ReviewsPage = () => {
 	const fileUrl = useRef<HTMLInputElement>(null);
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -155,8 +155,8 @@ const ReviewsPage = () => {
 	};
 
 	const handlePaginationFunk = (size: number) => {
-		const sizeResult = 3 + size;
-		searchParams.set('page', '1');
+		const sizeResult = 2 + size;
+		searchParams.set('page', '2');
 		searchParams.set('size', String(sizeResult));
 		setSearchParams(searchParams);
 		navigate(
@@ -165,7 +165,7 @@ const ReviewsPage = () => {
 	};
 
 	const handlePaginationFunkCancel = () => {
-		searchParams.set('size', '3');
+		searchParams.set('size', '2');
 		setSearchParams(searchParams);
 		navigate(
 			`/api/gadget/by-id/${productId}?${window.location.search.substring(1)}`
@@ -275,102 +275,83 @@ const ReviewsPage = () => {
 								</>
 							) : (
 								<>
-									{localStorage.getItem('isAuth') === 'true' ? (
-										<>
-											<h2>Отзывы</h2>
-											{data?.map((e, index) => (
-												<div className={scss.admin_and_users_commits}>
-													<div key={e.id} className={scss.div_users_commits}>
-														<img src={e.image} alt={e.fullName} />
-														<div className={scss.commits_for_users_div}>
-															<div className={scss.user_info}>
-																<h2>{e.fullName}</h2>
-																<p>{e.dateTime}</p>
-															</div>
-															<div className={scss.grade_div}>
-																<Rate allowHalf defaultValue={e.rating} />
-															</div>
-															<p className={scss.commit_user}>
-																{e.description}
-															</p>
-															{!e.responseAdmin && (
-																<div className={scss.icons_div}>
-																	<IconPencilMinus
-																		color="rgb(145, 150, 158)"
-																		width={'17px'}
-																		height={'17px'}
-																		cursor={'pointer'}
-																		onClick={() => {
-																			handleOpenModal(index, e.id);
-																		}}
-																	/>
-																	<IconTrash
-																		color="rgb(145, 150, 158)"
-																		width={'17px'}
-																		height={'17px'}
-																		cursor={'pointer'}
-																		onClick={() =>
-																			handleOpenModalForDelete(e.id)
-																		}
-																	/>
-																</div>
-															)}
-														</div>
+									<h2>Отзывы</h2>
+									{data?.map((e, index) => (
+										<div className={scss.admin_and_users_commits}>
+											<div key={e.id} className={scss.div_users_commits}>
+												<img src={e.image} alt={e.fullName} />
+												<div className={scss.commits_for_users_div}>
+													<div className={scss.user_info}>
+														<h2>{e.fullName}</h2>
+														<p>{e.dateTime}</p>
 													</div>
-													{e.responseAdmin && (
-														<div className={scss.div_admin_commit}>
-															<div className={scss.content_admin_commit_div}>
-																<h3>Ответ от представителя</h3>
-																<p>{e.responseAdmin}</p>
-															</div>
+													<div className={scss.grade_div}>
+														<Rate allowHalf defaultValue={e.rating} />
+													</div>
+													<p className={scss.commit_user}>{e.description}</p>
+													{!e.responseAdmin && (
+														<div className={scss.icons_div}>
+															<IconPencilMinus
+																color="rgb(145, 150, 158)"
+																width={'17px'}
+																height={'17px'}
+																cursor={'pointer'}
+																onClick={() => {
+																	handleOpenModal(index, e.id);
+																}}
+															/>
+															<IconTrash
+																color="rgb(145, 150, 158)"
+																width={'17px'}
+																height={'17px'}
+																cursor={'pointer'}
+																onClick={() => handleOpenModalForDelete(e.id)}
+															/>
 														</div>
 													)}
 												</div>
-											))}
-											{data &&
-											data!.length === Number(searchParams.get('size')) ? (
-												<div className={scss.button_div_for_pagination}>
-													<Button
-														onClick={() => handlePaginationFunk(3)}
-														className={scss.button_for_pagination}
-													>
-														Показать ещё
-													</Button>
-												</div>
-											) : (
-												<div className={scss.button_div_for_pagination}>
-													<Button
-														onClick={handlePaginationFunkCancel}
-														className={scss.button_for_pagination}
-													>
-														Скрыть
-													</Button>
+											</div>
+											{e.responseAdmin && (
+												<div className={scss.div_admin_commit}>
+													<div className={scss.content_admin_commit_div}>
+														<h3>Ответ от представителя</h3>
+														<p>{e.responseAdmin}</p>
+													</div>
 												</div>
 											)}
-										</>
+										</div>
+									))}
+									{data?.length.toString() ===
+									(searchParams.get('size') || '2') ? (
+										<ShowMoreButton
+											children={'Показать ещё'}
+											onClick={() => handlePaginationFunk(data?.length)}
+										/>
 									) : (
-										<>
-											<div className={scss.not_reviews}>
-												<img src={reviewsimg} alt="" />
-												<p>Вы не зарегистирировались или не вошли </p>
-												<div className={scss.login_and_register}>
-													<span
-														className={scss.one}
-														onClick={() => navigate('/auth/login')}
-													>
-														Войти
-													</span>
-													<span>или</span>
-													<span
-														className={scss.one}
-														onClick={() => navigate('/auth/register')}
-													>
-														Зарегистрироваться
-													</span>
-												</div>
-											</div>
-										</>
+										<ShowMoreButton
+											children={'Скрыть'}
+											onClick={handlePaginationFunkCancel}
+										/>
 									)}
+									{/* {data && data!.length === Number(searchParams.get('size')) ? (
+										<div className={scss.button_div_for_pagination}>
+											<Button
+												onClick={() => handlePaginationFunk(3)}
+												className={scss.button_for_pagination}
+											>
+												Показать ещё
+											</Button>
+										</div>
+									) : (
+										<div className={scss.button_div_for_pagination}>
+											<Button
+												onClick={handlePaginationFunkCancel}
+												className={scss.button_for_pagination}
+											>
+												Скрыть
+											</Button>
+										</div>
+									)} */}
 								</>
 							)}
 						</div>
