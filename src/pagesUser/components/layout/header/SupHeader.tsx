@@ -3,7 +3,9 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { IconGadgetarium } from '@/src/assets/icons';
 import AuthDropdown from '@/src/ui/authDropdown/AuthDropdown.tsx';
 import { userLinks } from '@/src/routes';
+import { useGetProfilesQuery } from '@/src/redux/api/personalAccount/profile';
 const SupHeader = () => {
+	const { data: profileData } = useGetProfilesQuery({});
 	const { pathname } = useLocation();
 	const navigate = useNavigate();
 
@@ -28,7 +30,7 @@ const SupHeader = () => {
 											pathname === item.link
 												? `${scss.link} ${scss.active}`
 												: `${scss.link}`
-										} 
+										}
 										to={item.link}
 									>
 										{item.label}
@@ -38,7 +40,7 @@ const SupHeader = () => {
 						</ul>
 					</nav>
 					<div className={scss.profile}>
-						<a href="#">+996 (504) 80 10 88</a>
+						<p>{profileData?.phoneNumber}</p>
 						<AuthDropdown />
 					</div>
 				</div>

@@ -24,7 +24,6 @@ const ProductsNew = () => {
 
 	const handleShowAllPhones = (page: number) => {
 		let size = 5 + page;
-		// const params = new URLSearchParams({ page: '1', size: size.toString() });
 		searchParams.set('page', '1');
 		searchParams.set('size', size.toString());
 		setSearchParams(searchParams);
@@ -37,6 +36,8 @@ const ProductsNew = () => {
 		setSearchParams(searchParams);
 		navigate(`/?${searchParams.toString()}`);
 	};
+
+	
 	const { data, isLoading, refetch } = useGetProductsNewsQuery({
 		page: `page=${searchParams.get('page') || ''}`,
 		size: `size=${searchParams.get('size') || ''}`
@@ -214,7 +215,8 @@ const ProductsNew = () => {
 							)}
 						</div>
 						<div className={scss.show_more_button}>
-							{data?.mainPages.length.toString() === (searchParams.get('size') || '5') ? (
+							{data?.mainPages.length.toString() ===
+							(searchParams.get('size') || '5') ? (
 								<ShowMoreButton
 									children={'Показать ещё'}
 									onClick={() => handleShowAllPhones(data?.mainPages.length)}

@@ -40,14 +40,14 @@ const onChange: DatePickerProps['onChange'] = (date, dateString) => {
 	console.log(date, dateString);
 };
 
-const photos = [
-	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
-	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
-	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
-	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
-	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
-	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg'
-];
+// const photos = [
+// 	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
+// 	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
+// 	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
+// 	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
+// 	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
+// 	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg'
+// ];
 
 const ProductsMainSection = () => {
 	const buttonStyleRef = React.useRef<boolean>(false);
@@ -56,7 +56,7 @@ const ProductsMainSection = () => {
 	const bannerInputFileRef = useRef<HTMLInputElement>(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [bannerFormResponse, setBannerFormResponse] =
-		useState<string[]>(photos);
+		useState<string[]>([]);
 	const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
 	const [isModalOpenBanner, setIsModalOpenBanner] = useState(false);
 	const [gadgetId, setGadgetId] = useState<number | null>(null);
@@ -383,7 +383,7 @@ const ProductsMainSection = () => {
 														<td className={scss.name}>{item?.nameOfGadget}</td>
 													</div>
 													<div className={scss.date_time}>
-														<td>{item?.releaseDate}</td>
+														<td>{item?.createdAt}</td>
 														{/* <td className={scss.time}>{productName.time}</td> */}
 													</div>
 													<td>{item?.quantity}</td>

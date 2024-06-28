@@ -340,7 +340,7 @@ export const AddProductSections = () => {
 							<p
 								className={scss.product_page_text}
 								onClick={() => (
-									navigate('/admin/productsAdmin'),
+									navigate('/admin'),
 									localStorage.removeItem('categoryIdForAddProduct')
 								)}
 							>

@@ -29,8 +29,8 @@ namespace FILTREDPRODUCTS {
 		colour?: string[];
 		costFrom?: number;
 		costUpTo?: number;
-		page?: number;
-		size?: number;
+		page?: string;
+		size?: string;
 		memory?: string[];
 		ram?: string[];
 	}

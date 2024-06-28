@@ -173,6 +173,7 @@ const CardProductPage = () => {
 								<div className={scss.div_content_product_and_pages}>
 									<p onClick={() => navigate('/')}>Главная »</p>
 									<p onClick={() => navigate('/catalog/1/filtred')}>
+
 										Смартфоны »
 									</p>
 									<p>
