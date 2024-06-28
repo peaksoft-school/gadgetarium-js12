@@ -1,9 +1,10 @@
 import scss from './AuthDropdown.module.scss';
 import { Link } from 'react-router-dom';
-import { ConfigProvider, Dropdown, Menu, theme } from 'antd'; 
+import { ConfigProvider, Dropdown, Menu, theme } from 'antd';
 import { IconUser } from '@tabler/icons-react';
 import { useState } from 'react';
 import LogoutModal from '../logOutModal/LogoutModal';
+import { useGetProfilesQuery } from '@/src/redux/api/personalAccount/profile';
 
 interface MenuItem {
 	key: string;
@@ -11,12 +12,12 @@ interface MenuItem {
 }
 
 const AuthDropdown = () => {
+	const { data: profileData } = useGetProfilesQuery({});
 
 	const showModalLogOut = () => {
-		
 		setOpenModal(true);
 	};
-	
+
 	const items: MenuItem[] = [
 		{
 			key: '1',
@@ -57,7 +58,7 @@ const AuthDropdown = () => {
 			)
 		},
 		{
-			key: '3', 
+			key: '3',
 			label: (
 				<Link rel="noopener noreferrer" to="/personal-account/profile">
 					Профиль
@@ -65,7 +66,7 @@ const AuthDropdown = () => {
 			)
 		},
 		{
-			key: '4', 
+			key: '4',
 			label: (
 				<Link rel="noopener noreferrer" to="#" onClick={showModalLogOut}>
 					Выйти
@@ -97,9 +98,17 @@ const AuthDropdown = () => {
 					}
 					placement="bottomRight"
 				>
-					<button className={scss.button}>
-						<IconUser />
-					</button>
+					{profileData?.image ? (
+						<img
+							className={scss.button}
+							src={profileData.image}
+							alt="User profile"
+						/>
+					) : (
+						<button className={scss.button}>
+							<IconUser />	
+						</button>
+					)}
 				</Dropdown>
 			</ConfigProvider>
 			<LogoutModal isModalLogOut={openModal} setIsModalLogOut={setOpenModal} />

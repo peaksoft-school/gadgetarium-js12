@@ -223,7 +223,11 @@ const Catalog = () => {
 		}
 	};
 
-	const { data: posts, isLoading } = useGetFiltredGadgetQuery({
+	const {
+		data: posts,
+		isLoading,
+		refetch
+	} = useGetFiltredGadgetQuery({
 		id: Number(filtredIds),
 		brand: [searchParams.toString()],
 		colour: [searchParams.toString()],
@@ -243,6 +247,7 @@ const Catalog = () => {
 		} else {
 			setOpenModal(true);
 		}
+		refetch();
 	};
 
 	const handleAddProductsFavoriteFunk = async (subGadgetId: number) => {
@@ -255,6 +260,7 @@ const Catalog = () => {
 		} catch (error) {
 			console.error(error);
 		}
+		refetch();
 	};
 	const handleAddProductsComparisonFunk = async (subGadgetId: number) => {
 		if (localStorage.getItem('isAuth') === 'true') {
@@ -262,6 +268,7 @@ const Catalog = () => {
 		} else {
 			setOpenModal(true);
 		}
+		refetch();
 	};
 
 	return (
@@ -685,7 +692,13 @@ const Catalog = () => {
 																	</div>
 																</>
 																<div className={scss.top_icons}>
-																	<button>
+																	<button
+																		onClick={() =>
+																			handleAddProductsComparisonFunk(
+																				e.subGadgetId
+																			)
+																		}
+																	>
 																		<Tooltip
 																			title={
 																				e.comparison
@@ -697,13 +710,8 @@ const Catalog = () => {
 																			<IconScale
 																				className={
 																					e.comparison
-																						? `${scss.icon_comparison} ${scss.active_icon_comparison}`
-																						: `${scss.icon_comparison}`
-																				}
-																				onClick={() =>
-																					handleAddProductsComparisonFunk(
-																						e.gadgetId
-																					)
+																						? `${scss.scale} ${scss.active}`
+																						: scss.scale
 																				}
 																			/>
 																		</Tooltip>

@@ -94,7 +94,7 @@ export const ProductsForHover: FC<ProductsForHoverTypes> = ({
 									))}
 									<div className={scss.product_name_and_price_div}>
 										<p>{el.nameOfGadget}</p>
-										<h3>{el.price}</h3>
+										<h3>{el.price} c</h3>
 										<IconX
 											onClick={() => handleDeleteByIdComparisonProduct(el.id)}
 											color="rgb(144, 156, 181)"
@@ -127,7 +127,7 @@ export const ProductsForHover: FC<ProductsForHoverTypes> = ({
 									<img src={el.image} alt={el.nameOfGadget} />
 									<div className={scss.product_name_and_price_div}>
 										<p>{el.nameOfGadget}</p>
-										<h3>{el.price}</h3>
+										<h3>{el.price} c</h3>
 										<IconX
 											onClick={() => handleDeleteByIdFavoriteProduct(el.id)}
 											color="rgb(144, 156, 181)"
@@ -161,7 +161,7 @@ export const ProductsForHover: FC<ProductsForHoverTypes> = ({
 
 									<div className={scss.product_name_and_price_div}>
 										<p>{el.nameOfGadget}</p>
-										<h3>{el.price}</h3>
+										<h3>{el.price} c</h3>
 										<IconX
 											onClick={() => handleDeleteByIdBasketProductFunk(el.id)}
 											color="rgb(144, 156, 181)"

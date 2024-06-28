@@ -34,7 +34,6 @@ const Login: FC<OpenModalProps> = ({ setOpenModal }) => {
 
 		if (response.error === undefined) {
 			if (response.data.role === 'USER') {
-				console.log(response.data);
 				const { token } = response.data;
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'true');
@@ -43,7 +42,7 @@ const Login: FC<OpenModalProps> = ({ setOpenModal }) => {
 				message.success('Вход выполнен успешно');
 				navigate('/');
 			} else if (response.data.role === 'ADMIN') {
-				const { token } = response;
+				const { token } = response.data;
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'false');
 				localStorage.setItem('admin', 'true');
@@ -53,9 +52,6 @@ const Login: FC<OpenModalProps> = ({ setOpenModal }) => {
 			reset();
 		}
 		if (response.error.data) {
-			console.log(response.error.data);
-			console.log(response.error.status === 404);
-			console.log(response.error.data);
 			if (response.error.status === 400) {
 				message.warning('Длина пароля должна быть больше или равна 6.');
 			}
@@ -91,12 +87,12 @@ const Login: FC<OpenModalProps> = ({ setOpenModal }) => {
 				const token = await result.user.getIdToken();
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'true');
-				notify('Вход через Google выполнен успешно', 'Перейти на главную', '/');
+				message.success('Вход через Google выполнен успешно');
 				navigate('/');
 			})
 			.catch((error) => {
 				console.error('Ошибка входа через Google:', error);
-				notify('Ошибка входа через Google', 'Попробуйте снова', '/auth/login');
+				message.warning('Ошибка входа через Google');
 			});
 	};
 

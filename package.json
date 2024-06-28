@@ -17,6 +17,8 @@
 		"@paypal/react-paypal-js": "^8.3.0",
 		"@pbe/react-yandex-maps": "^1.2.5",
 		"@reduxjs/toolkit": "^2.2.3",
+		"@stripe/react-stripe-js": "^2.7.2",
+		"@stripe/stripe-js": "^4.0.0",
 		"@tabler/icons-react": "^3.2.0",
 		"@types/qs": "^6.9.15",
 		"antd": "^5.16.2",

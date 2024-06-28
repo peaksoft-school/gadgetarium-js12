@@ -94,9 +94,9 @@ const BasketSection = () => {
 	const handleAddAllFavoriteProducts = async () => {
 		try {
 			await addAllFavoriteProducts({
-				gadgetIds: searchParams.get('ids')
-					? [`gadgetIds=${searchParams.getAll('ids')}`]
-					: []
+				subGadgetIds: searchParams.get('ids')
+					? [`subGadgetIds=${searchParams.getAll('ids')}`]
+					: ['']
 			});
 		} catch (error) {
 			console.error(error);

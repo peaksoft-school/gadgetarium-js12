@@ -173,7 +173,7 @@ const ReviewsPage = () => {
 	};
 
 	const changeEditInputValueForCommit = (
-		event: React.ChangeEvent<HTMLTextAreaElement>	
+		event: React.ChangeEvent<HTMLTextAreaElement>
 	) => {
 		const value = event.target.value;
 		if (value) {
