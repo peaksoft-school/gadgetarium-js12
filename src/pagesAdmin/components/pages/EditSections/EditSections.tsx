@@ -27,7 +27,7 @@ const genPresets = (presets = presetPalettes) =>
 
 const EditSections = () => {
 	const { productId } = useParams();
-	const { data, isLoading } = useGetCardProductQuery({
+	const { data, isLoading, refetch } = useGetCardProductQuery({
 		id: Number(productId)
 	});
 	const [hoverEditIcon, setHoverEditIcon] = useState<number | null>(null);
@@ -126,6 +126,7 @@ const EditSections = () => {
 					subGadgetId: data?.subGadgetId!,
 					...UPDATEIMAGE
 				});
+				refetch()
 			} catch (error) {
 				console.error('Failed to upload files:', error);
 			}

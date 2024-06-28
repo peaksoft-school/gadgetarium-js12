@@ -251,15 +251,21 @@ export const AddProductSections = () => {
 			productsRequests
 		} = DATA;
 		try {
-			await addProductApi({
+			const response = await addProductApi({
 				subCategoryId: Number(subCategoryValue),
 				brandId: Number(brandId),
 				productsRequests,
 				dateOfIssue,
 				nameOfGadget,
 				warranty: number
-			});
-			navigate('/admin/product-adding/part-2');
+			}).unwrap();
+			if(response.ids) {
+				// searchParams.append('ids', response.ids.toString())
+				response.ids.forEach((c) => searchParams.append('ids', c.toString()))
+				setSearchParams(searchParams);
+				navigate(`/admin/product-adding/part-2?${searchParams.toString()}`);
+			}
+			// navigate('/admin/product-adding/part-2');
 			localStorage.removeItem('categoryIdForAddProduct');
 		} catch (error) {
 			navigate('/admin/product-adding/part-1');

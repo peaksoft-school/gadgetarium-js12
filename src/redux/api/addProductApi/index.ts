@@ -80,14 +80,27 @@ const api = index.injectEndpoints({
 			ADDPRODUCTAPI.getNewProductsResponse,
 			ADDPRODUCTAPI.getNewProductsRequest
 		>({
-			query: () => ({
-				url: `/api/gadget/get-new`,
+			query: (ids) => ({
+				url: `/api/gadget/get-new?${ids}`,
 				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				}
 			}),
 			providesTags: ['addProductApi']
+		}),
+		setPriceAndQuantityNewProducts: build.mutation<
+			ADDPRODUCTAPI.setPriceAndQuantityNewProductsResponse,
+			ADDPRODUCTAPI.setPriceAndQuantityNewProductsRequest
+		>({
+			query: (DATA) => ({
+				url: `/api/gadget/price-quantity`,
+				method: 'PATCH',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				},
+				body:  DATA 
+			})
 		})
 	})
 });
@@ -98,5 +111,6 @@ export const {
 	useGadgetByIdSetPriceMutation,
 	useGadgetSetDocumentMutation,
 	useSetAllProductsPriceAndQuantityMutation,
-	useGadgetGetNewProductsQuery
+	useGadgetGetNewProductsQuery,
+	useSetPriceAndQuantityNewProductsMutation
 } = api;

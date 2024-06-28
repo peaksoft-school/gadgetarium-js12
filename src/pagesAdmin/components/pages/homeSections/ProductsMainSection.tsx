@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef, useState } from 'react';
 import scss from './ProductsMainSection.module.scss';
-import Input, { SearchProps } from 'antd/es/input';
+import Input from 'antd/es/input';
 import {
+	Checkbox,
 	ConfigProvider,
 	DatePicker,
-	DatePickerProps,
+	// DatePickerProps,
 	Pagination,
 	theme
 } from 'antd';
@@ -13,7 +14,8 @@ import {
 	IconChartCircles,
 	IconEdit,
 	IconPhotoPlus,
-	IconTrash
+	IconTrash,
+	IconX
 } from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal';
@@ -23,6 +25,7 @@ import UploadBanner from '@/src/ui/customImageAdd/UploadBanner';
 import Infographics from '@/src/ui/infographics/Infographics';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import {
+	useDeleteByIdBannerMutation,
 	useDeleteGoodsGadgetMutation,
 	useGetGoodGadgetQuery,
 	usePostGoodsBannerMutation,
@@ -32,35 +35,25 @@ import type { UploadFile } from 'antd';
 import moment from 'moment';
 import dayjs from 'dayjs';
 import { usePostUploadMutation } from '@/src/redux/api/pdf';
-
-const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
-	console.log(info?.source, value);
-
-const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-	console.log(date, dateString);
-};
-
-// const photos = [
-// 	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
-// 	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
-// 	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
-// 	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
-// 	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg',
-// 	'https://imgv3.fotor.com/images/slider-image/Female-portrait-photo-enhanced-with-clarity-and-higher-quality-using-Fotors-free-online-AI-photo-enhancer.jpg'
-// ];
+import { IconDeleteForBanner } from '@/src/assets/icons';
+import { useGetSlidersQuery } from '@/src/redux/api/slider';
 
 const ProductsMainSection = () => {
+	const [deleteBanner] = useDeleteByIdBannerMutation();
+	const [postDiscount] = usePostGoodsDiscountMutation();
 	const buttonStyleRef = React.useRef<boolean>(false);
 	const [searchParams, setSearchParams] = useSearchParams();
+	const [modalForBanner, setModalForBanner] = useState<boolean>(false);
+	const { data: banner = [], refetch: Refetch } = useGetSlidersQuery();
 	const [filtered, setFiltered] = useState<boolean>(false);
 	const bannerInputFileRef = useRef<HTMLInputElement>(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [bannerFormResponse, setBannerFormResponse] =
-		useState<string[]>([]);
+	const [bannerFormResponse, setBannerFormResponse] = useState<string[]>([]);
 	const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
 	const [isModalOpenBanner, setIsModalOpenBanner] = useState(false);
 	const [gadgetId, setGadgetId] = useState<number | null>(null);
 	const [hoveredItemId, setHoveredItemId] = useState<number | null>(null);
+	const [gadgetIds, setGadgetIds] = useState<number[]>([]);
 	const [postUploadForBanner] = usePostUploadMutation();
 	const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 	const [searchInput, setSearchInput] = useState<string>('');
@@ -74,14 +67,14 @@ const ProductsMainSection = () => {
 	];
 
 	const [fileList, setFileList] = useState<UploadFile[]>(initialFileList);
-	const [discountSize, setDiscountSize] = useState('');
+	const [discountSize, setDiscountSize] = useState<number>();
 	const [discountStartDay, setDiscountStartDay] = useState('');
 	const [discountEndDay, setDiscountEndDay] = useState('');
 	const changeDateFunk = (date: moment.Moment | null) => {
 		if (date) {
 			const formattedDate = date.format('YYYY-MM-DD');
 			searchParams.set('startDate', formattedDate);
-			setSearchParams(searchParams); 
+			setSearchParams(searchParams); // Update searchParams after setting
 		} else return;
 	};
 
@@ -89,7 +82,7 @@ const ProductsMainSection = () => {
 		if (date) {
 			const formattedDate = date.format('YYYY-MM-DD');
 			searchParams.set('endDate', formattedDate);
-			setSearchParams(searchParams);
+			setSearchParams(searchParams); // Update searchParams after setting
 		} else return;
 	};
 
@@ -148,7 +141,7 @@ const ProductsMainSection = () => {
 		}
 	};
 
-	const { data } = useGetGoodGadgetQuery({
+	const { data, refetch } = useGetGoodGadgetQuery({
 		page: `page=${searchParams.get('page') || ''}`,
 		size: `size=${searchParams.get('size') || ''}`,
 		keyword: `keyword=${searchParams.get('keyword') || ''}`,
@@ -181,18 +174,35 @@ const ProductsMainSection = () => {
 		console.log(res);
 	};
 
-	const [postDiscount] = usePostGoodsDiscountMutation();
-
 	const handlePostDiscount = async () => {
 		const discountData = {
-			gadgetId: [selectedItemId],
-			discountSize: discountSize,
+			gadgetId: [...gadgetIds],
+			discountSize: Number(discountSize),
 			startDay: discountStartDay,
 			endDay: discountEndDay
 		};
-		const res = await postDiscount(discountData);
-		console.log(res);
-		setIsModalOpen(false);
+		const {
+			discountSize: DiscountSize,
+			endDay,
+			gadgetId,
+			startDay
+		} = discountData;
+		try {
+			await postDiscount({
+				discountSize: DiscountSize!,
+				endDay,
+				gadgetId,
+				startDay
+			});
+			setIsModalOpen(false);
+			setGadgetIds([]);
+			setDiscountSize(0);
+			setDiscountEndDay('');
+			setDiscountStartDay('');
+			refetch();
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const handleHover = (id: number | null) => {
@@ -219,6 +229,53 @@ const ProductsMainSection = () => {
 		}
 	}, [searchParams]);
 
+	const changeBannerFunk = async (
+		e: React.ChangeEvent<HTMLInputElement>,
+		bannerLength: number
+	) => {
+		console.log(bannerLength, e.target.files, 'banner length');
+
+		const files = e.target.files;
+		if (files) {
+			const formData = new FormData();
+
+			for (let i = 0; i < files.length; i++) {
+				formData.append('files', files[i]);
+			}
+
+			try {
+				const response = await postUploadForBanner(formData).unwrap();
+				setBannerFormResponse(response.data);
+				console.log(response.data, 'text');
+
+				await postBanner({
+					images: response.data
+				});
+				Refetch();
+			} catch (error) {
+				console.error('Error uploading banner:', error);
+			}
+		}
+	};
+
+	const changeCheckbox = (id: number) => {
+		if (!gadgetIds.includes(id)) {
+			setGadgetIds((prevValue) => [...prevValue, id]);
+		} else {
+			const filtred = gadgetIds.filter((c) => c !== id);
+			setGadgetIds(filtred);
+		}
+	};
+
+	const handleDeleteBannerById = async (bannerId: number) => {
+		try {
+			await deleteBanner(bannerId);
+			Refetch();
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	return (
 		<div className={scss.ProductsMainSection}>
 			<div className="container">
@@ -243,6 +300,11 @@ const ProductsMainSection = () => {
 								</ConfigProvider>
 							</div>
 							<div className={scss.add_product}>
+								{banner.length !== 0 && (
+									<button onClick={() => setModalForBanner(true)}>
+										Все баннеры
+									</button>
+								)}
 								<button onClick={addProduct}>Добавить товар</button>
 								<button onClick={showModal}>Создать скидку</button>
 							</div>
@@ -321,7 +383,7 @@ const ProductsMainSection = () => {
 						</div>
 						<div className={scss.products_card}>
 							<div className={scss.product_title}>
-								<p>Найдено 167 Товаров </p>
+								<p>Найдено {data?.paginationGadgets.length} Товаров </p>
 								<PhonesDropdown />
 							</div>
 							<table className={scss.cards}>
@@ -362,17 +424,37 @@ const ProductsMainSection = () => {
 													<div className={scss.three}>
 														<td>
 															{hoveredItemId === item.subGadgetId ||
-															selectedItemId === item.subGadgetId ? (
-																<input
-																	type="checkbox"
-																	checked={selectedItemId === item.subGadgetId}
-																	onClick={handleCheckboxClick}
-																	onChange={(e) =>
-																		handleSelect(e, item.subGadgetId)
-																	}
-																/>
+															gadgetIds.includes(item.gadgetId) ? (
+																<ConfigProvider
+																	theme={{
+																		components: {
+																			Checkbox: {
+																				colorPrimary: '#c11bab',
+																				colorBgContainer: 'white',
+																				algorithm: true
+																			}
+																		}
+																	}}
+																>
+																	<Checkbox
+																		checked={
+																			gadgetIds.includes(item.gadgetId)
+																				? true
+																				: false
+																		}
+																		onChange={() =>
+																			changeCheckbox(item.gadgetId)
+																		}
+																		onClick={(e) => {
+																			e.preventDefault();
+																			e.stopPropagation();
+																		}}
+																	/>
+																</ConfigProvider>
 															) : (
-																item.subGadgetId
+																<p className={scss.id_for_product}>
+																	{item.subGadgetId}
+																</p>
 															)}
 														</td>
 														<img src={item.images} alt="" />
@@ -420,10 +502,13 @@ const ProductsMainSection = () => {
 							</table>
 						</div>
 						<div>
-							<Pagination defaultCurrent={10} total={40} />
+							{/* <Pagination defaultCurrent={10} size={'default'} pageSize={5}  total={data?.paginationGadgets.length} /> */}
 						</div>
 					</div>
-					<div className={scss.right_content}>{/* <Infographics /> */}</div>
+					<div className={scss.right_content}>
+						{' '}
+						<Infographics />{' '}
+					</div>
 				</div>
 				<div className={scss.modal_create_newsletter}>
 					<CustomModal
@@ -493,9 +578,8 @@ const ProductsMainSection = () => {
 							<h1>Загрузить баннер</h1>
 							{/* <UploadBanner fileList={fileList} setFileList={setFileList} /> */}
 							<div
-								onClick={handleClickBannerInputRef}
 								className={
-									bannerFormResponse.length > 0
+									banner.length > 0
 										? `${scss.noo_active} ${scss.container_add_banner_div}`
 										: `${scss.noo_active}`
 								}
@@ -504,35 +588,46 @@ const ProductsMainSection = () => {
 									type="file"
 									ref={bannerInputFileRef}
 									style={{ display: 'none' }}
+									onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+										changeBannerFunk(e, banner.length)
+									}
+									multiple
 								/>
 								<div
 									className={
-										bannerFormResponse.length >= 6
+										banner.length >= 6
 											? `${scss.icon_and_text_div} ${scss.display_nome_icon_and_text_add_file}`
 											: `${scss.icon_and_text_div}`
 									}
+									onClick={handleClickBannerInputRef}
 								>
 									<IconPhotoPlus
 										color="rgb(145, 150, 158)"
 										width={'36px'}
 										height={'33px'}
 									/>
-									<p>Нажмите для добавления фотографии</p>
+									<p
+										className={
+											banner.length >= 1
+												? `${scss.noo_active_p} ${scss.active_p}`
+												: `${scss.noo_active_p}`
+										}
+									>
+										Нажмите для добавления фотографии
+									</p>
 								</div>
-								{bannerFormResponse.length > 0 &&
-									bannerFormResponse.map((el, index) => (
+								{banner.length > 0 &&
+									banner.map((el, index) => (
 										<div key={index} className={scss.banner_contents}>
-											<img src={el} alt="banner photo" />
-											<IconTrash
-												style={{
-													background: 'rgb(144, 156, 181)',
-													padding: '10px',
-													borderRadius: '2px'
-												}}
-												color="rgb(255, 255, 255)"
-												width={'18px'}
-												height={'18px'}
-											/>
+											<img src={el.images} alt="banner photo" />
+											<div style={{ position: 'relative', right: '25px' }}>
+												<div
+													style={{ cursor: 'pointer' }}
+													onClick={() => handleDeleteBannerById(el.id)}
+												>
+													<IconDeleteForBanner />
+												</div>
+											</div>
 										</div>
 									))}
 							</div>
@@ -562,6 +657,31 @@ const ProductsMainSection = () => {
 						<CustomButtonAdd onClick={handleDeleteGadget}>
 							Удалить
 						</CustomButtonAdd>
+					</div>
+				</div>
+			</CustomModal>
+			<CustomModal
+				isModalOpen={modalForBanner}
+				setIsModalOpen={setModalForBanner}
+			>
+				<div className={scss.modal}>
+					<h2>Все баннеры</h2>
+					<div
+						className={
+							banner.length >= 4
+								? `${scss.container_banners} ${scss.active_banner_div}`
+								: `${scss.container_banners}`
+						}
+					>
+						{banner.map((el) => (
+							<div key={el.id} className={scss.image_and_icon_delete_div}>
+								<img src={el.images} alt="logo" />
+								<IconX
+									style={{ cursor: 'pointer' }}
+									onClick={() => handleDeleteBannerById(el.id)}
+								/>
+							</div>
+						))}
 					</div>
 				</div>
 			</CustomModal>

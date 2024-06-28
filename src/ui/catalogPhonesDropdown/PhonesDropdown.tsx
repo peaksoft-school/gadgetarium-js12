@@ -11,12 +11,12 @@ const PhonesDropdown = () => {
 
 	const [searchParams, setSearchParams] = useSearchParams();
 	const handleSortsFunkFiltred = (categoryText: string) => {
-		searchParams.append('sort', categoryText);
-		searchParams.delete('discount');
+		searchParams.set('sort', categoryText);
+		searchParams.delete('discount')
 		setSearchParams(searchParams);
 	};
 	const handleDiscountFilterFunk = (discount: string) => {
-		searchParams.append('discount', discount);
+		searchParams.set('discount', discount);
 		searchParams.delete('sort')
 		setSearchParams(searchParams);
 	};
