@@ -3,9 +3,11 @@ import scss from './Contacts.module.scss';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { Input, Button } from 'antd';
 import { MapComponent } from './MapComponent';
+import { usePostNewsLetterContactUsMutation } from '@/src/redux/api/follow';
 
 const { TextArea } = Input;
 export const Contacts = () => {
+	const [postNewsLetterContactUs] = usePostNewsLetterContactUsMutation();
 	const navigate = useNavigate();
 	const {
 		control,
@@ -15,9 +17,28 @@ export const Contacts = () => {
 	} = useForm<ContactsPagesFormTypes>({
 		mode: 'onBlur'
 	});
-	const onSubmit: SubmitHandler<ContactsPagesFormTypes> = (data) => {
+	const onSubmit: SubmitHandler<ContactsPagesFormTypes> = async (data) => {
 		console.log(data);
 		reset();
+		const contactData: ContactsPagesFormTypes = {
+			email: data.email,
+			firstname: data.firstname,
+			lastname: data.lastname,
+			message: data.message,
+			phoneNumber: String(data.phoneNumber),
+		}
+		const {email, firstname, lastname, message, phoneNumber} = contactData;
+		try {
+			await postNewsLetterContactUs({
+				email,
+				firstname,
+				lastname,
+				message,
+				phoneNumber
+			})
+		} catch (error) {
+			console.error(error);
+		}
 	};
 	return (
 		<section className={scss.ContactsPage}>
@@ -61,7 +82,7 @@ export const Contacts = () => {
 									<div className={scss.input_and_label_div}>
 										<label>Имя *</label>
 										<Controller
-											name="firstName"
+											name="firstname"
 											control={control}
 											defaultValue=""
 											rules={{
@@ -74,11 +95,11 @@ export const Contacts = () => {
 											}}
 											render={({ field }) => (
 												<Input
-													id="firstName"
+													id="firstname"
 													{...field}
 													className={scss.input}
 													placeholder="Напишите ваше имя"
-													status={errors.firstName ? 'error' : undefined}
+													status={errors.firstname ? 'error' : undefined}
 												/>
 											)}
 										/>
@@ -86,7 +107,7 @@ export const Contacts = () => {
 									<div className={scss.input_and_label_div}>
 										<label>Фамилия *</label>
 										<Controller
-											name="lastName"
+											name="lastname"
 											control={control}
 											defaultValue=""
 											rules={{
@@ -103,7 +124,7 @@ export const Contacts = () => {
 													id="lastName"
 													className={scss.input}
 													placeholder="Напишите вашу фамилию"
-													status={errors.lastName ? 'error' : undefined}
+													status={errors.lastname ? 'error' : undefined}
 													style={{ color: 'black' }}
 												/>
 											)}
@@ -187,8 +208,8 @@ export const Contacts = () => {
 										)}
 									/>
 								</div>
-								{(errors.firstName && <p>{errors.firstName.message}</p>) ||
-									(errors.lastName && <p>{errors.lastName.message}</p>) ||
+								{(errors.firstname && <p>{errors.firstname.message}</p>) ||
+									(errors.lastname && <p>{errors.lastname.message}</p>) ||
 									(errors.email && <p>{errors.email.message}</p>) ||
 									(errors.phoneNumber && <p>{errors.phoneNumber.message}</p>) ||
 									(errors.message && <p>{errors.message.message}</p>)}

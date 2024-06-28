@@ -1,10 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-interface CategoryCounts {
-	'phone quantity': number;
-	'WATCH quantity': number;
-	'LAPTOP quantity': number;
-}
 
 interface Characteristics {
 	values: string;
@@ -16,22 +11,6 @@ interface UniqueCharacteristics {
 	values_key: string;
 }
 
-type SubGadgetResponses = {
-	[x: string]: any;
-	compareFieldResponse?: CompareFieldResponse;
-	uniqueCharacteristics?: Characteristics[];
-	uniFiled: [];
-	id: number;
-	image: string;
-	nameOfGadget: string;
-	price: number;
-	mainColour: string;
-	brandName: string;
-	memory: string;
-	basket?: boolean;
-	characteristics?: Characteristics[];
-	uniqF?: [];
-};
 
 type CompareFieldResponse = {
 	id: number;
@@ -84,7 +63,23 @@ namespace COMPARISONPRODUCTS {
 		isDifferences?: boolean | string;
 	};
 	type GetComparisonCompareResponse = {
-		categoryCounts: CategoryCounts;
-		subGadgetResponses: SubGadgetResponses[];
-	};
+		gadgetId: number;
+		subGadgetId: number;
+		image: string;
+		nameOfGadget: string;
+		memory: string;
+		color: string;
+		price: number;
+		nameOfGadgetCompare: string;
+		colorCompare: string;
+		brandCompare: string;
+		memoryCompare: string;
+		ramCompare: string;
+		simCompare: number;
+		warrantyCompare: string;
+		phoneCount: number;
+		laptopCount: number;
+		watchCount: number;
+		basket: boolean;
+	}[];
 }
