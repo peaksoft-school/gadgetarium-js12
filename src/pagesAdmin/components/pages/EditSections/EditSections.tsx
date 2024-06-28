@@ -36,7 +36,9 @@ const EditSections = () => {
 	const [priceEdit, setPriceEdit] = useState<number>(data?.price!);
 	const [ramEdit, setRamEdit] = useState<string>(data?.ram!);
 	const [memoryEdit, setMemoryEdit] = useState<string>(data?.memory!);
-	const [countSimEdit, setCountSimEdit] = useState<string>(data?.countSim.toString()!);
+	const [countSimEdit, setCountSimEdit] = useState<string>(
+		data?.countSim.toString()!
+	);
 	const [editProductById] = useEditProductByIdApiMutation();
 	const [updateImage] = useDeleteByIdGadgetApiMutation();
 	const [quantityEdit, setQuantityEdit] = useState<number>(data?.quantity!);
@@ -50,7 +52,7 @@ const EditSections = () => {
 	const [wirelessEdit, setWirelessEdit] = useState<string>('');
 	const [shapeBodyEdit, setShapeBodyEdit] = useState<string>('');
 	const updateImageRef = React.useRef<(HTMLInputElement | null)[]>([]);
-	
+
 	const navigate = useNavigate();
 
 	const { token } = theme.useToken();
@@ -65,9 +67,7 @@ const EditSections = () => {
 			quantity: quantityEdit,
 			price: priceEdit,
 			colour: colorEdit,
-			countSim: Number(
-				countSimEdit
-			),
+			countSim: Number(countSimEdit),
 			memory: memoryEdit,
 			ram: ramEdit,
 			materialBracelet: materialBraceletEdit || '',
@@ -84,6 +84,7 @@ const EditSections = () => {
 				subGadgetId: data?.subGadgetId!,
 				...DATA
 			});
+			navigate(`/admin/goodsPage/product-page/${productId}`);
 		} catch (error) {
 			console.error(error);
 		}
@@ -245,10 +246,7 @@ const EditSections = () => {
 															].label
 														)
 													}
-													value={
-														materialBraceletEdit
-															
-													}
+													value={materialBraceletEdit}
 												/>
 											</div>
 											<div className={scss.label_and_input_div}>
@@ -272,10 +270,7 @@ const EditSections = () => {
 															].label
 														)
 													}
-													value={
-														materialBodyEdit
-														
-													}
+													value={materialBodyEdit}
 												/>
 											</div>
 											<div className={scss.label_and_input_div}>
@@ -296,10 +291,7 @@ const EditSections = () => {
 															OptionsForLaptop[Number(Number(value) - 1)].label
 														)
 													}
-													value={
-														sizeWatchEdit
-															
-													}
+													value={sizeWatchEdit}
 												/>
 											</div>
 											<div className={scss.label_and_input_div}>
@@ -320,20 +312,14 @@ const EditSections = () => {
 															OptionsForLaptop[Number(Number(value) - 1)].label
 														)
 													}
-													value={
-														dumasEdit
-															
-													}
+													value={dumasEdit}
 												/>
 											</div>
 											<div className={scss.label_and_input_div}>
 												<label>Пол</label>
 												<Radio.Group
 													onChange={(e) => setGenderWatchEdit(e.target.value)}
-													value={
-														genderWatchEdit
-															
-													}
+													value={genderWatchEdit}
 												>
 													<Radio value={'Унисекс'}>Унисекс</Radio>
 													<Radio value={'Женский'}>Женский</Radio>
@@ -344,10 +330,7 @@ const EditSections = () => {
 												<label>Водонепроницаемые</label>
 												<Radio.Group
 													onChange={(e) => setWaterproofEdit(e.target.value)}
-													value={
-														waterproofEdit
-															
-													}
+													value={waterproofEdit}
 												>
 													<Radio value={'Да'}>Да</Radio>
 													<Radio value={'Нет'}>Нет</Radio>
@@ -357,10 +340,7 @@ const EditSections = () => {
 												<label>Беспроводные интерфейсы</label>
 												<Radio.Group
 													onChange={(e) => setWirelessEdit(e.target.value)}
-													value={
-														wirelessEdit
-														
-													}
+													value={wirelessEdit}
 												>
 													<Radio value={'Bluetooth'}>Bluetooth</Radio>
 													<Radio value={'Wi-Fi'}>Wi-Fi</Radio>
@@ -372,10 +352,7 @@ const EditSections = () => {
 												<label>Форма корпуса</label>
 												<Radio.Group
 													onChange={(e) => setShapeBodyEdit(e.target.value)}
-													value={
-														shapeBodyEdit
-															
-													}
+													value={shapeBodyEdit}
 												>
 													<Radio value={'Квадратная'}>Квадратная</Radio>
 													<Radio value={'Круглая'}>Круглая</Radio>

@@ -10,7 +10,7 @@ import { ShippingAndPaymentPage } from './ShippingAndPaymentPage';
 import { IconBurgerMenu } from '@/src/assets/icons';
 import { useGetUserPostPDSQuery } from '@/src/redux/api/pdf';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ReviewsPage from './ReviewsPage';
 // import ReviewsPage from '@/src/pagesAdmin/components/pages/productSections/ReviewsPage';
 
@@ -39,7 +39,6 @@ const ComponentArray: ComponentsTypesArray[] = [
 ];
 
 const InfoProduct = () => {
-	const [searchParams, setSearchParams] = useSearchParams();
 	const useparams = useParams<{ productId: string }>();
 	const [component, setComponent] = useState<number>(1);
 	const [pdfUrl, setPdfUrl] = useState<string>('')
@@ -51,7 +50,6 @@ const InfoProduct = () => {
 
 	const handlePDFApiFunk = (pdfUrlProduct: string) => {
 		setPdfUrl(pdfUrlProduct.slice(54, 100))
-		console.log(pdfUrlProduct.slice(54, 100));
 		
 	};
 	const {data: pdfData} =  useGetUserPostPDSQuery(pdfParam);

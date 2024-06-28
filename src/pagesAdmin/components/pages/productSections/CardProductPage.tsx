@@ -1,33 +1,65 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import scss from './CardProductPage.module.scss';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
 	useDeleteProductsMutation,
 	useProductPatchForQuantityMutation
 } from '@/src/redux/api/product';
 import React, { useState } from 'react';
-import { IconArrowLeft, IconArrowRight, IconTrash } from '@tabler/icons-react';
-import { Button, ConfigProvider, InputNumber, Modal, Rate } from 'antd';
+import {
+	IconArrowLeft,
+	IconArrowRight,
+	IconFileLike,
+	IconTrash
+} from '@tabler/icons-react';
+import {
+	Button,
+	ConfigProvider,
+	InputNumber,
+	Modal,
+	Rate,
+	Tooltip
+} from 'antd';
 import ColorButton from '@/src/ui/colours/Colour';
 import InfoProduct from './InfoProduct';
 import { ProductDetails } from './ProductDetails';
-import { useGetSingleGoodGadgetQuery } from '@/src/redux/api/goods';
+import { useDeleteGoodsGadgetMutation } from '@/src/redux/api/goods';
+import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
+import { useGetProductsColorsApiQuery } from '@/src/redux/api/productColorApi';
+import { useGetProductMemoryQuery } from '@/src/redux/api/memoryForProductApi';
 
 const CardProductPage = () => {
+	const [searchParams, setSearchParams] = useSearchParams();
 	const [deleteProducts] = useDeleteProductsMutation();
+	const [deleteModal, setDeleteModal] = useState<boolean>(false);
+	const [deleteByIdApi] = useDeleteGoodsGadgetMutation();
+	const [subGadgetId, setSubGadgetId] = useState<number>(0);
+	const [countIsProduct, _] = useState<string>('1');
+	const [countInput, setCountInput] = useState<string>('1');
 	const { productId } = useParams();
 	const [isSlider, setIsSlider] = useState<number>(1);
-	const [productPatchForQuantity] = useProductPatchForQuantityMutation();
 	const [sliderResult, setSliderresult] = useState<number>(0);
 	const [contentIsModal, setContentIsModal] = useState<string>('');
 	const [modal2Open, setModal2Open] = useState(false);
 	const navigate = useNavigate();
-	const { data, refetch, isLoading } = useGetSingleGoodGadgetQuery(productId)
+	const { data: productColor } = useGetProductsColorsApiQuery(productId!);
+	const { data, isLoading, refetch } = useGetCardProductQuery({
+		id: Number(productId),
+		color: searchParams.get('color') ? searchParams.toString() : '',
+		memory: searchParams.get('memory')
+			? `memory=${searchParams.get('memory')}`
+			: '',
+		quantity: searchParams.get('quantity')
+			? `quantity=${searchParams.get('quantity')}`
+			: ''
+	});
+	const { data: productMemoryData } = useGetProductMemoryQuery({
+		gadgetId: Number(productId),
+		color: `color=${data?.mainColour}`
+	});
 	const [resultProductPage, setResultProductPage] = useState<boolean>(true);
-	const [productQuantity, setProductQuantity] = useState<number>(
-		data?.quantity!
-	);
 	const handleIndexSlider = (index: number) => {
 		if (index === 0) {
 			setIsSlider(1);
@@ -52,19 +84,66 @@ const CardProductPage = () => {
 			setSliderresult(6);
 		}
 	};
-	const changeInputValue = (value: number | null) => {
-		if (value !== null) {
-			setProductQuantity(value);
+
+	const hnadleModalDelete = (id: number) => {
+		setSubGadgetId(id);
+		setDeleteModal(true);
+	};
+	async function handleDeleteProductById() {
+		try {
+			await deleteByIdApi(subGadgetId);
+			setDeleteModal(false);
+			refetch();
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	const handleColorProductFunk = (color: string) => {
+		searchParams.set('color', color);
+		searchParams.delete('memory');
+		setSearchParams(searchParams);
+		// navigate(`/api/gadget/by-id/${productId}?${searchParams.toString()}`);
+	};
+
+	const handleMinuesProductQuantity = () => {
+		setCountInput((prevValue) => {
+			const newValue = Math.max((parseInt(prevValue) || 0) - 1, 1);
+			searchParams.set('quantity', newValue.toString());
+			setSearchParams(searchParams);
+			return newValue.toString();
+		});
+	};
+
+	const changeCountInputFunk = (event: string | number | null) => {
+		if (event !== null) {
+			const newValue = event.toString();
+			setCountInput(newValue);
+			searchParams.set('quantity', newValue);
+			setSearchParams(searchParams);
 		}
 	};
-	const handleProductPatchForQuantity = async (id: number) => {
-		await productPatchForQuantity({ id, quantity: productQuantity });
+
+	const handleEnterCountProduct = () => {
+		searchParams.set('quantity', countInput);
+		setSearchParams(searchParams);
 	};
-	const handleDeleteProducts = async (id: number) => {
-		await deleteProducts(id);
-		refetch();
+
+	const handleCountProduct = () => {
+		setCountInput((prevValue) => {
+			const newValue = (parseInt(prevValue) || 0) + 1;
+			searchParams.set('quantity', newValue.toString());
+			setSearchParams(searchParams);
+			return newValue.toString();
+		});
 	};
-	
+
+	const handleMemoryProductFunk = (memory: string) => {
+		searchParams.set('memory', memory);
+		setSearchParams(searchParams);
+		// navigate(`/api/gadget/by-id/${productId}?${searchParams.toString()}`);
+	};
+
 	return (
 		<>
 			<section className={scss.CardProductPage}>
@@ -84,7 +163,11 @@ const CardProductPage = () => {
 								</div>
 								<div className={scss.div_brad_product}>
 									{resultProductPage ? (
-										<h2>{data?.nameOfGadget}</h2>
+										data?.brandLogo ? (
+											<img src={data?.brandLogo} alt="logo" />
+										) : (
+											<h2>{data?.nameOfGadget}</h2>
+										)
 									) : (
 										<h2 className={scss.product_details_text}>Детали товара</h2>
 									)}
@@ -147,7 +230,7 @@ const CardProductPage = () => {
 													}
 												}}
 											/>
-											{data?.images?.map((item, index) => (
+											{data?.images.slice(0, 6)?.map((item, index) => (
 												<>
 													<div
 														className={
@@ -183,18 +266,29 @@ const CardProductPage = () => {
 										</div>
 									</div>
 									<div className={scss.product_info}>
-										<h3>{data?.nameOfGadget}</h3>
+										<h3>
+											{data?.nameOfGadget.length! > 28 ? (
+												<>
+													{data?.nameOfGadget.slice(0, 22)}
+													<Tooltip>
+														<span style={{ cursor: 'pointer' }}>...</span>
+													</Tooltip>
+												</>
+											) : (
+												data?.nameOfGadget
+											)}
+										</h3>
 										<div className={scss.product_content}>
 											<div className={scss.border_and_contents}>
 												<div className={scss.product_rating_and_numbers}>
 													<p className={scss.text_buy_product}>
-													В наличии {data?.quantity}
+														В наличии {data?.quantity}
 													</p>
 													<p>
 														Артикул: <span>{data?.articleNumber}</span>
 													</p>
 													<div>
-														<Rate defaultValue={5} />
+														<Rate defaultValue={data?.rating} />
 														<p>({data?.rating})</p>
 													</div>
 												</div>
@@ -205,71 +299,103 @@ const CardProductPage = () => {
 													<h3>Цвет товара:</h3>
 													<h3>Количество:</h3>
 													<div className={scss.prices_div}>
-														<div>-{data?.percent}%</div>
-														<h2>{data?.currentPrice} с</h2>
-														<h3 className={scss.previous_price}>
-															{data?.price} с 
-														</h3>
+														{data?.percent !== 0 && (
+															<div
+																className={
+																	data?.percent !== 0
+																		? `${scss.noo_active_percent} ${scss.active_percent_div}`
+																		: `${scss.noo_active_percent}`
+																}
+															>
+																{data?.percent} %
+															</div>
+														)}
+														{data?.newProduct && data.percent === 0 && (
+															<div
+																className={
+																	data.newProduct && data.percent === 0
+																		? `${scss.new_product} ${scss.active_new_product}`
+																		: `${scss.new_product}`
+																}
+															>
+																New
+															</div>
+														)}
+														{data?.recommend && data.percent === 0 && (
+															<div
+																className={
+																	data.recommend && data.percent === 0
+																		? `${scss.noo_active_percent} ${scss.active_recommend}`
+																		: `${scss.noo_active_percent}`
+																}
+															>
+																<IconFileLike />
+															</div>
+														)}
+														<h2>{data?.price} c</h2>
+														{data?.percent !== 0 && (
+															<h3 className={scss.previous_price}>
+																{data?.currentPrice} c
+															</h3>
+														)}
 													</div>
 												</div>
 												<div className={scss.product_colors_and_content}>
 													<div className={scss.product_colors}>
-														<ColorButton
-															width="26px"
-															height="26px"
-															backgroundColor="rgb(0, 0, 0)"
-														/>
-														<ColorButton
-															width="26px"
-															height="26px"
-															backgroundColor="rgb(128, 128, 160)"
-														/>
-														<ColorButton
-															width="26px"
-															height="26px"
-															backgroundColor="rgb(121, 89, 116)"
-														/>
-														<ColorButton
-															width="26px"
-															height="26px"
-															backgroundColor="rgb(211, 32, 46)"
-														/>
-														<ColorButton
-															width="26px"
-															height="26px"
-															backgroundColor="rgb(57, 117, 242)"
-														/>
+														{productColor?.map((el, index) => (
+															<div key={index}>
+																<ColorButton
+																	onClick={() => {
+																		handleColorProductFunk(el);
+																	}}
+																	width="26px"
+																	height="26px"
+																	backgroundColor={el}
+																/>
+															</div>
+														))}
 													</div>
 													<div className={scss.div_buttons_counts}>
-														<button>-</button>
-														<ConfigProvider
-															theme={{
-																components: {
-																	InputNumber: {
-																		colorText: 'rgb(43, 44, 47)',
-																		algorithm: true
-																	}
+														<button onClick={handleMinuesProductQuantity}>
+															-
+														</button>
+														{/* <ConfigProvider
+														theme={{
+															components: {
+																InputNumber: {
+																	colorText: 'rgb(43, 44, 47)',
+																	algorithm: true
+																}
+															}
+														}}
+													> */}
+														<InputNumber
+															className={scss.input_for_quantity}
+															min={1}
+															max={data?.quantity}
+															// defaultValue={data?.quantity}
+															defaultValue={Number(
+																searchParams.get('quantity')
+																	? searchParams.get('quantity')
+																	: countIsProduct
+															)}
+															type="text"
+															onChange={changeCountInputFunk}
+															value={Number(
+																searchParams.get('quantity')
+																	? searchParams.get('quantity')
+																	: countInput
+															)}
+															onKeyPress={(
+																e: React.KeyboardEvent<HTMLInputElement>
+															) => {
+																if (e.key === 'Enter') {
+																	handleEnterCountProduct();
 																}
 															}}
-														>
-															<InputNumber
-																className={scss.input_for_quantity}
-																min={1}
-																max={100}
-																defaultValue={data?.quantity}
-																type="number"
-																onChange={changeInputValue}
-																value={productQuantity}
-																onKeyPress={(
-																	e: React.KeyboardEvent<HTMLInputElement>
-																) => {
-																	if (e.key === 'Enter') {
-																		handleProductPatchForQuantity(data?.subGadgetId);
-																	}
-																}}
-															/>
-														</ConfigProvider>
-														<button>+</button>
+														/>
+														{/* </ConfigProvider> */}
+														<button onClick={handleCountProduct}>+</button>
 													</div>
 													<div className={scss.border_div}></div>
 												</div>
@@ -284,25 +410,41 @@ const CardProductPage = () => {
 															<button
 																className={scss.nooActiveButton}
 																onClick={() =>
-																	data && handleDeleteProducts(data?.gadgetId)
+																	data && hnadleModalDelete(data?.subGadgetId)
 																}
 															>
 																<IconTrash color="rgb(144, 156, 181)" />
 															</button>
 															<Button
-																onClick={() => navigate(`/admin/edit-page/${data?.gadgetId}`)}
+																onClick={() =>
+																	navigate(`/admin/edit-page/${data?.gadgetId}`)
+																}
 																className={scss.add_bas_button}
 															>
 																редактировать
 															</Button>
 														</div>
 													</div>
+													<div className={scss.buttons_for_memory}>
+														{productMemoryData &&
+															productMemoryData?.map((el, index) => (
+																<Button
+																	onClick={() => {
+																		handleMemoryProductFunk(el);
+																	}}
+																	className={scss.active_memory_button}
+																	key={index}
+																>
+																	{el}
+																</Button>
+															))}
+													</div>
 													<div className={scss.info_product}>
 														<div className={scss.div_screen}>
 															<p>
 																Экран............................................
 															</p>
-															<h4>{data?.Screen ? data?.Screen : "*unknown*"}</h4>
+															{/* <h4>{data?.Screen}</h4> */}
 														</div>
 														<div className={scss.div_screen}>
 															<p>
@@ -316,7 +458,7 @@ const CardProductPage = () => {
 														</div>
 														<div className={scss.div_screen}>
 															<p>Операционная система............</p>
-															<h4>{data?.ram}</h4>
+															{/* <h4>{data?.operatingSystem}</h4> */}
 														</div>
 														<div className={scss.div_screen}>
 															<p>
@@ -336,13 +478,19 @@ const CardProductPage = () => {
 														</div>
 														<div className={scss.div_screen}>
 															<p>Процессор..................................</p>
-															<h4>{data?.Screen ? data?.Screen : "*unknown*"}</h4>
+															{/* <h4>{data?.CPU}</h4> */}
 														</div>
+														{/* <div className={scss.div_screen}>
+														<p>
+															Вес...............................................
+														</p>
+														<h4>{data?.Weight}</h4>
+													</div> */}
 														<div className={scss.div_screen}>
 															<p>
-																Вес...............................................
+																Процент.......................................
 															</p>
-															<h4>{data?.Weight ? data?.Weight : "*unknown*"}</h4>
+															<h4>{data?.percent}</h4>
 														</div>
 													</div>
 												</div>
@@ -381,6 +529,33 @@ const CardProductPage = () => {
 							src={contentIsModal}
 							alt={data?.nameOfGadget}
 						/>
+					</div>
+				</Modal>
+				<Modal
+					onOk={() => setDeleteModal(false)}
+					onCancel={() => setDeleteModal(false)}
+					centered
+					open={deleteModal}
+					footer={false}
+				>
+					<div className={scss.container_modal_img}>
+						<div className={scss.content_delete_for_div}>
+							<h3>Вы уверены, что хотите удалить товар?</h3>
+							<div className={scss.buttons}>
+								<Button
+									className={scss.button_cancel}
+									onClick={() => setDeleteModal(false)}
+								>
+									Отменить
+								</Button>
+								<Button
+									className={scss.button_delete}
+									onClick={handleDeleteProductById}
+								>
+									Удалить
+								</Button>
+							</div>
+						</div>
 					</div>
 				</Modal>
 			</ConfigProvider>

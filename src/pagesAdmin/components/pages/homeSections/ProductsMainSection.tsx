@@ -39,12 +39,12 @@ import { IconDeleteForBanner } from '@/src/assets/icons';
 import { useGetSlidersQuery } from '@/src/redux/api/slider';
 
 const ProductsMainSection = () => {
-	const [deleteBanner] = useDeleteByIdBannerMutation()
+	const [deleteBanner] = useDeleteByIdBannerMutation();
 	const [postDiscount] = usePostGoodsDiscountMutation();
 	const buttonStyleRef = React.useRef<boolean>(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [modalForBanner, setModalForBanner] = useState<boolean>(false);
-	const { data: banner = [], refetch:Refetch  } = useGetSlidersQuery();
+	const { data: banner = [], refetch: Refetch } = useGetSlidersQuery();
 	const [filtered, setFiltered] = useState<boolean>(false);
 	const bannerInputFileRef = useRef<HTMLInputElement>(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -174,7 +174,6 @@ const ProductsMainSection = () => {
 		console.log(res);
 	};
 
-
 	const handlePostDiscount = async () => {
 		const discountData = {
 			gadgetId: [...gadgetIds],
@@ -182,7 +181,12 @@ const ProductsMainSection = () => {
 			startDay: discountStartDay,
 			endDay: discountEndDay
 		};
-		const {discountSize: DiscountSize, endDay, gadgetId, startDay} = discountData;
+		const {
+			discountSize: DiscountSize,
+			endDay,
+			gadgetId,
+			startDay
+		} = discountData;
 		try {
 			await postDiscount({
 				discountSize: DiscountSize!,
@@ -195,7 +199,7 @@ const ProductsMainSection = () => {
 			setDiscountSize(0);
 			setDiscountEndDay('');
 			setDiscountStartDay('');
-			refetch()
+			refetch();
 		} catch (error) {
 			console.error(error);
 		}
@@ -225,20 +229,32 @@ const ProductsMainSection = () => {
 		}
 	}, [searchParams]);
 
-	const changeBannerFunk = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files;
-		if (file) {
+	const changeBannerFunk = async (
+		e: React.ChangeEvent<HTMLInputElement>,
+		bannerLength: number
+	) => {
+		console.log(bannerLength, e.target.files, 'banner length');
+
+		const files = e.target.files;
+		if (files) {
 			const formData = new FormData();
-			for (let i = 0; i < file.length; i++) {
-				formData.append('files', file[i]);
+
+			for (let i = 0; i < files.length; i++) {
+				formData.append('files', files[i]);
 			}
-			const response = await postUploadForBanner(formData).unwrap();
-			setBannerFormResponse(response.data);
-			console.log(response.data, 'text');
-			await postBanner({
-				images: response.data.slice(0, 6)
-			});
-			refetch()
+
+			try {
+				const response = await postUploadForBanner(formData).unwrap();
+				setBannerFormResponse(response.data);
+				console.log(response.data, 'text');
+
+				await postBanner({
+					images: response.data
+				});
+				Refetch();
+			} catch (error) {
+				console.error('Error uploading banner:', error);
+			}
 		}
 	};
 
@@ -253,12 +269,12 @@ const ProductsMainSection = () => {
 
 	const handleDeleteBannerById = async (bannerId: number) => {
 		try {
-			await deleteBanner(bannerId)
+			await deleteBanner(bannerId);
 			Refetch();
 		} catch (error) {
 			console.error(error);
 		}
-	}
+	};
 
 	return (
 		<div className={scss.ProductsMainSection}>
@@ -284,9 +300,11 @@ const ProductsMainSection = () => {
 								</ConfigProvider>
 							</div>
 							<div className={scss.add_product}>
-								<button onClick={() => setModalForBanner(true)}>
-									Все banner
-								</button>
+								{banner.length !== 0 && (
+									<button onClick={() => setModalForBanner(true)}>
+										Все баннеры
+									</button>
+								)}
 								<button onClick={addProduct}>Добавить товар</button>
 								<button onClick={showModal}>Создать скидку</button>
 							</div>
@@ -434,7 +452,9 @@ const ProductsMainSection = () => {
 																	/>
 																</ConfigProvider>
 															) : (
-																<p className={scss.id_for_product}>{item.subGadgetId}</p>
+																<p className={scss.id_for_product}>
+																	{item.subGadgetId}
+																</p>
 															)}
 														</td>
 														<img src={item.images} alt="" />
@@ -568,7 +588,9 @@ const ProductsMainSection = () => {
 									type="file"
 									ref={bannerInputFileRef}
 									style={{ display: 'none' }}
-									onChange={changeBannerFunk}
+									onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+										changeBannerFunk(e, banner.length)
+									}
 									multiple
 								/>
 								<div
@@ -599,7 +621,12 @@ const ProductsMainSection = () => {
 										<div key={index} className={scss.banner_contents}>
 											<img src={el.images} alt="banner photo" />
 											<div style={{ position: 'relative', right: '25px' }}>
-												<div onClick={() => handleDeleteBannerById(el.id)}><IconDeleteForBanner /></div>
+												<div
+													style={{ cursor: 'pointer' }}
+													onClick={() => handleDeleteBannerById(el.id)}
+												>
+													<IconDeleteForBanner />
+												</div>
 											</div>
 										</div>
 									))}
@@ -638,12 +665,21 @@ const ProductsMainSection = () => {
 				setIsModalOpen={setModalForBanner}
 			>
 				<div className={scss.modal}>
-					<h2>Все banner</h2>
-					<div className={scss.container_banners}>
+					<h2>Все баннеры</h2>
+					<div
+						className={
+							banner.length >= 4
+								? `${scss.container_banners} ${scss.active_banner_div}`
+								: `${scss.container_banners}`
+						}
+					>
 						{banner.map((el) => (
 							<div key={el.id} className={scss.image_and_icon_delete_div}>
 								<img src={el.images} alt="logo" />
-								<IconX style={{ cursor: 'pointer' }} onClick={() => handleDeleteBannerById(el.id)}/>
+								<IconX
+									style={{ cursor: 'pointer' }}
+									onClick={() => handleDeleteBannerById(el.id)}
+								/>
 							</div>
 						))}
 					</div>

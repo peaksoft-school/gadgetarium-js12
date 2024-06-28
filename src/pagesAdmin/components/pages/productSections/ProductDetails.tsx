@@ -2,9 +2,12 @@ import scss from './ProductDetails.module.scss';
 import { useState } from 'react';
 import { Checkbox, ConfigProvider, Tooltip } from 'antd';
 import { useGetGoodsDetailsGadgetQuery } from '@/src/redux/api/goods';
+import { useParams } from 'react-router-dom';
 export const ProductDetails = () => {
+	const {productId} = useParams();
+	
 	const [indexResult, setIndexResult] = useState<null | number>(null);
-	const { data, isLoading } = useGetGoodsDetailsGadgetQuery('');
+	const { data, isLoading } = useGetGoodsDetailsGadgetQuery(productId!);
 
 	return (
 		<section className={scss.ProductDetails}>
@@ -26,7 +29,7 @@ export const ProductDetails = () => {
 					data?.map((el, index) => (
 						<div
 							onClick={() => setIndexResult(index)}
-							key={el.id}
+							key={el.subGadgetId}
 							className={
 								indexResult === index
 									? `${scss.container_product} ${scss.index_active}`
@@ -49,7 +52,7 @@ export const ProductDetails = () => {
 										<Checkbox />
 									</ConfigProvider>
 								) : (
-									<p>{el.id}</p>
+									<p>{el.subGadgetId}</p>
 								)}
 								<img src={el.image} alt={el.nameOfGadget} />
 								<p className={scss.product_name}>

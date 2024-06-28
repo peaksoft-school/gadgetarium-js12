@@ -1,7 +1,8 @@
 import { IconPhotoScan } from '@tabler/icons-react';
-import { ChangeEvent, useRef } from 'react';
+// import React, { ChangeEvent } from 'react';
 import scss from './CustomImageAdd.module.scss';
 import { usePostUploadMutation } from '@/src/redux/api/pdf';
+import React from 'react';
 
 type CustomImageAddProps = {
   image: string;
@@ -11,7 +12,7 @@ type CustomImageAddProps = {
 const CustomImageAdd: React.FC<CustomImageAddProps> = ({ image, setImage }) => {
   const [postUploadApi] = usePostUploadMutation();
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleButtonClick = () => {
     if (fileInputRef.current) {
@@ -19,9 +20,9 @@ const CustomImageAdd: React.FC<CustomImageAddProps> = ({ image, setImage }) => {
     }
   };
 
-  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files;
-    if (file && file[0]) {
+    if (file) {
       // const reader = new FileReader();
       // reader.onload = (e) => {
       //   if (e.target) {
@@ -30,7 +31,7 @@ const CustomImageAdd: React.FC<CustomImageAddProps> = ({ image, setImage }) => {
       // };
       // reader.readAsDataURL(file);
       const formData = new FormData();
-      formData.append('file', file[0]);
+      formData.append('files', file[0]);
       try {
         const response = await postUploadApi(formData).unwrap();
         setImage(response.data[0]);
