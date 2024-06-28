@@ -12,12 +12,14 @@ interface CustomSelectProps {
 	orderId: string;
 	orderStatus: string;
 	currentColor: string;
+	onStatusChange: (orderId: string, newStatus: string) => void;
 }
 
 const CustomSelect: FC<CustomSelectProps> = ({
 	orderId,
 	orderStatus,
-	currentColor
+	currentColor,
+	onStatusChange
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [select, setSelect] = useState(orderStatus);
@@ -42,23 +44,10 @@ const CustomSelect: FC<CustomSelectProps> = ({
 
 		try {
 			await updateSelect({
-				_id: orderId,
-				status: value,
-				state: value,
-				fullname: '',
-				modalName: '',
-				number: '',
-				date: '',
-				quantity: '',
-				totalPrice: '',
-				orderType: '',
-				product: '',
-				discount: '',
-				discountPrice: '',
-				fullOldPrice: '',
-				phone: '',
-				address: ''
+				orderId: orderId,
+				status: value
 			});
+			onStatusChange(orderId, value);
 		} catch (error) {
 			console.error('Failed to update order status:', error);
 		}
@@ -78,7 +67,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
 						<button
 							style={{ color: '#2C68F5' }}
 							onClick={(event) =>
-								handleChange(event, { value: 'В ожидании', color: '#2C68F5' })
+								handleChange(event, { value: 'PENDING', color: '#2C68F5' })
 							}
 						>
 							В ожидании
@@ -86,7 +75,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
 						<button
 							style={{ color: '#F99808' }}
 							onClick={(event) =>
-								handleChange(event, { value: 'В обработке', color: '#F99808' })
+								handleChange(event, { value: 'READY', color: '#F99808' })
 							}
 						>
 							В обработке
@@ -95,7 +84,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
 							style={{ color: '#08A592' }}
 							onClick={(event) =>
 								handleChange(event, {
-									value: 'Курьер в пути',
+									value: 'COURIER_ON_THE_WAY',
 									color: '#08A592'
 								})
 							}
@@ -105,7 +94,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
 						<button
 							style={{ color: '#2FC509' }}
 							onClick={(event) =>
-								handleChange(event, { value: 'Доставлены', color: '#2FC509' })
+								handleChange(event, { value: 'RECEIVED', color: '#2FC509' })
 							}
 						>
 							Доставлены
@@ -113,7 +102,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
 						<button
 							style={{ color: '#F10000' }}
 							onClick={(event) =>
-								handleChange(event, { value: 'Отменены', color: '#F10000' })
+								handleChange(event, { value: 'CANCELLED', color: '#F10000' })
 							}
 						>
 							Отменены

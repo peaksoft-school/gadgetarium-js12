@@ -99,8 +99,8 @@ const api = index.injectEndpoints({
 			GOODSSTORE.GetGoodsDetailsResponse,
 			GOODSSTORE.GetGoodsDetailsRequest
 		>({
-			query: () => ({
-				url: `/api/gadget/details`,
+			query: (gadgetId) => ({
+				url: `/api/gadget/details/${gadgetId}`,
 				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`

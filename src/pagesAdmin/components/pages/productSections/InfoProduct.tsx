@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import scss from './InfoProduct.module.scss';
 import { ReactNode, useState } from 'react';
@@ -7,6 +8,9 @@ import { CharacteristicsPage } from './CharacteristicsPage';
 import DescriptionPage from './DescriptionPage';
 import ReviewsPage from './ReviewsPage';
 import { IconBurgerMenu } from '@/src/assets/icons';
+import { useParams } from 'react-router-dom';
+import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
+import { useGetUserPostPDSQuery } from '@/src/redux/api/pdf';
 
 interface ComponentsTypesArray {
 	children: ReactNode;
@@ -31,8 +35,18 @@ console.log(ComponentArray);
 
 const InfoProduct = () => {
 	const [component, setComponent] = useState<number>(1);
+	const useparams = useParams<{ productId: string }>();
 	const [result, setResult] = useState<number>(0);
+	const [pdfUrl, setPdfUrl] = useState<string>('');
+	const { data: cardProductData } = useGetCardProductQuery({
+		id: Number(useparams.productId!)
+	});
+	const pdfParam = `key=${pdfUrl}` || '';
 
+	const handlePDFApiFunk = (pdfUrlProduct: string) => {
+		setPdfUrl(pdfUrlProduct.slice(54, 100));
+	};
+	const { data: pdfData } = useGetUserPostPDSQuery(pdfParam);
 	return (
 		<div className={scss.ContainerInfoProduct}>
 			<div className="container">
@@ -107,7 +121,10 @@ const InfoProduct = () => {
 							</ul>
 						</nav>
 
-						<div className={scss.document_content_div}>
+						<div
+							className={scss.document_content_div}
+							onClick={() => handlePDFApiFunk(cardProductData?.pdfUrl!)}
+						>
 							<IconBurgerMenu />
 							<p>Скачать документ.pdf</p>
 						</div>

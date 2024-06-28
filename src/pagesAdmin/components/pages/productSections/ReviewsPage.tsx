@@ -1,11 +1,15 @@
-import {
-	useEditAdminCommitMutation,
-} from '@/src/redux/api/product';
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import scss from './ReviewsPage.module.scss';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { Rate, Modal, Input, Button, ConfigProvider } from 'antd';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useGetReviewGadgetGoodQuery } from '@/src/redux/api/goods';
+import {
+	useApiFeedbackStatisticsQuery,
+	useGetReviewsQuery,
+	usePatchReviewQueryMutation,
+	usePostReviewQueryMutation
+} from '@/src/redux/api/review';
 // type User  = {
 // 	adminCommit: string
 // }
@@ -13,39 +17,72 @@ import { useGetReviewGadgetGoodQuery } from '@/src/redux/api/goods';
 // 	reviews: User[]
 // }
 const ReviewsPage = () => {
+	const [postReplyApi] = usePostReviewQueryMutation();
+	const [editAdminCommitApi] = usePatchReviewQueryMutation();
+	const [searchParams, _] = useSearchParams();
 	const { productId } = useParams();
-	const { data, isLoading } = useGetReviewGadgetGoodQuery(productId)
-	const [editAdminCommit] = useEditAdminCommitMutation();
+	const { data, isLoading, refetch } = useGetReviewsQuery({
+		id: productId!,
+		page: searchParams.toString(),
+		size: searchParams.toString()
+	});
 	const [modalForEdit, setModalForEdit] = useState<boolean>(false);
 	const [modal2Open, setModal2Open] = useState<boolean>(false);
-	const [indexProducts, setIndexProducts] = useState<number>(0);
+	const [idProduct, setIdProduct] = useState<number>(0);
 	const [answerForInput, setAnswerForInput] = useState<string>('');
-	
-	const changeInputValueForAnswer = (value: string | null) => {
-		if (value !== null) {
-			setAnswerForInput(value);
+	const [replyInputValue, setReplyInputValue] = useState<string>('');
+	const { data: FeedbackStatistics } = useApiFeedbackStatisticsQuery({
+		id: Number(productId)
+	});
+
+	const changeInputValueForReply = (
+		value: React.ChangeEvent<HTMLTextAreaElement>
+	) => {
+		setReplyInputValue(value.target.value);
+	};
+	const handleEditAdminCommitFunk = async () => {
+		const editAdminCommitData = {
+			responseAdmin: answerForInput
+		};
+		try {
+			await editAdminCommitApi({
+				id: idProduct,
+				responseAdmin: editAdminCommitData.responseAdmin
+			});
+			setModalForEdit(false);
+			refetch();
+		} catch (error) {
+			console.error(error);
+			setModalForEdit(true);
 		}
 	};
-	const handleEditAdminCommitFunk = async (index: number) => {
-		const reviewsResults = {
-			reviews: {
-				user: [
-					{
-						adminCommit: answerForInput
-					}
-				]
-			}
+	const handleReplyFunk = async () => {
+		const DATA = {
+			responseAdmin: replyInputValue
 		};
-		await editAdminCommit({ id: index, reviews: reviewsResults });
+		try {
+			await postReplyApi({
+				id: idProduct,
+				responseAdmin: DATA.responseAdmin
+			});
+			setModal2Open(false);
+			refetch();
+		} catch (error) {
+			console.error(error);
+			setModal2Open(true);
+		}
+	};
+	const handleOpenReplyFunk = async (id: number) => {
+		setModal2Open(true);
+		setIdProduct(id);
 	};
 	const { TextArea } = Input;
-	const handleProductsModalFunk = (index: number) => {
-		console.log(index);
-
-		setIndexProducts(index);
-		setModalForEdit(!modalForEdit);
+	const handleProductsModalFunk = (index: number, id: number) => {
+		setIdProduct(id);
+		setAnswerForInput(data![index].responseAdmin!);
+		setModalForEdit(true);
 	};
-	
+
 	return (
 		<>
 			<section className={scss.ReviewsPage}>
@@ -68,13 +105,18 @@ const ReviewsPage = () => {
 												</div>
 												<div className={scss.grade_div}>
 													<p>Оценка</p>
-													<Rate disabled allowHalf defaultValue={item?.rating} />
+													<Rate
+														disabled
+														allowHalf
+														defaultValue={item?.rating}
+													/>
 												</div>
 												<p className={scss.commit_user}>{item?.description}</p>
 												{!item?.responseAdmin && (
 													<div className={scss.div_answer}>
 														<p
-															onClick={() => setModal2Open(!modal2Open)}
+															// onClick={() => setModal2Open(!modal2Open)}
+															onClick={() => handleOpenReplyFunk(item.id)}
 															className={scss.answer}
 														>
 															Ответить
@@ -97,7 +139,9 @@ const ReviewsPage = () => {
 												</div>
 												<p
 													className={scss.edit}
-													onClick={() => handleProductsModalFunk(index)}
+													onClick={() =>
+														handleProductsModalFunk(index, item.id)
+													}
 												>
 													Редактировать
 												</p>
@@ -111,38 +155,58 @@ const ReviewsPage = () => {
 								<div className={scss.div_displey_rating_content}>
 									<div className={scss.div_all_reting_contents}>
 										<div className={scss.text_result_rating}>
-											<h3>4,5</h3>
+											<h3>{FeedbackStatistics?.overallRating}</h3>
 											<>
-												<Rate 
-												  disabled
+												<Rate
+													disabled
 													className={scss.rate}
 													allowHalf
-													defaultValue={5}
+													defaultValue={FeedbackStatistics?.overallRating}
 												/>{' '}
 											</>
 										</div>
-										<p>789 отзывов</p>
+										<p>{FeedbackStatistics?.quantityFeedbacks} отзывов</p>
 									</div>
 									<div className={scss.div_all_contents_results_rating}>
 										<div className={scss.userReviews}>
-											<Rate disabled allowHalf defaultValue={5} />
-											<p>23 отзывов</p>
+											<Rate
+												disabled
+												allowHalf
+												defaultValue={FeedbackStatistics?.ratingCounts[1]}
+											/>
+											<p>{FeedbackStatistics?.ratingCounts[1]} отзывов</p>
 										</div>
 										<div className={scss.userReviews}>
-											<Rate disabled allowHalf defaultValue={4} />
-											<p>5 отзывов</p>
+											<Rate
+												disabled
+												allowHalf
+												defaultValue={FeedbackStatistics?.ratingCounts[2]}
+											/>
+											<p>{FeedbackStatistics?.ratingCounts[2]} отзывов</p>
 										</div>
 										<div className={scss.userReviews}>
-											<Rate disabled allowHalf defaultValue={3} />
-											<p>17 отзывов</p>
+											<Rate
+												disabled
+												allowHalf
+												defaultValue={FeedbackStatistics?.ratingCounts[3]}
+											/>
+											<p>{FeedbackStatistics?.ratingCounts[3]} отзывов</p>
 										</div>
 										<div className={scss.userReviews}>
-											<Rate disabled allowHalf defaultValue={2} />
-											<p>4 отзывов</p>
+											<Rate
+												disabled
+												allowHalf
+												defaultValue={FeedbackStatistics?.ratingCounts[4]}
+											/>
+											<p>{FeedbackStatistics?.ratingCounts[4]} отзывов</p>
 										</div>
 										<div className={scss.userReviews}>
-											<Rate disabled allowHalf defaultValue={1} />
-											<p>2 отзывов</p>
+											<Rate
+												disabled
+												allowHalf
+												defaultValue={FeedbackStatistics?.ratingCounts[5]}
+											/>
+											<p>{FeedbackStatistics?.ratingCounts[5]} отзывов</p>
 										</div>
 									</div>
 								</div>
@@ -167,6 +231,7 @@ const ReviewsPage = () => {
 						open={modal2Open}
 						onOk={() => setModal2Open(false)}
 						onCancel={() => setModal2Open(false)}
+						footer={false}
 					>
 						<div className={scss.container_modal}>
 							<h3>Ответ на комментарий</h3>
@@ -174,8 +239,8 @@ const ReviewsPage = () => {
 								<TextArea
 									className={scss.input}
 									defaultValue={answerForInput}
-									onChange={changeInputValueForAnswer}
-									value={answerForInput}
+									onChange={changeInputValueForReply}
+									value={replyInputValue}
 								/>
 								<div className={scss.buttons}>
 									<Button
@@ -184,48 +249,52 @@ const ReviewsPage = () => {
 									>
 										Отменить
 									</Button>
-									<Button className={scss.button_for_add}>Добавить</Button>
+									<Button
+										onClick={handleReplyFunk}
+										className={scss.button_for_add}
+									>
+										Добавить
+									</Button>
 								</div>
 							</div>
 						</div>
 					</Modal>
-					{indexProducts ||
-						(modalForEdit && (
-							<Modal
-								centered
-								open={modalForEdit}
-								onOk={() => setModalForEdit(false)}
-								onCancel={() => setModalForEdit(false)}
-							>
-								<div className={scss.container_modal}>
-									<h3>Редактировать комментарий</h3>
-									<div className={scss.input_and_buttons_div}>
-										<TextArea
-											className={scss.input}
-											defaultValue={answerForInput}
-											onChange={(e) => setAnswerForInput(e.target.value)}
-											value={answerForInput}
-										/>
-										<div className={scss.buttons}>
-											<Button
-												onClick={() => setModalForEdit(false)}
-												className={scss.button_for_cancel}
-											>
-												Отменить
-											</Button>
-											<Button
-												className={scss.button_for_add}
-												onClick={() =>
-													handleEditAdminCommitFunk(indexProducts + 1)
-												}
-											>
-												СОХРАНИТЬ
-											</Button>
-										</div>
+
+					{modalForEdit && (
+						<Modal
+							centered
+							open={modalForEdit}
+							onOk={() => setModalForEdit(false)}
+							onCancel={() => setModalForEdit(false)}
+							footer={false}
+						>
+							<div className={scss.container_modal}>
+								<h3>Редактировать комментарий</h3>
+								<div className={scss.input_and_buttons_div}>
+									<TextArea
+										className={scss.input}
+										defaultValue={answerForInput}
+										onChange={(e) => setAnswerForInput(e.target.value)}
+										value={answerForInput}
+									/>
+									<div className={scss.buttons}>
+										<Button
+											onClick={() => setModalForEdit(false)}
+											className={scss.button_for_cancel}
+										>
+											Отменить
+										</Button>
+										<Button
+											className={scss.button_for_add}
+											onClick={handleEditAdminCommitFunk}
+										>
+											СОХРАНИТЬ
+										</Button>
 									</div>
 								</div>
-							</Modal>
-						))}
+							</div>
+						</Modal>
+					)}
 				</>
 			</ConfigProvider>
 		</>
