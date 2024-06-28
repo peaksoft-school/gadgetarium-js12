@@ -23,3 +23,4 @@ export { default as IconUponReceipt } from './icon-upon-receipt.tsx';
 export { default as IconCardonDelete } from './icon-cardon-delete.tsx';
 export { default as IconPlus } from './icon-plus.tsx';
 export { default as IconFrame } from './icon-frame.tsx';
+export {default as IconDeleteForBanner} from './icon-delete-for-banner.tsx'

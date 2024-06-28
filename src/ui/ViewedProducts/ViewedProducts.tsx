@@ -20,9 +20,9 @@ export const ViewedProducts = () => {
 				spacing: 10
 			},
 			breakpoints: {
-        '(min-width: 750px)': {
-          slides: {perView: 2, spacing: 25}
-        },
+				'(min-width: 750px)': {
+					slides: { perView: 2, spacing: 25 }
+				},
 				'(min-width: 800px)': {
 					slides: { perView: 3, spacing: 7 }
 				},
@@ -78,64 +78,74 @@ export const ViewedProducts = () => {
 		<section className={scss.ViewedProducts}>
 			<div className="container">
 				<div className={scss.content}>
-					<h2>Просмотренные товары</h2>
-					{isLoading ? (
-						<h1>IsLOading...</h1>
-					) : (
+					{localStorage.getItem('isAuth') === 'true' && (
 						<>
-							<div className={scss.data_list}>
-								<div
-									className={`keen-slider ${scss.content_div_data_list}`}
-									ref={ref}
-								>
-									{data?.map((el) => (
-										<>
-											<div
-												key={el.id}
-												className={`keen-slider__slide ${scss.data_maps_content}`}
-											>
-												<div className={scss.content_product_text_and_image}>
-													<img src={el.image} alt={el.nameOfGadget} />
+							{' '}
+							<h2>Просмотренные товары</h2>
+							{isLoading ? (
+								<h1>IsLOading...</h1>
+							) : (
+								<>
+									<div className={scss.data_list}>
+										<div
+											className={`keen-slider ${scss.content_div_data_list}`}
+											ref={ref}
+										>
+											{data?.map((el) => (
+												<>
 													<div
-														className={scss.product_price_and_product_name_text}
+														key={el.id}
+														className={`keen-slider__slide ${scss.data_maps_content}`}
 													>
-														<h3>{el.nameOfGadget}</h3>
-														<div>
-															<p>
-																Рейтинг <Rate defaultValue={el.rating} />
-																(56)
-															</p>
-															<h2>{el.price} c</h2>
+														<div
+															className={scss.content_product_text_and_image}
+														>
+															<img src={el.image} alt={el.nameOfGadget} />
+															<div
+																className={
+																	scss.product_price_and_product_name_text
+																}
+															>
+																<h3>{el.nameOfGadget}</h3>
+																<div>
+																	<p>
+																		Рейтинг{' '}
+																		<Rate defaultValue={el.rating} disabled />(
+																		{el.rating})
+																	</p>
+																	<h2>{el.price} c</h2>
+																</div>
+															</div>
 														</div>
 													</div>
-												</div>
-											</div>
-										</>
-									))}
-								</div>
-								{loaded && instanceRef.current && (
-									<>
-										<div className={scss.buttons_slider}>
-											<span
-												className={`${scss.left} `}
-												onClick={(e: any) =>
-													e.stopPropagation() || instanceRef.current?.prev()
-												}
-											>
-												<ButtonArrowLeft />
-											</span>
-											<span
-												className={`${scss.right}`}
-												onClick={(e: any) =>
-													e.stopPropagation() || instanceRef.current?.next()
-												}
-											>
-												<ButtonArrowRight />
-											</span>{' '}
+												</>
+											))}
 										</div>
-									</>
-								)}
-							</div>
+										{loaded && instanceRef.current && (
+											<>
+												<div className={scss.buttons_slider}>
+													<span
+														className={`${scss.left} `}
+														onClick={(e: any) =>
+															e.stopPropagation() || instanceRef.current?.prev()
+														}
+													>
+														<ButtonArrowLeft />
+													</span>
+													<span
+														className={`${scss.right}`}
+														onClick={(e: any) =>
+															e.stopPropagation() || instanceRef.current?.next()
+														}
+													>
+														<ButtonArrowRight />
+													</span>{' '}
+												</div>
+											</>
+										)}
+									</div>
+								</>
+							)}
 						</>
 					)}
 				</div>

@@ -278,11 +278,15 @@
 								display: flex;
 								align-items: center;
 								border: 1px solid #c8c8c8;
-								padding: 20px 0 20px 15px;
+								padding: 20px 15px 20px 15px;
 								background: transparent;
 								border-radius: 6px;
-								margin-left: 20px;
 								width: 1121px;
+
+								svg {
+									color: #91969E;
+								}
+
 								@media (max-width: 570px) {
 									margin-left: 0;
 								}

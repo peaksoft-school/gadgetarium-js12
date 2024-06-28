@@ -18,6 +18,7 @@ const Profile = () => {
 		register,
 		formState: { errors },
 		handleSubmit,
+		reset,
 		setValue
 	} = useForm({
 		mode: 'onSubmit'
@@ -106,23 +107,28 @@ const Profile = () => {
 	};
 
 	const handlePostNewPassword = async () => {
-		const passwords = {
-			oldPassword: oldPassword,
-			newPassword: newPassword,
-			confirmationPassword: confirmPassword
-		};
-
+		try {
+			const passwords = {
+				oldPassword: oldPassword,
+				newPassword: newPassword,
+				confirmationPassword: confirmPassword
+			};
+			const res = await profilePasswords(passwords);
+			console.log(res);
+			if (res.error) {
+				message.warning('Вы неправильно ввели пароль');
+			} else {
+				message.success('Пароль успешно изменен');
+			}
+		} catch (error) {
+			message.warning('Вы неправильно ввели старый пароль');
+			console.error(error, 'Вы неправильно ввели старый пароль');
+		}
 		if (oldPassword === '' || newPassword === '' || confirmPassword === '') {
 			return;
 		} else {
-			try {
-				const res = await profilePasswords(passwords);
-				console.log(res);
-			} catch (error) {
-				console.error(error);
-				message.warning('Вы неправильно ввели старый пароль')
-			}
 		}
+		reset();
 	};
 
 	const handlePostNewInformation = async () => {
@@ -178,7 +184,6 @@ const Profile = () => {
 						<p className={scss.navigation_p}>
 							Личный кабинет » <h3>Учетная запись</h3>
 						</p>
-
 						<div className={scss.div_heading}>
 							<h3>Профиль</h3>
 							<div></div>
@@ -346,7 +351,11 @@ const Profile = () => {
 									)}
 
 									<div className={scss.buttons}>
-										<button type="button" className={scss.back_button}>
+										<button
+											onClick={() => navigate('/')}
+											type="button"
+											className={scss.back_button}
+										>
 											Назад
 										</button>
 										<button type="submit">Редактировать</button>

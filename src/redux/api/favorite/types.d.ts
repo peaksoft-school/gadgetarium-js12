@@ -35,7 +35,7 @@ namespace FAVORITEPRODUCTS {
 	};
 
 	type AddAllFavoriteProductsRequest = {
-		gadgetIds: string[];
+		subGadgetIds: string[];
 	}
 	type AddAllFavoriteProductsResponse = {
 		status: string;

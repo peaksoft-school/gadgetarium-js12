@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import scss from './ProductPartTwo.module.scss';
 import React, { useEffect, useState } from 'react';
@@ -5,14 +6,25 @@ import {
 	useGadgetByIdSetPriceMutation,
 	useGadgetByIdSetQuantityMutation,
 	useGadgetGetNewProductsQuery,
-	useSetAllProductsPriceAndQuantityMutation
+	useSetAllProductsPriceAndQuantityMutation,
+	useSetPriceAndQuantityNewProductsMutation
 } from '@/src/redux/api/addProductApi';
 import { Input } from 'antd';
 
+interface ArrayTypes {
+	price: number;
+	quantity: number;
+}
+
 const ProductPartTwo = () => {
-	const { data: products = [], isLoading } = useGadgetGetNewProductsQuery();
-	console.log(products, 'array is result');
 	const [searchParams, setSearchParams] = useSearchParams();
+	const {
+		data: products = [],
+		isLoading,
+		refetch
+	} = useGadgetGetNewProductsQuery([searchParams.toString()]);
+	console.log(products, 'array is result');
+	const addButtonRenderRef = React.useRef(false);
 	const [setPriceById] = useGadgetByIdSetPriceMutation();
 	const [setAllProductsPriceAndQuantity] =
 		useSetAllProductsPriceAndQuantityMutation();
@@ -23,6 +35,22 @@ const ProductPartTwo = () => {
 	const [quantityItemIdInput, setQuantityItemIdInput] = useState<number | null>(
 		null
 	);
+	const [setPriceNadQuantityProductsApi] =
+		useSetPriceAndQuantityNewProductsMutation();
+	const [array, setArray] = useState<ArrayTypes[]>([]);
+	const [gadgetIds, setGadgetIds] = useState<number[]>([]);
+	const [priceIds, setPriceIds] = useState<number[]>([]);
+
+	useEffect(() => {
+		// Создаем новый массив в зависимости от длины products
+		const newArray = products.map((product) => ({
+			price: product.price ?? 0,
+			quantity: product.quantity ?? 0
+		}));
+		setArray(newArray);
+	}, [products]);
+	console.log(array, 'text');
+
 	const [quantity, setQuantity] = useState('');
 	const [priceInputValueById, setPriceInputValueById] = useState('');
 	const [quantityInputValueById, setQuantityInputValueById] = useState('');
@@ -31,12 +59,9 @@ const ProductPartTwo = () => {
 			localStorage.setItem('gadgetId', JSON.stringify(products[0].gadgetId));
 		}
 	}, [products]);
-	const handlePatchNewPrice = async (ids: number) => {
-		console.log(ids, 'ids');
-		const idsIsString = ids.toString();
+	const handlePatchNewPrice = async () => {
 		searchParams.set('price', price);
 		searchParams.set('quantity', quantity);
-		searchParams.append('ids', idsIsString);
 		setSearchParams(searchParams);
 		navigate(
 			`/admin/product-adding/part-2?${window.location.search.substring(1)}`
@@ -55,18 +80,24 @@ const ProductPartTwo = () => {
 							? `quantity=${searchParams.get('quantity')}`
 							: ''
 					});
-					searchParams.delete('ids');
+					// searchParams.delete('ids');
 					searchParams.delete('quantity');
 					searchParams.delete('price');
 					setSearchParams(searchParams);
 					setPrice('');
 					setQuantity('');
+					refetch();
 				} catch (error) {
 					console.error(error);
 				}
 			}
 		}
 	};
+	useEffect(() => {
+		if (products.length > 0) {
+			localStorage.setItem('gadgetId', JSON.stringify(products[0].gadgetId));
+		}
+	}, [products]);
 	const handleByIdProductPriceNew = async (id: string) => {
 		searchParams.set('price', priceInputValueById);
 		searchParams.delete('ids');
@@ -85,6 +116,31 @@ const ProductPartTwo = () => {
 			}
 		}
 	};
+
+	const changeArrayValues = (
+		index: number,
+		key: keyof ArrayTypes,
+		value: string
+	) => {
+		setArray((prevValue) =>
+			prevValue.map((priceAndQuantity, ids) =>
+				ids === index ? { ...priceAndQuantity, [key]: value } : priceAndQuantity
+			)
+		);
+	};
+	const areAllFieldsFilled = () => {
+		return array.every(
+			(product) => product.price !== '' && product.quantity !== ''
+		);
+	};
+
+	const isAnyFieldEmptyOrZero = array.some(
+		(value) =>
+			value.price === '' ||
+			value.quantity === '' ||
+			value.price === 0 ||
+			value.quantity === 0
+	);
 
 	const handleByIdProductQuantityNew = async (id: string) => {
 		searchParams.set('quantity', quantityInputValueById);
@@ -116,19 +172,19 @@ const ProductPartTwo = () => {
 	};
 
 	const handleItemIdPriceInputActive = (id: number) => {
-		id === priceItemIdInput
-			? (setPriceItemIdInput(null), setPriceInputValueById(''))
-			: (setPriceItemIdInput(id), setPriceInputValueById(''));
-		if (quantityItemIdInput !== id) {
-			setQuantityItemIdInput(null);
+		if (!priceIds.includes(id)) {
+			setPriceIds((prev) => [...prev, id]);
+		} else {
+			const filtred = priceIds.filter((c) => c !== id);
+			setPriceIds(filtred);
 		}
 	};
 	const handleItemIdQuantityInputActive = (id: number) => {
-		id === quantityItemIdInput
-			? (setQuantityItemIdInput(null), setQuantityInputValueById(''))
-			: (setQuantityItemIdInput(id), setQuantityInputValueById(''));
-		if (priceItemIdInput !== id) {
-			setPriceItemIdInput(null);
+		if (!gadgetIds.includes(id)) {
+			setGadgetIds((prev) => [...prev, id]);
+		} else {
+			const filtred = gadgetIds.filter((c) => c !== id);
+			setGadgetIds(filtred);
 		}
 	};
 
@@ -140,6 +196,24 @@ const ProductPartTwo = () => {
 		// 	setQuantityItemIdInput(null);
 		// }
 	};
+	const handleAddPriceAndQuantityForProducts = async () => {
+		const productsQuantutyAndPrice = array.map((product, index) => ({
+			id: products[index].subGadgetId,
+			price: Number(product.price),
+			quantity: Number(product.quantity)
+		}));
+		console.log(productsQuantutyAndPrice, 'array price and quantity');
+
+		try {
+			await setPriceNadQuantityProductsApi(productsQuantutyAndPrice);
+			navigate('/admin/product-adding/part-3');
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+
+
 	console.log(products);
 	return (
 		<section className={scss.product}>
@@ -189,29 +263,23 @@ const ProductPartTwo = () => {
 									type="number"
 									value={price}
 									onChange={(e) => setPrice(e.target.value)}
-									onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-										if (e.key === 'Enter') {
-											products.map((el) => handlePatchNewPrice(el.subGadgetId));
-										}
-									}}
+									// onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+									// 	if (e.key === 'Enter') {
+									// 		products.map((el) => handlePatchNewPrice(el.subGadgetId));
+									// 	}
+									// }}
 								/>
 								<input
 									type="number"
 									value={quantity}
 									onChange={changeQuantity}
-									onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-										if (e.key === 'Enter') {
-											products.map((el) => handlePatchNewPrice(el.subGadgetId));
-										}
-									}}
+									// onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+									// 	if (e.key === 'Enter') {
+									// 		products.map((el) => handlePatchNewPrice(el.subGadgetId));
+									// 	}
+									// }}
 								/>
-								<button
-									onClick={() =>
-										products.map((el) => handlePatchNewPrice(el.subGadgetId))
-									}
-								>
-									Установить цену
-								</button>
+								<button onClick={handlePatchNewPrice}>Установить цену</button>
 							</div>
 						</div>
 
@@ -244,21 +312,28 @@ const ProductPartTwo = () => {
 													<p className={scss.gb_e}>{e.memory}</p>
 													<p className={scss.ram_e}>{e.ram}</p>
 													<p className={scss.sim_e}>{e.countSim}</p>
-													{e.releaseDate &&
+													<p className={scss.date_e}>{e.releaseDate}</p>
+													{/* {e.releaseDate &&
 														e.releaseDate.map((el, index) => (
 															<p className={scss.date_e} key={index + 1}>
 																{el}
 															</p>
-														))}
+														))} */}
 												</div>
 												<div className={scss.col_two}>
-													{quantityItemIdInput === e.subGadgetId ? (
+													{gadgetIds.includes(e.subGadgetId) ? (
 														<Input
 															className={scss.input_for_price_and_quantity}
-															value={quantityInputValueById}
+															value={array[index].quantity}
 															onChange={(
 																e: React.ChangeEvent<HTMLInputElement>
-															) => setQuantityInputValueById(e.target.value)}
+															) =>
+																changeArrayValues(
+																	index,
+																	'quantity',
+																	e.target.value
+																)
+															}
 															onKeyPress={(
 																event: React.KeyboardEvent<HTMLInputElement>
 															) => {
@@ -279,13 +354,19 @@ const ProductPartTwo = () => {
 															{e.quantity === 0 ? 0 : e.quantity}
 														</p>
 													)}
-													{priceItemIdInput === e.subGadgetId ? (
+													{priceIds.includes(e.subGadgetId) ? (
 														<Input
 															className={scss.input_for_price_and_quantity}
-															value={priceInputValueById}
+															value={array[index].price}
 															onChange={(
 																e: React.ChangeEvent<HTMLInputElement>
-															) => setPriceInputValueById(e.target.value)}
+															) =>
+																changeArrayValues(
+																	index,
+																	'price',
+																	e.target.value
+																)
+															}
 															onKeyPress={(
 																event: React.KeyboardEvent<HTMLInputElement>
 															) => {
@@ -312,16 +393,13 @@ const ProductPartTwo = () => {
 									</>
 								)}
 							</div>
-
-							<div className={scss.button}>
-								<Link
-									to={
-										products.length === 0 ? '/admin/product-adding/part-3' : ''
-									}
-								>
-									<button>Далее</button>
-								</Link>
-							</div>
+							{!isAnyFieldEmptyOrZero && areAllFieldsFilled() && (
+								<div className={scss.button}>
+									<button onClick={handleAddPriceAndQuantityForProducts}>
+										Далее
+									</button>
+								</div>
+							)}
 						</div>
 					</div>
 				</div>

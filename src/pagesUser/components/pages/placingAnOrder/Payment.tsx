@@ -1,10 +1,11 @@
 import { Checkbox, ConfigProvider } from 'antd';
 import scss from './Payment.module.scss';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { usePatchPaymentTypeMutation } from '@/src/redux/api/payment';
 // import { useNavigate, useSearchParams } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-// import Paypal from './Paypal';
+import PaymentStripe from '../payment/PaymentStripe';
+import { useGetBasketQuery } from '@/src/redux/api/basket';
 
 const images = [
 	{
@@ -36,8 +37,12 @@ const Payment = () => {
 	// const navigate = useNavigate();
 
 	const [patchPaymentType] = usePatchPaymentTypeMutation();
+	const { data, isLoading } = useGetBasketQuery();
 
 	const [cardNumber, setCardNumber] = useState('');
+	const [isPayment, setIsPayment] = useState(false);
+	const [amount, setAmount] = useState<number | undefined>(0);
+	const [test, setTest] = useState<Record<string, string>>({});
 	const {
 		handleSubmit
 		// reset,
@@ -88,6 +93,10 @@ const Payment = () => {
 			payment: paymentType
 		});
 	};
+
+	useEffect(() => {
+		setAmount(data?.totalAmount);
+	}, [data]);
 
 	const onSubmit: SubmitHandler<DeliveryPageTypes> = async () => {
 		// console.log('onSubmit');
@@ -282,11 +291,21 @@ const Payment = () => {
 						</div>
 					</form>
 				</div>
-				<button>Продолжить</button>
-				<div>
-					<h2>Paypal</h2>
-					{/* <Paypal /> */}
-				</div>
+				<button
+					onClick={() => {
+						setIsPayment(true);
+					}}
+				>
+					Оформить заказ
+				</button>
+			</div>
+			<div>
+				<PaymentStripe
+					openModal={isPayment}
+					setOpenModal={setIsPayment}
+					totalAmount={amount}
+					test={test}
+				/>
 			</div>
 		</div>
 	);

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IconTrash } from '@tabler/icons-react';
 import scss from './OrderInProcessing.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import {
 	useDeleteAdminOrderMutation,
 	useGetAdminOrderQuery
@@ -21,70 +21,52 @@ import CustomModal from '@/src/ui/modalAdmin/CustomModal';
 import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
 import CustomButtonAdd from '@/src/ui/adminButtons/CustomButtonAdd';
 import Infographics from '@/src/ui/infographics/Infographics';
-
-const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
-	console.log(info?.source, value);
-
-const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-	console.log(date, dateString);
-};
+import moment from 'moment';
 
 const OrderCourierOnTheWay = () => {
-	const { data, isLoading } = useGetAdminOrderQuery("");
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const { data, isLoading } = useGetAdminOrderQuery({
+		page: searchParams.get('page') || '',
+		size: searchParams.get('size') || '',
+		keyword: searchParams.get('keyword') || '',
+		status: 'COURIER_ON_THE_WAY',
+		startDate: searchParams.get('startDate') || '',
+		endDate: searchParams.get('endDate') || ''
+	});
+
 	const [deleteOrder] = useDeleteAdminOrderMutation();
+	console.log(data);
 
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 	const [modalName, setModalName] = useState('');
-
 	const [orderIdToDelete, setOrderIdToDelete] = useState('');
 
 	const handleDeleteOrder = async () => {
 		try {
-			await deleteOrder({
-				id: orderIdToDelete,
-				fullName: '',
-				modalName: '',
-				number: '',
-				date: '',
-				quantity: '',
-				totalPrice: '',
-				orderType: '',
-				status: '',
-				product: '',
-				discount: '',
-				discountPrice: '',
-				fullOldPrice: '',
-				state: '',
-				phone: '',
-				address: ''
-			});
+			await deleteOrder({ orderId: orderIdToDelete });
 			setModalIsOpen(false);
 		} catch (error) {
-			console.error('Failed to delete order: ', error);
+			console.error(error);
 		}
 	};
 
 	const statusToColor = (status: string) => {
 		switch (status) {
-			case 'В ожидании':
+			case 'PENDING':
 				return '#2C68F5';
-			case 'В обработке':
+			case 'READY':
 				return '#F99808';
-			case 'Курьер в пути':
+			case 'COURIER_ON_THE_WAY':
 				return '#08A592';
-			case 'Доставлены':
+			case 'DELIVERED':
 				return '#2FC509';
-			case 'Отменены':
+			case 'CANCELLED':
 				return '#F10000';
 			default:
 				return '#000000';
 		}
 	};
-
-	const processingOrders =
-		Array.isArray(data)
-			? data.filter((order) => order.status === 'Курьер в пути')
-			: [];
 
 	const handleOpenModal = (
 		orderId: string,
@@ -95,6 +77,8 @@ const OrderCourierOnTheWay = () => {
 		setModalIsOpen(true);
 		setOrderIdToDelete(orderId);
 	};
+
+	const filteredOrders = data?.orderResponses || [];
 
 	const countOrdersByStatus = (orders: any[]) => {
 		if (!Array.isArray(orders)) return {};
@@ -107,12 +91,47 @@ const OrderCourierOnTheWay = () => {
 		);
 	};
 
-	const statusCounts = countOrdersByStatus(data || []);
-	const antaThemeConfig = {
+	const statusCounts = {
+		...countOrdersByStatus(data?.orderResponses || []),
+		'PENDING': data?.waiting || 0,
+		'READY': data?.progress || 0,
+		'COURIER_ON_THE_WAY': data?.onTheWay || 0,
+		'DELIVERED': data?.delivered || 0,
+		'CANCELLED': data?.canceled || 0,
+	};
+
+	const antdThemeConfig = {
 		algorithm: theme.defaultAlgorithm,
 		token: {
 			colorPrimary: '#cb11ab',
 			colorBgContainer: 'transparent'
+		}
+	};
+
+	const changeDateFunk = (date: moment.Moment | null) => {
+		if (date) {
+			const formattedDate = date.format('YYYY-MM-DD');
+			searchParams.set('startDate', formattedDate);
+			setSearchParams(searchParams); 
+		} else return;
+	};
+
+	const changeDateFunk2 = (date: moment.Moment | null) => {
+		if (date) {
+			const formattedDate = date.format('YYYY-MM-DD');
+			searchParams.set('endDate', formattedDate);
+			setSearchParams(searchParams);
+		} else return;
+	};
+
+	const changeSearchInputValueFunk = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		searchParams.set('keyword', event.target.value);
+		setSearchParams(searchParams);
+		if (event.target.value === '') {
+			searchParams.delete('keyword');
+			setSearchParams(searchParams);
 		}
 	};
 
@@ -123,13 +142,14 @@ const OrderCourierOnTheWay = () => {
 					<div className={scss.content_left}>
 						<div className={scss.content_left_1}>
 							<div className={scss.search_div}>
-								<ConfigProvider theme={antaThemeConfig}>
+								<ConfigProvider theme={antdThemeConfig}>
 									<Input.Search
 										className={scss.search}
 										size="large"
 										placeholder="Поиск по артикулу или ..."
 										allowClear
-										onSearch={onSearch}
+										onChange={changeSearchInputValueFunk}
+										value={searchParams.get('keyword') || ''}
 									/>
 								</ConfigProvider>
 							</div>
@@ -137,40 +157,40 @@ const OrderCourierOnTheWay = () => {
 								<Link to={'/admin/orders/in-pending'}>
 									<h3>
 										В ожидании
-										{statusCounts['В ожидании'] > 0
-											? ` (${statusCounts['В ожидании']})`
+										{statusCounts['PENDING'] > 0
+											? ` (${statusCounts['PENDING']})`
 											: ''}
 									</h3>
 								</Link>
 								<Link to={'/admin/orders/in-processing'}>
 									<h3>
 										В обработке
-										{statusCounts['В обработке'] > 0
-											? ` (${statusCounts['В обработке']})`
+										{statusCounts['READY'] > 0
+											? ` (${statusCounts['READY']})`
 											: ''}
 									</h3>
 								</Link>
-								<Link to={''}>
+								<Link to={'/admin/orders/courier-on-the-way'}>
 									<h3 className={scss.active_link}>
 										Курьер в пути
-										{statusCounts['Курьер в пути'] > 0
-											? ` (${statusCounts['Курьер в пути']})`
+										{statusCounts['COURIER_ON_THE_WAY'] > 0
+											? ` (${statusCounts['COURIER_ON_THE_WAY']})`
 											: ''}
 									</h3>
 								</Link>
 								<Link to={'/admin/orders/delivered'}>
 									<h3>
 										Доставлены
-										{statusCounts['Доставлены'] > 0
-											? ` (${statusCounts['Доставлены']})`
+										{statusCounts['DELIVERED'] > 0
+											? ` (${statusCounts['DELIVERED']})`
 											: ''}
 									</h3>
 								</Link>
 								<Link to={'/admin/orders/canceled'}>
 									<h3>
 										Отменены
-										{statusCounts['Отменены'] > 0
-											? ` (${statusCounts['Отменены']})`
+										{statusCounts['CANCELLED'] > 0
+											? ` (${statusCounts['CANCELLED']})`
 											: ''}
 									</h3>
 								</Link>
@@ -181,19 +201,29 @@ const OrderCourierOnTheWay = () => {
 							<div className={scss.inputs_div}>
 								<DatePicker
 									className={scss.input_date}
-									onChange={onChange}
+									onChange={changeDateFunk}
 									placeholder="От"
+									value={
+										searchParams.get('startDate')
+											? moment(searchParams.get('startDate'))
+											: undefined
+									}
 								/>
 								<DatePicker
 									className={scss.input_date}
-									onChange={onChange}
+									onChange={changeDateFunk2}
 									placeholder="До"
+									value={
+										searchParams.get('endDate')
+											? moment(searchParams.get('endDate'))
+											: undefined
+									}
 								/>
 							</div>
 						</div>
 
 						<div className={scss.content_left_2}>
-							<h2>Найдено 250 заказов</h2>
+							<h2>Найдено {filteredOrders?.length} заказов</h2>
 
 							<div className={scss.table_div}>
 								<table>
@@ -221,7 +251,7 @@ const OrderCourierOnTheWay = () => {
 											<h1>IsLoading...</h1>
 										) : (
 											<tr className={scss.tr}>
-												{processingOrders?.map((e) => (
+												{filteredOrders?.map((e) => (
 													<>
 														<Link to={`single-order/${e.id}`}>
 															<div className={scss.tr_div}>
@@ -240,8 +270,7 @@ const OrderCourierOnTheWay = () => {
 																		{e.price}
 																	</td>
 																	<td className={scss.order_type_col}>
-																		{e.typeOrder}
-																	</td>
+																	{e.typeOrder === true ? "Самовывоз" : "Доставка"}																	</td>
 																	<CustomSelect
 																		orderId={e.id}
 																		orderStatus={e.status}

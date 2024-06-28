@@ -53,12 +53,12 @@ const api = index.injectEndpoints({
 			FAVORITEPRODUCTS.AddAllFavoriteProductsResponse,
 			FAVORITEPRODUCTS.AddAllFavoriteProductsRequest
 		>({
-			query: ({ gadgetIds  }) => ({
-				url: `/api/favorites/add-all?${gadgetIds}`,
+			query: ({ subGadgetIds  }) => ({
+				url: `/api/favorites/add-all?${subGadgetIds}`,
 				method: 'POST',
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem('token')}`
-				}
+				// headers: {
+				// 	Authorization: `Bearer ${localStorage.getItem('token')}`
+				// }
 			}),
 			invalidatesTags: ['favorite']
 		})
