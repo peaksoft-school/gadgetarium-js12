@@ -39,7 +39,6 @@ export const api = createApi({
 		'personalFavorite',
 		'personalHistory',
 		'adminOrders',
-		'productAdd',
 		'viewedProducts',
 		'adminsOrders',
 		'infoGraphics',

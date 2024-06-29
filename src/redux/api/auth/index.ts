@@ -48,8 +48,8 @@ const api = index.injectEndpoints({
 			AUTH.PatchNewPasswordResponse,
 			AUTH.PatchNewPasswordRequest
 		>({
-			query: (data) => ({
-				url: `/api/reset?token=${encodeURIComponent(data.token)}&password=${encodeURIComponent(data.password)}&confirmPassword=${encodeURIComponent(data.confirmPassword)}`,
+			query: ({confirmPassword, password, token}) => ({
+				url: `/api/reset?token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}&confirmPassword=${encodeURIComponent(confirmPassword)}`,
 				method: 'PATCH'
 			}),
 			invalidatesTags: ['auth']

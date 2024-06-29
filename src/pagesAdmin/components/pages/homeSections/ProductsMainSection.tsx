@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef, useState } from 'react';
 import scss from './ProductsMainSection.module.scss';
@@ -6,8 +7,9 @@ import {
 	Checkbox,
 	ConfigProvider,
 	DatePicker,
-	// DatePickerProps,
 	Pagination,
+	// DatePickerProps,
+	// Pagination,
 	theme
 } from 'antd';
 import {
@@ -21,7 +23,6 @@ import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal';
 import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
 import CustomButtonAdd from '@/src/ui/adminButtons/CustomButtonAdd';
-import UploadBanner from '@/src/ui/customImageAdd/UploadBanner';
 import Infographics from '@/src/ui/infographics/Infographics';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import {
@@ -31,9 +32,8 @@ import {
 	usePostGoodsBannerMutation,
 	usePostGoodsDiscountMutation
 } from '@/src/redux/api/goods';
-import type { UploadFile } from 'antd';
 import moment from 'moment';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 import { usePostUploadMutation } from '@/src/redux/api/pdf';
 import { IconDeleteForBanner } from '@/src/assets/icons';
 import { useGetSlidersQuery } from '@/src/redux/api/slider';
@@ -45,31 +45,18 @@ const ProductsMainSection = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [modalForBanner, setModalForBanner] = useState<boolean>(false);
 	const { data: banner = [], refetch: Refetch } = useGetSlidersQuery();
-	const [filtered, setFiltered] = useState<boolean>(false);
 	const bannerInputFileRef = useRef<HTMLInputElement>(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [bannerFormResponse, setBannerFormResponse] = useState<string[]>([]);
 	const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
 	const [isModalOpenBanner, setIsModalOpenBanner] = useState(false);
 	const [gadgetId, setGadgetId] = useState<number | null>(null);
 	const [hoveredItemId, setHoveredItemId] = useState<number | null>(null);
 	const [gadgetIds, setGadgetIds] = useState<number[]>([]);
 	const [postUploadForBanner] = usePostUploadMutation();
-	const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-	const [searchInput, setSearchInput] = useState<string>('');
-	const initialFileList: UploadFile[] = [
-		{
-			uid: '-1',
-			name: 'image.png',
-			status: 'done',
-			url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-		}
-	];
 
-	const [fileList, setFileList] = useState<UploadFile[]>(initialFileList);
 	const [discountSize, setDiscountSize] = useState<number>();
-	const [discountStartDay, setDiscountStartDay] = useState('');
-	const [discountEndDay, setDiscountEndDay] = useState('');
+	const [discountStartDay, setDiscountStartDay] = useState<string | string[]>('');
+	const [discountEndDay, setDiscountEndDay] = useState<string | string[]>('');
 	const changeDateFunk = (date: moment.Moment | null) => {
 		if (date) {
 			const formattedDate = date.format('YYYY-MM-DD');
@@ -129,9 +116,6 @@ const ProductsMainSection = () => {
 		setIsModalOpenBanner(true);
 	};
 
-	const handleFiltered = () => {
-		setFiltered(!filtered);
-	};
 
 	const antdThemeConfig = {
 		algorithm: theme.defaultAlgorithm,
@@ -166,20 +150,13 @@ const ProductsMainSection = () => {
 		}
 	};
 
-	const handlePostBanner = async () => {
-		const bannerData = {
-			images: fileList.map((file) => file.url)
-		};
-		const res = await postBanner(bannerData);
-		console.log(res);
-	};
 
 	const handlePostDiscount = async () => {
 		const discountData = {
 			gadgetId: [...gadgetIds],
 			discountSize: Number(discountSize),
-			startDay: discountStartDay,
-			endDay: discountEndDay
+			startDay: String(discountStartDay),
+			endDay: String(discountEndDay)
 		};
 		const {
 			discountSize: DiscountSize,
@@ -209,17 +186,7 @@ const ProductsMainSection = () => {
 		setHoveredItemId(id);
 	};
 
-	const handleSelect = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
-		e.stopPropagation();
-		e.preventDefault();
-		setSelectedItemId(id);
-		setGadgetId(id);
-	};
 
-	const handleCheckboxClick = (e: React.MouseEvent) => {
-		e.stopPropagation();
-		e.preventDefault();
-	};
 
 	React.useEffect(() => {
 		if (searchParams.get('getType')) {
@@ -245,7 +212,6 @@ const ProductsMainSection = () => {
 
 			try {
 				const response = await postUploadForBanner(formData).unwrap();
-				setBannerFormResponse(response.data);
 				console.log(response.data, 'text');
 
 				await postBanner({
@@ -257,6 +223,11 @@ const ProductsMainSection = () => {
 			}
 		}
 	};
+
+	const changeProductsPagination = (page: any) => {
+		searchParams.set('page', page);
+		setSearchParams(searchParams);
+	}
 
 	const changeCheckbox = (id: number) => {
 		if (!gadgetIds.includes(id)) {
@@ -292,9 +263,7 @@ const ProductsMainSection = () => {
 										// onSearch={onSearch}
 										onChange={changeSearchInputValueFunk}
 										value={
-											searchParams.get('keyword')
-												? searchParams.get('keyword')
-												: ''
+											searchParams.get('keyword') ?? ''
 										}
 									/>
 								</ConfigProvider>
@@ -502,7 +471,11 @@ const ProductsMainSection = () => {
 							</table>
 						</div>
 						<div>
-							{/* <Pagination defaultCurrent={10} size={'default'} pageSize={5}  total={data?.paginationGadgets.length} /> */}
+							{
+								// data?.paginationGadgets!.length / data?.page! > 1 && (
+									<Pagination  total={data?.allProduct} pageSize={data?.size} current={data?.page} showQuickJumper={true} onChange={changeProductsPagination}/>
+								// )
+							}
 						</div>
 					</div>
 					<div className={scss.right_content}>
@@ -524,7 +497,7 @@ const ProductsMainSection = () => {
 								<input
 									className={scss.discount}
 									value={discountSize}
-									onChange={(e) => setDiscountSize(e.target.value)}
+									onChange={(e) => setDiscountSize(Number(e.target.value))}
 									type="number"
 									name="name"
 									placeholder="0%  "
@@ -635,9 +608,9 @@ const ProductsMainSection = () => {
 								<CancelButtonCustom onClick={handleCancelBanner}>
 									ОТМЕНИТЬ
 								</CancelButtonCustom>
-								<CustomButtonAdd onClick={handlePostBanner}>
+								{/* <CustomButtonAdd onClick={handleCancelBanner}>
 									ОТПРАВИТЬ
-								</CustomButtonAdd>
+								</CustomButtonAdd> */}
 							</div>
 						</div>
 					</CustomModal>

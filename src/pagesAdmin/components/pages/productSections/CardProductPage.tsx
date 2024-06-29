@@ -3,10 +3,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import scss from './CardProductPage.module.scss';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import {
-	useDeleteProductsMutation,
-	useProductPatchForQuantityMutation
-} from '@/src/redux/api/product';
 import React, { useState } from 'react';
 import {
 	IconArrowLeft,
@@ -32,7 +28,6 @@ import { useGetProductMemoryQuery } from '@/src/redux/api/memoryForProductApi';
 
 const CardProductPage = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
-	const [deleteProducts] = useDeleteProductsMutation();
 	const [deleteModal, setDeleteModal] = useState<boolean>(false);
 	const [deleteByIdApi] = useDeleteGoodsGadgetMutation();
 	const [subGadgetId, setSubGadgetId] = useState<number>(0);

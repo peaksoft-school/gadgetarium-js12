@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 namespace ORDERSTORE {
   type IOrder = {
       searchWord: string,
@@ -52,7 +53,15 @@ namespace ORDERSTORE {
       ]
     }
   ];
-  type GetOrderRequest = string;
+  type GetOrderRequest = {
+    page: string;
+    page: string;
+    keyword: string;
+    status?: string;
+    startDate: string;
+    endDate: string;
+    size: string;
+  };
 
   
   type PostOrderRequest = IOrder;
