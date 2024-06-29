@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import dayjs from 'dayjs';
@@ -105,7 +106,7 @@ export const AddProductSections = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const [postUpload] = usePostUploadMutation();
-
+	const addProductButtonRef = React.useRef(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const inputForFileRef = React.useRef<HTMLInputElement>(null);
 	const { data: brandArray = [] } = useGetBrandApiQuery();
@@ -259,9 +260,9 @@ export const AddProductSections = () => {
 				nameOfGadget,
 				warranty: number
 			}).unwrap();
-			if(response.ids) {
+			if (response.ids) {
 				// searchParams.append('ids', response.ids.toString())
-				response.ids.forEach((c) => searchParams.append('ids', c.toString()))
+				response.ids.forEach((c) => searchParams.append('ids', c.toString()));
 				setSearchParams(searchParams);
 				navigate(`/admin/product-adding/part-2?${searchParams.toString()}`);
 			}
@@ -277,7 +278,7 @@ export const AddProductSections = () => {
 			colorInputRef.current.click();
 		}
 	};
-	
+
 	const changeAddProductsFilesFunk = async (
 		index: number,
 		event: React.ChangeEvent<HTMLInputElement>
@@ -288,7 +289,6 @@ export const AddProductSections = () => {
 			for (let i = 0; i < files.length; i++) {
 				formData.append('files', files[i]);
 			}
-
 			try {
 				const response = await postUpload(formData).unwrap();
 				const uploadedFiles = response.data; // Adjust this based on your server response structure
@@ -296,10 +296,10 @@ export const AddProductSections = () => {
 				setArray((prevValue) => {
 					const newArray = [...prevValue];
 					const currentImages = newArray[index].images || [];
-					newArray[index].images = [...currentImages, ...uploadedFiles].slice(
-						0,
-						6
-					);
+					newArray[index] = {
+						...newArray[index],
+						images: [...currentImages, ...uploadedFiles].slice(0, 6)
+					};
 					return newArray;
 				});
 			} catch (error) {
@@ -310,10 +310,10 @@ export const AddProductSections = () => {
 
 	const styleResultContainer = () => {
 		if (
-		(	categoryId === '1' ||
-			categoryId === '2' ||
-			categoryId === '3' ||
-			categoryId === '4')
+			localStorage.getItem('categoryIdForAddProduct')?.includes('1') ||
+			localStorage.getItem('categoryIdForAddProduct')?.includes('2') ||
+			localStorage.getItem('categoryIdForAddProduct')?.includes('3') ||
+			localStorage.getItem('categoryIdForAddProduct')?.includes('4')
 		) {
 			return `${scss.AddProductSections} ${scss.AddProductSectionsActive}`;
 		} else {
@@ -336,6 +336,62 @@ export const AddProductSections = () => {
 	// 	const newArray = array.filter((c, index) => index + 1 !== id);
 	// 	setArray(newArray);
 	// };
+
+	const areAllFieldsFilled = () => {
+		return array.every(
+			(product) =>
+				product.countSim !== 0 &&
+				product.images.length > 0 &&
+				product.mainColour !== '' &&
+				product.memory !== '' &&
+				product.ram !== ''
+		);
+	};
+
+	const isAnyFieldEmptyOrZero = array.some(
+		(value) =>
+			value.countSim === 0 ||
+			value.images.length === 0 ||
+			value.mainColour === '' ||
+			value.memory === '' ||
+			value.ram === ''
+	);
+
+	const areAllFieldsFilled2 = () => {
+		return array.every(
+			(product) =>
+				product.countSim !== 0 &&
+				product.images.length > 0 &&
+				product.mainColour !== '' &&
+				product.memory !== '' &&
+				product.ram !== '' &&
+				product.dumas !== '' &&
+				product.genderWatch !== '' &&
+				product.materialBody !== '' &&
+				product.materialBracelet !== '' &&
+				product.shapeBody !== '' &&
+				product.sizeWatch !== '' &&
+				product.waterproof !== '' &&
+				product.wireless !== ''
+		);
+	};
+
+	const isAnyFieldEmptyOrZero2 = array.some(
+		(product) =>
+			product.countSim !== 0 &&
+			product.images.length > 0 &&
+			product.mainColour !== '' &&
+			product.memory !== '' &&
+			product.ram !== '' &&
+			product.dumas !== '' &&
+			product.genderWatch !== '' &&
+			product.materialBody !== '' &&
+			product.materialBracelet !== '' &&
+			product.shapeBody !== '' &&
+			product.sizeWatch !== '' &&
+			product.waterproof !== '' &&
+			product.wireless !== ''
+	);
 
 	return (
 		<>
@@ -436,39 +492,42 @@ export const AddProductSections = () => {
 												placeholder="Выбрать"
 												onChange={handleChange}
 												options={
-													subCategoryArray.length! >= 1 ?
-													brandArray.map((item) => ({
-														value: item.id.toString(),
-														label: (
-															<div
-																onClick={() => setBrandId(item.id.toString())}
-																style={{
-																	display: 'flex',
-																	alignItems: 'center',
-																	justifyContent: 'start',
-																	gap: '11px'
-																}}
-															>
-																<img
-																	style={{
-																		width: '100%',
-																		maxWidth: '23px',
-																		height: '23px'
-																	}}
-																	src={item.image}
-																	alt={item.brandName}
-																/>
-																<p
-																	style={{
-																		color: 'rgb(41, 41, 41)',
-																		fontSize: '16px'
-																	}}
-																>
-																	{item.brandName}
-																</p>
-															</div>
-														)
-													})) : undefined
+													subCategoryArray.length! >= 1
+														? brandArray.map((item) => ({
+																value: item.id.toString(),
+																label: (
+																	<div
+																		onClick={() =>
+																			setBrandId(item.id.toString())
+																		}
+																		style={{
+																			display: 'flex',
+																			alignItems: 'center',
+																			justifyContent: 'start',
+																			gap: '11px'
+																		}}
+																	>
+																		<img
+																			style={{
+																				width: '100%',
+																				maxWidth: '23px',
+																				height: '23px'
+																			}}
+																			src={item.image}
+																			alt={item.brandName}
+																		/>
+																		<p
+																			style={{
+																				color: 'rgb(41, 41, 41)',
+																				fontSize: '16px'
+																			}}
+																		>
+																			{item.brandName}
+																		</p>
+																	</div>
+																)
+															}))
+														: undefined
 												}
 											/>
 											{/* <div
@@ -594,22 +653,10 @@ export const AddProductSections = () => {
 														placeholder={`Продукт ${index + 1}`}
 														className={scss.input_for_product_count}
 													/>
-													{/* {array.length >= 2 && (
-														<IconX
-															style={{ margin: '50px' }}
-															onClick={() => handleDeleteByIdArray(index + 1)}
-														/>
-													)} */}
 												</div>
 												<div className={scss.card_inputs}>
 													<div className={scss.label_and_input_div}>
 														<label>Основной цвет</label>
-														{/* <ColorPicker presets={presets} value={colorValue} onChange={(e: React.ChangeEvent<ColorPickerProps>) => setColorValue(e.target.value)}>
-															<div className={scss.color_input} type="primary">
-																<p>Основной цвет</p>
-																<IconFrame />
-															</div>
-														</ColorPicker> */}
 														<div
 															onClick={handleClickInputColorRef}
 															className={scss.color_div}
@@ -708,7 +755,11 @@ export const AddProductSections = () => {
 												<div className={scss.file_div}>
 													<label>Добавьте фото</label>
 													<div
-														className={scss.div_for_file}
+														className={
+															el.images.length > 0
+																? `${scss.div_for_file} ${scss.active_file_div}`
+																: `${scss.div_for_file}`
+														}
 														onClick={() =>
 															handleOpenFileInputForAddProduct(index)
 														}
@@ -726,18 +777,37 @@ export const AddProductSections = () => {
 																changeAddProductsFilesFunk(index, e);
 															}}
 														/>
-														<IconPhotoPlus
-															color="rgb(145, 150, 158)"
-															width={'36px'}
-															height={'33px'}
-														/>
-														<div className={scss.file_div_contents}>
-															<p>Нажмите или перетащите сюда файл</p>
-															<p>
-																Минимальное разрешение - 450x600 <br />{' '}
-																максимальное количество - 6 фото
-															</p>
+														<div
+															className={
+																el.images.length >= 6
+																	? `${scss.file_add_div} ${scss.noo_file_add_div}`
+																	: `${scss.file_add_div}`
+															}
+														>
+															<IconPhotoPlus
+																color="rgb(145, 150, 158)"
+																width={'36px'}
+																height={'33px'}
+															/>
+															{el.images.length === 0 && (
+																<div className={scss.file_div_contents}>
+																	<p>Нажмите или перетащите сюда файл</p>
+																	<p>
+																		Минимальное разрешение - 450x600 <br />{' '}
+																		максимальное количество - 6 фото
+																	</p>
+																</div>
+															)}
 														</div>
+														{el.images.length > 0 &&
+															el.images.map((el, index) => (
+																<div
+																	key={index}
+																	className={scss.add_images_div}
+																>
+																	<img src={el} alt="add image photo" />
+																</div>
+															))}
 													</div>
 												</div>
 											</div>
@@ -751,16 +821,25 @@ export const AddProductSections = () => {
 												<span>Добавить продукт</span>
 											</p>
 										</div>
-										<div className={scss.open_buttno_for_category_noo_active}>
-											<Button
-												className={scss.add_product_button}
-												onClick={() => {
-													handleAddProductsFunk();
-												}}
-											>
-												Далее
-											</Button>
-										</div>
+										{!isAnyFieldEmptyOrZero &&
+											areAllFieldsFilled() &&
+											productName !== '' &&
+											warranty &&
+											localStorage.getItem('categoryIdForAddProduct') &&
+											brandId && (
+												<div
+													className={scss.open_buttno_for_category_noo_active}
+												>
+													<Button
+														className={scss.add_product_button}
+														onClick={() => {
+															handleAddProductsFunk();
+														}}
+													>
+														Далее
+													</Button>
+												</div>
+											)}
 									</div>
 								)}
 								{(localStorage
@@ -1036,7 +1115,11 @@ export const AddProductSections = () => {
 												<div className={scss.file_div}>
 													<label>Добавьте фото</label>
 													<div
-														className={scss.div_for_file}
+														className={
+															el.images.length > 0
+																? `${scss.div_for_file} ${scss.active_file_div}`
+																: `${scss.div_for_file}`
+														}
 														onClick={() =>
 															handleOpenFileInputForAddProduct(index)
 														}
@@ -1054,18 +1137,37 @@ export const AddProductSections = () => {
 																changeAddProductsFilesFunk(index, e);
 															}}
 														/>
-														<IconPhotoPlus
-															color="rgb(145, 150, 158)"
-															width={'36px'}
-															height={'33px'}
-														/>
-														<div className={scss.file_div_contents}>
-															<p>Нажмите или перетащите сюда файл</p>
-															<p>
-																Минимальное разрешение - 450x600 <br />{' '}
-																максимальное количество - 6 фото
-															</p>
+														<div
+															className={
+																el.images.length >= 6
+																	? `${scss.file_add_div} ${scss.noo_file_add_div}`
+																	: `${scss.file_add_div}`
+															}
+														>
+															<IconPhotoPlus
+																color="rgb(145, 150, 158)"
+																width={'36px'}
+																height={'33px'}
+															/>
+															{el.images.length === 0 && (
+																<div className={scss.file_div_contents}>
+																	<p>Нажмите или перетащите сюда файл</p>
+																	<p>
+																		Минимальное разрешение - 450x600 <br />{' '}
+																		максимальное количество - 6 фото
+																	</p>
+																</div>
+															)}
 														</div>
+														{el.images.length > 0 &&
+															el.images.map((el, index) => (
+																<div
+																	key={index}
+																	className={scss.add_images_div}
+																>
+																	<img src={el} alt="add image photo" />
+																</div>
+															))}
 													</div>
 												</div>
 											</div>
@@ -1079,16 +1181,25 @@ export const AddProductSections = () => {
 												<span>Добавить продукт</span>
 											</p>
 										</div>
-										<div
-											className={scss.open_buttno_for_category_noo_active_watch}
-										>
-											<Button
-												onClick={handleAddProductsFunk}
-												className={scss.add_product_button}
-											>
-												Далее
-											</Button>
-										</div>
+										{!isAnyFieldEmptyOrZero2 &&
+											areAllFieldsFilled2() &&
+											productName !== '' &&
+											warranty &&
+											localStorage.getItem('categoryIdForAddProduct') &&
+											brandId && (
+												<div
+													className={
+														scss.open_buttno_for_category_noo_active_watch
+													}
+												>
+													<Button
+														onClick={handleAddProductsFunk}
+														className={scss.add_product_button}
+													>
+														Далее
+													</Button>
+												</div>
+											)}
 									</div>
 								)}
 							</ConfigProvider>
