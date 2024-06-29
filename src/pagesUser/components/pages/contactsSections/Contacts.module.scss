@@ -184,24 +184,33 @@
 						color: rgb(243, 14, 14);
 						font-size: clamp(0.8rem, 5vw, 1.1rem);
 					}
-					.buttonSubmit {
-						// height: 2.7rem;
-						// color: rgb(255, 255, 255);
-						// border-radius: 4px;
-						// background: rgb(99, 86, 97);
+					.button_noo_active {
 						height: 2.7rem;
+						color: rgb(161, 137, 137);
+						border-radius: 4px;
+						background: rgb(110, 15, 94);
+						border: none;
+						font-size: clamp(7px, 5vw, 15px);
+						font-weight: 500;
+						&.buttonSubmit {
+							// height: 2.7rem;
+							// color: rgb(255, 255, 255);
+							// border-radius: 4px;
+							// background: rgb(99, 86, 97);
+							height: 2.7rem;
 							color: rgb(255, 255, 255);
 							border-radius: 4px;
 							background: rgb(203, 17, 171);
 							border: none;
 							font-size: clamp(7px, 5vw, 15px);
 							font-weight: 500;
-						// &.active_buttonSubmit {
-						// 	height: 2.7rem;
-						// 	color: rgb(255, 255, 255);
-						// 	border-radius: 4px;
-						// 	background: rgb(203, 17, 171);
-						// }
+							// &.active_buttonSubmit {
+							// 	height: 2.7rem;
+							// 	color: rgb(255, 255, 255);
+							// 	border-radius: 4px;
+							// 	background: rgb(203, 17, 171);
+							// }
+						}
 					}
 				}
 			}

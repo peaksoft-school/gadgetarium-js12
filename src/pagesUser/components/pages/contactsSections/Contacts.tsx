@@ -18,16 +18,15 @@ export const Contacts = () => {
 		mode: 'onBlur'
 	});
 	const onSubmit: SubmitHandler<ContactsPagesFormTypes> = async (data) => {
-		console.log(data);
 		reset();
 		const contactData: ContactsPagesFormTypes = {
 			email: data.email,
 			firstname: data.firstname,
 			lastname: data.lastname,
 			message: data.message,
-			phoneNumber: String(data.phoneNumber),
-		}
-		const {email, firstname, lastname, message, phoneNumber} = contactData;
+			phoneNumber: String(data.phoneNumber)
+		};
+		const { email, firstname, lastname, message, phoneNumber } = contactData;
 		try {
 			await postNewsLetterContactUs({
 				email,
@@ -35,7 +34,7 @@ export const Contacts = () => {
 				lastname,
 				message,
 				phoneNumber
-			})
+			});
 		} catch (error) {
 			console.error(error);
 		}
@@ -215,11 +214,26 @@ export const Contacts = () => {
 									(errors.message && <p>{errors.message.message}</p>)}
 								<button
 									className={
-										scss.buttonSubmit
-											// ? `${scss.buttonSubmit} ${scss.active_buttonSubmit}`
-											// : `${scss.buttonSubmit}`
+										// scss.buttonSubmit
+										!errors.email &&
+										!errors.phoneNumber &&
+										!errors.message &&
+										!errors.lastname &&
+										!errors.firstname
+											? `${scss.button_noo_active} ${scss.buttonSubmit}`
+											: `${scss.button_noo_active}`
+										// ? `${scss.buttonSubmit} ${scss.active_buttonSubmit}`
+										// : `${scss.buttonSubmit}`
 									}
-									type="submit"
+									type={
+										!errors.email &&
+										!errors.firstname &&
+										!errors.lastname &&
+										!errors.phoneNumber &&
+										!errors.message
+											? 'submit'
+											: 'reset'
+									}
 								>
 									Отправить
 								</button>
