@@ -1,4 +1,4 @@
-import Login from '@/src/pagesAuth/components/pages/loginSections/Login';
+import Login from "./loginSections/Login";
 
 export const LoginPage = () => {
 	return (

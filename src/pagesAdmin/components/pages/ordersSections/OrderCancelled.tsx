@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IconTrash } from '@tabler/icons-react';
 import scss from './OrderInProcessing.module.scss';
@@ -9,7 +10,7 @@ import {
 import { useState } from 'react';
 import CustomSelect from '@/src/ui/customSelect/CustomSelect';
 import Infographics from '@/src/ui/infographics/Infographics';
-import { ConfigProvider, DatePicker, theme } from 'antd';
+import { ConfigProvider, DatePicker, Pagination, theme } from 'antd';
 import Input, { SearchProps } from 'antd/es/input';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal';
 import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
@@ -28,8 +29,9 @@ const OrderCancelled = () => {
 		endDate: searchParams.get('endDate') || ''
 	});
 
+
 	const [deleteOrder] = useDeleteAdminOrderMutation();
-	console.log(data);
+	console.log(data, 'data');
 
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 	const [modalName, setModalName] = useState('');
@@ -37,7 +39,7 @@ const OrderCancelled = () => {
 
 	const handleDeleteOrder = async () => {
 		try {
-			await deleteOrder({ orderId: orderIdToDelete });
+			await deleteOrder({ orderId: Number(orderIdToDelete) });
 			setModalIsOpen(false);
 		} catch (error) {
 			console.error(error);
@@ -75,7 +77,7 @@ const OrderCancelled = () => {
 		if (date) {
 			const formattedDate = date.format('YYYY-MM-DD');
 			searchParams.set('startDate', formattedDate);
-			setSearchParams(searchParams); 
+			setSearchParams(searchParams);
 		} else return;
 	};
 
@@ -98,6 +100,11 @@ const OrderCancelled = () => {
 		}
 	};
 
+	const changeProductsPagination = (page: any) => {
+		searchParams.set('page', page);
+		setSearchParams(searchParams);
+	}
+
 	const filteredOrders = data?.orderResponses || [];
 
 	const countOrdersByStatus = (orders: any[]) => {
@@ -113,11 +120,11 @@ const OrderCancelled = () => {
 
 	const statusCounts = {
 		...countOrdersByStatus(data?.orderResponses || []),
-		'PENDING': data?.waiting || 0,
-		'READY': data?.progress || 0,
-		'COURIER_ON_THE_WAY': data?.onTheWay || 0,
-		'DELIVERED': data?.delivered || 0,
-		'CANCELLED': data?.canceled || 0,
+		PENDING: data?.waiting || 0,
+		READY: data?.progress || 0,
+		COURIER_ON_THE_WAY: data?.onTheWay || 0,
+		DELIVERED: data?.delivered || 0,
+		CANCELLED: data?.canceled || 0
 	};
 
 	const antdThemeConfig = {
@@ -181,7 +188,7 @@ const OrderCancelled = () => {
 									</h3>
 								</Link>
 								<Link to={'/admin/orders/canceled'}>
-									<h3  className={scss.active_link}>
+									<h3 className={scss.active_link}>
 										Отменены
 										{statusCounts['CANCELLED'] > 0
 											? ` (${statusCounts['CANCELLED']})`
@@ -243,7 +250,7 @@ const OrderCancelled = () => {
 											<h1>IsLoading...</h1>
 										) : (
 											<tr className={scss.tr}>
-												{filteredOrders?.map((e) => (
+												{filteredOrders?.map((e: any) => (
 													<>
 														<Link to={`single-order/${e.id}`}>
 															<div className={scss.tr_div}>
@@ -262,7 +269,10 @@ const OrderCancelled = () => {
 																		{e.price}
 																	</td>
 																	<td className={scss.order_type_col}>
-																	{e.typeOrder === true ? "Самовывоз" : "Доставка"}																	</td>
+																		{e.typeOrder === true
+																			? 'Самовывоз'
+																			: 'Доставка'}{' '}
+																	</td>
 																	<CustomSelect
 																		orderId={e.id}
 																		orderStatus={e.status}
@@ -303,6 +313,17 @@ const OrderCancelled = () => {
 												))}
 											</tr>
 										)}
+										{
+											// data?.paginationGadgets!.length / data?.page! > 1 && (
+											<Pagination
+												total={data?.canceled}
+												pageSize={data?.size}
+												current={data?.page}
+												showQuickJumper={true}
+												onChange={changeProductsPagination}
+											/>
+											// )
+										}
 									</>
 								</table>
 							</div>

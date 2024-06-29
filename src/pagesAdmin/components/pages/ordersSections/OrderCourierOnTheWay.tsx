@@ -14,6 +14,7 @@ import {
 	DatePicker,
 	DatePickerProps,
 	Input,
+	Pagination,
 	theme
 } from 'antd';
 import { SearchProps } from 'antd/es/input';
@@ -36,7 +37,7 @@ const OrderCourierOnTheWay = () => {
 	});
 
 	const [deleteOrder] = useDeleteAdminOrderMutation();
-	console.log(data);
+	console.log(data, 'data 2');
 
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 	const [modalName, setModalName] = useState('');
@@ -44,7 +45,7 @@ const OrderCourierOnTheWay = () => {
 
 	const handleDeleteOrder = async () => {
 		try {
-			await deleteOrder({ orderId: orderIdToDelete });
+			await deleteOrder({ orderId: Number(orderIdToDelete) });
 			setModalIsOpen(false);
 		} catch (error) {
 			console.error(error);
@@ -67,6 +68,11 @@ const OrderCourierOnTheWay = () => {
 				return '#000000';
 		}
 	};
+
+	const changeProductsPagination = (page: any) => {
+		searchParams.set('page', page);
+		setSearchParams(searchParams);
+	}
 
 	const handleOpenModal = (
 		orderId: string,
@@ -93,11 +99,11 @@ const OrderCourierOnTheWay = () => {
 
 	const statusCounts = {
 		...countOrdersByStatus(data?.orderResponses || []),
-		'PENDING': data?.waiting || 0,
-		'READY': data?.progress || 0,
-		'COURIER_ON_THE_WAY': data?.onTheWay || 0,
-		'DELIVERED': data?.delivered || 0,
-		'CANCELLED': data?.canceled || 0,
+		PENDING: data?.waiting || 0,
+		READY: data?.progress || 0,
+		COURIER_ON_THE_WAY: data?.onTheWay || 0,
+		DELIVERED: data?.delivered || 0,
+		CANCELLED: data?.canceled || 0
 	};
 
 	const antdThemeConfig = {
@@ -112,7 +118,7 @@ const OrderCourierOnTheWay = () => {
 		if (date) {
 			const formattedDate = date.format('YYYY-MM-DD');
 			searchParams.set('startDate', formattedDate);
-			setSearchParams(searchParams); 
+			setSearchParams(searchParams);
 		} else return;
 	};
 
@@ -251,7 +257,7 @@ const OrderCourierOnTheWay = () => {
 											<h1>IsLoading...</h1>
 										) : (
 											<tr className={scss.tr}>
-												{filteredOrders?.map((e) => (
+												{filteredOrders?.map((e: any) => (
 													<>
 														<Link to={`single-order/${e.id}`}>
 															<div className={scss.tr_div}>
@@ -270,7 +276,10 @@ const OrderCourierOnTheWay = () => {
 																		{e.price}
 																	</td>
 																	<td className={scss.order_type_col}>
-																	{e.typeOrder === true ? "Самовывоз" : "Доставка"}																	</td>
+																		{e.typeOrder === true
+																			? 'Самовывоз'
+																			: 'Доставка'}{' '}
+																	</td>
 																	<CustomSelect
 																		orderId={e.id}
 																		orderStatus={e.status}
@@ -311,6 +320,17 @@ const OrderCourierOnTheWay = () => {
 												))}
 											</tr>
 										)}
+										{
+											// data?.paginationGadgets!.length / data?.page! > 1 && (
+											<Pagination
+												total={data?.canceled}
+												pageSize={data?.size}
+												current={data?.page}
+												showQuickJumper={true}
+												onChange={changeProductsPagination}
+											/>
+											// )
+										}
 									</>
 								</table>
 							</div>
