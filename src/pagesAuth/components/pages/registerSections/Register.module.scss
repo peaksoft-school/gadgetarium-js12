@@ -35,12 +35,15 @@
 			.formsDiv {
 				border-radius: 4px;
 				width: 35.6rem;
-				height: 35.2rem;
+				height: 33.2rem;
 				box-shadow: 0px 10px 30px 0px rgba(133, 143, 164, 0.1);
 				background: rgb(255, 255, 255);
 				padding-top: 2.9rem;
 				padding-inline: 3rem;
 				padding-bottom: 2.9rem;
+				@media (max-width: 585px) {
+					height: 31rem;
+				}
 				@media (max-width: 600px) {
 					width: 100%;
 					padding-bottom: 1rem;
@@ -70,6 +73,7 @@
 							border-radius: 6px;
 							background: rgb(247, 247, 247);
 							color: #292929;
+							border: 1px solid #cb10ac;
 							@media (max-width: 600px) {
 								width: 28rem;
 							}

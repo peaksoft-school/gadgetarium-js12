@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import scss from './NewForgotPassword.module.scss';
 import logo from '@/src/assets/logo.png';

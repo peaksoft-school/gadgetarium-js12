@@ -35,15 +35,21 @@
 			.formsDiv {
 				border-radius: 4px;
 				width: 560px;
-				height: 400px;
+				height: 370px;
 				box-shadow: 0px 10px 30px 0px rgba(133, 143, 164, 0.1);
 				background: rgb(255, 255, 255);
 				padding-top: 3.1rem;
 				padding-inline: 3.2rem;
 				padding-bottom: 3.25rem;
+				@media (max-width: 620px) {
+					
+				}
 				@media (max-width: 600px) {
 					width: 100%;
 					padding-bottom: 1rem;
+				}
+				@media (max-width: 594px) {
+					height: 355px;
 				}
 				.forms {
 					display: flex;
@@ -69,6 +75,7 @@
 							height: 2.5rem;
 							border-radius: 6px;
 							background: rgb(247, 247, 247);
+							border: 1px solid #cb10ac;
 							color: #292929;
 							@media (max-width: 600px) {
 								width: 28rem;

@@ -23,7 +23,6 @@ export const Register = () => {
 
 	const onSubmit: SubmitHandler<RegisterForms> = async (data, event) => {
 		event?.preventDefault();
-
 		if (data.password !== data.confirmThePassword) {
 			message.warning('Некоректный пароль или email ');
 			return;
@@ -36,6 +35,7 @@ export const Register = () => {
 				localStorage.setItem('isAuth', 'true');
 				message.success('Регистрация выполнен успешно');
 				navigate('/');
+				reset();
 			}
 		} catch (error) {
 			console.log('Registration failed', error);
@@ -127,7 +127,7 @@ export const Register = () => {
 													width: '100%',
 													height: '40px',
 													color: 'black',
-													border: '1px solid black',
+													border: '1px solid #cb10ac',
 													borderRadius: '5px'
 												}}
 												country={'us'}
