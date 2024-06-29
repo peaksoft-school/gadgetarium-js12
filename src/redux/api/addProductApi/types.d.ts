@@ -26,12 +26,12 @@ namespace ADDPRODUCTAPI {
 	};
 
 	type PostAddProductResponse = {
-		subCategoryId: number;
-		brandId: number;
-		nameOfGadget: string;
-		dateOfIssue: string;
-		warranty: number;
-		productsRequests: ProductsRequests[];
+		data: PostAddProductResponse;
+		ids: number[];
+		httpResponse: {
+			status: string;
+			message: string;
+		}
 	};
 
 	type GadgetSetQuantityByIdRequest = {
@@ -76,7 +76,7 @@ namespace ADDPRODUCTAPI {
 		ids?: number[];
 	};
 
-	type getNewProductsRequest = void;
+	type getNewProductsRequest = string[];
 	type getNewProductsResponse = {
 		subGadgetId: number;
 		gadgetId: number;
@@ -85,9 +85,18 @@ namespace ADDPRODUCTAPI {
 		memory: string;
 		ram: string;
 		countSim: number;
-		releaseDate: [];
+		releaseDate: string;
 		price: number;
-		gadgetId: number;
 		quantity: number;
 	}[];
+
+	type setPriceAndQuantityNewProductsRequest = {
+		id: number;
+		price: number;
+		quantity: number;
+	}[];
+	type setPriceAndQuantityNewProductsResponse = {
+		status: string;
+		message: string;
+	}
 }

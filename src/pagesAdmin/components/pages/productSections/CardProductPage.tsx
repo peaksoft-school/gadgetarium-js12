@@ -25,9 +25,7 @@ import {
 import ColorButton from '@/src/ui/colours/Colour';
 import InfoProduct from './InfoProduct';
 import { ProductDetails } from './ProductDetails';
-import {
-	useDeleteGoodsGadgetMutation,
-} from '@/src/redux/api/goods';
+import { useDeleteGoodsGadgetMutation } from '@/src/redux/api/goods';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 import { useGetProductsColorsApiQuery } from '@/src/redux/api/productColorApi';
 import { useGetProductMemoryQuery } from '@/src/redux/api/memoryForProductApi';
@@ -165,7 +163,11 @@ const CardProductPage = () => {
 								</div>
 								<div className={scss.div_brad_product}>
 									{resultProductPage ? (
-										<h2>{data?.nameOfGadget}</h2>
+										data?.brandLogo ? (
+											<img src={data?.brandLogo} alt="logo" />
+										) : (
+											<h2>{data?.nameOfGadget}</h2>
+										)
 									) : (
 										<h2 className={scss.product_details_text}>Детали товара</h2>
 									)}
