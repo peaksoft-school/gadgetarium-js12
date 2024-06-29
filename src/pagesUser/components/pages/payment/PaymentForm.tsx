@@ -27,6 +27,23 @@ const CARD_OPTIONS = {
 	}
 };
 
+const images = [
+	{
+		image:
+			'https://static-00.iconduck.com/assets.00/mastercard-icon-2048x1587-tygju446.png'
+	},
+	{
+		image:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Visa_Logo.png/640px-Visa_Logo.png'
+	},
+	{
+		image: 'https://ipc.kg/wp-content/uploads/2023/10/elcard_logo_newrus2.png'
+	},
+	{
+		image: 'https://mbank.kg/media/logo/Frame_4_qkrlduu.png'
+	}
+];
+
 interface TypeProps {
 	openModal: boolean;
 	setOpenModal: (value: boolean | ((prev: boolean) => boolean)) => void;
@@ -111,6 +128,13 @@ const PaymentForm: FC<TypeProps> = ({
 								>
 									Продолжить
 								</button>
+								{/* <div className={scss.images}>
+									{images.map((item, index) => (
+										<div key={index}>
+											<img src={item.image} alt="image" />
+										</div>
+									))}
+								</div> */}
 							</form>
 						</div>
 					</div>

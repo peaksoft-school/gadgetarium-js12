@@ -7,7 +7,7 @@ const api = index.injectEndpoints({
 			PAYMENTPRODUCT.PatchPaymentProductsRequest
 		>({
 			query: ({ orderId, payment }) => ({
-				url: `/api/paypal/${orderId}&${payment}`,
+				url: `/api/paypal?${orderId}&${payment}`,
 				method: 'PATCH',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -20,13 +20,16 @@ const api = index.injectEndpoints({
 			PAYMENTPRODUCT.PostPaymentResponse,
 			PAYMENTPRODUCT.PostPaymentRequest
 		>({
-			query: (order) => ({
-				url: `/api/paypal/create-payment`,
+			query: ({ newData, token, test }) => ({
+				url: `/api/payment/create/${4}`,
 				method: 'POST	',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				},
-				body: order
+				body: newData,
+				params: {
+					token: 'tok_createDispute'
+				}
 			}),
 			invalidatesTags: ['payment']
 		})

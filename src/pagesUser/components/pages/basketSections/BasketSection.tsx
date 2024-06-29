@@ -303,11 +303,12 @@ const BasketSection = () => {
 																	}
 																>
 																	<p>
-																		Рейтинг <Rate defaultValue={item.rating} />
+																		Рейтинг
+																		<Rate disabled defaultValue={item.rating} />
 																		{item.rating}
 																	</p>
 																	<p className={scss.buy_product_text}>
-																		В наличии {item.quantity}
+																		В наличии ({item.quantity})
 																	</p>
 																</div>
 																<div
@@ -381,7 +382,7 @@ const BasketSection = () => {
 															<div
 																className={scss.div_product_code_and_buttons}
 															>
-																<p>Код товара: {item.nameOfGadget}</p>
+																<p>Код товара: {item.article}</p>
 																<div className={scss.buttons_div}>
 																	<div
 																		className={scss.div}

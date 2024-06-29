@@ -188,7 +188,6 @@ const Profile = () => {
 							<h3>Профиль</h3>
 							<div></div>
 						</div>
-
 						<div className={scss.div_navigation}>
 							<Link to="/personal-account/history-of-orders">
 								<button>История заказов</button>
