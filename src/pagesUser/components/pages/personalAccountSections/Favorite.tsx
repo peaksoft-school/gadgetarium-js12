@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Link } from 'react-router-dom';
 import scss from './Favorite.module.scss';
 import favorite from '@/src/assets/sammy_order_completed_by_a_delivery_girl_1.png';

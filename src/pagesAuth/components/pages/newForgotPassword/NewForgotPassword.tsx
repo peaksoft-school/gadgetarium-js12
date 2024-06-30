@@ -7,14 +7,13 @@ import { Button, ConfigProvider, Input, message } from 'antd';
 import React from 'react';
 import { usePatchNewPasswordMutation } from '@/src/redux/api/auth';
 import { ToastContainer } from 'react-toastify';
-import { notify } from '@/src/utils/helpers/notify';
 import { IconLoader } from '@tabler/icons-react';
 
 const NewForgotPassword = () => {
 	const [passwordVisible, setPasswordVisible] = React.useState(false);
 	const [patchNewPassword, { isLoading }] = usePatchNewPasswordMutation();
 	const location = useLocation();
-	const token = new URLSearchParams(location.search).get('token');
+	const token: string = new URLSearchParams(location.search).get('token') || '';
 	const navigate = useNavigate();
 
 	const {
@@ -33,9 +32,14 @@ const NewForgotPassword = () => {
 			const newData = {
 				password: data.password,
 				confirmPassword: data.confirmPassword,
-				token
+				// token
 			};
-			await patchNewPassword(newData);
+			const { confirmPassword, password } = newData;
+			await patchNewPassword({
+				confirmPassword,
+				password,
+				token
+			});
 			console.log('onSubmit', data);
 			message.success('Пароль успешно изменён');
 			setTimeout(() => {

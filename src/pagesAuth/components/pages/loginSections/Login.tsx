@@ -13,7 +13,7 @@ import { ToastContainer } from 'react-toastify';
 import { notify } from '@/src/utils/helpers/notify';
 
 interface OpenModalProps {
-	setOpenModal: (isOpen: boolean) => void;
+	setOpenModal?: (isOpen: boolean) => void;
 }
 
 const Login: FC<OpenModalProps> = ({ setOpenModal }) => {
@@ -76,9 +76,9 @@ const Login: FC<OpenModalProps> = ({ setOpenModal }) => {
 		}
 
 		if (localStorage.getItem('isAuth') === 'true') {
-			setOpenModal(false);
+			setOpenModal!(false);
 		} else {
-			setOpenModal(true);
+			setOpenModal!(true);
 		}
 	};
 

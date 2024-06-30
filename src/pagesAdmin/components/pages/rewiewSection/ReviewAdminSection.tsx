@@ -83,6 +83,7 @@ const ReviewAdminSection = () => {
 
 	const handleCancel = () => {
 		setMessage('');
+		setIndexProductsResults(null)
 	};
 
 	const items: MenuProps['items'] = [
@@ -357,31 +358,13 @@ const ReviewAdminSection = () => {
 																	.getAll('feedbackType')
 																	.includes('UNANSWERED') ? (
 																	<>
-																		{!message ? (
-																			<Button
-																				className={
-																					message ? scss.none : scss.button
-																				}
-																			>
-																				Ответить
-																			</Button>
-																		) : (
-																			<Button
-																				className={
-																					message ? scss.none : scss.button
-																				}
-																			>
-																				Редактировать
-																			</Button>
-																		)}
-
-																		{message ? (
+																	
 																			<>
 																				<Button
 																					className={scss.button_cancel_2}
 																					onClick={handleCancel}
 																				>
-																					{message ? 'Отменить' : ''}
+																					Отменить
 																				</Button>
 																				<Button
 																					onClick={() =>
@@ -392,7 +375,6 @@ const ReviewAdminSection = () => {
 																					Сохранить
 																				</Button>
 																			</>
-																		) : null}
 																	</>
 																) : (
 																	<>

@@ -32,7 +32,7 @@ const api = index.injectEndpoints({
 			COMPARISONPRODUCTS.GetComparisonCompareRequest
 		>({
 			query: ({ gadgetType, isDifferences }) => ({
-				url: `/api/comparison/compare?${gadgetType}&${isDifferences}`,
+				url: `/api/comparison/comparing?${gadgetType}&${isDifferences}`,
 				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`

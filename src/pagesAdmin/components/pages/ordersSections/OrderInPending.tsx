@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IconTrash } from '@tabler/icons-react';
 import scss from './OrderInProcessing.module.scss';
@@ -13,6 +14,7 @@ import {
 	ConfigProvider,
 	DatePicker,
 	Input,
+	Pagination,
 	theme
 } from 'antd';
 import { SearchProps } from 'antd/es/input';
@@ -46,7 +48,7 @@ const OrderInPending = () => {
 
 	const handleDeleteOrder = async () => {
 		try {
-			await deleteOrder({ orderId: orderIdToDelete });
+			await deleteOrder({ orderId: Number(orderIdToDelete) });
 			setModalIsOpen(false);
 		} catch (error) {
 			console.error('Failed to delete order: ', error);
@@ -69,6 +71,11 @@ const OrderInPending = () => {
 				return '#000000';
 		}
 	};
+
+	const changeProductsPagination = (page: any) => {
+		searchParams.set('page', page);
+		setSearchParams(searchParams);
+	}
 
 	const handleOpenModal = (
 		orderId: string,
@@ -252,7 +259,7 @@ const OrderInPending = () => {
 											<h1>IsLoading...</h1>
 										) : (
 											<div className={scss.tr}>
-												{filteredOrders?.map((e) => (
+												{filteredOrders?.map((e: any) => (
 													<>
 														<Link to={`single-order/${e.id}`}>
 															<div className={scss.tr_div}>
@@ -313,6 +320,17 @@ const OrderInPending = () => {
 												))}
 											</div>
 										)}
+											{
+											// data?.paginationGadgets!.length / data?.page! > 1 && (
+											<Pagination
+												total={data?.canceled}
+												pageSize={data?.size}
+												current={data?.page}
+												showQuickJumper={true}
+												onChange={changeProductsPagination}
+											/>
+											// )
+										}
 									</>
 								</table>
 							</div>

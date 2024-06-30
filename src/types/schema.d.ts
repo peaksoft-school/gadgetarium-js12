@@ -60,8 +60,8 @@ type RegisterForms = {
 };
 
 type ContactsPagesFormTypes = {
-	firstName: string;
-	lastName: string;
+	firstname: string;
+	lastname: string;
 	email: string;
 	phoneNumber: number | string;
 	message: string;

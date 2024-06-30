@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import scss from './ProductPartTwo.module.scss';
@@ -12,8 +13,8 @@ import {
 import { Input } from 'antd';
 
 interface ArrayTypes {
-	price: number;
-	quantity: number;
+	price: number | string;
+	quantity: number | string;
 }
 
 const ProductPartTwo = () => {
@@ -24,7 +25,6 @@ const ProductPartTwo = () => {
 		refetch
 	} = useGadgetGetNewProductsQuery([searchParams.toString()]);
 	console.log(products, 'array is result');
-	const addButtonRenderRef = React.useRef(false);
 	const [setPriceById] = useGadgetByIdSetPriceMutation();
 	const [setAllProductsPriceAndQuantity] =
 		useSetAllProductsPriceAndQuantityMutation();
@@ -130,7 +130,7 @@ const ProductPartTwo = () => {
 	};
 	const areAllFieldsFilled = () => {
 		return array.every(
-			(product) => product.price !== '' && product.quantity !== ''
+			(product) => product.price !== '' || 0 && product.quantity !== '' || 0
 		);
 	};
 

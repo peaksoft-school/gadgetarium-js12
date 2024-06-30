@@ -1,10 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 namespace POSTFOLLOW {
-	export type PostFollowRequest = {
+	type PostFollowRequest = {
+		email: string;
+	};
+	type PostFollowResponse = {
 		email: string;
 	};
 
-	export type PostFollowResponse = {
+	type postNewsLetterContactUsRequest = {
+		firstname: string;
+		lastname: string;
 		email: string;
-	};
+		phoneNumber: string | number;
+		message: string;
+	}
+	type postNewsLetterContactUsResponse = {
+		status: string;
+		message: string;
+	}
 }

@@ -37,6 +37,7 @@ export const Register = () => {
 				navigate('/');
 				reset();
 			}
+			reset();
 		} catch (error) {
 			console.log('Registration failed', error);
 			message.warning('Пользователь уже зарегистрирован');
