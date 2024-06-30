@@ -176,12 +176,12 @@ const Login: FC<OpenModalProps> = ({ setOpenModal }) => {
 											</ConfigProvider>
 										)}
 									/>
-									{errors.email && (
+									{(errors.email && (
 										<p className={scss.errors}>{errors.email.message}</p>
-									)}
-									{errors.password && (
-										<p className={scss.errors}>{errors.password.message}</p>
-									)}
+									)) ||
+										(errors.password && (
+											<p className={scss.errors}>{errors.password.message}</p>
+										))}
 									<div className={scss.buttonDiv}>
 										<Button
 											className={scss.buttonSubmit}

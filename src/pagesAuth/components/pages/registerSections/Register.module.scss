@@ -35,7 +35,7 @@
 			.formsDiv {
 				border-radius: 4px;
 				width: 35.6rem;
-				height: 33.2rem;
+				height: 34.2rem;
 				box-shadow: 0px 10px 30px 0px rgba(133, 143, 164, 0.1);
 				background: rgb(255, 255, 255);
 				padding-top: 2.9rem;
@@ -73,7 +73,7 @@
 							border-radius: 6px;
 							background: rgb(247, 247, 247);
 							color: #292929;
-							border: 1px solid #cb10ac;
+							border: 1px solid rgba(144, 156, 181, 0.3);
 							@media (max-width: 600px) {
 								width: 28rem;
 							}
@@ -88,6 +88,14 @@
 							}
 							&::placeholder {
 								color: #292929;
+							}
+							&:active {
+								transition: all 0.2s ease;
+								border: 1px solid #cb10ac;
+							}
+							&:hover {
+								transition: all 0.2s ease;
+								border: 1px solid #cb10ac;
 							}
 						}
 
