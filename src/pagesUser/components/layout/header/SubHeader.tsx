@@ -204,7 +204,7 @@ const SubHeader: FC<SubHeaderProps> = ({ isScrolled }) => {
 								<a
 									className={scss.icon_instagram}
 									target="_blank"
-									href="https://www.instagram.com/taa1ai.bekovna?igsh=MTh5a3VrZjgza2hxNA=="
+									href="https://www.instagram.com/gadgetarium_ps/"
 								>
 									<IconBrandInstagram />
 								</a>

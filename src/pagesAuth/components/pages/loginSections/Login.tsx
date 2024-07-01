@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Link, useNavigate } from 'react-router-dom';
 import scss from './Login.module.scss';
 import logo from '@/src/assets/logo.png';
@@ -11,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { IconLoader } from '@tabler/icons-react';
 
 interface OpenModalProps {
-	setOpenModal: (isOpen: boolean) => void;
+	setOpenModal?: (isOpen: boolean) => void;
 }
 
 const Login: FC<OpenModalProps> = ({ setOpenModal }) => {
@@ -74,9 +75,9 @@ const Login: FC<OpenModalProps> = ({ setOpenModal }) => {
 		}
 
 		if (localStorage.getItem('isAuth') === 'true') {
-			setOpenModal(false);
+			setOpenModal!(false);
 		} else {
-			setOpenModal(true);
+			setOpenModal!(true);
 		}
 	};
 

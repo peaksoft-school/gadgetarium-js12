@@ -12,7 +12,7 @@ interface CustomSelectProps {
 	orderId: string;
 	orderStatus: string;
 	currentColor: string;
-	onStatusChange: (orderId: string, newStatus: string) => void;
+	onStatusChange?: (orderId: string, newStatus: string) => void;
 }
 
 const CustomSelect: FC<CustomSelectProps> = ({

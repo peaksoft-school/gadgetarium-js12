@@ -158,14 +158,12 @@ const PaymentForm: FC<TypeProps> = ({
 					<div className={scss.title_content}>
 						<p>Подтвердите платеж для завершения покупки</p>
 					</div>
-					<div className={scss.detals_product}>
-						<div className={scss.info_content}>
-							<div className={scss.date}>
-								<p>Дата создания платежа:</p>
-								<p>{new Date().toLocaleString()}</p>
-							</div>
-							<button onClick={handleConfirmPayment}>Подтвердить платеж</button>
+					<div className={scss.info_content}>
+						<div className={scss.date}>
+							<p>Дата создания платежа:</p>
+							<p>{new Date().toLocaleString()}</p>
 						</div>
+						<button onClick={handleConfirmPayment}>Подтвердить платеж</button>
 					</div>
 				</div>
 			</Modal>

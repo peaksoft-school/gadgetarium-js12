@@ -116,8 +116,20 @@
 		justify-content: center;
 		align-items: center;
 		p {
+			width: 260px;
 			font-size: 20px;
 			font-weight: 700;
+		}
+	}
+	.info_content {
+		.date {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			p {
+				font-size: 17px;
+			}
 		}
 	}
 	button {
