@@ -74,7 +74,7 @@ const ProductsPromotion = () => {
 	};
 
 	return (
-		<div className={scss.ProductsPromotion}>
+		<div id='акции' className={scss.ProductsPromotion}>
 			<div className="container">
 				<div className={scss.content}>
 					<h2 className={scss.promotion}>Акции</h2>

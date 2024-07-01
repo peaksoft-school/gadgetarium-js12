@@ -17,7 +17,21 @@
 			font-weight: 500;
 			line-height: 140%;
 		}
-		a {
+		p {
+			color: #858fa4;
+			font-size: 16px;
+			font-weight: 500;
+			line-height: 130%;
+
+			transition: 0.2s;
+
+			&:hover {
+				color: white;
+				font-size: 16px;
+				font-weight: 500;
+			}
+		}
+		.link {
 			color: #858fa4;
 			font-size: 16px;
 			font-weight: 500;

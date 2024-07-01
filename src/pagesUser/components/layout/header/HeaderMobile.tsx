@@ -1,24 +1,25 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import scss from './HeaderMobile.module.scss';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { IconGadgetarium } from '@/src/assets/icons';
 import {
 	IconBrandFacebook,
 	IconBrandInstagram,
 	IconBrandWhatsapp,
 	IconHeart,
+	IconLoader,
 	IconScale,
 	IconShoppingCart
 } from '@tabler/icons-react';
 import mini_logo from '@/src/assets/mini-logo.png';
 import AuthDropdown from '@/src/ui/authDropdown/AuthDropdown.tsx';
 import { userLinks } from '@/src/routes';
-import { ConfigProvider, Input, theme } from 'antd';
-import { SearchProps } from 'antd/es/input';
+import { ConfigProvider, Input, Rate, theme } from 'antd';
 import BurgerButton from '@/src/ui/burgerButton/BurgerButton.tsx';
 import { useGetBasketQuery } from '@/src/redux/api/basket';
 import { useGetFavoriteQuery } from '@/src/redux/api/favorite';
 import { useGetComparisonQuery } from '@/src/redux/api/comparison';
+import { useGetGlobalSearchQuery } from '@/src/redux/api/globalSearch';
 
 interface HeaderMobileProps {
 	isOpenMobileMenu: boolean;
@@ -29,13 +30,35 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 	isOpenMobileMenu,
 	setIsOpenMobileMenu
 }) => {
+	const [searchParams, setSearchParams] = useSearchParams();
+	const navigate = useNavigate();
 	const { data: BasketData = [] } = useGetBasketQuery();
 	const { data: FavoriteData = [] } = useGetFavoriteQuery();
+	const [inputValue, setInputValue] = useState('');
 	const { data: ComparisonData = [] } = useGetComparisonQuery();
 	const { pathname } = useLocation();
 
-	const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
-		console.log(info?.source, value);
+	const {
+		data: globalSearch = [],
+		refetch,
+		isLoading
+	} = useGetGlobalSearchQuery({ request: inputValue }, { skip: !inputValue });
+	const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		console.log(value);
+
+		setInputValue(value);
+		setSearchParams({ request: value });
+		refetch();
+		if (value) {
+			refetch();
+		}
+		if (value === '') {
+			searchParams.delete('request');
+			setSearchParams(searchParams);
+			refetch();
+		}
+	};
 
 	const handleCloseMobileMenu = () => {
 		setIsOpenMobileMenu(false);
@@ -58,12 +81,85 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 							<img src={mini_logo} alt="	-logo" />
 						</Link>
 						<ConfigProvider theme={antdThemeConfig}>
+							<div className={scss.test}>
+								
 							<Input.Search
 								className={scss.search}
 								placeholder="Поиск по каталогу магазина"
 								allowClear
-								onSearch={onSearch}
+								onChange={handleChangeSearch}
+								value={inputValue}
 							/>
+							{searchParams.get('request') && (
+								<div className={scss.main_search}>
+									<div className={scss.search_global}>
+										{isLoading ? (
+											<>
+												<div className={scss.loader}>
+													<IconLoader />
+												</div>
+											</>
+										) : (
+											<>
+												{globalSearch.length === 0 ? (
+													<>
+														<div className={scss.not_found}>
+															<h3>Нет результатов...</h3>
+														</div>
+													</>
+												) : (
+													<>
+														{globalSearch?.map((el) => (
+															<div
+																onClick={() => {
+																	navigate(`/api/gadget/by-id/${el.gadgetId}`);
+																	setInputValue('');
+																}}
+																className={scss.div_product_map}
+																key={el.subGadgetId}
+															>
+																<div className={scss.div_img}>
+																	<img
+																		className={scss.img_product}
+																		src={el.image}
+																		alt={el.brandNameOfGadget}
+																	/>
+																</div>
+																<div className={scss.div_product_contents}>
+																	<div className={scss.one_products}>
+																		<p>
+																			{el.brandNameOfGadget.length >= 28
+																				? el.brandNameOfGadget.slice(0, 22) +
+																					'...'
+																				: el.brandNameOfGadget}
+																		</p>
+																		<p className={scss.rating_search}>
+																			Рейтинг
+																			<Rate
+																				className={scss.rate}
+																				allowHalf
+																				disabled
+																				defaultValue={el.rating}
+																			/>
+																			({el.rating})
+																		</p>
+																	</div>
+																	<div className={scss.div_buttons_and_price}>
+																		<div className={scss.product_price}>
+																			<h2>{el.price} c</h2>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														))}
+													</>
+												)}
+											</>
+										)}
+									</div>
+								</div>
+							)}
+							</div>
 						</ConfigProvider>
 						<BurgerButton
 							checked={isOpenMobileMenu}

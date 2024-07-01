@@ -4,6 +4,7 @@ import { IconGadgetarium } from '@/src/assets/icons';
 import AuthDropdown from '@/src/ui/authDropdown/AuthDropdown.tsx';
 import { userLinks } from '@/src/routes';
 import { useGetProfilesQuery } from '@/src/redux/api/personalAccount/profile';
+// import CatalogMenu from '@/src/ui/catalogMenu/CatalogMenu';
 const SupHeader = () => {
 	const { data: profileData } = useGetProfilesQuery({});
 	const { pathname } = useLocation();
@@ -45,6 +46,7 @@ const SupHeader = () => {
 					</div>
 				</div>
 			</div>
+			{/* <CatalogMenu/> */}
 		</header>
 	);
 };

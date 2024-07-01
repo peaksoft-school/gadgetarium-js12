@@ -6,7 +6,7 @@ import { IconBusinessplan, IconCash, IconWallet } from '@tabler/icons-react';
 const Delivery = () => {
 	const navigate = useNavigate();
 	return (
-		<section className={scss.DeliveryPage}>
+		<section id='Доставка' className={scss.DeliveryPage}>
 			<div className="container">
 				<div className={scss.content}>
 					<p onClick={() => navigate('/')}>

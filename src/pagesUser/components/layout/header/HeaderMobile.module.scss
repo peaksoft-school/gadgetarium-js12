@@ -29,6 +29,161 @@
 		}
 	}
 
+	// ! search 
+	.main_search {
+		.search_global {
+			.loader {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 80px;
+			}
+			.not_found {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 80px;
+			}
+			position: absolute;
+			top: 45px;
+			display: flex;
+			flex-direction: column;
+			right: 32px;
+			max-width: 880px;
+			width: 100%;
+			background-color: white;
+			box-shadow: 0px 0px 8px #ddd;
+			border-radius: 10px;
+			margin-top: 10px;
+			max-height: 300px;
+			padding: auto;
+			overflow: scroll;
+			// padding: 25px 50px;
+			.div_product_map {
+				cursor: pointer;
+				box-shadow: 0px 0px 1px black;
+				background-color: #ffffff;
+				border-radius: 4px;
+				width: 100%;
+				max-width: 850px;
+				height: 100px;
+				display: flex;
+				align-items: center;
+				padding-block: 12px;
+				padding-inline: 12px;
+				gap: 15px;
+				@media (max-width: 500px) {
+					gap: 5px;
+				}
+				// position: relative;
+				// @media (max-width: 330px) {
+				// 	height: auto;
+				// 	width: 1vw;
+				// }
+				// @media (max-width: 628px) {
+				// 	height: auto;
+				// 	width: 60vw;
+				// }
+				// @media (max-width: 550px) {
+				// 	height: auto;
+				// 	width: 300px;
+				// }
+				&:hover {
+					box-shadow: 0px 0px 1px black;
+					background-color: rgba(128, 128, 128, 0.144);
+				}
+				.div_img {
+					display: flex;
+					// justify-content: center;
+					align-items: center;
+					.img_product {
+						width: 60px;
+						height: 70px;
+						font-size: 10px;
+						@media (max-width: 600px) {
+							width: 50px;
+							height: 60px;
+						}
+					}
+				}
+				.div_product_contents {
+					// margin-top: 10px;
+					width: 100%;
+					display: flex;
+					justify-content: space-between;
+					@media (max-width: 600px) {
+						// gap: 28px;
+						margin-top: 0;
+						justify-content: space-evenly;
+					}
+					@media (max-width: 480px) {
+						flex-wrap: wrap;
+					}
+					.one_products {
+						display: flex;
+						flex-direction: column;
+						gap: 20px;
+						@media (max-width: 500px) {
+							gap: 4px;
+						}
+						p {
+							color: #292929;
+							font-size: clamp(7px, 5vw, 14px);
+						}
+						h3 {
+							color: #292929;
+							font-size: clamp(7px, 5vw, 17px);
+						}
+						.rating_search {
+							display: flex;
+							align-items: center;
+							gap: 2px;
+							color: #909cb5;
+							font-size: 14px;
+							@media (max-width: 500px) {
+								font-size: clamp(7px, 4vw, 14px);
+								gap: 1px;
+							}
+							@media (max-width: 480px) {
+								margin-top: 5px;
+							}
+							.rate {
+								display: flex;
+								align-items: center;
+								font-size: 14px;
+								font-size: clamp(7px, 4vw, 12px);
+
+							}
+						}
+					}
+					.div_buttons_and_price {
+						display: flex;
+						align-items: center;
+						gap: 43px;
+						@media (max-width: 600px) {
+							display: flex;
+							flex-direction: column;
+							gap: 28px;
+							align-items: start;
+						}
+						.product_price {
+							display: flex;
+							flex-direction: column;
+							@media (max-width: 600px) {
+								display: flex;
+								align-items: center;
+							}
+							h2 {
+								color: #292929;
+								font-size: 17px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	//!burger_menu
 	.burger_menu {
 		overflow: hidden;
@@ -157,4 +312,10 @@
 			}
 		}
 	}
+}
+
+
+.test {
+	width: 100%;
+	position: relative;
 }

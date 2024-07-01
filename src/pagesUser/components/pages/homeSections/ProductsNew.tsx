@@ -75,7 +75,7 @@ const ProductsNew = () => {
 	console.log(data?.mainPages);
 
 	return (
-		<div className={scss.ProductsNew}>
+		<div id='новинки' className={scss.ProductsNew}>
 			<div className="container">
 				<div className={scss.content}>
 					<h2 className={scss.new}>Новинки</h2>

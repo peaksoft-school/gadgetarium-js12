@@ -342,13 +342,11 @@ const ComparisonSection = () => {
 															<>
 																<div className={scss.icons}>
 																	<IconBrand />
-																	<IconScreen />
 																	<IconColor />
-																	<IconSystem />
 																	<IconStorage />
 																	<IconStorage />
-																	<IconScales />
 																	<IconSim />
+																	<IconSystem />
 																</div>
 															</>
 														) : (

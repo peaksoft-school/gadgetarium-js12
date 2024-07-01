@@ -74,7 +74,7 @@ const ProductsRecom = () => {
 	};
 
 	return (
-		<div className={scss.ProductsRecom}>
+		<div id='популярные категории' className={scss.ProductsRecom}>
 			<div className="container">
 				<div className={scss.content}>
 					<h2 className={scss.recom_text}>Мы рекомендуем</h2>

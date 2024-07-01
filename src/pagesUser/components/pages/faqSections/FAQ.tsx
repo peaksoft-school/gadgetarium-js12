@@ -63,7 +63,7 @@ const FAQ = () => {
 	};
 
 	return (
-		<section className={scss.FAQPage}>
+		<section id='FAQ' className={scss.FAQPage}>
 			<div className="container">
 				<div className={scss.content}>
 					<div className={scss.pageContent1}>
