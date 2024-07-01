@@ -6,8 +6,12 @@ import { Button, ConfigProvider, Input, message } from 'antd';
 import React from 'react';
 import { usePatchNewPasswordMutation } from '@/src/redux/api/auth';
 import { ToastContainer } from 'react-toastify';
-import { notify } from '@/src/utils/helpers/notify';
 import { IconLoader } from '@tabler/icons-react';
+
+interface NewForgotPasswordForm {
+	password: string;
+	confirmPassword: string;
+}
 
 const NewForgotPassword = () => {
 	const [passwordVisible, setPasswordVisible] = React.useState(false);
@@ -21,12 +25,21 @@ const NewForgotPassword = () => {
 		handleSubmit,
 		reset,
 		control,
+		watch,
 		formState: { errors }
-	} = useForm<NewForgotPassword>({
+	} = useForm<NewForgotPasswordForm>({
 		mode: 'onBlur'
 	});
-	const onSubmit: SubmitHandler<NewForgotPassword> = async (data, event) => {
+
+	const onSubmit: SubmitHandler<NewForgotPasswordForm> = async (
+		data,
+		event
+	) => {
 		event?.preventDefault();
+		if (data.password !== data.confirmPassword) {
+			message.warning('Пароли не совпадают');
+			return;
+		}
 
 		try {
 			const newData = {
@@ -34,18 +47,23 @@ const NewForgotPassword = () => {
 				confirmPassword: data.confirmPassword,
 				token
 			};
-			await patchNewPassword(newData);
-			console.log('onSubmit', data);
+			const response = await patchNewPassword(newData).unwrap();
+			console.log('onSubmit', response);
 			message.success('Пароль успешно изменён');
 			setTimeout(() => {
 				navigate('/auth/login');
 			}, 3000);
 			reset();
 		} catch (error) {
-			console.log('not patch response', error);
-			message.warning('Неправильно вели пароль');
+			if (error.status === 403) {
+				message.warning('Длина пароля должна быть больше или равна 6.');
+			} else {
+				message.error('Произошла ошибка при смене пароля');
+			}
+			console.error('Ошибка при смене пароля', error);
 		}
 	};
+
 	return (
 		<div className={scss.loginPages}>
 			<div className="container">
@@ -64,7 +82,7 @@ const NewForgotPassword = () => {
 									onSubmit={handleSubmit(onSubmit)}
 								>
 									<Controller
-										{...register('password')}
+										name="password"
 										control={control}
 										defaultValue=""
 										rules={{
@@ -85,14 +103,19 @@ const NewForgotPassword = () => {
 										)}
 									/>
 									<Controller
-										{...register('confirmPassword')}
+										name="confirmPassword"
 										control={control}
 										defaultValue=""
 										rules={{
-											required: 'Пароль обязателен для заполнения',
+											required: 'Подтверждение пароля обязательно',
 											minLength: {
 												value: 8,
 												message: 'Пароль должен содержать минимум 8 символов'
+											},
+											validate: (value) => {
+												if (value !== watch('password')) {
+													return 'Пароли не совпадают';
+												}
 											}
 										}}
 										render={({ field }) => (
@@ -109,7 +132,7 @@ const NewForgotPassword = () => {
 											>
 												<Input.Password
 													className={scss.inputs}
-													placeholder="Подвердить пароль"
+													placeholder="Подтвердить пароль"
 													{...field}
 													style={
 														errors.confirmPassword
@@ -124,21 +147,22 @@ const NewForgotPassword = () => {
 											</ConfigProvider>
 										)}
 									/>
-									{(errors.password && (
+									{errors.password && (
 										<p className={scss.errors}>{errors.password.message}</p>
-									)) ||
-										(errors.confirmPassword && (
-											<p className={scss.errors}>
-												{errors.confirmPassword.message}
-											</p>
-										))}
+									)}
+									{errors.confirmPassword && (
+										<p className={scss.errors}>
+											{errors.confirmPassword.message}
+										</p>
+									)}
 									<div className={scss.buttonDiv}>
 										<Button
 											className={scss.buttonSubmit}
 											type="primary"
 											htmlType="submit"
+											loading={isLoading}
 										>
-											{isLoading ? <IconLoader /> : '			Сменит пароль'}
+											Сменить пароль
 										</Button>
 									</div>
 									<ToastContainer />

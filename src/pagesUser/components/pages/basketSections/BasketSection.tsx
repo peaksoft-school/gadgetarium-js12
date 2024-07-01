@@ -441,16 +441,16 @@ const BasketSection = () => {
 														<div className={scss.price_result_product_div}>
 															<p>Ваша скидка: </p>
 															<p className={scss.color_red_p}>
-																{resultsProductsPrices?.currentPrice} c
+																-{resultsProductsPrices?.discountPrice} c
 															</p>
 														</div>
 														<div className={scss.price_result_product_div}>
 															<p>Сумма:</p>
-															<p>{resultsProductsPrices?.discountPrice} c</p>
+															<p>{resultsProductsPrices?.price} c</p>
 														</div>
 														<div className={scss.price_result_product_div}>
 															<h3>Итого</h3>
-															<p> {resultsProductsPrices?.price} c</p>
+															<p> {resultsProductsPrices?.currentPrice} c</p>
 														</div>
 													</div>
 												</>

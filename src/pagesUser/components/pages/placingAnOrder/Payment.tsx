@@ -1,11 +1,14 @@
 import { Checkbox, ConfigProvider } from 'antd';
 import scss from './Payment.module.scss';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { usePatchPaymentTypeMutation } from '@/src/redux/api/payment';
+import { useEffect, useState } from 'react';
+import {
+	useGetOrderIdQuery,
+	usePatchPaymentTypeMutation
+} from '@/src/redux/api/payment';
 // import { useNavigate, useSearchParams } from 'react-router-dom';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { useGetBasketQuery } from '@/src/redux/api/basket';
 import PaymentStripe from '../payment/PaymentStripe';
+import { useNavigate } from 'react-router-dom';
 
 const images = [
 	{
@@ -24,18 +27,11 @@ const images = [
 	}
 ];
 
-type DeliveryPageTypes = {
-	orderId: number;
-	payment: string;
-};
-
 const Payment = () => {
 	const [isPaymentOnline, setIsPaymentOnline] = useState(true);
 	const [isReceipt, setIsReceipt] = useState(false);
 	const [isCash, setIsCash] = useState(false);
-	// const [searchParamsOne, setSearchParamsOne] = useSearchParams();
-	// const navigate = useNavigate();
-
+	const navigate = useNavigate();
 	const [patchPaymentType] = usePatchPaymentTypeMutation();
 	const { data, isLoading } = useGetBasketQuery();
 
@@ -43,29 +39,16 @@ const Payment = () => {
 	const [isPayment, setIsPayment] = useState(false);
 	const [amount, setAmount] = useState<number | undefined>(0);
 	const [test, setTest] = useState<Record<string, string>>({});
-	// const {
-	// 	handleSubmit
-	// 	// reset,
-	// 	// control,
-	// } = useForm<DeliveryPageTypes>({
-	// 	mode: 'onBlur'
-	// });
+	const [orderId, setOrderId] = useState(0);
 
-	const handleCardNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
-		let formattedNumber = event.target.value.replace(/\s/g, '');
-		formattedNumber = formattedNumber.replace(/(\d{4})/g, '$1 ').trim();
-		formattedNumber = formattedNumber.slice(0, 19);
-		setCardNumber(formattedNumber);
-	};
-
+	const { data: getOrderId } = useGetOrderIdQuery(orderId);
 	const handlePaymentOnline = async () => {
 		setIsReceipt(false);
 		setIsCash(false);
 		setIsPaymentOnline(!isPaymentOnline);
 		const paymentType = 'PAYMENT_BY_CARD';
-		const orderId = 1; 
 		await patchPaymentType({
-			orderId: Number(orderId),
+			orderId: getOrderId?.orderId,
 			payment: paymentType
 		});
 	};
@@ -75,9 +58,8 @@ const Payment = () => {
 		setIsCash(false);
 		setIsReceipt(!isReceipt);
 		const paymentType = 'UPON_RECEIPT_CARD';
-		const orderId = 1;
 		await patchPaymentType({
-			orderId: Number(orderId),
+			orderId: getOrderId?.orderId,
 			payment: paymentType
 		});
 	};
@@ -87,9 +69,8 @@ const Payment = () => {
 		setIsReceipt(false);
 		setIsCash(!isCash);
 		const paymentType = 'UPON_RECEIPT_CASH';
-		const orderId = 1;
 		await patchPaymentType({
-			orderId: Number(orderId),
+			orderId: getOrderId?.orderId,
 			payment: paymentType
 		});
 	};
@@ -98,17 +79,8 @@ const Payment = () => {
 		setAmount(data?.totalAmount);
 	}, [data]);
 
-	const onSubmit: SubmitHandler<DeliveryPageTypes> = async () => {
-		// console.log('onSubmit');
-		// const orderId = searchParamsOne.get('orderId');
-		// const payment = searchParamsOne.get('payment');
-		// if (orderId && payment) {
-		// 	await patchPaymentType({
-		// 		orderId: Number(orderId),
-		// 		payment
-		// 	});
-		// 	reset();
-		// }
+	const handleNavigateReview = () => {
+		navigate('/pay/review');
 	};
 
 	return (
@@ -183,7 +155,7 @@ const Payment = () => {
 							<div className={scss.images_receipt}>
 								{images.map((item, index) => (
 									<div key={index}>
-										<img src={item.image} alt="image" />	
+										<img src={item.image} alt="image" />
 									</div>
 								))}
 							</div>
@@ -231,7 +203,7 @@ const Payment = () => {
 					</>
 				) : (
 					<>
-						<button>Продолжить</button>
+						<button onClick={handleNavigateReview}>Продолжить</button>
 					</>
 				)}
 			</div>

@@ -45,13 +45,12 @@ const api = index.injectEndpoints({
 
 		putProfilesImageQuery: build.mutation<
 			PROFILESTORE.PutProfileImageResponse,
-			// PROFILESTORE.PutProfileImageRequest
-			FormData
+			PROFILESTORE.PutProfileImageRequest
 		>({
-			query: (products) => ({
+			query: ({image}) => ({
 				url: '/api/personal/add-image',
 				method: 'PATCH',
-				body: products,
+				body: {image},
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				}

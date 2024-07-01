@@ -106,7 +106,7 @@ const AuthDropdown = () => {
 						/>
 					) : (
 						<button className={scss.button}>
-							<IconUser />	
+							<IconUser />
 						</button>
 					)}
 				</Dropdown>

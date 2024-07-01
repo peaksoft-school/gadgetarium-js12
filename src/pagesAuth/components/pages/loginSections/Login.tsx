@@ -8,8 +8,7 @@ import { usePostLoginMutation } from '@/src/redux/api/auth';
 import { auth, provider } from './config';
 import { signInWithPopup } from 'firebase/auth';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
-import { notify } from '@/src/utils/helpers/notify';
+import { IconLoader } from '@tabler/icons-react';
 
 interface OpenModalProps {
 	setOpenModal: (isOpen: boolean) => void;
@@ -17,7 +16,7 @@ interface OpenModalProps {
 
 const Login: FC<OpenModalProps> = ({ setOpenModal }) => {
 	const [passwordVisible, setPasswordVisible] = React.useState(false);
-	const [postRequestLogin] = usePostLoginMutation();
+	const [postRequestLogin, { isLoading }] = usePostLoginMutation();
 	const navigate = useNavigate();
 	const {
 		handleSubmit,
@@ -187,7 +186,7 @@ const Login: FC<OpenModalProps> = ({ setOpenModal }) => {
 											type="primary"
 											htmlType="submit"
 										>
-											Войти
+											{isLoading ? <IconLoader /> : 'Войти'}
 										</Button>
 									</div>
 									<button
@@ -212,7 +211,6 @@ const Login: FC<OpenModalProps> = ({ setOpenModal }) => {
 											Забыли пароль
 										</Link>
 									</div>
-									<ToastContainer />
 								</form>
 							</div>
 						</div>
