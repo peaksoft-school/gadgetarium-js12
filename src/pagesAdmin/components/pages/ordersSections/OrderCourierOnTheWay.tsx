@@ -323,7 +323,7 @@ const OrderCourierOnTheWay = () => {
 										{
 											// data?.paginationGadgets!.length / data?.page! > 1 && (
 											<Pagination
-												total={data?.canceled}
+												total={data?.onTheWay}
 												pageSize={data?.size}
 												current={data?.page}
 												showQuickJumper={true}

@@ -77,7 +77,7 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 			<header className={scss.HeaderMobile}>
 				<div className="container">
 					<div className={scss.content}>
-						<Link className={scss.logo} to="/">
+						<Link onClick={handleCloseMobileMenu} className={scss.logo} to="/">
 							<img src={mini_logo} alt="	-logo" />
 						</Link>
 						<ConfigProvider theme={antdThemeConfig}>
@@ -177,7 +177,7 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 					}
 				>
 					<div className={scss.mobile_logo_menu}>
-						<Link className={scss.logo} to="/">
+						<Link onClick={handleCloseMobileMenu} className={scss.logo} to="/">
 							<IconGadgetarium />
 						</Link>
 						<div className={scss.profile}>
@@ -205,7 +205,7 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 					))}
 					<div className={scss.icons_mobile}>
 						<div className={scss.icon_networks}>
-							<a
+							<a onClick={handleCloseMobileMenu}
 								className={scss.icon_site}
 								href="https://www.facebook.com/?locale=ru_RU"
 								target="_blank"
@@ -213,7 +213,7 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 							>
 								<IconBrandFacebook />
 							</a>
-							<a
+							<a onClick={handleCloseMobileMenu}
 								className={scss.icon_site}
 								href="https://www.instagram.com/taa1ai.bekovna?igsh=MTh5a3VrZjgza2hxNA=="
 								target="_blank"
@@ -221,7 +221,7 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 							>
 								<IconBrandInstagram />
 							</a>
-							<a
+							<a onClick={handleCloseMobileMenu}
 								className={scss.icon_site}
 								href="https://wa.me/qr/TU2DHKCN5KLKC1"
 								target="_blank"
@@ -232,7 +232,7 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 						</div>
 						<hr />
 						<div className={scss.icon_basket_heart}>
-							<Link to="/comparison" className={scss.icon}>
+							<Link to="/comparison" onClick={handleCloseMobileMenu} className={scss.icon}>
 								<span
 									className={
 										ComparisonData.length !== 0
@@ -243,14 +243,10 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 									{ComparisonData.length <= 99 ? ComparisonData.length : '99+'}
 								</span>
 								<IconScale
-									style={
-										ComparisonData.length !== 0
-											? { color: '#ff00d4' }
-											: { color: '' }
-									}
+									
 								/>
 							</Link>
-							<Link to="/favorite" className={scss.icon}>
+							<Link to="/favorite" className={scss.icon} onClick={handleCloseMobileMenu}>
 								<span
 									className={
 										FavoriteData.length !== 0
@@ -261,14 +257,10 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 									{FavoriteData.length <= 99 ? FavoriteData.length : '99+'}
 								</span>
 								<IconHeart
-									style={
-										FavoriteData.length !== 0
-											? { color: '#ff00d4' }
-											: { color: '' }
-									}
+									
 								/>
 							</Link>
-							<Link to="/basket" className={scss.icon}>
+							<Link to="/basket" className={scss.icon} onClick={handleCloseMobileMenu}>
 								<span
 									className={
 										BasketData.length !== 0
@@ -279,11 +271,7 @@ const HeaderMobile: FC<HeaderMobileProps> = ({
 									{BasketData.length <= 99 ? BasketData.length : '99+'}
 								</span>
 								<IconShoppingCart
-									style={
-										BasketData.length !== 0
-											? { color: '#ff00d4' }
-											: { color: '' }
-									}
+									
 								/>
 							</Link>
 						</div>

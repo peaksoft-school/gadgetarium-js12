@@ -16,13 +16,14 @@
 			font-size: 16px;
 			font-weight: 500;
 			line-height: 140%;
+			// cursor: pointer;
 		}
 		p {
 			color: #858fa4;
 			font-size: 16px;
 			font-weight: 500;
 			line-height: 130%;
-
+			cursor: pointer;
 			transition: 0.2s;
 
 			&:hover {
@@ -124,6 +125,9 @@
 						line-height: 130%;
 						letter-spacing: 0%;
 						text-align: left;
+						@media (max-width: 1227px) {
+							margin-top: 10px;
+						}
 					}
 					.flex_input_button {
 						display: flex;

@@ -28,14 +28,14 @@ const ProductsPromotion = () => {
 		searchParams.set('PromotionPage', '1');
 		searchParams.set('PromotionSize', size.toString());
 		setSearchParams(searchParams);
-		navigate(`/?${searchParams.toString()}`);
+		// navigate(`/?${searchParams.toString()}`);
 	};
 
 	const handlePaginationResult = () => {
 		searchParams.set('PromotionPage', '1');
 		searchParams.set('PromotionSize', '5');
 		setSearchParams(searchParams);
-		navigate(`/?${searchParams.toString()}`);
+		// navigate(`/?${searchParams.toString()}`);
 	};
 
 	const { data, isLoading, refetch } = useGetProductsSaleQuery({
@@ -74,7 +74,7 @@ const ProductsPromotion = () => {
 	};
 
 	return (
-		<div id='акции' className={scss.ProductsPromotion}>
+		<div id="акции" className={scss.ProductsPromotion}>
 			<div className="container">
 				<div className={scss.content}>
 					<h2 className={scss.promotion}>Акции</h2>
@@ -218,20 +218,26 @@ const ProductsPromotion = () => {
 								</>
 							)}
 						</div>
-						<div className={scss.show_more_button}>
-							{data?.mainPages.length.toString() ===
-							(searchParams.get('PromotionSize') || '5') ? (
-								<ShowMoreButton
-									children={'Показать ещё'}
-									onClick={() => handleShowAllPhones(data?.mainPages.length)}
-								/>
-							) : (
-								<ShowMoreButton
-									children={'Скрыть'}
-									onClick={handlePaginationResult}
-								/>
-							)}
-						</div>
+						{data?.mainPages.length !== 0 && (
+							<>
+								<div className={scss.show_more_button}>
+									{data?.mainPages.length.toString() ===
+									(searchParams.get('PromotionSize') || '5') ? (
+										<ShowMoreButton
+											children={'Показать ещё'}
+											onClick={() =>
+												handleShowAllPhones(data?.mainPages.length)
+											}
+										/>
+									) : (
+										<ShowMoreButton
+											children={'Скрыть'}
+											onClick={handlePaginationResult}
+										/>
+									)}
+								</div>
+							</>
+						)}
 					</div>
 				</div>
 				<div>

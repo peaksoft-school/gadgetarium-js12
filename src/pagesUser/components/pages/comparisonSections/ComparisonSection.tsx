@@ -437,32 +437,32 @@ const ComparisonSection = () => {
 																				<p>
 																					{item.brandCompare
 																						? item.brandCompare
-																						: 'null'}
+																						: ''}
 																				</p>
 																				<p>
 																					{item.colorCompare
 																						? item.colorCompare
-																						: 'null'}
+																						: ''}
 																				</p>
 																				<p>
 																					{item.memoryCompare
 																						? item.memoryCompare
-																						: 'null'}
+																						: ''}
 																				</p>
 																				<p>
 																					{item.ramCompare
 																						? item.ramCompare
-																						: 'null'}
+																						: ''}
 																				</p>
 																				<p>
 																					{item.simCompare
 																						? item.simCompare
-																						: 'null'}
+																						: ''}
 																				</p>
 																				<p>
 																					{item.warrantyCompare
 																						? item.warrantyCompare
-																						: 'null'}
+																						: ''}
 																				</p>
 																			</div>
 																		</div>
