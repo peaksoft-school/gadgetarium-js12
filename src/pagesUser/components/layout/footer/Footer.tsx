@@ -146,7 +146,7 @@ const Footer = () => {
 							</a>
 							<a
 								className={scss.icon}
-								href="https://myaccount.google.com/?utm_source=account-marketing-page&utm_medium=go-to-account-button&pli=1"
+								href="https://myaccount.google.com/?hl=ru&utm_source=OGB&utm_medium=act"
 							>
 								<IconMail /> gadgetariumjs12@gmail.com
 							</a>
