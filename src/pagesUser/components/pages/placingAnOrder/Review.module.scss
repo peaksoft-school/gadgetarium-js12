@@ -90,3 +90,64 @@
 		}
 	}
 }
+
+.modal_pay {
+	.modal_pay_two {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+		.title {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			p {
+				font-size: 17px;
+				font-weight: 606;
+			}
+		}
+		.number_pays {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			.number_pay {
+				font-size: 20px;
+				font-weight: 700;
+			}
+			.num {
+				font-size: 20px;
+				font-weight: 780;
+				color: #c11bab;
+			}
+		}
+		.description {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			p {
+				font-size: 16px;
+				font-weight: 400;
+			}
+		}
+		button {
+			cursor: pointer;
+			width: 445px;
+			height: 45px;
+			background: rgb(203, 17, 171);
+			border-radius: 6px;
+			border: none;
+			color: rgb(255, 255, 255);
+			font-size: 16px;
+			font-weight: 600;
+			text-align: center;
+			text-transform: capitalize;
+			@media (max-width: 511px) {
+				width: 270px;
+			}
+		}
+	}
+}

@@ -303,11 +303,12 @@ const BasketSection = () => {
 																	}
 																>
 																	<p>
-																		Рейтинг <Rate defaultValue={item.rating} />
+																		Рейтинг
+																		<Rate disabled defaultValue={item.rating} />
 																		{item.rating}
 																	</p>
 																	<p className={scss.buy_product_text}>
-																		В наличии {item.quantity}
+																		В наличии ({item.quantity})
 																	</p>
 																</div>
 																<div
@@ -381,7 +382,7 @@ const BasketSection = () => {
 															<div
 																className={scss.div_product_code_and_buttons}
 															>
-																<p>Код товара: {item.nameOfGadget}</p>
+																<p>Код товара: {item.article}</p>
 																<div className={scss.buttons_div}>
 																	<div
 																		className={scss.div}
@@ -440,16 +441,16 @@ const BasketSection = () => {
 														<div className={scss.price_result_product_div}>
 															<p>Ваша скидка: </p>
 															<p className={scss.color_red_p}>
-																{resultsProductsPrices?.currentPrice} c
+																-{resultsProductsPrices?.discountPrice} c
 															</p>
 														</div>
 														<div className={scss.price_result_product_div}>
 															<p>Сумма:</p>
-															<p>{resultsProductsPrices?.discountPrice} c</p>
+															<p>{resultsProductsPrices?.price} c</p>
 														</div>
 														<div className={scss.price_result_product_div}>
 															<h3>Итого</h3>
-															<p> {resultsProductsPrices?.price} c</p>
+															<p> {resultsProductsPrices?.currentPrice} c</p>
 														</div>
 													</div>
 												</>

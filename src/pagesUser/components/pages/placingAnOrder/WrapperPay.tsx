@@ -41,13 +41,13 @@ const WrapperPay: FC = () => {
 		setIsDeliveryComplete(isComplete);
 	};
 
-	const navigateWithValidation = (path: string) => {
-		if (isDeliveryComplete || path === '/pay/delivery') {
-			navigate(path);
-		} else {
-			alert('Please complete the delivery information before proceeding.');
-		}
-	};
+	// const navigateWithValidation = (path: string) => {
+	// 	if (isDeliveryComplete || path === '/pay/delivery') {
+	// 		navigate(path);
+	// 	} else {
+	// 		alert('Please complete the delivery information before proceeding.');
+	// 	}
+	// };
 
 	return (
 		<>
@@ -94,11 +94,11 @@ const WrapperPay: FC = () => {
 										</div>
 										<div className={scss.number_two}>
 											<Link
-												onClick={() =>
-													navigateWithValidation(
-														`/pay/payment?${window.location.search.substring(1)}`
-													)
-												}
+												// onClick={() =>
+												// 	navigateWithValidation(
+												// 		`/pay/payment?${window.location.search.substring(1)}`
+												// 	)
+												// }
 												to={`/pay/payment?${window.location.search.substring(1)}`}
 												className={
 													pathname === '/pay/payment' ||
@@ -113,11 +113,11 @@ const WrapperPay: FC = () => {
 										</div>
 										<div className={scss.number_three}>
 											<Link
-												onClick={() =>
-													navigateWithValidation(
-														`/pay/review?${window.location.search.substring(1)}`
-													)
-												}
+												// onClick={() =>
+												// 	navigateWithValidation(
+												// 		`/pay/review?${window.location.search.substring(1)}`
+												// 	)
+												// }
 												to={`/pay/review?${window.location.search.substring(1)}`}
 												className={
 													pathname === '/pay/review'
@@ -177,12 +177,12 @@ const WrapperPay: FC = () => {
 											<p className={scss.sum}>
 												Сумма:
 												<span>
-													{basketOrder?.basketAmounts.discountPrice} с
+													{basketOrder?.basketAmounts.price} с
 												</span>
 											</p>
 										</div>
 										<h4 className={scss.total}>
-											Итого: <span>{basketOrder?.basketAmounts.price} с</span>
+											Итого: <span>{basketOrder?.basketAmounts.currentPrice} с</span>
 										</h4>
 									</div>
 									<div className={scss.cards_phones}>

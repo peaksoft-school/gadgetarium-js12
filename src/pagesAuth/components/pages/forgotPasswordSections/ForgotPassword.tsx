@@ -7,7 +7,6 @@ import { Button, Input, message } from 'antd';
 import logo from '@/src/assets/logo.png';
 import { usePostForgotMutation } from '@/src/redux/api/auth';
 import { ToastContainer } from 'react-toastify';
-import { notify } from '@/src/utils/helpers/notify';
 import { IconLoader } from '@tabler/icons-react';
 
 export const ForgotPassword = () => {

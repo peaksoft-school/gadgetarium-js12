@@ -195,7 +195,7 @@ const Header: FC = () => {
 						setIsModalOpen={setIsModalOpen}
 					>
 						<div className={scss.create_newsletter}>
-							<h1>Создать скидку</h1>
+							<h1>Создать рассылку</h1>
 
 							<CustomImageAdd image={image} setImage={setImage} />
 							<div className={scss.size_sale}>

@@ -8,6 +8,7 @@ import {
 } from '@/src/redux/api/order';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
+import { useGetOrderIdQuery } from '@/src/redux/api/payment';
 type DeliveryPageTypes = {
 	ids: [];
 	firstName: string;
@@ -31,6 +32,7 @@ const Delivery = () => {
 	const [email, setEmail] = useState('');
 	const [phone, setPhone] = useState('');
 	const [address, setAddress] = useState('');
+	const [orderId, setOrderId] = useState(0);
 	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
 		window.location.search.substring(1)
 	]);
@@ -98,18 +100,11 @@ const Delivery = () => {
 			deliveryType: searchParams.toString(),
 			...responseObject
 		});
+
+		setOrderId(orderId);
 		reset();
 		navigate('/pay/payment');
 	};
-
-	// const handleCheckboxPickup = () => {
-	// 	setIsCheckedPickup(!isCheckedPickup);
-	// 	setIsCheckedPickupCourier(false);
-	// };
-	// const handleCheckboxCourier = () => {
-	// 	setIsCheckedPickupCourier(!isCheckedCourier);
-	// 	setIsCheckedPickup(false);
-	// };
 
 	return (
 		<div className={scss.DeliveryOptions}>
