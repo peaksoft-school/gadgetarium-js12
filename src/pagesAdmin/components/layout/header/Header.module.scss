@@ -158,6 +158,14 @@
 			color: #1a1a25;
 			border: 1px solid rgb(205, 205, 205);
 			border-radius: 4px;
+			&:active {
+				transition: all 0.2s ease;
+				border: 1px solid #cb10ac;
+			}
+			&:hover {
+				transition: all 0.2s ease;
+				border: 1px solid #cb10ac;
+			}
 			&::placeholder {
 				color: rgb(205, 205, 205);
 			}
@@ -175,6 +183,14 @@
 			height: 35px;
 			background: transparent;
 			border: 1px solid rgb(205, 205, 205);
+			&:active {
+				transition: all 0.2s ease;
+				border: 1px solid #cb10ac;
+			}
+			&:hover {
+				transition: all 0.2s ease;
+				border: 1px solid #cb10ac;
+			}
 			border-radius: 6px;
 			color: rgb(23, 29, 41);
 		}

@@ -246,9 +246,16 @@
 						max-width: 110px;
 						color: #000000;
 						padding: 10px 30px 10px 10px;
-
+						&:active {
+							transition: all 0.2s ease;
+							border: 1px solid #cb10ac;
+						}
+						&:hover {
+							transition: all 0.2s ease;
+							border: 1px solid #cb10ac;
+						}
 						&:focus {
-							border: 1px solid #c7cdd9;
+							border: 1px solid #cb10ac;
 							outline: none;
 						}
 					}
