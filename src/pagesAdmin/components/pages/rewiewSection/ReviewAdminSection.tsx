@@ -172,7 +172,7 @@ const ReviewAdminSection = () => {
 										: `${scss.noo_active_button}`
 								}
 							>
-								Неотвеченные <span>{reviews?.unanswered}</span>
+								Неотвеченные <span>+{reviews?.unanswered}</span>
 							</button>
 							<button
 								onClick={() => handleCategotyUsersCommits('ANSWERED')}
@@ -318,6 +318,7 @@ const ReviewAdminSection = () => {
 																		onChange={(e) =>
 																			setEditResponse(e.target.value)
 																		}
+																		className={scss.input_for_text_area}
 																	/>
 																	<div className={scss.two_button}>
 																		<Button

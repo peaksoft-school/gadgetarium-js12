@@ -288,7 +288,7 @@ const CardProductPage = () => {
 													</p>
 													<div>
 														<Rate defaultValue={data?.rating} />
-														<p>({data?.rating})</p>
+														<p>({data?.rating.toLocaleString()})</p>
 													</div>
 												</div>
 												<div></div>

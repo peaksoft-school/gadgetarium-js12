@@ -98,9 +98,19 @@ const Header: FC = () => {
 			endDateOfDiscount: endDate
 		};
 		console.log(newNewslaterData);
-
-		const res = await postNewslater(newNewslaterData);
+		setImage('');
+		setName('');
+		setDescription('');
+		setStartDate('');
+		setEndDate('');
+		try {
+			const res = await postNewslater(newNewslaterData);
 		console.log(res);
+		setIsModalOpen(false)
+		} catch (error) {
+			console.error(error);
+			setIsModalOpen(true)
+		}
 	};
 
 	const handleStartDateChange = (date: Moment | null) => {

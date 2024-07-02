@@ -142,7 +142,8 @@
 					border-radius: 6px;
 					background: rgb(232, 232, 232);
 					margin-left: 47px;
-					width: 100%;
+					// width: 100%;
+					max-width: 850px;
 					.content_admin_commit_div {
 						padding: 19px;
 						display: flex;

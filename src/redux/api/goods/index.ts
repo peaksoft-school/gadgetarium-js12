@@ -140,10 +140,10 @@ const api = index.injectEndpoints({
 		}),
 
 		postNewslater: build.mutation<
-			GOODSSTORE.PostNewslaterRequest,
-			GOODSSTORE.PostNewslaterResponse
+		GOODSSTORE.PostNewslaterResponse,
+		GOODSSTORE.PostNewslaterRequest
 		>({
-			query: (newNewslater) => ({
+			query: ({...newNewslater}) => ({
 				url: `/api/news-letter`,
 				method: 'POST',
 				body: newNewslater,
