@@ -1,4 +1,4 @@
-import { DatePicker } from 'antd';
+import { DatePicker, Input } from 'antd';
 import moment, { Moment } from 'moment';
 import { FC, useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -98,9 +98,19 @@ const Header: FC = () => {
 			endDateOfDiscount: endDate
 		};
 		console.log(newNewslaterData);
-
-		const res = await postNewslater(newNewslaterData);
+		setImage('');
+		setName('');
+		setDescription('');
+		setStartDate('');
+		setEndDate('');
+		try {
+			const res = await postNewslater(newNewslaterData);
 		console.log(res);
+		setIsModalOpen(false)
+		} catch (error) {
+			console.error(error);
+			setIsModalOpen(true)
+		}
 	};
 
 	const handleStartDateChange = (date: Moment | null) => {
@@ -200,7 +210,7 @@ const Header: FC = () => {
 							<CustomImageAdd image={image} setImage={setImage} />
 							<div className={scss.size_sale}>
 								<label htmlFor="name">Название рассылки *</label>
-								<input
+								<Input
 									type="text"
 									name="name"
 									className={scss.input}
@@ -211,7 +221,7 @@ const Header: FC = () => {
 							</div>
 							<div className={scss.size_sale}>
 								<label htmlFor="name">Описание рассылки *</label>
-								<input
+								<Input
 									type="text"
 									className={scss.input}
 									name="name"

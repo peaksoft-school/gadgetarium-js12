@@ -320,7 +320,7 @@ const OrderDelivered = () => {
 											{
 											// data?.paginationGadgets!.length / data?.page! > 1 && (
 											<Pagination
-												total={data?.canceled}
+												total={data?.delivered}
 												pageSize={data?.size}
 												current={data?.page}
 												showQuickJumper={true}

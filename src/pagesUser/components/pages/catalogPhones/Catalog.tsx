@@ -489,8 +489,8 @@ const Catalog = () => {
 												<input
 													id={e.gb}
 													type="checkbox"
-													onChange={() => handleMemoryProductsFunk(e.gb)}
-													checked={filtredMemoryArray.includes(e.gb)}
+													onChange={() => handleMemoryProductsFunk(e.nameGb)}
+													checked={filtredMemoryArray.includes(e.nameGb)}
 												/>
 												<label htmlFor={e.gb}>
 													<p>{e.gb}</p>
@@ -532,8 +532,8 @@ const Catalog = () => {
 												<input
 													id={e.gb}
 													type="checkbox"
-													checked={filtredRamArray.includes(e.gb)}
-													onChange={() => handleRamProductsFunk(e.gb)}
+													checked={filtredRamArray.includes(e.nameRam)}
+													onChange={() => handleRamProductsFunk(e.nameRam)}
 												/>
 												<label htmlFor={e.gb}>
 													<p>{e.gb}</p>
@@ -770,6 +770,9 @@ const Catalog = () => {
 																	) : (
 																		e.brandNameOfGadget
 																	)}
+																	{/* {e.brandNameOfGadget}
+																	{ e.memory}
+																	{ e.colour} */}
 																</h3>
 																<div className={scss.phone_rating}>
 																	<p>Рейтинг</p>

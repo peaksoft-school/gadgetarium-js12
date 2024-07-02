@@ -158,6 +158,9 @@ const InfoProduct = () => {
 							<p>Скачать документ.pdf</p>
 						</div>
 					</div>
+					{/* {pdfData && (
+						<button>{pdfData.response}</button>
+					)} */}
 					{ComponentArray.slice(result, component).map((item) => (
 						<div key={item.id}>{item.children}</div>
 					))}

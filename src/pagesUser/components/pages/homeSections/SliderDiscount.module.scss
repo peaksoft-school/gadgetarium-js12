@@ -1,5 +1,8 @@
 .slider {
 	margin-top: 50px;
+	@media (max-width: 455px) {
+		margin-top: 38px;
+	}
 	.image_slider {
 		img {
 			width: 100%;

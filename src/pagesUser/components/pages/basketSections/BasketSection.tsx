@@ -32,7 +32,7 @@ const BasketSection = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
 	const [countInputs, setCountInputs] = useState<Record<number, string>>({});
-	const { data, isLoading } = useGetBasketQuery();
+	const { data, isLoading, refetch } = useGetBasketQuery();
 	const [deleteBasket] = useDeleteByIdBasketProductMutation();
 	const [idsArray, setIdsArray] = useState<string[]>(() => {
 		const ids = searchParams.getAll('ids');
@@ -42,9 +42,7 @@ const BasketSection = () => {
 	// const handleBasketProductDelete = async (subGadgetId: number) => {
 	// 	await basketDeleteProduct({ id: subGadgetId, basket: false });
 	// };
-	const handleFavoriteAddProduct = async (id: number) => {
-		await favoriteAddProduct(id);
-	};
+	
 	const handleIdsProducts = (id: number) => {
 		const ids = id.toString();
 		if (!idsArray.includes(ids)) {
@@ -125,6 +123,14 @@ const BasketSection = () => {
 		}
 	};
 
+	const handleFavoriteAddProduct = async (id: number) => {
+		try {
+			await favoriteAddProduct(id);
+			refetch()
+		} catch (error) {
+			console.error(error);
+		}
+	};
 	const handlePluesCountProduct = (id: number) => {
 		setCountInputs((prev) => {
 			const newValue = (parseInt(prev[id]) || 0) + 1;

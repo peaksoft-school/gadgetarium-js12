@@ -10,8 +10,9 @@ import {
 	IconMapPin,
 	IconPhone
 } from '@tabler/icons-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { usePostFollowMutation } from '@/src/redux/api/follow';
+import { ScrollArrayHomePage } from '@/src/data/ScrollPages';
 interface InputType {
 	email: string;
 }
@@ -25,6 +26,7 @@ const schema = yup.object().shape({
 const Footer = () => {
 	const navigate = useNavigate();
 	const [postFollow] = usePostFollowMutation();
+	const { pathname } = useLocation();
 	const top = () => {
 		window.scrollTo(0, 0);
 	};
@@ -50,6 +52,18 @@ const Footer = () => {
 			reset();
 		}, 3000);
 	};
+	const scrollToAudioSection = (sectionId: string) => {
+		const element = document.getElementById(sectionId);
+		if (element) {
+			window.scrollTo({
+				top: element.offsetTop,
+				behavior: 'smooth'
+			});
+		}
+		if (pathname !== '/') {
+			return navigate('/');
+		}
+	};
 	return (
 		<footer className={scss.Footer}>
 			<div className="container">
@@ -58,16 +72,32 @@ const Footer = () => {
 						<div className={scss.first_footer_div}>
 							<p>Каталог</p>
 							<div className={scss.hh5}>
-								<Link onClick={top} to={'/catalog/1/filtred'}>
+								<Link
+									className={scss.link}
+									onClick={top}
+									to={'/catalog/1/filtred'}
+								>
 									Смартфоны
 								</Link>
-								<Link onClick={top} to={'/catalog/2/filtred'}>
+								<Link
+									className={scss.link}
+									onClick={top}
+									to={'/catalog/2/filtred'}
+								>
 									Ноутбуки и планшеты
 								</Link>
-								<Link onClick={top} to={'/catalog/3/filtred'}>
+								<Link
+									className={scss.link}
+									onClick={top}
+									to={'/catalog/3/filtred'}
+								>
 									Смарт-часы и браслеты
 								</Link>
-								<Link onClick={top} to={'/catalog/4/filtred'}>
+								<Link
+									className={scss.link}
+									onClick={top}
+									to={'/catalog/4/filtred'}
+								>
 									Аксессуары{' '}
 								</Link>
 							</div>
@@ -75,30 +105,26 @@ const Footer = () => {
 						<div className={scss.second_footer_div}>
 							<p>Будь с нами</p>
 							<div className={scss.hh5}>
-								<a onClick={top} href="#">
-									Акции
-								</a>
-								<a onClick={top} href="#">
-									Новинки
-								</a>
-								<a onClick={top} href="#">
-									Популярные категории{' '}
-								</a>
+								{ScrollArrayHomePage.map((el, index) => (
+									<p onClick={() => scrollToAudioSection(el.id)} key={index}>
+										{el.name}
+									</p>
+								))}
 							</div>
 						</div>
 						<div className={scss.third_footer_div}>
 							<p>Помощь и сервисы</p>
 							<div className={scss.hh5}>
-								<Link onClick={top} to="/aboutstore">
+								<Link className={scss.link} onClick={top} to="/aboutstore">
 									О магазине
 								</Link>
-								<Link onClick={top} to="/delivery">
+								<Link className={scss.link} onClick={top} to="/delivery">
 									Доставка
 								</Link>
-								<Link onClick={top} to="/faq">
+								<Link onClick={top} className={scss.link} to="/faq">
 									FAQ
 								</Link>
-								<Link onClick={top} to="/contacts">
+								<Link onClick={top} to="/contacts" className={scss.link}>
 									Контакты
 								</Link>
 							</div>

@@ -37,7 +37,6 @@ const ProductsNew = () => {
 		navigate(`/?${searchParams.toString()}`);
 	};
 
-	
 	const { data, isLoading, refetch } = useGetProductsNewsQuery({
 		page: `page=${searchParams.get('page') || ''}`,
 		size: `size=${searchParams.get('size') || ''}`
@@ -75,7 +74,7 @@ const ProductsNew = () => {
 	console.log(data?.mainPages);
 
 	return (
-		<div className={scss.ProductsNew}>
+		<div id="новинки" className={scss.ProductsNew}>
 			<div className="container">
 				<div className={scss.content}>
 					<h2 className={scss.new}>Новинки</h2>
@@ -214,20 +213,22 @@ const ProductsNew = () => {
 								</>
 							)}
 						</div>
-						<div className={scss.show_more_button}>
-							{data?.mainPages.length.toString() ===
-							(searchParams.get('size') || '5') ? (
-								<ShowMoreButton
-									children={'Показать ещё'}
-									onClick={() => handleShowAllPhones(data?.mainPages.length)}
-								/>
-							) : (
-								<ShowMoreButton
-									children={'Скрыть'}
-									onClick={handlePaginationResult}
-								/>
-							)}
-						</div>
+						{data?.mainPages.length !== 0 && (
+							<div className={scss.show_more_button}>
+								{data?.mainPages.length.toString() ===
+								(searchParams.get('size') || '5') ? (
+									<ShowMoreButton
+										children={'Показать ещё'}
+										onClick={() => handleShowAllPhones(data?.mainPages.length)}
+									/>
+								) : (
+									<ShowMoreButton
+										children={'Скрыть'}
+										onClick={handlePaginationResult}
+									/>
+								)}
+							</div>
+						)}
 					</div>
 				</div>
 				<div>

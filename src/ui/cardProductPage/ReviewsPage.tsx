@@ -114,9 +114,7 @@ const ReviewsPage = () => {
 
 	const changeInputValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const value = event.target.value;
-		if (value) {
-			setTextCommitInput(value);
-		}
+		setTextCommitInput(value);
 	};
 	const handlePostCommitFunk = async () => {
 		const DATA = {

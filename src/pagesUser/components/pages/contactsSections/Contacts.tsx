@@ -40,7 +40,7 @@ export const Contacts = () => {
 		}
 	};
 	return (
-		<section className={scss.ContactsPage}>
+		<section id="Контакты" className={scss.ContactsPage}>
 			<div className="container">
 				<div className={scss.content}>
 					<div className={scss.content_page}>
@@ -181,6 +181,7 @@ export const Contacts = () => {
 											)}
 										/>
 									</div>
+									
 								</div>
 								<div className={scss.message_and_label_div}>
 									<label>Сообщение</label>

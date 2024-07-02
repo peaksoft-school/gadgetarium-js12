@@ -201,20 +201,10 @@
 							max-height: 255px;
 							height: auto;
 							@media (max-width: 687px) {
-								min-height: 290px;
+								// min-height: 290px;
+								max-height: auto;
 							}
-							@media (max-height: 525px) {
-								min-height: 310px;
-							}
-							@media (max-width: 493px) {
-								max-height: 350px;
-							}
-							@media (max-width: 442px) {
-								max-height: 360px;
-							}
-							@media (max-width: 416px) {
-								max-height: 410px;
-							}
+							
 							@media (max-width: 555px) {
 								gap: 11px;
 							}
