@@ -10,6 +10,7 @@ import {
 	usePostCreatePaymentMutation
 } from '@/src/redux/api/payment';
 import { useNavigate } from 'react-router-dom';
+import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
 
 const CARD_OPTIONS = {
 	iconStyle: 'solid' as 'default' | 'solid',
@@ -48,37 +49,47 @@ const PaymentForm: FC<TypeProps> = ({
 	const stripe = useStripe();
 	const elements = useElements();
 	const [orderId, setOrderId] = useState<number>(0);
-	const [paymentId, setPaymentId] = useState<string>('');
+	const [paymentId, setPaymentId] = useState<number>(0);
 	const [createPayment] = usePostCreatePaymentMutation();
 	const [confirmPayment] = usePostConfirmPaymentMutation();
 	const { data: getOrderId } = useGetOrderIdQuery(orderId);
 	const [successModal, setSuccessModal] = useState(false);
+	// const { data: basketOrder } = useGetBasketOrderGadgetQuery([
+	// 	window.location.search.substring(1)
+	// ]);
 	const [testTokenId, setTestTokenId] = useState('');
 	const navigate = useNavigate();
 
 	const handleCreatePayment = async (token: string) => {
-		const totalTest = totalAmount?.toFixed();
+		try {
+			const totalTest = totalAmount?.toFixed();
+			const test = Number(totalTest);
 
-		const test = Number(totalTest);
-		const result = await createPayment({
-			token,
-			orderId: getOrderId?.orderId,
-			paymentId
-		});
-		console.log(result);
-		setPaymentId(result.paymentId);
-		if ('data' in result) {
-			if (result.data) {
+			const result = await createPayment({
+				token,
+				orderId: getOrderId?.orderId,
+				paymentId,
+			});
+
+			if (result && 'data' in result && result.data) {
 				setPaymentId(result.data.paymentId);
+				localStorage.setItem('paymentId', JSON.stringify(result.data.paymentId));
+				console.log(result.data.paymentId, 'text');
+				
 				console.log(result);
 				setOpenModal(false);
-				setSuccessModal(true);
+				message.success('Платеж успешно проведен');
+				navigate(`/pay/review?${window.location.search.substring(1)}`);
+			} else {
+				message.error('Не удалось создать платеж');
+				console.error('Failed to create payment:', result);
 			}
-		} else {
-			console.error('Failed to create payment:', result);
+		} catch (error) {
+			message.warning('Платеж уже был проведен');
+			console.error('An error occurred while creating payment:', error);
 		}
 	};
-	console.log(paymentId);
+
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		if (!stripe || !elements) {
@@ -103,23 +114,28 @@ const PaymentForm: FC<TypeProps> = ({
 		}
 	};
 
-	const handleConfirmPayment = async () => {
-		try {
-			const result = await confirmPayment(paymentId);
-			if ('data' in result) {
-				console.log('Payment confirmed:', result.data);
-				message.success('Платеж успешно проведен');
-				setSuccessModal(false);
-				navigate('/pay/review');
-			} else {
-				console.error('Failed to confirm payment:', result);
-				message.error('Платеж уже был проведен');
-				setSuccessModal(false);
-			}
-		} catch (error) {
-			console.error('Error in handleConfirmPayment:', error);
-		}
-	};
+	// const handleConfirmPayment = async () => {
+	// 	const dataPay = {
+	// 		id: basketOrder?.gadgetResponse.id,
+	// 		paymentId: paymentId,
+	// 		quantity: basketOrder?.gadgetResponse.quantity
+	// 	};
+	// 	try {
+	// 		const result = await confirmPayment(dataPay);
+	// 		if ('data' in result) {
+	// 			console.log('Payment confirmed:', result.data);
+	// 			message.success('Платеж успешно проведен');
+	// 			setSuccessModal(false);
+	// 			navigate('/pay/review');
+	// 		} else {
+	// 			console.error('Failed to confirm payment:', result);
+	// 			message.warning('Платеж уже был проведен');
+	// 			setSuccessModal(false);
+	// 		}
+	// 	} catch (error) {
+	// 		console.error('Error in handleConfirmPayment:', error);
+	// 	}
+	// };
 
 	return (
 		<>
@@ -149,7 +165,7 @@ const PaymentForm: FC<TypeProps> = ({
 					</div>
 				</div>
 			</Modal>
-			<Modal
+			{/* <Modal
 				open={successModal}
 				footer={false}
 				onCancel={() => setSuccessModal(false)}
@@ -166,7 +182,7 @@ const PaymentForm: FC<TypeProps> = ({
 						<button onClick={handleConfirmPayment}>Подтвердить платеж</button>
 					</div>
 				</div>
-			</Modal>
+			</Modal> */}
 		</>
 	);
 };

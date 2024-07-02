@@ -6,7 +6,7 @@ import {
 	usePatchPaymentTypeMutation
 } from '@/src/redux/api/payment';
 // import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useGetBasketQuery } from '@/src/redux/api/basket';
+import { useGetBasketOrderGadgetQuery, useGetBasketQuery } from '@/src/redux/api/basket';
 import PaymentStripe from '../payment/PaymentStripe';
 import { useNavigate } from 'react-router-dom';
 
@@ -42,11 +42,14 @@ const Payment = () => {
 	const [orderId, setOrderId] = useState(0);
 
 	const { data: getOrderId } = useGetOrderIdQuery(orderId);
+	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
+		window.location.search.substring(1)
+	]);
 	const handlePaymentOnline = async () => {
 		setIsReceipt(false);
 		setIsCash(false);
 		setIsPaymentOnline(!isPaymentOnline);
-		const paymentType = 'PAYMENT_BY_CARD';
+		const paymentType = 'Оплата картой';
 		await patchPaymentType({
 			orderId: getOrderId?.orderId,
 			payment: paymentType
@@ -57,7 +60,7 @@ const Payment = () => {
 		setIsPaymentOnline(false);
 		setIsCash(false);
 		setIsReceipt(!isReceipt);
-		const paymentType = 'UPON_RECEIPT_CARD';
+		const paymentType = 'При получении картой';
 		await patchPaymentType({
 			orderId: getOrderId?.orderId,
 			payment: paymentType
@@ -68,7 +71,7 @@ const Payment = () => {
 		setIsPaymentOnline(false);
 		setIsReceipt(false);
 		setIsCash(!isCash);
-		const paymentType = 'UPON_RECEIPT_CASH';
+		const paymentType = 'При получении наличными';
 		await patchPaymentType({
 			orderId: getOrderId?.orderId,
 			payment: paymentType
@@ -76,11 +79,11 @@ const Payment = () => {
 	};
 
 	useEffect(() => {
-		setAmount(data?.totalAmount);
-	}, [data]);
+		setAmount(basketOrder?.basketAmounts.currentPrice);
+	}, [basketOrder]);
 
 	const handleNavigateReview = () => {
-		navigate('/pay/review');
+		navigate(`/pay/review?${window.location.search.substring(1)}`);
 	};
 
 	return (

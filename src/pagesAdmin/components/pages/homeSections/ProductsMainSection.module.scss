@@ -284,6 +284,7 @@
 							.quantity_name {
 								display: flex;
 								flex-direction: column;
+								width: 200px;
 								.name {
 									color: rgb(144, 156, 181);
 									font-family: Inter;
@@ -337,6 +338,11 @@
 						}
 					}
 				}
+			}
+			.pagination {
+				display: flex;
+				justify-content: center;
+				align-items: center;
 			}
 		}
 	}
