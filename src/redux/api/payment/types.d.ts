@@ -45,6 +45,7 @@ namespace PAYMENTPRODUCT {
 		id: string;
 		details?: Array<{ issue: string; description: string }>;
 		debug_id?: string;
+		paymentId: string;
 	};
 	type TestCreateRequest = {
 		token: string;
@@ -57,12 +58,20 @@ namespace PAYMENTPRODUCT {
 		orderId: number;
 	};
 	type PostConfirmPayRequest = {
-		dataPay: {
-			paymentId: string;
-		};
+		paymentId: number;
+		[{
+			id: number,
+			quantity: number
+		}];
+		// dataPay: {
+		// };
 	};
 	type PostConfirmPayResponse = {
 		paymentId: string;
+		// [{
+		// 	id: number,
+		// 	quantity: number
+		// }];
 	};
 
 	type GetReviewRequest = number;

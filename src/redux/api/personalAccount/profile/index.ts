@@ -7,7 +7,7 @@ const api = index.injectEndpoints({
 			PROFILESTORE.GetProfileRequest
 		>({
 			query: () => ({
-				url: '/api/personal/get-profile',
+				url: '/api/personal/my-profile',
 				method: 'GET',
 				// body: products,
 				headers: {
@@ -47,10 +47,10 @@ const api = index.injectEndpoints({
 			PROFILESTORE.PutProfileImageResponse,
 			PROFILESTORE.PutProfileImageRequest
 		>({
-			query: ({image}) => ({
+			query: ({ image }) => ({
 				url: '/api/personal/add-image',
 				method: 'PATCH',
-				body: {image},
+				body: { image },
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				}

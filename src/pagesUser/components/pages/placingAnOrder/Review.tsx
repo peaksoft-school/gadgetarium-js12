@@ -3,15 +3,42 @@ import scss from './Review.module.scss';
 import {
 	useGetDecorPaymentQuery,
 	useGetOrderIdQuery,
-	useGetReviewPayQuery
+	useGetReviewPayQuery,
+	usePostConfirmPaymentMutation
 } from '@/src/redux/api/payment';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
 
+interface ArrayTypes {
+	id: number;
+	quantity: number;
+	article?: number;
+	colour?: string;
+	image?: string;
+	memory?: string;
+	nameOfGadget?: string
+}
 const Review = () => {
 	const { data: getOrderId, isSuccess } = useGetOrderIdQuery();
 	const [orderId, setOrderId] = useState<number | null>();
 	const [openModal, setOpenModal] = useState(false);
+	const [basketArray, setBasketArray] = useState<ArrayTypes[]>([])
+	const [paymentId, setPaymentId] = useState<string>('');
+	const [confirmPayment] = usePostConfirmPaymentMutation();
+	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
+		window.location.search.substring(1)
+	]);
+	console.log(basketOrder, 'dates');
+	useEffect(() => {
+		const newArray = basketOrder?.gadgetResponse.map((product) => ({
+			id: product.id,
+			quantity: product.quantity,
+		}))
+		setBasketArray(newArray)
+	}, [basketOrder])
+	console.log(basketArray, 'basket arrays');
+	
 	const navigate = useNavigate();
 
 	console.log(isSuccess);
@@ -36,8 +63,26 @@ const Review = () => {
 		{ skip: orderId === undefined }
 	);
 
-	const handleModalDecorPay = () => {
-		setOpenModal(true);
+	const handleModalDecorPay = async () => {
+		
+		try {
+			const result = await confirmPayment({
+				paymentId: localStorage.getItem('paymentId')!,
+				basketArray
+			});
+			localStorage.removeItem('paymentId');
+			if ('data' in result) {
+				console.log('Payment confirmed:', result.data);
+				// message.success('Платеж успешно проведен');
+				setOpenModal(true);
+			
+			} else {
+				console.error('Failed to confirm payment:', result);
+				message.error('paymentId не пришел');
+			}
+		} catch (error) {
+			console.error('Error in handleConfirmPayment:', error);
+		}
 		// navigate('/basket');
 	};
 

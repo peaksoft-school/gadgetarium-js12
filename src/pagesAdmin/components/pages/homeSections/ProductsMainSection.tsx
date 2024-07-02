@@ -8,6 +8,8 @@ import {
 	ConfigProvider,
 	DatePicker,
 	Pagination,
+	Tooltip,
+	message,
 	// DatePickerProps,
 	// Pagination,
 	theme
@@ -55,7 +57,9 @@ const ProductsMainSection = () => {
 	const [postUploadForBanner] = usePostUploadMutation();
 
 	const [discountSize, setDiscountSize] = useState<number>();
-	const [discountStartDay, setDiscountStartDay] = useState<string | string[]>('');
+	const [discountStartDay, setDiscountStartDay] = useState<string | string[]>(
+		''
+	);
 	const [discountEndDay, setDiscountEndDay] = useState<string | string[]>('');
 	const changeDateFunk = (date: moment.Moment | null) => {
 		if (date) {
@@ -109,13 +113,13 @@ const ProductsMainSection = () => {
 	};
 
 	const handleCancelBanner = () => {
+		message.success('Баннер успешно загружен');
 		setIsModalOpenBanner(false);
 	};
 
 	const showModalBanner = () => {
 		setIsModalOpenBanner(true);
 	};
-
 
 	const antdThemeConfig = {
 		algorithm: theme.defaultAlgorithm,
@@ -149,7 +153,6 @@ const ProductsMainSection = () => {
 			setIsModalOpenDelete(false);
 		}
 	};
-
 
 	const handlePostDiscount = async () => {
 		const discountData = {
@@ -186,8 +189,6 @@ const ProductsMainSection = () => {
 		setHoveredItemId(id);
 	};
 
-
-
 	React.useEffect(() => {
 		if (searchParams.get('getType')) {
 			buttonStyleRef.current = true;
@@ -205,7 +206,6 @@ const ProductsMainSection = () => {
 		const files = e.target.files;
 		if (files) {
 			const formData = new FormData();
-
 			for (let i = 0; i < files.length; i++) {
 				formData.append('files', files[i]);
 			}
@@ -227,7 +227,7 @@ const ProductsMainSection = () => {
 	const changeProductsPagination = (page: any) => {
 		searchParams.set('page', page);
 		setSearchParams(searchParams);
-	}
+	};
 
 	const changeCheckbox = (id: number) => {
 		if (!gadgetIds.includes(id)) {
@@ -262,9 +262,7 @@ const ProductsMainSection = () => {
 										allowClear
 										// onSearch={onSearch}
 										onChange={changeSearchInputValueFunk}
-										value={
-											searchParams.get('keyword') ?? ''
-										}
+										value={searchParams.get('keyword') ?? ''}
 									/>
 								</ConfigProvider>
 							</div>
@@ -428,10 +426,40 @@ const ProductsMainSection = () => {
 														</td>
 														<img src={item.images} alt="" />
 													</div>
-													<td>{item?.article}</td>
+													<td>
+														{item.article.toString().length > 6 ? (
+															<>
+																{item.article.toString().slice(0, 6)}
+																<Tooltip
+																	title={item.article.toString()}
+																	color="#c11bab"
+																>
+																	<span style={{ cursor: 'pointer' }}>...</span>
+																</Tooltip>
+															</>
+														) : (
+															item.article.toString()
+														)}
+													</td>
 													<div className={scss.quantity_name}>
 														<td>Кол-во товара {item?.quantity}шт.</td>
-														<td className={scss.name}>{item?.nameOfGadget}</td>
+														<td className={scss.name}>
+															{item.nameOfGadget.length > 28 ? (
+																<>
+																	{item.nameOfGadget.slice(0, 22)}
+																	<Tooltip
+																		title={item.nameOfGadget}
+																		color="#c11bab"
+																	>
+																		<span style={{ cursor: 'pointer' }}>
+																			...
+																		</span>
+																	</Tooltip>
+																</>
+															) : (
+																item.nameOfGadget
+															)}
+														</td>
 													</div>
 													<div className={scss.date_time}>
 														<td>{item?.createdAt}</td>
@@ -470,16 +498,19 @@ const ProductsMainSection = () => {
 								</tbody>
 							</table>
 						</div>
-						<div>
+						<div className={scss.pagination}>
 							{
-								// data?.paginationGadgets!.length / data?.page! > 1 && (
-									<Pagination  total={data?.allProduct} pageSize={data?.size} current={data?.page} showQuickJumper={true} onChange={changeProductsPagination}/>
-								// )
+								<Pagination
+									total={data?.allProduct}
+									pageSize={data?.size}
+									current={data?.page}
+									showQuickJumper={true}
+									onChange={changeProductsPagination}
+								/>
 							}
 						</div>
 					</div>
 					<div className={scss.right_content}>
-						{' '}
 						<Infographics />{' '}
 					</div>
 				</div>
@@ -608,9 +639,9 @@ const ProductsMainSection = () => {
 								<CancelButtonCustom onClick={handleCancelBanner}>
 									ОТМЕНИТЬ
 								</CancelButtonCustom>
-								{/* <CustomButtonAdd onClick={handleCancelBanner}>
+								<CustomButtonAdd onClick={handleCancelBanner}>
 									ОТПРАВИТЬ
-								</CustomButtonAdd> */}
+								</CustomButtonAdd>
 							</div>
 						</div>
 					</CustomModal>

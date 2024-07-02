@@ -13,6 +13,8 @@ namespace ORDERPRODUCT {
 	type PostBasketProductsRequest = {
 		subGadgetId?: string[];
 		deliveryType?: boolean | string;
+		price: number;
+		discountPrice: number;
 		firstName?: string;
 		lastName?: string;
 		email?: string;
@@ -21,6 +23,8 @@ namespace ORDERPRODUCT {
 	};
 	type PostBasketProductsResponse = {
 		subGadgetId: number;
+		price: number;
+		discountPrice: number;
 		firstName: string;
 		lastName: string;
 		email: string;

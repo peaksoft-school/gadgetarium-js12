@@ -1,4 +1,4 @@
-import { DatePicker } from 'antd';
+import { DatePicker, message } from 'antd';
 import moment, { Moment } from 'moment';
 import { FC, useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -82,7 +82,7 @@ const Header: FC = () => {
 		};
 	}, []);
 
-	const [postNewslater] = usePostNewslaterMutation();
+	const [postNewslater, { reset }] = usePostNewslaterMutation();
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
 	const [startDate, setStartDate] = useState<string>('');
@@ -90,17 +90,22 @@ const Header: FC = () => {
 	const [image, setImage] = useState<string>('');
 
 	const handlePostNewslater = async () => {
-		const newNewslaterData = {
-			image: image,
-			nameOfNewsLetter: name,
-			description: description,
-			startDateOfDiscount: startDate,
-			endDateOfDiscount: endDate
-		};
-		console.log(newNewslaterData);
-
-		const res = await postNewslater(newNewslaterData);
-		console.log(res);
+		try {
+			const newNewslaterData = {
+				image: image,
+				nameOfNewsLetter: name,
+				description: description,
+				startDateOfDiscount: startDate,
+				endDateOfDiscount: endDate
+			};
+			const res = await postNewslater(newNewslaterData);
+			setIsModalOpen(false);
+			message.success('Рассылка успешно создана');
+			console.log(res);
+			reset();
+		} catch (error) {
+			message.warning('Рассылка не создана');
+		}
 	};
 
 	const handleStartDateChange = (date: Moment | null) => {

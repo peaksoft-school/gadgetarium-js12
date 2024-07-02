@@ -72,11 +72,12 @@ const api = index.injectEndpoints({
 		}),
 		postConfirmPayment: build.mutation<
 			PAYMENTPRODUCT.PostConfirmPayResponse,
-			PAYMENTPRODUCT.PostPaymentRequest
+			PAYMENTPRODUCT.PostConfirmPayRequest
 		>({
-			query: (paymentId) => ({
+			query: ({ paymentId, ...res }) => ({
 				url: `/api/payment/confirm?paymentId=${paymentId}	`,
 				method: 'POST',
+				body: {...res},
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				}
