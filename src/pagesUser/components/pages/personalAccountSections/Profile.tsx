@@ -12,6 +12,7 @@ import {
 	usePatchProfilesPasswordMutation
 } from '@/src/redux/api/personalAccount/profile';
 import { message } from 'antd';
+import { usePostUploadMutation } from '@/src/redux/api/pdf';
 
 const Profile = () => {
 	const {
@@ -70,6 +71,8 @@ const Profile = () => {
 		[key: string]: boolean;
 	}>({});
 
+
+
 	const [oldPassword, setOldPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
@@ -78,12 +81,14 @@ const Profile = () => {
 	const [email, setEmail] = useState('');
 	const [phone, setPhone] = useState('');
 	const [address, setAddress] = useState('');
-
+	const [postUpload] = usePostUploadMutation();
 	const [profilePasswords] = usePatchProfilesPasswordMutation();
 	const [profileInformation] = usePostProfilesInformationQueryMutation();
 	const [profileImage] = usePutProfilesImageQueryMutation();
 	const { data: profileData, refetch } = useGetProfilesQuery({});
 	const navigate = useNavigate();
+
+	const [imageUrl, setImageUrl] = useState<string | null>(null);
 
 	useEffect(() => {
 		if (profileData) {
@@ -98,6 +103,7 @@ const Profile = () => {
 			setEmail(profileData.email);
 			setPhone(profileData.phoneNumber);
 			setAddress(profileData.address);
+			setImageUrl(profileData.image);
 		}
 		refetch();
 	}, [profileData, setValue]);
@@ -107,27 +113,23 @@ const Profile = () => {
 	};
 
 	const handlePostNewPassword = async () => {
-		try {
-			const passwords = {
-				oldPassword: oldPassword,
-				newPassword: newPassword,
-				confirmationPassword: confirmPassword
-			};
+		const passwords = {
+			oldPassword: oldPassword,
+			newPassword: newPassword,
+			confirmationPassword: confirmPassword
+		};
+		if (oldPassword === '' || newPassword === '' || confirmPassword === '') {
+			return message.success('Профиль успешно отредактирован');
+		} else {
 			const res = await profilePasswords(passwords);
 			console.log(res);
 			if (res.error) {
-				message.warning('Вы неправильно ввели пароль');
+				message.warning('Вы неправильно ввели старый  пароль');
 			} else {
 				message.success('Пароль успешно изменен');
 			}
-		} catch (error) {
-			message.warning('Вы неправильно ввели старый пароль');
-			console.error(error, 'Вы неправильно ввели старый пароль');
 		}
-		if (oldPassword === '' || newPassword === '' || confirmPassword === '') {
-			return;
-		} else {
-		}
+
 		reset();
 	};
 
@@ -163,13 +165,21 @@ const Profile = () => {
 	const handleFileChange = async (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
-		const file = event.target.files?.[0];
+		const file = event.target.files;
 		if (file) {
 			const formData = new FormData();
-			formData.append('image', file);
+			formData.append('files', file[0]);
 			try {
-				const res = await profileImage(formData);
+				const res = await postUpload(formData).unwrap();
 				console.log(res);
+				const DATA = {
+					image: res.data[0]
+				};
+				await profileImage({
+					image: DATA.image
+				});
+				setImageUrl(DATA.image);
+				refetch()
 			} catch (error) {
 				console.error('Error uploading profile image:', error);
 			}
@@ -188,7 +198,6 @@ const Profile = () => {
 							<h3>Профиль</h3>
 							<div></div>
 						</div>
-
 						<div className={scss.div_navigation}>
 							<Link to="/personal-account/history-of-orders">
 								<button>История заказов</button>
@@ -202,8 +211,14 @@ const Profile = () => {
 
 					<div className={scss.page_content_2}>
 						<div className={scss.div_left} onClick={handleImageClick}>
-							<IconPhotoPlus />
-							<p>Нажмите для добавления фотографии</p>
+							{imageUrl ? (
+								<img src={imageUrl} alt="Profile" />
+							) : (
+								<>
+									<IconPhotoPlus />
+									<p>Нажмите для добавления фотографии</p>
+								</>
+							)}
 							<input
 								type="file"
 								ref={fileInputRef}

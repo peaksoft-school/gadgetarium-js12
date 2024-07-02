@@ -44,7 +44,7 @@ const api = index.injectEndpoints({
 		}),
 		deleteOrder: build.mutation({
 			query: () => ({
-				url: '/api/personal',
+				url: '/api/order/clear',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				},

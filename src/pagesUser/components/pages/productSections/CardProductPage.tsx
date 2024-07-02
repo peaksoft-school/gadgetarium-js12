@@ -415,7 +415,7 @@ const CardProductPage = () => {
 																	: `${scss.nooActiveButton}`
 															}
 															onClick={() =>
-																data && addFavoriteProduct(data.gadgetId)
+																data && addFavoriteProduct(data.subGadgetId)
 															}
 														>
 															{data?.likes === true ? (

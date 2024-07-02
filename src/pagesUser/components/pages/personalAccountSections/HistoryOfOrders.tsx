@@ -106,15 +106,8 @@ const HistoryOfOrders = () => {
 											<button>Профиль</button>
 										</Link>
 									</div>
-									<div className={scss.account}>
-										<h3>Азамат Азаматов</h3>
-										<p className={scss.account_email}>aza@gmail.com</p>
-										<p className={scss.account_phone}>+996 (400) 88-88-88</p>
-										<p className={scss.account_leave}>Выйти</p>
-									</div>
 								</div>
 							</div>
-
 							<div className={scss.page_content_2}>
 								<>
 									<img src={dummy} alt="historyOrder" />

@@ -96,7 +96,7 @@ const AboutSection = () => {
 					if (mouseOver) return;
 					timeout = setTimeout(() => {
 						slider.next();
-					}, 5000);
+					}, 2000);
 				}
 
 				slider.on('created', () => {

@@ -4,11 +4,27 @@ import { IconGadgetarium } from '@/src/assets/icons';
 import AuthDropdown from '@/src/ui/authDropdown/AuthDropdown.tsx';
 import { userLinks } from '@/src/routes';
 import { useGetProfilesQuery } from '@/src/redux/api/personalAccount/profile';
+import { useEffect, useState } from 'react';
 // import CatalogMenu from '@/src/ui/catalogMenu/CatalogMenu';
+
+
 const SupHeader = () => {
-	const { data: profileData } = useGetProfilesQuery({});
+	const { data: profileData, refetch } = useGetProfilesQuery({});
+	const [phoneNumber, setPhoneNumber] = useState<string | undefined>(
+		profileData?.phoneNumber
+	);
 	const { pathname } = useLocation();
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		refetch();
+	}, []);
+
+	useEffect(() => {
+		if (profileData) {
+			setPhoneNumber(profileData.phoneNumber);
+		}
+	}, [profileData]);
 
 	const top = () => {
 		navigate('/');
@@ -41,12 +57,13 @@ const SupHeader = () => {
 						</ul>
 					</nav>
 					<div className={scss.profile}>
-						<p>{profileData?.phoneNumber}</p>
+						<p>{phoneNumber}</p>
 						<AuthDropdown />
 					</div>
 				</div>
 			</div>
-			{/* <CatalogMenu/> */}
+						{/* <CatalogMenu/> */}
+
 		</header>
 	);
 };

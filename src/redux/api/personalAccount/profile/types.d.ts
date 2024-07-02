@@ -26,7 +26,7 @@ namespace PROFILESTORE {
 	};
 
 	type IImage = {
-		image: string;
+		image: FormData;
 	};
 
 	type PostProfilePasswordResponse = IProfile[];
@@ -36,5 +36,7 @@ namespace PROFILESTORE {
 	type PostProfileInformationRequest = IInformation;
 
 	type PutProfileImageResponse = IImage;
-	type PutProfileImageRequest = IImage;
+	type PutProfileImageRequest = {
+		image: FormData | string;
+	};
 }

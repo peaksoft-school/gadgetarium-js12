@@ -9,16 +9,10 @@ const HistorySinglePage = () => {
 	const { data: orderPersonalId, isLoading } = useGetPersonalByIdQuery(id);
 	const navigate = useNavigate();
 	const [status1, setStatus1] = useState(true);
-	const [status2, setStatus2] = useState(true);
-	const [status3, setStatus3] = useState(true);
-	const [status4, setStatus4] = useState(true);
 
 	useEffect(() => {
 		if (orderPersonalId) {
 			setStatus1(Boolean(orderPersonalId.status?.trim()));
-			setStatus2(Boolean(orderPersonalId.status?.trim()));
-			setStatus3(Boolean(orderPersonalId.status?.trim()));
-			setStatus4(Boolean(orderPersonalId.status?.trim()));
 		}
 	}, [orderPersonalId]);
 
@@ -72,39 +66,11 @@ const HistorySinglePage = () => {
 												<div className={scss.status}>
 													<p>Статус</p>
 													<div className={scss.statuses}>
-														<button className={scss.wait_status}>
-															О ожидании
-														</button>
 														<button>
 															<span
 																className={
 																	status1
 																		? scss.delivered_status
-																		: scss.no_status
-																}
-															>
-																{orderPersonalId.status}
-															</span>
-															<span
-																className={
-																	status2
-																		? scss.cancelled_status
-																		: scss.no_status
-																}
-															>
-																{orderPersonalId.status}
-															</span>
-															<span
-																className={
-																	status3 ? scss.way_status : scss.no_status
-																}
-															>
-																{orderPersonalId.status}
-															</span>
-															<span
-																className={
-																	status4
-																		? scss.processing_status
 																		: scss.no_status
 																}
 															>

@@ -46,4 +46,37 @@ namespace PAYMENTPRODUCT {
 		details?: Array<{ issue: string; description: string }>;
 		debug_id?: string;
 	};
+	type TestCreateRequest = {
+		token: string;
+		orderId: number | undefined;
+		paymentId: string;
+	};
+
+	type GetOrderIdRequest = void;
+	type GetOrderIdResponse = {
+		orderId: number;
+	};
+	type PostConfirmPayRequest = {
+		dataPay: {
+			paymentId: string;
+		};
+	};
+	type PostConfirmPayResponse = {
+		paymentId: string;
+	};
+
+	type GetReviewRequest = number;
+	type GetReviewResponse = {
+		id: number;
+		price: number;
+		delivery: string;
+		payment: string;
+		orderId: number;
+	};
+	type GetPayDecorRequest = number;
+	type GetPayDecorResponse = {
+		number: number;
+		createAd: string;
+		email: string;
+	};
 }

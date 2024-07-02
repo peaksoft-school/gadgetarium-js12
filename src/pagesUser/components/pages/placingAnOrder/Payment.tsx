@@ -1,11 +1,14 @@
 import { Checkbox, ConfigProvider } from 'antd';
 import scss from './Payment.module.scss';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { usePatchPaymentTypeMutation } from '@/src/redux/api/payment';
+import { useEffect, useState } from 'react';
+import {
+	useGetOrderIdQuery,
+	usePatchPaymentTypeMutation
+} from '@/src/redux/api/payment';
 // import { useNavigate, useSearchParams } from 'react-router-dom';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import PaymentStripe from '../payment/PaymentStripe';
 import { useGetBasketQuery } from '@/src/redux/api/basket';
+import PaymentStripe from '../payment/PaymentStripe';
+import { useNavigate } from 'react-router-dom';
 
 const images = [
 	{
@@ -24,18 +27,11 @@ const images = [
 	}
 ];
 
-type DeliveryPageTypes = {
-	orderId: number;
-	payment: string;
-};
-
 const Payment = () => {
 	const [isPaymentOnline, setIsPaymentOnline] = useState(true);
 	const [isReceipt, setIsReceipt] = useState(false);
 	const [isCash, setIsCash] = useState(false);
-	// const [searchParamsOne, setSearchParamsOne] = useSearchParams();
-	// const navigate = useNavigate();
-
+	const navigate = useNavigate();
 	const [patchPaymentType] = usePatchPaymentTypeMutation();
 	const { data, isLoading } = useGetBasketQuery();
 
@@ -43,29 +39,16 @@ const Payment = () => {
 	const [isPayment, setIsPayment] = useState(false);
 	const [amount, setAmount] = useState<number | undefined>(0);
 	const [test, setTest] = useState<Record<string, string>>({});
-	const {
-		handleSubmit
-		// reset,
-		// control,
-	} = useForm<DeliveryPageTypes>({
-		mode: 'onBlur'
-	});
+	const [orderId, setOrderId] = useState(0);
 
-	const handleCardNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
-		let formattedNumber = event.target.value.replace(/\s/g, '');
-		formattedNumber = formattedNumber.replace(/(\d{4})/g, '$1 ').trim();
-		formattedNumber = formattedNumber.slice(0, 19);
-		setCardNumber(formattedNumber);
-	};
-
+	const { data: getOrderId } = useGetOrderIdQuery(orderId);
 	const handlePaymentOnline = async () => {
 		setIsReceipt(false);
 		setIsCash(false);
 		setIsPaymentOnline(!isPaymentOnline);
 		const paymentType = 'PAYMENT_BY_CARD';
-		const orderId = 1;
 		await patchPaymentType({
-			orderId: Number(orderId),
+			orderId: getOrderId?.orderId,
 			payment: paymentType
 		});
 	};
@@ -75,9 +58,8 @@ const Payment = () => {
 		setIsCash(false);
 		setIsReceipt(!isReceipt);
 		const paymentType = 'UPON_RECEIPT_CARD';
-		const orderId = 1;
 		await patchPaymentType({
-			orderId: Number(orderId),
+			orderId: getOrderId?.orderId,
 			payment: paymentType
 		});
 	};
@@ -87,9 +69,8 @@ const Payment = () => {
 		setIsReceipt(false);
 		setIsCash(!isCash);
 		const paymentType = 'UPON_RECEIPT_CASH';
-		const orderId = 1;
 		await patchPaymentType({
-			orderId: Number(orderId),
+			orderId: getOrderId?.orderId,
 			payment: paymentType
 		});
 	};
@@ -98,17 +79,8 @@ const Payment = () => {
 		setAmount(data?.totalAmount);
 	}, [data]);
 
-	const onSubmit: SubmitHandler<DeliveryPageTypes> = async () => {
-		// console.log('onSubmit');
-		// const orderId = searchParamsOne.get('orderId');
-		// const payment = searchParamsOne.get('payment');
-		// if (orderId && payment) {
-		// 	await patchPaymentType({
-		// 		orderId: Number(orderId),
-		// 		payment
-		// 	});
-		// 	reset();
-		// }
+	const handleNavigateReview = () => {
+		navigate('/pay/review');
 	};
 
 	return (
@@ -219,85 +191,21 @@ const Payment = () => {
 						</div>
 					</div>
 				</div>
-				<div
-					className={scss.card_number}
-					style={{ display: isPaymentOnline ? 'flex' : 'none' }}
-				>
-					<div className={scss.images_card_number}>
-						{images.map((item, index) => (
-							<div key={index}>
-								<img src={item.image} alt="image" />
-							</div>
-						))}
-					</div>
-					{/* //!PAYMENT CARD */}
-					<form
-						className={scss.inputs_number}
-						onSubmit={handleSubmit(onSubmit)}
-					>
-						<div className={scss.number_card_input}>
-							<input
-								required
-								type="text"
-								className={scss.input}
-								value={cardNumber}
-								onChange={handleCardNumberChange}
-								maxLength={19}
-							/>
-							<label>Номер карты</label>
-						</div>
-						<div className={scss.year_card_input}>
-							<div className={scss.inputs_cvc_mm_yy}>
-								<div className={scss.inputs_mm_yy}>
-									<div className={scss.input_month}>
-										<input
-											required
-											type="text"
-											className={scss.input_mm}
-											maxLength={2}
-										/>
-										<label className={scss.label_mm}>MM</label>
-									</div>
-									<div style={{ color: 'blue' }}>/</div>
-									<div className={scss.input_year}>
-										<input
-											required
-											type="text"
-											className={scss.input_yy}
-											maxLength={2}
-										/>
-										<label className={scss.label_yy}>YY</label>
-									</div>
-								</div>
-								<div className={scss.input_cvc}>
-									<input
-										required
-										type="text"
-										className={scss.input_cvc}
-										maxLength={3}
-									/>
-									<label className={scss.label_cvc}>CVC</label>
-								</div>
-							</div>
-							<div className={scss.first_name_input}>
-								<input
-									required
-									type="text"
-									className={scss.input_name}
-									maxLength={19}
-								/>
-								<label>Имя владельца</label>
-							</div>
-						</div>
-					</form>
-				</div>
-				<button
-					onClick={() => {
-						setIsPayment(true);
-					}}
-				>
-					Оформить заказ
-				</button>
+				{isPaymentOnline ? (
+					<>
+						<button
+							onClick={() => {
+								setIsPayment(true);
+							}}
+						>
+							Добавить карту
+						</button>
+					</>
+				) : (
+					<>
+						<button onClick={handleNavigateReview}>Продолжить</button>
+					</>
+				)}
 			</div>
 			<div>
 				<PaymentStripe

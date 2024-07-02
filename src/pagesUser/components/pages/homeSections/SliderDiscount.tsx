@@ -1,5 +1,5 @@
 import scss from './SliderDiscount.module.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import { useGetSlidersQuery } from '@/src/redux/api/slider';
 import { Skeleton } from 'antd';
@@ -16,6 +16,49 @@ const SliderDiscount = () => {
 			setLoaded(true);
 		}
 	});
+
+	[
+		(slider) => {
+			let timeout: ReturnType<typeof setTimeout>;
+			let mouseOver = false;
+
+			function clearNextTimeout() {
+				clearTimeout(timeout);
+			}
+
+			function nextTimeout() {
+				clearTimeout(timeout);
+				if (mouseOver) return;
+				timeout = setTimeout(() => {
+					slider.next();
+				}, 2000);
+			}
+
+			slider.on('created', () => {
+				slider.container.addEventListener('mouseover', () => {
+					mouseOver = true;
+					clearNextTimeout();
+				});
+				slider.container.addEventListener('mouseout', () => {
+					mouseOver = false;
+					nextTimeout();
+				});
+				nextTimeout();
+			});
+			slider.on('dragStarted', clearNextTimeout);
+			slider.on('animationEnded', nextTimeout);
+			slider.on('updated', nextTimeout);
+		}
+	];
+	// useEffect(() => {
+	// 	if (instanceRef.current) {
+	// 		setTimeout(() => {
+	// 			instanceRef.current.next();
+	// 		}, 2000);
+
+	// 		// return () => clearInterval(interval);
+	// 	}
+	// }, [instanceRef]);
 
 	return (
 		<div className={scss.slider}>
