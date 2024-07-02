@@ -224,7 +224,15 @@
 							width: 392px;
 							height: 39px;
 							border-radius: 5px;
-
+							border: 1px solid rgb(205, 205, 205);
+							&:active {
+								transition: all 0.2s ease;
+								border: 1px solid #cb10ac;
+							}
+							&:hover {
+								transition: all 0.2s ease;
+								border: 1px solid #cb10ac;
+							}
 							@media (max-width: 853px) {
 								width: 300px;
 							}
@@ -315,6 +323,14 @@
 							color: rgb(36, 34, 34);
 							font-size: clamp(7px, 4vw, 16px);
 							font-weight: 400;
+							&:active {
+								transition: all 0.2s ease;
+								border: 1px solid #cb10ac;
+							}
+							&:hover {
+								transition: all 0.2s ease;
+								border: 1px solid #cb10ac;
+							}
 							border-radius: 5px;
 							@media (max-width: 853px) {
 								width: 300px;
@@ -346,6 +362,14 @@
 							align-items: center;
 							padding: 10px;
 							border-radius: 5px;
+							&:active {
+								transition: all 0.2s ease;
+								border: 1px solid #cb10ac;
+							}
+							&:hover {
+								transition: all 0.2s ease;
+								border: 1px solid #cb10ac;
+							}
 							p {
 								color: rgb(145, 150, 158);
 								font-size: clamp(7px, 4vw, 15px);

@@ -117,7 +117,7 @@ const AboutSection = () => {
 		]
 	);
 	return (
-		<div className={scss.AboutSection}>
+		<div id='О магазине' className={scss.AboutSection}>
 			<div className="container">
 				<div className={scss.content}>
 					<p className={scss.p} onClick={() => navigate('/')}>

@@ -83,7 +83,7 @@ const PhonesDropdown = () => {
 		{
 			key: '6',
 			label: (
-				<p onClick={() => handleSortsFunkFiltred('HIGH_TO_LOW')}>HIGH_TO_LOW</p>
+				<p onClick={() => handleSortsFunkFiltred('HIGH_TO_LOW')}>от высокого к низкому</p>
 			)
 		}
 	];

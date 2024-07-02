@@ -143,6 +143,7 @@ const OrderInPending = () => {
 			setSearchParams(searchParams);
 		}
 	};
+	
 
 	return (
 		<section className={scss.order}>
@@ -323,7 +324,7 @@ const OrderInPending = () => {
 											{
 											// data?.paginationGadgets!.length / data?.page! > 1 && (
 											<Pagination
-												total={data?.canceled}
+												total={data?.waiting}
 												pageSize={data?.size}
 												current={data?.page}
 												showQuickJumper={true}

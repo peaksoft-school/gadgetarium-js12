@@ -139,6 +139,8 @@ const Order = () => {
 		}
 	};
 
+	
+
 	return (
 		<section className={scss.order}>
 			<div className="container">
@@ -317,7 +319,7 @@ const Order = () => {
 											{
 											// data?.paginationGadgets!.length / data?.page! > 1 && (
 											<Pagination
-												total={data?.canceled}
+												total={data?.progress}
 												pageSize={data?.size}
 												current={data?.page}
 												showQuickJumper={true}

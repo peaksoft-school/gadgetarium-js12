@@ -1,4 +1,4 @@
-import { DatePicker, message } from 'antd';
+import { DatePicker, Input, message } from 'antd';
 import moment, { Moment } from 'moment';
 import { FC, useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -82,7 +82,7 @@ const Header: FC = () => {
 		};
 	}, []);
 
-	const [postNewslater, { reset }] = usePostNewslaterMutation();
+	const [postNewslater] = usePostNewslaterMutation();
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
 	const [startDate, setStartDate] = useState<string>('');
@@ -90,21 +90,27 @@ const Header: FC = () => {
 	const [image, setImage] = useState<string>('');
 
 	const handlePostNewslater = async () => {
+		const newNewslaterData = {
+			image: image,
+			nameOfNewsLetter: name,
+			description: description,
+			startDateOfDiscount: startDate,
+			endDateOfDiscount: endDate
+		};
+		console.log(newNewslaterData);
+		setImage('');
+		setName('');
+		setDescription('');
+		setStartDate('');
+		setEndDate('');
 		try {
-			const newNewslaterData = {
-				image: image,
-				nameOfNewsLetter: name,
-				description: description,
-				startDateOfDiscount: startDate,
-				endDateOfDiscount: endDate
-			};
 			const res = await postNewslater(newNewslaterData);
-			setIsModalOpen(false);
-			message.success('Рассылка успешно создана');
 			console.log(res);
-			reset();
+			setIsModalOpen(false);
+			message.success('Вход успешно выполнен');
 		} catch (error) {
-			message.warning('Рассылка не создана');
+			console.error(error);
+			setIsModalOpen(true);
 		}
 	};
 
@@ -205,7 +211,7 @@ const Header: FC = () => {
 							<CustomImageAdd image={image} setImage={setImage} />
 							<div className={scss.size_sale}>
 								<label htmlFor="name">Название рассылки *</label>
-								<input
+								<Input
 									type="text"
 									name="name"
 									className={scss.input}
@@ -216,7 +222,7 @@ const Header: FC = () => {
 							</div>
 							<div className={scss.size_sale}>
 								<label htmlFor="name">Описание рассылки *</label>
-								<input
+								<Input
 									type="text"
 									className={scss.input}
 									name="name"

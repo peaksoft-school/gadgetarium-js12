@@ -142,7 +142,8 @@
 					border-radius: 6px;
 					background: rgb(232, 232, 232);
 					margin-left: 47px;
-					width: 100%;
+					// width: 100%;
+					max-width: 850px;
 					.content_admin_commit_div {
 						padding: 19px;
 						display: flex;
@@ -407,8 +408,17 @@
 			height: 150px;
 			color: rgb(145, 150, 158);
 			font-size: clamp(10px, 4vw, 16px);
+			resize: none;
 			@media (max-width: 555px) {
 				height: 115px;
+			}
+			&:active {
+				transition: all 0.2s ease;
+				border: 1px solid #cb10ac;
+			}
+			&:hover {
+				transition: all 0.2s ease;
+				border: 1px solid #cb10ac;
 			}
 		}
 		.commit_input::placeholder {
@@ -429,6 +439,14 @@
 			@media (max-width: 555px) {
 				height: 85px;
 				margin-top: 3px;
+			}
+			&:active {
+				transition: all 0.2s ease;
+				border: 1px solid #cb10ac;
+			}
+			&:hover {
+				transition: all 0.2s ease;
+				border: 1px solid #cb10ac;
 			}
 			.input_file_content_div {
 				display: flex;

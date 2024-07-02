@@ -74,7 +74,7 @@ const ProductsRecom = () => {
 	};
 
 	return (
-		<div className={scss.ProductsRecom}>
+		<div id="популярные категории" className={scss.ProductsRecom}>
 			<div className="container">
 				<div className={scss.content}>
 					<h2 className={scss.recom_text}>Мы рекомендуем</h2>
@@ -213,20 +213,22 @@ const ProductsRecom = () => {
 								</>
 							)}
 						</div>
-						<div className={scss.show_more_button}>
-							{data?.mainPages.length.toString() ===
-							(searchParams.get('RecomSize') || '5') ? (
-								<ShowMoreButton
-									children={'Показать ещё'}
-									onClick={() => handleShowAllPhones(data?.mainPages.length)}
-								/>
-							) : (
-								<ShowMoreButton
-									children={'Скрыть'}
-									onClick={handlePaginationResult}
-								/>
-							)}
-						</div>
+						{data?.mainPages.length !== 0 && (
+							<div className={scss.show_more_button}>
+								{data?.mainPages.length.toString() ===
+								(searchParams.get('RecomSize') || '5') ? (
+									<ShowMoreButton
+										children={'Показать ещё'}
+										onClick={() => handleShowAllPhones(data?.mainPages.length)}
+									/>
+								) : (
+									<ShowMoreButton
+										children={'Скрыть'}
+										onClick={handlePaginationResult}
+									/>
+								)}
+							</div>
+						)}
 					</div>
 				</div>
 				<div>

@@ -5,6 +5,8 @@ import AuthDropdown from '@/src/ui/authDropdown/AuthDropdown.tsx';
 import { userLinks } from '@/src/routes';
 import { useGetProfilesQuery } from '@/src/redux/api/personalAccount/profile';
 import { useEffect, useState } from 'react';
+// import CatalogMenu from '@/src/ui/catalogMenu/CatalogMenu';
+
 
 const SupHeader = () => {
 	const { data: profileData, refetch } = useGetProfilesQuery({});
@@ -60,6 +62,8 @@ const SupHeader = () => {
 					</div>
 				</div>
 			</div>
+						{/* <CatalogMenu/> */}
+
 		</header>
 	);
 };
