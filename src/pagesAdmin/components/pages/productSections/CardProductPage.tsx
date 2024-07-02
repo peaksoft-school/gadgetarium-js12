@@ -25,6 +25,7 @@ import { useDeleteGoodsGadgetMutation } from '@/src/redux/api/goods';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 import { useGetProductsColorsApiQuery } from '@/src/redux/api/productColorApi';
 import { useGetProductMemoryQuery } from '@/src/redux/api/memoryForProductApi';
+import { useGetCharacteristicsProductQuery } from '@/src/redux/api/characteristicsAPI';
 
 const CardProductPage = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -34,6 +35,9 @@ const CardProductPage = () => {
 	const [countIsProduct, _] = useState<string>('1');
 	const [countInput, setCountInput] = useState<string>('1');
 	const { productId } = useParams();
+	const { data: characteristicsApi } = useGetCharacteristicsProductQuery(
+		productId!
+	);
 	const [isSlider, setIsSlider] = useState<number>(1);
 	const [sliderResult, setSliderresult] = useState<number>(0);
 	const [contentIsModal, setContentIsModal] = useState<string>('');
@@ -203,7 +207,7 @@ const CardProductPage = () => {
 															setContentIsModal(item);
 															setModal2Open(!modal2Open);
 														}}
-														src={data?.brandLogo}
+														src={item}
 														key={index}
 														alt={data.nameOfGadget}
 													/>
@@ -435,12 +439,20 @@ const CardProductPage = () => {
 															))}
 													</div>
 													<div className={scss.info_product}>
+													{characteristicsApi?.mainCharacteristics.Экран
+														&& characteristicsApi.mainCharacteristics.Экран.Размер && (
 														<div className={scss.div_screen}>
 															<p>
 																Экран............................................
 															</p>
-															{/* <h4>{data?.Screen}</h4> */}
+															<h4>
+																{
+																	characteristicsApi?.mainCharacteristics.Экран
+																		.Размер
+																}
+															</h4>
 														</div>
+													)}
 														<div className={scss.div_screen}>
 															<p>
 																Цвет..............................................
@@ -451,10 +463,7 @@ const CardProductPage = () => {
 															<p>Дата выпуска..............................</p>
 															<h4>{data?.releaseDate}</h4>
 														</div>
-														<div className={scss.div_screen}>
-															<p>Операционная система............</p>
-															{/* <h4>{data?.operatingSystem}</h4> */}
-														</div>
+														
 														<div className={scss.div_screen}>
 															<p>
 																Память.........................................
@@ -471,16 +480,27 @@ const CardProductPage = () => {
 															<p>Гарантия (месяцев)...................</p>
 															<h4>{data?.warranty}</h4>
 														</div>
+														{characteristicsApi?.mainCharacteristics.Производительность && characteristicsApi.mainCharacteristics.Производительность.Чипсет && (
 														<div className={scss.div_screen}>
-															<p>Процессор..................................</p>
-															{/* <h4>{data?.CPU}</h4> */}
+															<p>Производительность.................</p>
+															<h4>{characteristicsApi.mainCharacteristics.Производительность.Чипсет}</h4>
 														</div>
-														{/* <div className={scss.div_screen}>
-														<p>
-															Вес...............................................
-														</p>
-														<h4>{data?.Weight}</h4>
-													</div> */}
+													)}
+													
+													{characteristicsApi?.mainCharacteristics['Дизайн и корпус'] && characteristicsApi.mainCharacteristics['Дизайн и корпус'].Вес && (
+														<div className={scss.div_screen}>
+															<p>Производительность.................</p>
+															<h4>{characteristicsApi.mainCharacteristics['Дизайн и корпус'].Вес}</h4>
+														</div>
+													)}
+													{characteristicsApi?.mainCharacteristics.Батарея && characteristicsApi.mainCharacteristics.Батарея['Беспроводная зарядка'] && (
+														<div className={scss.div_screen}>
+															<p>Батарея........................................</p>
+															<h4>{characteristicsApi.mainCharacteristics.Батарея['Беспроводная зарядка']}</h4>
+														</div>
+													)}
+														
+														
 														<div className={scss.div_screen}>
 															<p>
 																Процент.......................................

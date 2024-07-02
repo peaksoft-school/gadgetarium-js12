@@ -33,6 +33,7 @@ import { useGetProductMemoryQuery } from '@/src/redux/api/memoryForProductApi';
 import { ViewedProducts } from '@/src/ui/ViewedProducts/ViewedProducts';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal';
 import ModalLogin from '@/src/ui/customModalLogin/ModalLogin';
+import { useGetCharacteristicsProductQuery } from '@/src/redux/api/characteristicsAPI';
 const CardProductPage = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 
@@ -40,6 +41,9 @@ const CardProductPage = () => {
 	const [countIsProduct, setCountIsProduct] = useState<string>('1');
 	const [favoriteAddProduct] = useFavoritePutProductMutation();
 	const { productId } = useParams();
+	const { data: characteristicsApi } = useGetCharacteristicsProductQuery(
+		productId!
+	);
 	const [countInput, setCountInput] = useState<string>('1');
 	const { data: productColor } = useGetProductsColorsApiQuery(productId!);
 	const { data, refetch, isLoading } = useGetCardProductQuery({
@@ -118,8 +122,9 @@ const CardProductPage = () => {
 	const addFavoriteProduct = async (subGadgetId: number) => {
 		if (localStorage.getItem('isAuth') === 'true') {
 			await favoriteAddProduct(subGadgetId);
+			refetch();
 		} else setOpenModal(true);
-		refetch();
+		// refetch();
 	};
 
 	const { data: productMemoryData } = useGetProductMemoryQuery({
@@ -161,6 +166,9 @@ const CardProductPage = () => {
 		}
 	};
 
+	console.log(data?.likes, 'linkes');
+	
+
 	return (
 		<>
 			<section className={scss.CardProductPage}>
@@ -173,7 +181,6 @@ const CardProductPage = () => {
 								<div className={scss.div_content_product_and_pages}>
 									<p onClick={() => navigate('/')}>Главная »</p>
 									<p onClick={() => navigate('/catalog/1/filtred')}>
-
 										Смартфоны »
 									</p>
 									<p>
@@ -451,12 +458,20 @@ const CardProductPage = () => {
 														))}
 												</div>
 												<div className={scss.info_product}>
-													<div className={scss.div_screen}>
-														<p>
-															Экран............................................
-														</p>
-														{/* <h4>{data?.Screen}</h4> */}
-													</div>
+													{characteristicsApi?.mainCharacteristics.Экран
+														&& characteristicsApi.mainCharacteristics.Экран.Размер && (
+														<div className={scss.div_screen}>
+															<p>
+																Экран............................................
+															</p>
+															<h4>
+																{
+																	characteristicsApi?.mainCharacteristics.Экран
+																		.Размер
+																}
+															</h4>
+														</div>
+													)}
 													<div className={scss.div_screen}>
 														<p>
 															Цвет..............................................
@@ -467,10 +482,7 @@ const CardProductPage = () => {
 														<p>Дата выпуска..............................</p>
 														<h4>{data?.releaseDate}</h4>
 													</div>
-													<div className={scss.div_screen}>
-														<p>Операционная система............</p>
-														{/* <h4>{data?.operatingSystem}</h4> */}
-													</div>
+
 													<div className={scss.div_screen}>
 														<p>
 															Память.........................................
@@ -485,10 +497,26 @@ const CardProductPage = () => {
 														<p>Гарантия (месяцев)...................</p>
 														<h4>{data?.warranty}</h4>
 													</div>
-													<div className={scss.div_screen}>
-														<p>Процессор..................................</p>
-														{/* <h4>{data?.CPU}</h4> */}
-													</div>
+													{characteristicsApi?.mainCharacteristics.Производительность && characteristicsApi.mainCharacteristics.Производительность.Чипсет && (
+														<div className={scss.div_screen}>
+															<p>Производительность.................</p>
+															<h4>{characteristicsApi.mainCharacteristics.Производительность.Чипсет}</h4>
+														</div>
+													)}
+													
+													{characteristicsApi?.mainCharacteristics['Дизайн и корпус'] && characteristicsApi.mainCharacteristics['Дизайн и корпус'].Вес && (
+														<div className={scss.div_screen}>
+															<p>Производительность.................</p>
+															<h4>{characteristicsApi.mainCharacteristics['Дизайн и корпус'].Вес}</h4>
+														</div>
+													)}
+													{characteristicsApi?.mainCharacteristics.Батарея && characteristicsApi.mainCharacteristics.Батарея['Беспроводная зарядка'] && (
+														<div className={scss.div_screen}>
+															<p>Батарея........................................</p>
+															<h4>{characteristicsApi.mainCharacteristics.Батарея['Беспроводная зарядка']}</h4>
+														</div>
+													)}
+
 													{/* <div className={scss.div_screen}>
 														<p>
 															Вес...............................................

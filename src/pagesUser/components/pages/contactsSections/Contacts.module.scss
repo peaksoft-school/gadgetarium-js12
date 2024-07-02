@@ -155,6 +155,15 @@
 								height: 2.5rem;
 								color: black;
 								background-color: #fff;
+								border: 1px solid rgba(144, 156, 181, 0.3);
+								&:active {
+									transition: all 0.2s ease;
+									border: 1px solid #cb10ac;
+								}
+								&:hover {
+									transition: all 0.2s ease;
+									border: 1px solid #cb10ac;
+								}
 							}
 							.input::placeholder {
 								color: black;
@@ -177,6 +186,16 @@
 							height: 8.6rem;
 							background-color: #fff;
 							color: black;
+							border: 1px solid rgba(144, 156, 181, 0.3);
+							resize: none;
+							&:active {
+								transition: all 0.2s ease;
+								border: 1px solid #cb10ac;
+							}
+							&:hover {
+								transition: all 0.2s ease;
+								border: 1px solid #cb10ac;
+							}
 						}
 						.input_for_message::placeholder {
 							color: black;

@@ -313,6 +313,15 @@
 			color: rgb(41, 41, 41);
 			font-size: clamp(7px, 4vw, 14px);
 			font-weight: 400;
+			border: 1px solid rgb(205, 205, 205);
+			&:active {
+				transition: all 0.2s ease;
+				border: 1px solid #cb10ac;
+			}
+			&:hover {
+				transition: all 0.2s ease;
+				border: 1px solid #cb10ac;
+			}
 		}
 		.buttons {
 			display: flex;
