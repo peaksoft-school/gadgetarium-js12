@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import scss from './SliderDiscount.module.scss';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import { useGetSlidersQuery } from '@/src/redux/api/slider';
 import { Skeleton } from 'antd';
@@ -18,7 +20,7 @@ const SliderDiscount = () => {
 	});
 
 	[
-		(slider) => {
+		(slider: any) => {
 			let timeout: ReturnType<typeof setTimeout>;
 			let mouseOver = false;
 

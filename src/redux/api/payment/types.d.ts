@@ -65,7 +65,9 @@ namespace PAYMENTPRODUCT {
 		paymentId: string;
 	};
 
-	type GetReviewRequest = number;
+	type GetReviewRequest = {
+		orderId: number
+	};
 	type GetReviewResponse = {
 		id: number;
 		price: number;
@@ -73,7 +75,9 @@ namespace PAYMENTPRODUCT {
 		payment: string;
 		orderId: number;
 	};
-	type GetPayDecorRequest = number;
+	type GetPayDecorRequest = {
+		orderId: number;
+	};
 	type GetPayDecorResponse = {
 		number: number;
 		createAd: string;

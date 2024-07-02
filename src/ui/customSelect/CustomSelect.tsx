@@ -44,10 +44,10 @@ const CustomSelect: FC<CustomSelectProps> = ({
 
 		try {
 			await updateSelect({
-				orderId: orderId,
+				orderId: Number(orderId),
 				status: value
 			});
-			onStatusChange(orderId, value);
+			onStatusChange!(orderId, value);
 		} catch (error) {
 			console.error('Failed to update order status:', error);
 		}

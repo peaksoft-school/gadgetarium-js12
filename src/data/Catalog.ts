@@ -93,7 +93,7 @@ export const moreGBiteCatalog = [
 	},
 	{
 		gb: '16',
-    nameRam: 'RAM_12'
+    nameRam: 'RAM_16'
 
 	},
 	{
