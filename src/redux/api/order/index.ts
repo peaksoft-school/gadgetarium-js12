@@ -26,14 +26,24 @@ const api = index.injectEndpoints({
 				email,
 				phoneNumber,
 				firstName,
-				lastName
+				lastName,
+				price,
+				discountPrice
 			}) => ({
 				url: `/api/order?${subGadgetId}&${deliveryType}`,
 				method: 'POST',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				},
-				body: { deliveryAddress, email, phoneNumber, firstName, lastName }
+				body: {
+					deliveryAddress,
+					email,
+					phoneNumber,
+					firstName,
+					lastName,
+					price,
+					discountPrice
+				}
 			}),
 			invalidatesTags: ['orderUser']
 		})

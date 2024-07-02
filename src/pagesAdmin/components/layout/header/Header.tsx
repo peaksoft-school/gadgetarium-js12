@@ -1,4 +1,4 @@
-import { DatePicker, Input } from 'antd';
+import { DatePicker, Input, message } from 'antd';
 import moment, { Moment } from 'moment';
 import { FC, useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -105,11 +105,12 @@ const Header: FC = () => {
 		setEndDate('');
 		try {
 			const res = await postNewslater(newNewslaterData);
-		console.log(res);
-		setIsModalOpen(false)
+			console.log(res);
+			setIsModalOpen(false);
+			message.success('Вход успешно выполнен');
 		} catch (error) {
 			console.error(error);
-			setIsModalOpen(true)
+			setIsModalOpen(true);
 		}
 	};
 

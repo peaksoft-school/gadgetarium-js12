@@ -16,6 +16,8 @@ type DeliveryPageTypes = {
 	email: string;
 	phoneNumber: string;
 	address: string;
+	price: number;
+	discountPrice: number;
 };
 const Delivery = () => {
 	const [isCheckedPickup, setIsCheckedPickup] = useState(false);
@@ -36,6 +38,8 @@ const Delivery = () => {
 	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
 		window.location.search.substring(1)
 	]);
+console.log(basketOrder, 'date');
+
 	const {
 		handleSubmit,
 		reset,
@@ -93,17 +97,18 @@ const Delivery = () => {
 			email: data.email,
 			phoneNumber: data.phoneNumber,
 			firstName: data.firstName,
-			lastName: data.lastName
+			lastName: data.lastName,
+			price: basketOrder?.basketAmounts.price,
+			discountPrice: basketOrder?.basketAmounts.discountPrice
 		};
 		postOrderDelivery({
 			subGadgetId: [searchParams.toString()],
 			deliveryType: searchParams.toString(),
 			...responseObject
 		});
-
 		setOrderId(orderId);
 		reset();
-		navigate('/pay/payment');
+		navigate(`/pay/payment?${window.location.search.substring(1)}`);
 	};
 
 	return (
