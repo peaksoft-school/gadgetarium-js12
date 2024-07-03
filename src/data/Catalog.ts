@@ -34,7 +34,7 @@ export const coloursCatalog = [
 	{
 		colour: 'white',
 		quantity: '1'
-	},
+	}
 ];
 
 export const gBiteCatalog = [
@@ -125,6 +125,9 @@ export const colorsArray = [
 	},
 	{
 		colorName: 'purple'
+	},
+	{
+		colorName: 'gray'
 	}
 ];
 

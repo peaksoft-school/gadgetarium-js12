@@ -567,6 +567,9 @@ export const AddProductSections = () => {
 													</div>
 												)}
 											</div> */}
+											<p onClick={() => setModalForBrand(true)}>
+												+ Создать новый бренд
+											</p>
 										</div>
 										<div className={scss.label_and_input_div}>
 											<label>Название товара *</label>
