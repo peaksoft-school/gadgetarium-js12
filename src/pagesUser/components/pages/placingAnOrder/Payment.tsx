@@ -6,7 +6,7 @@ import {
 	usePatchPaymentTypeMutation
 } from '@/src/redux/api/payment';
 // import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useGetBasketOrderGadgetQuery, useGetBasketQuery } from '@/src/redux/api/basket';
+import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
 import PaymentStripe from '../payment/PaymentStripe';
 import { useNavigate } from 'react-router-dom';
 
@@ -33,15 +33,15 @@ const Payment = () => {
 	const [isCash, setIsCash] = useState(false);
 	const navigate = useNavigate();
 	const [patchPaymentType] = usePatchPaymentTypeMutation();
-	const { data, isLoading } = useGetBasketQuery();
+	// const { data, isLoading } = useGetBasketQuery();
 
-	const [cardNumber, setCardNumber] = useState('');
+	// const [cardNumber, setCardNumber] = useState('');
 	const [isPayment, setIsPayment] = useState(false);
 	const [amount, setAmount] = useState<number | undefined>(0);
-	const [test, setTest] = useState<Record<string, string>>({});
-	const [orderId, setOrderId] = useState(0);
+	// const [test, setTest] = useState<Record<string, string>>({});
+	// const [orderId, setOrderId] = useState(0);
 
-	const { data: getOrderId } = useGetOrderIdQuery(orderId);
+	const { data: getOrderId } = useGetOrderIdQuery();
 	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
 		window.location.search.substring(1)
 	]);
@@ -51,7 +51,7 @@ const Payment = () => {
 		setIsPaymentOnline(!isPaymentOnline);
 		const paymentType = 'Оплата картой';
 		await patchPaymentType({
-			orderId: getOrderId?.orderId,
+			orderId: getOrderId?.orderId ?? 0,
 			payment: paymentType
 		});
 	};
@@ -62,7 +62,7 @@ const Payment = () => {
 		setIsReceipt(!isReceipt);
 		const paymentType = 'При получении картой';
 		await patchPaymentType({
-			orderId: getOrderId?.orderId,
+			orderId: getOrderId?.orderId ?? 0,
 			payment: paymentType
 		});
 	};
@@ -73,7 +73,7 @@ const Payment = () => {
 		setIsCash(!isCash);
 		const paymentType = 'При получении наличными';
 		await patchPaymentType({
-			orderId: getOrderId?.orderId,
+			orderId: getOrderId?.orderId ?? 0,
 			payment: paymentType
 		});
 	};
@@ -215,7 +215,7 @@ const Payment = () => {
 					openModal={isPayment}
 					setOpenModal={setIsPayment}
 					totalAmount={amount}
-					test={test}
+					test={{}}
 				/>
 			</div>
 		</div>

@@ -53,6 +53,7 @@ const InfoProduct = () => {
 		
 	};
 	const {data: pdfData} =  useGetUserPostPDSQuery(pdfParam);
+console.log(pdfData, 'pdf data');
 
 	return (
 		<div className={scss.ContainerInfoProduct}>
@@ -155,11 +156,11 @@ const InfoProduct = () => {
 							className={scss.document_content_div}
 						>
 							<IconBurgerMenu />
-							<p>Скачать документ.pdf</p>
+							<a href='пдф ссыклка берип кой'>Скачать документ.pdf </a>
 						</div>
 					</div>
 					{/* {pdfData && (
-						<button>{pdfData.response}</button>
+						<a href={`${pdfData}`}>odiofgd</a>
 					)} */}
 					{ComponentArray.slice(result, component).map((item) => (
 						<div key={item.id}>{item.children}</div>

@@ -58,13 +58,11 @@ namespace AUTH {
 		idToken: string;
 	};
 	type PostGoogleResponse = {
-		idToken: string;
 		token: string;
 		email: string;
+		idToken: string;
 	};
 	type PatchNewPasswordRequest = {
-		// token(token: any): unknown;
-		// idToken: string;
 		token: string;
 		password: string;
 		confirmPassword: string;

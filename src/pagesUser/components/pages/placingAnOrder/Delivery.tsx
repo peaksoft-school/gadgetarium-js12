@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
 import scss from './Delivery.module.scss';
 import { Checkbox, ConfigProvider } from 'antd';
@@ -8,7 +9,7 @@ import {
 } from '@/src/redux/api/order';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
-import { useGetOrderIdQuery } from '@/src/redux/api/payment';
+// import { useGetOrderIdQuery } from '@/src/redux/api/payment';
 type DeliveryPageTypes = {
 	ids: [];
 	firstName: string;
@@ -27,13 +28,8 @@ const Delivery = () => {
 	const navigate = useNavigate();
 	const [postOrderDelivery] = usePostOrderDeliveryMutation();
 	const [searchParams, setSearchParams] = useSearchParams();
-	const [inputValue, setInputValue] = useState('');
+	// const [inputValue, setInputValue] = useState('');
 	const { data: returnData } = useGetDeliveryDataQuery({});
-	const [firstName, setFirstName] = useState('');
-	const [lastName, setLastName] = useState('');
-	const [email, setEmail] = useState('');
-	const [phone, setPhone] = useState('');
-	const [address, setAddress] = useState('');
 	const [orderId, setOrderId] = useState(0);
 	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
 		window.location.search.substring(1)
@@ -58,11 +54,11 @@ console.log(basketOrder, 'date');
 			setValue('phoneNumber', returnData.phoneNumber);
 			setValue('address', returnData.address);
 
-			setFirstName(returnData.firsName);
-			setLastName(returnData.lastName);
-			setEmail(returnData.email);
-			setPhone(returnData.phoneNumber);
-			setAddress(returnData.address);
+			// setFirstName(returnData.firsName);
+			// setLastName(returnData.lastName);
+			// setEmail(returnData.email);
+			// setPhone(returnData.phoneNumber);
+			// setAddress(returnData.address);
 		}
 		// refetch();
 	}, [returnData, setValue]);
@@ -98,8 +94,8 @@ console.log(basketOrder, 'date');
 			phoneNumber: data.phoneNumber,
 			firstName: data.firstName,
 			lastName: data.lastName,
-			price: basketOrder?.basketAmounts.price,
-			discountPrice: basketOrder?.basketAmounts.discountPrice
+			price: basketOrder?.basketAmounts.price ?? 0,
+			discountPrice: basketOrder?.basketAmounts.discountPrice ?? 0
 		};
 		postOrderDelivery({
 			subGadgetId: [searchParams.toString()],

@@ -163,7 +163,13 @@ const Footer = () => {
 									</div>
 								) : isSubscribed ? (
 									<div style={{ color: 'green' }}>Вы успешно подписались!</div>
-								) : null}
+								) : (
+									<>
+										<div style={{ color: 'green' }}>
+											Вы уже подписаны!
+										</div>
+									</>
+								)}
 							</form>
 						</div>
 						<div className={scss.fifth_footer_div}>

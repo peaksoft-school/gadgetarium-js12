@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IconTrash } from '@tabler/icons-react';
 import scss from './OrderInProcessing.module.scss';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import {
 	useDeleteAdminOrderMutation,
-	useGetAdminOrderQuery,
+	useGetAdminOrderQuery
 } from '@/src/redux/api/adminOrders';
 import { useState } from 'react';
 import CustomSelect from '@/src/ui/customSelect/CustomSelect';
@@ -15,26 +15,28 @@ import {
 	DatePicker,
 	Input,
 	Pagination,
+	Skeleton,
+	Tooltip,
 	theme
 } from 'antd';
-import { SearchProps } from 'antd/es/input';
+// import { SearchProps } from 'antd/es/input';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal';
 import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
 import CustomButtonAdd from '@/src/ui/adminButtons/CustomButtonAdd';
 import moment from 'moment';
 
-const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
-	console.log(info?.source, value);
+// const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
+// 	console.log(info?.source, value);
 
 const OrderInPending = () => {
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const { data, isLoading } = useGetAdminOrderQuery({
 		page: searchParams.get('page') || '',
 		size: searchParams.get('size') || '',
 		keyword: searchParams.get('keyword') || '',
-		status: 'PENDING',
+		status: 'Ожидание',
 		startDate: searchParams.get('startDate') || '',
 		endDate: searchParams.get('endDate') || ''
 	});
@@ -44,11 +46,11 @@ const OrderInPending = () => {
 
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 	const [modalName, setModalName] = useState('');
-	const [orderIdToDelete, setOrderIdToDelete] = useState('');
+	const [orderId, setOrderId] = useState<string>('');
 
 	const handleDeleteOrder = async () => {
 		try {
-			await deleteOrder({ orderId: Number(orderIdToDelete) });
+			await deleteOrder(orderId);
 			setModalIsOpen(false);
 		} catch (error) {
 			console.error('Failed to delete order: ', error);
@@ -57,15 +59,15 @@ const OrderInPending = () => {
 
 	const statusToColor = (status: string) => {
 		switch (status) {
-			case 'PENDING':
+			case 'Ожидание':
 				return '#2C68F5';
-			case 'READY':
+			case 'Готово':
 				return '#F99808';
-			case 'COURIER_ON_THE_WAY':
+			case 'Курьер в пути':
 				return '#08A592';
-			case 'DELIVERED':
+			case 'Доставлено':
 				return '#2FC509';
-			case 'CANCELLED':
+			case 'Отменено':
 				return '#F10000';
 			default:
 				return '#000000';
@@ -75,7 +77,7 @@ const OrderInPending = () => {
 	const changeProductsPagination = (page: any) => {
 		searchParams.set('page', page);
 		setSearchParams(searchParams);
-	}
+	};
 
 	const handleOpenModal = (
 		orderId: string,
@@ -84,7 +86,7 @@ const OrderInPending = () => {
 		event.stopPropagation();
 		event.preventDefault();
 		setModalIsOpen(true);
-		setOrderIdToDelete(orderId);
+		setOrderId(orderId);
 	};
 
 	const filteredOrders = data?.orderResponses || [];
@@ -102,11 +104,11 @@ const OrderInPending = () => {
 
 	const statusCounts = {
 		...countOrdersByStatus(data?.orderResponses || []),
-		'PENDING': data?.waiting || 0,
-		'READY': data?.progress || 0,
-		'COURIER_ON_THE_WAY': data?.onTheWay || 0,
-		'DELIVERED': data?.delivered || 0,
-		'CANCELLED': data?.canceled || 0,
+		Ожидание: data?.waiting || 0,
+		Готово: data?.progress || 0,
+		'Курьер в пути': data?.onTheWay || 0,
+		Доставлено: data?.delivered || 0,
+		Отменено: data?.canceled || 0
 	};
 
 	const antdThemeConfig = {
@@ -121,7 +123,7 @@ const OrderInPending = () => {
 		if (date) {
 			const formattedDate = date.format('YYYY-MM-DD');
 			searchParams.set('startDate', formattedDate);
-			setSearchParams(searchParams); 
+			setSearchParams(searchParams);
 		} else return;
 	};
 
@@ -143,7 +145,6 @@ const OrderInPending = () => {
 			setSearchParams(searchParams);
 		}
 	};
-	
 
 	return (
 		<section className={scss.order}>
@@ -166,41 +167,41 @@ const OrderInPending = () => {
 							<div className={scss.navigation_div}>
 								<Link to={''}>
 									<h3 className={scss.active_link}>
-										В ожидании
-										{statusCounts['PENDING'] > 0
-											? ` (${statusCounts['PENDING']})`
+										Ожидание
+										{statusCounts['Ожидание'] > 0
+											? ` (${statusCounts['Ожидание']})`
 											: ''}
 									</h3>
 								</Link>
 								<Link to={'/admin/orders/in-processing'}>
 									<h3>
-										В обработке
-										{statusCounts['READY'] > 0
-											? ` (${statusCounts['READY']})`
+										Готово
+										{statusCounts['Готово'] > 0
+											? ` (${statusCounts['Готово']})`
 											: ''}
 									</h3>
 								</Link>
 								<Link to={'/admin/orders/courier-on-the-way'}>
 									<h3>
 										Курьер в пути
-										{statusCounts['COURIER_ON_THE_WAY'] > 0
-											? ` (${statusCounts['COURIER_ON_THE_WAY']})`
+										{statusCounts['Курьер в пути'] > 0
+											? ` (${statusCounts['Курьер в пути']})`
 											: ''}
 									</h3>
 								</Link>
 								<Link to={'/admin/orders/delivered'}>
 									<h3>
-										Доставлены
-										{statusCounts['DELIVERED'] > 0
-											? ` (${statusCounts['DELIVERED']})`
+										Доставлено
+										{statusCounts['Доставлено'] > 0
+											? ` (${statusCounts['Доставлено']})`
 											: ''}
 									</h3>
 								</Link>
 								<Link to={'/admin/orders/canceled'}>
 									<h3>
-										Отменены
-										{statusCounts['CANCELLED'] > 0
-											? ` (${statusCounts['CANCELLED']})`
+										Отменено
+										{statusCounts['Отменено'] > 0
+											? ` (${statusCounts['Отменено']})`
 											: ''}
 									</h3>
 								</Link>
@@ -257,7 +258,38 @@ const OrderInPending = () => {
 									</tr>
 									<>
 										{isLoading ? (
-											<h1>IsLoading...</h1>
+											<>
+												<Skeleton.Button
+													active
+													block
+													style={{ width: 1100, height: 60 }}
+												/>
+												<Skeleton.Button
+													active
+													block
+													style={{ width: 1100, height: 60 }}
+												/>
+												<Skeleton.Button
+													active
+													block
+													style={{ width: 1100, height: 60 }}
+												/>
+												<Skeleton.Button
+													active
+													block
+													style={{ width: 1100, height: 60 }}
+												/>
+												<Skeleton.Button
+													active
+													block
+													style={{ width: 1100, height: 60 }}
+												/>
+												<Skeleton.Button
+													active
+													block
+													style={{ width: 1100, height: 60 }}
+												/>
+											</>
 										) : (
 											<div className={scss.tr}>
 												{filteredOrders?.map((e: any) => (
@@ -266,7 +298,23 @@ const OrderInPending = () => {
 															<div className={scss.tr_div}>
 																<div className={scss.tr_row_1}>
 																	<td className={scss.id_col}>{e.id}</td>
-																	<td>{e.fullName}</td>
+																	<td>
+																		{e.fullName.length > 15 ? (
+																			<>
+																				{e.fullName.slice(0, 14)}
+																				<Tooltip
+																					title={e.fullName}
+																					color="#c11bab"
+																				>
+																					<span style={{ cursor: 'pointer' }}>
+																						...
+																					</span>
+																				</Tooltip>
+																			</>
+																		) : (
+																			e.fullName
+																		)}
+																	</td>
 																</div>
 																<div className={scss.tr_row_2}>
 																	<td className={scss.number_col}>
@@ -279,7 +327,9 @@ const OrderInPending = () => {
 																		{e.price}
 																	</td>
 																	<td className={scss.order_type_col}>
-																		{e.typeOrder === true ? "Самовывоз" : "Доставка"}
+																		{e.typeOrder === true
+																			? 'Самовывоз'
+																			: 'Доставка'}
 																	</td>
 																	<CustomSelect
 																		orderId={e.id}
@@ -295,43 +345,24 @@ const OrderInPending = () => {
 																</div>
 															</div>
 														</Link>
-														<CustomModal
-															isModalOpen={modalIsOpen}
-															setIsModalOpen={setModalIsOpen}
-														>
-															<div className={scss.modal}>
-																<h2>
-																	Вы уверены, что хотите удалить товар
-																	<span> {modalName}</span>?
-																</h2>
-
-																<div className={scss.modal_buttons}>
-																	<CancelButtonCustom
-																		onClick={() => setModalIsOpen(false)}
-																	>
-																		Отменить
-																	</CancelButtonCustom>
-																	<CustomButtonAdd onClick={handleDeleteOrder}>
-																		Удалить
-																	</CustomButtonAdd>
-																</div>
-															</div>
-														</CustomModal>
 													</>
 												))}
 											</div>
 										)}
+										<div className={scss.pagination}>
+											{' '}
 											{
-											// data?.paginationGadgets!.length / data?.page! > 1 && (
-											<Pagination
-												total={data?.waiting}
-												pageSize={data?.size}
-												current={data?.page}
-												showQuickJumper={true}
-												onChange={changeProductsPagination}
-											/>
-											// )
-										}
+												// data?.paginationGadgets!.length / data?.page! > 1 && (
+												<Pagination
+													total={data?.waiting}
+													pageSize={data?.size}
+													current={data?.page}
+													showQuickJumper={true}
+													onChange={changeProductsPagination}
+												/>
+												// )
+											}
+										</div>
 									</>
 								</table>
 							</div>
@@ -343,6 +374,23 @@ const OrderInPending = () => {
 					</div>
 				</div>
 			</div>
+			<CustomModal isModalOpen={modalIsOpen} setIsModalOpen={setModalIsOpen}>
+				<div className={scss.modal}>
+					<h2>
+						Вы уверены, что хотите удалить товар
+						<span> {modalName}</span>?
+					</h2>
+
+					<div className={scss.modal_buttons}>
+						<CancelButtonCustom onClick={() => setModalIsOpen(false)}>
+							Отменить
+						</CancelButtonCustom>
+						<CustomButtonAdd onClick={handleDeleteOrder}>
+							Удалить
+						</CustomButtonAdd>
+					</div>
+				</div>
+			</CustomModal>
 		</section>
 	);
 };

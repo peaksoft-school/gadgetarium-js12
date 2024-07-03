@@ -4,26 +4,30 @@ import { useNavigate, useParams } from 'react-router-dom';
 import scss from './EditSections.module.scss';
 import { Button, Input, Radio, Select } from 'antd';
 import React, { useState } from 'react';
-import { generate, green, presetPalettes, red } from '@ant-design/colors';
-import { ColorPicker, theme, ColorPickerProps } from 'antd';
+// import { presetPalettes } from '@ant-design/colors';
+// import {  ColorPickerProps } from 'antd';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
 import { useEditProductByIdApiMutation } from '@/src/redux/api/editProductById';
 import { usePostUploadMutation } from '@/src/redux/api/pdf';
-import { IconColorPicker, IconPhotoPlus } from '@tabler/icons-react';
-import { gBiteCatalog, moreGBiteCatalog, simCards } from '@/src/data/Catalog';
+import {
+	colorsArray,
+	gBiteCatalog,
+	moreGBiteCatalog,
+	simCards
+} from '@/src/data/Catalog';
 import {
 	OptionsForLaptop,
 	optionsSmartWatchesAndBracelets
 } from '@/src/data/InputSelect';
 import { useDeleteByIdGadgetApiMutation } from '@/src/redux/api/updateImageApi';
 
-type Presets = Required<ColorPickerProps>['presets'][number];
+// type Presets = Required<ColorPickerProps>['presets'][number];
 
-const genPresets = (presets = presetPalettes) =>
-	Object.entries(presets).map<Presets>(([label, colors]) => ({
-		label,
-		colors
-	}));
+// const genPresets = (presets = presetPalettes) =>
+// 	Object.entries(presets).map<Presets>(([label, colors]) => ({
+// 		label,
+// 		colors
+// 	}));
 
 const EditSections = () => {
 	const { productId } = useParams();
@@ -55,12 +59,12 @@ const EditSections = () => {
 
 	const navigate = useNavigate();
 
-	const { token } = theme.useToken();
-	const presets = genPresets({
-		primary: generate(token.colorPrimary),
-		red,
-		green
-	});
+	// const { token } = theme.useToken();
+	// const presets = genPresets({
+	// 	primary: generate(token.colorPrimary),
+	// 	red,
+	// 	green
+	// });
 
 	const handleEditApiFunk = async () => {
 		const DATA = {
@@ -126,7 +130,7 @@ const EditSections = () => {
 					subGadgetId: data?.subGadgetId!,
 					...UPDATEIMAGE
 				});
-				refetch()
+				refetch();
 			} catch (error) {
 				console.error('Failed to upload files:', error);
 			}
@@ -366,15 +370,8 @@ const EditSections = () => {
 										<>
 											<div className={scss.colors_div}>
 												<label>Цвет товара</label>
-												<div className={scss.color_div}>
-													{/* <Space direction="vertical">
-											<ColorPicker
-												defaultValue={token.colorPrimary}
-												styles={{ popupOverlayInner: { width: 480 } }}
-												presets={presets}
-												panelRender={customPanelRender}
-											/>
-										</Space> */}
+												{/* <div className={scss.color_div}>
+													
 													<p>{colorEdit ? colorEdit : data?.mainColour}</p>
 													<ColorPicker
 														presets={presets}
@@ -389,7 +386,38 @@ const EditSections = () => {
 														height={'19px'}
 														color="rgb(145, 150, 158)"
 													/>
-												</div>
+												</div> */}
+												<Select
+													className={scss.input}
+													options={
+														colorsArray &&
+														colorsArray.map((el) => ({
+															value: el.colorName,
+															label: (
+																<div
+																	style={{
+																		display: 'flex',
+																		justifyContent: 'space-between',
+																		paddingInline: '32px'
+																	}}
+																>
+																	<div
+																		style={{
+																			width: '30px',
+																			height: '30px',
+																			background: el.colorName,
+																			borderRadius: '50%'
+																		}}
+																	>
+																	</div>
+																	<p>{el.colorName}</p>
+																</div>
+															)
+														}))
+													}
+													onChange={(value) => changeColorPicker(value)}
+													value={colorEdit}
+												/>
 											</div>
 											<div className={scss.label_and_input_div}>
 												<label>Объем памяти</label>
@@ -479,22 +507,37 @@ const EditSections = () => {
 										<>
 											<div className={scss.colors_div}>
 												<label>Цвет товара</label>
-												<div className={scss.color_div}>
-													<p>{colorEdit}</p>
-													<ColorPicker
-														presets={presets}
-														onChange={(color) =>
-															changeColorPicker(color.toHexString())
-														}
-														defaultValue={`${colorEdit}`}
-														value={colorEdit}
-													/>
-													<IconColorPicker
-														width={'19px'}
-														height={'19px'}
-														color="rgb(145, 150, 158)"
-													/>
-												</div>
+												<Select
+													className={scss.input}
+													options={
+														colorsArray &&
+														colorsArray.map((el) => ({
+															value: el.colorName,
+															label: (
+																<div
+																	style={{
+																		display: 'flex',
+																		justifyContent: 'space-between',
+																		paddingInline: '32px'
+																	}}
+																>
+																	<div
+																		style={{
+																			width: '30px',
+																			height: '30px',
+																			background: el.colorName,
+																			borderRadius: '50%'
+																		}}
+																	>
+																	</div>
+																	<p>{el.colorName}</p>
+																</div>
+															)
+														}))
+													}
+													onChange={(value) => changeColorPicker(value)}
+													value={colorEdit}
+												/>
 											</div>
 											<div className={scss.label_and_input_div}>
 												<label>Объем памяти</label>

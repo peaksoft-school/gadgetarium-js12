@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FC, useState } from 'react';
 import scss from './WrapperPay.module.scss';
 import {
@@ -20,7 +21,7 @@ const WrapperPay: FC = () => {
 	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
 		window.location.search.substring(1)
 	]);
-	const [isDeliveryComplete, setIsDeliveryComplete] = useState(false);
+	// const [isDeliveryComplete, setIsDeliveryComplete] = useState(false);
 	// console.log(basketOrder, 'order for basket');
 
 	const handleMain = () => {
@@ -37,9 +38,9 @@ const WrapperPay: FC = () => {
 		navigate('/basket');
 	};
 
-	const handleDeliveryCompletion = (isComplete: boolean) => {
-		setIsDeliveryComplete(isComplete);
-	};
+	// const handleDeliveryCompletion = (isComplete: boolean) => {
+	// 	setIsDeliveryComplete(isComplete);
+	// };
 
 	// const navigateWithValidation = (path: string) => {
 	// 	if (isDeliveryComplete || path === '/pay/delivery') {
@@ -143,7 +144,8 @@ const WrapperPay: FC = () => {
 										<Route
 											path="/delivery"
 											element={
-												<Delivery onCompletion={handleDeliveryCompletion} />
+												// <Delivery onCompletion={handleDeliveryCompletion} />
+												<Delivery />
 											}
 										/>
 										<Route path="/payment" element={<Payment />} />
@@ -176,13 +178,12 @@ const WrapperPay: FC = () => {
 											</p>
 											<p className={scss.sum}>
 												Сумма:
-												<span>
-													{basketOrder?.basketAmounts.price} с
-												</span>
+												<span>{basketOrder?.basketAmounts.price} с</span>
 											</p>
 										</div>
 										<h4 className={scss.total}>
-											Итого: <span>{basketOrder?.basketAmounts.currentPrice} с</span>
+											Итого:{' '}
+											<span>{basketOrder?.basketAmounts.currentPrice} с</span>
 										</h4>
 									</div>
 									<div className={scss.cards_phones}>

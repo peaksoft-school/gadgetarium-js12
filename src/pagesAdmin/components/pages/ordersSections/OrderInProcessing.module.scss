@@ -158,6 +158,12 @@
 						@media (max-width: 555px) {
 							gap: 7px;
 						}
+						.pagination {
+							display: flex;
+							justify-content: center;
+							align-items: center;
+						}
+
 						tr {
 							display: flex;
 							align-items: center;
@@ -282,9 +288,9 @@
 								background: transparent;
 								border-radius: 6px;
 								width: 1121px;
-
+								gap: 17px;
 								svg {
-									color: #91969E;
+									color: #91969e;
 								}
 
 								@media (max-width: 570px) {
@@ -367,6 +373,7 @@
 									display: flex;
 									justify-content: space-between;
 									align-items: center;
+									gap: 20px;
 									width: 100%;
 									@media (max-width: 850px) {
 										justify-content: space-between;
@@ -472,7 +479,7 @@
 										}
 										@media (max-width: 681px) {
 											width: 15px;
-										}	
+										}
 									}
 								}
 							}

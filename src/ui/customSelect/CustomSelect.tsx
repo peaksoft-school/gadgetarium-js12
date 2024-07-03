@@ -67,24 +67,24 @@ const CustomSelect: FC<CustomSelectProps> = ({
 						<button
 							style={{ color: '#2C68F5' }}
 							onClick={(event) =>
-								handleChange(event, { value: 'PENDING', color: '#2C68F5' })
+								handleChange(event, { value: 'Ожидание', color: '#2C68F5' })
 							}
 						>
-							В ожидании
+							Ожидание
 						</button>
 						<button
 							style={{ color: '#F99808' }}
 							onClick={(event) =>
-								handleChange(event, { value: 'READY', color: '#F99808' })
+								handleChange(event, { value: 'Готово', color: '#F99808' })
 							}
 						>
-							В обработке
+							Готово
 						</button>
 						<button
 							style={{ color: '#08A592' }}
 							onClick={(event) =>
 								handleChange(event, {
-									value: 'COURIER_ON_THE_WAY',
+									value: 'Курьер в пути',
 									color: '#08A592'
 								})
 							}
@@ -94,18 +94,18 @@ const CustomSelect: FC<CustomSelectProps> = ({
 						<button
 							style={{ color: '#2FC509' }}
 							onClick={(event) =>
-								handleChange(event, { value: 'RECEIVED', color: '#2FC509' })
+								handleChange(event, { value: 'Доставлено', color: '#2FC509' })
 							}
 						>
-							Доставлены
+							Доставлено
 						</button>
 						<button
 							style={{ color: '#F10000' }}
 							onClick={(event) =>
-								handleChange(event, { value: 'CANCELLED', color: '#F10000' })
+								handleChange(event, { value: 'Отменено', color: '#F10000' })
 							}
 						>
-							Отменены
+							Отменено
 						</button>
 					</div>
 				)}

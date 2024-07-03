@@ -12,9 +12,9 @@ const Infographics = () => {
 	const [month, setMonth] = useState(false);
 	const [year, setYear] = useState(false);
 	const { data, isLoading } = useGetInfoOrder('');
-	const { data: dataDay } = useGetInfoDay(0);
-	const { data: dataMonth } = useGetInfoMonth(0);
-	const { data: dataYear } = useGetInfoYear(0);
+	const { data: dataDay } = useGetInfoDay('');
+	const { data: dataMonth } = useGetInfoMonth('');
+	const { data: dataYear } = useGetInfoYear('');
 
 	const buyPrice = data?.buyPrice ?? 0;
 	const orderPrice = data?.orderPrice ?? 0;
