@@ -11,16 +11,12 @@ import arrow from '@/src/assets/map/arrowtop.png';
 import arrowDown from '@/src/assets/map/arrowDown.png';
 import arrowBlue from '@/src/assets/map/arrowTopBlue.png';
 import arrowBlueBottom from '@/src/assets/map/arrowBottomBlue.png';
-import {
-	coloursCatalog,
-	gBiteCatalog,
-	moreGBiteCatalog
-} from '@/src/data/Catalog';
+import { gBiteCatalog, moreGBiteCatalog } from '@/src/data/Catalog';
 import React, { useState } from 'react';
 import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
 import { IconHeart, IconScale, IconX, IconFileLike } from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
-import {  Rate, Skeleton, Tooltip } from 'antd';
+import { Rate, Skeleton, Tooltip } from 'antd';
 import {
 	useBasketPutProductMutation
 	// useGetBasketQuery
@@ -35,12 +31,14 @@ import ModalLogin from '@/src/ui/customModalLogin/ModalLogin';
 import ShowMoreButton from '@/src/ui/customButtons/ShowMoreButton';
 import emptyImg from '@/src/assets/sammy-the-man-trying-to-find-the-right-document 1.png';
 import { ViewedProducts } from '@/src/ui/ViewedProducts/ViewedProducts';
+import { useGetAllColorsApiQuery } from '@/src/redux/api/colors';
 // import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
 // import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
 const Catalog = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
 	const { filtredIds } = useParams();
+	const { data: allColors } = useGetAllColorsApiQuery();
 	const { data: subCategories = [] } = useSubCategoriesQuery(
 		Number(filtredIds!)
 	);
@@ -433,19 +431,19 @@ const Catalog = () => {
 													<img src={arrow} alt="ArrowTop" />
 												</div>
 
-												{coloursCatalog.map((e, index) => (
+												{allColors?.countList.map((e, index) => (
 													<div className={scss.colours} key={index}>
 														<input
-															id={e.colour}
+															id={e.colorName}
 															type="checkbox"
-															checked={filtredForColors.includes(e.colour)}
+															checked={filtredForColors.includes(e.colorName)}
 															onChange={() =>
-																handleColorsFiltredProducts(e.colour)
+																handleColorsFiltredProducts(e.colorName)
 															}
 														/>
-														<label htmlFor={e.colour}>
-															<p>{e.colour}</p>
-															<span>({e.quantity})</span>
+														<label htmlFor={e.colorName}>
+															<p>{e.colorName}</p>
+															<span>({e.colorQuantity})</span>
 														</label>
 													</div>
 												))}
@@ -778,7 +776,7 @@ const Catalog = () => {
 																	<p>Рейтинг</p>
 																	<Rate disabled defaultValue={e.rating} />
 																	<p>({e.rating})</p>
-																</div>	
+																</div>
 															</div>
 															<div className={scss.bottom_card}>
 																<div className={scss.phone_prices}>

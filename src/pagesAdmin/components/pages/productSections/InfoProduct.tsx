@@ -8,9 +8,9 @@ import { CharacteristicsPage } from './CharacteristicsPage';
 import DescriptionPage from './DescriptionPage';
 import ReviewsPage from './ReviewsPage';
 import { IconBurgerMenu } from '@/src/assets/icons';
-import { useParams } from 'react-router-dom';
-import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
-import { useGetUserPostPDSQuery } from '@/src/redux/api/pdf';
+// import { useParams } from 'react-router-dom';
+// import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
+// import { useGetUserPostPDSQuery } from '@/src/redux/api/pdf';
 
 interface ComponentsTypesArray {
 	children: ReactNode;
@@ -35,19 +35,19 @@ console.log(ComponentArray);
 
 const InfoProduct = () => {
 	const [component, setComponent] = useState<number>(1);
-	const useparams = useParams<{ productId: string }>();
+	// const useparams = useParams<{ productId: string }>();
 	const [result, setResult] = useState<number>(0);
-	const [pdfUrl, setPdfUrl] = useState<string>('');
-	const { data: cardProductData } = useGetCardProductQuery({
-		id: Number(useparams.productId!)
-	});
-	const pdfParam = `key=${pdfUrl}` || '';
+	// const [pdfUrl, setPdfUrl] = useState<string>('');
+	// const { data: cardProductData } = useGetCardProductQuery({
+	// 	id: Number(useparams.productId!)
+	// });
+	// const pdfParam = `key=${pdfUrl}` || '';
 
-	const handlePDFApiFunk = (pdfUrlProduct: string) => {
-		setPdfUrl(pdfUrlProduct.slice(54, 100));
-	};
-	const { data: pdfData } = useGetUserPostPDSQuery(pdfParam);
-	console.log(pdfData);
+	// const handlePDFApiFunk = (pdfUrlProduct: string) => {
+	// 	setPdfUrl(pdfUrlProduct.slice(54, 100));
+	// };
+	// const { data: pdfData } = useGetUserPostPDSQuery(pdfParam);
+	// console.log(pdfData);
 	
 	return (
 		<div className={scss.ContainerInfoProduct}>
@@ -125,7 +125,7 @@ const InfoProduct = () => {
 
 						<div
 							className={scss.document_content_div}
-							onClick={() => handlePDFApiFunk(cardProductData?.pdfUrl!)}
+							// onClick={() => handlePDFApiFunk(cardProductData?.pdfUrl!)}
 						>
 							<IconBurgerMenu />
 							<p>Скачать документ.pdf</p>

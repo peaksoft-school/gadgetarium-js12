@@ -19,8 +19,8 @@ const api = index.injectEndpoints({
 			INFOGRAPHICS.GetInfoDayResponse,
 			INFOGRAPHICS.GetInfoDayRequest
 		>({
-			query: () => ({
-				url: '/api/order/info-amount',
+			query: ({forPeriod}) => ({
+				url: `/api/order/info-amount?${forPeriod}`,
 				method: 'GET',
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -60,6 +60,4 @@ const api = index.injectEndpoints({
 export const {
 	useGetInfoOrderQuery: useGetInfoOrder,
 	useGetInfoDayOrderQuery: useGetInfoDay,
-	useGetInfoMonthOrderQuery: useGetInfoMonth,
-	useGetInfoYearOrderQuery: useGetInfoYear
 } = api;

@@ -93,6 +93,9 @@ const CardProductPage = () => {
 			await deleteByIdApi(subGadgetId);
 			setDeleteModal(false);
 			refetch();
+			if (!data) {
+				navigate('/admin');
+			}
 		} catch (error) {
 			console.error(error);
 		}
@@ -439,20 +442,21 @@ const CardProductPage = () => {
 															))}
 													</div>
 													<div className={scss.info_product}>
-													{characteristicsApi?.mainCharacteristics.Экран
-														&& characteristicsApi.mainCharacteristics.Экран.Размер && (
-														<div className={scss.div_screen}>
-															<p>
-																Экран............................................
-															</p>
-															<h4>
-																{
-																	characteristicsApi?.mainCharacteristics.Экран
-																		.Размер
-																}
-															</h4>
-														</div>
-													)}
+														{characteristicsApi?.mainCharacteristics.Экран &&
+															characteristicsApi.mainCharacteristics.Экран
+																.Размер && (
+																<div className={scss.div_screen}>
+																	<p>
+																		Экран............................................
+																	</p>
+																	<h4>
+																		{
+																			characteristicsApi?.mainCharacteristics
+																				.Экран.Размер
+																		}
+																	</h4>
+																</div>
+															)}
 														<div className={scss.div_screen}>
 															<p>
 																Цвет..............................................
@@ -463,7 +467,7 @@ const CardProductPage = () => {
 															<p>Дата выпуска..............................</p>
 															<h4>{data?.releaseDate}</h4>
 														</div>
-														
+
 														<div className={scss.div_screen}>
 															<p>
 																Память.........................................
@@ -480,27 +484,55 @@ const CardProductPage = () => {
 															<p>Гарантия (месяцев)...................</p>
 															<h4>{data?.warranty}</h4>
 														</div>
-														{characteristicsApi?.mainCharacteristics.Производительность && characteristicsApi.mainCharacteristics.Производительность.Чипсет && (
-														<div className={scss.div_screen}>
-															<p>Производительность.................</p>
-															<h4>{characteristicsApi.mainCharacteristics.Производительность.Чипсет}</h4>
-														</div>
-													)}
-													
-													{characteristicsApi?.mainCharacteristics['Дизайн и корпус'] && characteristicsApi.mainCharacteristics['Дизайн и корпус'].Вес && (
-														<div className={scss.div_screen}>
-															<p>Производительность.................</p>
-															<h4>{characteristicsApi.mainCharacteristics['Дизайн и корпус'].Вес}</h4>
-														</div>
-													)}
-													{characteristicsApi?.mainCharacteristics.Батарея && characteristicsApi.mainCharacteristics.Батарея['Беспроводная зарядка'] && (
-														<div className={scss.div_screen}>
-															<p>Батарея........................................</p>
-															<h4>{characteristicsApi.mainCharacteristics.Батарея['Беспроводная зарядка']}</h4>
-														</div>
-													)}
-														
-														
+														{characteristicsApi?.mainCharacteristics
+															.Производительность &&
+															characteristicsApi.mainCharacteristics
+																.Производительность.Чипсет && (
+																<div className={scss.div_screen}>
+																	<p>Производительность.................</p>
+																	<h4>
+																		{
+																			characteristicsApi.mainCharacteristics
+																				.Производительность.Чипсет
+																		}
+																	</h4>
+																</div>
+															)}
+
+														{characteristicsApi?.mainCharacteristics[
+															'Дизайн и корпус'
+														] &&
+															characteristicsApi.mainCharacteristics[
+																'Дизайн и корпус'
+															].Вес && (
+																<div className={scss.div_screen}>
+																	<p>Производительность.................</p>
+																	<h4>
+																		{
+																			characteristicsApi.mainCharacteristics[
+																				'Дизайн и корпус'
+																			].Вес
+																		}
+																	</h4>
+																</div>
+															)}
+														{characteristicsApi?.mainCharacteristics.Батарея &&
+															characteristicsApi.mainCharacteristics.Батарея[
+																'Беспроводная зарядка'
+															] && (
+																<div className={scss.div_screen}>
+																	<p>
+																		Батарея........................................
+																	</p>
+																	<h4>
+																		{
+																			characteristicsApi.mainCharacteristics
+																				.Батарея['Беспроводная зарядка']
+																		}
+																	</h4>
+																</div>
+															)}
+
 														<div className={scss.div_screen}>
 															<p>
 																Процент.......................................
