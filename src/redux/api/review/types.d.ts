@@ -165,6 +165,24 @@ namespace REVIEWSTORE {
 	};
 
 	type GetReviewResponse = IReview[];
+
+	type GetByIdFeedbackRequest = {
+		id: number;
+	};
+	type GetByIdFeedbackResponse = {
+		gadgetImage: string;
+		subCategoryName: string;
+		nameOfGadget: string;
+		article: number;
+		comment: string;
+		feedbackImages: string[];
+		dateAndTime: string;
+		rating: 0;
+		fullNameUser: string;
+		emailUser: string;
+		responseAdmin: string;
+		reviewType: string;
+	};
 }
 
 type MessageType = {

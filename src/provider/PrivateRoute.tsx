@@ -15,7 +15,7 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ children }) => {
 	// const role = localStorage.getItem('role') || 'USER';
 
 	useEffect(() => {
-		// if (!isAuthResult) {
+		// if (!isAuthResult) {x
 		// 	navigate('/auth/login');
 		// } else {
 		// 	switch (pathname) {
