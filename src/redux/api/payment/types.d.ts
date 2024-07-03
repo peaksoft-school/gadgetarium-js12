@@ -56,7 +56,7 @@ namespace PAYMENTPRODUCT {
 		paymentId: string;
 	};
 
-	type GetOrderIdRequest = void;
+	type GetOrderIdRequest = string | number;
 	type GetOrderIdResponse = {
 		orderId: number;
 	};

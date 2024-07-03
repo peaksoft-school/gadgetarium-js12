@@ -778,7 +778,7 @@ const Catalog = () => {
 																	<p>Рейтинг</p>
 																	<Rate disabled defaultValue={e.rating} />
 																	<p>({e.rating})</p>
-																</div>
+																</div>	
 															</div>
 															<div className={scss.bottom_card}>
 																<div className={scss.phone_prices}>

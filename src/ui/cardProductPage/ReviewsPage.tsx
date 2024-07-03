@@ -331,25 +331,6 @@ const ReviewsPage = () => {
 											onClick={handlePaginationFunkCancel}
 										/>
 									)}
-									{/* {data && data!.length === Number(searchParams.get('size')) ? (
-										<div className={scss.button_div_for_pagination}>
-											<Button
-												onClick={() => handlePaginationFunk(3)}
-												className={scss.button_for_pagination}
-											>
-												Показать ещё
-											</Button>
-										</div>
-									) : (
-										<div className={scss.button_div_for_pagination}>
-											<Button
-												onClick={handlePaginationFunkCancel}
-												className={scss.button_for_pagination}
-											>
-												Скрыть
-											</Button>
-										</div>
-									)} */}
 								</>
 							)}
 						</div>
