@@ -77,7 +77,11 @@ const api = index.injectEndpoints({
 			query: ({ paymentId, idsAndQuantities }) => ({
 				url: `/api/payment/confirm?paymentId=${paymentId}`,
 				method: 'POST',
+<<<<<<< HEAD
 				body: {idsAndQuantities},
+=======
+				body: { idsAndQuantities },
+>>>>>>> 346ae3249863cdcc94b9a8a39cbbb8e070ef5535
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`
 				}

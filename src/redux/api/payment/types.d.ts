@@ -2,7 +2,11 @@
 type IdsAndQuantities = {
 	id: number;
 	quantity: number;
+<<<<<<< HEAD
 }
+=======
+};
+>>>>>>> 346ae3249863cdcc94b9a8a39cbbb8e070ef5535
 namespace PAYMENTPRODUCT {
 	type GetBasketProductsRequest = {
 		deliveryType: boolean;
@@ -75,7 +79,11 @@ namespace PAYMENTPRODUCT {
 	};
 
 	type GetReviewRequest = {
+<<<<<<< HEAD
 		orderId: number
+=======
+		orderId: number;
+>>>>>>> 346ae3249863cdcc94b9a8a39cbbb8e070ef5535
 	};
 	type GetReviewResponse = {
 		id: number;

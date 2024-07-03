@@ -17,14 +17,18 @@ interface ArrayTypes {
 	colour?: string;
 	image?: string;
 	memory?: string;
-	nameOfGadget?: string
+	nameOfGadget?: string;
 }
 const Review = () => {
+<<<<<<< HEAD
 	const [searchParams, setSearchParams] = useSearchParams()
+=======
+	const [searchParams, setSearchParams] = useSearchParams();
+>>>>>>> 346ae3249863cdcc94b9a8a39cbbb8e070ef5535
 	const { data: getOrderId, isSuccess } = useGetOrderIdQuery();
 	const [orderId, setOrderId] = useState<number | null>();
 	const [openModal, setOpenModal] = useState(false);
-	const [basketArray, setBasketArray] = useState<ArrayTypes[]>([])
+	const [basketArray, setBasketArray] = useState<ArrayTypes[]>([]);
 	const [paymentId, setPaymentId] = useState<string>('');
 	const [confirmPayment] = usePostConfirmPaymentMutation();
 	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
@@ -34,12 +38,12 @@ const Review = () => {
 	useEffect(() => {
 		const newArray = basketOrder?.gadgetResponse.map((product) => ({
 			id: product.id,
-			quantity: product.quantity,
-		}))
-		setBasketArray(newArray)
-	}, [basketOrder])
+			quantity: product.quantity
+		}));
+		setBasketArray(newArray);
+	}, [basketOrder]);
 	console.log(basketArray, 'basket arrays');
-	
+
 	const navigate = useNavigate();
 
 	console.log(isSuccess);
@@ -65,8 +69,16 @@ const Review = () => {
 	);
 
 	const handleModalDecorPay = async () => {
+<<<<<<< HEAD
 		searchParams.set('paymentId', localStorage.getItem('paymentId')?.slice(1, 28) || '')
 		setSearchParams(searchParams)
+=======
+		searchParams.set(
+			'paymentId',
+			localStorage.getItem('paymentId')?.slice(1, 28) || ''
+		);
+		setSearchParams(searchParams);
+>>>>>>> 346ae3249863cdcc94b9a8a39cbbb8e070ef5535
 		try {
 			const result = await confirmPayment({
 				paymentId: searchParams.get('paymentId') || '',
@@ -77,7 +89,6 @@ const Review = () => {
 				console.log('Payment confirmed:', result.data);
 				// message.success('Платеж успешно проведен');
 				setOpenModal(true);
-			
 			} else {
 				console.error('Failed to confirm payment:', result);
 				message.error('paymentId не пришел');

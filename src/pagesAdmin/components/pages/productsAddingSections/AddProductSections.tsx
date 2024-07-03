@@ -24,12 +24,16 @@ import { IconPlus } from '@/src/assets/icons';
 import { generate, green, presetPalettes, red } from '@ant-design/colors';
 import { ColorPicker, theme } from 'antd';
 import type { ColorPickerProps } from 'antd';
+<<<<<<< HEAD
 import {
 	colorsArray,
 	gBiteCatalog,
 	moreGBiteCatalog,
 	simCards
 } from '@/src/data/Catalog';
+=======
+import { colorsArray, gBiteCatalog, moreGBiteCatalog, simCards } from '@/src/data/Catalog';
+>>>>>>> 346ae3249863cdcc94b9a8a39cbbb8e070ef5535
 import {
 	OptionsForLaptop,
 	optionsSmartWatchesAndBracelets
