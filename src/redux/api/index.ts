@@ -62,7 +62,8 @@ export const api = createApi({
 		'editProductById',
 		'updateImageApi',
 		'follow',
-		'banner'
+		'banner',
+		'colorsApi'
 	],
 	endpoints: () => ({})
 });

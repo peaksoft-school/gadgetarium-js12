@@ -1,44 +1,40 @@
 export const coloursCatalog = [
 	{
 		colour: 'black',
-		quantity: '14840'
+		quantity: '1'
 	},
 	{
 		colour: 'blue',
-		quantity: '22544'
+		quantity: '1'
 	},
 	{
 		colour: 'yellow',
-		quantity: '3044'
+		quantity: '1'
 	},
 	{
-		colour: 'Graphite',
-		quantity: '2544'
+		colour: 'cyan',
+		quantity: '1'
 	},
 	{
 		colour: 'green',
-		quantity: '7005'
+		quantity: '1'
 	},
 	{
 		colour: 'pink',
-		quantity: '2500'
+		quantity: '1'
 	},
 	{
 		colour: 'red',
-		quantity: '2444'
+		quantity: '1'
 	},
 	{
-		colour: 'Silver',
-		quantity: '14000'
+		colour: 'magenta',
+		quantity: '1'
 	},
 	{
-		colour: 'White',
-		quantity: '5000'
+		colour: 'white',
+		quantity: '1'
 	},
-	{
-		colour: 'aqua',
-		quantity: '500'
-	}
 ];
 
 export const gBiteCatalog = [
@@ -72,37 +68,30 @@ export const gBiteCatalog = [
 	}
 ];
 
-
-
-
 export const moreGBiteCatalog = [
 	{
 		gb: '4',
-    nameRam: 'RAM_4'
+		nameRam: 'RAM_4'
 	},
 	{
 		gb: '6',
-    nameRam: 'RAM_6'
+		nameRam: 'RAM_6'
 	},
 	{
 		gb: '8',
-    nameRam: 'RAM_8'
-
+		nameRam: 'RAM_8'
 	},
 	{
 		gb: '12',
-    nameRam: 'RAM_12'
-
+		nameRam: 'RAM_12'
 	},
 	{
 		gb: '16',
-    nameRam: 'RAM_16'
-
+		nameRam: 'RAM_16'
 	},
 	{
 		gb: '32',
-    nameRam: 'RAM_32'
-
+		nameRam: 'RAM_32'
 	}
 ];
 
@@ -137,7 +126,7 @@ export const colorsArray = [
 	{
 		colorName: 'purple'
 	}
-]
+];
 
 export const simCards = [
 	{

@@ -543,7 +543,7 @@ const ProductsMainSection = () => {
 										name="name"
 										className={scss.date}
 										value={discountStartDay ? moment(discountStartDay) : null}
-										onChange={(date, dateString) =>
+										onChange={(_date, dateString) =>
 											setDiscountStartDay(dateString)
 										}
 										placeholder="От"
@@ -557,7 +557,7 @@ const ProductsMainSection = () => {
 										name="name"
 										className={scss.date}
 										value={discountEndDay ? moment(discountEndDay) : null}
-										onChange={(date, dateString) =>
+										onChange={(_date, dateString) =>
 											setDiscountEndDay(dateString)
 										}
 										placeholder="Выберите дату"

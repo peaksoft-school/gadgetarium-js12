@@ -3,7 +3,7 @@ import scss from './ReviewsPage.module.scss';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Rate, Modal, Input, Button, ConfigProvider } from 'antd';
 import React, { useState } from 'react';
-import { useGetReviewGadgetGoodQuery } from '@/src/redux/api/goods';
+// import { useGetReviewGadgetGoodQuery } from '@/src/redux/api/goods';
 import {
 	useApiFeedbackStatisticsQuery,
 	useGetReviewsQuery,

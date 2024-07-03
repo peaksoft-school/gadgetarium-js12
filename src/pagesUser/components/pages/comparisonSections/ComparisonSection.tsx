@@ -8,8 +8,8 @@ import {
 	IconBrand,
 	IconColor,
 	IconDelete,
-	IconScales,
-	IconScreen,
+	// IconScales,
+	// IconScreen,
 	IconSim,
 	IconStorage,
 	IconSystem
@@ -372,7 +372,7 @@ const ComparisonSection = () => {
 															className={`keen-slider ${scss.slider_results}`}
 														>
 															{data &&
-																data?.map((item, index) => (
+																data?.map((item) => (
 																	<div
 																		key={item?.subGadgetId}
 																		className="keen-slider__slide"

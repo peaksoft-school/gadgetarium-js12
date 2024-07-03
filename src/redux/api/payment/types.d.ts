@@ -63,8 +63,6 @@ namespace PAYMENTPRODUCT {
 	type PostConfirmPayRequest = {
 		paymentId: string;
 		idsAndQuantities: IdsAndQuantities[];
-		// dataPay: {
-		// };
 	};
 	type PostConfirmPayResponse = {
 		paymentId: string;

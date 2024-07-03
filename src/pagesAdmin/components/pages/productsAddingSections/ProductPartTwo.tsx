@@ -31,10 +31,10 @@ const ProductPartTwo = () => {
 	const [setQuantityById] = useGadgetByIdSetQuantityMutation();
 	const navigate = useNavigate();
 	const [price, setPrice] = useState('');
-	const [priceItemIdInput, setPriceItemIdInput] = useState<number | null>(null);
-	const [quantityItemIdInput, setQuantityItemIdInput] = useState<number | null>(
-		null
-	);
+	// const [priceItemIdInput, setPriceItemIdInput] = useState<number | null>(null);
+	// const [quantityItemIdInput, setQuantityItemIdInput] = useState<number | null>(
+	// 	null
+	// );
 	const [setPriceNadQuantityProductsApi] =
 		useSetPriceAndQuantityNewProductsMutation();
 	const [array, setArray] = useState<ArrayTypes[]>([]);
@@ -110,7 +110,7 @@ const ProductPartTwo = () => {
 					price: searchParams.toString()
 				});
 				setPriceInputValueById('');
-				setPriceItemIdInput(null);
+				// setPriceItemIdInput(null);
 			} catch (error) {
 				console.error(error);
 			}

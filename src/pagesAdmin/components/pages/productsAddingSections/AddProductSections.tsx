@@ -9,7 +9,7 @@ import {
 	useGetCatalogProductsQuery,
 	useSubCategoriesQuery
 } from '@/src/redux/api/catalogProducts';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
 	useAddBrandApiMutation,
 	useGetBrandApiQuery
@@ -17,14 +17,19 @@ import {
 import {
 	IconCalendarMinus,
 	IconColorPicker,
-	IconPhotoPlus,
-	IconX
+	IconPhotoPlus
+	// IconX
 } from '@tabler/icons-react';
 import { IconPlus } from '@/src/assets/icons';
 import { generate, green, presetPalettes, red } from '@ant-design/colors';
 import { ColorPicker, theme } from 'antd';
 import type { ColorPickerProps } from 'antd';
-import { colorsArray, gBiteCatalog, moreGBiteCatalog, simCards } from '@/src/data/Catalog';
+import {
+	colorsArray,
+	gBiteCatalog,
+	moreGBiteCatalog,
+	simCards
+} from '@/src/data/Catalog';
 import {
 	OptionsForLaptop,
 	optionsSmartWatchesAndBracelets
@@ -106,7 +111,7 @@ export const AddProductSections = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const [postUpload] = usePostUploadMutation();
-	const addProductButtonRef = React.useRef(false);
+	// const addProductButtonRef = React.useRef(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const inputForFileRef = React.useRef<HTMLInputElement>(null);
 	const { data: brandArray = [] } = useGetBrandApiQuery();
@@ -121,7 +126,7 @@ export const AddProductSections = () => {
 	const [addBrandApi] = useAddBrandApiMutation();
 	const [subCategoryValue, setSubCategoryValue] = useState<string>('');
 	console.log(subCategoryValue, 'ids category');
-	const colorInputRef = React.useRef<HTMLInputElement>(null);
+	// const colorInputRef = React.useRef<HTMLInputElement>(null);
 
 	const [modalForBrand, setModalForBrand] = useState<boolean>(false);
 	const [fileValue, setFileValue] = useState<FormData>();
@@ -273,11 +278,11 @@ export const AddProductSections = () => {
 			console.error(error);
 		}
 	};
-	const handleClickInputColorRef = () => {
-		if (colorInputRef.current) {
-			colorInputRef.current.click();
-		}
-	};
+	// const handleClickInputColorRef = () => {
+	// 	if (colorInputRef.current) {
+	// 		colorInputRef.current.click();
+	// 	}
+	// };
 
 	const changeAddProductsFilesFunk = async (
 		index: number,
@@ -689,12 +694,19 @@ export const AddProductSections = () => {
 																colorsArray.map((el) => ({
 																	value: el.colorName,
 																	label: (
-																		<div>
+																		<div
+																			style={{
+																				display: 'flex',
+																				justifyContent: 'space-between',
+																				paddingInline: '32px'
+																			}}
+																		>
 																			<div
 																				style={{
 																					width: '30px',
 																					height: '30px',
-																					background: el.colorName
+																					background: el.colorName,
+																					borderRadius: '50%'
 																				}}
 																			></div>
 																			<p>{el.colorName}</p>
@@ -786,7 +798,7 @@ export const AddProductSections = () => {
 															placeholder="Оперативная память"
 															options={
 																moreGBiteCatalog &&
-																moreGBiteCatalog.map((el, index) => ({
+																moreGBiteCatalog.map((el) => ({
 																	value: el.gb,
 																	label: <p>{el.gb}</p>
 																}))

@@ -6,7 +6,7 @@ import { Rate } from 'antd';
 
 const HistorySinglePage = () => {
 	const { id } = useParams<{ id: string }>();
-	const { data: orderPersonalId, isLoading } = useGetPersonalByIdQuery(id);
+	const { data: orderPersonalId, isLoading } = useGetPersonalByIdQuery(Number(id));
 	const navigate = useNavigate();
 	const [status1, setStatus1] = useState(true);
 
