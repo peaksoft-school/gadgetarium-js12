@@ -9,7 +9,7 @@ import {
 	useGetCatalogProductsQuery,
 	useSubCategoriesQuery
 } from '@/src/redux/api/catalogProducts';
-import React, {  useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
 	useAddBrandApiMutation,
 	useGetBrandApiQuery
@@ -17,14 +17,19 @@ import {
 import {
 	IconCalendarMinus,
 	IconColorPicker,
-	IconPhotoPlus,
+	IconPhotoPlus
 	// IconX
 } from '@tabler/icons-react';
 import { IconPlus } from '@/src/assets/icons';
 import { generate, green, presetPalettes, red } from '@ant-design/colors';
 import { ColorPicker, theme } from 'antd';
 import type { ColorPickerProps } from 'antd';
-import { colorsArray, gBiteCatalog, moreGBiteCatalog, simCards } from '@/src/data/Catalog';
+import {
+	colorsArray,
+	gBiteCatalog,
+	moreGBiteCatalog,
+	simCards
+} from '@/src/data/Catalog';
 import {
 	OptionsForLaptop,
 	optionsSmartWatchesAndBracelets
@@ -689,7 +694,13 @@ export const AddProductSections = () => {
 																colorsArray.map((el) => ({
 																	value: el.colorName,
 																	label: (
-																		<div style={{display: 'flex', justifyContent: 'space-between', paddingInline: '32px'}}>
+																		<div
+																			style={{
+																				display: 'flex',
+																				justifyContent: 'space-between',
+																				paddingInline: '32px'
+																			}}
+																		>
 																			<div
 																				style={{
 																					width: '30px',

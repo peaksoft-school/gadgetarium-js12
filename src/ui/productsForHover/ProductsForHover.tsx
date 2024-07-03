@@ -162,7 +162,9 @@ export const ProductsForHover: FC<ProductsForHoverTypes> = ({
 										<p>{el.nameOfGadget}</p>
 										<h3>{el.price} c</h3>
 										<IconX
-											onClick={() => handleDeleteByIdBasketProductFunk(el.subGadgetId)}
+											onClick={() =>
+												handleDeleteByIdBasketProductFunk(el.subGadgetId)
+											}
 											color="rgb(144, 156, 181)"
 											width={'14px'}
 											height={'14px'}

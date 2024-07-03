@@ -57,12 +57,10 @@ const Review = () => {
 	console.log(orderId);
 
 	const { data: review } = useGetReviewPayQuery(
-		{ orderId: orderId! },
+		{ orderId: orderId! }
 		// { skip: orderId === undefined }
 	);
-	const { data: decorPay } = useGetDecorPaymentQuery(
-		{ orderId: orderId! },
-	);
+	const { data: decorPay } = useGetDecorPaymentQuery({ orderId: orderId! });
 
 	const handleModalDecorPay = async () => {
 		searchParams.set(
