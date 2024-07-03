@@ -7,7 +7,7 @@ import {
 	usePostConfirmPaymentMutation
 } from '@/src/redux/api/payment';
 import { Modal, message } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
 
 interface ArrayTypes {
@@ -20,6 +20,7 @@ interface ArrayTypes {
 	nameOfGadget?: string
 }
 const Review = () => {
+	const [searchParams, setSearchParams] = useSearchParams()
 	const { data: getOrderId, isSuccess } = useGetOrderIdQuery();
 	const [orderId, setOrderId] = useState<number | null>();
 	const [openModal, setOpenModal] = useState(false);
@@ -64,11 +65,12 @@ const Review = () => {
 	);
 
 	const handleModalDecorPay = async () => {
-		
+		searchParams.set('paymentId', localStorage.getItem('paymentId')?.slice(1, 28) || '')
+		setSearchParams(searchParams)
 		try {
 			const result = await confirmPayment({
-				paymentId: localStorage.getItem('paymentId')!,
-				basketArray
+				paymentId: searchParams.get('paymentId') || '',
+				idsAndQuantities: basketArray
 			});
 			localStorage.removeItem('paymentId');
 			if ('data' in result) {

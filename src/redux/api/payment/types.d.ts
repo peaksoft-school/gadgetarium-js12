@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
+type IdsAndQuantities = {
+	id: number;
+	quantity: number;
+}
 namespace PAYMENTPRODUCT {
 	type GetBasketProductsRequest = {
 		deliveryType: boolean;
@@ -58,11 +61,8 @@ namespace PAYMENTPRODUCT {
 		orderId: number;
 	};
 	type PostConfirmPayRequest = {
-		paymentId: number;
-		[{
-			id: number,
-			quantity: number
-		}];
+		paymentId: string;
+		idsAndQuantities: IdsAndQuantities[];
 		// dataPay: {
 		// };
 	};
@@ -74,7 +74,9 @@ namespace PAYMENTPRODUCT {
 		// }];
 	};
 
-	type GetReviewRequest = number;
+	type GetReviewRequest = {
+		orderId: number
+	};
 	type GetReviewResponse = {
 		id: number;
 		price: number;
@@ -82,7 +84,9 @@ namespace PAYMENTPRODUCT {
 		payment: string;
 		orderId: number;
 	};
-	type GetPayDecorRequest = number;
+	type GetPayDecorRequest = {
+		orderId: number;
+	};
 	type GetPayDecorResponse = {
 		number: number;
 		createAd: string;

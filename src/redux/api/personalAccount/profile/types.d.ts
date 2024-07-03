@@ -15,6 +15,7 @@ namespace PROFILESTORE {
 		oldPassword: string;
 		newPassword: string;
 		confirmationPassword: string;
+		error?: string;
 	};
 
 	type IInformation = {

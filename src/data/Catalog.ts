@@ -72,6 +72,9 @@ export const gBiteCatalog = [
 	}
 ];
 
+
+
+
 export const moreGBiteCatalog = [
 	{
 		gb: '4',
@@ -93,7 +96,7 @@ export const moreGBiteCatalog = [
 	},
 	{
 		gb: '16',
-    nameRam: 'RAM_12'
+    nameRam: 'RAM_16'
 
 	},
 	{
@@ -102,6 +105,39 @@ export const moreGBiteCatalog = [
 
 	}
 ];
+
+export const colorsArray = [
+	{
+		colorName: 'black'
+	},
+	{
+		colorName: 'white'
+	},
+	{
+		colorName: 'red'
+	},
+	{
+		colorName: 'green'
+	},
+	{
+		colorName: 'yellow'
+	},
+	{
+		colorName: 'blue'
+	},
+	{
+		colorName: 'magenta'
+	},
+	{
+		colorName: 'cyan'
+	},
+	{
+		colorName: 'pink'
+	},
+	{
+		colorName: 'purple'
+	}
+]
 
 export const simCards = [
 	{

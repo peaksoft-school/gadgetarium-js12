@@ -155,7 +155,7 @@ const InfoProduct = () => {
 							className={scss.document_content_div}
 						>
 							<IconBurgerMenu />
-							<p>Скачать документ.pdf</p>
+							<a href='пдф ссыклка берип кой'>Скачать документ.pdf </a>
 						</div>
 					</div>
 					{/* {pdfData && (
