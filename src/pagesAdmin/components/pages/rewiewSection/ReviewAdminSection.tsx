@@ -5,7 +5,7 @@ import {
 	IconUserCircle
 } from '@tabler/icons-react';
 import React, { useState } from 'react';
-import { Rate, Input, Button, Dropdown, MenuProps } from 'antd';
+import { Rate, Input, Button, Dropdown, MenuProps, Tooltip } from 'antd';
 import Infographics from '@/src/ui/infographics/Infographics';
 
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -83,31 +83,8 @@ const ReviewAdminSection = () => {
 
 	const handleCancel = () => {
 		setMessage('');
-		setIndexProductsResults(null)
+		setIndexProductsResults(null);
 	};
-
-	const items: MenuProps['items'] = [
-		{
-			key: '1',
-			label: <Rate />
-		},
-		{
-			key: '2',
-			label: <Rate />
-		},
-		{
-			key: '3',
-			label: <Rate />
-		},
-		{
-			key: '4',
-			label: <Rate />
-		},
-		{
-			key: '5',
-			label: <Rate />
-		}
-	];
 
 	const { TextArea } = Input;
 
@@ -129,6 +106,29 @@ const ReviewAdminSection = () => {
 			? searchParams.toString()
 			: `feedbackType=ALL`
 	});
+
+	const items: MenuProps['items'] = [
+		{
+			key: '1',
+			label: <Rate defaultValue={reviews?.ratingCounts[1]} />
+		},
+		{
+			key: '2',
+			label: <Rate defaultValue={reviews?.ratingCounts[1]} />
+		},
+		{
+			key: '3',
+			label: <Rate defaultValue={reviews?.ratingCounts[1]} />
+		},
+		{
+			key: '4',
+			label: <Rate defaultValue={reviews?.ratingCounts[1]} />
+		},
+		{
+			key: '5',
+			label: <Rate defaultValue={reviews?.ratingCounts[1]} />
+		}
+	];
 
 	const handleOpenModal = (id: number) => {
 		// Your existing logic
@@ -273,7 +273,7 @@ const ReviewAdminSection = () => {
 													className={scss.rate_and_user_name_and_profile_div}
 												>
 													<Rate
-														defaultValue={5}
+														defaultValue={item.rating}
 														className={scss.rating}
 														value={item.rating}
 														disabled
@@ -284,8 +284,40 @@ const ReviewAdminSection = () => {
 																className={scss.icon_user_circle}
 															/>
 															<div className={scss.div_for_user_name}>
-																<h3>{item.fullNameUser}</h3>
-																<p>{item.emailUser}</p>
+																<h3>
+																	{item.fullNameUser.length > 14 ? (
+																		<>
+																			{item.fullNameUser.slice(0, 15)}
+																			<Tooltip
+																				title={item.fullNameUser}
+																				color="#c11bab"
+																			>
+																				<span style={{ cursor: 'pointer' }}>
+																					...
+																				</span>
+																			</Tooltip>
+																		</>
+																	) : (
+																		item.fullNameUser
+																	)}
+																</h3>
+																<p>
+																	{item.emailUser.length > 15 ? (
+																		<>
+																			{item.emailUser.slice(0, 15)}
+																			<Tooltip
+																				title={item.emailUser}
+																				color="#c11bab"
+																			>
+																				<span style={{ cursor: 'pointer' }}>
+																					...
+																				</span>
+																			</Tooltip>
+																		</>
+																	) : (
+																		item.emailUser
+																	)}
+																</p>
 															</div>
 														</div>
 														<div className={scss.buttons}>
@@ -359,23 +391,22 @@ const ReviewAdminSection = () => {
 																	.getAll('feedbackType')
 																	.includes('UNANSWERED') ? (
 																	<>
-																	
-																			<>
-																				<Button
-																					className={scss.button_cancel_2}
-																					onClick={handleCancel}
-																				>
-																					Отменить
-																				</Button>
-																				<Button
-																					onClick={() =>
-																						handlePostReview(item.id)
-																					}
-																					className={scss.button}
-																				>
-																					Сохранить
-																				</Button>
-																			</>
+																		<>
+																			<Button
+																				className={scss.button_cancel_2}
+																				onClick={handleCancel}
+																			>
+																				Отменить
+																			</Button>
+																			<Button
+																				onClick={() =>
+																					handlePostReview(item.id)
+																				}
+																				className={scss.button}
+																			>
+																				Сохранить
+																			</Button>
+																		</>
 																	</>
 																) : (
 																	<>
