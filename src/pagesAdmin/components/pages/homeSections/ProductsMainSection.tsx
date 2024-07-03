@@ -376,125 +376,141 @@ const ProductsMainSection = () => {
 									</tr>
 								</thead>
 								<tbody>
-									{data?.paginationGadgets?.map((item, index) => (
-										<tr
-											key={index}
-											className={scss.tr}
-											onMouseEnter={() => handleHover(item.subGadgetId)}
-											onMouseLeave={() => handleHover(null)}
-										>
-											<Link
-												to={`/admin/goodsPage/product-page/${item?.gadgetId}`}
-												className={scss.link_button}
-											>
-												<div className={scss.card}>
-													<div className={scss.three}>
-														<td>
-															{hoveredItemId === item.subGadgetId ||
-															gadgetIds.includes(item.gadgetId) ? (
-																<ConfigProvider
-																	theme={{
-																		components: {
-																			Checkbox: {
-																				colorPrimary: '#c11bab',
-																				colorBgContainer: 'white',
-																				algorithm: true
-																			}
-																		}
+									{data?.paginationGadgets.length === 0 ? (
+										<>
+											<h2>Пока нет товаров</h2>
+										</>
+									) : (
+										<>
+											{data?.paginationGadgets?.map((item, index) => (
+												<tr
+													key={index}
+													className={scss.tr}
+													onMouseEnter={() => handleHover(item.subGadgetId)}
+													onMouseLeave={() => handleHover(null)}
+												>
+													<Link
+														to={`/admin/goodsPage/product-page/${item?.gadgetId}`}
+														className={scss.link_button}
+													>
+														<div className={scss.card}>
+															<div className={scss.three}>
+																<td>
+																	{hoveredItemId === item.subGadgetId ||
+																	gadgetIds.includes(item.gadgetId) ? (
+																		<ConfigProvider
+																			theme={{
+																				components: {
+																					Checkbox: {
+																						colorPrimary: '#c11bab',
+																						colorBgContainer: 'white',
+																						algorithm: true
+																					}
+																				}
+																			}}
+																		>
+																			<Checkbox
+																				checked={
+																					gadgetIds.includes(item.gadgetId)
+																						? true
+																						: false
+																				}
+																				onChange={() =>
+																					changeCheckbox(item.gadgetId)
+																				}
+																				onClick={(e) => {
+																					e.preventDefault();
+																					e.stopPropagation();
+																				}}
+																			/>
+																		</ConfigProvider>
+																	) : (
+																		<p className={scss.id_for_product}>
+																			{item.subGadgetId}
+																		</p>
+																	)}
+																</td>
+																<img src={item.images} alt="" />
+															</div>
+															<td>
+																{item.article.toString().length > 6 ? (
+																	<>
+																		{item.article.toString().slice(0, 6)}
+																		<Tooltip
+																			title={item.article.toString()}
+																			color="#c11bab"
+																		>
+																			<span style={{ cursor: 'pointer' }}>
+																				...
+																			</span>
+																		</Tooltip>
+																	</>
+																) : (
+																	item.article.toString()
+																)}
+															</td>
+															<div className={scss.quantity_name}>
+																<td>Кол-во товара {item?.quantity}шт.</td>
+																<td className={scss.name}>
+																	{item.nameOfGadget.length > 20 ? (
+																		<>
+																			{item.nameOfGadget.slice(0, 16)}
+																			<Tooltip
+																				title={item.nameOfGadget}
+																				color="#c11bab"
+																			>
+																				<span style={{ cursor: 'pointer' }}>
+																					...
+																				</span>
+																			</Tooltip>
+																		</>
+																	) : (
+																		item.nameOfGadget
+																	)}
+																</td>
+															</div>
+															<div className={scss.date_time}>
+																<td>{item?.createdAt}</td>
+																{/* <td className={scss.time}>{productName.time}</td> */}
+															</div>
+															<td>{item?.quantity}</td>
+															<div className={scss.price_discount}>
+																<td className={scss.price_td}>
+																	{item?.price}с
+																</td>
+																<td className={scss.discount}>
+																	{item?.percent}%
+																</td>
+															</div>
+															<td className={scss.price_td}>
+																{item?.currentPrice}с
+															</td>
+															<div className={scss.icons}>
+																<IconEdit
+																	className={scss.trash}
+																	onClick={(e) => {
+																		navigate(
+																			`/admin/edit-page/${item.gadgetId}`
+																		);
+																		e.preventDefault();
+																		e.stopPropagation();
 																	}}
-																>
-																	<Checkbox
-																		checked={
-																			gadgetIds.includes(item.gadgetId)
-																				? true
-																				: false
-																		}
-																		onChange={() =>
-																			changeCheckbox(item.gadgetId)
-																		}
-																		onClick={(e) => {
-																			e.preventDefault();
-																			e.stopPropagation();
-																		}}
-																	/>
-																</ConfigProvider>
-															) : (
-																<p className={scss.id_for_product}>
-																	{item.subGadgetId}
-																</p>
-															)}
-														</td>
-														<img src={item.images} alt="" />
-													</div>
-													<td>
-														{item.article.toString().length > 6 ? (
-															<>
-																{item.article.toString().slice(0, 6)}
-																<Tooltip
-																	title={item.article.toString()}
-																	color="#c11bab"
-																>
-																	<span style={{ cursor: 'pointer' }}>...</span>
-																</Tooltip>
-															</>
-														) : (
-															item.article.toString()
-														)}
-													</td>
-													<div className={scss.quantity_name}>
-														<td>Кол-во товара {item?.quantity}шт.</td>
-														<td className={scss.name}>
-															{item.nameOfGadget.length > 28 ? (
-																<>
-																	{item.nameOfGadget.slice(0, 22)}
-																	<Tooltip
-																		title={item.nameOfGadget}
-																		color="#c11bab"
-																	>
-																		<span style={{ cursor: 'pointer' }}>
-																			...
-																		</span>
-																	</Tooltip>
-																</>
-															) : (
-																item.nameOfGadget
-															)}
-														</td>
-													</div>
-													<div className={scss.date_time}>
-														<td>{item?.createdAt}</td>
-														{/* <td className={scss.time}>{productName.time}</td> */}
-													</div>
-													<td>{item?.quantity}</td>
-													<div className={scss.price_discount}>
-														<td className={scss.price_td}>{item?.price}с</td>
-														<td className={scss.discount}>{item?.percent}%</td>
-													</div>
-													<td className={scss.price_td}>
-														{item?.currentPrice}с
-													</td>
-													<div className={scss.icons}>
-														<IconEdit
-															className={scss.trash}
-															onClick={(e) => {
-																navigate(`/admin/edit-page/${item.gadgetId}`);
-																e.preventDefault();
-																e.stopPropagation();
-															}}
-														/>
-														<IconTrash
-															onClick={(e) => {
-																showModalDelete();
-																e.stopPropagation();
-																e.preventDefault();
-																setGadgetId(item?.subGadgetId);
-															}}
-														/>
-													</div>
-												</div>
-											</Link>
-										</tr>
-									))}
+																/>
+																<IconTrash
+																	onClick={(e) => {
+																		showModalDelete();
+																		e.stopPropagation();
+																		e.preventDefault();
+																		setGadgetId(item?.subGadgetId);
+																	}}
+																/>
+															</div>
+														</div>
+													</Link>
+												</tr>
+											))}
+										</>
+									)}
 								</tbody>
 							</table>
 						</div>

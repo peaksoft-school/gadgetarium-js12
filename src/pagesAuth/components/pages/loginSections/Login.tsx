@@ -5,7 +5,10 @@ import logo from '@/src/assets/logo.png';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Button, ConfigProvider, Input, message } from 'antd';
 import React, { FC } from 'react';
-import { usePostLoginMutation } from '@/src/redux/api/auth';
+import {
+	usePostGoogleMutation,
+	usePostLoginMutation
+} from '@/src/redux/api/auth';
 import { auth, provider } from './config';
 import { signInWithPopup } from 'firebase/auth';
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,6 +21,7 @@ interface OpenModalProps {
 const Login: FC<OpenModalProps> = ({ setOpenModal }) => {
 	const [passwordVisible, setPasswordVisible] = React.useState(false);
 	const [postRequestLogin, { isLoading }] = usePostLoginMutation();
+	const [postGoogle] = usePostGoogleMutation();
 	const navigate = useNavigate();
 	const {
 		handleSubmit,
@@ -80,22 +84,34 @@ const Login: FC<OpenModalProps> = ({ setOpenModal }) => {
 			setOpenModal!(true);
 		}
 	};
+	const handleWithGoogle = async () => {
+		try {
+			const result = await signInWithPopup(auth, provider);
+			const tokenGoogle = await result.user.getIdToken();
+			const data = {
+				idToken: tokenGoogle
+			};
 
-	const handleWithGoogle = () => {
-		signInWithPopup(auth, provider)
-			.then(async (result) => {
-				const token = await result.user.getIdToken();
+			const response = await postGoogle(data);
+
+			if ('data' in response) {
+				const token = response.data.token;
 				localStorage.setItem('token', token);
 				localStorage.setItem('isAuth', 'true');
 				message.success('Вход через Google выполнен успешно');
 				navigate('/');
-			})
-			.catch((error) => {
-				console.error('Ошибка входа через Google:', error);
-				message.warning('Ошибка входа через Google');
-			});
+			} else {
+				console.error(
+					'Произошла ошибка при получении данных от сервера:',
+					response.error
+				);
+				message.warning('Ошибка при получении данных от сервера');
+			}
+		} catch (error) {
+			console.error('Ошибка входа через Google:', error);
+			message.warning('Ошибка входа через Google');
+		}
 	};
-
 	return (
 		<div className={scss.loginPages}>
 			<div className="container">

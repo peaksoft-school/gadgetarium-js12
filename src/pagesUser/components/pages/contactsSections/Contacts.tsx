@@ -1,13 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import scss from './Contacts.module.scss';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { Input } from 'antd';
+import { Input, message } from 'antd';
 import { MapComponent } from './MapComponent';
 import { usePostNewsLetterContactUsMutation } from '@/src/redux/api/follow';
 
 const { TextArea } = Input;
 export const Contacts = () => {
 	const [postNewsLetterContactUs] = usePostNewsLetterContactUsMutation();
+	const [messageApi, contextHolder] = message.useMessage();
 	const navigate = useNavigate();
 	const {
 		control,
@@ -35,10 +36,21 @@ export const Contacts = () => {
 				message,
 				phoneNumber
 			});
+			messageApi.open({
+				type: 'success',
+				content: 'Сообщение успешно отправлено',
+				className: 'custom-class'
+			});
 		} catch (error) {
+			messageApi.open({
+				type: 'success',
+				content: 'Ошибка при отправки сообщение',
+				className: 'custom-class'
+			});
 			console.error(error);
 		}
 	};
+
 	return (
 		<section id="Контакты" className={scss.ContactsPage}>
 			<div className="container">
@@ -181,7 +193,6 @@ export const Contacts = () => {
 											)}
 										/>
 									</div>
-									
 								</div>
 								<div className={scss.message_and_label_div}>
 									<label>Сообщение</label>
@@ -194,7 +205,7 @@ export const Contacts = () => {
 											maxLength: {
 												value: 100,
 												message:
-													'Сообщение должен содержать максимус 100 символов'
+													'Сообщение должен содержать максимус 10 символов'
 											}
 										}}
 										render={({ field }) => (
@@ -213,28 +224,15 @@ export const Contacts = () => {
 									(errors.email && <p>{errors.email.message}</p>) ||
 									(errors.phoneNumber && <p>{errors.phoneNumber.message}</p>) ||
 									(errors.message && <p>{errors.message.message}</p>)}
+								{contextHolder}
 								<button
 									className={
 										// scss.buttonSubmit
-										!errors.email &&
-										!errors.phoneNumber &&
-										!errors.message &&
-										!errors.lastname &&
-										!errors.firstname
-											? `${scss.button_noo_active} ${scss.buttonSubmit}`
-											: `${scss.button_noo_active}`
+										scss.buttonSubmit
 										// ? `${scss.buttonSubmit} ${scss.active_buttonSubmit}`
 										// : `${scss.buttonSubmit}`
 									}
-									type={
-										!errors.email &&
-										!errors.firstname &&
-										!errors.lastname &&
-										!errors.phoneNumber &&
-										!errors.message
-											? 'submit'
-											: 'reset'
-									}
+									type={'submit'}
 								>
 									Отправить
 								</button>
