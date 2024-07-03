@@ -53,6 +53,7 @@ const InfoProduct = () => {
 		
 	};
 	const {data: pdfData} =  useGetUserPostPDSQuery(pdfParam);
+console.log(pdfData, 'pdf data');
 
 	return (
 		<div className={scss.ContainerInfoProduct}>
@@ -159,7 +160,7 @@ const InfoProduct = () => {
 						</div>
 					</div>
 					{/* {pdfData && (
-						<button>{pdfData.response}</button>
+						<a href={`${pdfData}`}>odiofgd</a>
 					)} */}
 					{ComponentArray.slice(result, component).map((item) => (
 						<div key={item.id}>{item.children}</div>

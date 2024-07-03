@@ -10,7 +10,7 @@ import {
 	usePostCreatePaymentMutation
 } from '@/src/redux/api/payment';
 import { useNavigate } from 'react-router-dom';
-import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
+// import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
 
 const CARD_OPTIONS = {
 	iconStyle: 'solid' as 'default' | 'solid',
@@ -68,14 +68,17 @@ const PaymentForm: FC<TypeProps> = ({
 			const result = await createPayment({
 				token,
 				orderId: getOrderId?.orderId,
-				paymentId,
+				paymentId
 			});
 
 			if (result && 'data' in result && result.data) {
 				setPaymentId(result.data.paymentId);
-				localStorage.setItem('paymentId', JSON.stringify(result.data.paymentId));
+				localStorage.setItem(
+					'paymentId',
+					JSON.stringify(result.data.paymentId)
+				);
 				console.log(result.data.paymentId, 'text');
-				
+
 				console.log(result);
 				setOpenModal(false);
 				message.success('Платеж успешно проведен');

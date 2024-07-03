@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IconTrash } from '@tabler/icons-react';
 import scss from './OrderInProcessing.module.scss';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import {
 	useDeleteAdminOrderMutation,
 	useGetAdminOrderQuery,
@@ -17,17 +17,17 @@ import {
 	Pagination,
 	theme
 } from 'antd';
-import { SearchProps } from 'antd/es/input';
+// import { SearchProps } from 'antd/es/input';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal';
 import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
 import CustomButtonAdd from '@/src/ui/adminButtons/CustomButtonAdd';
 import moment from 'moment';
 
-const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
-	console.log(info?.source, value);
+// const onSearch: SearchProps['onSearch'] = (value, _e, info) =>
+// 	console.log(info?.source, value);
 
 const OrderInPending = () => {
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const { data, isLoading } = useGetAdminOrderQuery({

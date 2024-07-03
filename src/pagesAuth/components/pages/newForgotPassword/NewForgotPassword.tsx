@@ -12,6 +12,7 @@ import { IconLoader } from '@tabler/icons-react';
 interface NewForgotPasswordForm {
 	password: string;
 	confirmPassword: string;
+	error: number;
 }
 
 const NewForgotPassword = () => {
@@ -22,7 +23,7 @@ const NewForgotPassword = () => {
 	const navigate = useNavigate();
 
 	const {
-		register,
+		// register,
 		handleSubmit,
 		reset,
 		control,

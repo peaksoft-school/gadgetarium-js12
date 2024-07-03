@@ -7,7 +7,7 @@ import { Rate } from 'antd';
 
 const Favorite = () => {
 	// const { data: products, isLoading } = useGetProductsQuery('');
-	const { data: products, isLoading, refetch } = useGetFavoriteQuery();
+	const { data: products, isLoading } = useGetFavoriteQuery();
 
 	return (
 		<section className={scss.favorite}>

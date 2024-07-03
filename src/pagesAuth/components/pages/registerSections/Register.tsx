@@ -4,7 +4,7 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, ConfigProvider, Input, message } from 'antd';
 import { usePostRegisterMutation } from '@/src/redux/api/auth';
-// import PhoneInputWrapper from '@/src/ui/phoneNumberValidation/PhoneNumberValidation';
+import PhoneInputWrapper from '@/src/ui/phoneNumberValidation/PhoneNumberValidation';
 import { ToastContainer } from 'react-toastify';
 import { IconLoader } from '@tabler/icons-react';
 

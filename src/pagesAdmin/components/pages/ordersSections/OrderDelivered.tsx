@@ -13,12 +13,12 @@ import Infographics from '@/src/ui/infographics/Infographics';
 import {
 	ConfigProvider,
 	DatePicker,
-	DatePickerProps,
+	// DatePickerProps,
 	Input,
 	Pagination,
 	theme
 } from 'antd';
-import { SearchProps } from 'antd/es/input';
+// import { SearchProps } from 'antd/es/input';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal';
 import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
 import CustomButtonAdd from '@/src/ui/adminButtons/CustomButtonAdd';

@@ -20,7 +20,7 @@ import React, { useState } from 'react';
 import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
 import { IconHeart, IconScale, IconX, IconFileLike } from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
-import { Empty, Rate, Skeleton, Tooltip } from 'antd';
+import {  Rate, Skeleton, Tooltip } from 'antd';
 import {
 	useBasketPutProductMutation
 	// useGetBasketQuery

@@ -2,7 +2,7 @@
 type IdsAndQuantities = {
 	id: number;
 	quantity: number;
-}
+};
 namespace PAYMENTPRODUCT {
 	type GetBasketProductsRequest = {
 		deliveryType: boolean;
@@ -63,8 +63,6 @@ namespace PAYMENTPRODUCT {
 	type PostConfirmPayRequest = {
 		paymentId: string;
 		idsAndQuantities: IdsAndQuantities[];
-		// dataPay: {
-		// };
 	};
 	type PostConfirmPayResponse = {
 		paymentId: string;
@@ -75,7 +73,7 @@ namespace PAYMENTPRODUCT {
 	};
 
 	type GetReviewRequest = {
-		orderId: number
+		orderId: number;
 	};
 	type GetReviewResponse = {
 		id: number;
