@@ -136,7 +136,10 @@ export const colorsArray = [
 	},
 	{
 		colorName: 'purple'
-	}
+	},
+	{
+		colorName: 'gray'
+	},
 ]
 
 export const simCards = [

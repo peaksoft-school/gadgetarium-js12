@@ -24,7 +24,12 @@ import { IconPlus } from '@/src/assets/icons';
 import { generate, green, presetPalettes, red } from '@ant-design/colors';
 import { ColorPicker, theme } from 'antd';
 import type { ColorPickerProps } from 'antd';
-import { colorsArray, gBiteCatalog, moreGBiteCatalog, simCards } from '@/src/data/Catalog';
+import {
+	colorsArray,
+	gBiteCatalog,
+	moreGBiteCatalog,
+	simCards
+} from '@/src/data/Catalog';
 import {
 	OptionsForLaptop,
 	optionsSmartWatchesAndBracelets
@@ -562,6 +567,9 @@ export const AddProductSections = () => {
 													</div>
 												)}
 											</div> */}
+											<p onClick={() => setModalForBrand(true)}>
+												+ Создать новый бренд
+											</p>
 										</div>
 										<div className={scss.label_and_input_div}>
 											<label>Название товара *</label>
