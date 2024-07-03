@@ -71,8 +71,6 @@ const Profile = () => {
 		[key: string]: boolean;
 	}>({});
 
-
-
 	const [oldPassword, setOldPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
@@ -121,12 +119,13 @@ const Profile = () => {
 		if (oldPassword === '' || newPassword === '' || confirmPassword === '') {
 			return message.success('Профиль успешно отредактирован');
 		} else {
-			const res = await profilePasswords(passwords).unwrap();
-			console.log(res);
-			if (res.error) {
-				message.warning('Вы неправильно ввели старый  пароль');
-			} else {
+			try {
+				const res = await profilePasswords(passwords);
+				console.log(res);
 				message.success('Пароль успешно изменен');
+			} catch (error) {
+				console.error('Ошибка при изменении пароля:', error);
+				message.warning('Вы неправильно ввели старый пароль');
 			}
 		}
 
@@ -179,7 +178,7 @@ const Profile = () => {
 					image: DATA.image
 				});
 				setImageUrl(DATA.image);
-				refetch()
+				refetch();
 			} catch (error) {
 				console.error('Error uploading profile image:', error);
 			}

@@ -16,7 +16,6 @@ import {
 	Button,
 	ConfigProvider,
 	InputNumber,
-	InputNumberProps,
 	Modal,
 	Rate,
 	Tooltip
@@ -27,7 +26,6 @@ import { useBasketPutProductMutation } from '@/src/redux/api/basket';
 import { useFavoritePutProductMutation } from '@/src/redux/api/favorite';
 import { IconRedHeart } from '@/src/assets/icons';
 import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
-// import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
 import { useGetProductsColorsApiQuery } from '@/src/redux/api/productColorApi';
 import { useGetProductMemoryQuery } from '@/src/redux/api/memoryForProductApi';
 import { ViewedProducts } from '@/src/ui/ViewedProducts/ViewedProducts';
@@ -38,7 +36,7 @@ const CardProductPage = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const [basketAddProduct] = useBasketPutProductMutation();
-	const [countIsProduct, setCountIsProduct] = useState<string>('1');
+	const [countIsProduct, ,] = useState<string>('1');
 	const [favoriteAddProduct] = useFavoritePutProductMutation();
 	const { productId } = useParams();
 	const { data: characteristicsApi } = useGetCharacteristicsProductQuery(
@@ -60,35 +58,10 @@ const CardProductPage = () => {
 	const [isSlider, setIsSlider] = useState<number>(1);
 	const [sliderResult, setSliderresult] = useState<number>(0);
 	const [contentIsModal, setContentIsModal] = useState<string>('');
-	const [countInputValue, setCountInputValue] = useState<string>('');
 	const [modal2Open, setModal2Open] = useState(false);
 	const [openModal, setOpenModal] = useState(false);
 	const navigate = useNavigate();
 
-	// const handleIndexSlider = (index: number) => {
-	// 	if (index === 0) {
-	// 		setIsSlider(1);
-	// 		setSliderresult(0);
-	// 	} else if (index === 1) {
-	// 		setIsSlider(2);
-	// 		setSliderresult(1);
-	// 	} else if (index === 2) {
-	// 		setIsSlider(3);
-	// 		setSliderresult(2);
-	// 	} else if (index === 3) {
-	// 		setIsSlider(4);
-	// 		setSliderresult(3);
-	// 	} else if (index === 4) {
-	// 		setIsSlider(5);
-	// 		setSliderresult(4);
-	// 	} else if (index === 5) {
-	// 		setIsSlider(6);
-	// 		setSliderresult(5);
-	// 	} else if (index === 6) {
-	// 		setIsSlider(7);
-	// 		setSliderresult(6);
-	// 	}
-	// };
 	const handleIndexSlider = useCallback((index: number) => {
 		setIsSlider(index + 1);
 		setSliderresult(index);
@@ -167,7 +140,6 @@ const CardProductPage = () => {
 	};
 
 	console.log(data?.likes, 'linkes');
-	
 
 	return (
 		<>
@@ -362,21 +334,11 @@ const CardProductPage = () => {
 													<button onClick={handleMinuesProductQuantity}>
 														-
 													</button>
-													{/* <ConfigProvider
-														theme={{
-															components: {
-																InputNumber: {
-																	colorText: 'rgb(43, 44, 47)',
-																	algorithm: true
-																}
-															}
-														}}
-													> */}
+
 													<InputNumber
 														className={scss.input_for_quantity}
 														min={1}
 														max={data?.quantity}
-														// defaultValue={data?.quantity}
 														defaultValue={Number(
 															searchParams.get('quantity')
 																? searchParams.get('quantity')
@@ -397,7 +359,6 @@ const CardProductPage = () => {
 															}
 														}}
 													/>
-													{/* </ConfigProvider> */}
 													<button onClick={handleCountProduct}>+</button>
 												</div>
 												<div className={scss.border_div}></div>
@@ -458,20 +419,21 @@ const CardProductPage = () => {
 														))}
 												</div>
 												<div className={scss.info_product}>
-													{characteristicsApi?.mainCharacteristics.Экран
-														&& characteristicsApi.mainCharacteristics.Экран.Размер && (
-														<div className={scss.div_screen}>
-															<p>
-																Экран............................................
-															</p>
-															<h4>
-																{
-																	characteristicsApi?.mainCharacteristics.Экран
-																		.Размер
-																}
-															</h4>
-														</div>
-													)}
+													{characteristicsApi?.mainCharacteristics.Экран &&
+														characteristicsApi.mainCharacteristics.Экран
+															.Размер && (
+															<div className={scss.div_screen}>
+																<p>
+																	Экран............................................
+																</p>
+																<h4>
+																	{
+																		characteristicsApi?.mainCharacteristics
+																			.Экран.Размер
+																	}
+																</h4>
+															</div>
+														)}
 													<div className={scss.div_screen}>
 														<p>
 															Цвет..............................................
@@ -497,32 +459,55 @@ const CardProductPage = () => {
 														<p>Гарантия (месяцев)...................</p>
 														<h4>{data?.warranty}</h4>
 													</div>
-													{characteristicsApi?.mainCharacteristics.Производительность && characteristicsApi.mainCharacteristics.Производительность.Чипсет && (
-														<div className={scss.div_screen}>
-															<p>Производительность.................</p>
-															<h4>{characteristicsApi.mainCharacteristics.Производительность.Чипсет}</h4>
-														</div>
-													)}
-													
-													{characteristicsApi?.mainCharacteristics['Дизайн и корпус'] && characteristicsApi.mainCharacteristics['Дизайн и корпус'].Вес && (
-														<div className={scss.div_screen}>
-															<p>Производительность.................</p>
-															<h4>{characteristicsApi.mainCharacteristics['Дизайн и корпус'].Вес}</h4>
-														</div>
-													)}
-													{characteristicsApi?.mainCharacteristics.Батарея && characteristicsApi.mainCharacteristics.Батарея['Беспроводная зарядка'] && (
-														<div className={scss.div_screen}>
-															<p>Батарея........................................</p>
-															<h4>{characteristicsApi.mainCharacteristics.Батарея['Беспроводная зарядка']}</h4>
-														</div>
-													)}
+													{characteristicsApi?.mainCharacteristics
+														.Производительность &&
+														characteristicsApi.mainCharacteristics
+															.Производительность.Чипсет && (
+															<div className={scss.div_screen}>
+																<p>Производительность.................</p>
+																<h4>
+																	{
+																		characteristicsApi.mainCharacteristics
+																			.Производительность.Чипсет
+																	}
+																</h4>
+															</div>
+														)}
 
-													{/* <div className={scss.div_screen}>
-														<p>
-															Вес...............................................
-														</p>
-														<h4>{data?.Weight}</h4>
-													</div> */}
+													{characteristicsApi?.mainCharacteristics[
+														'Дизайн и корпус'
+													] &&
+														characteristicsApi.mainCharacteristics[
+															'Дизайн и корпус'
+														].Вес && (
+															<div className={scss.div_screen}>
+																<p>Производительность.................</p>
+																<h4>
+																	{
+																		characteristicsApi.mainCharacteristics[
+																			'Дизайн и корпус'
+																		].Вес
+																	}
+																</h4>
+															</div>
+														)}
+													{characteristicsApi?.mainCharacteristics.Батарея &&
+														characteristicsApi.mainCharacteristics.Батарея[
+															'Беспроводная зарядка'
+														] && (
+															<div className={scss.div_screen}>
+																<p>
+																	Батарея........................................
+																</p>
+																<h4>
+																	{
+																		characteristicsApi.mainCharacteristics
+																			.Батарея['Беспроводная зарядка']
+																	}
+																</h4>
+															</div>
+														)}
+
 													<div className={scss.div_screen}>
 														<p>
 															Процент.......................................

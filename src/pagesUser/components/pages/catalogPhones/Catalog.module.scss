@@ -184,8 +184,7 @@
 					max-width: 285px;
 					background-color: #fff;
 					padding: 25px 22px 5px 22px;
-					// overflow: auto;
-					// max-height: 950px;
+
 					@media (max-width: 827.2px) {
 						width: 100%;
 						max-width: 460px;
@@ -1028,16 +1027,9 @@
 							img {
 								width: 100%;
 								max-width: 230px;
-								// height: 230px;
+								height: 230px;
 								// object-fit: cover;
 								object-position: center;
-							}
-							div {
-								// width: 100%;
-								// max-width: 190px;
-								// height: 235px;
-								// // object-fit: cover;
-								// object-position: center;
 							}
 						}
 

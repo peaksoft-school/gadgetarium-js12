@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import scss from './WrapperPay.module.scss';
 import {
 	Link,
@@ -7,10 +7,8 @@ import {
 	Routes,
 	useLocation,
 	useNavigate
-	// useSearchParams
 } from 'react-router-dom';
 import Delivery from '@/src/pagesUser/components/pages/placingAnOrder/Delivery.tsx';
-// import Payment from '@/src/pagesUser/components/pages/placingAnOrder/Payment.tsx';
 import Review from '@/src/pagesUser/components/pages/placingAnOrder/Review.tsx';
 import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
 import Payment from './Payment';
@@ -21,8 +19,7 @@ const WrapperPay: FC = () => {
 	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
 		window.location.search.substring(1)
 	]);
-	// const [isDeliveryComplete, setIsDeliveryComplete] = useState(false);
-	// console.log(basketOrder, 'order for basket');
+
 
 	const handleMain = () => {
 		navigate('/');
@@ -38,17 +35,7 @@ const WrapperPay: FC = () => {
 		navigate('/basket');
 	};
 
-	// const handleDeliveryCompletion = (isComplete: boolean) => {
-	// 	setIsDeliveryComplete(isComplete);
-	// };
 
-	// const navigateWithValidation = (path: string) => {
-	// 	if (isDeliveryComplete || path === '/pay/delivery') {
-	// 		navigate(path);
-	// 	} else {
-	// 		alert('Please complete the delivery information before proceeding.');
-	// 	}
-	// };
 
 	return (
 		<>

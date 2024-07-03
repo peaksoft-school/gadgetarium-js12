@@ -17,12 +17,7 @@ const DescriptionPage = () => {
 							{/* <h2>Main Text</h2> */}
 							<div className={scss.product_info_text}>
 								<p>{data?.description}</p>
-								<p>{data?.description}</p>
 							</div>
-						</div>
-						<div className={scss.info_texts}>
-							<p>{data?.description}</p>
-							<p>{data?.description}</p>
 						</div>
 					</>
 				</>

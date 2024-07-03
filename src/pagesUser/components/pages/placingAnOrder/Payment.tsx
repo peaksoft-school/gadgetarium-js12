@@ -28,20 +28,16 @@ const images = [
 ];
 
 const Payment = () => {
-	const [isPaymentOnline, setIsPaymentOnline] = useState(true);
+	const [isPaymentOnline, setIsPaymentOnline] = useState(false);
 	const [isReceipt, setIsReceipt] = useState(false);
 	const [isCash, setIsCash] = useState(false);
 	const navigate = useNavigate();
 	const [patchPaymentType] = usePatchPaymentTypeMutation();
-	// const { data, isLoading } = useGetBasketQuery();
 
-	// const [cardNumber, setCardNumber] = useState('');
 	const [isPayment, setIsPayment] = useState(false);
 	const [amount, setAmount] = useState<number | undefined>(0);
-	// const [test, setTest] = useState<Record<string, string>>({});
-	// const [orderId, setOrderId] = useState(0);
 
-	const { data: getOrderId } = useGetOrderIdQuery();
+	const { data: getOrderId } = useGetOrderIdQuery('');
 	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
 		window.location.search.substring(1)
 	]);

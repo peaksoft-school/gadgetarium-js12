@@ -62,7 +62,7 @@ const NewForgotPassword = () => {
 				navigate('/auth/login');
 			}, 3000);
 			reset();
-		} catch (error) {
+		} catch (error: any) {
 			if (error.status === 403) {
 				message.warning('Длина пароля должна быть больше или равна 6.');
 			} else {

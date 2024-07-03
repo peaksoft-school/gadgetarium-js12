@@ -154,7 +154,7 @@ const ProductPartTwo = () => {
 					quantity: searchParams.toString()
 				});
 				setQuantityInputValueById('');
-				setQuantityItemIdInput(null);
+				// setQuantityItemIdInput(null);
 			} catch (error) {
 				console.error(error);
 			}

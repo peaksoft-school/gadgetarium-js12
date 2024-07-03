@@ -11,16 +11,12 @@ import arrow from '@/src/assets/map/arrowtop.png';
 import arrowDown from '@/src/assets/map/arrowDown.png';
 import arrowBlue from '@/src/assets/map/arrowTopBlue.png';
 import arrowBlueBottom from '@/src/assets/map/arrowBottomBlue.png';
-import {
-	coloursCatalog,
-	gBiteCatalog,
-	moreGBiteCatalog
-} from '@/src/data/Catalog';
+import { gBiteCatalog, moreGBiteCatalog } from '@/src/data/Catalog';
 import React, { useState } from 'react';
 import { useGetFiltredGadgetQuery } from '@/src/redux/api/filterGadget';
 import { IconHeart, IconScale, IconX, IconFileLike } from '@tabler/icons-react';
 import PhonesDropdown from '@/src/ui/catalogPhonesDropdown/PhonesDropdown';
-import {  Rate, Skeleton, Tooltip } from 'antd';
+import { Rate, Skeleton, Tooltip } from 'antd';
 import {
 	useBasketPutProductMutation
 	// useGetBasketQuery
@@ -42,7 +38,7 @@ const Catalog = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
 	const { filtredIds } = useParams();
-	const {data: allColors} = useGetAllColorsApiQuery();
+	const { data: allColors } = useGetAllColorsApiQuery();
 	const { data: subCategories = [] } = useSubCategoriesQuery(
 		Number(filtredIds!)
 	);

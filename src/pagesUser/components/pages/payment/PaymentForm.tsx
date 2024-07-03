@@ -6,7 +6,6 @@ import scss from './PaymentForm.module.scss';
 import { Modal, message } from 'antd';
 import {
 	useGetOrderIdQuery,
-	usePostConfirmPaymentMutation,
 	usePostCreatePaymentMutation
 } from '@/src/redux/api/payment';
 import { useNavigate } from 'react-router-dom';
@@ -40,31 +39,20 @@ interface TypeProps {
 	newTestObj: Record<string, string>;
 }
 
-const PaymentForm: FC<TypeProps> = ({
-	openModal,
-	setOpenModal,
-	totalAmount,
-	newTestObj
-}) => {
+const PaymentForm: FC<TypeProps> = ({ openModal, setOpenModal }) => {
 	const stripe = useStripe();
 	const elements = useElements();
-	const [orderId, setOrderId] = useState<number>(0);
-	const [paymentId, setPaymentId] = useState<number>(0);
+	const [orderId, ,] = useState<number>(0);
+	const [paymentId, setPaymentId] = useState<string>('');
 	const [createPayment] = usePostCreatePaymentMutation();
-	const [confirmPayment] = usePostConfirmPaymentMutation();
 	const { data: getOrderId } = useGetOrderIdQuery(orderId);
-	const [successModal, setSuccessModal] = useState(false);
-	// const { data: basketOrder } = useGetBasketOrderGadgetQuery([
-	// 	window.location.search.substring(1)
-	// ]);
-	const [testTokenId, setTestTokenId] = useState('');
+	const [, setSuccessModal] = useState(false);
+
+	const [, setTestTokenId] = useState('');
 	const navigate = useNavigate();
 
 	const handleCreatePayment = async (token: string) => {
 		try {
-			const totalTest = totalAmount?.toFixed();
-			const test = Number(totalTest);
-
 			const result = await createPayment({
 				token,
 				orderId: getOrderId?.orderId,
@@ -117,29 +105,6 @@ const PaymentForm: FC<TypeProps> = ({
 		}
 	};
 
-	// const handleConfirmPayment = async () => {
-	// 	const dataPay = {
-	// 		id: basketOrder?.gadgetResponse.id,
-	// 		paymentId: paymentId,
-	// 		quantity: basketOrder?.gadgetResponse.quantity
-	// 	};
-	// 	try {
-	// 		const result = await confirmPayment(dataPay);
-	// 		if ('data' in result) {
-	// 			console.log('Payment confirmed:', result.data);
-	// 			message.success('Платеж успешно проведен');
-	// 			setSuccessModal(false);
-	// 			navigate('/pay/review');
-	// 		} else {
-	// 			console.error('Failed to confirm payment:', result);
-	// 			message.warning('Платеж уже был проведен');
-	// 			setSuccessModal(false);
-	// 		}
-	// 	} catch (error) {
-	// 		console.error('Error in handleConfirmPayment:', error);
-	// 	}
-	// };
-
 	return (
 		<>
 			<Modal
@@ -168,24 +133,6 @@ const PaymentForm: FC<TypeProps> = ({
 					</div>
 				</div>
 			</Modal>
-			{/* <Modal
-				open={successModal}
-				footer={false}
-				onCancel={() => setSuccessModal(false)}
-			>
-				<div className={scss.confirm_payment}>
-					<div className={scss.title_content}>
-						<p>Подтвердите платеж для завершения покупки</p>
-					</div>
-					<div className={scss.info_content}>
-						<div className={scss.date}>
-							<p>Дата создания платежа:</p>
-							<p>{new Date().toLocaleString()}</p>
-						</div>
-						<button onClick={handleConfirmPayment}>Подтвердить платеж</button>
-					</div>
-				</div>
-			</Modal> */}
 		</>
 	);
 };

@@ -22,7 +22,7 @@ interface ArrayTypes {
 }
 const Review = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
-	const { data: getOrderId, isSuccess } = useGetOrderIdQuery();
+	const { data: getOrderId, isSuccess } = useGetOrderIdQuery('');
 	const [orderId, setOrderId] = useState<number | null>();
 	const [openModal, setOpenModal] = useState(false);
 	const [basketArray, setBasketArray] = useState<ArrayTypes[]>([]);
@@ -48,7 +48,7 @@ const Review = () => {
 
 	useEffect(() => {
 		if (isSuccess && getOrderId) {
-			const timer = setTimeout(() => {
+			setTimeout(() => {
 				setOrderId(getOrderId.orderId);
 			}, 2000);
 		}
