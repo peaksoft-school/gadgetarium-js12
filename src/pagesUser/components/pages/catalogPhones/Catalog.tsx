@@ -35,12 +35,14 @@ import ModalLogin from '@/src/ui/customModalLogin/ModalLogin';
 import ShowMoreButton from '@/src/ui/customButtons/ShowMoreButton';
 import emptyImg from '@/src/assets/sammy-the-man-trying-to-find-the-right-document 1.png';
 import { ViewedProducts } from '@/src/ui/ViewedProducts/ViewedProducts';
+import { useGetAllColorsApiQuery } from '@/src/redux/api/colors';
 // import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
 // import { ViewedProducts } from '@/src/ui/viewedProducts/ViewedProducts';
 const Catalog = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
 	const { filtredIds } = useParams();
+	const {data: allColors} = useGetAllColorsApiQuery();
 	const { data: subCategories = [] } = useSubCategoriesQuery(
 		Number(filtredIds!)
 	);
@@ -433,19 +435,19 @@ const Catalog = () => {
 													<img src={arrow} alt="ArrowTop" />
 												</div>
 
-												{coloursCatalog.map((e, index) => (
+												{allColors?.countList.map((e, index) => (
 													<div className={scss.colours} key={index}>
 														<input
-															id={e.colour}
+															id={e.colorName}
 															type="checkbox"
-															checked={filtredForColors.includes(e.colour)}
+															checked={filtredForColors.includes(e.colorName)}
 															onChange={() =>
-																handleColorsFiltredProducts(e.colour)
+																handleColorsFiltredProducts(e.colorName)
 															}
 														/>
-														<label htmlFor={e.colour}>
-															<p>{e.colour}</p>
-															<span>({e.quantity})</span>
+														<label htmlFor={e.colorName}>
+															<p>{e.colorName}</p>
+															<span>({e.colorQuantity})</span>
 														</label>
 													</div>
 												))}
