@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
 import scss from './Review.module.scss';
 import {
@@ -25,7 +26,7 @@ const Review = () => {
 	const [orderId, setOrderId] = useState<number | null>();
 	const [openModal, setOpenModal] = useState(false);
 	const [basketArray, setBasketArray] = useState<ArrayTypes[]>([]);
-	const [paymentId, setPaymentId] = useState<string>('');
+	// const [paymentId, setPaymentId] = useState<string>('');
 	const [confirmPayment] = usePostConfirmPaymentMutation();
 	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
 		window.location.search.substring(1)
@@ -36,7 +37,7 @@ const Review = () => {
 			id: product.id,
 			quantity: product.quantity
 		}));
-		setBasketArray(newArray);
+		setBasketArray(newArray!);
 	}, [basketOrder]);
 	console.log(basketArray, 'basket arrays');
 
@@ -56,13 +57,10 @@ const Review = () => {
 	console.log(orderId);
 
 	const { data: review } = useGetReviewPayQuery(
-		{ orderId },
-		{ skip: orderId === undefined }
+		{ orderId: orderId! }
+		// { skip: orderId === undefined }
 	);
-	const { data: decorPay } = useGetDecorPaymentQuery(
-		{ orderId },
-		{ skip: orderId === undefined }
-	);
+	const { data: decorPay } = useGetDecorPaymentQuery({ orderId: orderId! });
 
 	const handleModalDecorPay = async () => {
 		searchParams.set(

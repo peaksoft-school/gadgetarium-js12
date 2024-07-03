@@ -10,6 +10,7 @@ import {
 import { useState } from 'react';
 import CustomSelect from '@/src/ui/customSelect/CustomSelect';
 import Infographics from '@/src/ui/infographics/Infographics';
+<<<<<<< HEAD
 import {
 	ConfigProvider,
 	DatePicker,
@@ -18,6 +19,9 @@ import {
 	Tooltip,
 	theme
 } from 'antd';
+=======
+import { ConfigProvider, DatePicker, Pagination, theme } from 'antd';
+>>>>>>> dev
 import Input from 'antd/es/input';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal';
 import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';

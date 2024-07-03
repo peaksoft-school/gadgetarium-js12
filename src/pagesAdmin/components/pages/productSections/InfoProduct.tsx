@@ -47,6 +47,8 @@ const InfoProduct = () => {
 		setPdfUrl(pdfUrlProduct.slice(54, 100));
 	};
 	const { data: pdfData } = useGetUserPostPDSQuery(pdfParam);
+	console.log(pdfData);
+	
 	return (
 		<div className={scss.ContainerInfoProduct}>
 			<div className="container">

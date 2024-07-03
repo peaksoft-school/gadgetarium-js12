@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 interface PrivateGadgetResponse {
 	id: string;
-	gadgetImage: string[];
+	gadgetImage: string;
 	nameOfGadget: string;
 	subCategoryName: string;
 	rating: number;

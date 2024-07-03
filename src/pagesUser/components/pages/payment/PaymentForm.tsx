@@ -10,7 +10,7 @@ import {
 	usePostCreatePaymentMutation
 } from '@/src/redux/api/payment';
 import { useNavigate } from 'react-router-dom';
-import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
+// import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
 
 const CARD_OPTIONS = {
 	iconStyle: 'solid' as 'default' | 'solid',

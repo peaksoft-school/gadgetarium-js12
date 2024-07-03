@@ -121,7 +121,7 @@ const Profile = () => {
 		if (oldPassword === '' || newPassword === '' || confirmPassword === '') {
 			return message.success('Профиль успешно отредактирован');
 		} else {
-			const res = await profilePasswords(passwords);
+			const res = await profilePasswords(passwords).unwrap();
 			console.log(res);
 			if (res.error) {
 				message.warning('Вы неправильно ввели старый  пароль');

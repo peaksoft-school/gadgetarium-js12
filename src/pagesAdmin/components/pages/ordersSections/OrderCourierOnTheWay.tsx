@@ -12,14 +12,14 @@ import CustomSelect from '@/src/ui/customSelect/CustomSelect';
 import {
 	ConfigProvider,
 	DatePicker,
-	DatePickerProps,
+	// DatePickerProps,
 	Input,
 	Pagination,
 	Skeleton,
 	Tooltip,
 	theme
 } from 'antd';
-import { SearchProps } from 'antd/es/input';
+// import { SearchProps } from 'antd/es/input';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal';
 import CancelButtonCustom from '@/src/ui/adminButtons/CancelButtonCustom';
 import CustomButtonAdd from '@/src/ui/adminButtons/CustomButtonAdd';

@@ -6,7 +6,7 @@ import { DatePicker, DatePickerProps, Dropdown, MenuProps } from 'antd/es';
 import CustomModal from '../modalAdmin/CustomModal';
 import CancelButtonCustom from '../adminButtons/CancelButtonCustom';
 import CustomButtonAdd from '../adminButtons/CustomButtonAdd';
-import CustomImageAdd from '../customImageAdd/CustomImageAdd';
+// import CustomImageAdd from '../customImageAdd/CustomImageAdd';
 import LogoutModal from '../logOutModal/LogoutModal';
 
 const onChange: DatePickerProps['onChange'] = (date, dateString) => {
@@ -115,7 +115,7 @@ const BurgerMenu: FC<BurgerMenuProps> = ({
 					>
 						<div className={scss.create_newsletter}>
 							<h1>Создать скидку</h1>
-							<CustomImageAdd />
+							{/* <CustomImageAdd /> */}
 							<div className={scss.size_sale}>
 								<label htmlFor="name">Название рассылки *</label>
 								<input
