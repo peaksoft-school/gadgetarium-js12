@@ -7,7 +7,7 @@ import {
 	usePostConfirmPaymentMutation
 } from '@/src/redux/api/payment';
 import { Modal, message } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useGetBasketOrderGadgetQuery } from '@/src/redux/api/basket';
 
 interface ArrayTypes {
@@ -17,13 +17,14 @@ interface ArrayTypes {
 	colour?: string;
 	image?: string;
 	memory?: string;
-	nameOfGadget?: string
+	nameOfGadget?: string;
 }
 const Review = () => {
+	const [searchParams, setSearchParams] = useSearchParams();
 	const { data: getOrderId, isSuccess } = useGetOrderIdQuery();
 	const [orderId, setOrderId] = useState<number | null>();
 	const [openModal, setOpenModal] = useState(false);
-	const [basketArray, setBasketArray] = useState<ArrayTypes[]>([])
+	const [basketArray, setBasketArray] = useState<ArrayTypes[]>([]);
 	const [paymentId, setPaymentId] = useState<string>('');
 	const [confirmPayment] = usePostConfirmPaymentMutation();
 	const { data: basketOrder } = useGetBasketOrderGadgetQuery([
@@ -33,12 +34,12 @@ const Review = () => {
 	useEffect(() => {
 		const newArray = basketOrder?.gadgetResponse.map((product) => ({
 			id: product.id,
-			quantity: product.quantity,
-		}))
-		setBasketArray(newArray)
-	}, [basketOrder])
+			quantity: product.quantity
+		}));
+		setBasketArray(newArray);
+	}, [basketOrder]);
 	console.log(basketArray, 'basket arrays');
-	
+
 	const navigate = useNavigate();
 
 	console.log(isSuccess);
@@ -64,18 +65,21 @@ const Review = () => {
 	);
 
 	const handleModalDecorPay = async () => {
-		
+		searchParams.set(
+			'paymentId',
+			localStorage.getItem('paymentId')?.slice(1, 28) || ''
+		);
+		setSearchParams(searchParams);
 		try {
 			const result = await confirmPayment({
-				paymentId: localStorage.getItem('paymentId')!,
-				basketArray
+				paymentId: searchParams.get('paymentId') || '',
+				idsAndQuantities: basketArray
 			});
 			localStorage.removeItem('paymentId');
 			if ('data' in result) {
 				console.log('Payment confirmed:', result.data);
 				// message.success('Платеж успешно проведен');
 				setOpenModal(true);
-			
 			} else {
 				console.error('Failed to confirm payment:', result);
 				message.error('paymentId не пришел');
