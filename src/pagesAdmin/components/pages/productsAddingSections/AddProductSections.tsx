@@ -24,7 +24,7 @@ import { IconPlus } from '@/src/assets/icons';
 import { generate, green, presetPalettes, red } from '@ant-design/colors';
 import { ColorPicker, theme } from 'antd';
 import type { ColorPickerProps } from 'antd';
-import { gBiteCatalog, moreGBiteCatalog, simCards } from '@/src/data/Catalog';
+import { colorsArray, gBiteCatalog, moreGBiteCatalog, simCards } from '@/src/data/Catalog';
 import {
 	OptionsForLaptop,
 	optionsSmartWatchesAndBracelets
@@ -657,7 +657,7 @@ export const AddProductSections = () => {
 												<div className={scss.card_inputs}>
 													<div className={scss.label_and_input_div}>
 														<label>Основной цвет</label>
-														<div
+														{/* <div
 															onClick={handleClickInputColorRef}
 															className={scss.color_div}
 														>
@@ -681,11 +681,39 @@ export const AddProductSections = () => {
 																height={'19px'}
 																color="rgb(145, 150, 158)"
 															/>
-														</div>
+														</div> */}
+														<Select
+															className={scss.input}
+															options={
+																colorsArray &&
+																colorsArray.map((el) => ({
+																	value: el.colorName,
+																	label: (
+																		<div>
+																			<div
+																				style={{
+																					width: '30px',
+																					height: '30px',
+																					background: el.colorName
+																				}}
+																			></div>
+																			<p>{el.colorName}</p>
+																		</div>
+																	)
+																}))
+															}
+															onChange={(value) => {
+																handleChangeProductValue(
+																	index,
+																	'mainColour',
+																	value
+																);
+															}}
+														/>
 													</div>
 													<div className={scss.label_and_input_div}>
 														<label>Объем памяти</label>
-														<Select
+														{/* <Select
 															className={scss.input_for_form}
 															placeholder="Объем памяти"
 															options={
@@ -695,13 +723,58 @@ export const AddProductSections = () => {
 																	label: <p>{el.gb}</p>
 																}))
 															}
-															onChange={(value) =>
-																handleChangeProductValue(
-																	index,
-																	'memory',
-																	gBiteCatalog[Number(Number(value) - 1)].gb
-																)
+															// onChange={(value) =>
+															// 	handleChangeProductValue(
+															// 		index,
+															// 		'memory',
+															// 		gBiteCatalog[Number(Number(value) - 1)].gb
+															// 	)
+															// }
+															onChange={(value) => {
+																const selectedIndex = Number(value) - 1;
+																if (
+																	selectedIndex >= 0 &&
+																	selectedIndex < gBiteCatalog.length
+																) {
+																	handleChangeProductValue(
+																		index,
+																		'memory',
+																		gBiteCatalog[selectedIndex].gb
+																	);
+																} else {
+																	console.error(
+																		'Selected index is out of range'
+																	);
+																}
+															}}
+															value={el.memory}
+														/> */}
+														<Select
+															className={scss.input_for_form}
+															placeholder="Объем памяти"
+															options={
+																gBiteCatalog &&
+																gBiteCatalog.map((el) => ({
+																	value: el.gb,
+																	label: <p>{el.gb}</p>
+																}))
 															}
+															onChange={(value) => {
+																const selectedItem = gBiteCatalog.find(
+																	(item) => item.gb === value
+																);
+																if (selectedItem) {
+																	handleChangeProductValue(
+																		index,
+																		'memory',
+																		selectedItem.gb
+																	);
+																} else {
+																	console.error(
+																		'Selected item not found in catalog'
+																	);
+																}
+															}}
 															value={el.memory}
 														/>
 													</div>
@@ -714,17 +787,26 @@ export const AddProductSections = () => {
 															options={
 																moreGBiteCatalog &&
 																moreGBiteCatalog.map((el, index) => ({
-																	value: String(index + 1),
+																	value: el.gb,
 																	label: <p>{el.gb}</p>
 																}))
 															}
-															onChange={(value) =>
-																handleChangeProductValue(
-																	index,
-																	'ram',
-																	moreGBiteCatalog[Number(Number(value) - 1)].gb
-																)
-															}
+															onChange={(value) => {
+																const selectedItem = moreGBiteCatalog.find(
+																	(item) => item.gb === value
+																);
+																if (selectedItem) {
+																	handleChangeProductValue(
+																		index,
+																		'ram',
+																		selectedItem.gb
+																	);
+																} else {
+																	console.error(
+																		'Selected item not found in catalog'
+																	);
+																}
+															}}
 															value={el.ram}
 														/>
 													</div>
