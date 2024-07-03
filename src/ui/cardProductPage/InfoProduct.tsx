@@ -8,9 +8,9 @@ import { CharacteristicsPage } from './CharacteristicsPage';
 import DescriptionPage from './DescriptionPage';
 import { ShippingAndPaymentPage } from './ShippingAndPaymentPage';
 import { IconBurgerMenu } from '@/src/assets/icons';
-import { useGetUserPostPDSQuery } from '@/src/redux/api/pdf';
-import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
-import { useParams } from 'react-router-dom';
+// import { useGetUserPostPDSQuery } from '@/src/redux/api/pdf';
+// import { useGetCardProductQuery } from '@/src/redux/api/cardProductPage';
+// import { useParams } from 'react-router-dom';
 import ReviewsPage from './ReviewsPage';
 // import ReviewsPage from '@/src/pagesAdmin/components/pages/productSections/ReviewsPage';
 
@@ -39,21 +39,21 @@ const ComponentArray: ComponentsTypesArray[] = [
 ];
 
 const InfoProduct = () => {
-	const useparams = useParams<{ productId: string }>();
+	// const useparams = useParams<{ productId: string }>();
 	const [component, setComponent] = useState<number>(1);
-	const [pdfUrl, setPdfUrl] = useState<string>('')
+	// const [pdfUrl, setPdfUrl] = useState<string>('')
 	const [result, setResult] = useState<number>(0);
-	const { data: cardProductData } = useGetCardProductQuery({
-		id: Number(useparams.productId!)
-	});
-	const pdfParam = `key=${pdfUrl}` || '';
+	// const { data: cardProductData } = useGetCardProductQuery({
+	// 	id: Number(useparams.productId!)
+	// });
+	// const pdfParam = `key=${pdfUrl}` || '';
 
-	const handlePDFApiFunk = (pdfUrlProduct: string) => {
-		setPdfUrl(pdfUrlProduct.slice(54, 100))
+	// const handlePDFApiFunk = (pdfUrlProduct: string) => {
+	// 	setPdfUrl(pdfUrlProduct.slice(54, 100))
 		
-	};
-	const {data: pdfData} =  useGetUserPostPDSQuery(pdfParam);
-console.log(pdfData, 'pdf data');
+	// };
+// 	const {data: pdfData} =  useGetUserPostPDSQuery(pdfParam);
+// console.log(pdfData, 'pdf data');
 
 	return (
 		<div className={scss.ContainerInfoProduct}>
@@ -152,7 +152,7 @@ console.log(pdfData, 'pdf data');
 						</nav>
 						{/* <input type="file" /> */}
 						<div
-							onClick={() => handlePDFApiFunk(cardProductData?.pdfUrl!)}
+							// onClick={() => handlePDFApiFunk(cardProductData?.pdfUrl!)}
 							className={scss.document_content_div}
 						>
 							<IconBurgerMenu />

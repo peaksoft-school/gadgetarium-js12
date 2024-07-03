@@ -120,6 +120,19 @@ const api = index.injectEndpoints({
 				}
 			}),
 			invalidatesTags: ['reviewsApi']
+		}),
+		getByIdFeedback: build.query<
+			REVIEWSTORE.GetByIdFeedbackResponse,
+			REVIEWSTORE.GetByIdFeedbackRequest
+		>({
+			query: ({id}) => ({
+				url: `/api/feedback/by-id/${id}`,
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			}),
+			providesTags: ['reviewsApi']
 		})
 	})
 });
@@ -133,5 +146,6 @@ export const {
 	useDeleteByIdUserCommitMutation,
 	useEditUserCommitMutation,
 	useGetReviewsQuery,
-	usePostUsersCommitsMutation
+	usePostUsersCommitsMutation,
+	useGetByIdFeedbackQuery
 } = api;

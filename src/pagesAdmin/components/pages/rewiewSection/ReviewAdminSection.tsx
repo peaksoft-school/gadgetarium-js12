@@ -5,7 +5,15 @@ import {
 	IconUserCircle
 } from '@tabler/icons-react';
 import React, { useState } from 'react';
-import { Rate, Input, Button, Dropdown, MenuProps, Tooltip } from 'antd';
+import {
+	Rate,
+	Input,
+	Button,
+	Dropdown,
+	MenuProps,
+	Tooltip,
+	// message
+} from 'antd';
 import Infographics from '@/src/ui/infographics/Infographics';
 
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -14,10 +22,12 @@ import CustomButtonAdd from '@/src/ui/adminButtons/CustomButtonAdd';
 import CustomModal from '@/src/ui/modalAdmin/CustomModal';
 import {
 	useDeleteFeedbackMutation,
+	useGetByIdFeedbackQuery,
 	useGetReviewQuery,
 	usePatchReviewQueryMutation,
 	usePostReviewQueryMutation
 } from '@/src/redux/api/review';
+import { toast } from 'react-toastify';
 
 const ReviewAdminSection = () => {
 	const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -90,13 +100,19 @@ const ReviewAdminSection = () => {
 
 	const [newReviewPost] = usePostReviewQueryMutation();
 
+	const { data: getById } = useGetByIdFeedbackQuery({
+		id: indexProductsResults! + 1
+	});
+
 	const handlePostReview = async (gadgetId: number) => {
 		const responseAdmin = message[gadgetId];
 		console.log('Отправка данных:', { id: gadgetId, responseAdmin });
 		try {
 			await newReviewPost({ id: gadgetId, responseAdmin });
 			setIndexProductsResults(null);
+			toast('Отзыв успешно отправлен');
 		} catch (error) {
+			toast('Ошибка при отправке отзыв');
 			console.error(error);
 			alert('error');
 		}
@@ -110,23 +126,23 @@ const ReviewAdminSection = () => {
 	const items: MenuProps['items'] = [
 		{
 			key: '1',
-			label: <Rate defaultValue={reviews?.ratingCounts[1]} />
+			label: <Rate defaultValue={4} />
 		},
 		{
 			key: '2',
-			label: <Rate defaultValue={reviews?.ratingCounts[1]} />
+			label: <Rate defaultValue={5} />
 		},
 		{
 			key: '3',
-			label: <Rate defaultValue={reviews?.ratingCounts[1]} />
+			label: <Rate defaultValue={3} />
 		},
 		{
 			key: '4',
-			label: <Rate defaultValue={reviews?.ratingCounts[1]} />
+			label: <Rate defaultValue={2} />
 		},
 		{
 			key: '5',
-			label: <Rate defaultValue={reviews?.ratingCounts[1]} />
+			label: <Rate defaultValue={5} />
 		}
 	];
 
@@ -230,7 +246,7 @@ const ReviewAdminSection = () => {
 												<div className={scss.user_commit_and_time}>
 													<p
 														className={
-															item.responseAdmin === null
+															getById!.reviewType !== 'READ'
 																? `${scss.noo_active} ${scss.active}`
 																: `${scss.noo_active}`
 														}
@@ -410,6 +426,7 @@ const ReviewAdminSection = () => {
 																	</>
 																) : (
 																	<>
+																		{/* {contextHolder} */}
 																		<Button
 																			onClick={() => edit(item)}
 																			className={

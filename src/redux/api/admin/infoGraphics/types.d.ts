@@ -7,13 +7,13 @@ namespace INFOGRAPHICS {
 		orderCount: number;
 	};
 
-	type GetOrderResponse = IInfoGraphics[{
+	type GetOrderResponse = {
 		buyPrice: number;
 		buyCount: number;
 		orderPrice: number;
 		orderCount: number;
-	}];
-	type GetOrderRequest = string;
+	}
+	type GetOrderRequest = void;
 
 	type IInfoGraphicsAmountDay = {
 		currentPeriod: number;
@@ -24,7 +24,9 @@ namespace INFOGRAPHICS {
 		currentPeriod: number;
 		previousPeriod: number;
 	};
-	type GetInfoDayRequest = string;
+	type GetInfoDayRequest = {
+		forPeriod: string;
+	};
 
 	type IInfoGraphicsAmountMonth = {
 		currentPeriod: number;
